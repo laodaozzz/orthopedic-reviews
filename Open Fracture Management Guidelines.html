@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence-Based Open Fracture Management – Interactive Clinical Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --accent: #e74c3c;
+  --accent-warn: #f39c12;
+  --accent-safe: #27ae60;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #5d6d7e;
+  --border: #dee2e6;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --radius: 10px;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.site-header {
+  background: linear-gradient(135deg, var(--primary) 0%, #154360 100%);
+  color: #fff;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-warn), var(--accent-safe));
+}
+.site-header h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+.site-header p {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Layout */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  align-items: start;
+}
+@media (max-width: 1024px) {
+  .container { grid-template-columns: 1fr; }
+}
+
+/* Main content */
+main { min-width: 0; }
+main h2 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--primary-light);
+}
+main h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 1.8rem 0 0.8rem;
+}
+main h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 1.2rem 0 0.5rem;
+}
+main p { margin-bottom: 1rem; }
+main ul, main ol { margin: 0 0 1rem 1.5rem; }
+main li { margin-bottom: 0.4rem; }
+main strong { color: var(--primary); }
+
+/* Cards */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+.card-callout {
+  border-left: 5px solid var(--primary-light);
+  background: #eaf2f8;
+  padding: 1.2rem 1.5rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 1.2rem 0;
+}
+.card-callout.warn {
+  border-left-color: var(--accent-warn);
+  background: #fef9e7;
+}
+.card-callout.danger {
+  border-left-color: var(--accent);
+  background: #fdedec;
+}
+.card-callout.safe {
+  border-left-color: var(--accent-safe);
+  background: #eafaf1;
+}
+
+/* Evidence badge */
+.evidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.evidence.level-I { background: #1a8a4b; }
+.evidence.level-II { background: #27ae60; }
+.evidence.level-III { background: #f39c12; color: #333; }
+.evidence.level-IV { background: #e67e22; }
+.evidence.level-V { background: #e74c3c; }
+.evidence.na { background: #7f8c8d; }
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: var(--card);
+}
+caption {
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.8rem 1rem 0.5rem;
+  color: var(--primary);
+}
+thead th {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+tbody td {
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:hover { background: #f4f8fb; }
+tbody tr:last-child td { border-bottom: none; }
+
+/* Sidebar */
+.sidebar {
+  position: sticky;
+  top: 1.5rem;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 1.5rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+}
+.sidebar h2 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-light);
+}
+.slider-group { margin-bottom: 1.4rem; }
+.slider-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 0.35rem;
+}
+.slider-group .unit {
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+.slider-group .value-display {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #dce4ec;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+.threshold-markers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-light);
+  margin-top: 0.15rem;
+}
+
+/* Recommendation box */
+.recommendation-box {
+  margin-top: 1.2rem;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  transition: all 0.3s;
+}
+.recommendation-box.risk-low {
+  background: #eafaf1;
+  border: 2px solid var(--accent-safe);
+}
+.recommendation-box.risk-moderate {
+  background: #fef9e7;
+  border: 2px solid var(--accent-warn);
+}
+.recommendation-box.risk-high {
+  background: #fdedec;
+  border: 2px solid var(--accent);
+}
+.rec-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin-bottom: 0.4rem;
+}
+.rec-body { font-size: 0.82rem; }
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.55rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--primary-light); }
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-outline:hover { background: var(--primary); color: #fff; }
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-accent:hover { background: #c0392b; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.8rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 999;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* References */
+.references {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+.references ol { padding-left: 1.2rem; }
+.references li { margin-bottom: 0.25rem; }
+
+/* TOC */
+.toc {
+  background: #eaf2f8;
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.toc h3 {
+  font-size: 1rem;
+  margin: 0 0 0.6rem;
+  color: var(--primary);
+}
+.toc ol { margin: 0; padding-left: 1.3rem; }
+.toc li { margin-bottom: 0.25rem; font-size: 0.88rem; }
+.toc a {
+  color: var(--primary-light);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--primary-light);
+}
+.toc a:hover { color: var(--primary); border-bottom-style: solid; }
+
+/* Classification list */
+.class-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.class-list li {
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid var(--primary-light);
+}
+.class-list li strong { display: block; font-size: 0.92rem; }
+.class-list li span { font-size: 0.85rem; color: var(--text-light); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .sidebar { position: relative; top: 0; max-height: none; order: -1; }
+  .container { padding: 0 1rem; }
+}
+@media (max-width: 600px) {
+  .site-header { padding: 1.5rem 1rem; }
+  .card { padding: 1rem 1.2rem; }
+  main h2 { font-size: 1.3rem; }
+  table { font-size: 0.78rem; }
+}
+
+/* Summary bar */
+.summary-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+.summary-item {
+  background: var(--card);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.summary-item .num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.2;
+}
+.summary-item .lbl {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Comprehensive Evidence-Based Guidelines for Open Fracture Management</h1>
+  <p>Fixation Strategies, Surgical Timing &amp; Incision Planning — An Interactive Educational Summary</p>
+</header>
+
+<div class="container">
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main role="main" aria-label="Main educational content">
+
+    <!-- Table of Contents -->
+    <nav class="toc" aria-label="Table of Contents">
+      <h3>📑 Table of Contents</h3>
+      <ol>
+        <li><a href="#intro">Introduction &amp; Evolution</a></li>
+        <li><a href="#patho">Pathophysiology &amp; Classification</a></li>
+        <li><a href="#abx">Antimicrobial Protocols</a></li>
+        <li><a href="#debridement">Wound Excision &amp; Surgical Timing</a></li>
+        <li><a href="#closure">Primary Closure vs. External Fixation</a></li>
+        <li><a href="#timing">Staged Definitive Fixation Timing</a></li>
+        <li><a href="#incision">Incision Planning &amp; Implant Placement</a></li>
+        <li><a href="#landmark">Landmark Studies</a></li>
+        <li><a href="#maxfac">Specialized Considerations</a></li>
+        <li><a href="#refs">References</a></li>
+      </ol>
+    </nav>
+
+    <!-- Dashboard -->
+    <div class="summary-bar" aria-label="Key statistics">
+      <div class="summary-item">
+        <div class="num">30.7</div>
+        <div class="lbl">Annual Incidence<br>per 100,000</div>
+      </div>
+      <div class="summary-item">
+        <div class="num">72 h</div>
+        <div class="lbl">Fix-and-Flap<br>Window</div>
+      </div>
+      <div class="summary-item">
+        <div class="num">&lt; 60 min</div>
+        <div class="lbl">Antibiotic<br>Target</div>
+      </div>
+      <div class="summary-item">
+        <div class="num">5–10 d</div>
+        <div class="lbl">Systemic Window<br>of Opportunity</div>
+      </div>
+    </div>
+
+    <!-- ===== Section 1: Introduction ===== -->
+    <section id="intro" class="card">
+      <h2>1. Introduction &amp; Historical Evolution</h2>
+      <p>An <strong>open fracture</strong> is defined as a musculoskeletal injury wherein the fractured bone and its hematoma communicate directly with the external environment through a traumatic violation of the overlying soft tissue barrier. <span class="evidence level-I">Level I</span> <sup>[1]</sup></p>
+      <p>Because high-velocity trauma frequently causes shearing and degloving, the actual skin wound may lie at a considerable anatomical distance from the fracture epicenter. Therefore, <strong>any fracture accompanied by a concomitant wound within the same anatomical segment must be treated as an open fracture until proven otherwise</strong>. <sup>[1]</sup></p>
+
+      <h3>Epidemiology</h3>
+      <p>Annual incidence: <strong>30.7 per 100,000</strong> individuals. The <strong>tibial diaphysis</strong> and <strong>phalanges</strong> are most frequently affected due to their superficial subcutaneous location. Demographics skew heavily toward young males (high-energy mechanisms), though a secondary peak is observed in the elderly with low-energy osteoporotic fragility fractures. <span class="evidence level-II">Level II</span> <sup>[3]</sup></p>
+      <p>Pre-existing psychiatric conditions (depression, substance abuse) are independent predictors for diminished recovery and increased complication rates. <sup>[4]</sup></p>
+
+      <h3>Paradigm Shift</h3>
+      <div class="card-callout">
+        <strong>Historical Dogma — The "Six-Hour Rule":</strong> Originating from Friedrich's 1898 guinea pig experiments, this dictated that all open fractures required debridement within 6 hours to prevent clostridial myonecrosis. <span class="evidence level-III">Level III</span> <sup>[6]</sup>
+      </div>
+      <p>Modern, high-powered analyses — including the <strong>LEAP study</strong> and systematic reviews — have definitively proven that surgical timing within the first 24 hours does <em>not</em> independently correlate with deep infection risk, provided early IV antibiotics have been administered. <span class="evidence level-II">Level II</span> <sup>[6]</sup></p>
+      <p>Contemporary guidelines (BOAST, NICE, AAOS, OTA, 2024–2026) reject arbitrary chronological limits in favor of a highly coordinated <strong>"orthoplastic"</strong> approach. <sup>[12][13]</sup></p>
+    </section>
+
+    <!-- ===== Section 2: Classification ===== -->
+    <section id="patho" class="card">
+      <h2>2. Pathophysiology &amp; Classification Frameworks</h2>
+      <p>The degree of soft tissue compromise is the <strong>single most critical determinant</strong> of fracture union, infection risk, and limb salvage viability. High-energy trauma produces extensive microvascular thrombosis, periosteal stripping, and local tissue hypoxia — creating an ideal environment for bacterial proliferation. <span class="evidence level-I">Level I</span> <sup>[6][9]</sup></p>
+
+      <h3>Gustilo-Anderson Classification <sup>[9]</sup></h3>
+      <p>Introduced in 1976 and modified in 1984, this remains the most widely utilized system despite criticism of poor inter-observer reliability. <sup>[2]</sup> <span class="evidence na">Not specified in source</span></p>
+
+      <ul class="class-list">
+        <li><strong>Type I</strong> <span>Clean puncture &lt; 1 cm; minimal muscle contusion; "inside-out" injury</span></li>
+        <li><strong>Type II</strong> <span>Laceration 1–10 cm; no extensive soft tissue damage or avulsion</span></li>
+        <li><strong>Type IIIA</strong> <span>Wound &gt; 10 cm or any high-energy trauma; adequate viable tissue for coverage without complex flaps</span></li>
+        <li><strong>Type IIIB</strong> <span>Extensive soft tissue loss with periosteal stripping; requires rotational or free flap reconstruction</span></li>
+        <li><strong>Type IIIC</strong> <span>Any open fracture with arterial injury requiring microvascular repair for limb salvage</span></li>
+      </ul>
+
+      <h3>Alternative Systems</h3>
+      <p><strong>AO/OTA Open Fracture Classification:</strong> Alphanumeric grading evaluating skin, muscle/tendon, and neurovascular components independently (severity 1–5). More precise but complex for acute triage. <sup>[9]</sup></p>
+      <p><strong>Ganga Hospital Open Injury Severity Score (GHOISS):</strong> Assigns numerical values to skin, bone, and associated structures. <strong>Scores &lt; 9 without gross contamination</strong> may safely undergo primary closure and definitive internal fixation. <span class="evidence level-III">Level III</span> <sup>[2]</sup></p>
+    </section>
+
+    <!-- ===== Section 3: Antimicrobials ===== -->
+    <section id="abx" class="card">
+      <h2>3. Initial Resuscitation &amp; Antimicrobial Prophylaxis</h2>
+
+      <h3>Emergency Wound Care</h3>
+      <div class="card-callout warn">
+        <strong>⚠ Key Paradigm Shift:</strong> Aggressive wound irrigation or cytotoxic antiseptic application in the ED is <strong>strictly prohibited</strong>. Early bedside irrigation forces debris deeper into sterile fascial planes. Management is limited to gentle removal of gross foreign material, followed by a sterile, saline-soaked, occlusive dressing. <span class="evidence level-II">Level II</span> <sup>[4]</sup>
+      </div>
+      <p>The injured extremity must be anatomically re-aligned and rigorously splinted. A comprehensive neurovascular exam, including Ankle-Brachial Index (ABI) if vascular compromise is suspected (threshold &lt; 0.9), must be documented. <sup>[4]</sup></p>
+
+      <h3>Antimicrobial Protocol Table</h3>
+      <p>IV antibiotics must be administered within <strong>60 minutes</strong> of injury. Delays &gt; 3 hours correlate with significantly elevated deep FRI incidence. <span class="evidence level-II">Level II</span> <sup>[2][3]</sup></p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 1: Evidence-Based Antimicrobial Regimens for Open Fractures <sup>[4][9][22]</sup></caption>
+          <thead>
+            <tr>
+              <th>Classification / Environment</th>
+              <th>Regimen</th>
+              <th>Duration</th>
+              <th>Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Gustilo I &amp; II</strong></td>
+              <td>1st-gen cephalosporin (Cefazolin 1–2 g IV q8h); Clindamycin/Vancomycin if penicillin allergy</td>
+              <td>24 h post-injury or until primary closure</td>
+              <td>Coverage against <em>S. aureus</em> and coagulase-negative staphylococci</td>
+            </tr>
+            <tr>
+              <td><strong>Gustilo III (High Energy)</strong></td>
+              <td>1st-gen cephalosporin + Aminoglycoside (Gentamicin 80 mg) or Ceftriaxone/Cefepime</td>
+              <td>72 h, or 24 h after definitive soft tissue coverage</td>
+              <td>Expanded gram-negative coverage for severe contamination and necrosis</td>
+            </tr>
+            <tr>
+              <td><strong>Agricultural / Fecal / Sewage</strong></td>
+              <td>Type III regimen + high-dose IV Penicillin (5–10 MU/24 h) or Metronidazole</td>
+              <td>≥ 72 h</td>
+              <td>Prevention of <em>Clostridium</em> myonecrosis (gas gangrene)</td>
+            </tr>
+            <tr>
+              <td><strong>Fresh Water</strong></td>
+              <td>Fluoroquinolones or 3rd/4th-gen cephalosporins</td>
+              <td>Based on clinical course</td>
+              <td>Targets <em>Aeromonas hydrophila</em></td>
+            </tr>
+            <tr>
+              <td><strong>Salt Water</strong></td>
+              <td>Doxycycline + Ceftazidime, or fluoroquinolone</td>
+              <td>Based on clinical course</td>
+              <td>Targets <em>Vibrio vulnificus</em> (necrotizing fasciitis risk)</td>
+            </tr>
+            <tr>
+              <td><strong>Ballistic (Bowel Communication)</strong></td>
+              <td>Broad-spectrum + Metronidazole</td>
+              <td>48–72 h</td>
+              <td>Polymicrobial coverage for high-velocity visceral cavity injuries</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Tetanus immunization must be evaluated. Incomplete vaccination or high-risk wounds require both tetanus toxoid (0.5 mL) and tetanus immunoglobulin at separate sites. <sup>[1]</sup></p>
+    </section>
+
+    <!-- ===== Section 4: Wound Excision ===== -->
+    <section id="debridement" class="card">
+      <h2>4. Principles of Surgical Wound Excision (Debridement)</h2>
+      <p>The modern lexicon has shifted from "debridement" to <strong>"wound excision"</strong> to reinforce the concept of radical, active surgical resection of all compromised tissue — not merely passive lavage. <span class="evidence level-I">Level I</span> <sup>[5]</sup></p>
+
+      <h3>Surgical Timing — Modern Stratification (BOAST-4)</h3>
+      <ul>
+        <li><strong>Immediate / Emergent:</strong> Uncontrolled hemorrhage, evolving compartment syndrome, frank arterial ischemia (Type IIIC), gross contamination with sewage/agricultural/aquatic material. <sup>[13]</sup></li>
+        <li><strong>Within 12 hours:</strong> High-energy trauma with severe soft tissue destruction (Gustilo IIIA/IIIB) without extreme organic contamination. <sup>[4]</sup></li>
+        <li><strong>Within 24 hours:</strong> All remaining low-energy, minimally contaminated open fractures (Gustilo I and II). <sup>[4]</sup></li>
+      </ul>
+
+      <div class="card-callout safe">
+        <strong>✅ Evidence Update:</strong> Emergency nocturnal surgery by fatigued, junior personnel is now <strong>strongly discouraged</strong> in favor of planned, daytime interventions by specialized senior orthoplastic teams, leading to superior outcomes. <span class="evidence level-II">Level II</span> <sup>[11]</sup>
+      </div>
+
+      <h3>Technical Execution</h3>
+      <p>Muscle viability evaluated using the <strong>"4 C's":</strong> Color, Consistency, Contractility, and Capacity to bleed. All devitalized, dusky, non-contractile muscle must be radically excised. <sup>[16]</sup></p>
+
+      <h3>Fluid Lavage — The FLOW Trial</h3>
+      <p>The landmark <strong>FLOW (Fluid Lavage of Open Wounds)</strong> trial demonstrated that <strong>very low-pressure irrigation with normal saline</strong> yields significantly lower reoperation rates and reduced cellular toxicity compared to high-pressure pulsatile lavage or cytotoxic additives (e.g., castile soap). <span class="evidence level-I">Level I</span> <sup>[4]</sup></p>
+      <p>Volume: approximately <strong>3 liters per ascending Gustilo grade</strong> (e.g., up to 9 L for Type III). High-pressure lavage is actively discouraged as it damages osteoblasts and drives debris into the medullary canal. <sup>[4]</sup></p>
+    </section>
+
+    <!-- ===== Section 5: Primary Closure vs External Fix ===== -->
+    <section id="closure" class="card">
+      <h2>5. Primary Closure vs. Spanning External Fixation</h2>
+
+      <h3>Primary Wound Closure &amp; Cast Immobilization</h3>
+      <p>Historically, all open wounds were left to heal by secondary intention. Modern trials have shattered this dogma: <strong>immediate primary closure is now highly recommended when stringent criteria are met</strong>. <span class="evidence level-II">Level II</span> <sup>[9][10][33]</sup></p>
+
+      <h4>Absolute Prerequisites for Primary Closure</h4>
+      <ol>
+        <li><strong>Low-energy mechanism</strong> (Gustilo I, II, select clean IIIA)</li>
+        <li><strong>Absolute certainty</strong> that wound excision was radical and complete</li>
+        <li><strong>Tension-free approximation</strong> of wound margins</li>
+        <li><strong>Absence of gross contamination</strong> (agricultural, fecal, sewage, aquatic)</li>
+      </ol>
+
+      <div class="card-callout">
+        <strong>Special Indications for Cast Immobilization:</strong><br>
+        • <strong>Pediatric fractures:</strong> Robust periosteum and prodigious osteogenic potential allow cast management for low-grade injuries, avoiding physeal damage from hardware. <sup>[4]</sup><br>
+        • <strong>Ankle fracture-dislocations:</strong> Temporizing cast achieved definitive ORIF 2.7 days earlier with 5.0 fewer hospital days vs. external fixation, with no increase in soft tissue complications. <span class="evidence level-III">Level III</span> <sup>[39][40]</sup><br>
+        • <strong>Caveat:</strong> Posterior malleolus fragment ≥ 22.5% of articular surface predicts loss of reduction in cast → favor external fixation. <sup>[40]</sup>
+      </div>
+
+      <h3>Spanning External Fixation</h3>
+      <p>Indicated for severe injuries where rigid support is needed while leaving the wound accessible for serial excisions, NPWT, and flap coverage. <span class="evidence level-II">Level II</span> <sup>[4][9]</sup></p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 2: Indications for Spanning External Fixation <sup>[5][6][31][42][35]</sup></caption>
+          <thead>
+            <tr><th>Category</th><th>Specific Scenarios</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Severe Soft Tissue</strong></td><td>Gustilo IIIB/C requiring staged debridements (q48h) or future free tissue transfer</td></tr>
+            <tr><td><strong>Damage Control (DCO)</strong></td><td>Polytrauma with hemorrhagic shock, coagulopathy, severe TBI, pulmonary contusions; rapid application (&lt; 30 min)</td></tr>
+            <tr><td><strong>Periarticular Comminution</strong></td><td>Tibial pilon, plateau, distal femur with massive swelling preventing safe incisions</td></tr>
+            <tr><td><strong>Vascular Compromise</strong></td><td>Restoring skeletal length before/after microsurgical arterial repair (Type IIIC)</td></tr>
+            <tr><td><strong>Segmental Bone Loss</strong></td><td>Injuries anticipating bone transport / distraction osteogenesis (Ilizarov frames)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card-callout danger">
+        <strong>🚨 Critical Limitation:</strong> The <strong>METRC FIXIT trial</strong> and <strong>LEAP study</strong> demonstrated that definitive management of severe open tibial fractures with external fixation + flap coverage produced <strong>significantly inferior functional outcomes, delayed union, and increased need for reconstructive surgeries</strong> vs. intramedullary nailing. External fixation should be converted to definitive internal fixation as expeditiously as the patient's physiology allows. <span class="evidence level-II">Level II</span> <sup>[4]</sup>
+      </div>
+    </section>
+
+    <!-- ===== Section 6: Staged Timing ===== -->
+    <section id="timing" class="card">
+      <h2>6. Optimal Timing for Staged Definitive Internal Fixation</h2>
+
+      <h3>The "Fix and Flap" Paradigm — 72-Hour Orthoplastic Standard</h3>
+      <p>Exposed avascular bone is rapidly colonized by nosocomial pathogens that form impenetrable biofilms, rendering systemic antibiotics ineffective. <span class="evidence level-I">Level I</span> <sup>[5][54]</sup></p>
+      <div class="card-callout safe">
+        <strong>✅ Gold Standard:</strong> Definitive soft tissue closure or formal coverage (local rotational flaps or free tissue transfer) <strong>must be achieved within 72 hours</strong> of injury. Definitive internal fixation should <strong>only</strong> be executed when it can be <strong>immediately followed by definitive soft tissue cover in the same surgical sitting</strong>. <span class="evidence level-I">Level I</span> <sup>[5]</sup>
+      </div>
+      <p>Any delay in soft tissue coverage beyond 7 days exponentially increases odds of deep infection — <strong>escalating by 16% for every single day beyond day 7</strong>. <span class="evidence level-II">Level II</span> <sup>[4]</sup></p>
+
+      <h3>External-to-Internal Conversion Timing</h3>
+      <p>Conversion from temporizing external fixator to definitive IMN should occur within the <strong>72-hour window</strong>, coinciding with "second look" debridement and definitive soft tissue coverage. <strong>Waiting beyond 14 days is extremely hazardous</strong>: pin-tract bacteria track along the periosteum into the medullary canal, virtually guaranteeing pan-osteomyelitis. <sup>[5]</sup></p>
+
+      <h3>Systemic Physiology — "Window of Opportunity"</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>Table 3: Physiological Phases and Safe Intervention Windows <sup>[31][46][47][53][59]</sup></caption>
+          <thead>
+            <tr><th>Phase</th><th>Timing</th><th>Physiology</th><th>Surgical Strategy</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Early Total Care (ETC)</strong></td>
+              <td>First 24 h</td>
+              <td>Hemodynamically stable, rapid resuscitation response, no severe TBI/coagulopathy</td>
+              <td>Safe for definitive fixation; associated with reduced ICU stay and complications</td>
+            </tr>
+            <tr>
+              <td><strong>Unsafe Period</strong></td>
+              <td>Days 2–4</td>
+              <td>Peak SIRS; maximal tissue edema; intense immunologic derangements</td>
+              <td><strong>Absolutely contraindicated</strong> for major osteosynthesis; highest risk of ARDS / MODS</td>
+            </tr>
+            <tr>
+              <td><strong>Window of Opportunity</strong></td>
+              <td>Days 5–10</td>
+              <td>SIRS resolving; before CARS-induced immunosuppression</td>
+              <td>Safest period for definitive fixation conversion, provided local tissues are ready</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Inflammatory Biomarker Guidance</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>Table 4: Biomarkers for Guiding Surgical Timing <sup>[31][47][59][65][68]</sup></caption>
+          <thead>
+            <tr><th>Biomarker</th><th>Clinical Significance</th><th>Threshold for Safe Fixation</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Interleukin-6 (IL-6)</strong></td><td>Prognostic indicator of hyperinflammatory response and tissue damage</td><td>Sustained decreasing trend from peak (12–48 h post-trauma)</td></tr>
+            <tr><td><strong>Serum Lactate</strong></td><td>Gold standard for systemic tissue hypoperfusion</td><td><strong>&lt; 2.5 mmol/L</strong></td></tr>
+            <tr><td><strong>Base Excess</strong></td><td>Reflects metabolic acidosis from hemorrhagic shock</td><td><strong>≥ −2 to −5 mmol/L</strong></td></tr>
+            <tr><td><strong>CRP / ESR</strong></td><td>Monitoring local FRI and delayed systemic inflammation</td><td>CRP &lt; 10 mg/L; ESR &lt; 30 mm/h</td></tr>
+            <tr><td><strong>NLR</strong></td><td>Composite marker of inflammation/immune regulation balance</td><td>Elevated NLR + elevated CRP → high infection risk</td></tr>
+            <tr><td><strong>HLA-DR Expression</strong></td><td>Monocyte function and immune competence; suppression = severe CARS</td><td>Recovery documented → immune system ready</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== Section 7: Incision Planning ===== -->
+    <section id="incision" class="card">
+      <h2>7. Surgical Incision Planning &amp; Implant Placement</h2>
+
+      <h3>Incorporating Traumatic Wounds</h3>
+      <p>The visible external wound rarely reflects the true extent of deep destruction — the <strong>"iceberg effect."</strong> Comprehensive visualization requires purposeful surgical extension. <span class="evidence level-IV">Level IV</span> <sup>[16]</sup></p>
+
+      <div class="card-callout danger">
+        <strong>🚨 Unbreakable Rule:</strong> The original traumatic wound <strong>must</strong> be directly and seamlessly incorporated into the surgical extension. Extensions must be <strong>strictly longitudinal</strong> (parallel to the long axis). Transverse incisions, T-junctions, and Y-junctions are <strong>strictly prohibited</strong> as they compromise microvascular flap apices, leading to tip necrosis and wound breakdown. <sup>[16]</sup>
+      </div>
+
+      <div class="card-callout warn">
+        <strong>⚠ Critical Error — Avoiding Devitalized Skin Bridges:</strong> Creating a separate, parallel incision near the wound to gain "clean" access produces a narrow bipedicled skin bridge that is almost guaranteed to undergo avascular necrosis, transforming a manageable defect into a catastrophic void guaranteeing deep infection. <sup>[16]</sup>
+      </div>
+
+      <h3>Implant Placement Deep to the Zone of Injury</h3>
+      <p>Orthopaedic hardware is a non-vascularized foreign body that rapidly becomes coated in host serum proteins, providing an ideal substrate for bacterial colonization and biofilm formation. <span class="evidence level-I">Level I</span> <sup>[6]</sup></p>
+
+      <h4>Avoidance Strategies</h4>
+      <ul>
+        <li><strong>External fixator pins:</strong> Must be inserted into healthy, uncompromised bone far outside the zone of injury, avoiding future flap recipient vessels. <sup>[24]</sup></li>
+        <li><strong>Bridge plating / MIPO:</strong> Long plates slid submuscularly through remote, sterile incisions to physically bridge the fracture gap, preserving periosteal blood supply. <sup>[52]</sup></li>
+      </ul>
+
+      <h4>When Implants Must Reside Deep to the Wound</h4>
+      <ol>
+        <li><strong>Obligatory Vascularized Soft Tissue Coverage:</strong> Microvascular free flap (ALT, Latissimus Dorsi) or robust local rotational flap must be transposed directly over the implant — the "fix and flap" imperative. <sup>[5][33]</sup></li>
+        <li><strong>Antibiotic-Impregnated PMMA (Masquelet Technique):</strong> PMMA bone cement mixed with vancomycin + tobramycin/gentamicin serves as spacer, sterilizes the environment, and induces a highly vascularized pseudosynovial membrane. After 4–6 weeks, the membrane becomes a biologically fertile receptacle for autologous bone grafting. <sup>[4]</sup></li>
+        <li><strong>Intrawound Vancomycin Powder:</strong> The <strong>METRC VANCO trial</strong> demonstrated that dusting the wound bed with vancomycin powder at the time of definitive fixation reduces gram-positive deep SSI to <strong>3.4%</strong>. <span class="evidence level-I">Level I</span> <sup>[22]</sup></li>
+        <li><strong>Antibiotic-Coated IMN &amp; Continuous Perfusion Systems:</strong> Slowly elute antimicrobial agents directly from the hardware surface within contaminated zones. <sup>[55]</sup></li>
+      </ol>
+    </section>
+
+    <!-- ===== Section 8: Landmark Studies ===== -->
+    <section id="landmark" class="card">
+      <h2>8. Landmark Studies Summary</h2>
+      <p>The following key studies have shaped modern open fracture management guidelines:</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 5: Landmark Studies in Open Fracture Management</caption>
+          <thead>
+            <tr><th>Study / Trial</th><th>Design</th><th>Key Finding</th><th>Impact</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>FLOW Trial</strong></td>
+              <td>Multicenter RCT <span class="evidence level-I">Level I</span></td>
+              <td>Very low-pressure saline irrigation yields lower reoperation rates vs. high-pressure lavage or soap additives</td>
+              <td>Redefined irrigation standards; high-pressure lavage actively discouraged</td>
+            </tr>
+            <tr>
+              <td><strong>LEAP Study</strong></td>
+              <td>Prospective cohort <span class="evidence level-II">Level II</span></td>
+              <td>Surgical timing within 24 h does not independently correlate with deep infection risk when antibiotics are given early; external fixation + flap → inferior outcomes vs. IMN</td>
+              <td>Debunked the "six-hour rule"; established IMN superiority for definitive fixation</td>
+            </tr>
+            <tr>
+              <td><strong>METRC FIXIT Trial</strong></td>
+              <td>Prospective cohort <span class="evidence level-II">Level II</span></td>
+              <td>External fixation with flap coverage → significantly inferior functional outcomes, delayed union, and increased reconstructive surgery need</td>
+              <td>Strengthened push for early conversion from external to internal fixation</td>
+            </tr>
+            <tr>
+              <td><strong>METRC VANCO Trial</strong></td>
+              <td>Multicenter RCT <span class="evidence level-I">Level I</span></td>
+              <td>Intrawound vancomycin powder at time of definitive fixation reduces gram-positive deep SSI to 3.4%</td>
+              <td>Adoption of local antibiotic delivery as adjunctive standard</td>
+            </tr>
+            <tr>
+              <td><strong>BOAST-4 Guidelines</strong></td>
+              <td>Expert consensus / guideline <span class="evidence level-V">Level V</span></td>
+              <td>Mandates orthoplastic approach; antibiotics within 60 min; 72-hour fix-and-flap window; timing stratification</td>
+              <td>Current standard-of-care framework across the UK and influencing international practice</td>
+            </tr>
+            <tr>
+              <td><strong>Gustilo &amp; Anderson (1976/1984)</strong></td>
+              <td>Retrospective / prospective series <span class="evidence level-IV">Level IV</span></td>
+              <td>Established classification based on wound size, contamination, and soft tissue damage</td>
+              <td>Most widely used classification system despite known limitations</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><em>Note: The source document identifies these six key studies. Additional landmark RCTs (e.g., Bhandari's FLOW analysis, the UK NICE NG37 guidelines systematic reviews) are referenced within the source material but not separately detailed with full study characteristics.</em></p>
+    </section>
+
+    <!-- ===== Section 9: Maxillofacial ===== -->
+    <section id="maxfac" class="card">
+      <h2>9. Specialized Considerations: Maxillofacial Trauma &amp; Dental Implants</h2>
+      <p>The principles of aggressive debridement and biologically sound hardware placement translate directly to severe craniomaxillofacial trauma and post-traumatic dental implantology. <span class="evidence level-II">Level II</span> <sup>[76–87]</sup></p>
+
+      <h3>Immediate Implant Placement &amp; Provisionalization (IIPP)</h3>
+      <p>Contemporary algorithms advocate for immediate dental implant placement into fresh, post-traumatic extraction sockets. Survival rates exceed <strong>95%</strong> — comparable to pristine ridges — provided radical socket debridement and targeted systemic antimicrobials are employed. <sup>[77]</sup></p>
+
+      <h3>The 1.5 mm Rule</h3>
+      <p>Dental implants must maintain a minimum <strong>1.5 mm distance</strong> from adjacent natural tooth roots. Violation causes pulpal pathology (up to 25% requiring root canal), marginal bone resorption, and soft tissue crestal collapse. <span class="evidence level-II">Level II</span> <sup>[77]</sup></p>
+
+      <h3>Technological Mitigation</h3>
+      <p>3D Cone Beam CT with Computer-Assisted Implant Surgery (static guides or dynamic navigation) ensures sub-millimeter accuracy within the traumatic field. <sup>[78][86]</sup></p>
+    </section>
+
+    <!-- ===== Section 10: Conclusion ===== -->
+    <section class="card">
+      <h2>10. Conclusion</h2>
+      <p>The management of open fractures has transitioned from rigid chronological rules to a sophisticated, biologically driven, multidisciplinary continuum. Key modern principles:</p>
+      <ul>
+        <li><strong>Low-energy injuries</strong> with pristine soft tissues → primary closure + cast immobilization</li>
+        <li><strong>High-energy injuries</strong> → immediate spanning external fixation → serial wound excision → NPWT → definitive coverage</li>
+        <li><strong>Definitive fixation timing</strong> guided by the "window of opportunity" concept (days 5–10), with real-time biomarker monitoring (IL-6, lactate, CRP)</li>
+        <li><strong>"Fix and flap" within 72 hours</strong> — fixation and soft tissue coverage in the same sitting</li>
+        <li><strong>Incisions:</strong> Always incorporate traumatic wounds longitudinally; never create devitalized skin bridges</li>
+        <li><strong>Implants in contaminated zones:</strong> Mandatory vascularized flap coverage + local antibiotic delivery (Masquelet, vancomycin powder, coated nails)</li>
+      </ul>
+      <p>Strict adherence to these evidence-based principles ensures the highest probability of limb salvage, infection eradication, and functional restoration.</p>
+    </section>
+
+    <!-- ===== References ===== -->
+    <section id="refs" class="card references">
+      <h2>References</h2>
+      <p style="font-size:0.82rem; color: var(--text-light); margin-bottom: 1rem;"><em>All references are derived from the source document. Citation numbers correspond to the source document's reference list.</em></p>
+      <ol>
+        <li>Open Fracture Management - StatPearls - NCBI Bookshelf - NIH <a href="https://www.ncbi.nlm.nih.gov/books/NBK448083/" target="_blank">[Link]</a></li>
+        <li>Management of open fractures: A narrative review - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10502353/" target="_blank">[Link]</a></li>
+        <li>Open Fractures – What Is the Evidence, and How Can We Improve? - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8503759/" target="_blank">[Link]</a></li>
+        <li>Open Fractures Management - Trauma - Orthobullets <a href="https://www.orthobullets.com/trauma/1004/open-fractures-management" target="_blank">[Link]</a></li>
+        <li>Standards for the Management of Open Fractures - BLRS / BOA / BAPRAS <a href="https://blrs.org.uk/wp-content/uploads/2021/02/BOA-and-BAPRAS-Standards-for-Open-fractures-2020.pdf" target="_blank">[Link]</a></li>
+        <li>Open fractures: evidence-based best practices - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11064778/" target="_blank">[Link]</a></li>
+        <li>Controversies in the Management of Open Fractures <a href="https://openorthopaedicsjournal.com/VOLUME/8/PAGE/178/FULLTEXT/" target="_blank">[Link]</a></li>
+        <li>Open Fractures - EAST <a href="https://www.east.org/education-resources/landmark-papers-in-trauma-and-acute-care-surgery/trauma/open-fractures" target="_blank">[Link]</a></li>
+        <li>Principles of management of open fractures - AO Surgery Reference <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/further-reading/principles-of-management-of-open-fractures" target="_blank">[Link]</a></li>
+        <li>Open Fractures and Timing to Closure: A Review - UPOJ <a href="https://www.upoj.org/wp-content/uploads/v20/v20_08.pdf" target="_blank">[Link]</a></li>
+        <li>The evidence base for 2017 BOAST-4 guidance - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8050850/" target="_blank">[Link]</a></li>
+        <li>AAOS Clinical Practice Guidelines <a href="https://www.aaos.org/quality/quality-programs/clinical-practice-guidelines/" target="_blank">[Link]</a></li>
+        <li>BOASt - Open Fractures - BOA <a href="https://www.boa.ac.uk/resource/boast-4-pdf.html" target="_blank">[Link]</a></li>
+        <li>AAOS CPG: Prevention of SSI After Major Extremity Trauma <a href="https://pubmed.ncbi.nlm.nih.gov/36548150/" target="_blank">[Link]</a></li>
+        <li>Open Fractures - UHSussex <a href="https://www.uhsussex.nhs.uk/wp-content/uploads/2023/08/STN-Guideline-Open-Fractures-ACTIVE-v1.0.pdf" target="_blank">[Link]</a></li>
+        <li>Early Wound Care in Open Fractures - Ortho Journal HMS <a href="https://orthojournalhms.org/volume7/pdfs/ms14.pdf" target="_blank">[Link]</a></li>
+        <li>Update on Management of Open Lower Limb Fractures <a href="https://openorthopaedicsjournal.com/VOLUME/6/PAGE/571/FULLTEXT/" target="_blank">[Link]</a></li>
+        <li>Open Tibial Shaft Fractures: Primary vs Delayed Closure <a href="https://mednexus.org/doi/pdf/10.5555/cmj.0366-6999.101.01.p17.01" target="_blank">[Link]</a></li>
+        <li>Ryder Practice Guidelines for Open Fracture <a href="https://rydertraumacenter.jacksonhealth.org/trauma-critical-care-guidelines/ryder-practice-guidelines-for-open-fracture/" target="_blank">[Link]</a></li>
+        <li>NICE Recommendations Relevant to Open Fractures <a href="https://academic.oup.com/book/29872/chapter/253099736" target="_blank">[Link]</a></li>
+        <li>Fracture Related Infections and Risk Factors - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9141112/" target="_blank">[Link]</a></li>
+        <li>Acute Management of Open Long Bone Fractures: Scoping Review <a href="https://paleyinstitute.org/wp-content/uploads/2025/03/32-acute-management-of-open-long-bone-fractures-a-scoping-review.pdf" target="_blank">[Link]</a></li>
+        <li>Fracture management with limited resources - AO <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/tibial-shaft/basic-technique/fracture-management-with-limited-resources" target="_blank">[Link]</a></li>
+        <li>Open fractures in children - AO <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/pediatric-trauma/further-reading/open-fractures-in-children" target="_blank">[Link]</a></li>
+        <li>Open Fracture Management - Northern Trauma Network <a href="https://traumanorth.org.uk/files/pdf/ntn-open-fractures-guideline-2024.pdf" target="_blank">[Link]</a></li>
+        <li>ACS TQIP: best practices in orthopaedic trauma <a href="https://www.facs.org/media/mkbnhqtw/ortho_guidelines.pdf" target="_blank">[Link]</a></li>
+        <li>Open Fractures: Is There a Better Option than External Fixators? - VIN <a href="https://www.vin.com/apputil/content/defaultadv1.aspx?pId=22915&catId=124661&id=8896710" target="_blank">[Link]</a></li>
+        <li>Open fractures: evidence-based best practices - ResearchGate <a href="https://www.researchgate.net/publication/380335068" target="_blank">[Link]</a></li>
+        <li>Acute Management of Open Long Bone Fractures - SurgiColl <a href="https://surgicoll.scholasticahq.com/article/93005" target="_blank">[Link]</a></li>
+        <li>Wound Excision - Oxford Academic <a href="https://academic.oup.com/book/29872/chapter/253094331" target="_blank">[Link]</a></li>
+        <li>Open Fractures: Understanding When To Wait, Fix, Wash Out <a href="https://orthosummit.com/wp-content/uploads/presentation/Renoir-1/12072017/0703_Kahn_M.pdf" target="_blank">[Link]</a></li>
+        <li>Open fractures: Current treatment perspective - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10392445/" target="_blank">[Link]</a></li>
+        <li>The principles and practice of open fracture care, 2018 - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6085196/" target="_blank">[Link]</a></li>
+        <li>Effect of Delayed Treatment on Open Tibial Shaft Fractures <a href="https://cdn.mdedge.com/files/s3fs-public/Document/September-2017/036040215.pdf" target="_blank">[Link]</a></li>
+        <li>Open Fractures - AO Foundation <a href="https://media.aofoundation.org/-/media/project/aocd/aof/documents/who-we-are/about/disaster-response/management-of-limb-injuries/a-field-guide_chapter-08.pdf" target="_blank">[Link]</a></li>
+        <li>Primary closure for all open fractures: institutional protocol - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4035410/" target="_blank">[Link]</a></li>
+        <li>Open tibial fractures: Are children small adults? - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2765292/" target="_blank">[Link]</a></li>
+        <li>Closed Fracture Treatment in Adults <a href="https://smrj.scholasticahq.com/article/28060" target="_blank">[Link]</a></li>
+        <li>Cast vs External Fixator in Ankle Fracture Dislocations - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9917604/" target="_blank">[Link]</a></li>
+        <li>Temporizing cast vs external fixation: PMF size predicts loss of reduction - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9306170/" target="_blank">[Link]</a></li>
+        <li>Orthopedics in a Field Hospital - Cambridge <a href="https://www.cambridge.org/core/books/field-hospitals/" target="_blank">[Link]</a></li>
+        <li>External Fixation Principles and Overview - StatPearls <a href="https://www.ncbi.nlm.nih.gov/books/NBK547694/" target="_blank">[Link]</a></li>
+        <li>Navigating the Zone of Injury: External Fixator Pin Placement - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12736623/" target="_blank">[Link]</a></li>
+        <li>Damage Control Orthopaedics - JBJS <a href="https://www.jbjs.org/reader.php?rsuite_id=953244" target="_blank">[Link]</a></li>
+        <li>Acute Management of Open Long Bone Fractures - Temple <a href="https://medicine.temple.edu/sites/medicine/files/files/Spring14_Pt2.pdf" target="_blank">[Link]</a></li>
+        <li>Immunoinflammatory Response Following Orthopaedic Trauma - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2675552/" target="_blank">[Link]</a></li>
+        <li>Strategies for Surgical Approaches in Pilon Fractures <a href="https://www.researchgate.net/publication/264394497" target="_blank">[Link]</a></li>
+        <li>Definitive treatment of open tibia fractures - Lo Scalpello <a href="https://www.loscalpellojournal.com/article/view/287" target="_blank">[Link]</a></li>
+        <li>Primary Closure or Secondary Healing of Pin Sites <a href="https://www.acfas.org/" target="_blank">[Link]</a></li>
+        <li>External Fixation as Primary/Definitive Treatment - Taylor &amp; Francis <a href="https://www.tandfonline.com/doi/full/10.2147/ORR.S450774" target="_blank">[Link]</a></li>
+        <li>Modern Management of Severe Open Fractures - JBJS <a href="https://www.jbjs.org/reader.php?rsuite_id=c2f4e540" target="_blank">[Link]</a></li>
+        <li>AO Principles of Fracture Management - Thieme <a href="https://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0038-160831.pdf" target="_blank">[Link]</a></li>
+        <li>External to Internal Fixation Timing - Dr.Oracle <a href="https://www.droracle.ai/articles/761130" target="_blank">[Link]</a></li>
+        <li>Prevention and Management of Infection in Open Fractures - Fortune Journals <a href="https://www.fortunejournals.com/" target="_blank">[Link]</a></li>
+        <li>Infection Standards - Oxford Academic <a href="https://academic.oup.com/book/29872/chapter/253097247" target="_blank">[Link]</a></li>
+        <li>SPARTA: Safe Window for Fixation to Flap Coverage <a href="https://www.researchgate.net/publication/364374834" target="_blank">[Link]</a></li>
+        <li>Standards for Open Fractures of the Lower Limb - BAPRAS <a href="https://www.bapras.org.uk/" target="_blank">[Link]</a></li>
+        <li>ETC vs DCO: Current Concepts - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4045290/" target="_blank">[Link]</a></li>
+        <li>Timing of fixation in concomitant TBI - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12568869/" target="_blank">[Link]</a></li>
+        <li>Current updates in extremity injuries in polytrauma - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7920200/" target="_blank">[Link]</a></li>
+        <li>Early total care to early appropriate care - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10220203/" target="_blank">[Link]</a></li>
+        <li>Biomarker Research in Orthopaedic Trauma - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11856232/" target="_blank">[Link]</a></li>
+        <li>Inflammatory response in early vs delayed femoral fractures <a href="https://www.archivesofmedicalscience.com/" target="_blank">[Link]</a></li>
+        <li>Management of Distal Tibia/Ankle Infections - MDPI <a href="https://www.mdpi.com/2077-0383/14/22/7967" target="_blank">[Link]</a></li>
+        <li>Perioperative Management of DMARDs - MDPI <a href="https://www.mdpi.com/2076-2607/14/2/398" target="_blank">[Link]</a></li>
+        <li>Conversion from External to Internal Fixation - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12782512/" target="_blank">[Link]</a></li>
+        <li>Combined Inflammatory Biomarkers in Infection Diagnosis - IJGM <a href="https://www.dovepress.com/" target="_blank">[Link]</a></li>
+        <li>Metabolic Parameters Predicting Outcome in Polytrauma <a href="https://core.ac.uk/download/235658309.pdf" target="_blank">[Link]</a></li>
+        <li>Soft Tissue Reconstruction - Oxford Academic <a href="https://academic.oup.com/book/29872/chapter/253095383" target="_blank">[Link]</a></li>
+        <li>Current Strategies in Infection Prevention - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12165458/" target="_blank">[Link]</a></li>
+        <li>Soft tissue management for bone-anchored implants - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11892706/" target="_blank">[Link]</a></li>
+        <li>Prevention of Infection in Open Fractures <a href="http://www.criogo.fr/" target="_blank">[Link]</a></li>
+        <li>Key Techniques in Orthopaedic Surgery <a href="http://www.surgicalneed.nl/" target="_blank">[Link]</a></li>
+        <li>Surgical and Conservative Management of Mallet Finger - ASSH <a href="https://annualmeeting.assh.org/" target="_blank">[Link]</a></li>
+        <li>Management Protocol for Ballistic Facial Injuries - MDPI <a href="https://www.mdpi.com/1943-3883/19/1/14" target="_blank">[Link]</a></li>
+        <li>Dental Implant Placement Near Natural Teeth - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12791176/" target="_blank">[Link]</a></li>
+        <li>Dental Implant Treatment in Post-Traumatic Rehabilitation - Acquire <a href="https://www.acquirepublications.org/" target="_blank">[Link]</a></li>
+        <li>Dental Implant Treatment Planning - Acquire <a href="https://www.acquirepublications.org/" target="_blank">[Link]</a></li>
+        <li>Immediate Implant Placement in Infected Sockets - Pocket Dentistry <a href="https://pocketdentistry.com/" target="_blank">[Link]</a></li>
+        <li>Soft tissue complications in implant dentistry - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9306802/" target="_blank">[Link]</a></li>
+        <li>Infections in implantology - SciELO <a href="https://scielo.isciii.es/" target="_blank">[Link]</a></li>
+        <li>Immediate vs Delayed Dental Implant Placement - WCRDI <a href="https://www.westchesterrdi.com/" target="_blank">[Link]</a></li>
+        <li>Implant Treatment After Traumatic Tooth Loss - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12626377/" target="_blank">[Link]</a></li>
+        <li>Esthetics for Implant Restorations in Anterior Maxilla - ITI <a href="https://academy.iti.org/" target="_blank">[Link]</a></li>
+        <li>Optimizing Implant Placement Timing and Loading - PMC <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11900159/" target="_blank">[Link]</a></li>
+        <li>Timing of implant placement after traumatic dental injury <a href="https://pubmed.ncbi.nlm.nih.gov/31121083/" target="_blank">[Link]</a></li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tool">
+    <h2>🔬 Clinical Decision Aid</h2>
+    <p style="font-size:0.78rem; color:var(--text-light); margin-bottom:1rem;">Adjust parameters to generate real-time, evidence-based recommendations for surgical timing and fixation strategy.</p>
+
+    <!-- Slider 1: Serum Lactate -->
+    <div class="slider-group">
+      <label>
+        Serum Lactate
+        <span class="unit">mmol/L</span>
+      </label>
+      <div class="value-display" id="lactate-display">2.0</div>
+      <input type="range" id="lactate-slider" min="0.5" max="10" step="0.1" value="2.0" aria-label="Serum Lactate level in mmol/L">
+      <div class="threshold-markers">
+        <span>0.5</span>
+        <span style="color:var(--accent-safe); font-weight:600;">Safe &lt; 2.5</span>
+        <span style="color:var(--accent); font-weight:600;">Danger &gt; 4.0</span>
+        <span>10</span>
+      </div>
+    </div>
+
+    <!-- Slider 2: Time Since Injury -->
+    <div class="slider-group">
+      <label>
+        Time Since Injury
+        <span class="unit">hours</span>
+      </label>
+      <div class="value-display" id="time-display">12</div>
+      <input type="range" id="time-slider" min="1" max="168" step="1" value="12" aria-label="Time since injury in hours">
+      <div class="threshold-markers">
+        <span>1h</span>
+        <span style="color:var(--accent-warn); font-weight:600;">6h</span>
+        <span style="color:var(--accent); font-weight:600;">24h</span>
+        <span style="color:var(--accent-warn); font-weight:600;">72h</span>
+        <span>168h</span>
+      </div>
+    </div>
+
+    <!-- Slider 3: CRP -->
+    <div class="slider-group">
+      <label>
+        C-Reactive Protein
+        <span class="unit">mg/L</span>
+      </label>
+      <div class="value-display" id="crp-display">15</div>
+      <input type="range" id="crp-slider" min="0" max="200" step="1" value="15" aria-label="C-Reactive Protein in mg/L">
+      <div class="threshold-markers">
+        <span>0</span>
+        <span style="color:var(--accent-safe); font-weight:600;">Safe &lt; 10</span>
+        <span style="color:var(--accent); font-weight:600;">Elevated</span>
+        <span>200</span>
+      </div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation-box risk-moderate" id="rec-box" role="alert" aria-live="polite">
+      <div class="rec-title" id="rec-title">⚠ Moderate Risk — Proceed with Caution</div>
+      <div class="rec-body" id="rec-body">Loading recommendation...</div>
+    </div>
+
+    <!-- Rationale -->
+    <div style="margin-top:0.8rem; font-size:0.75rem; color:var(--text-light);" id="rec-rationale">
+      Rationale based on source document thresholds.
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-copy" aria-label="Copy current assessment to clipboard">📋 Copy</button>
+      <button class="btn btn-outline" id="btn-reset" aria-label="Reset all sliders to default">↺ Reset</button>
+    </div>
+
+    <!-- Legend -->
+    <div style="margin-top:1.2rem; padding-top:0.8rem; border-top:1px solid var(--border); font-size:0.72rem; color:var(--text-light);">
+      <strong>Threshold Sources:</strong><br>
+      • Lactate &lt; 2.5 mmol/L — Ref [31]<br>
+      • CRP &lt; 10 mg/L — Ref [65]<br>
+      • 72h fix-and-flap — Ref [5]<br>
+      • 24h wound excision — Ref [4]<br>
+      <em style="display:block; margin-top:0.3rem;">All thresholds derived from the source document. Not externally supplemented.</em>
+    </div>
+  </aside>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard!</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Elements
+  const lactateSlider = document.getElementById('lactate-slider');
+  const timeSlider    = document.getElementById('time-slider');
+  const crpSlider     = document.getElementById('crp-slider');
+  const lactateDisp   = document.getElementById('lactate-display');
+  const timeDisp      = document.getElementById('time-display');
+  const crpDisp       = document.getElementById('crp-display');
+  const recBox        = document.getElementById('rec-box');
+  const recTitle      = document.getElementById('rec-title');
+  const recBody       = document.getElementById('rec-body');
+  const recRationale  = document.getElementById('rec-rationale');
+  const btnCopy       = document.getElementById('btn-copy');
+  const btnReset      = document.getElementById('btn-reset');
+  const toast         = document.getElementById('toast');
+
+  // Slider color helpers
+  function colorSlider(slider, val, safe, warn) {
+    const pct = ((val - slider.min) / (slider.max - slider.min)) * 100;
+    let color = '#27ae60';
+    if (val >= warn) color = '#e74c3c';
+    else if (val >= safe) color = '#f39c12';
+    slider.style.background = `linear-gradient(to right, ${color} ${pct}%, #dce4ec ${pct}%)`;
+  }
+
+  function timeColor(slider, hours) {
+    const pct = ((hours - slider.min) / (slider.max - slider.min)) * 100;
+    let color = '#27ae60';
+    if (hours <= 6) color = '#27ae60';
+    else if (hours <= 12) color = '#2980b9';
+    else if (hours <= 24) color = '#f39c12';
+    else if (hours <= 72) color = '#e67e22';
+    else color = '#e74c3c';
+    slider.style.background = `linear-gradient(to right, ${color} ${pct}%, #dce4ec ${pct}%)`;
+  }
+
+  function update() {
+    const lactate = parseFloat(lactateSlider.value);
+    const hours   = parseInt(timeSlider.value);
+    const crp     = parseInt(crpSlider.value);
+
+    lactateDisp.textContent = lactate.toFixed(1);
+    timeDisp.textContent    = hours;
+    crpDisp.textContent     = crp;
+
+    // Color sliders
+    colorSlider(lactateSlider, lactate, 2.5, 4.0);
+    colorSlider(crpSlider, crp, 10, 50);
+    timeColor(timeSlider, hours);
+
+    // Build recommendation
+    let risk = 0; // 0=low, 1=moderate, 2=high
+    let issues = [];
+    let actions = [];
+    let rationale = [];
+
+    // Lactate assessment
+    if (lactate < 2.0) {
+      rationale.push('Lactate ' + lactate.toFixed(1) + ' mmol/L: Well within safe range (threshold < 2.5) [Ref 31]');
+      actions.push('Systemic physiology favors safe progression to definitive fixation.');
+    } else if (lactate < 2.5) {
+      rationale.push('Lactate ' + lactate.toFixed(1) + ' mmol/L: Approaching safety threshold (2.5) [Ref 31]');
+      actions.push('Continue resuscitation and serial lactate monitoring. Borderline for definitive surgery.');
+      risk = Math.max(risk, 1);
+    } else if (lactate < 4.0) {
+      rationale.push('Lactate ' + lactate.toFixed(1) + ' mmol/L: ELEVATED — above safe threshold for definitive fixation [Ref 31]');
+      issues.push('Elevated lactate indicates ongoing tissue hypoperfusion');
+      actions.push('Delay definitive fixation. Optimize resuscitation. Serial lactate clearance required.');
+      risk = Math.max(risk, 2);
+    } else {
+      rationale.push('Lactate ' + lactate.toFixed(1) + ' mmol/L: CRITICALLY HIGH — severe hypoperfusion [Ref 31]');
+      issues.push('Critically elevated lactate — severe systemic compromise');
+      actions.push('EMERGENT: Continue damage-control orthopaedics only. ICU resuscitation mandatory. No definitive fixation.');
+      risk = Math.max(risk, 2);
+    }
+
+    // Time assessment
+    if (hours <= 6) {
+      rationale.push('Time ' + hours + 'h: Within traditional 6-hour window and modern <12h guideline for severe injuries [Ref 4][Ref 13]');
+      actions.push('Wound excision should be performed urgently for severe injuries (Gustilo III). Early antibiotics within 60 min of injury critical.');
+    } else if (hours <= 12) {
+      rationale.push('Time ' + hours + 'h: Within BOAST-4 recommended 12-hour window for severe (Gustilo III) injuries [Ref 4]');
+      actions.push('Proceed with wound excision by senior orthoplastic team. Gustilo I/II: still within safe 24h window.');
+    } else if (hours <= 24) {
+      rationale.push('Time ' + hours + 'h: Approaching 24-hour limit — acceptable for Gustilo I/II; at limit for Gustilo III [Ref 4]');
+      issues.push('Approaching 24-hour limit for wound excision');
+      actions.push('Complete wound excision immediately if not yet done. Low-grade injuries still within safe window.');
+      risk = Math.max(risk, 1);
+    } else if (hours <= 72) {
+      rationale.push('Time ' + hours + 'h: Beyond 24h — violating recommended wound excision timeline [Ref 4]');
+      issues.push('Delayed wound excision — increased infection risk');
+      actions.push('URGENT: Immediate wound excision if not performed. Every hour of delay increases FRI risk. 72h is the fix-and-flap deadline [Ref 5].');
+      risk = Math.max(risk, 2);
+    } else if (hours <= 168) {
+      rationale.push('Time ' + hours + 'h (' + (hours/24).toFixed(1) + ' days): Beyond 72-hour fix-and-flap window. Infection risk escalates 16% per day beyond day 7 [Ref 4]');
+      issues.push('CRITICAL: Beyond fix-and-flap window; biofilm establishment likely');
+      actions.push('Assess soft tissue envelope urgently. If insufficient, maintain external fixation — do NOT convert to internal fixation [Ref 5]. Consider Masquelet technique if bone loss present.');
+      risk = Math.max(risk, 2);
+    }
+
+    // CRP assessment
+    if (crp < 10) {
+      rationale.push('CRP ' + crp + ' mg/L: Normalized — favorable for hardware conversion or definitive fixation [Ref 65]');
+    } else if (crp < 50) {
+      rationale.push('CRP ' + crp + ' mg/L: Elevated — monitor for ongoing inflammation or infection [Ref 65]');
+      actions.push('If converting from external to internal fixation, ensure CRP is trending down. Consider repeat debridement.');
+      risk = Math.max(risk, 1);
+    } else {
+      rationale.push('CRP ' + crp + ' mg/L: SIGNIFICANTLY ELEVATED — high suspicion of ongoing infection or severe inflammation [Ref 65]');
+      issues.push('Significantly elevated CRP — active infection or uncontrolled inflammation');
+      actions.push('Contraindicated to proceed with internal fixation. Maintain external fixation. Obtain wound cultures. Tailor antibiotics. Monitor CRP/ESR trend.');
+      risk = Math.max(risk, 2);
+    }
+
+    // Additional composite assessment
+    if (lactate >= 2.5 && crp >= 50) {
+      rationale.push('COMPOSITE RISK: Both lactate and CRP significantly elevated — extremely high risk for "second hit" phenomenon [Ref 47][Ref 59]');
+      actions.push('Strongly consider Damage Control Orthopaedics (DCO) protocol. Defer all definitive surgery.');
+    }
+
+    // Build recommendation text
+    let title, boxClass;
+    if (risk === 0) {
+      title = '✅ Low Risk — Favorable for Definitive Management';
+      boxClass = 'risk-low';
+    } else if (risk === 1) {
+      title = '⚠ Moderate Risk — Proceed with Close Monitoring';
+      boxClass = 'risk-moderate';
+    } else {
+      title = '🚨 High Risk — Delay Definitive Fixation';
+      boxClass = 'risk-high';
+    }
+
+    recBox.className = 'recommendation-box ' + boxClass;
+    recTitle.textContent = title;
+
+    let bodyHTML = '';
+    if (issues.length) {
+      bodyHTML += '<strong>Concerns:</strong><ul style="margin:0.3rem 0 0.5rem 1rem;">';
+      issues.forEach(function(i) { bodyHTML += '<li>' + i + '</li>'; });
+      bodyHTML += '</ul>';
+    }
+    bodyHTML += '<strong>Recommended Actions:</strong><ul style="margin:0.3rem 0 0 1rem;">';
+    actions.forEach(function(a) { bodyHTML += '<li>' + a + '</li>'; });
+    bodyHTML += '</ul>';
+
+    // Add context based on time window
+    if (hours >= 48 && hours <= 120) {
+      bodyHTML += '<br><em>Note: If days 2–4 (48–96h post-injury) — this is the "Unsafe Period" of peak SIRS. Definitive fixation absolutely contraindicated. The "Window of Opportunity" opens between days 5–10 [Ref 53][Ref 59].</em>';
+    }
+
+    recBody.innerHTML = bodyHTML;
+    recRationale.innerHTML = '<strong>Evidence Basis:</strong><br>' + rationale.join('<br>');
+  }
+
+  // Event listeners
+  lactateSlider.addEventListener('input', update);
+  timeSlider.addEventListener('input', update);
+  crpSlider.addEventListener('input', update);
+
+  // Reset
+  btnReset.addEventListener('click', function() {
+    lactateSlider.value = 2.0;
+    timeSlider.value = 12;
+    crpSlider.value = 15;
+    update();
+  });
+
+  // Copy
+  btnCopy.addEventListener('click', function() {
+    const lactate = parseFloat(lactateSlider.value).toFixed(1);
+    const hours   = timeSlider.value;
+    const crp     = crpSlider.value;
+    const now     = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+
+    let text = 'OPEN FRACTURE CLINICAL ASSESSMENT\n';
+    text += '================================\n';
+    text += 'Timestamp: ' + now + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Serum Lactate: ' + lactate + ' mmol/L (Safe threshold: < 2.5)\n';
+    text += '  Time Since Injury: ' + hours + ' hours\n';
+    text += '  C-Reactive Protein: ' + crp + ' mg/L (Safe threshold: < 10)\n\n';
+    text += 'RISK ASSESSMENT:\n';
+    text += '  ' + recTitle.textContent + '\n\n';
+    text += 'RECOMMENDATION:\n';
+    text += '  ' + recBody.textContent + '\n\n';
+    text += 'EVIDENCE BASIS:\n';
+    text += '  ' + recRationale.textContent + '\n\n';
+    text += '---\n';
+    text += 'Source: Evidence-Based Open Fracture Management Guidelines\n';
+    text += 'All thresholds derived from source document references.\n';
+
+    navigator.clipboard.writeText(text).then(function() {
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+</body>
+</html>

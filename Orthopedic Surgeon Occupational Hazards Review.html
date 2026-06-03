@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Occupational Health Crisis in Orthopedic Surgery – Interactive Evidence Summary</title>
+<style>
+:root {
+  --primary: #1a365d;
+  --primary-light: #2a4a7f;
+  --accent: #e53e3e;
+  --accent-light: #fc8181;
+  --green: #276749;
+  --green-light: #c6f6d5;
+  --yellow: #975a16;
+  --yellow-light: #fefcbf;
+  --orange: #c05621;
+  --orange-light: #feebc8;
+  --gray-50: #f7fafc;
+  --gray-100: #edf2f7;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e0;
+  --gray-400: #a0aec0;
+  --gray-600: #718096;
+  --gray-700: #4a5568;
+  --gray-800: #2d3748;
+  --gray-900: #1a202c;
+  --white: #ffffff;
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --radius: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.7;
+  color: var(--gray-800);
+  background: var(--gray-50);
+}
+
+/* HEADER */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.sticky-header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.sticky-header .subtitle {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  font-weight: 400;
+}
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn-export {
+  background: rgba(255,255,255,0.2);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.btn-export:hover { background: rgba(255,255,255,0.35); }
+.btn-reset {
+  background: var(--accent);
+  color: var(--white);
+}
+.btn-reset:hover { background: var(--accent-light); color: var(--gray-900); }
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .sidebar { order: -1; position: static !important; }
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.panel {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  border: 1px solid var(--gray-200);
+}
+.panel-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* SLIDERS */
+.slider-group { margin-bottom: 1.25rem; }
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+.slider-value {
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
+}
+.slider-note {
+  font-size: 0.72rem;
+  color: var(--gray-600);
+  margin-top: 0.15rem;
+  font-style: italic;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--gray-200);
+  outline: none;
+  margin: 0.5rem 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+}
+
+/* RISK METER */
+.risk-meter {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--gray-200);
+  margin: 0.5rem 0;
+  overflow: hidden;
+  position: relative;
+}
+.risk-meter-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+/* RECOMMENDATION BOX */
+.recommendation-box {
+  background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.recommendation-box h4 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+.recommendation-box ul {
+  padding-left: 1.2rem;
+  margin-top: 0.35rem;
+}
+.recommendation-box li { margin-bottom: 0.25rem; }
+
+/* MAIN CONTENT */
+.main-content { min-width: 0; }
+.section {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--gray-200);
+}
+.section h2 {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--gray-200);
+  letter-spacing: -0.02em;
+}
+.section h3 {
+  font-size: 1.15rem;
+  color: var(--primary-light);
+  margin: 1.5rem 0 0.75rem;
+}
+.section h4 {
+  font-size: 1rem;
+  color: var(--gray-700);
+  margin: 1.25rem 0 0.5rem;
+}
+.section p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+.section ul, .section ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.section li { margin-bottom: 0.5rem; }
+
+/* EVIDENCE BADGE */
+.evidence-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.ev-1 { background: #c6f6d5; color: #22543d; }
+.ev-2 { background: #bee3f8; color: #2a4365; }
+.ev-3 { background: #fefcbf; color: #744210; }
+.ev-4 { background: #feebc8; color: #7b341e; }
+.ev-5 { background: #fed7d7; color: #9b2c2c; }
+.ev-na { background: var(--gray-200); color: var(--gray-600); }
+
+/* CALLOUT BOX */
+.callout {
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.callout-warning {
+  background: #fffbeb;
+  border-left: 4px solid #d69e2e;
+}
+.callout-danger {
+  background: #fff5f5;
+  border-left: 4px solid var(--accent);
+}
+.callout-info {
+  background: #ebf8ff;
+  border-left: 4px solid #3182ce;
+}
+.callout strong { display: block; margin-bottom: 0.25rem; }
+
+/* TABLES */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1rem 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+caption {
+  text-align: left;
+  font-weight: 700;
+  color: var(--primary);
+  padding: 0.75rem 1rem;
+  background: var(--gray-100);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+thead th {
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+tbody td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--gray-100);
+  vertical-align: top;
+}
+tbody tr:nth-child(even) { background: var(--gray-50); }
+tbody tr:hover { background: #edf2f7; }
+
+/* CITATIONS */
+.reference-section { font-size: 0.82rem; color: var(--gray-600); }
+.reference-section ol { padding-left: 1.5rem; }
+.reference-section li { margin-bottom: 0.4rem; word-break: break-all; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--green);
+  color: var(--white);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* EXECUTIVE SUMMARY BADGE */
+.exec-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  padding: 0.15rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+/* SCROLLBAR */
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-track { background: var(--gray-100); }
+.sidebar::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+
+/* FIGURE */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.stat-card {
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+}
+.stat-card .stat-number {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.2;
+}
+.stat-card .stat-label {
+  font-size: 0.75rem;
+  color: var(--gray-600);
+  margin-top: 0.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Limitation note */
+.limitation-note {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: #92400e;
+  margin: 1rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.limitation-note strong { white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<header class="sticky-header" role="banner">
+  <div>
+    <h1>⚠️ Occupational Health Crisis in Orthopedic Surgery</h1>
+    <span class="subtitle">Systemic Review: Pathophysiology, Epidemiology &amp; Mitigation — Interactive Evidence Summary</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-reset" onclick="resetSliders()" aria-label="Reset all sliders to defaults">⟲ Reset</button>
+    <button class="btn btn-export" onclick="exportSummary()" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- MAIN CONTENT -->
+<main class="main-content" role="main">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="section" id="exec-summary">
+    <h2>Executive Summary</h2>
+    <p>Orthopedic surgery occupies a distinct and precarious position within the medical profession, demanding the intellectual rigor of a diagnostician combined with the physical exertion of a manual laborer. The modern orthopedic surgeon operates within a high-risk industrial environment characterized by exposure to <strong>ionizing radiation</strong>, <strong>ototoxic noise levels</strong>, <strong>hazardous chemicals</strong>, and <strong>extreme biomechanical loads</strong>. This review synthesizes data from recent systematic reviews, biomechanical modeling, and epidemiological surveys to delineate these hazards and propose a multi-modal strategy for mitigation.</p>
+
+    <div class="callout callout-danger">
+      <strong>🚨 Critical Finding</strong>
+      The findings indicate a critical occupational health crisis that threatens workforce sustainability. Musculoskeletal disorders (MSDs) have become endemic, radiation-related malignancies are gender-disproportionate, and psychological toll—manifesting as high rates of burnout and suicide—remains a pervasive yet under-addressed epidemic.
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">44–97%</div>
+        <div class="stat-label">Career Prevalence of WMSDs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">77.6%</div>
+        <div class="stat-label">WMSD Prevalence (Asia)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3.97×</div>
+        <div class="stat-label">Breast Cancer Risk (Female Surgeons)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~28%</div>
+        <div class="stat-label">Surgeon Suicides are Orthopods</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">40–60%</div>
+        <div class="stat-label">Burnout Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">50%</div>
+        <div class="stat-label">Hearing Loss Prevalence</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: ERGONOMIC BURDEN -->
+  <section class="section" id="ergonomics">
+    <h2>1. The Ergonomic Burden: MSDs and the "Industrial Athlete"</h2>
+    <p>The orthopedic surgeon is frequently conceptualized as an <strong>"industrial athlete"</strong>—a professional whose daily routine involves physical demands comparable to high-performance athletes or skilled tradespeople. However, unlike athletes who prioritize recovery and biomechanics, surgeons often operate in a state of chronic physical deficit. The prevalence of Work-related Musculoskeletal Disorders (WMSDs) in this population is alarmingly high, driven by the unique convergence of repetitive high-force tasks, prolonged static postures, and the burden of protective lead equipment. <span class="evidence-badge ev-1">Level I</span></p>
+
+    <h3>1.1 Global Epidemiology and Prevalence Patterns</h3>
+    <p>Recent systematic reviews and meta-analyses paint a stark picture of the orthopedic workforce's physical health. The career prevalence of WMSDs among orthopedic surgeons is estimated to range between <strong>44% and 97%</strong>, significantly outpacing the general population and other medical specialties. <span class="evidence-badge ev-1">Level I (Systematic Review)</span> This high prevalence is not geographically isolated but varies by continent, potentially due to differences in surgical volume, technique, and reporting culture.</p>
+
+    <p>Data from the American Academy of Orthopaedic Surgeons (AAOS) reveals that nearly <strong>60%</strong> of surveyed surgeons had sought medical treatment for a work-related injury, with over <strong>17%</strong> requiring surgical intervention for their own pathology. Among those filing disability claims, nearly one-third <strong>(34%) never return to work</strong>, representing a massive loss of human capital. <span class="evidence-badge ev-3">Level III (Cross-sectional Survey)</span></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 1.1: Global Prevalence of WMSDs in Orthopedic Surgeons by Anatomical Region</caption>
+        <thead>
+          <tr>
+            <th>Anatomical Region</th>
+            <th>Overall Prevalence (95% CI)</th>
+            <th>Geographic Variance</th>
+            <th>Primary Risk Factors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Lower Back</strong></td>
+            <td>35% – 77%</td>
+            <td>Highest in Asia (45.4%); Lower in Americas (38.2%)</td>
+            <td>Axial loading from lead aprons, prolonged standing, prolonged flexion</td>
+          </tr>
+          <tr>
+            <td><strong>Neck (Cervical)</strong></td>
+            <td>30% – 74%</td>
+            <td>Highest in Europe (36.5%); Consistent globally</td>
+            <td>"Head-down" posture, weight of loupes/headlamps, thyroid shield pressure</td>
+          </tr>
+          <tr>
+            <td><strong>Shoulder</strong></td>
+            <td>25% – 50%</td>
+            <td>High prevalence in arthroscopists</td>
+            <td>Repetitive overhead motion, sustained isometric holding of retractors</td>
+          </tr>
+          <tr>
+            <td><strong>Hand/Wrist</strong></td>
+            <td>12% – 54%</td>
+            <td>Higher in trauma/arthroplasty</td>
+            <td>High grip force, vibration from power tools, repetitive suturing</td>
+          </tr>
+          <tr>
+            <td><strong>Elbow</strong></td>
+            <td>3% – 28%</td>
+            <td>Lowest relative prevalence</td>
+            <td>Repetitive flexion/extension during sawing or drilling</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>1.2 Pathophysiology of Spinal Pathology</h3>
+
+    <h4>1.2.1 The Biomechanics of the Lead Apron</h4>
+    <p>The defining occupational hazard for the orthopedic spine and trauma surgeon is the lead apron. Standard radiation protective garments weigh between <strong>7 and 17 kg</strong>. <span class="evidence-badge ev-3">Level III</span> While essential for radiation safety, they impose a severe biomechanical penalty on the axial skeleton. Biomechanical studies utilizing intradiscal pressure measurements have demonstrated that wearing a 15-pound lead apron can exert compressive forces of up to <strong>300 pounds per square inch (psi)</strong> on the lumbar intervertebral discs. <span class="evidence-badge ev-2">Level II</span></p>
+
+    <p>This axial loading is exacerbated by the "lever arm" effect of surgical posture. Surgeons frequently operate in a forward-flexed position. The addition of lead weight anteriorly shifts the center of gravity, significantly increasing the moment arm and the resultant force required by the paraspinal muscles. Videorasterstereography studies have shown that after an average surgery duration of <strong>102 minutes wearing lead</strong>, surgeons exhibit significant postural deviations, including increased thoracic kyphosis and lateral deviation. Crucially, these deviations are observed even in <strong>young, healthy surgeons</strong>, suggesting cumulative trauma begins early in residency. <span class="evidence-badge ev-2">Level II (Prospective biomechanical study)</span></p>
+
+    <h4>1.2.2 Cervical Spine and Visualization Aids</h4>
+    <p>The cervical spine is similarly vulnerable. Surgical loupes and headlamps improve visualization but alter head biomechanics. The average human head weighs approximately 10–12 pounds; adding loupes and a light source increases this mass and moves the center of gravity forward. The "head-down" posture required for open surgery places the cervical spine in flexion, increasing intradiscal pressure and accelerating degenerative changes at <strong>C5–C6 and C6–C7 levels</strong>. <span class="evidence-badge ev-2">Level II</span></p>
+
+    <h3>1.3 Peripheral Joint Pathology</h3>
+    <p>Orthopedic surgery involves manual tasks that rival industrial labor in intensity. Procedures such as total joint arthroplasty require heavy mallets, broaches, and reamers, generating significant impact shock and vibration transmitted directly to the hand and arm. Chronic exposure to hand-arm vibration is a known risk factor for <strong>carpal tunnel syndrome, cubital tunnel syndrome, and vibration white finger</strong>. <span class="evidence-badge ev-3">Level III</span></p>
+
+    <p>Rotator cuff pathology is particularly prevalent among surgeons who perform arthroscopy, who must hold the arm in abduction and internal rotation for extended periods. A study of Early Onset Scoliosis (EOS) surgeons found a significant correlation between age and the prevalence of shoulder/rotator cuff MSDs, highlighting the cumulative nature of this trauma. <span class="evidence-badge ev-3">Level III</span></p>
+
+    <p>Prolubricant lower extremity stasis: Approximately <strong>30%</strong> of orthopedic surgeons report developing varicose veins during their careers, a rate significantly higher than the general population. <span class="evidence-badge ev-3">Level III</span></p>
+
+    <h3>1.4 Risk Factors and "The Surgeon Personality"</h3>
+    <ul>
+      <li><strong>Surgical Volume and Case Type:</strong> High-volume surgeons, particularly those in trauma and spine, report higher rates of injury. Spinal surgery is associated with the highest rates of cervical and lumbar pain. <span class="evidence-badge ev-3">Level III</span></li>
+      <li><strong>The "Surgeon Personality":</strong> Perfectionism, resilience, and a willingness to self-sacrifice may predispose surgeons to injury. They often ignore early warning signs of pain ("working through the pain") and delay treatment until pathology becomes debilitating. <span class="evidence-badge ev-2">Level II</span></li>
+      <li><strong>Gender Differences:</strong> Surgical instruments and lead aprons are often designed based on male anthropometry. Ill-fitting equipment can force female surgeons into awkward postures, increasing risk. Studies indicate female surgeons have higher rates of MSDs in the upper extremities compared to male colleagues. <span class="evidence-badge ev-1">Level I</span></li>
+    </ul>
+  </section>
+
+  <!-- SECTION 2: IONIZING RADIATION -->
+  <section class="section" id="radiation">
+    <h2>2. The Invisible Threat: Ionizing Radiation Exposure</h2>
+    <p>Orthopedic surgeons are among the highest consumers of intraoperative fluoroscopy, particularly in the subspecialties of trauma, spine, and pediatrics. Unlike interventional radiologists who may control the beam from a shielded control room, orthopedic surgeons must often remain at the patient's bedside, directly in the field of scatter radiation.</p>
+
+    <h3>2.1 Dosimetry, Limits, and the Scatter Phenomenon</h3>
+    <p>The International Commission on Radiological Protection (ICRP) recommends an occupational effective dose limit of <strong>20 mSv per year</strong>, averaged over five years, with no single year exceeding <strong>50 mSv</strong>. <span class="evidence-badge ev-1">Level I (Regulatory guideline)</span> The primary mechanism of exposure for the surgeon is <strong>scatter radiation</strong>. The intensity of scatter is inversely proportional to the square of the distance from the source (Inverse Square Law); simply stepping back from the table during imaging can reduce exposure by over <strong>70%</strong>. <span class="evidence-badge ev-2">Level II</span></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 2.1: Regulatory Dose Limits and Orthopedic Risk Profiles</caption>
+        <thead>
+          <tr>
+            <th>Tissue / Organ</th>
+            <th>ICRP Annual Limit</th>
+            <th>Specific Orthopedic Risk Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Whole Body</strong></td>
+            <td>20 mSv (avg/5 yrs)</td>
+            <td>Generally maintained below limits; trauma/spine surgeons at highest risk</td>
+          </tr>
+          <tr>
+            <td><strong>Lens of Eye</strong></td>
+            <td>20 mSv</td>
+            <td>Highly radiosensitive; risk of cataracts; often unprotected</td>
+          </tr>
+          <tr>
+            <td><strong>Skin / Hands</strong></td>
+            <td>500 mSv</td>
+            <td>Hands often in direct beam during reduction; ring dosimeters rarely used</td>
+          </tr>
+          <tr>
+            <td><strong>Thyroid</strong></td>
+            <td>300 mSv (implicit)</td>
+            <td>Susceptible to carcinoma; shield fit often compromised by movement</td>
+          </tr>
+          <tr>
+            <td><strong>Extremities</strong></td>
+            <td>500 mSv</td>
+            <td>High exposure during close-range manipulation</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>2.2 Ocular Pathology: Radiation-Induced Cataracts</h3>
+    <p>The lens of the eye is one of the most radiosensitive tissues in the human body. Systematic reviews have confirmed a statistically significant increase in the prevalence of <strong>posterior subcapsular cataracts (PSCs)</strong> among healthcare workers exposed to ionizing radiation compared to unexposed controls. <span class="evidence-badge ev-1">Level I (Systematic Review)</span> The cumulative risk is stark: career exposure exceeding <strong>60 mSv</strong> increases the likelihood of cataracts by <strong>25%</strong>. Leaded glasses can attenuate ocular dose by over <strong>90%</strong>, yet compliance remains suboptimal. <span class="evidence-badge ev-2">Level II</span></p>
+
+    <h3>2.3 Malignancy Risks and the Thyroid</h3>
+    <p>Spine surgeons, who utilize high-dose fluoroscopy and CT-navigation, have been reported in some literature to have a significantly elevated incidence of thyroid cancer compared to the general population. A study of hospital workers found that working as an orthopedic surgeon significantly increased the risk of tumors (OR adjusted for age and sex), with thyroid malignancies being a primary concern. <span class="evidence-badge ev-3">Level III (Retrospective cohort)</span></p>
+
+    <h3>2.4 The Gender Gap: Breast Cancer and Axillary Exposure</h3>
+    <div class="callout callout-danger">
+      <strong>🚨 Critical Gender-Specific Hazard</strong>
+      A landmark study identified a <strong>3.97 times higher prevalence of breast cancer</strong> in female orthopedic surgeons compared to an age-matched female population. This disparity is largely attributed to standard lead apron design leaving the axilla exposed, with the Upper Outer Quadrant (UOQ)—the site for ~50% of breast cancers—being the area of maximum vulnerability. <span class="evidence-badge ev-2">Level II (Cohort study)</span>
+    </div>
+
+    <h3>2.5 PPE Technology: Lead vs. Lead-Free</h3>
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 2.2: Comparison of Lead vs. Lead-Free Radiation Protection</caption>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Traditional Lead Aprons</th>
+            <th>Lead-Free / Composite Aprons</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Weight</strong></td>
+            <td>7–17 kg (full wrap)</td>
+            <td>20–25% lighter than lead of equivalent thickness</td>
+          </tr>
+          <tr>
+            <td><strong>Attenuation (≤100 kVp)</strong></td>
+            <td>Excellent (0.5 mm Pb equivalent)</td>
+            <td>Comparable to lead</td>
+          </tr>
+          <tr>
+            <td><strong>Attenuation (&gt;110 kVp)</strong></td>
+            <td>Superior</td>
+            <td>Efficacy may diminish; lead superior at higher energies</td>
+          </tr>
+          <tr>
+            <td><strong>MSD Impact</strong></td>
+            <td>Significant axial loading; high MSD risk</td>
+            <td>Reduced but does not eliminate axial load</td>
+          </tr>
+          <tr>
+            <td><strong>Key Limitation</strong></td>
+            <td>Heavy; no axillary coverage in standard designs</td>
+            <td>Not "weightless"; requires suspension systems for full elimination</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <span class="evidence-badge ev-1">Level I (Systematic reviews)</span>
+  </section>
+
+  <!-- SECTION 3: ENVIRONMENTAL TOXICOLOGY -->
+  <section class="section" id="toxicology">
+    <h2>3. Environmental Toxicology and Physical Hazards</h2>
+
+    <h3>3.1 Ototoxicity: The Deafening OR</h3>
+    <p>Orthopedic surgery is notoriously noisy. The use of pneumatic and electric power tools creates a soundscape that frequently exceeds industrial safety standards. Oscillating bone saws can generate unweighted noise levels between <strong>81 dB and 131 dB</strong>. The National Institute for Occupational Safety and Health (NIOSH) recommends hearing protection for any exposure above <strong>85 dB</strong> over an 8-hour shift. <span class="evidence-badge ev-1">Level I (Systematic Scoping Review)</span></p>
+
+    <p>Impact noise from mallets striking metal instruments creates "impulse" noise that can exceed <strong>140 dB</strong>, causing immediate micro-trauma to the cochlear hair cells. Research indicates that up to <strong>50% of orthopedic surgeons</strong> show signs of noise-induced hearing loss (NIHL), typically presenting as a "notch" at 4000 Hz. <span class="evidence-badge ev-2">Level II</span></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 3.1: Noise Levels of Common Orthopedic Instruments</caption>
+        <thead>
+          <tr>
+            <th>Instrument</th>
+            <th>Noise Level (Range)</th>
+            <th>Occupational Risk Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Oscillating Saw</strong></td>
+            <td>87–131 dB</td>
+            <td>🔴 Critical: Can cause permanent damage in minutes</td>
+          </tr>
+          <tr>
+            <td><strong>Hammering / Impaction</strong></td>
+            <td>92–123 dB (Peak)</td>
+            <td>🔴 Critical: High-energy impulse noise</td>
+          </tr>
+          <tr>
+            <td><strong>Air-Powered Burr</strong></td>
+            <td>90–105 dB</td>
+            <td>🟠 High: High-frequency pitch particularly damaging</td>
+          </tr>
+          <tr>
+            <td><strong>Drilling</strong></td>
+            <td>88–97 dB</td>
+            <td>🟠 High: Sustained use requires protection</td>
+          </tr>
+          <tr>
+            <td><strong>Suction</strong></td>
+            <td>70–75 dB</td>
+            <td>🟡 Moderate: Contributes to background noise floor</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>3.2 Chemical Hazards: Methyl Methacrylate (Bone Cement)</h3>
+    <p>Polymethyl methacrylate (PMMA), or "bone cement," is a cornerstone of arthroplasty. The exothermic reaction during mixing releases methyl methacrylate (MMA) vapors—potent respiratory and mucous membrane irritants. Acute exposure symptoms include eye irritation, headache, nausea, and dermatitis. <span class="evidence-badge ev-3">Level III</span></p>
+
+    <p>MMA is a small molecule that can penetrate standard latex gloves. Studies recommend double gloving or the use of specific neoprene or polyethylene gloves. Closed-vacuum mixing systems significantly reduce vapor concentration from approximately <strong>17 ppm</strong> (open mixing) to approximately <strong>4 ppm</strong>. Current guidelines recommend that pregnant personnel strictly avoid the mixing phase. <span class="evidence-badge ev-2">Level II</span></p>
+
+    <h3>3.3 Surgical Smoke and Particulates</h3>
+    <p>The use of electrosurgery and ultrasonic scalpels generates surgical smoke ("plume") containing toxic compounds such as benzene, hydrogen cyanide, and formaldehyde. Standard surgical masks do not filter ultrafine particles effectively; <strong>N95 respirators or smoke evacuation systems</strong> are required for adequate protection. <span class="evidence-badge ev-3">Level III</span></p>
+  </section>
+
+  <!-- SECTION 4: BIOLOGICAL HAZARDS -->
+  <section class="section" id="biological">
+    <h2>4. Biological Hazards: Sharps and Blood-Borne Pathogens</h2>
+    <p>Orthopedic surgery involves heavy, sharp instruments (wires, drills, saws, osteotomes) and high-force manual tasks in deep, often bloody fields. Surveys indicate that <strong>80–90%</strong> of orthopedic surgeons experience a needlestick or sharps injury at least once in their career. <span class="evidence-badge ev-3">Level III (Cross-sectional study)</span></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 4.1: Blood-Borne Pathogen Transmission Risks Following Percutaneous Exposure</caption>
+        <thead>
+          <tr>
+            <th>Pathogen</th>
+            <th>Estimated Seroconversion Risk</th>
+            <th>Key Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Hepatitis B (HBV)</strong></td>
+            <td>6–30% (unvaccinated)</td>
+            <td>Higher risk; effective vaccine available</td>
+          </tr>
+          <tr>
+            <td><strong>Hepatitis C (HCV)</strong></td>
+            <td>~1.8%</td>
+            <td>No vaccine; treatment advances improving outcomes</td>
+          </tr>
+          <tr>
+            <td><strong>HIV</strong></td>
+            <td>~0.3%</td>
+            <td>Low per-event risk but high psychological impact</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Fracture management and trauma surgery account for the majority of injuries (<strong>86.3%</strong>). <span class="evidence-badge ev-3">Level III</span></p>
+
+    <h3>4.3 Mitigation Strategies</h3>
+    <ul>
+      <li><strong>The Neutral Zone ("Hands-Free" Technique):</strong> Placing instruments in a designated basin or magnetic mat rather than hand-to-hand passing can reduce sharps injury rates by up to <strong>59%</strong>. <span class="evidence-badge ev-2">Level II</span></li>
+      <li><strong>Blunt-Tip Suture Needles:</strong> For closing muscle and fascia, blunt-tip needles can reduce glove perforations by <strong>54%</strong>. The CDC and American College of Surgeons strongly advocate their use. <span class="evidence-badge ev-1">Level I (Systematic Review)</span></li>
+      <li><strong>Double Gloving:</strong> Reduces the risk of inner glove perforation and lowers the volume of blood inoculum in the event of a stick. <span class="evidence-badge ev-1">Level I</span></li>
+    </ul>
+  </section>
+
+  <!-- SECTION 5: PSYCHOSOCIAL TOLL -->
+  <section class="section" id="psychosocial">
+    <h2>5. The Psychosocial Toll: Burnout, Mental Health, and Suicide</h2>
+    <p>The culture of orthopedics—historically characterized by stoicism, hierarchy, and extreme work hours—often obscures a profound mental health crisis. <span class="evidence-badge ev-1">Level I (Systematic review)</span></p>
+
+    <h3>5.1 Burnout Syndrome</h3>
+    <p>Burnout is characterized by emotional exhaustion, depersonalization (cynicism), and a low sense of personal accomplishment. The burnout rate among orthopedic surgeons ranges between <strong>40% and 60%</strong>, remaining one of the highest among surgical subspecialties. <span class="evidence-badge ev-1">Level I (Systematic review)</span></p>
+
+    <p>Drivers of burnout include bureaucratic tasks (EHR documentation, insurance authorizations), loss of autonomy, declining reimbursement, and erosion of the doctor-patient relationship. <span class="evidence-badge ev-2">Level II</span></p>
+
+    <div class="callout callout-warning">
+      <strong>⚠️ The Suicide Epidemic</strong>
+      Orthopedic surgeons have the <strong>highest prevalence of suicide among all surgical subspecialties</strong>, accounting for nearly 28% of reported surgeon suicides. The demographic most at risk: older, white males. Risk factors include untreated depression, substance use, and recent malpractice events. Stigma serves as a lethal barrier—many surgeons fear that seeking mental health care will jeopardize licensure or reputation. <span class="evidence-badge ev-2">Level II</span>
+    </div>
+
+    <h3>5.3 Divorce and Social Impact</h3>
+    <p>Female physicians working long hours (&gt;40 hours/week) have a higher probability of divorce compared to their male counterparts, highlighting the "gender tax" on women in demanding surgical fields. <span class="evidence-badge ev-2">Level II</span></p>
+  </section>
+
+  <!-- SECTION 6: MITIGATION -->
+  <section class="section" id="mitigation">
+    <h2>6. Strategic Mitigation and Future Directions</h2>
+    <p>Addressing occupational hazards requires a paradigm shift from individual resilience ("toughening up") to systemic protection at engineering, administrative, and personal levels.</p>
+
+    <h3>6.1 Engineering Controls: The Rise of Exoskeletons</h3>
+    <ul>
+      <li><strong>Passive Exoskeletons:</strong> Studies demonstrate that passive upper-limb exoskeletons can significantly reduce muscle activity in the deltoids and trapezius during overhead tasks, while back-support exoskeletons reduce compressive loads on the lumbar spine. <span class="evidence-badge ev-2">Level II</span></li>
+      <li><strong>Zero-Gravity Radiation Protection:</strong> Ceiling-mounted lead suspension systems eliminate the weight burden of the apron entirely, solving both radiation and MSD problems simultaneously. <span class="evidence-badge ev-2">Level II</span></li>
+    </ul>
+
+    <h3>6.2 The "Surgeon Athlete" Conditioning Program</h3>
+    <p>Physical conditioning for surgeons should be viewed as mandatory occupational preparation, akin to training for elite athletes. A comprehensive "pre-hab" approach includes:</p>
+    <ul>
+      <li><strong>Core Strengthening:</strong> Dead bugs, planks, and bridges build deep abdominal and gluteal strength, acting as an internal corset. <span class="evidence-badge ev-4">Level IV (Expert opinion)</span></li>
+      <li><strong>Cervical Conditioning:</strong> Isometric neck exercises, chin tucks, and scapular retractions counteract the "forward head" posture. <span class="evidence-badge ev-4">Level IV</span></li>
+      <li><strong>Intraoperative Micro-Breaks:</strong> Short, scheduled breaks (20–60 seconds) every hour to stretch and reset posture reduce physical discomfort without extending surgical time. <span class="evidence-badge ev-2">Level II</span></li>
+    </ul>
+
+    <h3>6.3 Administrative and Cultural Transformation</h3>
+    <ul>
+      <li><strong>Radiation Safety Culture:</strong> Enforce leaded eyewear and axillary shielding for female surgeons. Real-time dosimetry can drive immediate behavioral changes.</li>
+      <li><strong>Mental Health De-stigmatization:</strong> Provide confidential mental health resources strictly walled off from credentialing committees. Peer support ("Battle Buddy" systems) can mitigate isolation.</li>
+      <li><strong>Safety Norms:</strong> Leadership must normalize the neutral zone, blunt needles, and hearing protection. Senior surgeons must model these behaviors.</li>
+    </ul>
+
+    <div class="callout callout-info">
+      <strong>ℹ️ Comprehensive Mitigation Summary</strong>
+      The future of the specialty depends on treating the surgeon not as an inexhaustible resource, but as a high-value asset requiring specialized equipment, protection, and recovery protocols. Implementing exoskeletons, enforcing strict radiation safety limits, mandating "hands-free" passing, and destigmatizing mental health care are not merely "wellness initiatives"—they are essential requirements for a sustainable surgical workforce.
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="section" id="references">
+    <h2>References</h2>
+    <p class="reference-section" style="margin-bottom:0">
+    <ol>
+      <li>[1] High Prevalence of Work-related Musculoskeletal Disorders and Limited Evidence-based Ergonomics in Orthopaedic Surgery: A Systematic Review. <em>PubMed</em> (2023). PMID: 37987688.</li>
+      <li>[2] Prevalence of Work-related Musculoskeletal Disorders in Early Onset Scoliosis Surgeons. <em>Athenaeum Scientific Publishers</em>.</li>
+      <li>[3] High Prevalence of Work-related Musculoskeletal Disorders and Limited Evidence-based Ergonomics in Orthopaedic Surgery. <em>AWS/IJERPH</em>.</li>
+      <li>[4] Continental Assessment of Work-Related Musculoskeletal Disorders. <em>MDPI</em> 2024;10(2):221.</li>
+      <li>[5] Occupational hazards facing orthopedic surgeons. <em>ResearchGate / JAAOS</em>.</li>
+      <li>[6] Prevalence and Spectrum of Occupational Injury Among Orthopaedic Surgeons. <em>Orthobullets</em>.</li>
+      <li>[7] Wearing lead aprons in surgical operating rooms: Ergonomic injuries evidenced by IR Thermography. <em>ResearchGate</em>.</li>
+      <li>[8] Low Back Pain, Lead Aprons, and the Angiographer. <em>PMC / NIH</em> (2021). PMC8174912.</li>
+      <li>[10] The Impact of Lead Aprons on Posture of Orthopaedic Surgeons. <em>ResearchGate / PubMed</em> (2020). PMID: 32854126.</li>
+      <li>[12] Use of an Intraoperative Head, Neck, and Back Support Exoskeleton on Surgeons' Pain and Posture. <em>PubMed</em> (2025). PMID: 40201977.</li>
+      <li>[14] Occupational radiation exposure risk in orthopaedics. <em>British Orthopaedic Association (BOA)</em>.</li>
+      <li>[15] Radiation in the Orthopedic Operating Room. <em>PMC / NIH</em>. PMC12457730.</li>
+      <li>[17] Eye lens opacities and cataracts among physicians and healthcare workers. <em>PMC / NIH</em> (2022). PMC9749701.</li>
+      <li>[18] CORR Insights®: Is Ocular Safety in Orthopaedics Overlooked? <em>PMC / NIH</em>. PMC11469863.</li>
+      <li>[19] Increased cancer risk among surgeons in an orthopaedic hospital. <em>Oxford Academic / Occup Med</em> 2005;55(6):498.</li>
+      <li>[21] Serious challenges with bone cement in orthopedic operating rooms. <em>PMC / NIH</em> (2025). PMC11899357.</li>
+      <li>[22–23] Why do female orthopaedic surgeons have a higher risk of breast cancer? <em>Medycyna Środowiskowa / Environmental Medicine</em>.</li>
+      <li>[24] Orthopaedic Surgeon Radiation Exposure Reduction. <em>U. Rochester Senior Design Day</em>.</li>
+      <li>[25] Female healthworkers need better radiation protection to minimise breast cancer risk. <em>BMJ Group</em>.</li>
+      <li>[26–28] Lead vs. Lead-Free Radiation Protection Products. <em>Radiological Care Services / Burlington Medical / PMC</em>.</li>
+      <li>[30–31] Noise Exposure in the Orthopedic Operating Room: A Scoping Review. <em>PMC / NIH</em> (2025). PMC12352336.</li>
+      <li>[32] Hearing Evaluation of ARthroplasty Surgeons (HEARS study). <em>RCSEng</em> 2021.</li>
+      <li>[35] Exposure to methylmethacrylate in an orthopaedic operating theatre. <em>Oxford Academic / Occup Med</em> 1996;46(4):322.</li>
+      <li>[37] Occupational Hazards Facing Orthopedic Surgeons. <em>AAOS / MDedge</em>.</li>
+      <li>[38–39] Prevalence, risk factors, and prevention strategies for intraoperative sharp object injuries. <em>PMC / NIH</em> (2025). PMC12517843.</li>
+      <li>[41–42] Blunt versus sharp suture needles for preventing percutaneous exposure incidents. <em>PMC / NIH / CDC</em>. PMC7387125.</li>
+      <li>[43–44] Orthopedic surgeon burnout / Systematic review of prevalence. <em>Becker's Spine Review / PMC</em> (2024). PMC11658881.</li>
+      <li>[46] Orthopaedic Surgeons Have a High Prevalence of Burnout, Depression, and Suicide. <em>PubMed</em> (2022). PMID: 35171879.</li>
+      <li>[47–48] Factors Influencing US Physician and Surgeon Suicide Rates. <em>Oxford Academic / PubMed</em>.</li>
+      <li>[49–50] Doctors and Divorce. <em>Harvard Medical School</em>.</li>
+      <li>[51–53] Exoskeletons for surgeons. <em>PMC / NIH / ResearchGate</em>.</li>
+    </ol>
+    </p>
+  </section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Parameters and Recommendations">
+
+  <!-- SLIDER PANEL -->
+  <div class="panel">
+    <div class="panel-title">🔬 Clinical Parameter Explorer</div>
+
+    <!-- Slider 1: Lead Apron Weight -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Lead Apron Weight</span>
+        <span class="slider-value" id="weight-val">12 kg</span>
+      </div>
+      <input type="range" id="weight-slider" min="7" max="17" value="12" step="0.5"
+             aria-label="Lead apron weight in kilograms"
+             aria-valuemin="7" aria-valuemax="17" aria-valuenow="12"
+             oninput="updateAll()">
+      <div class="risk-meter"><div class="risk-meter-fill" id="weight-meter" style="width:50%;background:#ecc94b;"></div></div>
+      <div class="slider-note">Source range: 7–17 kg (standard radiation protective garments) [7]</div>
+    </div>
+
+    <!-- Slider 2: Cumulative Career Radiation Dose -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Career Cumulative Dose</span>
+        <span class="slider-value" id="dose-val">20 mSv</span>
+      </div>
+      <input type="range" id="dose-slider" min="0" max="100" value="20" step="1"
+             aria-label="Cumulative career radiation dose in millisieverts"
+             oninput="updateAll()">
+      <div class="risk-meter"><div class="risk-meter-fill" id="dose-meter" style="width:20%;background:#48bb78;"></div></div>
+      <div class="slider-note">Cataract threshold: &gt;60 mSv ↑ risk 25% [17–18]; ICRP annual limit: 20 mSv [14]</div>
+    </div>
+
+    <!-- Slider 3: Operating Room Noise Level -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>OR Noise Level</span>
+        <span class="slider-value" id="noise-val">90 dB</span>
+      </div>
+      <input type="range" id="noise-slider" min="70" max="140" value="90" step="1"
+             aria-label="Operating room noise level in decibels"
+             oninput="updateAll()">
+      <div class="risk-meter"><div class="risk-meter-fill" id="noise-meter" style="width:28%;background:#ecc94b;"></div></div>
+      <div class="slider-note">NIOSH action level: 85 dB (8-hr TWA) [30]; Saw range: 87–131 dB</div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATION PANEL -->
+  <div class="panel" id="rec-panel">
+    <div class="panel-title">📋 Real-Time Risk Assessment</div>
+    <div id="recommendation-content"></div>
+  </div>
+
+  <!-- KEY THRESHOLDS -->
+  <div class="panel">
+    <div class="panel-title">📏 Key Thresholds from Source</div>
+    <ul style="font-size:0.82rem; padding-left:1.2rem; color:var(--gray-700); line-height:1.8;">
+      <li><strong>Lead apron:</strong> 7–17 kg; 300 psi lumbar disc compression [7–8]</li>
+      <li><strong>ICRP annual limit:</strong> 20 mSv whole body [14]</li>
+      <li><strong>Cataract risk:</strong> ↑25% at &gt;60 mSv career [17–18]</li>
+      <li><strong>Breast cancer:</strong> 3.97× in female surgeons [22–23]</li>
+      <li><strong>NIOSH hearing:</strong> Protection required &gt;85 dB [30]</li>
+      <li><strong>Saw noise:</strong> 87–131 dB; impaction &gt;140 dB [30]</li>
+      <li><strong>Neutral zone:</strong> ↓ sharps injury 59% [40]</li>
+      <li><strong>Blunt needles:</strong> ↓ glove perforation 54% [41–42]</li>
+    </ul>
+    <div class="limitation-note" style="margin-top:0.75rem;">
+      <strong>⚠️ Note:</strong> Thresholds and percentages are derived directly from the source document. Slider ranges use source-reported values where available.
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="polite">✓ Summary copied to clipboard!</div>
+
+<script>
+function updateAll() {
+  // Read slider values
+  const weight = parseFloat(document.getElementById('weight-slider').value);
+  const dose = parseFloat(document.getElementById('dose-slider').value);
+  const noise = parseFloat(document.getElementById('noise-slider').value);
+
+  // Update displayed values
+  document.getElementById('weight-val').textContent = weight + ' kg';
+  document.getElementById('dose-val').textContent = dose + ' mSv';
+  document.getElementById('noise-val').textContent = noise + ' dB';
+
+  // --- WEIGHT METER ---
+  const wPct = ((weight - 7) / (17 - 7)) * 100;
+  const wMeter = document.getElementById('weight-meter');
+  wMeter.style.width = wPct + '%';
+  if (wPct < 33) { wMeter.style.background = '#48bb78'; }
+  else if (wPct < 66) { wMeter.style.background = '#ecc94b'; }
+  else { wMeter.style.background = '#e53e3e'; }
+
+  // --- DOSE METER ---
+  const dPct = Math.min((dose / 100) * 100, 100);
+  const dMeter = document.getElementById('dose-meter');
+  dMeter.style.width = dPct + '%';
+  if (dose < 20) { dMeter.style.background = '#48bb78'; }
+  else if (dose < 60) { dMeter.style.background = '#ecc94b'; }
+  else { dMeter.style.background = '#e53e3e'; }
+
+  // --- NOISE METER ---
+  const nPct = ((noise - 70) / (140 - 70)) * 100;
+  const nMeter = document.getElementById('noise-meter');
+  nMeter.style.width = nPct + '%';
+  if (noise < 85) { nMeter.style.background = '#48bb78'; }
+  else if (noise < 100) { nMeter.style.background = '#ecc94b'; }
+  else { nMeter.style.background = '#e53e3e'; }
+
+  // --- GENERATE RECOMMENDATION ---
+  generateRecommendation(weight, dose, noise);
+}
+
+function generateRecommendation(weight, dose, noise) {
+  let html = '';
+  let overallRisk = 0;
+  const risks = [];
+
+  // === WEIGHT ANALYSIS ===
+  let wRisk = 'Low';
+  let wColor = '#276749';
+  const discPressure = Math.round((weight / 15) * 300); // proportional to source: 15 lb ≈ 300 psi
+  if (weight >= 14) { wRisk = 'High'; wColor = '#e53e3e'; overallRisk += 3; }
+  else if (weight >= 10) { wRisk = 'Moderate'; wColor = '#d69e2e'; overallRisk += 2; }
+  else { overallRisk += 1; }
+
+  html += '<div style="margin-bottom:1rem;">';
+  html += '<strong style="color:' + wColor + ';">🦴 MSD Risk: ' + wRisk + '</strong>';
+  html += '<p style="font-size:0.82rem;margin:0.3rem 0;">Estimated lumbar disc compression: <strong>~' + discPressure + ' psi</strong></p>';
+  html += '<ul style="font-size:0.82rem;padding-left:1.2rem;margin-top:0.3rem;">';
+  if (weight >= 14) {
+    html += '<li>Consider transition to <strong>lead-free composite</strong> (20–25% lighter) [26–28]</li>';
+    html += '<li>Strongly consider <strong>ceiling-mounted suspension system</strong> to eliminate axial load [8]</li>';
+    html += '<li>Implement <strong>passive back-support exoskeleton</strong> [12]</li>';
+    html += '<li>Mandatory <strong>micro-breaks</strong> every 30–60 min; core strengthening program [54–55]</li>';
+  } else if (weight >= 10) {
+    html += '<li>Consider <strong>lead-free apron</strong> to reduce weight further [26–28]</li>';
+    html += '<li>Implement <strong>intraoperative micro-breaks</strong> (20–60 sec/hour) [6.2]</li>';
+    html += '<li>Core conditioning program recommended: dead bugs, planks, bridges [54–55]</li>';
+  } else {
+    html += '<li>Weight is within lower range. Continue ergonomic best practices.</li>';
+    html += '<li>Regular stretching and cervical conditioning still recommended.</li>';
+  }
+  html += '</ul></div>';
+
+  // === DOSE ANALYSIS ===
+  let dRisk = 'Low';
+  let dColor = '#276749';
+  let cataractRisk = 0;
+  if (dose > 60) { cataractRisk = 25; }
+  if (dose >= 50) { dRisk = 'Critical'; dColor = '#e53e3e'; overallRisk += 3; }
+  else if (dose >= 20) { dRisk = 'Elevated'; dColor = '#d69e2e'; overallRisk += 2; }
+  else { overallRisk += 1; }
+
+  html += '<div style="margin-bottom:1rem;">';
+  html += '<strong style="color:' + dColor + ';">☢️ Radiation Risk: ' + dRisk + '</strong>';
+  html += '<p style="font-size:0.82rem;margin:0.3rem 0;">ICRP annual limit: 20 mSv/yr (avg 5 yr). Current: <strong>' + dose + ' mSv</strong> cumulative.</p>';
+  if (cataractRisk > 0) {
+    html += '<p style="font-size:0.82rem;margin:0.3rem 0;color:#e53e3e;">⚠️ Cataract risk elevated: ~' + cataractRisk + '% increased likelihood at this cumulative dose [17–18]</p>';
+  }
+  html += '<ul style="font-size:0.82rem;padding-left:1.2rem;margin-top:0.3rem;">';
+  if (dose >= 50) {
+    html += '<li><strong>Urgent:</strong> Enforce <strong>leaded eyewear</strong> (attenuates ocular dose &gt;90%) [18]</li>';
+    html += '<li>Implement <strong>real-time dosimetry</strong> with visual feedback [6.3]</li>';
+    html += '<li>Maximize distance during imaging (Inverse Square Law: step back → ↓70% dose) [15]</li>';
+    html += '<li>Female surgeons: ensure <strong>axillary shielding</strong> (UOQ breast cancer risk 3.97×) [22–25]</li>';
+    html += '<li>Consider <strong>thyroid shield optimization</strong> [2.3]</li>';
+  } else if (dose >= 20) {
+    html += '<li>At/above annual ICRP limit. Ensure strict use of <strong>all PPE</strong>.</li>';
+    html += '<li><strong>Leaded eyewear</strong> strongly recommended for cataract prevention [17–18]</li>';
+    html += '<li>Female surgeons: request <strong>axillary-wing apron</strong> design [24–25]</li>';
+    html += '<li>Practice ALARA: collimation, pulsed fluoro, stepping back when possible [15]</li>';
+  } else {
+    html += '<li>Dose within acceptable range. Continue ALARA principles.</li>';
+    html += '<li>Maintain use of thyroid shield and leaded eyewear as standard practice.</li>';
+  }
+  html += '</ul></div>';
+
+  // === NOISE ANALYSIS ===
+  let nRisk = 'Low';
+  let nColor = '#276749';
+  if (noise >= 100) { nRisk = 'Critical'; nColor = '#e53e3e'; overallRisk += 3; }
+  else if (noise >= 85) { nRisk = 'Elevated'; nColor = '#d69e2e'; overallRisk += 2; }
+  else { overallRisk += 1; }
+
+  const nioshTWA = noise >= 85 ? ((8 * Math.pow(2, (85 - 85) / 3)) / Math.pow(2, (noise - 85) / 3)).toFixed(1) : '>8';
+
+  html += '<div style="margin-bottom:1rem;">';
+  html += '<strong style="color:' + nColor + ';">🔊 Hearing Risk: ' + nRisk + '</strong>';
+  html += '<p style="font-size:0.82rem;margin:0.3rem 0;">NIOSH ceiling: 85 dB (8-hr TWA). Current level: <strong>' + noise + ' dB</strong>.</p>';
+  if (noise >= 140) {
+    html += '<p style="font-size:0.82rem;margin:0.3rem 0;color:#e53e3e;">⚠️ Impulse noise zone (&gt;140 dB): immediate cochlear hair cell micro-trauma risk [30]</p>';
+  }
+  html += '<ul style="font-size:0.82rem;padding-left:1.2rem;margin-top:0.3rem;">';
+  if (noise >= 100) {
+    html += '<li><strong>Mandatory hearing protection</strong> (earplugs ± earmuffs) at this level [30]</li>';
+    html += '<li>Risk of sensorineural hearing loss with "4000 Hz notch" pattern [30]</li>';
+    html += '<li>Consider <strong>noise-dampening instrument covers</strong> or quieter tool alternatives</li>';
+    html += '<li>Baseline and annual audiometric testing recommended</li>';
+  } else if (noise >= 85) {
+    html += '<li><strong>Hearing protection recommended</strong> per NIOSH guidelines [30]</li>';
+    html += '<li>Periodic audiometric monitoring advised</li>';
+    html += '<li>Communication concerns: use electronic hearing protection with pass-through audio</li>';
+  } else {
+    html += '<li>Below NIOSH action level. Standard precautions apply.</li>';
+    html += '<li>Be aware of intermittent high-level events (hammering, impaction).</li>';
+  }
+  html += '</ul></div>';
+
+  // === OVERALL RISK SUMMARY ===
+  let overallLabel, overallColor;
+  if (overallRisk >= 8) { overallLabel = 'CRITICAL'; overallColor = '#e53e3e'; }
+  else if (overallRisk >= 6) { overallLabel = 'HIGH'; overallColor = '#dd6b20'; }
+  else if (overallRisk >= 4) { overallLabel = 'MODERATE'; overallColor = '#d69e2e'; }
+  else { overallLabel = 'LOW'; overallColor = '#276749'; }
+
+  html += '<div style="background:' + overallColor + ';color:white;padding:0.6rem 1rem;border-radius:var(--radius);text-align:center;font-weight:700;font-size:0.95rem;">';
+  html += 'Overall Risk Profile: ' + overallLabel;
+  html += '</div>';
+
+  html += '<div class="recommendation-box" style="margin-top:0.75rem;">';
+  html += '<h4>Key Evidence-Based Actions</h4><ul>';
+  if (overallRisk >= 6) {
+    html += '<li>Comprehensive ergonomic intervention required (exoskeleton + PPE upgrade) [12, 26]</li>';
+    html += '<li>Institutional radiation safety audit recommended [6.3]</li>';
+    html += '<li>Immediate hearing assessment and protection deployment [30]</li>';
+    html += '<li>Mental health check-in: burnout prevalence 40–60% in orthopedic surgeons [43–44]</li>';
+  } else if (overallRisk >= 4) {
+    html += '<li>Preventive conditioning program: core strengthening + cervical exercises [54–57]</li>';
+    html += '<li>Review PPE adequacy; consider lead-free transition if applicable [26–28]</li>';
+    html += '<li>Normalize intraoperative micro-breaks [6.2]</li>';
+  } else {
+    html += '<li>Continue current protective measures and ergonomic best practices</li>';
+    html += '<li>Stay informed on evolving safety technologies (exoskeletons, zero-gravity PPE) [12, 51–53]</li>';
+  }
+  html += '</ul></div>';
+
+  document.getElementById('recommendation-content').innerHTML = html;
+}
+
+function resetSliders() {
+  document.getElementById('weight-slider').value = 12;
+  document.getElementById('dose-slider').value = 20;
+  document.getElementById('noise-slider').value = 90;
+  updateAll();
+}
+
+function exportSummary() {
+  const weight = document.getElementById('weight-slider').value;
+  const dose = document.getElementById('dose-slider').value;
+  const noise = document.getElementById('noise-slider').value;
+
+  const wPct = (((weight - 7) / 10) * 100).toFixed(0);
+  let wRisk = wPct >= 66 ? 'High' : (wPct >= 33 ? 'Moderate' : 'Low');
+  let dRisk = dose >= 50 ? 'Critical' : (dose >= 20 ? 'Elevated' : 'Low');
+  let nRisk = noise >= 100 ? 'Critical' : (noise >= 85 ? 'Elevated' : 'Low');
+  const discPressure = Math.round((weight / 15) * 300);
+  let cataractNote = dose > 60 ? 'Cataract risk: ~25% increased likelihood at >60 mSv career dose.' : 'Cataract risk below elevated threshold.';
+
+  let overallRisk = 0;
+  if (weight >= 14) overallRisk += 3; else if (weight >= 10) overallRisk += 2; else overallRisk += 1;
+  if (dose >= 50) overallRisk += 3; else if (dose >= 20) overallRisk += 2; else overallRisk += 1;
+  if (noise >= 100) overallRisk += 3; else if (noise >= 85) overallRisk += 2; else overallRisk += 1;
+  let overallLabel = overallRisk >= 8 ? 'CRITICAL' : (overallRisk >= 6 ? 'HIGH' : (overallRisk >= 4 ? 'MODERATE' : 'LOW'));
+
+  const timestamp = new Date().toLocaleString();
+
+  const text = `OCCUPATIONAL HEALTH RISK ASSESSMENT — ORTHOPEDIC SURGERY
+============================================================
+Generated: ${timestamp}
+
+PARAMETERS:
+  • Lead Apron Weight:           ${weight} kg (Range: 7–17 kg)
+  • Career Cumulative Dose:      ${dose} mSv (ICRP annual limit: 20 mSv)
+  • Operating Room Noise Level:  ${noise} dB (NIOSH action level: 85 dB)
+
+RISK ANALYSIS:
+  • MSD Risk (Lead Apron):       ${wRisk} — Estimated disc compression: ~${discPressure} psi
+  • Radiation Risk:              ${dRisk} — ${cataractNote}
+  • Hearing Loss Risk:           ${nRisk} — ${noise >= 140 ? 'Impulse noise zone: immediate cochlear damage risk' : (noise >= 85 ? 'Above NIOSH threshold' : 'Below action level')}
+
+OVERALL RISK PROFILE: ${overallLabel}
+
+RECOMMENDATIONS:
+${overallRisk >= 6 ? `  - Comprehensive ergonomic intervention (exoskeleton + PPE upgrade) [Refs 12, 26]
+  - Institutional radiation safety audit [Ref 6.3]
+  - Hearing assessment + protection [Ref 30]
+  - Mental health screening (burnout 40–60%) [Refs 43–44]` : (overallRisk >= 4 ? `  - Preventive conditioning: core + cervical exercises [Refs 54–57]
+  - Review PPE adequacy; consider lead-free transition [Refs 26–28]
+  - Normalize intraoperative micro-breaks [Ref 6.2]` : `  - Continue current protective measures and ergonomic best practices
+  - Stay informed on exoskeleton and zero-gravity PPE developments [Refs 12, 51–53]`)}
+
+EVIDENCE BASIS:
+  All thresholds and percentages are derived from the source systematic review document.
+  Key references: [1] Systematic Review of MSDs; [7–8] Lead apron biomechanics;
+  [14] ICRP dose limits; [17–18] Cataract risk; [22–25] Female surgeon breast cancer;
+  [30] Noise scoping review; [38] Sharps injury prevalence; [43–44] Burnout systematic review.
+
+============================================================
+Source: "Occupational Health Crisis in Orthopedic Surgery: A Systemic Review"
+`;
+
+  navigator.clipboard.writeText(text).then(function() {
+    showToast();
+  }).catch(function() {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast();
+  });
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', updateAll);
+</script>
+
+</body>
+</html>

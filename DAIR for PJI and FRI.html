@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAIR: Evidence-Based Guidelines for Periprosthetic &amp; Fracture-Related Infections</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fa;--surface:#ffffff;--text:#1a1a2e;--muted:#6c757d;
+  --primary:#1e3a5f;--primary-light:#2d5f8a;--accent:#0066cc;--accent-light:#e8f0fe;
+  --success:#28a745;--warning:#fd7e14;--danger:#dc3545;
+  --border:#dee2e6;--radius:8px;--shadow:0 2px 12px rgba(0,0,0,.08);
+  --sidebar-w:340px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1e3a5f 0%,#2d5f8a 50%,#0066cc 100%);color:#fff;padding:2rem 1.5rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.site-header h1{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.3rem}
+.site-header .subtitle{font-size:.85rem;opacity:.85;font-weight:400;max-width:700px;margin:0 auto}
+@media(min-width:768px){.site-header h1{font-size:1.85rem}.site-header .subtitle{font-size:.95rem}}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr;max-width:1400px;margin:0 auto;padding:1rem;gap:1.5rem}
+@media(min-width:1024px){.layout{grid-template-columns:1fr var(--sidebar-w);padding:1.5rem 2rem}}
+
+/* Main Content */
+.main-content{min-width:0}
+.section{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem 1.5rem 2rem;margin-bottom:1.5rem;border:1px solid var(--border)}
+@media(min-width:768px){.section{padding:2rem 2.5rem 2.5rem}}
+.section h2{font-size:1.3rem;font-weight:700;color:var(--primary);border-bottom:3px solid var(--accent);padding-bottom:.5rem;margin-bottom:1.2rem}
+.section h3{font-size:1.1rem;font-weight:600;color:var(--primary-light);margin:1.5rem 0 .6rem}
+.section h4{font-size:1rem;font-weight:600;color:var(--text);margin:1.2rem 0 .5rem}
+.section p,.section li{font-size:.92rem;margin-bottom:.6rem}
+.section ul,.section ol{padding-left:1.4rem;margin-bottom:.8rem}
+.section li{margin-bottom:.4rem}
+.section strong{color:var(--primary)}
+
+/* Evidence Badges */
+.ev{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 7px;border-radius:4px;vertical-align:middle;margin-left:4px;letter-spacing:.03em}
+.ev-i{background:#d4edda;color:#155724}
+.ev-ii{background:#cce5ff;color:#004085}
+.ev-iii{background:#fff3cd;color:#856404}
+.ev-iv{background:#f8d7da;color:#721c24}
+.ev-v{background:#e2e3e5;color:#383d41}
+.ev-ns{background:#e9ecef;color:#495057;font-weight:500}
+
+/* Callout Boxes */
+.callout{border-left:4px solid var(--accent);background:var(--accent-light);padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1rem 0;font-size:.9rem}
+.callout.warning{border-left-color:var(--warning);background:#fff8e1}
+.callout.danger{border-left-color:var(--danger);background:#fde8e8}
+.callout.success{border-left-color:var(--success);background:#e8f5e9}
+.callout-title{font-weight:700;margin-bottom:.3rem;font-size:.85rem}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.82rem;line-height:1.5}
+table caption{font-weight:700;font-size:.85rem;padding:.8rem;background:var(--primary);color:#fff;text-align:left;letter-spacing:.02em}
+th{background:#e9ecef;font-weight:600;text-align:left;padding:.55rem .7rem;border:1px solid var(--border);white-space:nowrap}
+td{padding:.55rem .7rem;border:1px solid var(--border);vertical-align:top}
+tr:nth-child(even){background:#f8f9fa}
+.highlight-row{background:#e8f0fe !important;font-weight:600}
+
+/* Sidebar */
+.sidebar{position:sticky;top:90px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto}
+.sidebar-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);padding:1.2rem;margin-bottom:1rem}
+.sidebar-card h3{font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:1rem;text-align:center;border-bottom:2px solid var(--accent);padding-bottom:.5rem}
+.slider-group{margin-bottom:1.3rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem}
+.slider-label span:first-child{font-size:.82rem;font-weight:600;color:var(--text)}
+.slider-val{font-size:.95rem;font-weight:700;color:var(--accent);min-width:50px;text-align:right}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--success) 0%,var(--warning) 50%,var(--danger) 100%);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25);cursor:pointer}
+.threshold-note{font-size:.72rem;color:var(--muted);margin-top:.2rem;font-style:italic}
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{flex:1;padding:.55rem .7rem;border:none;border-radius:var(--radius);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;min-width:100px}
+.btn-reset{background:#e9ecef;color:var(--text)}
+.btn-reset:hover{background:#dee2e6}
+.btn-copy{background:var(--accent);color:#fff}
+.btn-copy:hover{background:var(--primary)}
+.btn-export{background:var(--success);color:#fff}
+.btn-export:hover{background:#1e7e34}
+
+/* Recommendation Box */
+.recommendation-box{margin-top:1rem;padding:1rem;border-radius:var(--radius);border:2px solid var(--border);font-size:.85rem;line-height:1.6;min-height:80px;transition:all .3s}
+.recommendation-box.high{border-color:var(--success);background:#e8f5e9}
+.recommendation-box.moderate{border-color:var(--warning);background:#fff8e1}
+.recommendation-box.low{border-color:var(--danger);background:#fde8e8}
+.rec-title{font-weight:700;font-size:.9rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.4rem}
+.rec-body{font-size:.82rem}
+
+/* Toast */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--primary);color:#fff;padding:.8rem 1.5rem;border-radius:var(--radius);font-size:.85rem;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.3);opacity:0;transform:translateY(20px);transition:all .3s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* Algorithm Flow */
+.flow-step{background:#f0f4f8;border-radius:var(--radius);padding:.8rem 1rem;margin-bottom:.6rem;border-left:4px solid var(--accent);position:relative}
+.flow-step .step-num{display:inline-block;background:var(--accent);color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:.75rem;font-weight:700;margin-right:.5rem;flex-shrink:0}
+.flow-step .step-title{font-weight:600;font-size:.88rem;display:inline}
+.flow-step p,.flow-step ul{font-size:.85rem;margin-top:.3rem}
+
+/* Reference List */
+.ref-list{counter-reset:ref;list-style:none;padding:0}
+.ref-list li{counter-increment:ref;font-size:.8rem;margin-bottom:.4rem;padding-left:1.8rem;position:relative;line-height:1.5}
+.ref-list li::before{content:"[" counter(ref) "]";position:absolute;left:0;font-weight:600;color:var(--accent)}
+
+/* Responsive Tweaks */
+@media(max-width:1023px){
+  .sidebar{position:static;max-height:none}
+  .site-header{position:static}
+}
+@media(max-width:480px){
+  .section{padding:1rem 1rem 1.2rem}
+  .section h2{font-size:1.15rem}
+  table{font-size:.75rem}
+  th,td{padding:.4rem .5rem}
+}
+
+/* Print */
+@media print{
+  .sidebar,.btn-row,.toast{display:none !important}
+  .layout{grid-template-columns:1fr}
+  .section{break-inside:avoid;box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Debridement, Antibiotics, and Implant Retention (DAIR)</h1>
+  <p class="subtitle">Evidence-Based Guidelines and Clinical Outcomes in Periprosthetic Joint Infection &amp; Fracture-Related Infection</p>
+</header>
+
+<div class="layout">
+<!-- ============ MAIN CONTENT ============ -->
+<main class="main-content" role="main">
+
+  <!-- Executive Summary -->
+  <section class="section" id="exec-summary">
+    <h2>I. Executive Summary</h2>
+    <p>DAIR represents a critical <strong>implant-sparing surgical strategy</strong> in the management of acute orthopedic implant-associated infections, applied to both <strong>periprosthetic joint infection (PJI)</strong> following total joint arthroplasty and <strong>fracture-related infection (FRI)</strong> associated with osteosynthesis hardware. <span class="ev ev-ii">Level II</span></p>
+    <p>While two-stage revision remains a benchmark for infection eradication, DAIR offers a less morbid alternative with potential for <strong>superior functional outcomes</strong>, <strong>reduced healthcare costs</strong>, and <strong>preservation of bone stock</strong> when applied to a meticulously selected patient population. <span class="ev ev-ii">Level II</span></p>
+
+    <div class="callout">
+      <div class="callout-title">Core Triad of DAIR Success</div>
+      <ol>
+        <li><strong>Accurate and timely diagnosis</strong> – using standardized, evidence-based criteria</li>
+        <li><strong>Radical surgical debridement</strong> – removal of all non-viable tissue</li>
+        <li><strong>Prolonged, pathogen-specific antimicrobial therapy</strong> – guided by intraoperative cultures</li>
+      </ol>
+    </div>
+
+    <p>Ideal candidates present with an <strong>early postoperative or acute hematogenous infection</strong>, a <strong>short duration of symptoms</strong>, a <strong>well-fixed and stable implant</strong>, and a <strong>healthy soft-tissue envelope</strong>. <span class="ev ev-ii">Level II</span> Host factors, particularly immunocompetence, are significant predictors of success. <span class="ev ev-iii">Level III</span></p>
+    <p>Clinical outcomes are variable: pooled infection control rates for PJI range between <strong>61% and 72%</strong>. <span class="ev ev-i">Level I</span> For FRI, in appropriately selected early cases, DAIR can achieve clinical remission and fracture union rates approaching <strong>86%</strong>. <span class="ev ev-iv">Level IV</span></p>
+  </section>
+
+  <!-- Pathophysiology -->
+  <section class="section" id="pathophysiology">
+    <h2>II. Foundational Principles: Biofilm &amp; Infection Classification</h2>
+
+    <h3>Biofilm Formation on Orthopedic Implants</h3>
+    <p>The introduction of a foreign body fundamentally alters the local host environment, creating a unique niche for microbial colonization. The central challenge lies in <strong>biofilm formation</strong>—a structured consortium of microorganisms encased in a self-produced extracellular polymeric substance (EPS), or glycocalyx, which adheres to the implant surface. <span class="ev ev-ns">Not specified in source</span></p>
+    <p>The process begins within hours of bacterial inoculation. Over approximately <strong>four weeks</strong>, bacteria proliferate and produce the EPS matrix (polysaccharides, proteins, lipids, extracellular DNA), creating a barrier that confers <strong>profound resistance</strong> to both the host immune system and antimicrobial agents. <span class="ev ev-ns">Not specified in source</span></p>
+
+    <div class="callout danger">
+      <div class="callout-title">Key Pathophysiological Principle</div>
+      <p>Bacteria within a biofilm can be up to <strong>10,000 times more resistant</strong> to antibiotics than planktonic counterparts, making surgical debridement an indispensable component of treatment. The biofilm also harbors <strong>"persister cells"</strong>—phenotypically dormant and highly antibiotic-tolerant—that serve as reservoirs for recurrence.</p>
+    </div>
+
+    <h3>Temporal Classification of Implant-Associated Infections</h3>
+    <p>The timing of infection onset is fundamental to determining treatment strategy, particularly eligibility for DAIR. <span class="ev ev-ii">Level II</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Infection Classification by Timing and Clinical Characteristics</caption>
+        <thead>
+          <tr><th>Type</th><th>Timing</th><th>Typical Organisms</th><th>Biofilm State</th><th>DAIR Eligibility</th></tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row"><td><strong>Acute Postoperative</strong></td><td>3–6 weeks to 3 months post-op</td><td><em>S. aureus</em>, gram-negative bacilli</td><td>Immature</td><td><strong>Yes – ideal</strong></td></tr>
+          <tr class="highlight-row"><td><strong>Acute Hematogenous</strong></td><td>Variable (months–years post-op); acute onset</td><td><em>S. aureus</em>, streptococci</td><td>Early stage</td><td><strong>Yes – if symptoms &lt;3 weeks</strong></td></tr>
+          <tr><td><strong>Chronic</strong></td><td>&gt;3–6 weeks to 3 months post-op</td><td>CoNS, <em>C. acnes</em></td><td>Mature, organized</td><td><strong>Generally no</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Fracture-Related Infection (FRI) Timelines</h4>
+    <p>The Willenegger and Roth classification divides FRI into early (&lt;2 weeks), delayed (3–10 weeks), and late (&gt;10 weeks). <span class="ev ev-ns">Not specified in source</span> However, there is growing consensus that these arbitrary time cutoffs are less clinically relevant than the <strong>biological state of the infection</strong>—implant stability, soft tissue condition, and signs of mature biofilm—than a strict calendar-based definition. <span class="ev ev-iii">Level III</span></p>
+  </section>
+
+  <!-- Diagnostic Framework -->
+  <section class="section" id="diagnostics">
+    <h2>III. Diagnostic Framework: Identifying DAIR Candidates</h2>
+
+    <h3>Periprosthetic Joint Infection (PJI): 2018 MSIS Criteria</h3>
+    <p>The 2018 International Consensus Meeting produced a revised, validated, score-based algorithm with <strong>sensitivity 97.7%</strong> and <strong>specificity 99.5%</strong>. <span class="ev ev-ii">Level II</span></p>
+
+    <h4>Major Criteria (Either independently confirms PJI)</h4>
+    <ol>
+      <li>A <strong>sinus tract</strong> communicating with the prosthesis</li>
+      <li><strong>Two or more positive</strong> periprosthetic cultures with phenotypically identical organisms</li>
+    </ol>
+
+    <h4>Minor Criteria – Preoperative Scoring</h4>
+    <div class="table-wrap">
+      <table>
+        <caption>2018 MSIS Diagnostic Criteria for Periprosthetic Joint Infection (PJI)</caption>
+        <thead>
+          <tr><th>Category</th><th>Test</th><th>Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td rowspan="2"><strong>Serum Markers</strong></td><td>Elevated CRP (&gt;10 mg/L) or D-dimer (&gt;860 ng/mL)</td><td>2</td></tr>
+          <tr><td>Elevated ESR (&gt;30 mm/h)</td><td>1</td></tr>
+          <tr><td rowspan="4"><strong>Synovial Fluid Markers</strong></td><td>Elevated WBC (&gt;3,000 cells/µL) or Leukocyte Esterase (++)</td><td>3</td></tr>
+          <tr><td>Positive Alpha-defensin</td><td>3</td></tr>
+          <tr><td>Elevated PMN% (&gt;80%)</td><td>2</td></tr>
+          <tr><td>Elevated synovial CRP (&gt;6.9 mg/L)</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-title">Score Interpretation</div>
+      <p><strong>≥6 → Infected</strong> &nbsp;|&nbsp; <strong>2–5 → Inconclusive</strong> (proceed to intraoperative diagnosis) &nbsp;|&nbsp; <strong>≤1 → Not Infected</strong></p>
+    </div>
+
+    <h4>Intraoperative Diagnosis (for inconclusive preoperative scores)</h4>
+    <div class="table-wrap">
+      <table>
+        <caption>Intraoperative Diagnostic Criteria</caption>
+        <thead><tr><th>Finding</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td>Positive Histology (&gt;5 PMNs/HPF)</td><td>3</td></tr>
+          <tr><td>Presence of Purulence</td><td>3</td></tr>
+          <tr><td>Single positive intraoperative culture</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Final Score (Preoperative + Intraoperative):</strong> ≥6 = Infected | 4–5 = Inconclusive | ≤3 = Not Infected</p>
+
+    <h3>Fracture-Related Infection (FRI): International Consensus Definition</h3>
+    <p>The AO Foundation / EBJIS consensus definition employs two tiers of diagnostic certainty. Validation showed that presence of ≥1 confirmatory sign has <strong>sensitivity 97.5%</strong> and <strong>specificity 100%</strong>. <span class="ev ev-iii">Level III</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Consensus Diagnostic Criteria for Fracture-Related Infection (FRI)</caption>
+        <thead>
+          <tr><th>Confirmatory Criteria (Any single criterion confirms FRI)</th><th>Suggestive Criteria (Prompt further investigation)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>1.</strong> Fistula, sinus, or wound breakdown communicating with bone/implant</td><td><strong>Clinical:</strong> Local redness, swelling, heat; fever ≥38.3°C; persistent wound drainage</td></tr>
+          <tr><td><strong>2.</strong> Purulent drainage or pus confirmed during surgery</td><td><strong>Laboratory:</strong> Elevated serum ESR, CRP</td></tr>
+          <tr><td><strong>3.</strong> Two positive cultures with phenotypically identical pathogens from deep tissue/implant</td><td><strong>Radiological:</strong> Nonunion, implant loosening, bone lysis, sequestrum, periosteal reaction</td></tr>
+          <tr><td><strong>4.</strong> Positive histology showing microorganisms or &gt;5 PMNs/HPF (chronic cases)</td><td><strong>Microbiological:</strong> Pathogen from single deep tissue/implant specimen</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-title">Evidence Gap: Diagnostic Framework Maturity</div>
+      <p>The PJI field benefits from a <strong>quantitative, validated scoring system</strong> enabling high-quality comparative research. The FRI consensus definition, while a monumental step forward, is <strong>fundamentally qualitative</strong> and lacks a unifying score. This heterogeneity makes pooling data across studies more challenging, and the FRI evidence base consequently remains less mature. <span class="ev ev-ii">Level II</span></p>
+    </div>
+  </section>
+
+  <!-- DAIR Procedure -->
+  <section class="section" id="procedure">
+    <h2>IV. The DAIR Procedure: Technical Protocol</h2>
+
+    <h3>Preoperative Planning</h3>
+    <p>A <strong>multidisciplinary team (MDT)</strong> approach—integrating orthopedic surgeons, infectious disease specialists, and clinical microbiologists—is paramount. <span class="ev ev-ii">Level II</span> Critical steps include:</p>
+    <ul>
+      <li><strong>Antibiotic holiday:</strong> Cessation of all antibiotics for ≥2 weeks prior to surgery (if not septic) to maximize culture yield. <span class="ev ev-iii">Level III</span></li>
+      <li><strong>Preoperative aspiration</strong> for organism identification and sensitivity planning. <span class="ev ev-iii">Level III</span></li>
+      <li><strong>Host optimization:</strong> Glycemic control, nutritional status, smoking cessation. <span class="ev ev-ns">Not specified in source</span></li>
+    </ul>
+
+    <h3>Surgical Principles: Radical Debridement &amp; Synovectomy</h3>
+    <p>The cornerstone is a <strong>radical, extensive debridement</strong> of all infected and necrotic tissue. <span class="ev ev-ii">Level II</span> The procedure involves:</p>
+    <ul>
+      <li>Reopening the original incision; excision of sinus tracts in their entirety</li>
+      <li>Systematic debridement through all tissue planes</li>
+      <li><strong>Radical synovectomy</strong> – removal of entire inflamed synovial lining</li>
+      <li>Dissection continues until only healthy, viable, bleeding tissue remains</li>
+      <li><strong>High-volume irrigation</strong> with 3–8+ liters of sterile fluid; pulsatile lavage favored</li>
+      <li>Interest in dilute antiseptic solutions: 0.05% chlorhexidine gluconate, povidone-iodine, or 97% ethanol <span class="ev ev-iii">Level III</span></li>
+    </ul>
+
+    <h3>Modular Component Exchange: The Controversy</h3>
+    <p>Exchange of modular components (polyethylene liner, femoral head) has been a long-standing principle to remove a significant septic focus. However, a <strong>2021 systematic review and meta-regression of 65 studies</strong> revealed a critical temporal shift: <span class="ev ev-i">Level I</span></p>
+
+    <div class="callout warning">
+      <div class="callout-title">Paradigm Shift in Modular Exchange Evidence</div>
+      <p>In studies published <strong>before 2004</strong>, modular exchange was positively associated with success. In studies published <strong>after 2004</strong> (37 studies), this association <strong>vanished</strong>—no statistically significant benefit. This suggests that as debridement techniques and antibiotic protocols have improved, the relative importance of this single step has diminished. The decision must now be made case-by-case. <span class="ev ev-i">Level I</span></p>
+    </div>
+
+    <h3>Microbiological Sampling</h3>
+    <ul>
+      <li>Minimum <strong>3–5 deep tissue samples</strong> from different areas around the implant <span class="ev ev-iii">Level III</span></li>
+      <li>New sterile instrument for each sample to prevent cross-contamination</li>
+      <li><strong>Swabs are unreliable</strong> and should be avoided</li>
+      <li>Cultures held for extended period (up to 14 days) for slow-growing organisms</li>
+    </ul>
+
+    <h3>Adjunctive Local Antibiotic Delivery</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>Local Antibiotic Delivery Systems as DAIR Adjuncts</caption>
+        <thead><tr><th>Type</th><th>Description</th><th>Advantages</th><th>Limitations</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PMMA Cement</strong> (non-resorbable)</td><td>Beads or spacers eluting antibiotics</td><td>Established, high local concentrations</td><td>Requires second surgery for removal; variable elution</td></tr>
+          <tr><td><strong>Calcium Sulphate</strong> (resorbable)</td><td>Pellets loaded with vancomycin/tobramycin</td><td>No removal needed; high local concentrations</td><td>Sterile wound drainage; hypercalcemia risk</td></tr>
+          <tr><td><strong>CLAP</strong></td><td>Continuous local antibiotic perfusion via catheters</td><td>Sustained high-concentration delivery</td><td>Limited evidence; catheter management</td></tr>
+          <tr><td><strong>Novel Systems</strong></td><td>Hydrogels, antibacterial coatings</td><td>Adjustable elution profiles</td><td>Preclinical/experimental stage</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><span class="ev ev-ns">Not specified in source</span> High-level RCT evidence for efficacy of local delivery as DAIR adjunct is currently lacking.</p>
+  </section>
+
+  <!-- PJI Application -->
+  <section class="section" id="pji">
+    <h2>V. DAIR in Acute Periprosthetic Joint Infection</h2>
+
+    <h3>Patient Selection Criteria</h3>
+    <p>IDSA clinical practice guidelines provide clear recommendations. <span class="ev ev-ii">Level II</span></p>
+    <ol>
+      <li><strong>Acute Postoperative PJI:</strong> Within ~30 days of index arthroplasty, symptoms &lt;3 weeks</li>
+      <li><strong>Acute Hematogenous PJI:</strong> Symptoms &lt;3 weeks duration</li>
+      <li><strong>Implant stability:</strong> Well-fixed, no radiographic loosening</li>
+      <li><strong>Soft tissue integrity:</strong> Healthy, amenable to primary closure</li>
+      <li><strong>Immunocompetent host</strong> <span class="ev ev-iii">Level III</span></li>
+    </ol>
+
+    <div class="callout">
+      <div class="callout-title">The "Time Window" Controversy</div>
+      <p>Rigid calendar-based cutoffs are an imperfect proxy for biofilm maturation. Data from the <strong>Dutch Arthroplasty Register</strong> found no significant difference in 1-year re-revision rates for DAIR performed &lt;4 weeks vs. 4–12 weeks post-arthroplasty. <span class="ev ev-iii">Level III</span> Duration of symptoms may be a more critical predictor than time from index surgery. <span class="ev ev-iii">Level III</span> Future paradigm shifts will come from tools that directly assess biofilm maturity rather than relying on calendar-based guesses.</p>
+    </div>
+
+    <h3>Antimicrobial Strategy</h3>
+    <p>Prolonged, targeted antimicrobial therapy is as critical as surgical debridement. <span class="ev ev-ii">Level II</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Guideline-Based Antibiotic Regimens for DAIR in PJI (IDSA Guidelines)</caption>
+        <thead><tr><th>Pathogen Group</th><th>IV Therapy</th><th>IV Duration</th><th>Oral Therapy (Total Duration)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Staphylococci</strong> (MSSA)</td><td>Nafcillin/Cefazolin + Rifampin</td><td>2–6 weeks</td><td>Rifampin + Companion Agent* (Hip 3 mo; Knee 6 mo)</td></tr>
+          <tr><td><strong>Staphylococci</strong> (MRSA)</td><td>Vancomycin/Daptomycin + Rifampin</td><td>2–6 weeks</td><td>Rifampin + Companion Agent* (Hip 3 mo; Knee 6 mo)</td></tr>
+          <tr><td><strong>Streptococci</strong></td><td>Penicillin G / Ceftriaxone</td><td>4–6 weeks</td><td>Oral beta-lactam (e.g., amoxicillin)</td></tr>
+          <tr><td><strong>Enterococci</strong></td><td>Penicillin/Ampicillin or Vancomycin</td><td>4–6 weeks</td><td>Oral amoxicillin (if susceptible)</td></tr>
+          <tr><td><strong>Gram-Negative Bacilli</strong></td><td>Pathogen-specific beta-lactam</td><td>4–6 weeks</td><td>Oral fluoroquinolone (if susceptible)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.78rem;color:var(--muted)">*Companion agents include ciprofloxacin, levofloxacin, co-trimoxazole, minocycline, or doxycycline, based on susceptibility. Source: IDSA Guidelines <span class="ev ev-ii">Level II</span></p>
+
+    <h3>The Rifampin Paradox</h3>
+    <p>Rifampin is positioned as the single most important medical adjunct for staphylococcal PJI. However, evidence reveals a nuanced reality: <span class="ev ev-i">Level I</span></p>
+    <ul>
+      <li>A <strong>2021 meta-analysis of 64 studies</strong> found rifampin addition yielded a pooled risk ratio of only <strong>1.10 (95% CI, 1.00–1.22)</strong>—statistically significant but modest. <span class="ev ev-i">Level I</span></li>
+      <li>A <strong>2023 study</strong> demonstrated that with rifampin-resistant staphylococcal PJI treated with DAIR, the infection relapse rate was an alarming <strong>80%</strong>, compared to <strong>51%</strong> in rifampin-sensitive strains. <span class="ev ev-iii">Level III</span></li>
+    </ul>
+
+    <div class="callout danger">
+      <div class="callout-title">Critical Decision Point</div>
+      <p><strong>Rifampin susceptibility is arguably the most important medical data point</strong> for any staphylococcal PJI considered for DAIR. A "resistant" result should prompt serious discussion about shifting to a two-stage revision, as the likelihood of implant salvage with DAIR is minimal. <span class="ev ev-iii">Level III</span></p>
+    </div>
+
+    <h3>Clinical Outcomes</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>DAIR Outcomes for Periprosthetic Joint Infection</caption>
+        <thead><tr><th>Metric</th><th>Value</th><th>Evidence Level</th></tr></thead>
+        <tbody>
+          <tr><td>Pooled infection control rate</td><td>61%–72%</td><td><span class="ev ev-i">Level I</span></td></tr>
+          <tr><td>Hip infection control rate</td><td>~70%</td><td><span class="ev ev-i">Level I</span></td></tr>
+          <tr><td>Knee infection control rate</td><td>~63%</td><td><span class="ev ev-i">Level I</span></td></tr>
+          <tr><td>CoNS success rate</td><td>73%–83%</td><td><span class="ev ev-i">Level I</span></td></tr>
+          <tr><td><em>S. aureus</em> success rate</td><td>54%–69%</td><td><span class="ev ev-i">Level I</span></td></tr>
+          <tr><td>10-year implant survivorship (post-successful DAIR)</td><td>77%–98%</td><td><span class="ev ev-iv">Level IV</span></td></tr>
+          <tr><td>Functional outcome</td><td>Comparable to primary arthroplasty; superior to 2-stage revision</td><td><span class="ev ev-ii">Level II</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Key predictors of failure:</strong> <em>S. aureus</em> (especially MRSA), delayed treatment, immunocompromised host, need for repeated DAIR. <span class="ev ev-iii">Level III</span></p>
+  </section>
+
+  <!-- FRI Application -->
+  <section class="section" id="fri">
+    <h2>VI. DAIR in Fracture-Related Infection</h2>
+
+    <h3>Critical Differences from PJI</h3>
+    <p>While the underlying biofilm principle is identical, several factors limit direct translation of PJI protocols to FRI: <span class="ev ev-iii">Level III</span></p>
+    <ul>
+      <li><strong>State of the bone:</strong> FRI occurs in unhealed fractures; the implant must provide stability for bone healing</li>
+      <li><strong>Implant nature:</strong> Fracture fixation hardware is often temporary vs. permanent arthroplasty components</li>
+      <li><strong>Soft tissue injury:</strong> Often severely compromised, especially in high-energy/open fractures</li>
+      <li><strong>Microbiology:</strong> <em>S. aureus</em> is more frequent in FRI (37.4%) vs. PJI (27.9%) <span class="ev ev-iii">Level III</span></li>
+    </ul>
+
+    <div class="callout danger">
+      <div class="callout-title">The Composite Endpoint: A Higher Clinical Hurdle</div>
+      <p>For FRI, success requires <strong>both infection eradication AND fracture consolidation</strong>—a dual requirement that represents a significantly higher hurdle than PJI. DAIR can fail in two ways: failure to control infection, <em>or</em> successful infection suppression but failure of fracture healing. <span class="ev ev-iv">Level IV</span></p>
+    </div>
+
+    <h3>Clinical Outcomes in FRI</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>DAIR Outcomes for Fracture-Related Infection</caption>
+        <thead><tr><th>Metric</th><th>Value</th><th>Evidence Level</th></tr></thead>
+        <tbody>
+          <tr><td>Clinical remission rate (early FRI)</td><td>~86.4%</td><td><span class="ev ev-iv">Level IV</span></td></tr>
+          <tr><td>Fracture union rate (early FRI)</td><td>~86.4%</td><td><span class="ev ev-iv">Level IV</span></td></tr>
+          <tr><td>Success when treated &lt;3 weeks</td><td>86%–100%</td><td><span class="ev ev-iii">Level III</span></td></tr>
+          <tr><td>Success when treated 3–10 weeks</td><td>82%–89%</td><td><span class="ev ev-iii">Level III</span></td></tr>
+          <tr><td>Success when treated &gt;10 weeks</td><td>~67%</td><td><span class="ev ev-iii">Level III</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-title">Evidence Gap</div>
+      <p>The evidence base for DAIR in FRI is <strong>less mature</strong> than for PJI, consisting primarily of retrospective cohort studies. <span class="ev ev-iv">Level IV</span> There is a notable absence of large, prospective, or randomized trials. Many treatment principles are still extrapolated from PJI research. <span class="ev ev-iii">Level III</span></p>
+    </div>
+  </section>
+
+  <!-- Comparative Summary -->
+  <section class="section" id="comparison">
+    <h2>VII. Comparative Summary: DAIR for PJI vs. FRI</h2>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Head-to-Head Comparison: DAIR in PJI vs. FRI</caption>
+        <thead><tr><th>Dimension</th><th>Periprosthetic Joint Infection (PJI)</th><th>Fracture-Related Infection (FRI)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Diagnostic Framework</strong></td><td>Quantitative, validated 2018 MSIS scoring system</td><td>Qualitative consensus criteria (confirmatory/suggestive)</td></tr>
+          <tr><td><strong>Evidence Maturity</strong></td><td>Extensive; numerous SR/MAs available</td><td>Limited; primarily retrospective cohorts</td></tr>
+          <tr><td><strong>Primary Surgical Goal</strong></td><td>Infection eradication to preserve functional joint</td><td>Infection eradication AND fracture consolidation</td></tr>
+          <tr><td><strong>Implant Characteristics</strong></td><td>Permanent, load-bearing joint replacement</td><td>Temporary internal fixation (plates, nails, screws)</td></tr>
+          <tr><td><strong>Pooled Success Rate</strong></td><td>61%–72%</td><td>~86% (early FRI, composite endpoint)</td></tr>
+          <tr><td><strong>Key Failure Predictors</strong></td><td><em>S. aureus</em>/MRSA, delayed Tx, immunocompromise</td><td>Unstable fixation, poor soft tissues, prior ex-fix, lower limb</td></tr>
+          <tr><td><strong>Antimicrobial Duration</strong></td><td>3–6 months (pathogen-specific)</td><td>Until fracture union achieved</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Emerging Frontiers -->
+  <section class="section" id="frontiers">
+    <h2>VIII. Emerging Frontiers &amp; Unresolved Controversies</h2>
+
+    <h3>Repeated DAIR</h3>
+    <p>While some studies identify repeat DAIR as a predictor of ultimate failure, <span class="ev ev-iii">Level III</span> recent evidence suggests it may still avoid implant removal in <strong>77.8%</strong> of cases. <span class="ev ev-iv">Level IV</span> The decision requires careful consideration of clinical status, pathogen, and reasons for initial failure.</p>
+
+    <h3>Biofilm Disruption Strategies</h3>
+    <ul>
+      <li><strong>Chemical adjuncts:</strong> 0.05% chlorhexidine gluconate shown superior to saline in reducing colony counts <span class="ev ev-iii">Level III</span></li>
+      <li><strong>Novel anti-biofilm agents:</strong> PLG0206 (peptide antibiotic) in clinical trials with potent anti-biofilm activity against staphylococci <span class="ev ev-ns">Not from source</span></li>
+      <li><strong>Enzymatic disruption:</strong> DNase I (targeting eDNA), quorum-sensing inhibitors, persister cell-targeting therapies (experimental) <span class="ev ev-ns">Not from source</span></li>
+    </ul>
+
+    <h3>Diagnostic Advances</h3>
+    <ul>
+      <li><strong>Synovial fluid calprotectin:</strong> Point-of-care test with sensitivity 98.1%, specificity 95.7% <span class="ev ev-iii">Level III</span></li>
+      <li><strong>Molecular methods:</strong> PCR and next-generation sequencing (NGS) offer culture-independent detection with faster turnaround <span class="ev ev-ns">Not from source</span></li>
+    </ul>
+  </section>
+
+  <!-- Clinical Algorithm -->
+  <section class="section" id="algorithm">
+    <h2>IX. Evidence-Based Algorithm for DAIR Decision-Making</h2>
+
+    <div class="flow-step"><span class="step-num">1</span><span class="step-title">Initial Suspicion</span><p>Patient presents with signs/symptoms of acute infection around an orthopedic implant (pain, swelling, erythema, drainage, fever).</p></div>
+
+    <div class="flow-step"><span class="step-num">2</span><span class="step-title">Diagnostic Workup</span>
+      <ul>
+        <li><strong>PJI:</strong> Apply 2018 MSIS criteria → serum ESR, CRP, D-dimer; joint aspiration for WBC, PMN%, alpha-defensin, culture</li>
+        <li><strong>FRI:</strong> Apply international consensus criteria → evaluate for confirmatory/suggestive signs; deep tissue cultures</li>
+      </ul>
+    </div>
+
+    <div class="flow-step"><span class="step-num">3</span><span class="step-title">DAIR Candidacy – "Four Pillars"</span>
+      <ul>
+        <li><strong>Timing:</strong> Acute infection? PJI: symptoms &lt;3 weeks, surgery &lt;30 days; FRI: early/delayed window (&lt;10 weeks)</li>
+        <li><strong>Implant stability:</strong> Well-fixed, no loosening; for FRI: adequate fixation for healing</li>
+        <li><strong>Soft tissues:</strong> Healthy, amenable to closure; absence of chronic sinus</li>
+        <li><strong>Host:</strong> Immunocompetent, medically optimized</li>
+      </ul>
+    </div>
+
+    <div class="flow-step"><span class="step-num">4</span><span class="step-title">Pathogen-Specific Consideration</span><p>For staphylococci: <strong>Isolate rifampin susceptibility.</strong> If resistant → DAIR success probability is extremely low → strongly consider two-stage revision.</p></div>
+
+    <div class="flow-step"><span class="step-num">5</span><span class="step-title">Decision Point</span>
+      <ul>
+        <li><strong>Proceed DAIR:</strong> All Four Pillars met, favorable pathogen</li>
+        <li><strong>Implant removal/revision:</strong> Chronic infection, loose implant, compromised soft tissues, severe immunocompromise, rifampin-resistant staphylococcus</li>
+      </ul>
+    </div>
+
+    <div class="flow-step"><span class="step-num">6</span><span class="step-title">Post-DAIR Management</span><p>Prolonged pathogen-specific antibiotics (3–6 months for PJI; until union for FRI), managed by MDT. Close clinical and laboratory follow-up.</p></div>
+  </section>
+
+  <!-- References -->
+  <section class="section" id="references">
+    <h2>References</h2>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">All references are derived from the source document. Numbered citations correspond to the original reference list.</p>
+    <ol class="ref-list">
+      <li>Bolduc et al. "Contemporary outcomes of debridement, antibiotics and implant retention (DAIR) in hip arthroplasty." <em>Annals of Joint</em>.</li>
+      <li>"Debridement, antibiotics and implant retention (DAIR) for the management of knee prosthetic joint infection." <em>The Kennedy Institute of Rheumatology</em>.</li>
+      <li>Middleton et al. "Contemporary outcomes of debridement, antibiotics and implant retention in knee arthroplasty." <em>Annals of Joint</em>.</li>
+      <li>"Current Guideline for Diagnosis of Periprosthetic Joint Infection: A Review Article." <em>Orthobullets</em>.</li>
+      <li>"The 2018 Definition of Periprosthetic Hip and Knee Infection: An Evidence-Based and Validated Criteria." <em>Orthobullets</em>.</li>
+      <li>"Fracture-Related Infection: JBJS Summary."</li>
+      <li>"Validation of the diagnostic criteria of the consensus definition of fracture-related infection." <em>Injury</em>.</li>
+      <li>"Diagnosis and Management of Prosthetic Joint Infection: Clinical Practice Guidelines by the IDSA." <em>Clin Infect Dis</em> 2013;56(1):e1.</li>
+      <li>"Management of Periprosthetic Joint Infection." <em>PMC</em>.</li>
+      <li>"The DAIR-procedure in fracture-related infection—When and how." <em>ResearchGate</em>.</li>
+      <li>"The DAIR (debridement, antibiotics and implant retention) procedure for infected total knee replacement – a literature review." <em>SICOT-J</em>.</li>
+      <li>"Outcome of Debridement, Antibiotics, and Implant Retention for Staphylococcal Hip and Knee Prosthetic Joint Infections, Focused on Rifampicin Use." <em>Open Forum Infect Dis</em> 2021;8(7).</li>
+      <li>"Early Staphylococcal PJI Treated with DAIR: Inferior Outcomes in Patients with Rifampicin-Resistant Staphylococci." <em>Antibiotics</em> 2023;12(11):1589.</li>
+      <li>"Debridement, antibiotics and implant retention for periprosthetic joint infections: A systematic review and meta-analysis." <em>PubMed</em> 2018.</li>
+      <li>"Modular component exchange and outcome of DAIR: a systematic review and meta-regression analysis." <em>ResearchGate</em> 2021.</li>
+      <li>"Outcomes of DAIR for early fracture related infection." <em>PubMed</em> 2024.</li>
+      <li>"Fracture-Related Infection—Epidemiology, Etiology, Diagnosis." <em>Dtsch Ärztebl Int</em>.</li>
+      <li>"DAIR (Debridement, Antibiotics and Implant Retention)." <em>drnickjohnson.com</em>.</li>
+      <li>"Diagnosing Fracture-Related Infections: Where Are We Now." <em>J Clin Microbiol</em> 2021.</li>
+      <li>"Prosthetic Joint Infection." <em>Orthobullets Recon</em>.</li>
+      <li>"Local Antibiotic Delivery Options in Prosthetic Joint Infection." <em>ResearchGate</em>.</li>
+      <li>"Natural Anti-biofilm Agents: Strategies to Control Biofilm-Forming Pathogens." <em>Front Microbiol</em> 2020.</li>
+      <li>"An Overview of Prosthetic Joint Infection (PJI) Definition and Diagnosis." <em>UC Davis Health</em>.</li>
+      <li>"The DAIR procedure for infected total knee replacement – A literature review." <em>ResearchGate</em>.</li>
+      <li>"Periprosthetic Joint Infection." <em>StatPearls – NCBI Bookshelf</em>.</li>
+      <li>"Current Guideline for Diagnosis of Periprosthetic Joint Infection." <em>PMC</em>.</li>
+      <li>"Periprosthetic Joint Infection: Current Clinical Challenges." <em>PMC</em>.</li>
+      <li>"General treatment principles for fracture-related infection." <em>SOGACOT</em>.</li>
+      <li>"Commentary: DAIR for the management of knee prosthetic joint infection." <em>Ortho Journal</em>.</li>
+      <li>"Classification and management options for prosthetic joint infection." <em>Annals of Joint</em>.</li>
+      <li>"Symptom duration is associated with failure of PJI treated with DAIR." <em>PMC</em>.</li>
+      <li>"Truth or DAIR? A review of debridement, antibiotics and implant retention." <em>SA Orthop J</em>.</li>
+      <li>"Current Concepts of Fracture-Related Infection." <em>PMC</em>.</li>
+      <li>"Managing fracture-related infection." <em>BoneSupport</em>.</li>
+      <li>"The influence of duration of infection on outcome of debridement and implant retention in FRI." <em>ResearchGate</em>.</li>
+      <li>"Functional outcome of DAIR in periprosthetic joint infection involving the hip."</li>
+      <li>"DAIR as curative strategy for acute periprosthetic hip and knee infections: EBJIS position paper." <em>JBJI</em> 2025.</li>
+      <li>"Truth or DAIR? A review." <em>SA Orthop J</em>.</li>
+      <li>"Current Guideline for Diagnosis of PJI." <em>Hip Pelvis</em> 2021;33(1):11.</li>
+      <li>"2018 MSIS Major Criteria for the Diagnosis of PJI." <em>NCBI</em>.</li>
+      <li>"2018 MSIS Minor Criteria for the Diagnosis of PJI." <em>NCBI</em>.</li>
+      <li>"The 2018 Definition of PJI: An Evidence Based and Validated Criteria." <em>ResearchGate</em>.</li>
+      <li>"2018 MSIS Intraoperative Criteria for the Diagnosis of PJI." <em>NCBI</em>.</li>
+      <li>"Diagnosing Fracture-Related Infection: Current Concepts." <em>PMC</em>.</li>
+      <li>"Definition and diagnosis of fracture-related infection." <em>PMC</em>.</li>
+      <li>"The Latest Approaches to Fracture-Related Infection." <em>ResearchGate</em>.</li>
+      <li>journals.asm.org (FRI diagnostic criteria).</li>
+      <li>"DAIR for PJI: A systematic review and meta-analysis." <em>ResearchGate</em>.</li>
+      <li>"Fracture-related infection: current methods for prevention and treatment." <em>Semantic Scholar</em>.</li>
+      <li>"The DAIR procedure for infected total knee replacement – a literature review." <em>PMC</em>.</li>
+      <li>"Management of prosthetic joint infections: Clinical practice guidelines by SEIMC."</li>
+      <li>"Evidence-Based Clinical Practice Guideline for PJI." <em>AAOS</em>.</li>
+      <li>"Acute periprosthetic knee infection: is there still a role for DAIR?" <em>PMC</em>.</li>
+      <li>"DAIR following hip and knee arthroplasty: results from a non-specialist centre." <em>RCSEng</em>.</li>
+      <li>"The value of repeated DAIR for early periprosthetic joint infection." <em>JBJI</em> 2025.</li>
+      <li>"Local Antibiotic Infusion in PJI Following THA." <em>MDPI J Clin Med</em>.</li>
+      <li>"Local Antibiotic Delivery Options in PJI." <em>PMC</em>.</li>
+      <li>"DAIR in treating chronic PJI using CLAP." <em>PMC</em>.</li>
+      <li>"Reply to Wouthuyzen-Bakker et al." <em>PMC</em>.</li>
+      <li>"Diagnosis and management of PJI: IDSA guidelines." <em>PubMed</em>.</li>
+      <li>"Executive Summary: Diagnosis and Management of PJI." <em>Oxford Academic</em>.</li>
+      <li>"Comparison of DAIR success with/without sinus tract." <em>ResearchGate</em>.</li>
+      <li>"Comparison of DAIR success with/without sinus tract." <em>PMC</em>.</li>
+      <li>"Timing of DAIR for early PJI: Dutch Arthroplasty Register data." <em>PMC</em>.</li>
+      <li>"Timing of DAIR for early PJI: Dutch Arthroplasty Register data." <em>JBJI</em> 2021.</li>
+      <li>"Symptom duration and DAIR failure." <em>Front Surg</em> 2022.</li>
+      <li>"Truth in DAIR: Duration of Therapy and Quinolone/Rifampin Regimens." <em>Oxford Academic</em>.</li>
+      <li>"Outcome following DAIR In Hip PJI – 18-year experience." <em>ResearchGate</em>.</li>
+      <li>"Microbiological Epidemiology: FRI vs. PJI." <em>PMC</em>.</li>
+      <li>"DAIR: Systematic Review for Early Infections after Revision TKA." <em>PMC</em>.</li>
+      <li>"PLG0206 Clinical Trial: DAIR for PJI after TKA." <em>Clinical Trial Finder</em>.</li>
+      <li>"New treatments for PJI." <em>Ohio State Medical Center</em>.</li>
+      <li>"Recent Strategies to Combat Biofilms." <em>PMC</em>.</li>
+      <li>"How to induce biofilm disassembly/dispersion?" <em>ResearchGate</em>.</li>
+      <li>"Strategies for combating bacterial biofilms." <em>PMC</em>.</li>
+      <li>"Targeting Biofilms Therapy." <em>MDPI Microorganisms</em>.</li>
+      <li>"Novel diagnostic markers for PJI." <em>Front Cell Infect Microbiol</em> 2023.</li>
+      <li>"Novel diagnostic markers for PJI: a systematic review." <em>Semantic Scholar</em>.</li>
+      <li>"Point of care testing for the diagnosis of PJI." <em>SICOT-J</em> 2024.</li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tools">
+
+  <div class="sidebar-card">
+    <h3>🔬 Clinical Decision Calculator</h3>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Duration of Symptoms</span>
+        <span class="slider-val" id="val-symptoms">1.5 weeks</span>
+      </div>
+      <input type="range" id="slider-symptoms" min="0" max="12" step="0.5" value="1.5" aria-label="Duration of symptoms in weeks">
+      <div class="threshold-note">Source guideline: &lt;3 weeks ideal for DAIR <span class="ev ev-ii" style="margin:0">Level II</span></div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Serum CRP Level</span>
+        <span class="slider-val" id="val-crp">15 mg/L</span>
+      </div>
+      <input type="range" id="slider-crp" min="0" max="200" step="1" value="15" aria-label="Serum CRP in mg/L">
+      <div class="threshold-note">MSIS threshold: &gt;10 mg/L = +2 points <span class="ev ev-ii" style="margin:0">Level II</span></div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Synovial Fluid WBC</span>
+        <span class="slider-val" id="val-wbc">5000 cells/µL</span>
+      </div>
+      <input type="range" id="slider-wbc" min="0" max="100000" step="500" value="5000" aria-label="Synovial fluid WBC count in cells per microliter">
+      <div class="threshold-note">MSIS threshold: &gt;3,000 cells/µL = +3 points <span class="ev ev-ii" style="margin:0">Level II</span></div>
+    </div>
+
+    <div class="recommendation-box high" id="rec-box" role="region" aria-live="polite">
+      <div class="rec-title" id="rec-title">✅ DAIR Recommendation: FAVORABLE</div>
+      <div class="rec-body" id="rec-body">
+        Based on current parameters, the patient presents within the ideal time window with biomarkers consistent with acute infection. DAIR candidacy is favorable pending confirmation of implant stability, soft tissue integrity, and host immunocompetence.
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy summary to clipboard">📋 Copy</button>
+      <button class="btn btn-export" id="btn-export" aria-label="Export summary as text file">💾 Export</button>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>📊 Quick Reference: MSIS Scoring</h3>
+    <p style="font-size:.78rem;margin-bottom:.5rem"><strong>Preoperative Thresholds:</strong></p>
+    <ul style="font-size:.78rem;padding-left:1rem;margin:0">
+      <li>CRP &gt;10 mg/L → <strong>+2</strong></li>
+      <li>ESR &gt;30 mm/h → <strong>+1</strong></li>
+      <li>WBC &gt;3,000/µL → <strong>+3</strong></li>
+      <li>Alpha-defensin (+) → <strong>+3</strong></li>
+      <li>PMN% &gt;80% → <strong>+2</strong></li>
+      <li>Synovial CRP &gt;6.9 mg/L → <strong>+1</strong></li>
+    </ul>
+    <div style="margin-top:.8rem;padding:.5rem;background:#e8f5e9;border-radius:4px;font-size:.78rem;text-align:center">
+      <strong>≥6 = Infected</strong> | 2–5 = Inconclusive | ≤1 = Not Infected
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>⚠️ Key Failure Predictors</h3>
+    <ul style="font-size:.78rem;padding-left:1rem;margin:0">
+      <li><strong>Pathogen:</strong> <em>S. aureus</em> (esp. MRSA)</li>
+      <li><strong>Timing:</strong> Delayed intervention</li>
+      <li><strong>Rifampin resistance</strong> (80% relapse rate)</li>
+      <li><strong>Host:</strong> Immunocompromised</li>
+      <li><strong>Repeated DAIR</strong> needed</li>
+      <li><strong>FRI-specific:</strong> Unstable fixation, prior ex-fix</li>
+    </ul>
+  </div>
+
+</aside>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  // Elements
+  const sliderSymptoms = document.getElementById('slider-symptoms');
+  const sliderCRP = document.getElementById('slider-crp');
+  const sliderWBC = document.getElementById('slider-wbc');
+  const valSymptoms = document.getElementById('val-symptoms');
+  const valCRP = document.getElementById('val-crp');
+  const valWBC = document.getElementById('val-wbc');
+  const recBox = document.getElementById('rec-box');
+  const recTitle = document.getElementById('rec-title');
+  const recBody = document.getElementById('rec-body');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  const defaults = { symptoms: 1.5, crp: 15, wbc: 5000 };
+
+  function formatWBC(v) {
+    if (v >= 1000) return (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'k';
+    return v;
+  }
+
+  function showToast(msg, duration) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, duration || 2500);
+  }
+
+  function update() {
+    var symptoms = parseFloat(sliderSymptoms.value);
+    var crp = parseFloat(sliderCRP.value);
+    var wbc = parseFloat(sliderWBC.value);
+
+    valSymptoms.textContent = symptoms + ' week' + (symptoms !== 1 ? 's' : '');
+    valCRP.textContent = crp + ' mg/L';
+    valWBC.textContent = wbc >= 1000 ? (wbc / 1000).toFixed(wbc % 1000 === 0 ? 0 : 1) + ' cells/µL' : wbc + ' cells/µL';
+
+    // Decision logic based on source document thresholds
+    var flags = [];
+    var score = 0; // Rough proxy
+
+    // Symptom duration
+    if (symptoms > 3) {
+      flags.push('symptom_duration');
+    }
+
+    // CRP
+    if (crp > 10) {
+      score += 2;
+    }
+
+    // WBC
+    if (wbc > 3000) {
+      score += 3;
+    }
+
+    // Determine recommendation
+    var level, title, body;
+
+    if (flags.indexOf('symptom_duration') !== -1 && symptoms > 6) {
+      level = 'low';
+      title = '⛔ DAIR Recommendation: UNFAVORABLE';
+      body = 'Symptom duration exceeds 6 weeks, suggesting potential chronic infection with mature biofilm. Per IDSA guidelines and source evidence, DAIR is generally contraindicated for chronic infections. Consider implant removal / staged revision. ' +
+        '(CRP: ' + crp + ' mg/L; Synovial WBC: ' + wbc + '/µL) ' +
+        '<em>Note: This calculator provides guidance only. Final decisions require multidisciplinary assessment of implant stability, soft tissues, host factors, and microbiology.</em>';
+    } else if (flags.indexOf('symptom_duration') !== -1) {
+      level = 'moderate';
+      title = '⚠️ DAIR Recommendation: CAUTION';
+      body = 'Symptom duration (' + symptoms + ' weeks) exceeds the ideal &lt;3-week window per IDSA guidelines. Evidence from the Dutch Arthroplasty Register suggests outcomes may be comparable up to 12 weeks, but success probability decreases with delayed intervention. ' +
+        'Biomarker score proxy: ~' + score + '/8. ' +
+        '<em>Proceed with caution; ensure radical debridement and consider rifampin if staphylococcal PJI. MDT discussion essential.</em>';
+    } else if (score >= 6) {
+      level = 'high';
+      title = '✅ DAIR Recommendation: FAVORABLE';
+      body = 'Patient presents within the ideal time window (&lt;3 weeks) with elevated inflammatory biomarkers consistent with acute infection (CRP ' + crp + ' mg/L, WBC ' + wbc + '/µL). Estimated MSIS preoperative proxy score: ~' + score + ' (≥6 = infected per 2018 MSIS criteria). ' +
+        'DAIR candidacy is favorable pending confirmation of: (1) implant stability, (2) soft tissue integrity, (3) host immunocompetence, and (4) rifampin susceptibility if staphylococcal.';
+    } else if (score >= 2) {
+      level = 'moderate';
+      title = '⚠️ DAIR Recommendation: FURTHER WORKUP NEEDED';
+      body = 'Symptom duration is within range (&lt;3 weeks), but biomarker score proxy (' + score + '/8) falls in the inconclusive range (2–5 per 2018 MSIS criteria). Proceed to intraoperative evaluation: histology (&gt;5 PMNs/HPF), purulence assessment, and cultures. ' +
+        'Inflammatory markers: CRP ' + crp + ' mg/L' + (crp > 10 ? ' (elevated)' : ' (normal)') + ', Synovial WBC ' + wbc + '/µL' + (wbc > 3000 ? ' (elevated)' : ' (normal)') + '.';
+    } else {
+      level = 'high';
+      title = '✅ DAIR Consideration: LOW PROBABILITY OF INFECTION';
+      body = 'Symptom duration is within range, but inflammatory biomarkers are not significantly elevated (CRP ' + crp + ' mg/L, WBC ' + wbc + '/µL). Estimated proxy score: ' + score + ' (≤1 effectively rules out PJI per MSIS criteria). ' +
+        'Consider aseptic etiology. If clinical suspicion remains high, proceed with aspiration and expanded workup including alpha-defensin and D-dimer.';
+    }
+
+    recBox.className = 'recommendation-box ' + level;
+    recTitle.innerHTML = title;
+    recBody.innerHTML = body;
+  }
+
+  function getReport() {
+    var symptoms = sliderSymptoms.value;
+    var crp = sliderCRP.value;
+    var wbc = sliderWBC.value;
+    var recText = recBody.textContent || recBody.innerText;
+    var timestamp = new Date().toISOString();
+
+    return 'DAIR Clinical Decision Report\n' +
+      '==============================\n' +
+      'Timestamp: ' + timestamp + '\n\n' +
+      'Parameters:\n' +
+      '  Duration of Symptoms: ' + symptoms + ' weeks\n' +
+      '  Serum CRP: ' + crp + ' mg/L\n' +
+      '  Synovial Fluid WBC: ' + wbc + ' cells/µL\n\n' +
+      'Recommendation:\n' +
+      '  ' + (recTitle.textContent || recTitle.innerText) + '\n' +
+      '  ' + recText.replace(/\s+/g, ' ').trim() + '\n\n' +
+      'Rationale: Based on 2018 MSIS Diagnostic Criteria for PJI and IDSA guidelines. ' +
+      'Key thresholds: symptom duration <3 weeks ideal; CRP >10 mg/L (+2 MSIS points); ' +
+      'WBC >3,000 cells/µL (+3 MSIS points); preoperative score ≥6 confirms PJI.\n\n' +
+      'Disclaimer: This tool is for educational purposes. Clinical decisions require MDT assessment.';
+  }
+
+  // Event listeners
+  sliderSymptoms.addEventListener('input', update);
+  sliderCRP.addEventListener('input', update);
+  sliderWBC.addEventListener('input', update);
+
+  btnReset.addEventListener('click', function(){
+    sliderSymptoms.value = defaults.symptoms;
+    sliderCRP.value = defaults.crp;
+    sliderWBC.value = defaults.wbc;
+    update();
+    showToast('Parameters reset to defaults');
+  });
+
+  btnCopy.addEventListener('click', function(){
+    var text = getReport();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){
+        showToast('✓ Report copied to clipboard');
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast('✓ Report copied to clipboard');
+    } catch(e) {
+      showToast('Copy failed – please select and copy manually');
+    }
+    document.body.removeChild(ta);
+  }
+
+  btnExport.addEventListener('click', function(){
+    var text = getReport();
+    var blob = new Blob([text], { type: 'text/plain' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'DAIR_Report_' + new Date().toISOString().slice(0,10) + '.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('✓ Report exported as text file');
+  });
+
+  // Initialize
+  update();
+})();
+</script>
+
+</body>
+</html>

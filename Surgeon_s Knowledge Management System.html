@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Integrated Surgical Knowledge System (ISKS) - Educational Summary</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2a4365;
+            --accent: #3182ce;
+            --light-bg: #f7fafc;
+            --sidebar-bg: #edf2f7;
+            --border: #e2e8f0;
+            --text: #1a202c;
+            --text-light: #718096;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --info: #3182ce;
+            --evidence-high: #9b2c2c;
+            --evidence-mid: #c05621;
+            --evidence-low: #2b6cb0;
+            --evidence-unspecified: #718096;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        main {
+            min-width: 0; /* Prevent grid blowout */
+        }
+
+        aside {
+            position: sticky;
+            top: 20px;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+
+        strong {
+            color: var(--text);
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .evidence-I, .evidence-II {
+            background-color: var(--evidence-high);
+            color: white;
+        }
+
+        .evidence-III {
+            background-color: var(--evidence-mid);
+            color: white;
+        }
+
+        .evidence-IV, .evidence-V {
+            background-color: var(--evidence-low);
+            color: white;
+        }
+
+        .evidence-unspecified {
+            background-color: var(--evidence-unspecified);
+            color: white;
+        }
+
+        .callout {
+            background-color: #ebf8ff;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .callout-title {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        table caption {
+            font-weight: 600;
+            color: var(--primary);
+            padding: 10px;
+            text-align: left;
+            background-color: var(--light-bg);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .slider-control {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .slider-value {
+            background: var(--accent);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .recommendation-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .recommendation-title::before {
+            content: "✓";
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2b6cb0;
+        }
+
+        .btn-secondary {
+            background-color: var(--sidebar-bg);
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        .btn-group {
+            margin-top: 1.5rem;
+        }
+
+        .note {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .reference-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .reference-list {
+            list-style-type: none;
+            padding-left: 0;
+            counter-reset: ref-counter;
+        }
+
+        .reference-list li {
+            counter-increment: ref-counter;
+            margin-bottom: 1rem;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+
+        .reference-list li::before {
+            content: counter(ref-counter) ".";
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            
+            aside {
+                position: static;
+                max-height: none;
+                margin-top: 2rem;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>The Integrated Surgical Knowledge System (ISKS)</h1>
+            <p>A comprehensive educational framework for personal knowledge management in orthopedic surgery, designed to enhance clinical practice, evidence-based medicine, and lifelong learning.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="layout">
+            <main>
+                <section>
+                    <h2>1. The Imperative for a Systematic Approach</h2>
+                    <p>Modern orthopedic surgery demands navigation of complex biomechanics, vast clinical data, evolving guidelines, and significant administrative burdens. Traditional, ad-hoc information management introduces cognitive friction, increases error risk, and impedes professional growth. A systematic Personal Knowledge Management (PKM) system is now a core instrument of contemporary surgical practice. <span class="evidence-badge evidence-I">Source Context</span></p>
+                    
+                    <div class="callout">
+                        <div class="callout-title">Cognitive Load Management</div>
+                        <p>The foundational principle of systems like Getting Things Done (GTD) is to mitigate cognitive burden by externalizing commitments into a trusted system. This frees the mind from low-level remembering, allowing it to achieve a state of clarity ("mind like water") and devote full cognitive resources to complex clinical problem-solving. <span class="evidence-badge evidence-II">GTD Methodology</span></p>
+                    </div>
+                    
+                    <h3>Professional and Clinical Mandates</h3>
+                    <p>The commitment to lifelong learning is a formal professional mandate. The American College of Surgeons (ACS) emphasizes a continuous process of self-assessment and education. A well-structured PKM system provides the infrastructure for a dynamic cycle of self-directed learning and a personal learning portfolio. <span class="evidence-badge evidence-IV">ACS Statement</span></p>
+                    <p>Evidence-Based Medicine (EBM) is the integration of clinical expertise, patient values, and best external evidence. Its five-step model (Ask, Acquire, Appraise, Apply, Assess) is an operational loop for clinical problem-solving. The ISKS provides the essential infrastructure to execute these steps consistently in a busy practice, transforming EBM from a theoretical ideal into a practical daily discipline. <span class="evidence-badge evidence-III">EBM Principles</span></p>
+                </section>
+
+                <section>
+                    <h2>2. Core Knowledge Management Frameworks</h2>
+                    <p>Three complementary frameworks form the architectural blueprints for the ISKS: GTD for workflow, P.A.R.A. for structure, and Zettelkasten for knowledge synthesis.</p>
+                    
+                    <h3>2.1 Getting Things Done (GTD): The Workflow OS</h3>
+                    <p>GTD's core principle is to capture all tasks ("open loops") into a trusted external system. Its five-stage workflow is: <strong>Capture</strong> (collect all inputs), <strong>Clarify</strong> (process items, define next actions), <strong>Organize</strong> (place into categories like calendar, next action lists, projects), <strong>Reflect</strong> (conduct a Weekly Review), and <strong>Engage</strong> (make trusted choices about what to work on). <span class="evidence-badge evidence-II">GTD Methodology</span></p>
+                    
+                    <h3>2.2 P.A.R.A.: The Anatomical Structure</h3>
+                    <p>The P.A.R.A. method organizes digital information by its actionability, not topic. The four top-level categories are: <strong>Projects</strong> (series of tasks with a goal), <strong>Areas</strong> (ongoing spheres of responsibility), <strong>Resources</strong> (topics of ongoing interest), and <strong>Archives</strong> (inactive items). This creates a universal, tool-agnostic structure. <span class="evidence-badge evidence-III">P.A.R.A. Method</span></p>
+                    
+                    <h3>2.3 Zettelkasten: The Engine of Insight</h3>
+                    <p>Zettelkasten is a tool for thinking that prioritizes connecting ideas over collecting information. Its core concepts are <strong>Atomicity</strong> (one idea per note), <strong>Dense Linking</strong> (intentional connections between notes), and a progression of <strong>Note Types</strong> (Fleeting → Literature → Permanent). This method builds a hypertextual web of thoughts, leading to novel insights and enhanced creativity. <span class="evidence-badge evidence-IV">Zettelkasten Principles</span></p>
+                    
+                    <table>
+                        <caption>Table 1: The Integrated Function of the Three Frameworks in the ISKS</caption>
+                        <thead>
+                            <tr>
+                                <th>Surgical Activity</th>
+                                <th>GTD Function</th>
+                                <th>P.A.R.A. Function</th>
+                                <th>Zettelkasten Function</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pre-Op Planning (Complex Case)</td>
+                                <td>Define project & next actions</td>
+                                <td>Store de-identified case data in Projects folder</td>
+                                <td>Review linked notes on relevant anatomy & techniques</td>
+                            </tr>
+                            <tr>
+                                <td>Post-Op Debrief</td>
+                                <td>Capture lessons in inbox</td>
+                                <td>File case summary in Resources or Archives</td>
+                                <td>Create atomic notes on unique findings, link to knowledge web</td>
+                            </tr>
+                            <tr>
+                                <td>Journal Club Prep</td>
+                                <td>Create project & track actions</td>
+                                <td>Hold article PDF & presentation draft in Projects folder</td>
+                                <td>Create literature & permanent notes, link to related studies</td>
+                            </tr>
+                            <tr>
+                                <td>Research Idea Development</td>
+                                <td>Incubate on "Someday/Maybe" list</td>
+                                <td>Collect background papers in Resources folder</td>
+                                <td>Identify knowledge clusters and gaps in note web</td>
+                            </tr>
+                            <tr>
+                                <td>Annual CME/MOC</td>
+                                <td>Create project & track modules</td>
+                                <td>Store certificates in Areas, materials in Projects</td>
+                                <td>Integrate new guidelines into permanent knowledge base</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>3. The Integrated System: A Hybrid Model</h2>
+                    <p>The ISKS synthesizes the three frameworks into a continuous loop: <strong>Input (Capture)</strong> → <strong>Processing (Clarify & Organize)</strong> → <strong>Storage (File in P.A.R.A.)</strong> → <strong>Synthesis (Connect via Zettelkasten)</strong> → <strong>Output (Engage & Create)</strong>.</p>
+                    
+                    <div class="callout">
+                        <div class="callout-title">The Cornerstone Habit: The Surgical Weekly Review</div>
+                        <p>The entire ISKS is sustained by a single, indispensable habit: a scheduled, protected 1-2 hour Weekly Review. This ritual involves clearing inboxes, reviewing all lists, and dedicating time to Zettelkasten synthesis work (processing notes, creating permanent notes, building links). It is the system's heartbeat for metacognition and continuous learning. <span class="evidence-badge evidence-III">Habit Formation</span></p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>4. The Digital Toolkit & Critical Safeguards</h2>
+                    <p>Tool selection must prioritize data security, longevity, and functionality.</p>
+                    
+                    <h3>Core Note-Taking Application</h3>
+                    <p><strong>Recommended: Obsidian.</strong> A local-first, plain-text Markdown application where the user owns and controls their data. Its robust bi-directional linking and Graph View are exceptionally well-suited for the Zettelkasten method. Its commitment to data sovereignty aligns with a surgeon's professional responsibility for a lifelong knowledge asset. <span class="evidence-badge evidence-II">Tool Analysis</span></p>
+                    <p><strong>Alternative for Collaboration: Notion.</strong> An excellent cloud-based workspace for team projects and administrative tasks. However, due to its cloud-based nature and lack of true data ownership, it is <strong>not recommended</strong> as the primary repository for a surgeon's personal, lifelong Zettelkasten.</p>
+                    
+                    <div class="callout">
+                        <div class="callout-title">The HIPAA Firewall: A Critical Design Principle</div>
+                        <p>The surgeon's PKM <strong>must never contain Protected Health Information (PHI)</strong>. The PKM and the Electronic Health Record (EHR) are distinct, separate systems. To create clinically relevant notes safely, surgeons must practice rigorous <strong>de-identification</strong>. The focus should be on clinical patterns, decision-making, techniques, and generalizable lessons, stripped of any identifying information. <span class="evidence-badge evidence-I">Legal/Ethical Mandate</span></p>
+                    </div>
+                    
+                    <h3>Essential Ancillary Tools</h3>
+                    <ul>
+                        <li><strong>Reference Manager:</strong> Zotero (recommended, free, open-source) or Mendeley for managing literature and citations.</li>
+                        <li><strong>Task Manager:</strong> A dedicated app like Todoist, Asana, or OmniFocus for implementing full GTD methodology.</li>
+                        <li><strong>Cloud Storage:</strong> Dropbox, Google Drive, etc., for housing the P.A.R.A. folder structure and enabling sync across devices.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>5. A Surgeon's Roadmap to Implementation</h2>
+                    <p>Adopting the ISKS is an iterative process best achieved in phases.</p>
+                    
+                    <table>
+                        <caption>Table 2: Phased Implementation Plan for the ISKS</caption>
+                        <thead>
+                            <tr>
+                                <th>Phase & Timeline</th>
+                                <th>Goal</th>
+                                <th>Key Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Phase 1: Foundation</strong><br>(Weeks 1-4)</td>
+                                <td>Tame chaos, establish baseline control and structure.</td>
+                                <td>Select tools (task manager, Obsidian). Perform GTD "mind sweep". Set up P.A.R.A. folder structure. "Declare information bankruptcy" with an Archive folder. Begin daily capture & processing. Schedule the Weekly Review.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 2: Build Engine</strong><br>(Months 2-6)</td>
+                                <td>Systematically process information, begin Zettelkasten.</td>
+                                <td>Integrate reference manager. Shift to creating Literature Notes for articles. Distill first 20-30 Permanent Notes. Practice basic linking between notes.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 3: Mastery</strong><br>(Months 6+)</td>
+                                <td>Seamless integration for active creation and reflection.</td>
+                                <td>Develop Maps of Content (MOCs) for major topics. Refine workflows with templates. Use the system for knowledge creation (presentations, papers). Use it to assess outcomes and close the learning loop.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="note">Note: The success of this entire roadmap rests on the consistent execution of the Weekly Review. It is the most critical habit for long-term success.</p>
+                </section>
+
+                <section class="reference-section">
+                    <h2>References (From Source Document)</h2>
+                    <ol class="reference-list">
+                        <li>From Overwhelmed to Optimized: How Orthopedic Practices Transform Their Entire Workflow with AI. <em>S10.ai</em>. Accessed September 12, 2025.</li>
+                        <li>David Allen. <em>Getting Things Done</em>. Summary and methodology descriptions from multiple cited sources.</li>
+                        <li>Book Summary - Getting Things Done (David Allen). <em>Readingraphics</em>. Accessed September 12, 2025.</li>
+                        <li>Book Summary for Getting Things Done by David Allen. <em>Reddit/r/BettermentBookClub</em>. Accessed September 12, 2025.</li>
+                        <li>Orthopaedic Documentation: Streamlining Care. <em>ScribeMedics</em>. Accessed September 12, 2025.</li>
+                        <li>Advanced Digital Healthcare. <em>Stryker</em>. Accessed September 12, 2025.</li>
+                        <li>Statement on Sustaining the Lifelong Competency of Surgeons. <em>American College of Surgeons</em>. Accessed September 12, 2025.</li>
+                        <li>Lifelong learning at work. <em>PMC/NLM</em>. Accessed September 12, 2025.</li>
+                        <li>Lifelong Learning: Strategies to Keep your Edge. <em>UF Faculty Affairs</em>. Accessed September 12, 2025.</li>
+                        <li>Evidence-based medicine. <em>Wikipedia</em>. Accessed September 12, 2025.</li>
+                        <li>Evidence-Based Medicine Tutorial. <em>College of Medicine, FSU</em>. Accessed September 12, 2025.</li>
+                        <li>CEP Providers. <em>Knowledge Translation in Primary Care Initiative</em>. Accessed September 12, 2025.</li>
+                        <li>An Integrated Process for Co-Developing and Implementing Written... <em>CDC Stacks</em>. Accessed September 12, 2025.</li>
+                        <li>Getting Things Done Summary. <em>Four Minute Books</em>. Accessed September 12, 2025.</li>
+                        <li>The PARA Method by Tiago Forte – Summary and Book Notes. <em>Thomas Frank</em>. Accessed September 12, 2025.</li>
+                        <li>The PARA Method: The Simple System for Organizing Your Digital Life in Seconds. <em>Forte Labs</em>. Accessed September 12, 2025.</li>
+                        <li>What is the PARA Method? [Walkthrough]. <em>Lark</em>. Accessed September 12, 2025.</li>
+                        <li>PARA Method - Workflowy guide. Accessed September 12, 2025.</li>
+                        <li>How to Easily Organize Your Life with the PARA Method. <em>Thomas Frank</em>. Accessed September 12, 2025.</li>
+                        <li>PARA Method - Workflowy guide. Accessed September 12, 2025.</li>
+                        <li>The Zettelkasten Method: A Beginner's Guide. <em>Goodnotes Blog</em>. Accessed September 12, 2025.</li>
+                        <li>A Beginner's Guide to the Zettelkasten Method. <em>Zenkit</em>. Accessed September 12, 2025.</li>
+                        <li>Introduction to the Zettelkasten Method. <em>Zettelkasten.de</em>. Accessed September 12, 2025.</li>
+                        <li>The Zettelkasten Method: Examples to help you get started. <em>Medium</em>. Accessed September 12, 2025.</li>
+                        <li>How would you implement zettelkasten as a medical student? <em>Reddit/r/Zettelkasten</em>. Accessed September 12, 2025.</li>
+                        <li>I'm so overwhelmed and not sure how to choose a system. <em>Reddit/r/Zettelkasten</em>. Accessed September 12, 2025.</li>
+                        <li>I'm so overwhelmed and not sure how to choose a system. <em>Reddit/r/Zettelkasten</em>. Accessed September 12, 2025.</li>
+                        <li>How does Zettel differ from getting things done? <em>Reddit/r/Zettelkasten</em>. Accessed September 12, 2025.</li>
+                        <li>Obsidian | The Excellent Physician. Accessed September 12, 2025.</li>
+                        <li>Obsidian - Sharpen your thinking. <em>Obsidian.md</em>. Accessed September 12, 2025.</li>
+                        <li>Obsidian vs Notion: Which tool is right for you? <em>Slite</em>. Accessed September 12, 2025.</li>
+                        <li>Obsidian vs. Notion: Which is best? [2025]. <em>Zapier</em>. Accessed September 12, 2025.</li>
+                        <li>Obsidian vs. Notion: Which Tool Is Better? <em>TechRepublic</em>. Accessed September 12, 2025.</li>
+                        <li>Medical Hub | Personal Template. <em>Notion Marketplace</em>. Accessed September 12, 2025.</li>
+                        <li>CarePulse - OS for Health Clinics & Practitioners Template. <em>Notion Marketplace</em>. Accessed September 12, 2025.</li>
+                        <li>Doctor's Work Companion Template. <em>Notion Marketplace</em>. Accessed September 12, 2025.</li>
+                        <li>PatientPro Manager V3 Template. <em>Notion Marketplace</em>. Accessed September 12, 2025.</li>
+                        <li>An Operating System for Residency. <em>I.D.E.A.S.</em>. Accessed September 12, 2025.</li>
+                        <li>Notion vs Obsidian. <em>Reddit/r/ObsidianMD</em>. Accessed September 12, 2025.</li>
+                        <li>HIPAA Requirements and Obsidian Primer. <em>Obsidian Publish</em>. Accessed September 12, 2025.</li>
+                        <li>Is Notion HIPAA Compliant? Evaluating Its Suitability for Healthcare. <em>Planet Compliance</em>. Accessed September 12, 2025.</li>
+                        <li>Notion Security & Compliance. <em>Notion</em>. Accessed September 12, 2025.</li>
+                        <li>HIPAA configuration – Notion Help Center. <em>Notion</em>. Accessed September 12, 2025.</li>
+                        <li>Is Notion HIPAA Compliant? How to Use It Safely. <em>iFax</em>. Accessed September 12, 2025.</li>
+                        <li>Zotero vs Mendeley: Which reference manager to choose [2025]. <em>Paperpile</em>. Accessed September 12, 2025.</li>
+                        <li>Mendeley vs Zotero: Key Differences in 2025. <em>Qubic Research</em>. Accessed September 12, 2025.</li>
+                        <li>Mendeley vs Zotero 2025. <em>Editverse</em>. Accessed September 12, 2025.</li>
+                        <li>Getting Things Done (GTD) - Todoist. Accessed September 12, 2025.</li>
+                        <li>Master Getting Things Done (GTD) Method in 5 Steps [2025]. <em>Asana</em>. Accessed September 12, 2025.</li>
+                        <li>A Practical Guide To The GTD Workflow Implementation. <em>Flow-E</em>. Accessed September 12, 2025.</li>
+                        <li>SOAP Notes - StatPearls. <em>NCBI Bookshelf</em>. Accessed September 12, 2025.</li>
+                    </ol>
+                </section>
+            </main>
+
+            <aside>
+                <h2>Interactive Clinical Parameters</h2>
+                <p class="note">Adjust these sliders based on typical orthopedic workload factors to see personalized system recommendations. <strong>Note: Thresholds are assumed from general surgical practice, not explicitly defined in the source document.</strong></p>
+                
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span>Cognitive Load Factor</span>
+                        <span class="slider-value" id="loadValue">Medium</span>
+                    </div>
+                    <input type="range" id="loadSlider" min="1" max="5" value="3">
+                    <p class="note">1: Light admin day | 5: Complex polytrauma OR day</p>
+                </div>
+                
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span>Weekly Literature Volume</span>
+                        <span class="slider-value" id="litValue">5 articles</span>
+                    </div>
+                    <input type="range" id="litSlider" min="1" max="20" value="5">
+                </div>
+                
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span>Administrative Hours/Week</span>
+                        <span class="slider-value" id="adminValue">8 hrs</span>
+                    </div>
+                    <input type="range" id="adminSlider" min="2" max="20" value="8">
+                </div>
+                
+                <div class="recommendation-box">
+                    <div class="recommendation-title">Personalized ISKS Recommendation</div>
+                    <div id="recommendationContent">
+                        <p>Based on your current parameters, focus on establishing a robust <strong>GTD capture system</strong> to manage daily cognitive load. Implement a <strong>15-minute daily inbox processing</strong> habit and a <strong>protected 90-minute Weekly Review</strong> session to process literature and update your knowledge base.</p>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="resetBtn">Reset Parameters</button>
+                    <button class="btn btn-secondary" id="copyBtn">Export Summary</button>
+                </div>
+                <p class="note" id="exportStatus" style="display: none; color: var(--success); margin-top: 0.5rem;"></p>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>ISKS Educational Summary | Adapted from source document. For academic and professional development purposes only.</p>
+            <p>Generated on <span id="currentDate"></span></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            const dateElement = document.getElementById('currentDate');
+            const now = new Date();
+            dateElement.textContent = now.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Slider elements
+            const loadSlider = document.getElementById('loadSlider');
+            const litSlider = document.getElementById('litSlider');
+            const adminSlider = document.getElementById('adminSlider');
+            
+            // Value displays
+            const loadValue = document.getElementById('loadValue');
+            const litValue = document.getElementById('litValue');
+            const adminValue = document.getElementById('adminValue');
+            
+            // Recommendation display
+            const recommendationContent = document.getElementById('recommendationContent');
+            
+            // Buttons
+            const resetBtn = document.getElementById('resetBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const exportStatus = document.getElementById('exportStatus');
+            
+            // Update function
+            function updateRecommendation() {
+                const load = parseInt(loadSlider.value);
+                const lit = parseInt(litSlider.value);
+                const admin = parseInt(adminSlider.value);
+                
+                // Update displays
+                const loadLabels = ['Very Light', 'Light', 'Medium', 'Heavy', 'Extreme'];
+                loadValue.textContent = loadLabels[load - 1];
+                litValue.textContent = lit + ' articles';
+                adminValue.textContent = admin + ' hrs';
+                
+                // Generate recommendation based on parameters
+                let recommendation = '';
+                
+                // Base recommendations from source document
+                recommendation += '<p><strong>Core System Components:</strong> Implement GTD (Capture, Clarify, Organize, Reflect, Engage) with P.A.R.A. folder structure (Projects, Areas, Resources, Archives) and Zettelkasten for knowledge synthesis.</p>';
+                
+                // Adjust based on cognitive load
+                if (load >= 4) {
+                    recommendation += '<p><strong>High Cognitive Load Protocol:</strong> Simplify your capture system. Use a single mobile app inbox. Implement the 2-minute rule strictly. Consider batching administrative tasks during lower-energy periods.</p>';
+                } else if (load <= 2) {
+                    recommendation += '<p><strong>Capacity Available:</strong> With lower cognitive load, focus on deepening your Zettelkasten. Create more permanent notes and build denser links. Consider tackling a "Someday/Maybe" project.</p>';
+                }
+                
+                // Adjust based on literature volume
+                if (lit >= 10) {
+                    recommendation += '<p><strong>High Literature Volume:</strong> Create a dedicated "Literature Processing" project in P.A.R.A. Prioritize creating atomic permanent notes from key findings. Use templates for literature notes to maintain consistency.</p>';
+                } else if (lit <= 3) {
+                    recommendation += '<p><strong>Lower Literature Volume:</strong> Focus on depth over breadth. For each article, create multiple linked permanent notes exploring different aspects of the evidence.</p>';
+                }
+                
+                // Adjust based on admin hours
+                if (admin >= 15) {
+                    recommendation += '<p><strong>Heavy Administrative Burden:</strong> Be ruthless with the P.A.R.A. structure. Use the "Areas" folder extensively for hospital leadership and committee work. Consider templates for recurring documentation. Protect your Weekly Review time as non-negotiable.</p>';
+                } else {
+                    recommendation += '<p><strong>Standard Implementation:</strong> Commit to the phased implementation: Phase 1 (Weeks 1-4) for GTD & P.A.R.A. setup, Phase 2 (Months 2-6) for building Zettelkasten, Phase 3 (Months 6+) for mastery and creation.</p>';
+                }
+                
+                recommendation += '<p class="note" style="margin-top: 1rem;">Reminder: Maintain strict HIPAA firewall. Never store PHI in your PKM. Practice rigorous de-identification for clinical notes.</p>';
+                
+                recommendationContent.innerHTML = recommendation;
+            }
+            
+            // Event listeners for sliders
+            loadSlider.addEventListener('input', updateRecommendation);
+            litSlider.addEventListener('input', updateRecommendation);
+            adminSlider.addEventListener('input', updateRecommendation);
+            
+            // Initial update
+            updateRecommendation();
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                loadSlider.value = 3;
+                litSlider.value = 5;
+                adminSlider.value = 8;
+                updateRecommendation();
+            });
+            
+            // Copy/Export button
+            copyBtn.addEventListener('click', function() {
+                const load = loadSlider.value;
+                const lit = litSlider.value;
+                const admin = adminSlider.value;
+                
+                const loadLabels = ['Very Light', 'Light', 'Medium', 'Heavy', 'Extreme'];
+                
+                let exportText = `ISKS PARAMETER SUMMARY & RECOMMENDATION\n`;
+                exportText += `Generated: ${new Date().toLocaleString()}\n`;
+                exportText += `========================================\n\n`;
+                exportText += `CURRENT PARAMETERS:\n`;
+                exportText += `- Cognitive Load Factor: ${loadLabels[load - 1]} (${load}/5)\n`;
+                exportText += `- Weekly Literature Volume: ${lit} articles\n`;
+                exportText += `- Administrative Hours/Week: ${admin} hrs\n\n`;
+                exportText += `PERSONALIZED ISKS RECOMMENDATION:\n`;
+                exportText += `Core System: GTD workflow + P.A.R.A. structure + Zettelkasten synthesis\n`;
+                
+                if (load >= 4) {
+                    exportText += `High Load Protocol: Simplify capture, strict 2-min rule, batch admin tasks.\n`;
+                } else if (load <= 2) {
+                    exportText += `Capacity Available: Deepen Zettelkasten, create more links, tackle Someday/Maybe items.\n`;
+                }
+                
+                if (lit >= 10) {
+                    exportText += `Literature Volume: Create dedicated project, use templates, prioritize atomic notes.\n`;
+                } else if (lit <= 3) {
+                    exportText += `Literature Volume: Focus on depth, create multiple linked notes per article.\n`;
+                }
+                
+                if (admin >= 15) {
+                    exportText += `Admin Burden: Use Areas folder extensively, create templates, protect Weekly Review.\n`;
+                } else {
+                    exportText += `Implementation: Follow phased approach (Foundation → Build Engine → Mastery).\n`;
+                }
+                
+                exportText += `\nHIPAA REMINDER: Never store PHI in PKM. Use rigorous de-identification.\n`;
+                exportText += `\nSource: The Integrated Surgical Knowledge System (ISKS) Educational Summary`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(exportText).then(function() {
+                    exportStatus.textContent = '✓ Summary copied to clipboard!';
+                    exportStatus.style.display = 'block';
+                    setTimeout(() => {
+                        exportStatus.style.display = 'none';
+                    }, 3000);
+                }).catch(function(err) {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = exportText;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    exportStatus.textContent = '✓ Summary copied to clipboard!';
+                    exportStatus.style.display = 'block';
+                    setTimeout(() => {
+                        exportStatus.style.display = 'none';
+                    }, 3000);
+                });
+            });
+            
+            // Smooth scrolling for internal links (if any added later)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

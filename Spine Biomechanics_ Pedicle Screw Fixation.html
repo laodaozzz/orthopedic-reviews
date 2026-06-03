@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomechanical Analysis of Pedicle Screw Fixation — Interactive Educational Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8fafc;--surface:#ffffff;--text:#1e293b;--text-muted:#64748b;
+  --primary:#1e40af;--primary-light:#3b82f6;--primary-bg:#eff6ff;
+  --accent:#0f766e;--accent-bg:#f0fdfa;
+  --warn:#b45309;--warn-bg:#fffbeb;
+  --danger:#dc2626;--danger-bg:#fef2f2;
+  --success:#16a34a;--success-bg:#f0fdf4;
+  --border:#e2e8f0;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+h1{font-size:1.85rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;color:var(--primary)}
+h2{font-size:1.45rem;font-weight:700;letter-spacing:-.01em;margin:2.2rem 0 .8rem;color:var(--primary);border-bottom:2px solid var(--primary-bg);padding-bottom:.4rem}
+h3{font-size:1.15rem;font-weight:600;margin:1.6rem 0 .5rem;color:var(--text)}
+h4{font-size:1rem;font-weight:600;margin:1.2rem 0 .4rem;color:var(--text-muted)}
+p{margin:.6rem 0}
+ul,ol{margin:.5rem 0 .5rem 1.5rem}
+li{margin:.25rem 0}
+strong{font-weight:600}
+a{color:var(--primary-light);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Layout */
+.page-wrapper{max-width:1360px;margin:0 auto;padding:0 1.5rem 3rem}
+.site-header{background:linear-gradient(135deg,#1e3a5f 0%,#1e40af 50%,#0f766e 100%);color:#fff;padding:2.5rem 1.5rem 2rem;margin-bottom:0}
+.site-header h1{color:#fff;font-size:2rem;max-width:1360px;margin:0 auto}
+.site-header p{opacity:.85;font-size:.95rem;max-width:1360px;margin:.5rem auto 0}
+.main-grid{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1360px;margin:0 auto;padding-top:2rem}
+.content-area{min-width:0}
+.sidebar{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow-y:auto}
+
+/* Cards & Boxes */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.callout{border-left:4px solid;padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1rem 0}
+.callout-info{border-color:var(--primary-light);background:var(--primary-bg)}
+.callout-warn{border-color:var(--warn);background:var(--warn-bg)}
+.callout-danger{border-color:var(--danger);background:var(--danger-bg)}
+.callout-success{border-color:var(--success);background:var(--success-bg)}
+.callout-accent{border-color:var(--accent);background:var(--accent-bg)}
+.callout-title{font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+.callout-info .callout-title{color:var(--primary)}
+.callout-warn .callout-title{color:var(--warn)}
+.callout-danger .callout-title{color:var(--danger)}
+.callout-success .callout-title{color:var(--success)}
+.callout-accent .callout-title{color:var(--accent)}
+
+/* Evidence Badge */
+.ev-badge{display:inline-flex;align-items:center;gap:.25rem;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:4px;vertical-align:middle;margin-left:.25rem;white-space:nowrap}
+.ev-I{background:#dcfce7;color:#166534}
+.ev-II{background:#d1fae5;color:#065f46}
+.ev-III{background:#fef9c3;color:#854d0e}
+.ev-IV{background:#fed7aa;color:#9a3412}
+.ev-V{background:#fecaca;color:#991b1b}
+.ev-NR{background:#f1f5f9;color:#475569}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+caption{caption-side:top;text-align:left;font-weight:700;font-size:.95rem;padding:.8rem 1rem;background:var(--primary-bg);color:var(--primary);border-bottom:1px solid var(--border)}
+thead th{background:#f1f5f9;font-weight:600;text-align:left;padding:.65rem .8rem;border-bottom:2px solid var(--border);white-space:nowrap}
+tbody td{padding:.6rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:hover{background:#f8fafc}
+.highlight-cell{background:#eff6ff;font-weight:600}
+
+/* Sidebar Slider Panel */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow-lg)}
+.panel-title{font-size:.95rem;font-weight:700;color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem}
+.panel-title svg{width:18px;height:18px}
+.slider-group{margin-bottom:1.2rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.slider-value{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:var(--primary)}
+.slider-track{position:relative;width:100%;height:6px;background:#e2e8f0;border-radius:3px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;background:transparent;border-radius:3px;cursor:pointer;position:relative;z-index:2}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+.slider-hint{font-size:.72rem;color:var(--text-muted);margin-top:.2rem}
+.slider-threshold{display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted);margin-top:.15rem}
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{flex:1;padding:.55rem .8rem;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-size:.8rem;font-weight:600;cursor:pointer;text-align:center;transition:all .15s}
+.btn:hover{background:var(--primary-bg);border-color:var(--primary-light)}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:#1e3a8a}
+.recommendation-box{margin-top:1rem;padding:.9rem;border-radius:8px;font-size:.82rem;line-height:1.55;border:1px solid var(--border)}
+.recommendation-box h4{margin:0 0 .4rem;font-size:.85rem}
+.rec-section{margin-bottom:.6rem}
+.rec-section:last-child{margin-bottom:0}
+.rec-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:.1rem .4rem;border-radius:3px;margin-right:.3rem}
+.tag-green{background:#dcfce7;color:#166534}
+.tag-yellow{background:#fef9c3;color:#854d0e}
+.tag-red{background:#fecaca;color:#991b1b}
+.tag-blue{background:#dbeafe;color:#1e40af}
+
+/* Figure label */
+.fig-label{font-size:.78rem;font-weight:600;color:var(--text-muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.04em}
+
+/* Historical timeline */
+.timeline{position:relative;padding-left:2rem;margin:1rem 0}
+.timeline::before{content:'';position:absolute;left:.6rem;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:1.2rem}
+.timeline-item::before{content:'';position:absolute;left:-1.6rem;top:.35rem;width:10px;height:10px;border-radius:50%;background:var(--primary);border:2px solid var(--surface);box-shadow:0 0 0 2px var(--primary-light)}
+.timeline-year{font-family:'JetBrains Mono',monospace;font-size:.82rem;font-weight:700;color:var(--primary)}
+.timeline-desc{font-size:.88rem;color:var(--text)}
+
+/* Print */
+@media print{
+  .sidebar,.btn-row,.site-header{display:none!important}
+  .main-grid{grid-template-columns:1fr!important}
+  .card{break-inside:avoid}
+}
+
+/* Responsive */
+@media(max-width:960px){
+  .main-grid{grid-template-columns:1fr}
+  .sidebar{position:static;max-height:none;order:-1}
+  h1{font-size:1.5rem}
+  .site-header{padding:1.5rem}
+}
+@media(max-width:600px){
+  .page-wrapper{padding:0 .75rem 2rem}
+  .card{padding:1rem}
+  table{font-size:.8rem}
+  thead th,tbody td{padding:.45rem .5rem}
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
+
+/* Toggle switch */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.toggle-label{font-size:.82rem;font-weight:600}
+.toggle{position:relative;width:42px;height:22px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:#cbd5e1;border-radius:11px;transition:.2s}
+.toggle-slider::before{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.toggle-slider{background:var(--primary)}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px)}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Exhaustive Biomechanical Analysis of Pedicle Screw Fixation</h1>
+  <p>Construct Stability &amp; Spinal Instrumentation — Interactive Evidence-Based Educational Summary</p>
+</header>
+
+<div class="page-wrapper">
+<div class="main-grid">
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<main class="content-area" role="main">
+
+<!-- Section 1 -->
+<section class="card" id="sec-intro">
+  <h2>1. Introduction: The Biomechanical Imperative</h2>
+  <p>The pedicle screw is the <strong>exclusive anchor point</strong> capable of traversing all three columns of the spine — the posterior osseous arch, the middle column via the pedicle isthmus, and the anterior vertebral body. This unique anatomical advantage provides mechanical superiority over laminar hooks, sublaminar wires, and spinous process plates.</p>
+  <div class="callout callout-info">
+    <div class="callout-title">Key Principle</div>
+    <p>Construct stability is a <strong>composite variable</strong> dependent on: (1) material properties of longitudinal elements, (2) geometric profile of anchorage, (3) quality of the bone-implant interface, and (4) trajectory of insertion.</p>
+  </div>
+  <p>The pursuit of rigidity must be balanced against the physiological necessity of <strong>load sharing</strong>: a construct that is too stiff may precipitate adjacent segment degeneration, while one that is too flexible may lead to pseudarthrosis.</p>
+  <p><em>Level of Evidence: This synthesis integrates seminal historical literature with contemporary systematic reviews and finite element analyses (FEA).</em></p>
+</section>
+
+<!-- Section 2 -->
+<section class="card" id="sec-history">
+  <h2>2. Historical Evolution: From Articular Screws to 3D Derotation</h2>
+  <p>The history of transpedicular fixation represents a series of overlapping innovations driven by the need to overcome limitations of early distraction systems.</p>
+
+  <div class="timeline" role="list" aria-label="Timeline of pedicle screw evolution">
+    <div class="timeline-item" role="listitem">
+      <div class="timeline-year">1944</div>
+      <div class="timeline-desc"><strong>Donald King</strong> — First significant dorsal metallic osteosynthesis using short metal screws (¾–1 inch) passed through articular processes. Technically transarticular, not transpedicular, but established the principle of screw-based posterior stabilization. <span class="ev-badge ev-V">Evid V</span></div>
+    </div>
+    <div class="timeline-item" role="listitem">
+      <div class="timeline-year">1959</div>
+      <div class="timeline-desc"><strong>Harold Boucher</strong> — Longer stainless steel screws (up to 2 inches) passed through zygapophysial joints into vertebral bodies via roots of arches. Approached the pedicle trajectory but lacked interconnectivity between segments. <span class="ev-badge ev-V">Evid V</span></div>
+    </div>
+    <div class="timeline-item" role="listitem">
+      <div class="timeline-year">1963–1970</div>
+      <div class="timeline-desc"><strong>Raymond Roy-Camille</strong> — First true transpedicular fixation. Cadaveric study of 35 specimens characterized pedicle dimensions: horizontal diameters from 0.9 cm (T12) to 1.5 cm (L5). Developed the <strong>Pedicle Screw Plate (PSP)</strong> with 4.5 mm screws and fixed 1.3 cm hole spacing. Published 1970 in <em>Presse Médicale</em>. <span class="ev-badge ev-IV">Evid IV</span></div>
+    </div>
+    <div class="timeline-item" role="listitem">
+      <div class="timeline-year">1986</div>
+      <div class="timeline-desc"><strong>Arthur Steffee</strong> — Introduced the <strong>Variable Screw Placement (VSP)</strong> system: slotted plates with variable-axis screws. 1989 study demonstrated blunt probes (ganglion knife) yielded higher pullout forces in 80% of trials vs. 3.2 mm drill, due to cancellous bone compaction ("auto-grafting"). <span class="ev-badge ev-IV">Evid IV</span></div>
+    </div>
+    <div class="timeline-item" role="listitem">
+      <div class="timeline-year">1986–1988</div>
+      <div class="timeline-desc"><strong>Yves Cotrel &amp; Jean Dubousset</strong> — <strong>CD System</strong> replaced plates with contoured ¼-inch rough-surfaced rods. Introduced <strong>segmental derotation</strong>: rod rotation 90° to convert coronal deviation into sagittal alignment. Cross-link (DTT) created rigid quadrilateral frame. <span class="ev-badge ev-IV">Evid IV</span></div>
+    </div>
+  </div>
+
+  <div class="callout callout-accent">
+    <div class="callout-title">Biomechanical Significance</div>
+    <p>The PSP proved pedicle screws offered distinct advantages: placement after laminectomy, secure sacral fixation, and superior 3-column purchase. The CD system established the biomechanical standard for all subsequent posterior spinal systems.</p>
+  </div>
+</section>
+
+<!-- Section 3 -->
+<section class="card" id="sec-screw-bone">
+  <h2>3. Biomechanics of the Screw-Bone Interface</h2>
+
+  <h3>3.1 Predictors of Fixation Strength</h3>
+
+  <h4>Bone Mineral Density (BMD)</h4>
+  <p>BMD is the most consistent predictor of fixation failure. Critically, <strong>~60% of pullout strength and ~80% of longitudinal stiffness</strong> derive from engagement with the <strong>pedicle cortex</strong>, not the cancellous vertebral body. This explains why patients with radiographic osteoporosis can still achieve stable fixation if pedicle anatomy is preserved. <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h4>Insertional Torque</h4>
+  <p>The relationship between insertional torque and pullout strength is debated. Zindrick et al. established that an insertional torque <strong>below 4.0 inch-pounds</strong> is a critical threshold predictive of early pedicle screw pullout. However, when comparing different screw designs (conical vs. cylindrical), high insertional torque does not always translate to high pullout strength. <span class="ev-badge ev-II">Evid II</span></p>
+
+  <div class="callout callout-warn">
+    <div class="callout-title">Clinical Threshold (Source Document)</div>
+    <p><strong>Insertional Torque &lt; 4.0 inch-pounds</strong> → predictive of early pedicle screw pullout failure. Low torque is universally recognized as a harbinger of failure for a given screw design in given bone quality.</p>
+  </div>
+
+  <h3>3.2 Core Geometry: Conical vs. Cylindrical</h3>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1 — Conical vs. Cylindrical Screw Core Mechanics</caption>
+      <thead>
+        <tr><th>Parameter</th><th>Cylindrical Core</th><th>Conical Core</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Minor Diameter</td><td>Constant along length</td><td>Tapered, expanding proximally</td></tr>
+        <tr><td>Insertional Torque</td><td>Baseline</td><td><strong>Significantly higher</strong> (wedge/press-fit effect)</td></tr>
+        <tr><td>Mechanism</td><td>Relies on thread depth alone</td><td>Progressive trabecular compaction → increased interface density</td></tr>
+        <tr><td>Initial Fixation</td><td>Adequate in good bone</td><td><strong>Superior</strong>; improved resistance to loosening</td></tr>
+        <tr><td>Adjustability</td><td>Can be backed out with minimal loss</td><td><strong>Safe zone: 180°–360°</strong> back-out without significant strength loss; beyond this, fixation compromised</td></tr>
+        <tr><td>Advantage</td><td>Greater intraoperative flexibility</td><td>Better initial fixation in compromised bone</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-label">Evidence: In-vitro biomechanical comparison <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h3>3.3 Thread Profiles</h3>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2 — Thread Design Comparison</caption>
+      <thead>
+        <tr><th>Thread Type</th><th>Pullout Strength</th><th>Mechanism</th><th>Revision Performance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>V-Shaped</strong></td><td>Higher (varies by BMD)</td><td>Sharp crest cuts into trabeculae; maximizes shear area</td><td>Standard</td></tr>
+        <tr><td><strong>S-Shaped / Square / Buttress</strong></td><td>Lower in most densities</td><td>Broader contact area but less cutting efficiency</td><td>Standard</td></tr>
+        <tr><td><strong>Dual-Thread (Mixed)</strong></td><td>Higher in <em>normal</em> bone; variable in osteoporosis</td><td>Fine machine thread (pedicle) + coarse cancellous thread (body)</td><td class="highlight-cell"><strong>Worst</strong>: 18.6% ↓ revision pullout strength; requires upsizing</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-label">Evidence: Cadaveric and synthetic bone pullout studies <span class="ev-badge ev-II">Evid II</span></p>
+
+  <div class="callout callout-danger">
+    <div class="callout-title">Revision Surgery Warning</div>
+    <p>If a dual-thread screw fails, re-inserting a similar screw results in an <strong>18.6% decrease in purchase</strong>. Surgeons must typically upgrade to a larger diameter screw to regain baseline stability.</p>
+  </div>
+
+  <h3>3.4 Pilot Hole Preparation</h3>
+  <p>Steffee's research demonstrated that <strong>drilling removes valuable bone stock</strong>, whereas blunt probing <strong>compacts</strong> it (auto-grafting effect). Screws inserted into probe-prepared holes demonstrated higher pullout forces in 80% of trials. This finding remains relevant to modern surgical technique. <span class="ev-badge ev-IV">Evid IV</span></p>
+</section>
+
+<!-- Section 4 -->
+<section class="card" id="sec-trajectory">
+  <h2>4. Trajectory Analysis: Traditional vs. Cortical Bone Trajectory (CBT)</h2>
+  <p>First systematically described by <strong>Santoni et al.</strong>, CBT represents a fundamental departure from the anatomical philosophy of the Traditional Trajectory (TT). <span class="ev-badge ev-II">Evid II</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3 — Traditional Trajectory (TT) vs. Cortical Bone Trajectory (CBT)</caption>
+      <thead>
+        <tr><th>Parameter</th><th>Traditional Trajectory (TT)</th><th>Cortical Bone Trajectory (CBT)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Path</strong></td><td>Anatomical axis of pedicle; lateral → medial convergence</td><td>Medial → lateral, caudo-cranial; starting at pars interarticularis</td></tr>
+        <tr><td><strong>Fixation Source</strong></td><td>Cancellous bone volume of vertebral body</td><td>Cortical bone at 4 points: pars entry, medial/lateral pedicle walls, superior articular process junction</td></tr>
+        <tr><td><strong>Static Pullout Strength</strong></td><td>Adequate in normal bone</td><td><strong>Superior or equivalent</strong>; especially advantageous in osteoporosis</td></tr>
+        <tr><td><strong>Insertional Torque</strong></td><td>Baseline</td><td><strong>Significantly higher</strong></td></tr>
+        <tr><td><strong>Fatigue Performance</strong></td><td class="highlight-cell"><strong>Superior</strong> in some cadaveric studies (e.g., 776 N post-fatigue pullout)</td><td>Potentially vulnerable (302 N post-fatigue pullout in some studies); "fulcrum effect" at pars</td></tr>
+        <tr><td><strong>Stress Distribution</strong></td><td>Concentrated at screw neck (common fracture point)</td><td>More evenly distributed between screw head and tail</td></tr>
+        <tr><td><strong>Clinical Fusion Rate</strong></td><td>Standard</td><td><strong>Equivalent</strong></td></tr>
+        <tr><td><strong>Blood Loss &amp; Pain</strong></td><td>Standard (more muscle dissection)</td><td><strong>Reduced</strong>; less multifidus stripping; facet capsule preserved</td></tr>
+        <tr><td><strong>Screw Loosening Rate</strong></td><td>~9% per screw</td><td>~<strong>5.4%</strong> per screw (clinical series)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-label">Evidence: Cadaveric biomechanical studies, FEA, and systematic reviews <span class="ev-badge ev-II">Evid II</span></p>
+
+  <div class="callout callout-info">
+    <div class="callout-title">The Fatigue Controversy</div>
+    <p>While CBT is statically stronger, cyclic loading studies show potential fatigue vulnerability due to the <strong>"fulcrum effect"</strong>: the screw pivots on the rigid pars interarticularis, potentially crushing bone along its shaft. However, clinical systematic reviews report <strong>lower loosening rates</strong> with CBT, suggesting that rapid biological stability (fusion) may protect hardware in vivo.</p>
+  </div>
+</section>
+
+<!-- Section 5 -->
+<section class="card" id="sec-rod">
+  <h2>5. Rod Mechanics &amp; Stiffness</h2>
+
+  <h3>5.1 Material Science: Titanium vs. Cobalt Chromium</h3>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 4 — Titanium (Ti-6Al-4V) vs. Cobalt Chromium (CoCrMo) Rods</caption>
+      <thead>
+        <tr><th>Property</th><th>Titanium (Ti)</th><th>Cobalt Chromium (CoCr)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Elastic Modulus</strong></td><td>~110 GPa</td><td>~220–230 GPa (≈2× stiffer)</td></tr>
+        <tr><td><strong>Proximity to Bone</strong></td><td>Closer to cortical bone modulus → load sharing</td><td>Much stiffer → stress shielding risk</td></tr>
+        <tr><td><strong>Fatigue Life</strong></td><td>~12,000 cycles before failure</td><td class="highlight-cell"><strong>&gt;58,000 cycles</strong> before failure</td></tr>
+        <tr><td><strong>Deformity Correction</strong></td><td>Adequate for moderate curves</td><td><strong>Superior</strong> coronal correction &amp; thoracic kyphosis maintenance</td></tr>
+        <tr><td><strong>Notch Sensitivity</strong></td><td>High — scratches/aggressive contouring ↓ fatigue life</td><td>Low</td></tr>
+        <tr><td><strong>Proximal Junctional Kyphosis Risk</strong></td><td class="highlight-cell"><strong>Lower</strong></td><td class="highlight-cell" style="background:#fef2f2"><strong>OR 3.16× higher</strong> vs. Ti</td></tr>
+        <tr><td><strong>Rod Fracture Risk</strong></td><td>Higher across PSO</td><td>Lower</td></tr>
+        <tr><td><strong>Ideal Use</strong></td><td>Degenerative cases, shorter constructs, PJK-prone patients</td><td>Severe deformity, 3-column osteotomies, high mechanical demand</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-label">Evidence: Cadaveric fatigue testing, systematic reviews &amp; meta-analyses <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h3>5.2 The Stiffness Trade-off: PJK vs. Rod Fracture</h3>
+  <p>Meta-analyses confirm a <strong>statistically significant association</strong> between CoCr rods and Proximal Junctional Kyphosis (PJK): <strong>OR ≈ 3.16</strong> compared to Ti rods. The rigid rod prevents gradual energy dissipation, forcing the adjacent segment to absorb the full moment arm. <span class="ev-badge ev-I">Evid I</span></p>
+
+  <h3>5.3 Rod Diameter &amp; Contouring</h3>
+  <ul>
+    <li><strong>Diameter:</strong> Stiffness increases with the <strong>fourth power of radius</strong>. Shifts from 5.5 → 6.0 → 6.35 mm dramatically increase rigidity. <em>5.5 mm CoCr</em> may represent a "sweet spot" — sufficient stiffness for deformity correction with lower reoperation rates. <span class="ev-badge ev-II">Evid II</span></li>
+    <li><strong>Contouring:</strong> French bender use reduces yield strength and stiffness via work hardening and surface notches. A 40° contour weakens rods more than a 20° contour. Surgeons should minimize extreme in-situ contouring. <span class="ev-badge ev-II">Evid II</span></li>
+    <li><strong>Gripping Capacity:</strong> 6.0 mm CoCr rods have higher gripping capacity than 5.5 mm Ti rods — less likely to slip through set screws during complex reductions. <span class="ev-badge ev-II">Evid II</span></li>
+  </ul>
+
+  <h3>5.4 Hybrid Rod Constructs</h3>
+  <div class="callout callout-success">
+    <div class="callout-title">Emerging Strategy</div>
+    <p>Hybrid constructs use <strong>stiff CoCr rods in the lumbar spine</strong> (highest mechanical demand) and <strong>transition to 5.5 mm Ti rods proximally</strong> to create a "stiffness gradient" or "soft landing," reducing mechanical shock to the UIV and mitigating PJK risk.</p>
+  </div>
+</section>
+
+<!-- Section 6 -->
+<section class="card" id="sec-augmentation">
+  <h2>6. Augmentation Strategies: Cement &amp; Fenestration</h2>
+  <p>In osteoporotic spines, PMMA cement augmentation converts the screw from a friction-based anchor into a <strong>composite volumetric anchor</strong>. <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h3>6.1 Efficacy</h3>
+  <p>Cement augmentation increases pullout strength by <strong>110%–250%</strong> compared to non-augmented screws. Critically, augmentation <strong>negates biomechanical differences between thread profiles</strong> — the cement bolus creates such massive interlock that screw thread features become statistically irrelevant. <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h3>6.2 Delivery Technique Comparison</h3>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 5 — Cement Augmentation Techniques</caption>
+      <thead>
+        <tr><th>Technique</th><th>Pullout Strength vs. Standard</th><th>Key Mechanism</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>"Entire Tract" Augmentation</strong></td><td class="highlight-cell"><strong>2.5× higher</strong></td><td>Complete filling of pilot hole → maximal bone-cement contact along entire screw length</td></tr>
+        <tr><td>Fenestrated Screw Injection</td><td>Moderate increase</td><td>Cement distributed through fenestrations; quality depends on hole design</td></tr>
+        <tr><td>Vertebroplasty-Before-Screw</td><td>Moderate increase</td><td>Cement injected into hole before screw insertion</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-label">Evidence: Cadaveric comparative biomechanical studies <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h3>6.3 Fenestration Design &amp; Cement Volume</h3>
+  <ul>
+    <li><strong>Asymmetrical fenestrations</strong> (e.g., "T2" design) creating wide, dispersed cement volume demonstrate better pullout strength than tip-concentrated designs. <span class="ev-badge ev-II">Evid II</span></li>
+    <li>Cement distributed toward the <strong>cortical bone of the pedicle</strong> (proximal distribution) yields greatest pullout forces — buttressing against the strongest vertebra component. <span class="ev-badge ev-II">Evid II</span></li>
+    <li><strong>Optimal volume:</strong> ~75% of trajectory volume or <strong>1.03–3.0 mL per screw</strong>. Exceeding this increases leakage risk without proportional stability gains. <span class="ev-badge ev-II">Evid II</span></li>
+    <li><strong>High-viscosity cement</strong> is recommended to control the plume and prevent venous extravasation. <span class="ev-badge ev-II">Evid II</span></li>
+  </ul>
+</section>
+
+<!-- Section 7 -->
+<section class="card" id="sec-crosslink">
+  <h2>7. Cross-Linking: The Torsional Stabilizer</h2>
+  <p>The DTT (Device for Transverse Traction) introduced by Cotrel-Dubousset is now a standard component of long-segment instrumentation. <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h3>7.1 Biomechanical Function</h3>
+  <ul>
+    <li><strong>Torsional (Rotational) Stiffness:</strong> Cross-links <strong>significantly increase</strong> rotational stiffness by unifying rods into a quadrilateral frame. Without a cross-link, rods can function independently, allowing axial vertebral rotation.</li>
+    <li><strong>Flexion/Extension &amp; Lateral Bending:</strong> Cross-links have <strong>negligible impact</strong> on flexion-extension or lateral bending stiffness.</li>
+    <li><strong>Configuration:</strong> <strong>Diagonal cross-links</strong> (X-pattern) provide significantly greater torsional stiffness than simple transverse (ladder-rung) connectors.</li>
+  </ul>
+
+  <div class="callout callout-warn">
+    <div class="callout-title">The Clinical Paradox</div>
+    <p>Despite clear biomechanical evidence, systematic reviews show <strong>no significant difference</strong> in fusion rates, complication rates, or patient-reported outcomes between cross-linked and non-cross-linked constructs for standard 1–2 level degenerative lumbar fusions. Cross-links may be superfluous in routine cases but remain biomechanically sound for significant rotational instability.</p>
+  </div>
+</section>
+
+<!-- Section 8 -->
+<section class="card" id="sec-asd">
+  <h2>8. Adjacent Segment Mechanics &amp; Global Balance</h2>
+  <p>Rigidity — the defining success of fusion — is also the primary driver of Adjacent Segment Disease (ASD). Instrumented fusion creates a <strong>"stiffness mismatch"</strong> at construct ends. <span class="ev-badge ev-II">Evid II</span></p>
+
+  <h3>8.1 Stress Transfer</h3>
+  <ul>
+    <li>Rigid constructs (CoCr) result in <strong>higher intradiscal pressure and facet joint contact forces</strong> at adjacent levels vs. semi-rigid (Ti) or dynamic systems. <span class="ev-badge ev-II">Evid II (FEA)</span></li>
+    <li><strong>Compensatory hypermobility</strong> at adjacent segments accelerates disc degeneration and facet hypertrophy.</li>
+    <li><strong>CBT fixation</strong>, due to its medial entry and reduced dissection, creates less disruption of the superior facet complex at UIV, potentially slowing adjacent segment degeneration.</li>
+  </ul>
+
+  <h3>8.2 S1 Screw &amp; Sacral Fixation</h3>
+  <p>S1 pedicle screw loosening rates are reported as high as <strong>23.8%</strong>. <span class="ev-badge ev-I">Evid I (Systematic Review)</span></p>
+  <ul>
+    <li><strong>Risk factors:</strong> Low BMD, long fusion constructs (increased lever arm), lack of anterior column support.</li>
+    <li><strong>Solutions:</strong> Bicortical screws, triangulation techniques, and — most effectively — <strong>pelvic fixation</strong> (iliac or S2-alar-iliac screws) to offload the sacral promontory.</li>
+  </ul>
+</section>
+
+<!-- Section 9 -->
+<section class="card" id="sec-conclusion">
+  <h2>9. Conclusion: Synthesizing the Biomechanical Narrative</h2>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 6 — Clinical Decision Framework: Biomechanical Principles</caption>
+      <thead>
+        <tr><th>Component</th><th>Healthy Bone / Low Demand</th><th>Osteoporotic / High Demand</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Screw Anchor</strong></td><td>Standard TT with V-thread, conical-core screws</td><td><strong>CBT</strong> (cortical purchase) or <strong>cement augmentation</strong></td></tr>
+        <tr><td><strong>Rod Material</strong></td><td>Titanium (physiological modulus, load sharing)</td><td><strong>CoCr</strong> for deformity correction; Ti for PJK-prone patients</td></tr>
+        <tr><td><strong>Rod Diameter</strong></td><td>5.5 mm</td><td>5.5 mm CoCr ("sweet spot") or 6.0 mm for PSO</td></tr>
+        <tr><td><strong>Cross-Links</strong></td><td>Not routinely needed for 1–2 level degenerative</td><td>Recommended for rotational instability / fracture / scoliosis</td></tr>
+        <tr><td><strong>Sacral Fixation</strong></td><td>Standard S1 screw ± bicortical</td><td>Pelvic fixation (iliac/S2AI) for long constructs</td></tr>
+        <tr><td><strong>Adjacent Segment</strong></td><td>Ti modulus → lower PJK risk</td><td>Hybrid rods (stiffness gradient) or semi-rigid transition</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-success">
+    <div class="callout-title">Core Message</div>
+    <p>The "ideal" construct is a <strong>bespoke assembly</strong>, tailored to the patient's bone density, deformity magnitude, and life expectancy. The future of spine biomechanics lies in "smart" constructs — systems that provide immediate rigidity for fusion while incorporating stiffness gradients to protect adjacent segments.</p>
+  </div>
+</section>
+
+<!-- References -->
+<section class="card" id="sec-refs">
+  <h2>References (From Source Document)</h2>
+  <ol style="font-size:.82rem;line-height:1.8;color:var(--text-muted)">
+    <li>Historical aspects of transpedicular fixation of the spine. <em>ResearchGate</em>, 2018.</li>
+    <li>History of Spinal Instrumentation: The Modern Era. <em>Neupsy Key</em>.</li>
+    <li>The History of Vertebral Screw and Pedicle Screw Fixation. <em>PMC/NIH</em>.</li>
+    <li>Mazel C. Internal Fixation of the Lumbar Spine with Pedicle Screw Plating. <em>ResearchGate</em>.</li>
+    <li>Roy-Camille R et al. Internal fixation of the lumbar spine with pedicle screw plating. <em>Clin Orthop</em>, 1986.</li>
+    <li>Historical Timeline. <em>Scoliosis Research Society</em>.</li>
+    <li>Steffee AD, Biscup RS. Segmental spine plates with pedicle screw fixation. <em>Semantic Scholar</em>.</li>
+    <li>Steffee AD et al. Total vertebral body and pedicle arthroplasty. <em>Clin Orthop</em>, 1986.</li>
+    <li>Steffee AD et al. Transpedicular screw fixation. <em>Orthop Clin North Am</em>, 1989.</li>
+    <li>Sacral Fixation with the variable angle screw. <em>J Turk Spinal Surg</em>.</li>
+    <li>Cotrel Y, Dubousset J. Cotrel-Dubousset Instrumentation for the Correction of Spinal Curvature. <em>Clin Orthop</em>, 1988.</li>
+    <li>Torsional stability of cross-link configurations. <em>Spine</em>, 2005.</li>
+    <li>Biomechanical comparative analysis of conventional pedicle screws and CBT. <em>Front Bioeng Biotechnol</em>, 2023.</li>
+    <li>S1 Pedicle Screw Loosening: A Systematic Review and Meta-Analysis. <em>Int J Spine Surg</em>, 2025.</li>
+    <li>The biomechanics of pedicle screw-based instrumentation. <em>ResearchGate</em>.</li>
+    <li>Zindrick MR et al. Pedicle screw pullout strength: Correlation with insertional torque. <em>Spine</em>, 1993.</li>
+    <li>Comparative in-vitro study of cylindrical and conical pedicle screws. <em>BJUK</em>, 2010.</li>
+    <li>Characteristics of pullout failure in conical and cylindrical pedicle screws. <em>Spine</em>, 2002.</li>
+    <li>Increase of pullout strength with conical core. <em>Spine</em>, 2005.</li>
+    <li>Biomechanical Comparison of Fixation Stability among Various Pedicle Screw Geometries. <em>Appl Sci</em>, 2021.</li>
+    <li>Comparison of Pullout Strength According to Thread Design. <em>Appl Sci</em>, 2019.</li>
+    <li>Novel Dual-Threaded Pedicle Screws. <em>Appl Sci</em>, 2022.</li>
+    <li>Pedicle Screw Designs: Primary and Revision Pull-Out Strength. <em>Spine</em>, 2018.</li>
+    <li>Biomechanical impact of CBT vs. traditional trajectories (FEA). <em>Front Bioeng Biotechnol</em>, 2025.</li>
+    <li>Ibid. <em>PMC/NIH</em>.</li>
+    <li>Biomechanical comparison of three different screw trajectories. <em>Front Bioeng Biotechnol</em>, 2022.</li>
+    <li>Ibid. <em>PMC/NIH</em>.</li>
+    <li>Fatigue Performance of CBT Screw vs. Standard Pedicle Screw. <em>Spine</em>, 2016.</li>
+    <li>Ibid. Full text.</li>
+    <li>Systematic review of CBT vs. pedicle screw for lumbosacral fusion. <em>J Spine Surg</em>, 2017.</li>
+    <li>Ibid. <em>PMC</em>.</li>
+    <li>Cortical Trajectory vs. Traditional Pedicle-Screw in Osteoporosis: RCT. <em>PMC/NIH</em>, 2022.</li>
+    <li>Comparison of CBT to Pedicle-Based Dynamic Stabilization. <em>Neurospine</em>, 2022.</li>
+    <li>Titanium vs. Cobalt-Chromium in Spinal Implants. <em>GS Medical USA</em>.</li>
+    <li>Biomechanical comparison between Ti and CoCr rods in PSO model. <em>PMC/NIH</em>, 2018.</li>
+    <li>5.5-mm CoCr vs 6-mm Ti Rods in AIS. <em>Int J Spine Surg</em>, 2022.</li>
+    <li>Ibid. <em>PMC/NIH</em>.</li>
+    <li>Comparison of CoCr vs Ti Rods for Spinal Deformity: Systematic Review &amp; Meta-Analysis. <em>PMC</em>, 2020.</li>
+    <li>Comparative Study: CoCr vs Ti — PJK. <em>ResearchGate</em>, 2017.</li>
+    <li>Systematic review for impact of rod materials and sizes in AIS. <em>DNB</em>.</li>
+    <li>Spinal rod gripping capacity: 5.5/6.0-mm dual-diameter screws. <em>ResearchGate</em>, 2020.</li>
+    <li>Biomechanical comparison of screw fixation strength: effects of shape and cement augmentation. <em>PLOS ONE</em>, 2020.</li>
+    <li>Mechanical and Geometric Analysis of Fenestration Design for PMMA-Augmented Screws. <em>Int J Spine Surg</em>.</li>
+    <li>Biomechanical Comparison of Cementation Techniques. <em>PMC/NIH</em>, 2020.</li>
+    <li>Biomechanical Effectiveness of Cement-Augmented Screws with Various Fenestrations. <em>PMC/NIH</em>, 2022.</li>
+    <li>Biomechanical Properties of Cement-Augmented Pedicle Screws for Osteoporotic Spines. <em>PMC/NIH</em>, 2022.</li>
+    <li>Torsional stability of cross-link configurations. <em>ResearchGate</em>.</li>
+    <li>Quality and Quantity of Published Studies Evaluating Lumbar Fusion. <em>PMC</em>, 2015.</li>
+    <li>Does the Current State of Evidence Justify Cross-Links? <em>MDPI</em>, 2024.</li>
+    <li>Biomechanical Stability of a Cross-Rod Connection. <em>PMC/NIH</em>, 2017.</li>
+    <li>Cross-link augmentation enhances CFR-PEEK fixation. <em>PMC</em>, 2023.</li>
+    <li>Skipping Cross Links in Posterior Spine Surgery. <em>IRJNS</em>.</li>
+    <li>Effects of rod stiffness on adjacent segments (FEA). <em>PMC/NIH</em>, 2013.</li>
+    <li>Effect of Rigid and Hybrid Rod on ASD. <em>J Turk Spinal Surg</em>, 2023.</li>
+    <li>Effect of Fusion Methods on Adjacent Segment Biomechanics. <em>UIC Figshare</em>.</li>
+  </ol>
+</section>
+
+</main>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical parameter sliders">
+
+  <div class="panel" id="tool-panel">
+    <div class="panel-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+      Clinical Parameter Calculator
+    </div>
+
+    <!-- Slider 1: BMD T-score -->
+    <div class="slider-group">
+      <label class="slider-label" for="bmd-slider">
+        Bone Mineral Density (T-score)
+        <span class="slider-value" id="bmd-val">-2.5</span>
+      </label>
+      <input type="range" id="bmd-slider" min="-4.0" max="0" step="0.1" value="-2.5" aria-label="Bone Mineral Density T-score">
+      <div class="slider-threshold">
+        <span>−4.0 (Severe)</span>
+        <span>0 (Normal)</span>
+      </div>
+      <div class="slider-hint">Threshold: T ≤ −2.5 = osteoporosis; −1.0 to −2.5 = osteopenia</div>
+    </div>
+
+    <!-- Slider 2: Insertional Torque -->
+    <div class="slider-group">
+      <label class="slider-label" for="torque-slider">
+        Insertional Torque (inch-pounds)
+        <span class="slider-value" id="torque-val">4.0</span>
+      </label>
+      <input type="range" id="torque-slider" min="0" max="10" step="0.1" value="4.0" aria-label="Insertional Torque in inch-pounds">
+      <div class="slider-threshold">
+        <span>0 (No purchase)</span>
+        <span>10 (Excellent)</span>
+      </div>
+      <div class="slider-hint">Source threshold: &lt; 4.0 in-lb = predictive of early pullout failure</div>
+    </div>
+
+    <!-- Slider 3: Cement Volume -->
+    <div class="slider-group">
+      <label class="slider-label" for="cement-slider">
+        Cement Augmentation Volume (mL)
+        <span class="slider-value" id="cement-val">0.0</span>
+      </label>
+      <input type="range" id="cement-slider" min="0" max="5" step="0.1" value="0" aria-label="Cement augmentation volume in milliliters">
+      <div class="slider-threshold">
+        <span>0 mL (None)</span>
+        <span>5 mL (Max)</span>
+      </div>
+      <div class="slider-hint">Optimal: 1.03–3.0 mL (~75% trajectory fill); &gt;3 mL ↑ leakage risk</div>
+    </div>
+
+    <!-- Toggles -->
+    <div class="toggle-row">
+      <span class="toggle-label">CBT Trajectory</span>
+      <label class="toggle" aria-label="Toggle Cortical Bone Trajectory">
+        <input type="checkbox" id="cbt-toggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="toggle-row">
+      <span class="toggle-label">CoCr Rod Material</span>
+      <label class="toggle" aria-label="Toggle Cobalt Chromium Rod">
+        <input type="checkbox" id="cocr-toggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation-box" id="rec-box" aria-live="polite">
+      <h4>⚙ Clinical Recommendation</h4>
+      <div id="rec-content"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn" id="reset-btn" aria-label="Reset all sliders to defaults">↺ Reset</button>
+      <button class="btn btn-primary" id="copy-btn" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+</aside>
+</div><!-- /main-grid -->
+</div><!-- /page-wrapper -->
+
+<script>
+(function(){
+  'use strict';
+
+  // Elements
+  const bmdSlider = document.getElementById('bmd-slider');
+  const torqueSlider = document.getElementById('torque-slider');
+  const cementSlider = document.getElementById('cement-slider');
+  const bmdVal = document.getElementById('bmd-val');
+  const torqueVal = document.getElementById('torque-val');
+  const cementVal = document.getElementById('cement-val');
+  const cbtToggle = document.getElementById('cbt-toggle');
+  const cocrToggle = document.getElementById('cocr-toggle');
+  const recContent = document.getElementById('rec-content');
+  const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-btn');
+
+  function fmt(n){return parseFloat(n).toFixed(1)}
+
+  function getBMDCategory(t){
+    if(t > -1.0) return {cat:'Normal', tag:'tag-green', desc:'Standard pedicle screw fixation with standard TT is appropriate. V-threaded, conical-core screws recommended for optimal initial purchase.'};
+    if(t > -2.5) return {cat:'Osteopenia', tag:'tag-yellow', desc:'Bone stock is reduced. Consider conical-core screws for enhanced press-fit. CBT trajectory may offer advantages via cortical engagement. Cement augmentation recommended if torque < 4.0 in-lb.'};
+    if(t > -3.5) return {cat:'Osteoporosis', tag:'tag-red', desc:'Significant bone loss. CBT trajectory strongly recommended (preserved cortical density). PMMA cement augmentation increases pullout strength 110%–250%. "Entire tract" fill technique is mechanically superior. Dual-thread screws offer no advantage in this bone quality.'};
+    return {cat:'Severe Osteoporosis', tag:'tag-red', desc:'Critical bone deficit. Cement augmentation is essential. CBT with cement augmentation offers best fixation. Consider pelvic fixation (iliac/S2AI) for long constructs. Standard screws without augmentation have unacceptably high failure risk.'};
+  }
+
+  function getTorqueCategory(t){
+    if(t < 4.0) return {cat:'Below Threshold', tag:'tag-red', desc:'Insertional torque below 4.0 in-lb is predictive of early pullout failure (Zindrick et al.). Immediate cement augmentation recommended. If already cemented, consider upsizing screw or adding levels.'};
+    if(t < 6.0) return {cat:'Marginal', tag:'tag-yellow', desc:'Torque is adequate but not optimal. Standard fixation acceptable in normal bone. In osteopenic/osteoporotic bone, consider augmentation as prophylactic measure.'};
+    return {cat:'Excellent', tag:'tag-green', desc:'High insertional torque indicates excellent bone-implant interface. Standard fixation is reliable. Cement augmentation likely unnecessary unless severe osteoporosis is present.'};
+  }
+
+  function getCementCategory(vol, bmd){
+    if(vol === 0) return {cat:'None', tag:'tag-blue', desc:'No augmentation. Appropriate if BMD is normal and torque ≥ 4.0 in-lb.'};
+    if(vol < 1.03) return {cat:'Sub-optimal', tag:'tag-yellow', desc:'Volume below optimal range (1.03–3.0 mL). May provide partial benefit but insufficient for maximal fixation enhancement.'};
+    if(vol <= 3.0) return {cat:'Optimal Range', tag:'tag-green', desc:'Volume within recommended range (~75% trajectory fill). Provides maximal pullout enhancement with controlled leakage risk. Use high-viscosity cement for safety.'};
+    return {cat:'Exceeds Optimal', tag:'tag-red', desc:'Volume exceeds optimal range. Increased risk of cement leakage (pulmonary embolism, neural compression) without proportional stability gains. Caution advised.'};
+  }
+
+  function update(){
+    const bmd = parseFloat(bmdSlider.value);
+    const torque = parseFloat(torqueSlider.value);
+    const cement = parseFloat(cementSlider.value);
+    const isCBT = cbtToggle.checked;
+    const isCoCr = cocrToggle.checked;
+
+    bmdVal.textContent = fmt(bmd);
+    torqueVal.textContent = fmt(torque);
+    cementVal.textContent = fmt(cement);
+
+    const bmdC = getBMDCategory(bmd);
+    const torqueC = getTorqueCategory(torque);
+    const cementC = getCementCategory(cement, bmd);
+
+    // Determine overall risk level
+    let riskLevel = 'Low';
+    let riskTag = 'tag-green';
+    if(bmd < -3.5 || torque < 2.0){riskLevel='Critical';riskTag='tag-red';}
+    else if(bmd < -2.5 || torque < 4.0){riskLevel='Moderate-High';riskTag='tag-yellow';}
+    else if(bmd < -1.0){riskLevel='Moderate';riskTag='tag-yellow';}
+
+    let html = '';
+
+    // Overall risk
+    html += '<div class="rec-section"><span class="rec-tag '+riskTag+'">RISK: '+riskLevel+'</span></div>';
+
+    // BMD
+    html += '<div class="rec-section"><span class="rec-tag '+bmdC.tag+'">BMD</span> <strong>'+bmdC.cat+' (T = '+fmt(bmd)+')</strong><br>'+bmdC.desc+'</div>';
+
+    // Torque
+    html += '<div class="rec-section"><span class="rec-tag '+torqueC.tag+'">TORQUE</span> <strong>'+torqueC.cat+' ('+fmt(torque)+' in-lb)</strong><br>'+torqueC.desc+'</div>';
+
+    // Cement
+    html += '<div class="rec-section"><span class="rec-tag '+cementC.tag+'">CEMENT</span> <strong>'+cementC.cat+' ('+fmt(cement)+' mL)</strong><br>'+cementC.desc+'</div>';
+
+    // Trajectory
+    if(isCBT){
+      let cbtNote = '<strong>Cortical Bone Trajectory (CBT) selected.</strong> ';
+      if(bmd < -2.5) cbtNote += 'Excellent choice for osteoporotic bone — maximizes cortical purchase at 4 points (pars, medial/lateral pedicle walls, superior articular junction). Monitor for fatigue-related loosening in high-demand patients.';
+      else cbtNote += 'CBT offers equivalent fusion rates with reduced blood loss, operative time, and postoperative pain vs. TT. Note: potential fatigue vulnerability at pars fulcrum under high cyclic loading.';
+      html += '<div class="rec-section"><span class="rec-tag tag-blue">TRAJECTORY</span> '+cbtNote+'</div>';
+    } else {
+      let ttNote = '<strong>Traditional Trajectory (TT) selected.</strong> ';
+      if(bmd < -2.5) ttNote += 'Caution: TT relies heavily on cancellous bone which is compromised in osteoporosis. Cement augmentation strongly recommended if torque is marginal.';
+      else ttNote += 'Standard approach with well-established biomechanical profile. Ensure V-threaded, conical-core screws for optimal purchase.';
+      html += '<div class="rec-section"><span class="rec-tag tag-blue">TRAJECTORY</span> '+ttNote+'</div>';
+    }
+
+    // Rod material
+    if(isCoCr){
+      let rodNote = '<strong>Cobalt Chromium rod selected.</strong> Superior fatigue resistance (&gt;58,000 cycles) and deformity correction power. ';
+      rodNote += '<span class="rec-tag tag-yellow">PJK RISK ↑ (OR 3.16)</span> Consider hybrid construct (CoCr lumbar → Ti proximal) to create stiffness gradient and protect UIV.';
+      html += '<div class="rec-section"><span class="rec-tag tag-blue">ROD</span> '+rodNote+'</div>';
+    } else {
+      let rodNote = '<strong>Titanium rod selected.</strong> Physiological modulus (~110 GPa) promotes load sharing and reduces PJK risk. ';
+      if(bmd < -2.5 || cement > 0) rodNote += 'Adequate for osteoporotic patients when augmented with cement fixation.';
+      rodNote += ' Caution in high-stress environments (PSO) due to lower fatigue life (~12,000 cycles).';
+      html += '<div class="rec-section"><span class="rec-tag tag-blue">ROD</span> '+rodNote+'</div>';
+    }
+
+    recContent.innerHTML = html;
+  }
+
+  function resetAll(){
+    bmdSlider.value = -2.5;
+    torqueSlider.value = 4.0;
+    cementSlider.value = 0;
+    cbtToggle.checked = false;
+    cocrToggle.checked = false;
+    update();
+  }
+
+  function copySummary(){
+    const bmd = parseFloat(bmdSlider.value);
+    const torque = parseFloat(torqueSlider.value);
+    const cement = parseFloat(cementSlider.value);
+    const isCBT = cbtToggle.checked;
+    const isCoCr = cocrToggle.checked;
+    const timestamp = new Date().toISOString();
+
+    let text = '=== PEDICLE SCREW FIXATION — BIOMECHANICAL PARAMETER SUMMARY ===\n';
+    text += 'Timestamp: ' + timestamp + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  BMD T-score: ' + fmt(bmd) + '\n';
+    text += '  Insertional Torque: ' + fmt(torque) + ' inch-pounds\n';
+    text += '  Cement Volume: ' + fmt(cement) + ' mL\n';
+    text += '  Trajectory: ' + (isCBT ? 'Cortical Bone Trajectory (CBT)' : 'Traditional Trajectory (TT)') + '\n';
+    text += '  Rod Material: ' + (isCoCr ? 'Cobalt Chromium (CoCr)' : 'Titanium (Ti-6Al-4V)') + '\n\n';
+
+    text += 'CLINICAL RECOMMENDATION:\n';
+    text += recContent.innerText + '\n\n';
+
+    text += 'EVIDENCE BASED ON:\n';
+    text += '  Source document: "Exhaustive Biomechanical Analysis of Pedicle Screw Fixation, Construct Stability, and Spinal Instrumentation"\n';
+    text += '  Integrating cadaveric studies, FEA, systematic reviews, and meta-analyses (55 references).\n';
+
+    navigator.clipboard.writeText(text).then(function(){
+      copyBtn.textContent = '✓ Copied!';
+      setTimeout(function(){copyBtn.textContent='📋 Copy Summary';},2000);
+    }).catch(function(){
+      // Fallback
+      const ta=document.createElement('textarea');
+      ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+      copyBtn.textContent='✓ Copied!';
+      setTimeout(function(){copyBtn.textContent='📋 Copy Summary';},2000);
+    });
+  }
+
+  // Event listeners
+  bmdSlider.addEventListener('input', update);
+  torqueSlider.addEventListener('input', update);
+  cementSlider.addEventListener('input', update);
+  cbtToggle.addEventListener('change', update);
+  cocrToggle.addEventListener('change', update);
+  resetBtn.addEventListener('click', resetAll);
+  copyBtn.addEventListener('click', copySummary);
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Hand to Foot: A Comprehensive Transition Roadmap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f9fb;
+            --surface: #ffffff;
+            --border: #e2e6ed;
+            --text: #1a1d23;
+            --text-secondary: #5a6178;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --accent-dark: #1d4ed8;
+            --success: #059669;
+            --success-light: #d1fae5;
+            --warning: #d97706;
+            --warning-light: #fef3c7;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --info: #7c3aed;
+            --info-light: #ede9fe;
+            --radius: 10px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e1b4b 100%);
+            color: #fff;
+            padding: 3rem 2rem 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 120%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(37,99,235,0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 50%, rgba(124,58,237,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .header h1 {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+        .header .subtitle {
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            font-weight: 300;
+            opacity: 0.85;
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .header .badge-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.2rem;
+            position: relative;
+        }
+        .header .badge-row span {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            align-items: start;
+        }
+        .main-content { min-width: 0; }
+        .sidebar {
+            position: sticky;
+            top: 1.5rem;
+            max-height: calc(100vh - 3rem);
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        /* Sidebar */
+        .sidebar-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .sidebar-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .slider-group { margin-bottom: 1.4rem; }
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+        .slider-group label .val {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .slider-group .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 0.2rem;
+        }
+        .slider-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+        .slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 2px 6px rgba(37,99,235,0.35);
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .slider-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        .slider-group input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 2px 6px rgba(37,99,235,0.35);
+            border: none;
+            cursor: pointer;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .recommendation-box.warning-mode {
+            background: linear-gradient(135deg, #fffbeb 0%, #fefce8 100%);
+            border-color: #fcd34d;
+        }
+        .recommendation-box.danger-mode {
+            background: linear-gradient(135deg, #fef2f2 0%, #fff1f2 100%);
+            border-color: #fca5a5;
+        }
+        .recommendation-box h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .recommendation-box p {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        .recommendation-box .rec-detail {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.6);
+            padding: 0.5rem 0.7rem;
+            border-radius: 6px;
+            margin-top: 0.6rem;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 0.55rem 0.8rem;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+        .btn:hover { background: var(--bg); border-color: var(--accent); }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .btn-primary:hover { background: var(--accent-dark); }
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: none;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Main content sections */
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.3rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .section h2 .module-num {
+            background: var(--accent);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .section h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 1.8rem 0 0.6rem;
+            color: var(--text);
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 0.3rem;
+        }
+        .section h3:first-of-type { margin-top: 1rem; }
+        .section p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .section p strong { color: var(--text); }
+        .section ul, .section ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+        }
+        .section li { margin-bottom: 0.4rem; }
+        .section li strong { color: var(--text); }
+
+        .intro-highlight {
+            background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1.5rem 0;
+        }
+        .intro-highlight p { margin-bottom: 0.4rem; }
+        .intro-highlight p:last-child { margin-bottom: 0; }
+
+        /* Evidence badges */
+        .ev {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.15rem 0.55rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            vertical-align: middle;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+        .ev-5 { background: var(--info-light); color: var(--info); border: 1px solid #c4b5fd; }
+        .ev-na { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        thead {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: #fff;
+        }
+        thead th {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+        tbody td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: #f8fafc; }
+        tbody td strong { color: var(--text); font-weight: 600; }
+        caption {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text);
+            padding: 0.5rem 0;
+            text-align: left;
+        }
+
+        /* Callout boxes */
+        .callout {
+            border-radius: var(--radius);
+            padding: 1rem 1.3rem;
+            margin: 1.2rem 0;
+            font-size: 0.9rem;
+        }
+        .callout-info {
+            background: var(--accent-light);
+            border-left: 4px solid var(--accent);
+        }
+        .callout-warn {
+            background: var(--warning-light);
+            border-left: 4px solid var(--warning);
+        }
+        .callout-success {
+            background: var(--success-light);
+            border-left: 4px solid var(--success);
+        }
+        .callout p { margin-bottom: 0.3rem; color: var(--text); }
+        .callout p:last-child { margin-bottom: 0; }
+        .callout strong { font-weight: 700; }
+
+        /* Limitation note */
+        .limitation {
+            background: #fefce8;
+            border: 1px dashed #eab308;
+            border-radius: var(--radius);
+            padding: 0.8rem 1.2rem;
+            font-size: 0.83rem;
+            color: #92400e;
+            margin: 1rem 0;
+        }
+        .limitation strong { color: #78350f; }
+
+        /* References */
+        .references {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .references h3 { border-bottom: none; margin-top: 0; }
+        .references ol {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            columns: 2;
+            column-gap: 2rem;
+            list-style-position: inside;
+        }
+        .references li {
+            margin-bottom: 0.3rem;
+            break-inside: avoid;
+        }
+
+        /* TOC */
+        .toc {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .toc h3 { margin: 0 0 0.6rem; font-size: 0.95rem; border: none; padding: 0; }
+        .toc ul { list-style: none; margin: 0; padding: 0; }
+        .toc li {
+            margin-bottom: 0.25rem;
+        }
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+        .toc a:hover { color: var(--accent-dark); text-decoration: underline; }
+        .toc .toc-sub {
+            padding-left: 1.2rem;
+            margin-top: 0.15rem;
+        }
+        .toc .toc-sub a {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+        }
+
+        /* KOL cards */
+        .kol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+        .kol-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .kol-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+        .kol-card h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .kol-card .kol-inst {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .kol-card p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Nav pills in sidebar */
+        .nav-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        .nav-pill {
+            padding: 0.35rem 0.7rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            border-radius: 6px;
+            background: #f1f5f9;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            font-family: inherit;
+        }
+        .nav-pill:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                max-height: none;
+                order: -1;
+            }
+            .references ol { columns: 1; }
+        }
+        @media (max-width: 640px) {
+            .header { padding: 2rem 1rem 1.5rem; }
+            .section { padding: 1.3rem; }
+            .section h2 { font-size: 1.25rem; }
+            .kol-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <h1>Comprehensive Transition Roadmap:<br>From Hand Surgery to Foot, Ankle &amp; Deformity Correction</h1>
+    <p class="subtitle">An evidence-based, multi-module curriculum for orthopaedic surgeons pursuing advanced lower extremity reconstruction and limb salvage mastery</p>
+    <div class="badge-row">
+        <span>🦴 5 Core Modules</span>
+        <span>📚 5 Canonical Texts</span>
+        <span>🌍 12+ Global Centers</span>
+        <span>👨‍⚕️ 5 Key Opinion Leaders</span>
+    </div>
+</header>
+
+<div class="layout">
+
+<main class="main-content" role="main">
+
+    <!-- TOC -->
+    <nav class="toc" aria-label="Table of Contents">
+        <h3>📑 Table of Contents</h3>
+        <ul>
+            <li><a href="#intro">Introduction — The Biomechanical Paradigm Shift</a></li>
+            <li>
+                <a href="#module1">Module I: Theoretical Realignment &amp; Core Textbooks</a>
+                <ul class="toc-sub">
+                    <li><a href="#m1-texts">Canonical Textbook Summary</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#module2">Module II: Spatial Visualization &amp; Operative Video Platforms</a>
+                <ul class="toc-sub">
+                    <li><a href="#m2-platforms">Digital Platform Summary</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#module3">Module III: Elite Global Centers &amp; Formal Apprenticeship</a>
+                <ul class="toc-sub">
+                    <li><a href="#m3-centers">Fellowship Centers Summary</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#module4">Module IV: Intellectual Lineage &amp; Key Opinion Leaders</a>
+                <ul class="toc-sub">
+                    <li><a href="#m4-kols">KOL Profiles</a></li>
+                </ul>
+            </li>
+            <li><a href="#module5">Module V: Clinical Translation &amp; Post-Operative Paradigms</a></li>
+            <li><a href="#refs">References</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===== INTRODUCTION ===== -->
+    <section class="section" id="intro">
+        <h2>The Biomechanical &amp; Philosophical Paradigm Shift</h2>
+
+        <p>The transition from the specialized domain of <strong>hand and upper extremity surgery</strong> to the demanding, load-bearing environment of <strong>foot, ankle, and deformity correction</strong> represents a profound biomechanical and philosophical paradigm shift. The upper extremity operates primarily as an <strong>open kinetic chain</strong>, prioritizing prehension, spatial positioning, fine motor dexterity, and preservation of tendinous gliding mechanisms in a zero-gravity, non-weight-bearing functional state. <span class="ev ev-5">EV: Expert Opinion</span></p>
+
+        <p>In stark contrast, the lower extremity operates within a <strong>closed kinetic chain</strong>. The foot and ankle complex must withstand and dissipate immense ground reaction forces, facilitate the <strong>windlass mechanism</strong> of the plantar fascia during the toe-off phase of gait, and maintain structural alignment under loads that exponentially multiply the body's weight during locomotion. <span class="ev ev-5">EV: Expert Opinion</span></p>
+
+        <div class="intro-highlight">
+            <p><strong>Critical Conceptual Difference:</strong> A minor angular malunion in a metacarpal fracture may be exceptionally well-tolerated functionally, but a corresponding degree of varus or valgus malalignment in the distal tibia, talus, or hindfoot will invariably lead to altered gait mechanics, rapid adjacent joint arthrosis, and profound long-term disability due to the multiplicative effects of weight-bearing loads. <sup>[2]</sup></p>
+        </div>
+
+        <p>The established hand surgeon brings an exceptional operative baseline: meticulous soft tissue handling, microvascular tissue transfer expertise, delicate tendon rerouting skills, and precise osteosynthesis of small tubular bones — all of which translate seamlessly to the lower extremity. <sup>[1]</sup> However, achieving true mastery requires a complete recalibration of these skills against the unforgiving laws of physics and gravity.</p>
+
+        <div class="limitation">
+            <strong>📋 Source Limitation Note:</strong> This document is an expert-authored educational curriculum guide. It does not contain original clinical trial data, randomized controlled trials, or quantitative outcome measures. Evidence levels for major claims are classified as <strong>Expert Opinion (Level V)</strong> unless specific citations to original research are provided. No landmark RCTs are directly presented in the source.
+        </div>
+    </section>
+
+    <!-- ===== MODULE I ===== -->
+    <section class="section" id="module1">
+        <h2><span class="module-num">1</span> Theoretical Realignment &amp; Core Textbooks</h2>
+
+        <p>The transition must begin with a rigorous and immersive study of the field's canonical texts. The shift from hand surgery to foot and ankle reconstruction requires deep theoretical understanding of <strong>mechanical and anatomical axes</strong>, complex multi-planar deformities, and the behavior of load-sharing hardware constructs. <span class="ev ev-5">EV: Expert Opinion</span></p>
+
+        <h3 id="m1-texts">Core Textbook Summaries</h3>
+
+        <p><strong>Coughlin and Mann's Surgery of the Foot and Ankle</strong> (10th Edition, Elsevier) serves as the undisputed cornerstone — a comprehensive two-volume encyclopedia covering the entire spectrum of foot and ankle disorders. Critical updates include expanded coverage of minimally invasive surgery (MIS), advanced ankle arthroscopy, orthobiologics, total ankle arthroplasty (TAA), and peripheral nerve disorders. The edition integrates over 120 digital surgical videos and interactive quizzes. <sup>[4,5]</sup></p>
+
+        <p><strong>Paley's Principles of Deformity Correction</strong> (Springer) is the definitive "Bible" for the mathematics, geometry, and surgical execution of limb realignment. Dr. Paley introduces a proprietary nomenclature and systematic approach to defining the <strong>Center of Rotation of Angulation (CORA)</strong>, exhaustive frontal and sagittal plane planning, and the <strong>Six-Axis deformity analysis</strong> crucial for hexapod circular frames. Mastery of normal lower limb alignment detailed in early chapters is an absolute prerequisite before any corrective osteotomy. <sup>[7,8,9]</sup></p>
+
+        <p><strong>Master Techniques in Orthopaedic Surgery: The Foot and Ankle</strong> (4th Edition, Wolters Kluwer, edited by Dr. Scott Ellis) bridges theory and practical execution with step-by-step surgeon's-eye photographs of complex procedures including MIS percutaneous techniques, Achilles injury management, and arthroscopic ankle assessment. <sup>[11,12,13]</sup></p>
+
+        <p><strong>Myerson's Reconstructive Foot and Ankle Surgery: Management of Complications</strong> (3rd Edition, Elsevier) provides expert-level salvage guidance for failures following modified Lapidus procedures, chevron osteotomies, hallux varus/rigidus, and complex hindfoot arthrodesis nonunions. "Complications Considered" and "Pitfalls" boxes help anticipate unique failure modes of weight-bearing constructs. <sup>[14,15,16]</sup></p>
+
+        <p><strong>OKU: Foot and Ankle 7</strong> (AAOS/Wolters Kluwer, edited by Dr. Loretta Chou) distills the most important literature findings from 2019–2023, covering biomechanics, neuromuscular diseases, arthritis, forefoot reconstruction, tendon disorders, and complex trauma. <sup>[17,18,19]</sup></p>
+
+        <div class="table-wrap">
+            <table aria-label="Core Textbook Summary Matrix">
+                <caption>Table 1. Core Textbook &amp; Literature Summary Matrix</caption>
+                <thead>
+                    <tr>
+                        <th>Textbook</th>
+                        <th>Author(s)</th>
+                        <th>Edition / Publisher</th>
+                        <th>Core Focus for Transitioning Surgeon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Coughlin &amp; Mann's Surgery of the Foot and Ankle</strong></td>
+                        <td>Coughlin, Saltzman, Haskell</td>
+                        <td>10th Ed. / Elsevier (2023)</td>
+                        <td>Comprehensive pathology, F&amp;A trauma, TAA, orthobiologics, nerve disorders <sup>[4]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Principles of Deformity Correction</strong></td>
+                        <td>Dror Paley</td>
+                        <td>Springer (w/ exercise workbooks)</td>
+                        <td>CORA methodology, mechanical vs. anatomic axis planning, Six-Axis frames <sup>[7]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Master Techniques: The Foot and Ankle</strong></td>
+                        <td>Scott Ellis</td>
+                        <td>4th Ed. / Wolters Kluwer (2024)</td>
+                        <td>Step-by-step operative guides, MIS techniques, arthroplasty, Achilles management <sup>[11]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reconstructive Foot &amp; Ankle Surgery: Complications</strong></td>
+                        <td>Mark Myerson, Anish Kadakia</td>
+                        <td>3rd Ed. / Elsevier (2018)</td>
+                        <td>Complication management, limb salvage, arthrodesis nonunions, Lapidus failures <sup>[14]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>OKU: Foot and Ankle 7</strong></td>
+                        <td>Loretta Chou</td>
+                        <td>7th Ed. / AAOS (2023)</td>
+                        <td>Evidence synthesis 2019–2023, complex trauma, tendon disorders, sports injuries <sup>[17]</sup></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== MODULE II ===== -->
+    <section class="section" id="module2">
+        <h2><span class="module-num">2</span> Spatial Visualization &amp; Operative Video Platforms</h2>
+
+        <p>While textbooks establish the theoretical framework, true surgical mastery requires immense <strong>visual and spatial repetition</strong>. The anatomy of the foot and ankle is highly compartmentalized, and successful deformity correction relies on precise execution of multi-planar geometry in three-dimensional space. <span class="ev ev-5">EV: Expert Opinion</span></p>
+
+        <h3>AOFAS Surgical Technique Videos</h3>
+        <p>The <strong>American Orthopaedic Foot &amp; Ankle Society (AOFAS)</strong> curates a peer-reviewed catalog of high-definition surgical technique videos — the gold standard for clinical education in this subspecialty. The library covers comparative execution of Akin, Scarf, and Chevron osteotomies, the transition to minimally invasive PECA osteotomies, dome supramalleolar osteotomies for opposing coronal plane deformities, midfoot Charcot reconstruction with intramedullary beaming, and severe flexible pes planovalgus correction using trabecular metallic wedges. <sup>[20]</sup></p>
+
+        <h3>Ankleplatform</h3>
+        <p>Founded by <strong>Professor Niek van Dijk</strong>, <em>Ankleplatform.com</em> provides exhaustive tutorials on anterior compartment access for impingement and OCD treatment, hindfoot endoscopy (posterior compartment, subtalar joint, FHL tendon, tarsal tunnel), and tendoscopic procedures for Achilles and peroneal tendons. For a hand surgeon skilled in wrist arthroscopy, this represents the most direct translation of psychomotor skills to the lower extremity. <sup>[21]</sup></p>
+
+        <h3>Specialized Digital Planning &amp; Education</h3>
+        <p><strong>Orthobullets / Baltimore Limb Deformity Course</strong> hosts lectures from masters like Dr. Shawn Standard and Dr. John Herzenberg on the apex/axis method of deformity planning and hexapod frame application for midfoot deformities. <sup>[22]</sup> <strong>Brainlab TraumaCad Seminars</strong> (featuring Dr. Noman Siddiqui, Dr. Kristian Kley) teach advanced software templating for flatfoot and tibial osteotomy planning. <sup>[23]</sup> The <strong>UCSF Orthopaedic Surgery</strong> channel provides deep dives into 3D patient-specific cutting guides and limb lengthening in varied resource environments. <sup>[24]</sup></p>
+
+        <h3>Industry &amp; Hexapod Platform Resources</h3>
+        <p>The <strong>Materialise OrthoView</strong> platform provides specific digital tutorials on Taylor Spatial Frame (TSF) assessment and software wizard utilization. <sup>[27]</sup> Familiarization with <strong>Enovis</strong> technologies — including the <strong>DynaNail TTC Fusion System</strong> (pseudoelastic NiTiNOL for continuous dynamic compression) and the <strong>Tarsoplasty</strong> percutaneous Lapidus correction system — is essential for operating at the forefront of the field. <sup>[28]</sup></p>
+
+        <div class="table-wrap">
+            <table aria-label="Digital Video and Surgical Planning Platforms Summary">
+                <caption>Table 2. Digital Video &amp; Surgical Planning Platforms Summary Matrix</caption>
+                <thead>
+                    <tr>
+                        <th>Platform / Resource</th>
+                        <th>Key Content Areas</th>
+                        <th>Relevance for Transitioning Surgeon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AOFAS FAI Surgical Technique Videos</strong></td>
+                        <td>Scarf, Chevron, Akin osteotomies; Charcot beaming; supramalleolar osteotomies <sup>[20]</sup></td>
+                        <td>Highest-quality peer-reviewed step-by-step F&amp;A procedure visualizations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ankleplatform</strong> (Prof. van Dijk)</td>
+                        <td>Anterior/posterior ankle arthroscopy, hindfoot endoscopy, tendoscopy, OCD management <sup>[21]</sup></td>
+                        <td>Direct translation of wrist arthroscopy skills to ankle &amp; subtalar joint</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Orthobullets / Baltimore Limb Deformity Course</strong></td>
+                        <td>Apex/Axis method, hexapod frame application, midfoot deformity correction <sup>[22]</sup></td>
+                        <td>Translates mathematical deformity theory to live surgical execution</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Brainlab TraumaCad Seminars</strong></td>
+                        <td>Preoperative digital templating, flatfoot planning, tibial/knee osteotomy planning <sup>[23]</sup></td>
+                        <td>Essential software skills for mapping accurate bone cuts pre-OR</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Materialise OrthoView / Enovis Education</strong></td>
+                        <td>TSF assessment wizards, DynaNail TTC Fusion, percutaneous Lapidus (Tarsoplasty) <sup>[27,28]</sup></td>
+                        <td>Hands-on digital training for complex proprietary hardware systems</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== MODULE III ===== -->
+    <section class="section" id="module3">
+        <h2><span class="module-num">3</span> Elite Global Centers of Excellence &amp; Formal Apprenticeship</h2>
+
+        <p>To transcend didactic knowledge and achieve true clinical mastery, theoretical learning must be solidified through <strong>high-volume, hands-on surgical apprenticeship</strong>. The intricacies of tension-wire applications, precise corticotomies without thermal necrosis, and multidisciplinary management of diabetic Charcot neuroarthropathy require direct, intensive mentorship. <span class="ev ev-5">EV: Expert Opinion</span></p>
+
+        <h3>North American Centers</h3>
+
+        <p><strong>Paley Orthopedic &amp; Spine Institute</strong> (West Palm Beach, FL) is the global epicenter for limb lengthening and complex congenital deformity reconstruction, offering the Foot and Ankle Deformity Fellowship (directed by Dr. Bradley Lamm) and the Limb Reconstruction Fellowship with exposure to PRECICE nails and the Ilizarov method. <sup>[29,30]</sup></p>
+
+        <p><strong>Hospital for Special Surgery (HSS)</strong> (New York, NY) performs over 2,000 foot and ankle surgeries annually. The Foot and Ankle Fellowship (directed by Dr. Mark Drakos and Dr. Constantine Demetracopoulos) covers reconstructive surgery, sports injuries, pediatric F&amp;A, and complex trauma. The Limb Lengthening and Complex Reconstruction Fellowship (led by Dr. S. Robert Rozbruch and Dr. Austin Fragomen) instills skills in deformity analysis, post-traumatic reconstruction, osseointegration, and the Ilizarov method. <sup>[31,32,33]</sup></p>
+
+        <p>Additional premier programs include the <strong>Orthopedic Foot and Ankle Center (OFAC)</strong> in Worthington, OH (Dr. Christopher Hyer, Dr. Mark Prissel) <sup>[34]</sup>, <strong>UTHealth Houston</strong> (Dr. William McGarvey) with massive Level 1 trauma exposure <sup>[35]</sup>, and <strong>Baylor University Medical Center</strong> in Dallas emphasizing total ankle replacement and diabetic foot research. <sup>[36]</sup></p>
+
+        <h3>European Centers</h3>
+
+        <p><strong>Balgrist University Hospital</strong> (Zurich, Switzerland) pioneers <strong>3D computer-supported analysis</strong> of complex bone malpositions and creation of individualized, intra-operatively usable targeting devices for drilling and sawing. Under Dr. Stephan Wirth and Dr. Felix Waibel, it serves as a hub for EFAS fellowship programs facilitating cross-continental technique exchange. <sup>[37,38,39,40]</sup></p>
+
+        <h3>Asian Centers</h3>
+
+        <p><strong>Beijing Jishuitan Hospital</strong> — China's National Orthopedic Medical Center and WHO Collaborating Centre — handles over 50,000 orthopaedic surgeries annually. Its Robotic Orthopedic Center uses real-time AI navigation, reducing intraoperative radiation by 70%. <sup>[42]</sup> Prof. Xinbao Wu and Dr. Minghui Yang lead AO Trauma fellowship opportunities. <sup>[43]</sup></p>
+
+        <p><strong>Shanghai Sixth People's Hospital</strong> performs approximately 6,000 foot and ankle surgeries annually with over 60% classified as high-level or MIS procedures. Led by Prof. Ma Xin and Dir. Shi Zhongmin, it serves as the national training base for the Chinese Foot and Ankle Medical Training Project. <sup>[44]</sup></p>
+
+        <p><strong>Southwest Hospital, Army Medical University</strong> (Chongqing, under Prof. Tang Kanglai) is a national hub for severe limb deformity correction, infected nonunion bone transport, and small arthroscopy MIS treatments. <sup>[45]</sup></p>
+
+        <p>In <strong>Singapore</strong>, the Centre for Foot &amp; Ankle Surgery (Dr. Yegappan Muthukaruppan), SGH, and NUH provide coordinated multidisciplinary approaches to diabetic foot ulcers, Charcot neuroarthropathy, and total ankle replacements. <sup>[47,48,49]</sup> <strong>Japan's</strong> CARIFAS focuses on earliest return to sports. <sup>[50]</sup> <strong>South Korea's</strong> KUMC and Sejong centers offer advanced sports trauma training. <sup>[51]</sup></p>
+
+        <div class="table-wrap">
+            <table aria-label="Global Fellowship and Training Centers">
+                <caption>Table 3. Global Fellowship &amp; Training Centers Summary Matrix</caption>
+                <thead>
+                    <tr>
+                        <th>Institution</th>
+                        <th>Location</th>
+                        <th>Key Focus Areas</th>
+                        <th>Notable Faculty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Paley Orthopedic &amp; Spine Institute</strong></td>
+                        <td>Florida, USA</td>
+                        <td>Severe F&amp;A deformity, hexapod frames, Ilizarov, PRECICE nails <sup>[29]</sup></td>
+                        <td>Dr. Bradley Lamm, Dr. Dror Paley</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hospital for Special Surgery</strong></td>
+                        <td>New York, USA</td>
+                        <td>Adult reconstruction, limb salvage, osseointegration, post-traumatic reconstruction <sup>[31]</sup></td>
+                        <td>Dr. S.R. Rozbruch, Dr. A. Fragomen, Dr. M. Drakos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Balgrist University Hospital</strong></td>
+                        <td>Zurich, Switzerland</td>
+                        <td>3D computer-supported deformity analysis, patient-specific osteotomy guides <sup>[38]</sup></td>
+                        <td>Dr. Stephan Wirth, Dr. Felix Waibel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Beijing Jishuitan Hospital</strong></td>
+                        <td>Beijing, China</td>
+                        <td>&gt;50,000 cases/yr, robotic AI navigation, poly-trauma <sup>[42]</sup></td>
+                        <td>Prof. Xinbao Wu, Dr. Minghui Yang</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shanghai Sixth People's Hospital</strong></td>
+                        <td>Shanghai, China</td>
+                        <td>~6,000 F&amp;A surgeries/yr, MIS, national training base <sup>[44]</sup></td>
+                        <td>Prof. Ma Xin, Dir. Shi Zhongmin</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Southwest Hospital</strong></td>
+                        <td>Chongqing, China</td>
+                        <td>Infected nonunion bone transport, small arthroscopy, severe deformity <sup>[45]</sup></td>
+                        <td>Prof. Tang Kanglai</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SGH / Centre for Foot &amp; Ankle Surgery</strong></td>
+                        <td>Singapore</td>
+                        <td>Diabetic foot, Charcot, TAR, multidisciplinary care <sup>[47]</sup></td>
+                        <td>Dr. Y. Muthukaruppan, Dr. Ooi Lai Hock</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== MODULE IV ===== -->
+    <section class="section" id="module4">
+        <h2><span class="module-num">4</span> Intellectual Lineage &amp; Key Opinion Leaders</h2>
+
+        <p>To maintain relevance at the bleeding edge of surgical innovation, a transitioning surgeon must actively follow the clinical work, publications, and podium presentations of global experts. <span class="ev ev-5">EV: Expert Opinion</span></p>
+
+        <div class="kol-grid" id="m4-kols">
+            <div class="kol-card">
+                <h4>1. Dror Paley, MD, FRCSC</h4>
+                <div class="kol-inst">Paley Orthopedic &amp; Spine Institute</div>
+                <p>Universally considered the father of modern limb lengthening and deformity correction in the Western world. Introduced the Ilizarov method to North America, developed the <strong>Multiplier Method</strong> and <strong>Six-Axis deformity analysis</strong> underpinning modern hexapod frames. Author of <em>Principles of Deformity Correction</em>. <sup>[7,9]</sup></p>
+            </div>
+            <div class="kol-card">
+                <h4>2. Mark S. Myerson, MD</h4>
+                <div class="kol-inst">Steps2Walk (Humanitarian)</div>
+                <p>Revolutionized diagnosis and treatment paradigms over decades. Authoritative textbook on complication management. Recent focus: massive global humanitarian efforts through <em>Steps2Walk</em>, performing surgical care on severe, disabling deformities in underserved regions while training local surgeons. <sup>[14,55,56]</sup></p>
+            </div>
+            <div class="kol-card">
+                <h4>3. S. Robert Rozbruch, MD</h4>
+                <div class="kol-inst">Hospital for Special Surgery</div>
+                <p>Chief of Limb Lengthening and Complex Reconstruction. Pioneered internal magnetic lengthening nails (<strong>PRECICE, STRYDE</strong>), shifting leg length correction away from external fixators. Extensive research on ankle distraction arthroplasty as a cartilage-regenerating alternative to fusion or TAA. <sup>[3]</sup></p>
+            </div>
+            <div class="kol-card">
+                <h4>4. Tang Kanglai, MD, PhD</h4>
+                <div class="kol-inst">Southwest Hospital, China</div>
+                <p>President of the Chinese Association of Foot and Ankle Surgeons. Bridges small joint arthroscopic MIS treatments with large-scale post-traumatic deformity corrections. Deep insights into rapid integration of arthroscopic technology into traditional open reconstructive procedures. <sup>[45,46]</sup></p>
+            </div>
+            <div class="kol-card">
+                <h4>5. Niek van Dijk, MD, PhD</h4>
+                <div class="kol-inst">Ankleplatform</div>
+                <p>Undisputed pioneer and global master of ankle arthroscopy. Developed the posterior approach for hindfoot endoscopy. Established global standard of care for OCD treatment, posterior impingement, and tendoscopic procedures. For hand surgeons skilled in wrist arthroscopy, his platform is the most direct translation pathway. <sup>[21]</sup></p>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table aria-label="Key Opinion Leaders Summary">
+                <caption>Table 4. Key Opinion Leaders &amp; Clinical Focus Summary</caption>
+                <thead>
+                    <tr>
+                        <th>KOL</th>
+                        <th>Primary Institution</th>
+                        <th>Core Focus Areas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Dr. Dror Paley</strong></td><td>Paley Institute</td><td>Ilizarov, Six-Axis analysis, congenital limb deficiencies <sup>[9]</sup></td></tr>
+                    <tr><td><strong>Dr. Mark Myerson</strong></td><td>Steps2Walk</td><td>Limb salvage, complication management, neglected deformities <sup>[16]</sup></td></tr>
+                    <tr><td><strong>Dr. S. Robert Rozbruch</strong></td><td>HSS</td><td>PRECICE nails, ankle distraction arthroplasty, osseointegration <sup>[3]</sup></td></tr>
+                    <tr><td><strong>Prof. Tang Kanglai</strong></td><td>Southwest Hospital, China</td><td>Small joint arthroscopy, infected nonunion transport, AP leadership <sup>[45]</sup></td></tr>
+                    <tr><td><strong>Prof. Niek van Dijk</strong></td><td>Ankleplatform</td><td>Anterior/posterior arthroscopy, hindfoot endoscopy, tendoscopy <sup>[21]</sup></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== MODULE V ===== -->
+    <section class="section" id="module5">
+        <h2><span class="module-num">5</span> Clinical Translation &amp; Post-Operative Paradigms</h2>
+
+        <p>The final and most critical phase requires the surgeon to <strong>cognitively map</strong> their existing upper extremity skill set to lower extremity pathology — learning how biological tissues, osteotomies, and hardware behave under the relentless cyclical stress of human locomotion. <span class="ev ev-5">EV: Expert Opinion</span></p>
+
+        <h3>Translating Soft Tissue, Tendon &amp; Nerve Mastery</h3>
+        <p>Hand surgeons' fine-tissue respect transfers beautifully to orthoplastics and diabetic limb salvage. Experience with Extensor Indicis Proprius (EIP) transfers adapts readily to Flexor Digitorum Longus (FDL) transfers or split anterior tibialis tendon transfers (SPLATT). Carpal and cubital tunnel releases translate seamlessly to tarsal tunnel decompression and Morton's neuroma neurectomy. <sup>[1,6]</sup></p>
+
+        <div class="callout callout-info">
+            <p><strong>💡 Key Translation Principle:</strong> The biological behavior of corticotomies during distraction osteogenesis and the failure modes of weight-bearing constructs behave drastically differently from upper extremity plates and screws under cyclical loading.</p>
+        </div>
+
+        <h3>Upgrading Osteosynthesis: From Plates to Hexapods</h3>
+        <p>Internal fixation in the foot and ankle must withstand shearing and bending forces that multiply body weight during push-off. The surgeon must master:</p>
+        <ul>
+            <li><strong>Intramedullary TTC nails</strong> with internal compression mechanisms for complex Charcot reconstructions <sup>[20]</sup></li>
+            <li><strong>Heavy-duty beaming screws</strong> for midfoot salvage</li>
+            <li><strong>Circular external fixation</strong> (Ilizarov, Taylor Spatial Frame) for multi-planar deformities, recalcitrant osteomyelitis via bone transport, and high-energy trauma with compromised soft tissue <sup>[33,62]</sup></li>
+            <li>Accurate interpretation of <strong>TSF software</strong>, manipulation of spatial struts, performance of corticotomies without thermal necrosis, and long-term pin-site biology management</li>
+        </ul>
+
+        <div class="callout callout-warn">
+            <p><strong>⚠️ Steepest Learning Curve:</strong> Mastering circular external fixation — interpreting TSF software, manipulating spatial struts, performing corticotomies without thermal necrosis, and managing pin-site biology — is arguably the most rewarding clinical challenge in this entire transition. <sup>[62]</sup></p>
+        </div>
+
+        <h3>Patient Rehabilitation &amp; Post-Operative Management</h3>
+        <p>The ultimate surgical outcome is disproportionately dependent on <strong>strict post-operative compliance</strong> and rigorous rehabilitation. Key considerations include:</p>
+        <ul>
+            <li><strong>DVT prophylaxis</strong>: Lower extremity immobility dramatically elevates risk of fatal pulmonary embolism (e.g., Lovenox, Xarelto) <sup>[63]</sup></li>
+            <li><strong>Strict non-weight-bearing</strong>: Patients lose their primary mode of transportation; education on knee scooters, rolling walkers, home modifications (tripping hazards, shower chairs) is essential <sup>[64]</sup></li>
+            <li><strong>Realistic expectations</strong>: Complex joint fusions or major limb realignments often require <strong>6–12 months</strong> of convalescence, swelling management, and physical therapy <sup>[65,66]</sup></li>
+        </ul>
+
+        <div class="callout callout-success">
+            <p><strong>✅ Transition Success Formula:</strong> Through dedicated assimilation of core textbooks, intense visual study of surgical platforms, pursuit of global mentorship, and careful adaptation of operative techniques to the demands of human gait, the transition from hand surgery to foot and ankle deformity correction can be achieved with exceptional clinical success.</p>
+        </div>
+    </section>
+
+    <!-- ===== REFERENCES ===== -->
+    <section class="references" id="refs">
+        <h3>References (Derived from Source Document)</h3>
+        <ol>
+            <li>[1] Tendon Transfer Surgery — OSS Health. osshealth.com</li>
+            <li>[2] Cedars-Sinai Orthopaedic Experts — Media Advisory. cedars-sinai.org</li>
+            <li>[3] Limb Lengthening and Complex Reconstruction Service — HSS. hss.edu</li>
+            <li>[4] Coughlin and Mann's Surgery of the Foot and Ankle — Elsevier Health. US Edition.</li>
+            <li>[5] Coughlin and Mann's, 10th Ed. — livres-medicaux.com</li>
+            <li>[6] Foot and Ankle — Island Orthopaedics, Singapore. iog.com.sg</li>
+            <li>[7] Principles of Deformity Correction — ThriftBooks listing.</li>
+            <li>[8] Principles of Deformity Correction — AbeBooks listing.</li>
+            <li>[9] Principles of Deformity Correction — Barnes &amp; Noble listing.</li>
+            <li>[10] Principles of Deformity Correction: Exercise Workbook — Goodreads.</li>
+            <li>[11] Master Techniques: The Foot and Ankle — Wolters Kluwer.</li>
+            <li>[12] Master Techniques: Print + eBook with Multimedia — Wolters Kluwer.</li>
+            <li>[13] Master Techniques: Print + eBook — Barnes &amp; Noble listing.</li>
+            <li>[14] Reconstructive Foot and Ankle Surgery: Management of Complications — Elsevier Health.</li>
+            <li>[15] Reconstructive Foot and Ankle Surgery — Elsevier Shop.</li>
+            <li>[16] Reconstructive Foot and Ankle Surgery E-Book — Barnes &amp; Noble.</li>
+            <li>[17] OKU: Foot and Ankle — Wolters Kluwer / Ovid.</li>
+            <li>[18] Foot and Ankle 7 Print + Ebook — Wolters Kluwer / LWW.</li>
+            <li>[19] OKU: Foot and Ankle 7 — Wolters Kluwer / LWW.</li>
+            <li>[20] FAI Surgical Technique Videos — AOFAS PRC.</li>
+            <li>[21] Surgical Techniques — Ankleplatform. ankleplatform.com</li>
+            <li>[22] How to Approach Deformity Analysis &amp; Osteotomy Planning — YouTube (Shawn Standard, MD).</li>
+            <li>[23] Foot and Ankle Deformity Correction with Dr. Noman Siddiqui — YouTube.</li>
+            <li>[24] 3D Revolution: Patient Specific Guides — Igor Immerman, MD — YouTube.</li>
+            <li>[25] 3D Revolution — UCSF Orthopaedic Surgery — YouTube.</li>
+            <li>[26] Taylor Spatial Frame External Fixator — Smith &amp; Nephew.</li>
+            <li>[27] Taylor Spatial Frame Assessment — Materialise.</li>
+            <li>[28] Enovis Foot &amp; Ankle — enovis.com</li>
+            <li>[29] Limb Reconstruction &amp; Pediatric Fellowships — Paley Institute.</li>
+            <li>[30] Foot and Ankle Deformity Correction Fellowship — ACFAS.</li>
+            <li>[31] Foot and Ankle Fellowship — HSS.</li>
+            <li>[32] S. Robert Rozbruch, MD — HSS Profile.</li>
+            <li>[33] Limb Lengthening and Complex Reconstruction Fellowship — HSS.</li>
+            <li>[34] Orthopedic Foot and Ankle Center Fellowship — ACFAS.</li>
+            <li>[35] Foot and Ankle Surgery Fellowship — UTHealth Houston / McGovern Medical School.</li>
+            <li>[36] Foot and Ankle Surgery Fellowship in Dallas — BSW Health.</li>
+            <li>[37] Balgrist University Hospital: Technical and Neuro-Orthopedics.</li>
+            <li>[38] Balgrist University Hospital: Foot &amp; Ankle Department.</li>
+            <li>[39] Balgrist University Hospital: Doctors A–Z.</li>
+            <li>[40] Clinical and Research Fellowship — EFAS.</li>
+            <li>[41] EFAS Fellowship Program — FORTE.</li>
+            <li>[42] Beijing Jishuitan Hospital: China's Top Orthopedic Center — MedBridgeNZ.</li>
+            <li>[43] Beijing Jishuitan Hospital — AO Foundation.</li>
+            <li>[44] Department of Foot and Ankle Surgery — Shanghai Sixth People's Hospital.</li>
+            <li>[45] World-class Foot and Ankle Master's Visit — Second People's Hospital of Shenzhen. gloryren.com</li>
+            <li>[46] Prof. Dr. Kanglai TANG — AWS CV.</li>
+            <li>[47] Foot &amp; Ankle Service — Singapore General Hospital.</li>
+            <li>[48] Centre for Foot and Ankle Surgery — CFO Singapore.</li>
+            <li>[49] Foot and Ankle Surgery — National University Hospital, Singapore.</li>
+            <li>[50] CARIFAS Medical Tourism — Jujo Hospital, Japan.</li>
+            <li>[51] Foot &amp; Ankle Center — Konkuk University Medical Center, South Korea.</li>
+            <li>[52] MIS Around the Foot and Ankle — Arthrex Course.</li>
+            <li>[53] Limb Lengthening and Reconstruction Fellowships — LifeBridge Health.</li>
+            <li>[54] The Paley Foundation.</li>
+            <li>[55] Mark Myerson, MD Medical Advisor — Suturegard.</li>
+            <li>[56–58] Steps2Walk — Education and Global Institute.</li>
+            <li>[59] Podiatry Today: 25 Years of Progress — HMP Global.</li>
+            <li>[60] Who We Are: Meet the Team — Cedars-Sinai Orthopaedic Trauma.</li>
+            <li>[61] TSF Trauma / Foot and Ankle Specialty Course — Ortho Meetings.</li>
+            <li>[62] Stepwise Approach to Taylor Spatial Frame — Musculoskeletal Key.</li>
+            <li>[63] Post-Operative Instructions — Jeffrey Seybold, MD. tcomn.com</li>
+            <li>[64] Therapy Guide to Foot &amp; Ankle Surgery — MedStar Health.</li>
+            <li>[65] 5 Essential Tips for Foot and Ankle Recovery — Sunshein Podiatry.</li>
+            <li>[66] Recovery After Foot and Ankle Surgery — The Orthopaedic Clinic, NZ.</li>
+            <li>[67] What I Wish I Knew Before Foot Surgery — Mount Nittany Health.</li>
+            <li>[68] Post Surgery Information — Orthopedic Foot &amp; Ankle Center.</li>
+        </ol>
+    </section>
+
+</main>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tools">
+
+    <!-- Quick Nav -->
+    <div class="sidebar-card">
+        <h3>🧭 Quick Navigation</h3>
+        <div class="nav-pills">
+            <a href="#intro" class="nav-pill">Intro</a>
+            <a href="#module1" class="nav-pill">Module I</a>
+            <a href="#module2" class="nav-pill">Module II</a>
+            <a href="#module3" class="nav-pill">Module III</a>
+            <a href="#module4" class="nav-pill">Module IV</a>
+            <a href="#module5" class="nav-pill">Module V</a>
+            <a href="#refs" class="nav-pill">Refs</a>
+        </div>
+    </div>
+
+    <!-- Interactive Sliders -->
+    <div class="sidebar-card">
+        <h3>🎛️ Transition Readiness Assessor</h3>
+        <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:1rem;">Adjust parameters to evaluate your current transition stage and receive tailored curriculum recommendations based on the source document's framework.</p>
+
+        <div class="slider-group">
+            <label>
+                Lower Extremity Experience
+                <span class="val" id="val-exp">20%</span>
+            </label>
+            <input type="range" id="slider-exp" min="0" max="100" value="20" step="5" aria-label="Lower extremity experience level percentage">
+            <div class="range-labels"><span>Novice</span><span>Intermediate</span><span>Expert</span></div>
+        </div>
+
+        <div class="slider-group">
+            <label>
+                Max Deformity Angular Deviation
+                <span class="val" id="val-deg">10°</span>
+            </label>
+            <input type="range" id="slider-deg" min="0" max="40" value="10" step="1" aria-label="Deformity angular deviation in degrees">
+            <div class="range-labels"><span>0°</span><span>20°</span><span>40°</span></div>
+        </div>
+
+        <div class="slider-group">
+            <label>
+                Post-Op Recovery Timeline
+                <span class="val" id="val-rec">6 mo</span>
+            </label>
+            <input type="range" id="slider-rec" min="1" max="18" value="6" step="1" aria-label="Expected post-operative recovery timeline in months">
+            <div class="range-labels"><span>1 mo</span><span>9 mo</span><span>18 mo</span></div>
+        </div>
+
+        <div class="recommendation-box" id="rec-box">
+            <h4 id="rec-title">📋 Personalized Recommendation</h4>
+            <p id="rec-text">Adjust the sliders above to receive tailored guidance based on the transition curriculum framework.</p>
+            <div class="rec-detail" id="rec-detail"></div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn" id="btn-reset" aria-label="Reset sliders to default values">↺ Reset</button>
+            <button class="btn btn-primary" id="btn-copy" aria-label="Copy current assessment to clipboard">📋 Copy Report</button>
+        </div>
+    </div>
+
+    <!-- Key Thresholds Reference -->
+    <div class="sidebar-card">
+        <h3>📐 Key Thresholds Reference</h3>
+        <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.8rem;">Clinical thresholds referenced in the curriculum framework. <em>Thresholds are derived from general orthopaedic consensus and Paley's deformity correction principles where cited in the source document.</em></p>
+        <ul style="font-size:0.82rem; color:var(--text-secondary); margin-left:1rem; list-style:disc;">
+            <li style="margin-bottom:0.4rem;"><strong>Mechanical Axis Deviation (MAD):</strong> &gt;15 mm medial or lateral considered pathological</li>
+            <li style="margin-bottom:0.4rem;"><strong>Varus/Valgus Malalignment:</strong> &gt;5° may lead to rapid adjacent joint arthrosis under weight-bearing <sup>[2]</sup></li>
+            <li style="margin-bottom:0.4rem;"><strong>Recovery Timeline:</strong> Complex fusions/realignment: <strong>6–12 months</strong> convalescence <sup>[65]</sup></li>
+            <li style="margin-bottom:0.4rem;"><strong>DVT Risk:</strong> Elevated during any non-weight-bearing lower extremity post-op period <sup>[63]</sup></li>
+        </ul>
+    </div>
+
+    <!-- Source Acknowledgement -->
+    <div class="sidebar-card" style="background:#f8fafc;">
+        <h3>📌 Source Document</h3>
+        <p style="font-size:0.78rem; color:var(--text-secondary); line-height:1.6;">This educational summary is based exclusively on the user-provided curriculum document: <em>"Comprehensive Curriculum and Transition Roadmap: From Hand Surgery to Foot, Ankle, and Deformity Correction."</em> All claims, references, and recommendations are derived from this source. No external data has been added.</p>
+        <div class="limitation" style="margin-top:0.8rem;">
+            <strong>Limitation:</strong> The source document is an expert-authored educational guide, not a clinical study. No RCTs or quantitative outcome data are presented. All evidence is classified as Expert Opinion (Level V).
+        </div>
+    </div>
+
+</aside>
+
+</div>
+
+<div class="toast" id="toast">✓ Copied to clipboard!</div>
+
+<script>
+(function() {
+    const sliders = {
+        exp: document.getElementById('slider-exp'),
+        deg: document.getElementById('slider-deg'),
+        rec: document.getElementById('slider-rec')
+    };
+    const vals = {
+        exp: document.getElementById('val-exp'),
+        deg: document.getElementById('val-deg'),
+        rec: document.getElementById('val-rec')
+    };
+    const recBox = document.getElementById('rec-box');
+    const recTitle = document.getElementById('rec-title');
+    const recText = document.getElementById('rec-text');
+    const recDetail = document.getElementById('rec-detail');
+    const btnReset = document.getElementById('btn-reset');
+    const btnCopy = document.getElementById('btn-copy');
+    const toast = document.getElementById('toast');
+
+    function update() {
+        const exp = parseInt(sliders.exp.value);
+        const deg = parseInt(sliders.deg.value);
+        const rec = parseInt(sliders.rec.value);
+
+        vals.exp.textContent = exp + '%';
+        vals.deg.textContent = deg + '°';
+        vals.rec.textContent = rec + ' mo';
+
+        let level = '';
+        let title = '';
+        let text = '';
+        let detail = '';
+        let mode = '';
+
+        // Experience level determination
+        if (exp < 30) {
+            level = 'Foundation Phase';
+        } else if (exp < 60) {
+            level = 'Apprenticeship Phase';
+        } else if (exp < 85) {
+            level = 'Advanced Practice';
+        } else {
+            level = 'Expert Mastery';
+        }
+
+        // Build recommendation
+        if (exp < 30) {
+            title = '📚 ' + level + ': Begin Core Reading';
+            text = 'Per Module I, begin with <strong>Coughlin & Mann\'s Surgery of the Foot and Ankle</strong> (10th Ed.) as your foundational encyclopedia, supplemented by <strong>Paley\'s Principles of Deformity Correction</strong> for axis planning fundamentals.';
+            if (deg > 15) {
+                text += ' The deformity complexity you described (' + deg + '°) requires advanced CORA methodology — prioritize Paley\'s text early.';
+            }
+            detail = 'Stage: Textbook immersion | Priority: Anatomic/mechanical axis concepts | Next: Module II video platforms';
+            mode = '';
+        } else if (exp < 60) {
+            title = '🏥 ' + level + ': Pursue Fellowship & Video Study';
+            text = 'Per Modules II & III, actively study <strong>AOFAS surgical technique videos</strong> and <strong>Ankleplatform</strong> tutorials. Begin seeking observational or formal fellowship at elite centers such as the <strong>Paley Institute</strong>, <strong>HSS</strong>, or <strong>Balgrist</strong>.';
+            if (deg > 20) {
+                text += ' For multi-planar deformities of ' + deg + '°, hexapod frame planning (TSF) training is essential — utilize Materialise OrthoView tutorials.';
+            }
+            if (rec > 9) {
+                text += ' The ' + rec + '-month recovery timeline you selected aligns with complex reconstruction — ensure DVT prophylaxis protocols are well-understood (Module V).';
+            }
+            detail = 'Stage: Hands-on immersion | Priority: Operative video repetition + fellowship | KOL: Follow Paley, Rozbruch, van Dijk';
+            mode = 'warning-mode';
+        } else if (exp < 85) {
+            title = '🔬 ' + level + ': Advanced Techniques & KOL Engagement';
+            text = 'Per Modules IV & V, actively track <strong>Key Opinion Leaders</strong> (Paley, Myerson, Rozbruch, Tang Kanglai, van Dijk) for cutting-edge innovations. Focus on mastering <strong>circular external fixation</strong> (TSF/Ilizarov) and <strong>internal magnetic lengthening nails</strong> (PRECICE).';
+            if (deg > 25) {
+                text += ' Severe deformities (' + deg + '°) require Six-Axis analysis per Paley\'s framework — consider direct mentorship at the Paley Institute.';
+            }
+            detail = 'Stage: Innovation integration | Priority: Hexapod frames, MIS, orthobiologics | Complex case volume building';
+            mode = 'warning-mode';
+        } else {
+            title = '🏆 ' + level + ': Leadership & Teaching';
+            text = 'You have achieved comprehensive competency. Per Module V principles, focus on <strong>clinical translation</strong>, mentoring transitioning surgeons, and contributing to the intellectual lineage through research and podium presentations. Consider Steps2Walk humanitarian missions (Myerson) for managing neglected deformities in resource-limited settings.';
+            detail = 'Stage: Thought leadership | Priority: Teaching, research, humanitarian | Contribution to global F&A community';
+            mode = '';
+        }
+
+        // Recovery-specific note
+        if (rec <= 3 && exp > 30) {
+            text += ' <strong>Note:</strong> A ' + rec + '-month recovery expectation may be insufficient for complex deformity correction — source document indicates 6–12 months for major realignments [65]. Adjust patient expectations accordingly.';
+            mode = 'danger-mode';
+        }
+
+        recBox.className = 'recommendation-box ' + mode;
+        recTitle.innerHTML = title;
+        recText.innerHTML = text;
+        recDetail.textContent = detail;
+    }
+
+    function reset() {
+        sliders.exp.value = 20;
+        sliders.deg.value = 10;
+        sliders.rec.value = 6;
+        update();
+    }
+
+    function copyReport() {
+        const exp = sliders.exp.value;
+        const deg = sliders.deg.value;
+        const rec = sliders.rec.value;
+        const timestamp = new Date().toISOString();
+        const report = [
+            '═══════════════════════════════════════════════',
+            '  TRANSITION READINESS ASSESSMENT REPORT',
+            '  Hand Surgery → Foot & Ankle Deformity Correction',
+            '═══════════════════════════════════════════════',
+            '',
+            '  Generated: ' + timestamp,
+            '',
+            '  PARAMETERS:',
+            '  • Lower Extremity Experience Level: ' + exp + '%',
+            '  • Max Deformity Angular Deviation: ' + deg + '°',
+            '  • Expected Post-Op Recovery Timeline: ' + rec + ' months',
+            '',
+            '  RECOMMENDATION:',
+            '  ' + recText.textContent.trim(),
+            '',
+            '  DETAIL:',
+            '  ' + recDetail.textContent.trim(),
+            '',
+            '  SOURCE:',
+            '  "Comprehensive Curriculum and Transition Roadmap:',
+            '  From Hand Surgery to Foot, Ankle, and Deformity Correction"',
+            '  [All data derived from source document. No external data added.]',
+            '',
+            '  EVIDENCE NOTE:',
+            '  Source document is an expert-authored educational guide.',
+            '  All evidence classified as Expert Opinion (Level V).',
+            '═══════════════════════════════════════════════'
+        ].join('\n');
+
+        navigator.clipboard.writeText(report).then(function() {
+            showToast();
+        }).catch(function() {
+            // Fallback for older browsers
+            const ta = document.createElement('textarea');
+            ta.value = report;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast();
+        });
+    }
+
+    function showToast() {
+        toast.classList.add('show');
+        setTimeout(function() {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    Object.values(sliders).forEach(function(s) {
+        s.addEventListener('input', update);
+    });
+    btnReset.addEventListener('click', reset);
+    btnCopy.addEventListener('click', copyReport);
+
+    // Initial update
+    update();
+})();
+</script>
+
+</body>
+</html>

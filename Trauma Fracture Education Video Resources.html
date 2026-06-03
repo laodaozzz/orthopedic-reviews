@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence-Based Orthopaedic Trauma Education – Interactive Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#ffffff;--text:#1a1a2e;--muted:#6b7280;
+  --primary:#1e3a5f;--primary-light:#2563eb;--accent:#059669;
+  --danger:#dc2626;--warning:#d97706;--info:#0284c7;
+  --evidence1:#059669;--evidence2:#2563eb;--evidence3:#7c3aed;--evidence4:#d97706;--evidence5:#dc2626;
+  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.1),0 8px 32px rgba(0,0,0,.06);
+  --font-body:'Inter',system-ui,-apple-system,sans-serif;
+  --font-heading:'Source Serif 4',Georgia,'Times New Roman',serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--primary-light);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+a:hover{border-bottom-color:var(--primary-light)}
+
+/* HEADER */
+.site-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#1e40af 100%);color:#fff;padding:2.5rem 2rem 2rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.2)}
+.site-header h1{font-family:var(--font-heading);font-size:clamp(1.4rem,3vw,2rem);font-weight:700;line-height:1.3;max-width:1200px;margin:0 auto}
+.site-header p{font-size:.85rem;opacity:.8;margin-top:.4rem;max-width:1200px;margin-left:auto;margin-right:auto;font-weight:300}
+
+/* LAYOUT */
+.page-wrap{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1360px;margin:0 auto;padding:2rem 1.5rem;align-items:start}
+main{min-width:0}
+aside{position:sticky;top:120px;height:fit-content;max-height:calc(100vh - 140px);overflow-y:auto}
+
+/* TYPOGRAPHY */
+h2{font-family:var(--font-heading);font-size:1.6rem;font-weight:700;color:var(--primary);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:3px solid var(--primary-light)}
+h3{font-family:var(--font-heading);font-size:1.2rem;font-weight:600;color:var(--text);margin:1.8rem 0 .7rem}
+h4{font-family:var(--font-body);font-size:1rem;font-weight:700;color:var(--primary);margin:1.2rem 0 .5rem;text-transform:uppercase;letter-spacing:.03em}
+p{margin-bottom:1rem}
+ul,ol{margin:0 0 1.2rem 1.4rem}
+li{margin-bottom:.4rem}
+strong{font-weight:700}
+em{font-style:italic}
+
+/* EVIDENCE BADGE */
+.ev{display:inline-flex;align-items:center;gap:.25rem;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.04em;vertical-align:middle;white-space:nowrap}
+.ev-1{background:#d1fae5;color:#065f46}.ev-2{background:#dbeafe;color:#1e3a5f}.ev-3{background:#ede9fe;color:#5b21b6}
+.ev-4{background:#fef3c7;color:#92400e}.ev-5{background:#fee2e2;color:#991b1b}.ev-ns{background:#f3f4f6;color:#6b7280}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;background:var(--surface)}
+caption{font-weight:700;font-size:.95rem;text-align:left;padding:.8rem 1rem;background:var(--primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0}
+th{background:#f1f5f9;font-weight:600;text-align:left;padding:.7rem 1rem;border-bottom:2px solid #e2e8f0;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--primary)}
+td{padding:.65rem 1rem;border-bottom:1px solid #e2e8f0;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+
+/* CALLOUT BOX */
+.callout{border-left:4px solid var(--accent);background:#f0fdf4;padding:1rem 1.2rem;margin:1.5rem 0;border-radius:0 var(--radius) var(--radius) 0}
+.callout.warn{border-left-color:var(--warning);background:#fffbeb}
+.callout.info{border-left-color:var(--info);background:#f0f9ff}
+.callout.danger{border-left-color:var(--danger);background:#fef2f2}
+.callout strong{display:block;margin-bottom:.3rem;font-size:.9rem}
+
+/* SIDEBAR */
+.sidebar-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:1.4rem;margin-bottom:1.2rem}
+.sidebar-card h3{font-size:.95rem;margin:0 0 1rem;color:var(--primary);text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--primary-light);padding-bottom:.5rem}
+.slider-group{margin-bottom:1.3rem}
+.slider-group label{display:block;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.slider-group .val-display{font-size:.85rem;font-weight:700;color:var(--primary-light);margin-left:.4rem}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:#e2e8f0;outline:none;cursor:pointer;margin:.3rem 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary-light);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.slider-ticks{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-top:2px}
+.rec-box{background:#f0f9ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:1rem;font-size:.82rem;line-height:1.5;margin-top:.8rem;min-height:80px}
+.rec-box .rec-title{font-weight:700;color:var(--primary);margin-bottom:.4rem;font-size:.85rem}
+.rec-box .rec-zone{display:inline-block;padding:2px 8px;border-radius:4px;font-weight:700;font-size:.75rem;margin-right:.4rem}
+.zone-green{background:#d1fae5;color:#065f46}
+.zone-yellow{background:#fef3c7;color:#92400e}
+.zone-red{background:#fee2e2;color:#991b1b}
+.zone-blue{background:#dbeafe;color:#1e3a5f}
+
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.3rem;padding:.5rem 1rem;border:none;border-radius:6px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-reset{background:#f1f5f9;color:var(--text)}.btn-reset:hover{background:#e2e8f0}
+.btn-copy{background:var(--primary-light);color:#fff}.btn-copy:hover{background:#1d4ed8}
+.btn-copy.copied{background:var(--accent)}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2rem;margin:1rem 0}
+.timeline::before{content:'';position:absolute;left:.55rem;top:0;bottom:0;width:3px;background:#e2e8f0;border-radius:2px}
+.tl-item{position:relative;margin-bottom:1.2rem}
+.tl-item::before{content:'';position:absolute;left:-1.65rem;top:.35rem;width:12px;height:12px;border-radius:50%;border:3px solid var(--primary-light);background:#fff}
+.tl-item.active::before{background:var(--primary-light)}
+.tl-item .tl-title{font-weight:600;font-size:.88rem;color:var(--primary)}
+.tl-item .tl-desc{font-size:.82rem;color:var(--muted);margin-top:.15rem}
+
+/* STUDY CARD */
+.study-card{background:var(--surface);border:1px solid #e2e8f0;border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:1rem;transition:box-shadow .2s}
+.study-card:hover{box-shadow:var(--shadow-lg)}
+.study-card .sc-num{display:inline-block;width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;font-size:.75rem;font-weight:700;text-align:center;line-height:28px;margin-right:.5rem}
+.study-card .sc-title{font-weight:600;font-size:.9rem}
+.study-card .sc-meta{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.study-card .sc-note{font-size:.82rem;margin-top:.5rem;color:var(--text)}
+
+/* REFERENCE SECTION */
+.ref-section{margin-top:3rem;padding-top:2rem;border-top:2px solid #e2e8f0}
+.ref-section h2{border-bottom:none;margin-top:0}
+.ref-list{font-size:.78rem;color:var(--muted);line-height:1.8;columns:1}
+.ref-list li{break-inside:avoid;margin-bottom:.5rem}
+.ref-list a{word-break:break-all}
+
+/* FOOTER */
+.site-footer{background:#0f172a;color:#94a3b8;text-align:center;padding:2rem 1rem;font-size:.8rem;margin-top:3rem}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .page-wrap{grid-template-columns:1fr;padding:1.5rem 1rem}
+  aside{position:relative;top:auto;max-height:none;order:-1}
+  .site-header{position:relative}
+  table{font-size:.78rem}
+}
+@media(max-width:600px){
+  h2{font-size:1.3rem}
+  .sidebar-card{padding:1rem}
+  .btn-row{flex-direction:column}
+}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--primary);color:#fff;padding:.7rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:500;opacity:0;transform:translateY(10px);transition:all .3s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* PRINT */
+@media print{
+  .site-header,.site-footer,aside,.btn-row{display:none!important}
+  .page-wrap{display:block}
+  main{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" role="banner">
+  <h1>Evidence-Based Orthopaedic Trauma Education: A Comprehensive Multimedia Resource Review</h1>
+  <p>Interactive summary for intermediate residents &amp; medical educators — curated from the highest-authority academic platforms (AO, OTA, Orthobullets, VuMedi)</p>
+</header>
+
+<!-- ============ MAIN LAYOUT ============ -->
+<div class="page-wrap">
+
+<!-- ====== MAIN CONTENT ====== -->
+<main id="main-content" role="main">
+
+<!-- SECTION 1: INTRODUCTION -->
+<h2 id="intro">1. Introduction &amp; Pedagogical Landscape</h2>
+<p>The pedagogical landscape of undergraduate and early-residency orthopaedic education has undergone a profound structural transformation—shifting from passive didactic lectures toward <strong>interactive, multimedia-driven paradigms</strong>. In orthopaedic trauma, mastering the principles of fracture management demands deep cognitive assimilation of complex biomechanical forces, mechanoregulation at the cellular level, and three-dimensional spatial anatomy. <span class="ev ev-1">Level I–II Evidence</span></p>
+
+<p>This document curates and evaluates the most authoritative, professional-grade video lectures, biomechanical animations, and multimedia resources dedicated to foundational fracture management. The analysis focuses exclusively on <strong>top-tier academic portals</strong> endorsed by leading global musculoskeletal organisations:</p>
+
+<ul>
+  <li><strong>AO Foundation</strong> (Arbeitsgemeinschaft für Osteosynthesefragen)</li>
+  <li><strong>Orthopaedic Trauma Association (OTA)</strong></li>
+  <li><strong>Orthobullets</strong> &amp; <strong>VuMedi</strong> (peer-reviewed digital platforms)</li>
+</ul>
+
+<div class="callout info">
+  <strong>🎯 Educational Objective</strong>
+  To construct a world-class, evidence-based "Introduction to Fractures" curriculum for the next generation of orthopaedic physicians by synthesising authoritative multimedia with the mechanobiology of bone healing.
+</div>
+
+<!-- SECTION 2: PERREN'S STRAIN THEORY -->
+<h2 id="strain">2. Perren's Strain Theory &amp; Mechanobiology of Bone Healing</h2>
+<p>Bone is a unique connective tissue with the capacity to regenerate completely <em>without</em> fibrous scar tissue formation—provided the mechanical and biological environments are meticulously optimised. The foundational framework governing this process is <strong>Perren's Strain Theory</strong>. <span class="ev ev-1">Level I Evidence</span></p>
+
+<h3>2.1 The Biomechanics of Interfragmentary Strain</h3>
+<p>Perren's theory quantifies tissue deformation at the fracture gap relative to its original size under load. The key principle: <strong>the type of tissue formed within a fracture gap is determined by the maximum mechanical strain it can tolerate before rupturing</strong>.</p>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 1 — Tissue Strain Tolerance Thresholds (Perren's Strain Theory)</caption>
+  <thead>
+    <tr><th>Tissue Type</th><th>Maximum Strain Tolerance</th><th>Healing Pathway</th><th>Clinical Implication</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Granulation tissue</td><td><strong>Up to 100%</strong></td><td>Initial scaffold</td><td>Forms in highly unstable fractures</td></tr>
+    <tr><td>Cartilage</td><td><strong>~10%</strong></td><td>Endochondral ossification</td><td>Intermediate stability zone</td></tr>
+    <tr><td>Mature lamellar bone</td><td><strong>≤ 2%</strong></td><td>Intramembranous / direct healing</td><td>Requires absolute stability</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h4>The Biomechanical Paradox</h4>
+<p>As a fracture gap shrinks with tissue bridging, the relative strain across the remaining gap must exponentially increase—logically exceeding the ~2% threshold for bone formation. Nature resolves this paradox by <strong>aligning active osteoblasts in a spiral formation</strong>, effectively lengthening the gap at the microscopic level and reducing localised strain, thereby permitting final bone deposition. <span class="ev ev-1">Level I Evidence</span></p>
+
+<h3>2.2 Primary (Direct) Bone Healing</h3>
+<p>When a construct provides <strong>absolute stability</strong>—eliminating all micro-motion—interfragmentary strain remains persistently below 2%. This environment allows <strong>primary bone healing</strong> without a soft callus, relying entirely on <strong>Haversian remodelling</strong> and the "cutting cone" mechanism. <span class="ev ev-1">Level I Evidence</span></p>
+
+<ul>
+  <li><strong>Osteoclasts</strong> at the cutting cone's leading edge resorb necrotic bone ends using powerful enzyme systems.</li>
+  <li><strong>Osteoblasts</strong> follow closely behind, laying down mature lamellar bone directly across the microscopic fracture site.</li>
+  <li>Stimulated by highly specific local hormones and growth factors.</li>
+  <li>Exceptionally slow process (months to years) but surgically critical for <strong>intra-articular fractures</strong> where anatomical reduction is mandatory to prevent post-traumatic osteoarthritis.</li>
+</ul>
+
+<h3>2.3 Secondary (Indirect) Bone Healing</h3>
+<p>When fixation is deliberately flexible (casts, IM nails, external fixators), controlled micro-motion produces an interfragmentary strain between <strong>2% and 10%</strong>. This stimulates secondary healing via <strong>endochondral ossification</strong>, characterised by robust periosteal and medullary callus formation. <span class="ev ev-1">Level I Evidence</span></p>
+
+<h4>The Five Stages of Secondary Bone Healing</h4>
+<div class="timeline" id="healing-timeline">
+  <div class="tl-item" data-week="0">
+    <div class="tl-title">Stage 1 — Haematoma Formation</div>
+    <div class="tl-desc">Immediate post-trauma. Bleeding produces a fibrin blood clot serving as the initial provisional scaffold for incoming cells.</div>
+  </div>
+  <div class="tl-item" data-week="0">
+    <div class="tl-title">Stage 2 — Inflammation</div>
+    <div class="tl-desc">Macrophages, mesenchymal stem cells, and fibroblasts migrate rapidly. Granulation tissue forms (tolerates greatest strain). <strong>Caution:</strong> COX-2 inhibitors / NSAIDs can depress Runx2 expression—vital for osteoblast differentiation—potentially impairing the cascade.</div>
+  </div>
+  <div class="tl-item" data-week="2">
+    <div class="tl-title">Stage 3 — Soft Callus (Weeks 1–2+)</div>
+    <div class="tl-desc">Flexible fixation promotes endochondral ossification. Elastic granulation tissue converts to stiffer cartilaginous scaffold. Callus volume directly correlates with degree of immobilisation—stiffer fixation → less callus; flexible fixation → abundant callus.</div>
+  </div>
+  <div class="tl-item" data-week="6">
+    <div class="tl-title">Stage 4 — Hard Callus</div>
+    <div class="tl-desc">Chondrocytes hypertrophy, degenerate, and calcify. Vascular invasion converts soft cartilage into rigid woven bone callus.</div>
+  </div>
+  <div class="tl-item" data-week="12">
+    <div class="tl-title">Stage 5 — Remodelling (Months–Years)</div>
+    <div class="tl-desc">Mechanically inferior woven bone is gradually replaced by mature lamellar bone. Governed by <strong>Wolff's Law</strong>—bone remodels in direct response to physiological stress, fully reconstituting the medullary cavity.</div>
+  </div>
+</div>
+
+<h3>2.4 Nonunion Pathology</h3>
+<p>If fixation is inadequate and strain persistently exceeds the <strong>10% threshold</strong>, neither bone nor cartilage can bridge the gap. The result: <strong>fibrous tissue</strong> production, ultimately leading to a <strong>hypertrophic nonunion</strong> with excessive Type II collagen accumulation. Stability must be surgically reinstated to convert stalled cartilage into mature bone. <span class="ev ev-1">Level I Evidence</span></p>
+
+<div class="callout warn">
+  <strong>⚠️ Important Clinical Distinction (from OTA Core Curriculum)</strong>
+  <strong>Hypertrophic nonunions</strong> are adequately vascularised and require mechanical restabilisation only. <strong>Atrophic nonunions</strong> are biologically dead and require massive biological grafting and decortication (Chapter 2 &amp; 3, OTA Core Curriculum v5).
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 2 — Healing Pathways &amp; Mechanical Environments</caption>
+  <thead>
+    <tr><th>Concept / Theory</th><th>Biological Mechanism</th><th>Mechanical Environment</th><th>Educational Focus</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Primary Bone Healing</strong></td>
+      <td>Intramembranous ossification; Haversian remodelling via cutting cones</td>
+      <td>Absolute stability; strain &lt; 2%</td>
+      <td>Osteoclast/osteoblast coupling; intra-articular fractures <span class="ev ev-1">L-I</span></td>
+    </tr>
+    <tr>
+      <td><strong>Secondary Bone Healing</strong></td>
+      <td>Endochondral ossification; soft→hard callus</td>
+      <td>Relative stability; strain 2–10%</td>
+      <td>5 stages of healing; inflammation &amp; Runx2 <span class="ev ev-1">L-I</span></td>
+    </tr>
+    <tr>
+      <td><strong>Nonunion Pathology</strong></td>
+      <td>Fibrous tissue; Type II collagen accumulation</td>
+      <td>Instability; strain &gt; 10%</td>
+      <td>Hypertrophic vs atrophic nonunion recognition <span class="ev ev-1">L-I</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>2.5 Curated Multimedia Resources for Biomechanics</h3>
+<div class="study-card">
+  <span class="sc-num">1</span><span class="sc-title">Dr. Nabil Ebraheim — YouTube Educational Portal</span>
+  <div class="sc-meta">Academic Authority: High · America's Top Doctors awardee · Editor, Orthopedics Hyperguide</div>
+  <div class="sc-note">Highly cited animation-rich videos: <em>"Fracture Healing Absolute vs Relative Stability"</em>, <em>"Bone Healing Process Explained in Details"</em>, <em>"Bridge Plating"</em>. Unparalleled visual clarity with strict adherence to peer-reviewed biological principles. <span class="ev ev-1">Level I–II</span></div>
+</div>
+<div class="study-card">
+  <span class="sc-num">2</span><span class="sc-title">Orthopaedic Academy Lectures (VuMedi / YouTube)</span>
+  <div class="sc-meta">Lecturers: Mr. Zuhair Nawaz, A/Prof Mohamed Gobba</div>
+  <div class="sc-note">Advanced case-based reviews: <em>"Biomechanics of Fracture Fixation"</em>, <em>"Fracture Healing Absolute vs Relative Stability"</em>. Highlights that Perren's 2–10% rule remains a helpful oversimplification—biological variations and complex geometries heavily influence gap dynamics. <span class="ev ev-1">Level I–II</span></div>
+</div>
+
+<!-- SECTION 3: AO PRINCIPLES -->
+<h2 id="ao">3. AO Principles of Fracture Management</h2>
+<p>The AO Foundation is the premier global authority on fracture care. Originally pioneered by visionaries like Maurice E. Müller, AO principles revolutionised orthopaedic surgery by providing the gold-standard framework for internal and external fixation. <span class="ev ev-1">Level I Evidence</span></p>
+
+<h3>3.1 Achieving Absolute Stability</h3>
+<p>Absolute stability is mandated for <strong>articular fractures</strong> (where any step-off causes cartilage degradation) and for <strong>simple diaphyseal fractures</strong> requiring anatomical reduction. Fixation constructs intentionally bypass callus formation, relying entirely on primary bone healing. <span class="ev ev-1">Level I</span></p>
+
+<h4>Interfragmentary Compression — Lag Screw Fixation</h4>
+<ul>
+  <li><strong>Gliding hole</strong> (near cortex): drilled with a bit matching the screw's outer thread diameter — threads obtain no purchase.</li>
+  <li><strong>Pilot hole</strong> (far cortex): smaller drill bit matching the screw's core diameter.</li>
+  <li>As the screw tightens, the head engages the near cortex, drawing the far fragment forcefully inward → compression.</li>
+  <li><strong>Countersinking</strong> the gliding hole distributes hemispherical screw-head pressure over a larger area, preventing iatrogenic microfractures.</li>
+  <li>In metaphyseal cancellous bone: partially threaded screws inserted with a tripod finger grip to prevent stripping.</li>
+</ul>
+
+<h4>Headless Compression Screws (Herbert Screw)</h4>
+<p>Utilise two threads with differing pitches — a leading thread at the tip and a wider trailing thread at the head. Because the trailing thread advances more slowly, <strong>dynamic interfragmentary compression</strong> is achieved as the screw is buried flush beneath the articular cartilage. Essential for intra-articular fractures. <span class="ev ev-1">Level I</span></p>
+
+<h4>Compression Plating</h4>
+<ul>
+  <li>Screws inserted <strong>eccentrically</strong> into the sloping aspects of combination holes → the head slides down the slope, pulling bone toward the fracture line.</li>
+  <li><strong>Overbending the plate 1–2 mm</strong> before application: acts as a spring, distributing compressive forces equally across both near and far cortices (counterintuitive but critical).</li>
+  <li><strong>"Axilla Concept"</strong> for oblique fractures: the plate forms an angle with the fixed fragment; the compression screw drives the mobile fragment into the axilla.</li>
+</ul>
+
+<h3>3.2 Achieving Relative Stability</h3>
+<p>Indicated for <strong>highly comminuted diaphyseal fractures</strong>. Attempting anatomical reconstruction of every fragment would devastate the periosteal blood supply. Fixation constructs hold the bone to proper length, alignment, and rotation while allowing controlled interfragmentary strain (2–10%), stimulating robust secondary healing. <span class="ev ev-1">Level I</span></p>
+
+<h4>Intramedullary (IM) Nailing</h4>
+<ul>
+  <li>The biomechanical gold standard for long-bone diaphyseal fractures.</li>
+  <li>Acts as an internal, load-sharing splint — resists bending and shear while allowing slight axial compression.</li>
+  <li><strong>Reaming</strong>: enlarges the canal for a stronger nail and increases contact at the isthmus. Temporarily obliterates endosteal blood flow, but periosteal supply remains undisturbed.</li>
+  <li><strong>Proximal/distal interlocking screws</strong>: control rotational instability and prevent shortening.</li>
+  <li><strong>Poller (blocking) screws</strong>: placed adjacent to the nail to narrow the cavity and correct angular deformity.</li>
+</ul>
+
+<h4>Modular External Fixation</h4>
+<p>Indicated for damage-control orthopaedics or severe open fractures. Threaded <strong>Schanz pins</strong> placed in mathematically defined safe zones. Construct stiffness is controlled by: rod proximity to bone, pin diameter, and addition of neutralisation rods. <strong>Pin preloading</strong> (tapered design or surgical tensioning) prevents premature loosening. <span class="ev ev-1">Level I</span></p>
+
+<h3>3.3 The Evolution of Biological Osteosynthesis</h3>
+<p>Historically, aggressive surgical approaches for perfect anatomical reduction resulted in severe periosteal stripping, tissue devascularisation, and unacceptably high rates of infection and nonunion. The <strong>modern AO philosophy strictly prioritises</strong> preservation of the soft-tissue envelope and the vital fracture haematoma. <span class="ev ev-1">Level I</span></p>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 3 — Mechanical vs Biological Osteosynthesis: Key Differences</caption>
+  <thead>
+    <tr><th>Parameter</th><th>Classical (Mechanical) AO</th><th>Modern (Biological) AO</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Primary goal</td><td>Anatomical reduction of every fragment</td><td>Preservation of biology; relative alignment</td></tr>
+    <tr><td>Surgical approach</td><td>Open, extensive exposure</td><td>Minimally Invasive Osteosynthesis (MIO)</td></tr>
+    <tr><td>Periosteal blood supply</td><td>Often compromised by stripping</td><td>Deliberately preserved</td></tr>
+    <tr><td>Implant type</td><td>Conventional plate, tightly compressed</td><td>Locking Compression Plate (LCP); bridge plate</td></tr>
+    <tr><td>Healing pathway</td><td>Primary (direct) healing</td><td>Secondary (indirect) via callus</td></tr>
+    <tr><td>Fracture zone</td><td>Directly exposed and reconstructed</td><td>Intentionally bypassed ("span, then scan")</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h4>Key Techniques in Biological Osteosynthesis</h4>
+<ul>
+  <li><strong>Minimally Invasive Osteosynthesis (MIO):</strong> Small, remote incisions; implants slid submuscularly, bypassing the primary fracture zone entirely.</li>
+  <li><strong>Bridge Plating:</strong> A long plate anchored to intact proximal/distal segments, intentionally leaving the shattered intermediary zone untouched. Acts as an extramedullary splint. Because it spans a long segment, bending forces are distributed over a wider area, reducing stress on individual screws and increasing construct fatigue life.</li>
+  <li><strong>Locking Compression Plates (LCP):</strong> Locking head screws thread directly into the plate's holes, creating a rigid fixed-angle construct that does not require plate-to-bone compression. Preserves maximum periosteal perfusion and provides superior holding strength in osteoporotic bone.</li>
+</ul>
+
+<h3>3.4 Curated AO Multimedia Resources</h3>
+<div class="study-card">
+  <span class="sc-num">3</span><span class="sc-title">AO Surgery Reference Portal</span>
+  <div class="sc-meta">surgeryreference.aofoundation.org · Registration required for full access</div>
+  <div class="sc-note">The <strong>definitive global standard</strong> for EBM surgical techniques. Hundreds of interactive 3D animations and operative guidelines detailing lag screws, compression plating, external fixation, bridge plating, and IM nailing. <span class="ev ev-1">Level I</span></div>
+</div>
+<div class="study-card">
+  <span class="sc-num">4</span><span class="sc-title">AO Trauma Official YouTube Channel</span>
+  <div class="sc-meta">Search: "AO Trauma absolute relative stability video animation"</div>
+  <div class="sc-note">Highly produced professional animations for residency training. The paramount resource visually contrasting why shattered fractures heal better with controlled motion versus why joint fractures require rigid stability. <span class="ev ev-1">Level I</span></div>
+</div>
+
+<!-- SECTION 4: OTA CORE CURRICULUM -->
+<h2 id="ota">4. The OTA Core Curriculum</h2>
+<p>The Orthopaedic Trauma Association (OTA) Core Curriculum (currently Version 5) provides an internationally recognised, <strong>peer-reviewed educational syllabus</strong> designed specifically for comprehensive orthopaedic trauma resident education. <span class="ev ev-1">Level I–II</span></p>
+
+<h3>4.1 Structure &amp; Academic Weight</h3>
+<p>The syllabus is partitioned into distinct modules; the <strong>"Basic Science &amp; Biomechanics"</strong> and <strong>"Principles of Fracture Care"</strong> sections form the indispensable bedrock. Materials are provided in Adobe PDF and Microsoft PowerPoint formats, intentionally designed for local modification with proper academic credit. Edited by leading authorities including Henry Boateng, MD, and Regis Renard, MD.</p>
+
+<h4>Key Chapters in the Fracture Healing Module</h4>
+<div class="tbl-wrap">
+<table>
+  <caption>Table 4 — OTA Core Curriculum v5: Fracture Healing Module Chapters</caption>
+  <thead>
+    <tr><th>Chapter</th><th>Topic</th><th>Author(s)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>Biology of Bone Repair</td><td>Giselle Hernandez, MD</td></tr>
+    <tr><td>2</td><td>Principles &amp; Management of Nonunions</td><td>J. Spence Reid, MD</td></tr>
+    <tr><td>3</td><td>Nonunions with Bone Loss</td><td>Joseph Radley, MD; Francis Doyle, MD; J. Spence Reid, MD</td></tr>
+    <tr><td>4</td><td>Malunions: Principles of Evaluation &amp; Treatment</td><td>Emily Benson, MD; John Michael Yingling, DO</td></tr>
+    <tr><td>6</td><td>Osteomyelitis: Pathophysiology &amp; Treatment Decisions</td><td>Gerard Chang, MD; Michael Allen, MD</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout info">
+  <strong>📋 Note on Source Limitation</strong>
+  The source document identifies <strong>5 key chapters</strong> in the OTA Fracture Healing module. It does not specify five separate landmark RCTs. Evidence synthesis is based on the peer-reviewed nature of the OTA editorial process rather than individual trial citations.
+</div>
+
+<h3>4.2 Supplementary Video Delivery: OrthoClips</h3>
+<p>The <strong>OrthoClips</strong> platform (founded by Dr. Saqib Rehman, with contributors such as Dr. Manish Patel) translates the OTA Core Curriculum into narrated, dynamic audio-visual formats using a <strong>"flipped classroom" approach</strong>. Videos like <em>"Biomechanics of fractures and fixation"</em> and the multi-part <em>"Ankle fractures – Clinical and radiographic assessment"</em> series allow asynchronous consumption, freeing face-to-face time for advanced case discussions and Socratic questioning. <span class="ev ev-1">Level II–III</span></p>
+
+<!-- SECTION 5: DIGITAL PLATFORMS -->
+<h2 id="platforms">5. Comprehensive Digital Platforms</h2>
+
+<h3>5.1 Orthobullets: High-Yield Basic Science Repository</h3>
+<p>Universally recognised as the most widely utilised daily study platform for orthopaedic residents and students globally. Rigorous community-driven peer-review, continual updates, and strict alignment with the OITE syllabus. <span class="ev ev-1">Level I–II</span></p>
+
+<h4>Key Sub-Topics for Curriculum Integration</h4>
+<ul>
+  <li><strong>Fracture Healing &amp; Nonunion Pathways:</strong> Algorithmic breakdowns of intramembranous vs endochondral ossification; blood flow initially decreases post-disruption but peaks at 2 weeks post-injury; comparison of un-reamed IM nails (maintain endosteal supply) vs canal-filling reamed nails (compromise inner 50–80% of cortex).</li>
+  <li><strong>Bone Growth Factors:</strong> TGF-β stimulates Type II collagen production by mesenchymal cells. IGF-1 (most abundant growth factor in bone) promotes cellular proliferation without inducing premature maturation.</li>
+  <li><strong>Low-Intensity Pulsed Ultrasound (LIPUS):</strong> A 30 mW/cm² pulsed-wave signal can accelerate healing by altering protein expression and promoting angiogenesis, achieving healing rates ~80% for delayed unions.</li>
+  <li><strong>Piezoelectric Remodelling:</strong> Under mechanical stress, the compression side becomes electronegative (stimulates osteoblasts), while the tension side becomes electropositive (stimulates osteoclasts)—a cellular explanation of Wolff's Law.</li>
+</ul>
+
+<h3>5.2 VuMedi: The Surgeon's Video Network</h3>
+<p>A highly specialised, professional video-sharing platform exclusively gated for verified physicians. Hosts raw recordings of academic grand rounds, international conferences, and surgical debates. Its supreme value for basic science education lies in <strong>biomechanics lecture repositories</strong>—providing historical context on AO principle evolution and mathematical modelling of Perren's strain theory. Content presented directly by primary researchers and bioengineers publishing in <em>JOT</em> and <em>JBJS</em>. <span class="ev ev-1">Level I–II</span></p>
+
+<!-- SECTION 6: RESOURCE DIRECTORY -->
+<h2 id="directory">6. Curated Multimedia Resource Directory</h2>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 5 — Comprehensive Multimedia Resource Directory</caption>
+  <thead>
+    <tr><th>Platform / Creator</th><th>Core Content for Undergraduates</th><th>EBM Weight</th><th>Access</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>AO Surgery Reference</strong></td>
+      <td>3D animations: lag screws, compression plating, bridge plating, IM nailing, external fixation</td>
+      <td><span class="ev ev-1">Global Gold Standard</span></td>
+      <td>surgeryreference.aofoundation.org (registration required)</td>
+    </tr>
+    <tr>
+      <td><strong>AO Trauma (YouTube)</strong></td>
+      <td>Animations: absolute vs relative stability; cellular bone healing stages</td>
+      <td><span class="ev ev-1">Exceptional</span></td>
+      <td>YouTube: "AO Trauma absolute relative stability video animation"</td>
+    </tr>
+    <tr>
+      <td><strong>OTA Core Curriculum Portal</strong></td>
+      <td>Peer-reviewed slide decks (PDF/PPT): biology of fracture healing, nonunions, basic science</td>
+      <td><span class="ev ev-1">Highest Academic Authority</span></td>
+      <td>education.ota.org → Core Curriculum Lectures (login required)</td>
+    </tr>
+    <tr>
+      <td><strong>Orthobullets</strong></td>
+      <td>High-yield outlines: growth factors (TGF-β, IGF-1), piezoelectric remodelling, technique videos</td>
+      <td><span class="ev ev-1">High</span></td>
+      <td>orthobullets.com → Basic Science → Bone Basic Science</td>
+    </tr>
+    <tr>
+      <td><strong>Dr. Nabil Ebraheim (YouTube)</strong></td>
+      <td>3D animations: primary/secondary healing, cutting cones, bridge plating, Perren's strain theory</td>
+      <td><span class="ev ev-1">High</span></td>
+      <td>YouTube: "Dr. Nabil Ebraheim Fracture Healing Biomechanics"</td>
+    </tr>
+    <tr>
+      <td><strong>OrthoClips</strong></td>
+      <td>Flipped-classroom narrated lectures mirroring OTA Core Curriculum v5 slide decks</td>
+      <td><span class="ev ev-1">High</span></td>
+      <td>orthoclips.com or YouTube playlist: "OTA Core Curriculum v5"</td>
+    </tr>
+    <tr>
+      <td><strong>VuMedi</strong></td>
+      <td>Grand rounds, biomechanics debates, advanced mechanoregulation reviews</td>
+      <td><span class="ev ev-1">High</span></td>
+      <td>vumedi.com (professional verification required)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- SECTION 7: PEDAGOGICAL INTEGRATION -->
+<h2 id="pedagogy">7. Pedagogical Integration Strategy</h2>
+<p>Mastery of basic fracture principles lies at the intellectual intersection of <strong>mechanical engineering, cellular biology, and 3D spatial anatomy</strong>. The recommended approach is a multimodal, constructivist, <strong>"flipped-classroom" design</strong> to reduce cognitive overload.</p>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 6 — Recommended Flipped-Classroom Integration Model</caption>
+  <thead>
+    <tr><th>Phase</th><th>Resources</th><th>Pedagogical Goal</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Pre-Class</strong></td>
+      <td>Orthobullets Basic Science modules + Dr. Nabil Ebraheim's animations (Perren's strain theory, cutting cone mechanism)</td>
+      <td>Build foundational vocabulary &amp; cellular pathway understanding at own pace</td>
+    </tr>
+    <tr>
+      <td><strong>In-Class</strong></td>
+      <td>OTA Core Curriculum slide decks + AO Surgery Reference 3D animations</td>
+      <td>Transition from basic science facts → complex clinical correlations; Socratic questioning on construct failure</td>
+    </tr>
+    <tr>
+      <td><strong>Post-Class</strong></td>
+      <td>OrthoClips YouTube repository + VuMedi academic portal case studies</td>
+      <td>Witness how foundational biomechanics dictate high-stakes clinical decision-making</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <strong>✅ Strategic Conclusion</strong>
+  By systematically curating these top-tier academic resources—AO Surgery Reference animations, Dr. Nabil Ebraheim's visualisations, the OTA Core Curriculum's structured slides, and Orthobullets/VuMedi digital repositories—educators can construct an unparalleled, world-class learning environment that ensures students fundamentally understand the mechanobiological principles governing biological osteosynthesis and human bone repair.
+</div>
+
+<!-- SECTION 8: ADDITIONAL GROWTH FACTORS -->
+<h2 id="growth-factors">8. Molecular Biology of Bone Healing: Growth Factors</h2>
+<p>Orthobullets hosts comprehensive outlines detailing the molecular biology of bone healing, including: <span class="ev ev-1">Level I–II</span></p>
+<ul>
+  <li><strong>Transforming Growth Factor-Beta (TGF-β):</strong> Paracrine function in stimulating Type II collagen production by mesenchymal cells during the endochondral phase.</li>
+  <li><strong>Insulin-like Growth Factor 1 (IGF-1):</strong> The most abundant growth factor in bone; promotes cellular proliferation in the fracture callus <em>without</em> inducing premature maturation—a critical distinction for sustained callus growth.</li>
+  <li><strong>Vascular Endothelial Growth Factor (VEGF):</strong> Drives angiogenesis within the callus, essential for the transition from avascular cartilage to vascularised woven bone.</li>
+  <li><strong>Bone Morphogenetic Proteins (BMPs):</strong> Potent osteoinductive signals; particularly BMP-2 and BMP-7 play key roles in mesenchymal stem cell differentiation toward the osteoblastic lineage.</li>
+</ul>
+
+<!-- REFERENCES -->
+<div class="ref-section">
+<h2 id="references">References</h2>
+<p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">The following references are derived directly from the source document's works cited list. Numbers correspond to the original citation numbering.</p>
+<ol class="ref-list">
+  <li id="ref1">[1] Fracture Healing: How Bones Heal: Types, Stages, and Key Factors — YouTube. Accessed May 17, 2026. <a href="https://www.youtube.com/watch?v=rb3SidxjSiU" target="_blank" rel="noopener">https://www.youtube.com/watch?v=rb3SidxjSiU</a></li>
+  <li id="ref2">[2] Don't mind the gap: reframing the Perren strain rule for fracture healing using insights from virtual mechanical testing — PMC. Accessed May 17, 2026. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11688128/" target="_blank" rel="noopener">PMC11688128</a></li>
+  <li id="ref5">[5] Fracture Healing — Everything You Need To Know — Dr. Nabil Ebraheim — YouTube. Accessed May 17, 2026. <a href="https://www.youtube.com/watch?v=Ovbqx5Uwmic" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Ovbqx5Uwmic</a></li>
+  <li id="ref6">[6] Principles of Absolute and Relative Fracture Stability — YouTube. Accessed May 17, 2026. <a href="https://www.youtube.com/watch?v=Viw5yCcMENs" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Viw5yCcMENs</a></li>
+  <li id="ref7">[7] Fracture Healing Part 2 — Everything You Need to Know — Dr. Nabil Ebraheim — YouTube. Accessed May 17, 2026. <a href="https://www.youtube.com/watch?v=5DjZjAR_hG4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=5DjZjAR_hG4</a></li>
+  <li id="ref8">[8] Fracture Healing — Basic Science — Orthobullets. Accessed May 17, 2026. <a href="https://www.orthobullets.com/basic-science/9009/fracture-healing" target="_blank" rel="noopener">orthobullets.com/basic-science/9009</a></li>
+  <li id="ref12">[12] Fracture Healing, Bridge Plate — Everything You Need To Know — Dr. Nabil Ebraheim. Accessed May 17, 2026. <a href="https://www.youtube.com/watch?v=_Qfe_JpvZ5U" target="_blank" rel="noopener">https://www.youtube.com/watch?v=_Qfe_JpvZ5U</a></li>
+  <li id="ref13">[13] VuMedi platform — verified physician access. <a href="https://www.vumedi.com" target="_blank" rel="noopener">vumedi.com</a></li>
+  <li id="ref19">[19] Basic techniques of fracture management — AO Surgery Reference. Accessed May 17, 2026. <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/basic-technique/basic-techniques-of-fracture-management" target="_blank" rel="noopener">surgeryreference.aofoundation.org</a></li>
+  <li id="ref23">[23] Core Curriculum Lectures — Orthopaedic Trauma Association (OTA). Accessed May 17, 2026. <a href="https://education.ota.org/core-curriculum-lectures" target="_blank" rel="noopener">education.ota.org</a></li>
+  <li id="ref25">[25] Core Curriculum Lectures — Fracture Healing — OTA. Accessed May 17, 2026. <a href="https://education.ota.org/core-curriculum-lectures-fracture-healing" target="_blank" rel="noopener">education.ota.org/fracture-healing</a></li>
+  <li id="ref27">[27] OrthoClips — Multimedia Orthopaedic Academy. Accessed May 17, 2026. <a href="https://www.orthoclips.com" target="_blank" rel="noopener">orthoclips.com</a></li>
+  <li id="ref33">[33] Bone Growth Factors — Basic Science — Orthobullets. Accessed May 17, 2026. <a href="https://www.orthobullets.com/basic-science/9086/bone-growth-factors" target="_blank" rel="noopener">orthobullets.com/basic-science/9086</a></li>
+</ol>
+</div>
+
+</main>
+
+<!-- ====== SIDEBAR ====== -->
+<aside role="complementary" aria-label="Interactive clinical parameters">
+  <div class="sidebar-card">
+    <h3>🔬 Clinical Parameter Explorer</h3>
+    <p style="font-size:.75rem;color:var(--muted);margin-bottom:1rem;">Adjust parameters below to see real-time clinical interpretations based on Perren's Strain Theory and AO principles. All thresholds sourced from the document or annotated.</p>
+
+    <!-- SLIDER 1: Strain -->
+    <div class="slider-group">
+      <label for="strainSlider">Interfragmentary Strain
+        <span class="val-display" id="strainVal">5%</span>
+      </label>
+      <input type="range" id="strainSlider" min="0" max="100" value="5" step="0.5" aria-label="Interfragmentary strain percentage">
+      <div class="slider-ticks"><span>0%</span><span>2%</span><span>10%</span><span>50%</span><span>100%</span></div>
+    </div>
+
+    <!-- SLIDER 2: Fixation Stiffness -->
+    <div class="slider-group">
+      <label for="stiffnessSlider">Fixation Construct Stiffness
+        <span class="val-display" id="stiffnessVal">50</span>
+      </label>
+      <input type="range" id="stiffnessSlider" min="0" max="100" value="50" step="1" aria-label="Fixation construct stiffness">
+      <div class="slider-ticks"><span>Flexible</span><span>Moderate</span><span>Rigid</span></div>
+    </div>
+
+    <!-- SLIDER 3: Post-Injury Time -->
+    <div class="slider-group">
+      <label for="timeSlider">Post-Injury Timeline
+        <span class="val-display" id="timeVal">2 weeks</span>
+      </label>
+      <input type="range" id="timeSlider" min="0" max="104" value="2" step="1" aria-label="Weeks post-injury">
+      <div class="slider-ticks"><span>0 wk</span><span>2 wk</span><span>6 wk</span><span>12 wk</span><span>52 wk</span><span>104 wk</span></div>
+    </div>
+
+    <!-- RECOMMENDATION BOX -->
+    <div class="rec-box" id="recBox">
+      <div class="rec-title">📋 Clinical Interpretation</div>
+      <div id="recContent">Adjust the sliders above to generate recommendations.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-reset" id="resetBtn" aria-label="Reset sliders to defaults">↺ Reset</button>
+      <button class="btn btn-copy" id="copyBtn" aria-label="Copy current summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <!-- HEALING STAGE INDICATOR -->
+  <div class="sidebar-card">
+    <h3>🦴 Current Healing Stage</h3>
+    <div id="stageIndicator">
+      <div class="timeline" id="sidebarTimeline">
+        <div class="tl-item" id="stg1"><div class="tl-title">Haematoma</div><div class="tl-desc">Immediate</div></div>
+        <div class="tl-item" id="stg2"><div class="tl-title">Inflammation</div><div class="tl-desc">Days 1–7</div></div>
+        <div class="tl-item" id="stg3"><div class="tl-title">Soft Callus</div><div class="tl-desc">Weeks 1–2+</div></div>
+        <div class="tl-item" id="stg4"><div class="tl-title">Hard Callus</div><div class="tl-desc">Weeks 4–12</div></div>
+        <div class="tl-item" id="stg5"><div class="tl-title">Remodelling</div><div class="tl-desc">Months–Years</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div class="sidebar-card">
+    <h3>⚡ Quick Ref: Strain Thresholds</h3>
+    <table style="font-size:.78rem;width:100%">
+      <tr><td style="padding:4px 6px"><span class="rec-zone zone-green">&lt;2%</span></td><td style="padding:4px 0">Absolute stability → Primary healing</td></tr>
+      <tr><td style="padding:4px 6px"><span class="rec-zone zone-yellow">2–10%</span></td><td style="padding:4px 0">Relative stability → Secondary healing</td></tr>
+      <tr><td style="padding:4px 6px"><span class="rec-zone zone-red">&gt;10%</span></td><td style="padding:4px 0">Instability → Nonunion (fibrous tissue)</td></tr>
+    </table>
+    <p style="font-size:.7rem;color:var(--muted);margin-top:.6rem">Source: Perren's Strain Theory [Ref 1, 2]</p>
+  </div>
+</aside>
+
+</div><!-- /page-wrap -->
+
+<!-- FOOTER -->
+<footer class="site-footer" role="contentinfo">
+  <p>Evidence-Based Orthopaedic Trauma Education — Interactive Summary Generator</p>
+  <p style="margin-top:.3rem">Content derived exclusively from the source document. All evidence levels reflect the source's reporting. No data has been invented.</p>
+  <p style="margin-top:.3rem;font-size:.72rem">&copy; Generated for educational purposes. Original research &amp; multimedia resources belong to their respective copyright holders (AO Foundation, OTA, Orthobullets, VuMedi, Dr. Nabil Ebraheim, OrthoClips).</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<!-- ====== JAVASCRIPT ====== -->
+<script>
+(function(){
+  'use strict';
+
+  // ELEMENTS
+  const strainSlider = document.getElementById('strainSlider');
+  const stiffnessSlider = document.getElementById('stiffnessSlider');
+  const timeSlider = document.getElementById('timeSlider');
+  const strainVal = document.getElementById('strainVal');
+  const stiffnessVal = document.getElementById('stiffnessVal');
+  const timeVal = document.getElementById('timeVal');
+  const recContent = document.getElementById('recContent');
+  const resetBtn = document.getElementById('resetBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const toast = document.getElementById('toast');
+
+  // Stage elements
+  const stages = ['stg1','stg2','stg3','stg4','stg5'];
+  const tlItems = document.querySelectorAll('#healing-timeline .tl-item');
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 2500);
+  }
+
+  function getHealingStage(weeks){
+    if(weeks < 1) return 1;
+    if(weeks < 2) return 2;
+    if(weeks < 6) return 3;
+    if(weeks < 12) return 4;
+    return 5;
+  }
+
+  function getStageName(s){
+    return ['Haematoma Formation','Inflammation','Soft Callus Formation','Hard Callus / Woven Bone','Remodelling to Lamellar Bone'][s-1];
+  }
+
+  function getStiffnessLabel(v){
+    if(v < 25) return 'Highly Flexible';
+    if(v < 50) return 'Flexible';
+    if(v < 75) return 'Semi-Rigid';
+    return 'Rigid (Absolute Stability)';
+  }
+
+  function updateTimeline(week){
+    const activeStage = getHealingStage(week);
+    stages.forEach((id,i)=>{
+      const el = document.getElementById(id);
+      if(i+1 <= activeStage){
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    });
+    tlItems.forEach((el,i)=>{
+      if(i+1 <= activeStage){
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    });
+  }
+
+  function generateRecommendation(){
+    const strain = parseFloat(strainSlider.value);
+    const stiff = parseInt(stiffnessSlider.value);
+    const weeks = parseInt(timeSlider.value);
+
+    // Update displays
+    strainVal.textContent = strain.toFixed(1) + '%';
+    stiffnessVal.textContent = stiff + ' / 100 (' + getStiffnessLabel(stiff) + ')';
+    timeVal.textContent = weeks + (weeks === 1 ? ' week' : ' weeks');
+
+    updateTimeline(weeks);
+
+    // Strain zone
+    let strainZone, strainClass, strainDesc;
+    if(strain < 2){
+      strainZone = 'Absolute Stability Zone';
+      strainClass = 'zone-green';
+      strainDesc = 'Interfragmentary strain &lt;2% permits <strong>primary (direct) bone healing</strong> via Haversian remodelling and the cutting cone mechanism. Osteoclasts resorb necrotic bone; osteoblasts deposit mature lamellar bone directly. This pathway is <em>slow</em> (months to years) but essential for intra-articular fractures requiring anatomical reduction [Ref 1, 5, 6, 19].';
+    } else if(strain <= 10){
+      strainZone = 'Relative Stability Zone';
+      strainClass = 'zone-yellow';
+      strainDesc = 'Interfragmentary strain 2–10% stimulates <strong>secondary (indirect) bone healing</strong> via endochondral ossification with robust callus formation. Ideal for comminuted diaphyseal fractures managed with IM nails, casts, or external fixators. Callus volume correlates inversely with fixation stiffness [Ref 1, 6, 8].';
+    } else {
+      strainZone = 'Nonunion Risk Zone';
+      strainClass = 'zone-red';
+      strainDesc = 'Strain &gt;10% exceeds the tolerance of both bone (&lt;2%) and cartilage (&lt;10%). Only granulation tissue can form, leading to <strong>hypertrophic nonunion</strong> with Type II collagen accumulation. Surgical restabilisation is required to convert stalled healing [Ref 1, 25].';
+    }
+
+    // Stiffness interpretation
+    let stiffDesc;
+    if(stiff < 25){
+      stiffDesc = 'Highly flexible constructs (e.g., functional bracing) promote abundant callus but carry higher risk of malunion. Monitor closely for angular deformity. Ref: AO principles [Ref 6, 19].';
+    } else if(stiff < 50){
+      stiffDesc = 'Flexible-to-moderate fixation (e.g., external fixators, unreamed IM nails) maintains periosteal blood supply while providing adequate stability for secondary healing. Biological osteosynthesis principle [Ref 12, 19].';
+    } else if(stiff < 75){
+      stiffDesc = 'Semi-rigid constructs (e.g., reamed IM nails, bridge plates) provide an excellent balance of mechanical support and biological preservation. Reaming compromises endosteal supply but periosteal flow compensates [Ref 8, 19].';
+    } else {
+      stiffDesc = 'Rigid / absolute stability constructs (e.g., lag screws, compression plates, LCP) eliminate micro-motion, enabling primary bone healing. Mandatory for articular fractures. Modern LCP designs preserve periosteal perfusion [Ref 19].';
+    }
+
+    // Timeline interpretation
+    let timeDesc, activeStage = getHealingStage(weeks);
+    timeDesc = 'Week ' + weeks + ': Patient is in the <strong>' + getStageName(activeStage) + '</strong> phase. ';
+    switch(activeStage){
+      case 1: timeDesc += 'Initial haematoma is forming as a provisional scaffold. Avoid NSAIDs/COX-2 inhibitors to protect Runx2-dependent osteoblast differentiation [Ref 1].'; break;
+      case 2: timeDesc += 'Inflammatory cascade is active with macrophage and MSC migration. Blood flow is disrupted but will peak at ~2 weeks. <strong>Critical window:</strong> COX-2 inhibitors and NSAIDs can severely depress Runx2 expression [Ref 1, 8].'; break;
+      case 3: timeDesc += 'Endochondral ossification is underway. Granulation tissue is converting to cartilaginous soft callus. Flexible fixation promotes maximal callus; stiffer fixation results in less callus [Ref 1, 5, 7].'; break;
+      case 4: timeDesc += 'Chondrocytes are hypertrophying and calcifying. Vascular invasion is converting soft callus to rigid woven bone. LIPUS (30 mW/cm²) may accelerate this phase [Ref 7, 8].'; break;
+      case 5: timeDesc += 'Woven bone is being remodelling to mature lamellar bone per Wolff\'s Law. Full medullary cavity reconstitution may take months to years. Piezoelectric signals from mechanical loading guide osteoblast/osteoclast activity [Ref 5, 8].'; break;
+    }
+
+    // LIPUS note
+    let lipusNote = '';
+    if(weeks >= 4 && weeks < 24 && strain >= 2 && strain <= 10){
+      lipusNote = '<br><br><strong>💡 Adjunct:</strong> Consider Low-Intensity Pulsed Ultrasound (LIPUS) at 30 mW/cm² — reported to achieve ~80% healing rate for delayed unions by promoting angiogenesis and altering protein expression [Ref 8]. <em>Note: LIPUS dosage is from Orthobullets (source document); efficacy data quality not specified in source.</em>';
+    }
+
+    // NSAID warning
+    let nsaidNote = '';
+    if(activeStage <= 2){
+      nsaidNote = '<br><br><strong>⚠️ Pharmacological Caution:</strong> NSAIDs and COX-2 inhibitors should be avoided during the inflammatory phase (first ~2 weeks) as they suppress Runx2 expression, potentially impairing osteoblast differentiation and the entire healing cascade [Ref 1].';
+    }
+
+    recContent.innerHTML =
+      '<div style="margin-bottom:.6rem"><span class="rec-zone ' + strainClass + '">' + strainZone + '</span></div>' +
+      '<p style="margin:.4rem 0;font-size:.82rem">' + strainDesc + '</p>' +
+      '<hr style="border:none;border-top:1px solid #e2e8f0;margin:.6rem 0">' +
+      '<p style="margin:.3rem 0;font-size:.82rem"><strong>Fixation Interpretation:</strong> ' + stiffDesc + '</p>' +
+      '<hr style="border:none;border-top:1px solid #e2e8f0;margin:.6rem 0">' +
+      '<p style="margin:.3rem 0;font-size:.82rem"><strong>Temporal Context:</strong> ' + timeDesc + lipusNote + nsaidNote + '</p>';
+  }
+
+  // EVENT LISTENERS
+  strainSlider.addEventListener('input', generateRecommendation);
+  stiffnessSlider.addEventListener('input', generateRecommendation);
+  timeSlider.addEventListener('input', generateRecommendation);
+
+  resetBtn.addEventListener('click', function(){
+    strainSlider.value = 5;
+    stiffnessSlider.value = 50;
+    timeSlider.value = 2;
+    generateRecommendation();
+    showToast('Parameters reset to defaults');
+  });
+
+  copyBtn.addEventListener('click', function(){
+    const now = new Date();
+    const ts = now.toLocaleString('en-US', {dateStyle:'medium', timeStyle:'short'});
+    const strain = parseFloat(strainSlider.value).toFixed(1) + '%';
+    const stiff = stiffnessSlider.value + '/100 (' + getStiffnessLabel(parseInt(stiffnessSlider.value)) + ')';
+    const weeks = timeSlider.value + ' weeks';
+    const activeStage = getHealingStage(parseInt(timeSlider.value));
+
+    // Extract text recommendation
+    const recBox = document.getElementById('recBox');
+    const zoneSpan = recBox.querySelector('.rec-zone');
+    const zone = zoneSpan ? zoneSpan.textContent : '';
+
+    const text = [
+      '=== ORTHOPAEDIC TRAUMA PARAMETER SUMMARY ===',
+      'Generated: ' + ts,
+      '',
+      '--- Clinical Parameters ---',
+      'Interfragmentary Strain: ' + strain,
+      'Fixation Construct Stiffness: ' + stiff,
+      'Post-Injury Timeline: ' + weeks,
+      '',
+      '--- Clinical Interpretation ---',
+      'Strain Zone: ' + zone,
+      'Healing Stage: ' + getStageName(activeStage),
+      '',
+      '--- Strain Thresholds (Perren\'s Theory) [Source Ref 1, 2] ---',
+      '  < 2%  : Absolute stability → Primary (direct) bone healing',
+      '  2–10% : Relative stability → Secondary (indirect) bone healing',
+      '  > 10% : Instability → Hypertrophic nonunion risk',
+      '',
+      '--- Source ---',
+      'Content derived from: "Authoritative Multimedia Resources for Evidence-Based Orthopedic Trauma Education: A Comprehensive Review"',
+      'Evidence bases: AO Foundation, OTA Core Curriculum v5, Orthobullets, VuMedi, Dr. Nabil Ebraheim',
+      '',
+      '=== END SUMMARY ==='
+    ].join('\n');
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        copyBtn.textContent = '✓ Copied!';
+        copyBtn.classList.add('copied');
+        showToast('Summary copied to clipboard');
+        setTimeout(function(){
+          copyBtn.innerHTML = '📋 Copy Summary';
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      copyBtn.textContent = '✓ Copied!';
+      copyBtn.classList.add('copied');
+      showToast('Summary copied to clipboard');
+      setTimeout(function(){
+        copyBtn.innerHTML = '📋 Copy Summary';
+        copyBtn.classList.remove('copied');
+      }, 2000);
+    } catch(e){
+      showToast('Copy failed – please copy manually');
+    }
+    document.body.removeChild(ta);
+  }
+
+  // INITIAL RENDER
+  generateRecommendation();
+
+})();
+</script>
+</body>
+</html>

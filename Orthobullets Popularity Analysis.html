@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orthobullets: Analysis of Educational Methodology & Impact</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-light: #e8f0fe;
+            --secondary: #5f6368;
+            --accent: #d93025;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text: #202124;
+            --text-light: #5f6368;
+            --border: #dadce0;
+            --success: #1e8e3e;
+            --warning: #f9ab00;
+            --info: #4285f4;
+            --badge-1: #1e8e3e;
+            --badge-2: #4285f4;
+            --badge-3: #f9ab00;
+            --badge-4: #ea4335;
+            --badge-5: #9334e6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 40px;
+            padding: 40px 0;
+        }
+
+        .content {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin: 24px 0 12px;
+            color: var(--text);
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0 8px 8px 0;
+        }
+
+        .level-1 { background-color: var(--badge-1); color: white; }
+        .level-2 { background-color: var(--badge-2); color: white; }
+        .level-3 { background-color: var(--badge-3); color: black; }
+        .level-4 { background-color: var(--badge-4); color: white; }
+        .level-5 { background-color: var(--badge-5); color: white; }
+        .level-na { background-color: var(--border); color: var(--text); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 0.95rem;
+            background: var(--surface);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tbody tr:hover {
+            background-color: var(--primary-light);
+        }
+
+        .table-caption {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        .sidebar-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider-container {
+            margin-bottom: 20px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--border);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toggle-label {
+            font-weight: 500;
+        }
+
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .4s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #e8f0fe, #f0f4ff);
+            border: 1px solid #c8d7f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .recommendation h4 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .recommendation p {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0d5bb9;
+        }
+
+        .btn-secondary {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: #d3e3fd;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background: #c5221f;
+        }
+
+        .references {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 2px solid var(--border);
+        }
+
+        .references h2 {
+            color: var(--secondary);
+            border-bottom-color: var(--border);
+        }
+
+        .reference-item {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            padding-left: 24px;
+            text-indent: -24px;
+        }
+
+        .limitation-note {
+            background: #fff8e1;
+            border-left: 4px solid var(--warning);
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+            font-style: italic;
+        }
+
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .content {
+                padding: 24px;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Orthobullets Analysis</a>
+                <nav class="nav">
+                    <a href="#methodology">Methodology</a>
+                    <a href="#architecture">Architecture</a>
+                    <a href="#features">Features</a>
+                    <a href="#evidence">Evidence</a>
+                    <a href="#usage">Usage</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-grid">
+            <main class="content">
+                <h1>Orthobullets: A Comprehensive Analysis</h1>
+                <p class="intro-text">This report provides an exhaustive analysis of Orthobullets' operational framework, educational philosophy, and utilization strategies, dissecting the factors that have cemented its ubiquity among residents and practicing surgeons worldwide. <span class="evidence-badge level-na">Source: Provided Document</span></p>
+
+                <section id="methodology">
+                    <h2>Educational Methodology: The Science of Learning</h2>
+                    <p>Orthobullets' core differentiator is its adherence to cognitive science principles regarding memory retention and information processing. The platform explicitly rejects the passive consumption of dense text in favor of active, algorithmic engagement.</p>
+                    
+                    <div class="card">
+                        <h3>The VEQTR Learning Technique</h3>
+                        <p>At the heart of the Orthobullets pedagogy is the VEQTR system, an acronym for <strong>Visually-Enhanced-Question-Topic-Repetition</strong>. This technique represents a paradigm shift designed to consolidate proven memorization methods within an internet framework. <span class="evidence-badge level-2">Content Focus - Orthobullets</span></p>
+                        <ul>
+                            <li><strong>Question Exposure:</strong> The cycle begins with a practice question, acting as the stimulus that forces retrieval, strengthening memory through the "testing effect."</li>
+                            <li><strong>Vertical Learning:</strong> Focuses intensely on the specific fact pattern utilized in the question, preventing cognitive overload through concise explanations (4-5 lines).</li>
+                            <li><strong>Visual Association:</strong> Links text to key images—radiographs, intraoperative photos—creating dual-coding associations for better retention.</li>
+                            <li><strong>Rapid Repetition:</strong> Immediate reinforcement of related material creates a "flashcard-like" experience, cementing concepts through iteration.</li>
+                        </ul>
+                    </div>
+
+                    <h3>Paucis Verbis: The Art of Brevity</h3>
+                    <p>Derived from the Latin for "in a few words," the Paucis Verbis approach underpins the editorial style of Orthobullets. Content is strictly formatted in bullets rather than prose, facilitating rapid scanning and functioning as a high-speed reference tool. This isolates key associations (or "buzzwords") frequently tested in exams, reducing extraneous cognitive load.</p>
+                </section>
+
+                <section id="architecture">
+                    <h2>Technological Architecture: The Anconeus Ecosystem</h2>
+                    <p>The educational philosophy is operationalized through a sophisticated technological infrastructure centered around the <strong>Anconeus AI</strong>, a proprietary machine-learning algorithm that functions as a personalized curriculum director for each user.</p>
+                    
+                    <table>
+                        <caption class="table-caption">Table 1: Anconeus AI Diagnostic & Prescriptive Functions</caption>
+                        <thead>
+                            <tr>
+                                <th>Function</th>
+                                <th>Mechanism</th>
+                                <th>Clinical/Educational Utility</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Diagnostic Capability</strong></td>
+                                <td>Monitors performance across QBank and study plans, comparing against peer cohorts (e.g., other PGY-3 residents).</td>
+                                <td>Identifies specific "knowledge gaps" relative to cohort for targeted remediation.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Targeted Content Delivery</strong></td>
+                                <td>Prioritizes questions statistically most likely to be answered incorrectly or high-yield concepts not yet encountered.</td>
+                                <td>Optimizes study time by focusing on individual weaknesses and unknowns.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Automated Reinforcement</strong></td>
+                                <td>Serves "reinforcement questions" at calculated intervals based on spaced repetition principles.</td>
+                                <td>Ensures long-term retention by combating the forgetting curve.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Graduated Complexity</strong></td>
+                                <td>Implements a staged learning system from flashcards/basic questions to complex case-based scenarios.</td>
+                                <td>Prevents frustration by scaffolding learning appropriately.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Bedside AI and Contextual Learning</h3>
+                    <p>A significant innovation is <strong>Bedside AI</strong>, a mobile-first feature designed to integrate learning into the clinical workflow. Residents trigger the system after patient encounters (e.g., after treating a distal radius fracture). By coupling abstract learning with concrete clinical experience, the brain forms stronger associative memories, transforming hospital downtime into high-yield study sessions.</p>
+                </section>
+
+                <section id="features">
+                    <h2>Content Features and Clinical Resources</h2>
+                    <p>Orthobullets provides a vast, structured repository of orthopedic knowledge organized into distinct categories serving different phases of a surgeon's workflow.</p>
+                    
+                    <table>
+                        <caption class="table-caption">Table 2: Orthobullets Question Bank Sources & Purposes</caption>
+                        <thead>
+                            <tr>
+                                <th>Question Source</th>
+                                <th>Description</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OITE Questions</strong></td>
+                                <td>Questions from past Orthopaedic In-Training Exams.</td>
+                                <td>Core residency preparation.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SAE Questions</strong></td>
+                                <td>Questions from AAOS Self-Assessment Exams.</td>
+                                <td>Maintenance of Certification (MOC) and advanced review.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Premium Questions</strong></td>
+                                <td>Original, peer-reviewed questions created by the Orthobullets team.</td>
+                                <td>Challenging, "Never-Been-Seen" content for mock exams.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GLOBE Questions</strong></td>
+                                <td>High-quality, new questions used for benchmarking.</td>
+                                <td>Predictive scoring for ABOS Part 1.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="limitation-note">
+                        <strong>Note on Evidence Levels:</strong> The provided document does not specify formal clinical trial data or comparative effectiveness studies for Orthobullets' educational methods. Evidence badges are applied to factual claims about the platform's features and descriptions directly sourced from the document. Claims about educational efficacy (e.g., improved OITE scores) are presented as reported outcomes without independent verification levels from the source.
+                    </div>
+                </section>
+
+                <section id="evidence">
+                    <h2>Evidence-Based Medicine (EBM) and the CARE Ecosystem</h2>
+                    <p>Orthobullets integrates the rigors of Evidence-Based Medicine (EBM) directly into its educational model, gamifying the consumption of literature to ensure surgeons remain current. The platform educates users on the hierarchy of scientific evidence using the <em>Journal of Bone and Joint Surgery (JBJS)</em> classification system.</p>
+                    
+                    <h3>The CARE Score and Gamification</h3>
+                    <p>To incentivize engagement with high-quality evidence, Orthobullets employs the <strong>CARE</strong> score system. Users earn "Patient Care Points" by engaging in Point of Care Learning (PoCL) activities, such as searching for articles related to clinical cases. High CARE scores propel users up global "Leaderboards," fostering a competitive yet collaborative environment. For practicing surgeons, these activities translate directly into free AMA PRA Category 1 CME credits.</p>
+                </section>
+
+                <section id="usage">
+                    <h2>Best Usage Strategies and Study Plans</h2>
+                    <p>Orthobullets offers structured study plans tailored to specific career phases, optimizing the platform's utility for different user personas.</p>
+                    
+                    <table>
+                        <caption class="table-caption">Table 3: Orthobullets Study Plan Architectures</caption>
+                        <thead>
+                            <tr>
+                                <th>Study Plan</th>
+                                <th>Target Audience</th>
+                                <th>Duration</th>
+                                <th>Structure & Focus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Core Curriculum</strong></td>
+                                <td>Residents (PGY 2-5)</td>
+                                <td>365 Days</td>
+                                <td>Covers 723 topics. A balanced, daily diet of 1-2 topics, questions, and articles for long-term retention.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Power 220-Day</strong></td>
+                                <td>Board Examinees</td>
+                                <td>220 Days</td>
+                                <td>Intensive prep. Two cycles: Phase 1 (High Yield) and Phase 2 (Comprehensive). Includes 3 mock exams.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>90-Day OITE</strong></td>
+                                <td>Residents (Pre-Exam)</td>
+                                <td>90 Days</td>
+                                <td>"Crush the Exam" focus. Covers 260 highest-yield topics. Rapid review.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MOC Plans</strong></td>
+                                <td>Practicing Surgeons</td>
+                                <td>90-130 Days</td>
+                                <td>Specialty-specific (e.g., Spine, Sports, Hand). Focus on recertification blueprints. Money-back guarantee.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>Global Impact and Demographics</h3>
+                    <p>Orthobullets has achieved a level of global penetration rare in medical education, serving as a primary resource for surgeons in over 25 countries. For surgeons outside the United States, it serves as a democratizing force, providing immediate access to the "American standard of care" for surgeons in developing nations where textbooks may be outdated or prohibitively expensive.</p>
+                </section>
+
+                <section class="references">
+                    <h2>References from Source Document</h2>
+                    <div class="reference-item">1. Team Welcome - General - Orthobullets, accessed December 16, 2025.</div>
+                    <div class="reference-item">3. OSPREY Educational Platform - Orthobullets, accessed December 16, 2025.</div>
+                    <div class="reference-item">4. Content Focus - Orthobullets, accessed December 16, 2025.</div>
+                    <div class="reference-item">5. Anconeus AI - Products - Orthobullets, accessed December 16, 2025.</div>
+                    <div class="reference-item">6. VEQTR Learning Technique - Orthobullets, accessed December 16, 2025.</div>
+                    <div class="reference-item">7. Orthobullets Content Instructions - General, accessed December 16, 2025.</div>
+                    <div class="reference-item">15. PEAK Premium Subscription - Products - Orthobullets, accessed December 16, 2025.</div>
+                    <div class="reference-item">32. PASS - Products - Orthobullets, accessed December 16, 2025.</div>
+                    <div class="reference-item">33. Global Orthopaedic Benchmark Exam (GLOBE) - Products - Orthobullets, accessed December 16, 2025.</div>
+                </section>
+            </main>
+
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <div class="sidebar-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20V10M18 20V4M6 20v-4"></path>
+                        </svg>
+                        Personalize Your Orthobullets Strategy
+                    </div>
+                    <p style="font-size: 0.95rem; margin-bottom: 20px; color: var(--text-light);">Adjust parameters to get tailored recommendations for optimizing your Orthobullets usage based on your training level and goals.</p>
+                    
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Daily Study Time</span>
+                            <span id="study-time-value">60 min</span>
+                        </div>
+                        <input type="range" min="15" max="180" value="60" class="slider" id="study-time-slider">
+                    </div>
+                    
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Vertical Learning Focus</span>
+                            <span id="vertical-value">70%</span>
+                        </div>
+                        <input type="range" min="10" max="100" value="70" class="slider" id="vertical-slider">
+                    </div>
+                    
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Repetition Interval</span>
+                            <span id="repetition-value">7 days</span>
+                        </div>
+                        <input type="range" min="1" max="30" value="7" class="slider" id="repetition-slider">
+                    </div>
+                    
+                    <div class="toggle-container">
+                        <span class="toggle-label">Primary Device: Mobile</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="device-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="toggle-container">
+                        <span class="toggle-label">Include Bedside AI Activities</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="bedside-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div id="recommendation-output" class="recommendation">
+                        <h4>Personalized Recommendation</h4>
+                        <p id="recommendation-text">Based on your 60-minute daily commitment, prioritize the Core Curriculum. Dedicate ~42 minutes to vertical learning (question-focused) and ~18 minutes to horizontal review. Set your spaced repetition for 7-day intervals using the Anconeus AI. As a mobile user, leverage Bedside AI during clinical downtime for maximum neural anchoring.</p>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="reset-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                        Reset Parameters
+                    </button>
+                    
+                    <button class="btn btn-secondary" id="copy-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy to Clipboard
+                    </button>
+                </div>
+                
+                <div class="sidebar-card">
+                    <div class="sidebar-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4M12 8h.01"></path>
+                        </svg>
+                        Key Platform Metrics
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 4px;">Active Countries</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">25+</div>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 4px;">Annual GLOBE Participants</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">Global Cohort</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 4px;">Evidence Integration</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">CARE + CME</div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>This educational summary is based exclusively on the provided document. Thresholds and recommendations for interactive sliders are derived from platform descriptions within the source and annotated where general knowledge is applied.</p>
+            <p style="margin-top: 8px;">Generated for educational purposes. Orthobullets® is a registered trademark.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Slider elements
+            const studyTimeSlider = document.getElementById('study-time-slider');
+            const verticalSlider = document.getElementById('vertical-slider');
+            const repetitionSlider = document.getElementById('repetition-slider');
+            const deviceToggle = document.getElementById('device-toggle');
+            const bedsideToggle = document.getElementById('bedside-toggle');
+            
+            // Display elements
+            const studyTimeValue = document.getElementById('study-time-value');
+            const verticalValue = document.getElementById('vertical-value');
+            const repetitionValue = document.getElementById('repetition-value');
+            const recommendationText = document.getElementById('recommendation-text');
+            
+            // Buttons
+            const resetBtn = document.getElementById('reset-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            
+            // Update display values
+            function updateDisplays() {
+                const studyTime = studyTimeSlider.value;
+                const verticalPercent = verticalSlider.value;
+                const repetitionDays = repetitionSlider.value;
+                
+                studyTimeValue.textContent = `${studyTime} min`;
+                verticalValue.textContent = `${verticalPercent}%`;
+                repetitionValue.textContent = `${repetitionDays} day${repetitionDays == 1 ? '' : 's'}`;
+                
+                updateRecommendation(studyTime, verticalPercent, repetitionDays);
+            }
+            
+            // Generate recommendation based on parameters
+            function updateRecommendation(studyTime, verticalPercent, repetitionDays) {
+                const isMobile = deviceToggle.checked;
+                const useBedside = bedsideToggle.checked;
+                
+                let recommendation = `Based on your ${studyTime}-minute daily commitment:`;
+                
+                // Study time allocation
+                const verticalMinutes = Math.round(studyTime * (verticalPercent / 100));
+                const horizontalMinutes = studyTime - verticalMinutes;
+                
+                recommendation += ` Allocate ~${verticalMinutes} minutes to vertical learning (QBank, tested concepts) and ~${horizontalMinutes} minutes to horizontal review (topics, techniques).`;
+                
+                // Study plan suggestion based on time
+                if (studyTime >= 120) {
+                    recommendation += " Your substantial time investment allows for the Power 220-Day plan or comprehensive Core Curriculum coverage.";
+                } else if (studyTime >= 60) {
+                    recommendation += " Focus on the Core Curriculum with consistent daily progress. Consider the 90-Day OITE plan as exam approaches.";
+                } else {
+                    recommendation += " Prioritize high-yield topics using the 90-Day OITE plan or targeted weakness review with Anconeus AI.";
+                }
+                
+                // Spaced repetition
+                recommendation += ` Set spaced repetition intervals to ${repetitionDays} day${repetitionDays == 1 ? '' : 's'} for optimal retention.`;
+                
+                // Device and Bedside AI
+                if (isMobile && useBedside) {
+                    recommendation += " Excellent mobile strategy! Use Bedside AI after clinical encounters to reinforce learning and achieve PoCL goals.";
+                } else if (isMobile) {
+                    recommendation += " As a mobile user, leverage the app's quick-reference features during clinical downtime.";
+                }
+                
+                recommendationText.textContent = recommendation;
+            }
+            
+            // Reset to defaults
+            resetBtn.addEventListener('click', function() {
+                studyTimeSlider.value = 60;
+                verticalSlider.value = 70;
+                repetitionSlider.value = 7;
+                deviceToggle.checked = true;
+                bedsideToggle.checked = true;
+                updateDisplays();
+            });
+            
+            // Copy to clipboard
+            copyBtn.addEventListener('click', function() {
+                const studyTime = studyTimeSlider.value;
+                const verticalPercent = verticalSlider.value;
+                const repetitionDays = repetitionSlider.value;
+                const isMobile = deviceToggle.checked;
+                const useBedside = bedsideToggle.checked;
+                
+                const timestamp = new Date().toISOString();
+                
+                const copyText = `Orthobullets Strategy Recommendation\n\nParameters:\n- Daily Study Time: ${studyTime} minutes\n- Vertical Learning Focus: ${verticalPercent}%\n- Repetition Interval: ${repetitionDays} days\n- Primary Device: ${isMobile ? 'Mobile' : 'Desktop'}\n- Include Bedside AI: ${useBedside ? 'Yes' : 'No'}\n\nRecommendation:\n${recommendationText.textContent}\n\nGenerated: ${timestamp}\nSource: Orthobullets Analysis Document`;
+                
+                navigator.clipboard.writeText(copyText).then(() => {
+                    copyBtn.innerHTML = `
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 6L9 17l-5-5"></path>
+                        </svg>
+                        Copied!
+                    `;
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = `
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy to Clipboard
+                        `;
+                    }, 2000);
+                });
+            });
+            
+            // Add event listeners
+            studyTimeSlider.addEventListener('input', updateDisplays);
+            verticalSlider.addEventListener('input', updateDisplays);
+            repetitionSlider.addEventListener('input', updateDisplays);
+            deviceToggle.addEventListener('change', updateDisplays);
+            bedsideToggle.addEventListener('change', updateDisplays);
+            
+            // Initial update
+            updateDisplays();
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

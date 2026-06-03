@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Clinical Analysis: Hip Arthroplasty & GI Sequelae in Geriatric Trauma</title>
+    <style>
+        :root {
+            --primary: #1a5276;
+            --secondary: #2e86c1;
+            --accent: #f4d03f;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #c0392b;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: #dee2e6;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .header-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        main {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        aside {
+            position: sticky;
+            top: 120px;
+            align-self: start;
+        }
+
+        .sidebar-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-card h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .slider-container {
+            margin-bottom: 25px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--secondary);
+            cursor: pointer;
+        }
+
+        .value-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .recommendation-box {
+            background: #e8f4fc;
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .recommendation-box h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            margin: 25px 0 15px;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            vertical-align: super;
+            margin-left: 4px;
+        }
+
+        .evidence-badge.level-1 { background: var(--success); }
+        .evidence-badge.level-2 { background: var(--secondary); }
+        .evidence-badge.level-3 { background: var(--warning); }
+        .evidence-badge.level-4 { background: #9b59b6; }
+        .evidence-badge.level-5 { background: var(--danger); }
+        .evidence-badge.not-specified { background: var(--text-light); }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #e8f4fc;
+        }
+
+        .callout {
+            background: #fef9e7;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .callout-warning {
+            background: #fdedec;
+            border-left-color: var(--danger);
+        }
+
+        .callout-info {
+            background: #e8f8f5;
+            border-left-color: var(--success);
+        }
+
+        .reference-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+        }
+
+        .reference-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            text-indent: -20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            aside {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Advanced Clinical Analysis: Hip Arthroplasty & GI Sequelae</h1>
+            <div class="header-badge">Evidence-Based Education</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <section>
+                <h2>Executive Summary</h2>
+                <p>The management of proximal femoral fractures in the geriatric population is a critical challenge. This document synthesizes evidence on two interconnected domains: clinical indications for hip arthroplasty and the pathogenesis of fatal postoperative gastrointestinal complications.<span class="evidence-badge level-2">Level V</span></p>
+            </section>
+
+            <section>
+                <h2>Part I: Indications for Hip Arthroplasty in Geriatric Trauma</h2>
+                
+                <h3>1. Anatomical & Biomechanical Divergence</h3>
+                <p>Femoral neck fractures (intracapsular) and intertrochanteric fractures (extracapsular) present fundamentally different challenges:<span class="evidence-badge level-2">Level IV</span></p>
+                
+                <div class="callout">
+                    <strong>Key Distinction:</strong> Femoral neck fractures threaten the vascularity of the femoral head, while intertrochanteric fractures are primarily a biomechanical challenge to fixation stability.
+                </div>
+                
+                <div class="grid-2">
+                    <div>
+                        <h4>Femoral Neck Fractures</h4>
+                        <ul>
+                            <li>Intracapsular location</li>
+                            <li>Risk of avascular necrosis (30-50% in displaced fractures)</li>
+                            <li>Blood supply via retinacular vessels from MFCA</li>
+                            <li>Healing potential severely compromised</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Intertrochanteric Fractures</h4>
+                        <ul>
+                            <li>Extracapsular location</li>
+                            <li>Well-vascularized cancellous bone</li>
+                            <li>Biomechanical challenge: posteromedial cortex (calcar)</li>
+                            <li>Fixation failure: cutout, varus collapse</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>2. Indications for Arthroplasty in Femoral Neck Fractures</h3>
+                <p>For displaced fractures (Garden III & IV) in elderly patients (>65 years), hip arthroplasty is the undisputed gold standard.<span class="evidence-badge level-1">Level I</span> Internal fixation carries a 35-48% reoperation rate due to nonunion or avascular necrosis.</p>
+                
+                <h4>Non-Displaced Fractures (Garden I & II) - Special Indications</h4>
+                <ul>
+                    <li>Pathologic bone with dubious screw purchase<span class="evidence-badge level-3">Level III</span></li>
+                    <li>Posterior tilt >20 degrees (higher failure rate)<span class="evidence-badge level-3">Level III</span></li>
+                    <li>Concomitant symptomatic osteoarthritis</li>
+                </ul>
+                
+                <div class="table-container">
+                    <table>
+                        <caption>Table 1: Comparative Indications for Hemiarthroplasty vs. THA</caption>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Hemiarthroplasty</th>
+                                <th>Total Hip Arthroplasty (THA)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Patient Profile</strong></td>
+                                <td>Low demand, limited life expectancy, cognitive impairment, significant comorbidities</td>
+                                <td>High demand, active "young-old" (65-75), cognitively intact, independent ambulators</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Anatomical Indication</strong></td>
+                                <td>Normal acetabular cartilage</td>
+                                <td>Pre-existing acetabular osteoarthritis or damage</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Surgical Factors</strong></td>
+                                <td>Shorter time, less blood loss, technically less demanding</td>
+                                <td>Longer time, higher blood loss, technically rigorous</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stability</strong></td>
+                                <td>Large head size, lower dislocation risk</td>
+                                <td>Higher dislocation risk, reduced with dual-mobility cups</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Long-term Outcome</strong></td>
+                                <td>Risk of acetabular erosion over time</td>
+                                <td>Superior functional scores, better pain relief, lower long-term revision rate</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>3. Indications for Arthroplasty in Intertrochanteric Fractures</h3>
+                <p>The use of arthroplasty for intertrochanteric fractures is more controversial, with internal fixation (cephalomedullary nails) remaining the standard of care.<span class="evidence-badge level-2">Level IV</span></p>
+                
+                <h4>Primary Indications for Arthroplasty</h4>
+                <ul>
+                    <li><strong>Hostile Bone:</strong> Severe osteoporosis (Singh Index < 3) where screw purchase is insufficient</li>
+                    <li><strong>Hostile Anatomy:</strong> 
+                        <ul>
+                            <li>Comminuted posteromedial cortex (calcar loss)</li>
+                            <li>Lateral wall compromise (<20.5mm)</li>
+                            <li>Reverse obliquity patterns</li>
+                        </ul>
+                    </li>
+                    <li><strong>Salvage:</strong> Failed internal fixation (nonunion, implant failure)</li>
+                    <li><strong>Tumor:</strong> Pathologic fractures from metastatic disease</li>
+                    <li><strong>Immediate Mobilization:</strong> Contralateral limb compromise, severe Parkinson's</li>
+                </ul>
+                
+                <div class="table-container">
+                    <table>
+                        <caption>Table 2: Comparative Risks - Arthroplasty vs. Internal Fixation for ITFs</caption>
+                        <thead>
+                            <tr>
+                                <th>Risk Factor</th>
+                                <th>Arthroplasty</th>
+                                <th>Internal Fixation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Blood Loss</strong></td>
+                                <td>Significantly higher</td>
+                                <td>Lower</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Operative Trauma</strong></td>
+                                <td>More invasive, longer</td>
+                                <td>Less invasive</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Abductor Mechanism</strong></td>
+                                <td>Reconstruction challenging, risk of lurch</td>
+                                <td>Preserved</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Early Mortality</strong></td>
+                                <td>Trend toward higher in some meta-analyses</td>
+                                <td>Lower</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Infection Risk</strong></td>
+                                <td>Higher deep periprosthetic infection</td>
+                                <td>Lower</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2>Part II: Pathogenesis of Postoperative GI Complications</h2>
+                
+                <h3>4. Acute Mesenteric Ischemia (AMI)</h3>
+                <p>AMI involves abrupt cessation of blood flow to the intestines, leading to cellular hypoxia, necrosis, and perforation. The pathogenesis is multifactorial.<span class="evidence-badge level-4">Level IV</span></p>
+                
+                <div class="grid-2">
+                    <div>
+                        <h4>Pathogenesis Triad</h4>
+                        <ul>
+                            <li><strong>Acute Mesenteric Arterial Embolism (40-50%):</strong> Cardiogenic source, lodges in SMA at Griffith's point</li>
+                            <li><strong>Non-Occlusive Mesenteric Ischemia (20-30%):</strong> Functional vasoconstriction from hypotension/vasopressors</li>
+                            <li><strong>Fat Embolism/Microvascular Occlusion:</strong> From intramedullary reaming during arthroplasty</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>The Ischemic Cascade</h4>
+                        <ul>
+                            <li>Hypoxic injury → anaerobic metabolism → lactate production</li>
+                            <li>Mucosal barrier failure (3-6 hours) → bacterial translocation</li>
+                            <li>Cytokine release → septic shock → MODS</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="callout callout-warning">
+                    <strong>Diagnostic Challenge:</strong> "Pain out of proportion to physical exam" is often masked by analgesia or dementia. Systemic lactate is a LATE marker.
+                </div>
+                
+                <h3>5. Ogilvie's Syndrome (Acute Colonic Pseudo-Obstruction)</h3>
+                <p>Massive colonic dilation without mechanical obstruction, linked to autonomic dysregulation from surgical stress and retroperitoneal inflammation.<span class="evidence-badge level-4">Level IV</span></p>
+                
+                <div class="callout callout-info">
+                    <strong>Critical Threshold:</strong> Cecal diameter >12-14 cm exceeds capillary perfusion pressure, leading to ischemia, gangrene, and perforation (40-50% mortality).
+                </div>
+                
+                <h3>6. Mechanical & Thermal Bowel Perforation</h3>
+                <p>Iatrogenic injuries from hardware migration or bone cement thermal effects.<span class="evidence-badge level-5">Level V</span></p>
+                
+                <ul>
+                    <li><strong>Intrapelvic Hardware Migration:</strong> Acetabular screws, K-wire migration</li>
+                    <li><strong>Delayed Migration:</strong> Protrusio acetabuli causing pressure necrosis → colo-articular fistula</li>
+                    <li><strong>Thermal Injury:</strong> Bone cement exothermic reaction (80-100°C) → coagulative necrosis → delayed perforation (3-5 days)</li>
+                </ul>
+                
+                <h3>7. The Mortality Cascade</h3>
+                <p>Immunosenescence in elderly patients blunts typical febrile/leukocytic responses. Peritonitis triggers cytokine storm → vasodilation → MODS (80-90% mortality once established).<span class="evidence-badge level-4">Level IV</span></p>
+                
+                <div class="callout">
+                    <strong>Dementia Impact:</strong> Increases mortality 1.5-2-fold due to diagnostic delay. Patients cannot articulate pain, presenting with delirium or refusal to eat.
+                </div>
+            </section>
+            
+            <div class="reference-section">
+                <h3>References from Source Document</h3>
+                <div class="reference-item">1. Hip Fractures - OrthoInfo - AAOS (2025)</div>
+                <div class="reference-item">2. Extracapsular femoral neck fractures treated with total hip arthroplasty - Orthopedic Reviews</div>
+                <div class="reference-item">3. AAOS Evidence-Based Guideline on Management of Hip Fractures - NIH</div>
+                <div class="reference-item">4. Intertrochanteric Fractures - Orthobullets</div>
+                <div class="reference-item">5. Treatment of Intertrochanteric Femur Fractures with Hip Arthroplasty - NIH</div>
+                <div class="reference-item">12. Acute Mesenteric Ischemia - NIH</div>
+                <div class="reference-item">26. Acute Intestinal Pseudo-Obstruction (Ogilvie's Syndrome) - NIH</div>
+                <div class="reference-item">29. Caecal perforation secondary to intrapelvic migration - NIH</div>
+                <div class="reference-item">25. Decision Making for Patients with Advanced Dementia and a Hip Fracture</div>
+            </div>
+            
+            <div class="callout callout-warning">
+                <strong>Limitations of Source Document:</strong> This summary is based exclusively on the provided document. While comprehensive, specific RCT data for some recommendations (e.g., exact BMI thresholds) were not detailed in the source. Clinical thresholds in the interactive tool are based on common orthopedic/geriatric practice where source data is absent.
+            </div>
+        </main>
+
+        <aside>
+            <div class="sidebar-card">
+                <h3>Clinical Decision Support</h3>
+                <p class="timestamp" id="timestamp">Current Time: --</p>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Body Mass Index (BMI)</span>
+                        <span id="bmi-value">25</span>
+                    </div>
+                    <input type="range" class="slider" id="bmi-slider" min="15" max="45" value="25">
+                    <div class="callout callout-info" style="margin-top: 10px; padding: 8px; font-size: 0.85rem;">
+                        <strong>Source Note:</strong> BMI thresholds for arthroplasty decisions are not specified in the provided document. Common surgical risk categories are used.
+                    </div>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>ASA Physical Status</span>
+                        <span id="asa-value">III</span>
+                    </div>
+                    <input type="range" class="slider" id="asa-slider" min="1" max="5" value="3">
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Dementia Rating (FAST Scale)</span>
+                        <span id="dementia-value">4</span>
+                    </div>
+                    <input type="range" class="slider" id="dementia-slider" min="1" max="7" value="4">
+                </div>
+                
+                <div class="recommendation-box" id="recommendation">
+                    <h4>Current Recommendation</h4>
+                    <p id="recommendation-text">Adjust parameters to see personalized recommendations based on clinical thresholds.</p>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="btn btn-primary" id="copy-btn">Export Summary</button>
+                    <button class="btn btn-secondary" id="reset-btn">Reset</button>
+                </div>
+            </div>
+            
+            <div class="sidebar-card">
+                <h3>Quick Reference</h3>
+                <ul style="font-size: 0.9rem; padding-left: 20px;">
+                    <li><strong>Displaced FNF (>65y):</strong> Arthroplasty indicated</li>
+                    <li><strong>ITF with Singh Index <3:</strong> Consider arthroplasty</li>
+                    <li><strong>Cecal diameter >12cm:</strong> Critical for perforation</li>
+                    <li><strong>Abdominal pain out of proportion:</strong> Suspect AMI</li>
+                    <li><strong>Delayed presentation (POD 3-5):</strong> Consider thermal injury</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bmiSlider = document.getElementById('bmi-slider');
+            const asaSlider = document.getElementById('asa-slider');
+            const dementiaSlider = document.getElementById('dementia-slider');
+            
+            const bmiValue = document.getElementById('bmi-value');
+            const asaValue = document.getElementById('asa-value');
+            const dementiaValue = document.getElementById('dementia-value');
+            
+            const recommendationText = document.getElementById('recommendation-text');
+            const timestampElement = document.getElementById('timestamp');
+            const copyBtn = document.getElementById('copy-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            const asaLabels = ['I', 'II', 'III', 'IV', 'V'];
+            const dementiaLabels = ['No Dementia', 'Questionable', 'Mild', 'Moderate', 'Moderately Severe', 'Severe', 'Very Severe'];
+            
+            // Update timestamp
+            function updateTimestamp() {
+                const now = new Date();
+                timestampElement.textContent = `Current Time: ${now.toLocaleString()}`;
+            }
+            
+            // Update recommendation based on values
+            function updateRecommendation() {
+                const bmi = parseInt(bmiSlider.value);
+                const asa = parseInt(asaSlider.value);
+                const dementia = parseInt(dementiaSlider.value);
+                
+                let recommendation = [];
+                
+                // BMI considerations
+                if (bmi < 18.5) {
+                    recommendation.push("Low BMI: Higher risk of poor bone stock and implant failure. Consider arthroplasty over fixation for femoral neck fractures.");
+                } else if (bmi > 30) {
+                    recommendation.push("Elevated BMI: Increased surgical risk but not contraindication. Ensure proper implant sizing.");
+                }
+                
+                // ASA status
+                if (asa >= 4) {
+                    recommendation.push("ASA IV-V: High perioperative risk. Minimize surgical time. Consider hemiarthroplasty over THA for femoral neck fractures. For ITFs, prefer less invasive internal fixation if possible.");
+                } else if (asa === 3) {
+                    recommendation.push("ASA III: Significant comorbidities. Standard arthroplasty indications apply with careful optimization.");
+                }
+                
+                // Dementia considerations
+                if (dementia >= 5) {
+                    recommendation.push("Advanced dementia: Consider hemiarthroplasty for lower dislocation risk. Be vigilant for masked GI symptoms. Limit surgical aggression.");
+                } else if (dementia >= 3) {
+                    recommendation.push("Cognitive impairment: Assess decision-making capacity. Lower threshold for hemiarthroplasty. Monitor for Ogilvie's syndrome.");
+                }
+                
+                if (recommendation.length === 0) {
+                    recommendation.push("Parameters within standard ranges. Apply standard clinical guidelines for surgical decision-making as per source document.");
+                }
+                
+                recommendationText.innerHTML = recommendation.join('<br><br>');
+            }
+            
+            // Event listeners for sliders
+            bmiSlider.addEventListener('input', function() {
+                bmiValue.textContent = this.value;
+                updateRecommendation();
+                updateTimestamp();
+            });
+            
+            asaSlider.addEventListener('input', function() {
+                asaValue.textContent = asaLabels[this.value - 1];
+                updateRecommendation();
+                updateTimestamp();
+            });
+            
+            dementiaSlider.addEventListener('input', function() {
+                dementiaValue.textContent = dementiaLabels[this.value - 1];
+                updateRecommendation();
+                updateTimestamp();
+            });
+            
+            // Copy button functionality
+            copyBtn.addEventListener('click', function() {
+                const bmi = bmiSlider.value;
+                const asa = asaLabels[parseInt(asaSlider.value) - 1];
+                const dementia = dementiaLabels[parseInt(dementiaSlider.value) - 1];
+                const timestamp = new Date().toLocaleString();
+                
+                const exportText = `
+HIP ARTHROPLASTY DECISION SUPPORT - CLINICAL SUMMARY
+Generated: ${timestamp}
+
+PATIENT PARAMETERS:
+- BMI: ${bmi}
+- ASA Physical Status: ${asa}
+- Dementia Status: ${dementia}
+
+RECOMMENDATION:
+${recommendationText.textContent}
+
+SOURCE DOCUMENT NOTES:
+- Based exclusively on provided document on hip arthroplasty indications and GI complications in geriatric trauma
+- Evidence levels assigned as per document citations
+- Some thresholds use general clinical knowledge where source data absent
+
+INTERPRETATION: This summary supports clinical decision-making but does not replace comprehensive patient evaluation.
+                `;
+                
+                navigator.clipboard.writeText(exportText).then(() => {
+                    alert('Summary copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = exportText;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Summary copied to clipboard!');
+                });
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                bmiSlider.value = 25;
+                asaSlider.value = 3;
+                dementiaSlider.value = 4;
+                
+                bmiValue.textContent = '25';
+                asaValue.textContent = 'III';
+                dementiaValue.textContent = 'Moderate';
+                
+                updateRecommendation();
+                updateTimestamp();
+            });
+            
+            // Initialize
+            updateTimestamp();
+            updateRecommendation();
+        });
+    </script>
+</body>
+</html>

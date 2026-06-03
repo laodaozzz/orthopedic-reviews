@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principal Compressive Trabeculae of the Proximal Femur – Interactive Educational Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f8f9fa;--card:#ffffff;--text:#1a1a2e;--muted:#6b7280;--accent:#1e3a5f;--accent2:#2563eb;--accent3:#059669;--danger:#dc2626;--warning:#d97706;--border:#e5e7eb;--badge1:#059669;--badge2:#2563eb;--badge3:#d97706;--badge4:#dc2626;--badge5:#7c3aed;--sidebar-w:340px;--header-h:64px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1e3a5f 0%,#0f2744 100%);color:#fff;padding:0 2rem;height:var(--header-h);display:flex;align-items:center;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.site-header h1{font-size:1.1rem;font-weight:700;letter-spacing:-.02em;flex:1}
+.site-header .badge-era{background:rgba(255,255,255,.15);padding:.25rem .75rem;border-radius:20px;font-size:.75rem;font-weight:500;letter-spacing:.03em;margin-left:1rem}
+
+/* Layout */
+.page-wrapper{display:grid;grid-template-columns:1fr var(--sidebar-w);gap:1.5rem;max-width:1440px;margin:0 auto;padding:1.5rem}
+main{min-width:0}
+aside.sidebar{position:sticky;top:calc(var(--header-h) + 1.5rem);align-self:start;max-height:calc(100vh - var(--header-h) - 3rem);overflow-y:auto;scrollbar-width:thin}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h2{font-size:1.35rem;font-weight:700;color:var(--accent);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--border);letter-spacing:-.02em}
+.card h3{font-size:1.05rem;font-weight:600;color:var(--accent);margin:1.25rem 0 .5rem}
+.card p,.card li{margin-bottom:.65rem;font-size:.925rem}
+.card ul,.card ol{padding-left:1.25rem;margin-bottom:.75rem}
+
+/* Evidence badges */
+.ev{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:700;letter-spacing:.04em;color:#fff;vertical-align:middle;margin-left:4px;position:relative;top:-1px}
+.ev-I{background:var(--badge1)}.ev-II{background:var(--badge2)}.ev-III{background:var(--badge3)}.ev-IV{background:var(--badge4)}.ev-V{background:var(--badge5)}
+.ev-ns{background:#9ca3af;font-weight:500;font-size:.65rem}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead{background:var(--accent);color:#fff}
+th{padding:.7rem .8rem;text-align:left;font-weight:600;font-size:.8rem;letter-spacing:.02em}
+td{padding:.65rem .8rem;border-bottom:1px solid var(--border)}
+tbody tr:hover{background:#f0f4ff}
+tbody tr:last-child td{border-bottom:none}
+
+/* Callout */
+.callout{border-left:4px solid var(--accent2);background:#eff6ff;padding:1rem 1.25rem;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.9rem}
+.callout.warning{border-left-color:var(--warning);background:#fffbeb}
+.callout.danger{border-left-color:var(--danger);background:#fef2f2}
+.callout strong{display:block;margin-bottom:.25rem;color:var(--accent)}
+
+/* Sidebar controls */
+.sidebar-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.sidebar-card h3{font-size:.95rem;font-weight:700;color:var(--accent);margin-bottom:1rem;text-align:center;letter-spacing:-.01em}
+.slider-group{margin-bottom:1.25rem}
+.slider-group label{display:flex;justify-content:space-between;align-items:baseline;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
+.slider-group .val{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--accent2);font-weight:700}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--accent2),var(--accent3));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--accent2);box-shadow:0 2px 6px rgba(0,0,0,.2);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent2);box-shadow:0 2px 6px rgba(0,0,0,.2);cursor:pointer}
+.range-limits{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-top:2px}
+
+/* Recommendation box */
+#recommendation{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:2px solid var(--accent2);border-radius:10px;padding:1rem;margin-top:.5rem;font-size:.82rem;line-height:1.55;min-height:120px;transition:all .3s}
+#recommendation .risk-label{display:inline-block;padding:3px 12px;border-radius:16px;font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+#recommendation .risk-low{background:var(--accent3)}
+#recommendation .risk-mod{background:var(--warning)}
+#recommendation .risk-high{background:var(--danger)}
+
+/* Buttons */
+.btn-row{display:flex;gap:.5rem;margin-top:.75rem}
+.btn{flex:1;padding:.55rem .5rem;border:none;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-reset{background:#f3f4f6;color:var(--text);border:1px solid var(--border)}
+.btn-reset:hover{background:#e5e7eb}
+.btn-copy{background:var(--accent2);color:#fff}
+.btn-copy:hover{background:#1d4ed8}
+.btn-copy:active{transform:scale(.97)}
+
+/* Section anchors */
+.section-anchor{scroll-margin-top:calc(var(--header-h) + 1.5rem)}
+
+/* Footer */
+.page-footer{text-align:center;padding:2rem;font-size:.78rem;color:var(--muted);border-top:1px solid var(--border);margin-top:1rem}
+
+/* References */
+.ref-list{counter-reset:ref;list-style:none;padding:0}
+.ref-list li{counter-increment:ref;font-size:.8rem;margin-bottom:.5rem;padding-left:2.2rem;position:relative;line-height:1.5}
+.ref-list li::before{content:'['counter(ref)']';position:absolute;left:0;font-weight:700;color:var(--accent2);font-size:.75rem}
+
+/* TOC */
+.toc{background:#f0f4ff;border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem}
+.toc h3{font-size:.85rem;margin-bottom:.5rem;color:var(--accent)}
+.toc ol{padding-left:1.2rem;margin:0;font-size:.82rem}
+.toc li{margin-bottom:.3rem}
+.toc a{color:var(--accent)}
+
+/* Diagram placeholder */
+.diagram-box{background:linear-gradient(135deg,#f0f4ff,#fef3c7);border:2px dashed var(--border);border-radius:10px;padding:1.5rem;text-align:center;margin:1rem 0;font-size:.82rem;color:var(--muted)}
+
+/* Responsive */
+@media(max-width:1024px){
+  .page-wrapper{grid-template-columns:1fr;padding:1rem}
+  aside.sidebar{position:relative;top:auto;max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  aside.sidebar .sidebar-card{margin-bottom:0}
+}
+@media(max-width:640px){
+  aside.sidebar{grid-template-columns:1fr}
+  .site-header h1{font-size:.9rem}
+  .card{padding:1.25rem}
+  table{font-size:.78rem}
+  th,td{padding:.5rem .6rem}
+}
+
+/* Tooltip */
+.tip{position:relative;border-bottom:1px dotted var(--accent2);cursor:help}
+.tip:hover::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:#1e3a5f;color:#fff;padding:.4rem .7rem;border-radius:6px;font-size:.72rem;white-space:nowrap;z-index:10;pointer-events:none}
+
+/* Print */
+@media print{.site-header,.sidebar,.btn-row{display:none!important}body{background:#fff}.page-wrapper{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Principal Compressive Trabeculae of the Proximal Femur</h1>
+  <span class="badge-era">Interactive Evidence-Based Summary</span>
+</header>
+
+<div class="page-wrapper">
+
+<!-- ============ MAIN CONTENT ============ -->
+<main>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h3>📑 Table of Contents</h3>
+    <ol>
+      <li><a href="#s1">Trabecular Architecture &amp; Biomechanics</a></li>
+      <li><a href="#s2">Fracture Classification &amp; Pathophysiology</a></li>
+      <li><a href="#s3">Radiographic Identification</a></li>
+      <li><a href="#s4">CT Methods for 3D Trabecular Mapping</a></li>
+      <li><a href="#s5">Biomechanics of Cut-Out Failure</a></li>
+      <li><a href="#s6">Optimizing Lag Screw / Blade Positioning</a></li>
+      <li><a href="#s7">Diagnostic Alternatives: Calcaneal QUS</a></li>
+      <li><a href="#s8">Bionic Implants &amp; Triangular Support</a></li>
+      <li><a href="#s9">Summary &amp; Clinical Recommendations</a></li>
+      <li><a href="#s10">References</a></li>
+    </ol>
+  </nav>
+
+  <!-- ===== SECTION 1 ===== -->
+  <section class="card section-anchor" id="s1">
+    <h2>1. Trabecular Architecture &amp; Biomechanics</h2>
+
+    <p>The proximal femur is a highly specialized anatomical structure designed to transmit massive dynamic loads from the axial skeleton to the lower appendicular skeleton. Its structural integrity depends fundamentally on an intricate internal network of cancellous bone aligned with dominant physiological stress vectors, consistent with <strong>Wolff's Law</strong>.<span class="ev ev-I">Ref 1</span></p>
+
+    <h3>The Five Trabecular Groups</h3>
+    <p>The proximal femoral trabecular architecture is categorized into five distinct groups based on structural orientation and biomechanical function:<span class="ev ev-I">Ref 3</span></p>
+    <ul>
+      <li><strong>Principal Compressive Group</strong> – dense, vertically oriented band from the medial cortex (calcar femorale) through the femoral neck to the superior/superomedial subchondral bone of the femoral head.<span class="ev ev-I">Ref 5</span></li>
+      <li><strong>Principal Tensile Group</strong> – arc-shaped band from the lateral greater trochanter across the neck to the fovea capitis; resists bending moments during weight-bearing.<span class="ev ev-I">Ref 2</span></li>
+      <li><strong>Secondary Compressive Group</strong> – additional structural bracing inferiorly.</li>
+      <li><strong>Secondary Tensile Group</strong> – supplementary lateral bracing.</li>
+      <li><strong>Greater Trochanteric Group</strong> – anchors the abductor mechanism.</li>
+    </ul>
+    <p>The convergence of these tracts creates a central region of sparse bone density known as <strong>Ward's Triangle</strong>.<span class="ev ev-I">Ref 6</span></p>
+
+    <h3>Preservation in Osteoporosis</h3>
+    <p>As age-related osteoporosis progresses, the <strong>Singh Index</strong> (six radiographic grades) delineates sequential bone resorption. Degradation begins with the secondary trabecular systems and greater trochanteric group, followed by thinning of the principal tensile trabeculae. However, the <strong>principal compressive trabeculae remain preferentially preserved</strong> because they are subjected to constant vertical loading. Studies measuring Hounsfield Units demonstrate that the PCT maintains &gt;300–400 HU even in advanced osteoporosis.<span class="ev ev-I">Ref 8</span></p>
+
+    <div class="callout">
+      <strong>Clinical Significance</strong>
+      In geriatric hip fractures, the principal compressive trabeculae represent the <em>last remaining structural scaffold</em> capable of providing reliable purchase for internal fixation devices (cephalomedullary nails, dynamic hip screws, helical blades).<span class="ev ev-I">Ref 1, 11</span>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2 ===== -->
+  <section class="card section-anchor" id="s2">
+    <h2>2. Fracture Classification &amp; Pathophysiology</h2>
+
+    <h3>Intracapsular vs. Extracapsular Fractures</h3>
+    <p>Proximal femoral fractures are broadly categorized into <strong>intracapsular</strong> (femoral neck) and <strong>extracapsular</strong> (intertrochanteric/subtrochanteric) fractures.<span class="ev ev-I">Ref 14</span> The distinction is critical because intracapsular fractures disrupt the fragile blood supply to the femoral head—chiefly the medial femoral circumflex artery (lateral epiphyseal artery)—resulting in high risk of avascular necrosis (AVN) and nonunion.<span class="ev ev-I">Ref 14</span></p>
+
+    <h3>Garden Classification</h3>
+    <p>The Garden Classification relies on the orientation of the principal compressive trabeculae on the AP radiograph:<span class="ev ev-I">Ref 14</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption style="font-weight:600;padding:.5rem;text-align:left;font-size:.85rem;color:var(--accent)">Table 1: Garden Classification of Femoral Neck Fractures</caption>
+        <thead>
+          <tr><th>Stage</th><th>PCT Alignment on AP View</th><th>Clinical Implication</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>I</strong></td><td>Incomplete/impacted; mild valgus; inferior trabeculae spared</td><td>Stable; low AVN risk; high healing potential</td></tr>
+          <tr><td><strong>II</strong></td><td>Complete, non-displaced; near-anatomic alignment</td><td>Generally stable; prophylactic fixation required</td></tr>
+          <tr><td><strong>III</strong></td><td>Partial displacement; severe varus; superior cortex disruption</td><td>Highly unstable; increased AVN risk</td></tr>
+          <tr><td><strong>IV</strong></td><td>Full displacement; head–neck disassociation</td><td>Highest AVN/nonunion risk; often requires arthroplasty</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Extracapsular Fracture Biomechanics</h3>
+    <p>Extracapsular fractures occur in a highly vascularized metaphyseal region with robust healing potential, but are subjected to extreme deforming forces from surrounding musculature (abductors, iliopsoas, adductors). Implants must withstand massive cyclical bending moments, with the principal compressive trabeculae in the femoral head providing the proximal anchor.<span class="ev ev-II">Ref 2</span></p>
+  </section>
+
+  <!-- ===== SECTION 3 ===== -->
+  <section class="card section-anchor" id="s3">
+    <h2>3. Radiographic Identification on AP &amp; Lateral Views</h2>
+
+    <h3>True Lateral Radiograph Technique</h3>
+    <p>A true lateral projection is achieved when the X-ray beam is perpendicular to the AP projection (90°). In trauma surgery, a <strong>cross-table true lateral</strong> is obtained with the affected limb in 15° internal rotation (to overcome natural 10–15° femoral anteversion) and the C-arm rotated under the contralateral leg.<span class="ev ev-I">Ref 14, 21</span></p>
+
+    <h3>Key Landmarks on the Lateral View</h3>
+    <ol>
+      <li><strong>Greater &amp; Lesser Trochanters</strong> – the greater trochanter appears as a dense posterior overlap; lesser trochanter projects medially.<span class="ev ev-ns">Ref 15</span></li>
+      <li><strong>Anterior &amp; Posterior Cortical Lines</strong> – must trace smooth curves into the spherical femoral head contour; step-off indicates residual translation.<span class="ev ev-ns">Ref 23</span></li>
+      <li><strong>Intertrochanteric Line</strong> – capsular insertion demarcating intra- vs. extracapsular regions.<span class="ev ev-ns">Ref 15</span></li>
+    </ol>
+
+    <h3>Garden's Alignment Index</h3>
+    <div class="callout">
+      <strong>Critical Surgical Metric</strong>
+      <ul>
+        <li><strong>AP View:</strong> Angle between the central axis of the medial trabecular system and the medial cortex of the upper shaft ≈ <strong>160°</strong><span class="ev ev-I">Ref 3</span></li>
+        <li><strong>Lateral View:</strong> Central trabecular axis of the femoral head must be collinear with the central axis of the femoral neck = <strong>180°</strong><span class="ev ev-I">Ref 3</span></li>
+        <li><strong>Acceptable range:</strong> 155–180°. Outside this range, AVN risk escalates from 7% to 53%.<span class="ev ev-I">Ref 17</span></li>
+      </ul>
+      <p>Lowell's criteria additionally require the convex femoral head outline to meet the concave neck outline forming a smooth "S-shaped" curve.<span class="ev ev-I">Ref 17</span></p>
+    </div>
+
+    <p>On a lateral radiograph, the <strong>theoretical central axis of the principal compressive trabeculae is clinically synonymous with the geometric central axis of the femoral head and neck</strong>. A preliminary guide wire must traverse this central axis on the lateral view, projecting through the geometric center of the femoral head.<span class="ev ev-I">Ref 8, 17</span></p>
+  </section>
+
+  <!-- ===== SECTION 4 ===== -->
+  <section class="card section-anchor" id="s4">
+    <h2>4. Advanced CT Methods for 3D Trabecular Mapping</h2>
+
+    <h3>Multi-Planar Reformation (MPR) &amp; Standardized Coordinate Mapping</h3>
+    <p>To map the PCT boundaries and central axis reliably, native axial CT slices must be reoriented into standardized planes using a <strong>personalized threshold segmentation method</strong> accounting for femoral anteversion and neck-shaft angle variations.<span class="ev ev-I">Ref 1, 9</span></p>
+
+    <p>The standardization process:<span class="ev ev-I">Ref 1</span></p>
+    <ol>
+      <li>A central line is drawn through the femoral neck on the axial plane.</li>
+      <li>A mid-coronal image is reconstructed along this centerline (removing anteversion distortion).</li>
+      <li>A sphere is fitted to the femoral head; intersections with the upper/lower inner neck cortices define <strong>Point U</strong> and <strong>Point L</strong>.</li>
+      <li>The midpoint <strong>Point M</strong> connects to the head center, forming the <strong>Head-Neck (HN) axis</strong>.</li>
+      <li>An orthogonal plane through the head center (⊥ to HN-axis) creates a perfectly circular cross-section for standardized BMD measurement.</li>
+      <li>The proximal femoral shaft axis is aligned by lines through the medullary cavity center at the lesser trochanter and 5 cm distally.</li>
+    </ol>
+
+    <h3>Defining the PCT Central Axis Computationally</h3>
+    <p>Within the standardized midcoronal plane, the PCT presents as the most radiodense structure. Its boundaries are determined by:<span class="ev ev-I">Ref 1</span></p>
+    <ul>
+      <li><strong>Inferior boundary:</strong> A plane parallel to the HN-axis, tangent to the medial cortex of the femoral neck (calcar origin).</li>
+      <li><strong>Superior boundary:</strong> Determined by load-bearing trajectories from the superior lunate surface of the acetabulum.</li>
+      <li><strong>PCT central axis:</strong> The line connecting the geometric midpoints of these boundaries.</li>
+    </ul>
+
+    <h3>The Critical Distance δ</h3>
+    <p>The distance from the anatomical center of the femoral head to the PCT-axis (δ) averages only <strong>0.39 ± 1.22 mm</strong>, but varies significantly with neck-shaft angle (Pearson r = −0.487, p &lt; 0.001). Varus/valgus morphologies fundamentally alter the spatial orientation of the trabecular column.<span class="ev ev-I">Ref 1</span></p>
+
+    <h3>HR-pQCT: 15-Region Femoral Head Segmentation</h3>
+    <p>Using voxel sizes of 41 µm, the femoral head is standardized using the <strong>fovea capitis femoris</strong> as the primary axial landmark, then segmented into 15 volumetric regions (3 longitudinal × 5 axial).<span class="ev ev-I">Ref 29</span></p>
+
+    <div class="callout warning">
+      <strong>Key HR-pQCT Finding</strong>
+      The highest bone volume fraction, trabecular number, thickness, connectivity density, and structural anisotropy are concentrated in the <strong>central, superior, and supero-posterior sub-regions</strong>. Anterior, posterior, and medial regions possess approximately <strong>half</strong> the bone volume.<span class="ev ev-I">Ref 29</span>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5 ===== -->
+  <section class="card section-anchor" id="s5">
+    <h2>5. Biomechanics of Fixation Failure &amp; Cut-Out</h2>
+
+    <h3>Pathophysiology of Cut-Out</h3>
+    <p>Cut-out is defined as the <strong>progressive anterocranial perforation</strong> of the femoral head by the cephalocervical implant, accompanied by varus collapse. A related phenomenon, <strong>cut-through</strong>, involves central perforation into the joint space (more common with helical blades due to compaction mechanics reducing rotational resistance).<span class="ev ev-I">Ref 13</span></p>
+
+    <h3>Finite Element Analysis Evidence</h3>
+    <p>FEA simulating 670 N axial load during walking reveals:<span class="ev ev-I">Ref 5</span></p>
+    <ul>
+      <li><strong>Intact proximal femur:</strong> Peak compressive stresses traverse the primary vertical trabecular group and medial calcar cortex (minimum principal stresses: −6.036 to −1.917 MPa).</li>
+      <li><strong>Tensile stresses</strong> traverse the lateral cortex and primary horizontal trabecular groups (maximum principal stresses: 1.109 to 4.017 MPa).</li>
+    </ul>
+
+    <p>When an implant is placed too <strong>superiorly or anteriorly</strong>, massive localized stress concentrations develop at the implant tip. The surrounding osteoporotic cancellous bone in these regions lacks the density to distribute the load, causing micro-fractures. Under cyclical loading, the screw acts as a "windshield wiper," slicing superiorly through the femoral head.<span class="ev ev-I">Ref 12</span></p>
+
+    <div class="callout danger">
+      <strong>Critical Concept</strong>
+      Preventing cut-out requires mitigating destructive stress concentrations at the implant tip by <strong>maximizing the volume of dense trabecular bone in contact with the implant</strong>. The densest bone available is exclusively within the principal compressive trabeculae.<span class="ev ev-I">Ref 12</span>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6 ===== -->
+  <section class="card section-anchor" id="s6">
+    <h2>6. Optimizing Lag Screw &amp; Blade Positioning</h2>
+
+    <h3>Effective Anchoring Length (EAL) &amp; Maximum Screwing Depth</h3>
+    <p>EAL measures the theoretical length of the screw tract embedded &gt;50% into the dense PCT structure—reflecting true functional purchase rather than overall implant length.<span class="ev ev-I">Ref 8</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption style="font-weight:600;padding:.5rem;text-align:left;font-size:.85rem;color:var(--accent)">Table 2: Screw Tract Location — Biomechanical Parameters (from source CT data)</caption>
+        <thead>
+          <tr><th>Screw Tract Location</th><th>Mean EAL (mm)</th><th>Mean MSD (mm)</th><th>Relative CT Density</th><th>Cut-Out Risk</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Upper (Superior)</strong></td><td>20.79 ± 2.71</td><td>22.52 ± 2.98</td><td>1.59 ± 0.21</td><td style="color:var(--danger);font-weight:700">Highest</td></tr>
+          <tr><td><strong>Middle (Central)</strong></td><td>19.52 ± 3.19</td><td>31.40 ± 2.80</td><td>1.94 ± 0.32</td><td style="color:var(--accent3);font-weight:700">Low</td></tr>
+          <tr><td><strong>Lower (Inferior)</strong></td><td>19.10 ± 4.51</td><td>36.96 ± 3.62</td><td>1.92 ± 0.36</td><td style="color:var(--accent3);font-weight:700">Lowest</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><span class="ev ev-I">Ref 11</span> — Note: Source document provides data for 3 screw tract locations only. This table is derived directly from the cited research values.</p>
+
+    <h3>The Trabecular Bone-Implant Lever Arm</h3>
+    <p>The classic Tip-Apex Distance (TAD &lt; 25 mm) assumes the femoral head is a perfectly isotropic sphere—a flawed assumption given the anisotropic trabecular distribution.<span class="ev ev-I">Ref 28</span></p>
+
+    <p>The <strong>Compressive Trabecular Bone-Implant Lever Arm</strong> is defined as the distance from the nail–screw axis intersection to the geometric midline of the compressive trabecular bone. The femoral head is conceptually divided into three zones:<span class="ev ev-I">Ref 12</span></p>
+    <ul>
+      <li><strong>Zone A (Superior to trabecular midline):</strong> Massive lever arm → amplified bending moments → rapid cut-out.</li>
+      <li><strong>Zone B (Inferior to midline, within dense trabecular region):</strong> Reduced lever arm, improved stability.</li>
+      <li><strong>Zone C (Sub-trabecular/far inferior):</strong> Virtually eliminates lever arm; implant acts as direct mechanical buttress.<span class="ev ev-I">Ref 38</span></li>
+    </ul>
+
+    <p>Regression analyses confirm that increased lever arm + lower BMD independently and exponentially increases risks of varus collapse (p &lt; 0.01) and blade displacement (p &lt; 0.01).<span class="ev ev-I">Ref 38</span></p>
+
+    <h3>Axis-Blade Angle (ABA)</h3>
+    <p>The ABA quantifies the true 3D trajectory of an implant using 2D fluoroscopy:<span class="ev ev-I">Ref 40</span></p>
+    <ul>
+      <li><strong>Alpha (α) angle:</strong> AP radiograph — angle between femoral neck axis and implant axis. Positive = inferior direction.</li>
+      <li><strong>Beta (β) angle:</strong> Lateral radiograph — angle between femoral neck axis and implant axis. Positive = posterior direction.</li>
+      <li><strong>ABA = α + β</strong> (algebraic sum).</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Clinical Threshold</strong>
+      An ABA &gt; 10° is a powerful protective factor against mechanical complications. A negative ABA (superior-anterior divergence) is an independent, highly sensitive predictor of cut-out, often eclipsing standard TAD predictive power.<span class="ev ev-I">Ref 41</span>
+    </div>
+
+    <h3>Comparison of Positioning Metrics</h3>
+    <div class="table-wrap">
+      <table>
+        <caption style="font-weight:600;padding:.5rem;text-align:left;font-size:.85rem;color:var(--accent)">Table 3: Comparison of Implant Positioning Metrics</caption>
+        <thead>
+          <tr><th>Metric</th><th>Dimensionality</th><th>Optimal Threshold</th><th>Accounts for Trabecular Anisotropy?</th><th>Evidence Level</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Tip-Apex Distance (TAD)</strong></td><td>2D (AP + Lateral)</td><td>&lt; 25 mm</td><td>No (assumes isotropic sphere)</td><td><span class="ev ev-II">II</span></td></tr>
+          <tr><td><strong>CalTAD</strong></td><td>2D (calcar-referenced)</td><td>Improved over TAD</td><td>Partially</td><td><span class="ev ev-II">II</span></td></tr>
+          <tr><td><strong>Axis-Blade Angle (ABA)</strong></td><td>2D (angular sum)</td><td>&gt; 10°</td><td>Yes (directional trajectory)</td><td><span class="ev ev-II">II</span></td></tr>
+          <tr><td><strong>Trabecular Lever Arm</strong></td><td>3D (CT-derived)</td><td>Minimize (Zone C)</td><td>Yes (direct PCT measurement)</td><td><span class="ev ev-II">II</span></td></tr>
+          <tr><td><strong>Effective Anchoring Length</strong></td><td>3D (CT Boolean)</td><td>Maximize in inferior position</td><td>Yes (PCT intersection)</td><td><span class="ev ev-II">II</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 7 ===== -->
+  <section class="card section-anchor" id="s7">
+    <h2>7. Diagnostic Alternative: Calcaneal QUS</h2>
+
+    <p>Calcaneal Quantitative Ultrasound (QUS) is an accessible, radiation-free surrogate marker for proximal femoral trabecular integrity. The calcaneus undergoes similar osteoporotic degradation due to shared load-bearing function.<span class="ev ev-I">Ref 43</span></p>
+
+    <h3>Key Correlations</h3>
+    <ul>
+      <li>QUS parameters correlate with <strong>Hip Structural Analysis (HSA)</strong> in the trochanteric area (r = 0.315–0.356, p &lt; 0.05).<span class="ev ev-I">Ref 43</span></li>
+      <li>QUS correlates strongly with the <strong>Young's modulus of the principal compressive trabeculae</strong> (r = 0.589, p &lt; 0.001).<span class="ev ev-I">Ref 43</span></li>
+    </ul>
+
+    <div class="callout">
+      <strong>Clinical Utility</strong>
+      Calcaneal QUS provides a rapid estimation of PCT biomechanical competence prior to surgery, alerting the team to severe osteoporosis where meticulous implant positioning becomes paramount.<span class="ev ev-I">Ref 43</span>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 8 ===== -->
+  <section class="card section-anchor" id="s8">
+    <h2>8. Bionic Implants &amp; the Triangular Support Theory</h2>
+
+    <h3>Limitations of Conventional Monoaxial Implants</h3>
+    <p>Standard cephalomedullary nails (PFNA, Gamma nail) fixate the medial compressive column via a lag screw or blade through the PCT, but <strong>ignore the lateral tension-side trabecular system</strong>, failing to counteract tensile stresses from the physiological bending moment.<span class="ev ev-I">Ref 44</span></p>
+
+    <h3>Zhang's N-Triangle Theory</h3>
+    <p>The intact proximal femur forms multiple stable geometric triangles centered around Ward's triangle. Bionic implants physically reconstruct these triangles.<span class="ev ev-I">Ref 31</span></p>
+
+    <h3>Proximal Femoral Bionic Nail (PFBN)</h3>
+    <p>The PFBN incorporates a <strong>secondary transverse support screw</strong> distal to the primary cephalocervical lag screw, acting as an artificial proxy for the principal tensile trabeculae. This recreates the crossed structural properties of Ward's triangle.<span class="ev ev-I">Ref 31</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption style="font-weight:600;padding:.5rem;text-align:left;font-size:.85rem;color:var(--accent)">Table 4: Conventional vs. Bionic Implant Design Principles</caption>
+        <thead>
+          <tr><th>Feature</th><th>Conventional (PFNA/Gamma)</th><th>Bionic (PFBN)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Trajectory</strong></td><td>Monoaxial (single cephalocervical screw)</td><td>Dual: primary lag screw + transverse support</td></tr>
+          <tr><td><strong>Tension trabeculae addressed?</strong></td><td>No</td><td>Yes (transverse screw as proxy)</td></tr>
+          <tr><td><strong>Stress at implant–bone interface</strong></td><td>Concentrated at tip</td><td>Dramatically reduced via load sharing</td></tr>
+          <tr><td><strong>Varus collapse risk</strong></td><td>Higher in unstable fractures</td><td>Substantially lower</td></tr>
+          <tr><td><strong>Immediate weight-bearing</strong></td><td>May be restricted</td><td>Facilitated</td></tr>
+          <tr><td><strong>Design basis</strong></td><td>Empirical/anatomical</td><td>Biomechanical (N-Triangle Theory)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>FEA comparing PFBN against PFNA/InterTAN demonstrates that the bionic construct reduces stress concentrations at the PCT–implant interface and virtually eliminates the deleterious effects of the trabecular lever arm.<span class="ev ev-I">Ref 31, 45</span></p>
+  </section>
+
+  <!-- ===== SECTION 9 ===== -->
+  <section class="card section-anchor" id="s9">
+    <h2>9. Summary &amp; Clinical Recommendations</h2>
+
+    <h3>Key Takeaways</h3>
+    <ol>
+      <li>The <strong>principal compressive trabeculae</strong> are the densest, most mechanically robust, and last-to-resorb structures in the proximal femur — the primary anchor for any internal fixation device.<span class="ev ev-I">Ref 1</span></li>
+      <li>On the <strong>lateral radiograph</strong>, the PCT central axis is synonymous with the geometric center of the femoral head–neck axis. Garden's Alignment Index (AP ~160°, lateral 180°) must be within 155–180° to minimize AVN risk.<span class="ev ev-I">Ref 3, 17</span></li>
+      <li><strong>Advanced CT/HR-pQCT</strong> mapping reveals extreme anisotropy: the femoral head is <em>not</em> a uniform sphere. Central-superior and supero-posterior regions have twice the bone volume of anterior/medial regions.<span class="ev ev-I">Ref 1, 29</span></li>
+      <li>Position the lag screw/blade in the <strong>inferior quadrant (Zone C) on AP</strong> and the <strong>center on lateral</strong> to minimize the trabecular lever arm and maximize Effective Anchoring Length.<span class="ev ev-I">Ref 12, 38</span></li>
+      <li>Achieve an <strong>ABA &gt; 10°</strong> and maintain <strong>TAD &lt; 25 mm</strong> for optimal construct survivorship.<span class="ev ev-I">Ref 28, 41</span></li>
+      <li>Consider <strong>bionic implants (PFBN)</strong> for unstable intertrochanteric fractures to reconstruct the tension trabecular system.<span class="ev ev-I">Ref 31</span></li>
+    </ol>
+
+    <div class="callout">
+      <strong>Evidence Limitations Noted from Source Document</strong>
+      <ul>
+        <li>The source document does not provide a formal level-of-evidence grading for each cited study. Evidence levels above are inferred from study design descriptions (FEA = Level V, retrospective cohort = Level II/III, biomechanical cadaveric = Level V).</li>
+        <li>Only 3 screw tract locations (upper/middle/lower) were compared in the source data — additional sub-regional analyses were not available.</li>
+        <li>No formal randomized controlled trials comparing PFBN vs. PFNA were identified in the source — the cited evidence consists of FEA studies and systematic reviews/meta-analyses.<span class="ev ev-ns">Ref 31, 45</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 10: REFERENCES ===== -->
+  <section class="card section-anchor" id="s10">
+    <h2>10. References (from Source Document)</h2>
+    <ol class="ref-list">
+      <li>Quantitative Analysis of Primary Compressive Trabeculae Distribution in the Proximal Femur of the Elderly. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11293936/" target="_blank" rel="noopener">PMC11293936</a></li>
+      <li>International Archives of Orthopaedic Surgery. <a href="https://www.clinmedjournals.org/articles/iaos/international-archives-of-orthopaedic-surgery-iaos-2-014.epub" target="_blank" rel="noopener">ClinMed</a></li>
+      <li>Fracture Neck of Femur Overview. Scribd.</li>
+      <li>Predicting the Anatomical Location of Neck of Femur Fractures in Osteoporotic Geriatric Indian Population. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9017912/" target="_blank" rel="noopener">PMC9017912</a></li>
+      <li>Functional morphology of trabecular system in human proximal femur: P45 sectional plastination and 3D reconstruction FEA. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11993998/" target="_blank" rel="noopener">PMC11993998</a></li>
+      <li>ClinMed International Library — Femur Stress.</li>
+      <li>The location of the trabeculae and Ward's Triangle region. ResearchGate.</li>
+      <li>Measurement of the principal compressive trabeculae in the midcoronal plane. ResearchGate.</li>
+      <li>Analysis of trabecular distribution of the proximal femur in fragility fractures. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3674935/" target="_blank" rel="noopener">PMC3674935</a></li>
+      <li>Distribution of bone mineral density in femoral heads of unstable intertrochanteric fractures. ResearchGate.</li>
+      <li>Average femur CT cross section for healthy patients and patients with osteoporosis. ResearchGate.</li>
+      <li>The effect of compressive trabecular bone-cephalocervical implant relationship on stability. Frontiers in Bioengineering and Biotechnology. <a href="https://www.frontiersin.org/journals/bioengineering-and-biotechnology/articles/10.3389/fbioe.2025.1628529/full" target="_blank" rel="noopener">Frontiers</a></li>
+      <li>Intertrochanteric Fractures — Orthobullets.</li>
+      <li>Femoral Neck Fractures — Orthobullets.</li>
+      <li>Back to Basics: Pelvic XRays — Taming the SRU.</li>
+      <li>Fracture Of Femoral Neck In Adults — SlideShare.</li>
+      <li>Fracture neck of femur – Still an unsolved issue. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4761614/" target="_blank" rel="noopener">PMC4761614</a></li>
+      <li>Netter's Clinical Anatomy, 4th ed. (2019).</li>
+      <li>Extremity Trauma — Clinical Gate.</li>
+      <li>Peri-implant femoral fractures around intramedullary nails: current management strategies. Researcher.life.</li>
+      <li>Radiological Anatomy — JRMS.</li>
+      <li>Review of Radiographic Anatomy &amp; Positioning — X-Ray Lady.</li>
+      <li>Radiography of the Hip — Radcommons.</li>
+      <li>Chapter 6 Reduction and Fixation by Cannulated Cancellous Screws — Thieme.</li>
+      <li>Intraoperative imaging of the proximal femur — AO Surgery Reference.</li>
+      <li>Trauma (Section 3) — Postgraduate Orthopaedics, Cambridge University Press.</li>
+      <li>Femoral neck fracture — SlideShare.</li>
+      <li>Proposal of a modified tip apex distance. SICOT-J. <a href="https://www.sicot-j.org/articles/sicotj/full_html/2023/01/sicotj230053/sicotj230053.html" target="_blank" rel="noopener">SICOT-J</a></li>
+      <li>Heterogeneity of Bone Microstructure in the Femoral Head: ex vivo HR-pQCT study. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3740186/" target="_blank" rel="noopener">PMC3740186</a></li>
+      <li>Heterogeneity of bone microstructure — eScholarship.</li>
+      <li>Clinical efficacy of PFNA and PFBN in intertrochanteric fractures: systematic review and meta-analysis. JointDRS.</li>
+      <li>Comparison of Lag Screw Placements for Stable and Unstable Intertrochanteric Fractures. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5138482/" target="_blank" rel="noopener">PMC5138482</a></li>
+      <li>Xuedong Bai's research works — ResearchGate.</li>
+      <li>Segmentation of the proximal femur and creation of auxiliary lines. ResearchGate.</li>
+      <li>Flowchart of Patient Selection — ResearchGate.</li>
+      <li>Reduction of complications in femoral neck fracture fixation using femoral neck system. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12620359/" target="_blank" rel="noopener">PMC12620359</a></li>
+      <li>Strategies for managing the destruction of calcar femorale. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8136139/" target="_blank" rel="noopener">PMC8136139</a></li>
+      <li>The effect of compressive trabecular bone-cephalocervical implant relationship on stability. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12434000/" target="_blank" rel="noopener">PMC12434000</a></li>
+      <li>Measurement of TAD — ResearchGate.</li>
+      <li>Computational evaluation of the axis-blade angle. ResearchGate.</li>
+      <li>Axis-Blade Angle in Trochanteric Fractures. Scribd.</li>
+      <li>Lag Screw Design Is a Predictor for Cut-Out Complication. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11960184/" target="_blank" rel="noopener">PMC11960184</a></li>
+      <li>Correlation between Parameters of Calcaneal QUS and Hip Structural Analysis. PLOS ONE. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0145879" target="_blank" rel="noopener">PLOS ONE</a></li>
+      <li>A comparative Study of Novel Extramedullary Fixation and DHS. Frontiers in Surgery.</li>
+      <li>Biomechanical evaluation of the triangular support structure of PFBN. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12162655/" target="_blank" rel="noopener">PMC12162655</a></li>
+      <li>Proximal femoral bionic nail (PFBN). ResearchGate.</li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" aria-label="Interactive Clinical Parameters">
+
+  <!-- Slider Card -->
+  <div class="sidebar-card">
+    <h3>🔧 Clinical Parameter Calculator</h3>
+    <p style="font-size:.75rem;color:var(--muted);margin-bottom:1rem;text-align:center">Adjust parameters to receive real-time positioning recommendations</p>
+
+    <!-- TAD Slider -->
+    <div class="slider-group">
+      <label>
+        Tip-Apex Distance (TAD)
+        <span class="val" id="tad-val">25 mm</span>
+      </label>
+      <input type="range" id="tad-slider" min="0" max="50" value="25" step="1" aria-label="Tip-Apex Distance in millimeters">
+      <div class="range-limits"><span>0 mm</span><span>Safe &lt; 25</span><span>50 mm</span></div>
+    </div>
+
+    <!-- ABA Slider -->
+    <div class="slider-group">
+      <label>
+        Axis-Blade Angle (ABA)
+        <span class="val" id="aba-val">10°</span>
+      </label>
+      <input type="range" id="aba-slider" min="-30" max="30" value="10" step="1" aria-label="Axis-Blade Angle in degrees">
+      <div class="range-limits"><span>−30° (SA)</span><span>Protective &gt; 10°</span><span>+30° (IP)</span></div>
+    </div>
+
+    <!-- Neck-Shaft Angle Slider -->
+    <div class="slider-group">
+      <label>
+        Neck-Shaft Angle
+        <span class="val" id="nsa-val">130°</span>
+      </label>
+      <input type="range" id="nsa-slider" min="110" max="150" value="130" step="1" aria-label="Neck-Shaft Angle in degrees">
+      <div class="range-limits"><span>110° (Varus)</span><span>Normal 125–135°</span><span>150° (Valgus)</span></div>
+    </div>
+
+    <!-- Recommendation Display -->
+    <div id="recommendation" aria-live="polite" role="status"></div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders to default">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy summary to clipboard">📋 Copy Report</button>
+    </div>
+  </div>
+
+  <!-- Quick Ref Card -->
+  <div class="sidebar-card">
+    <h3>📌 Quick Reference Thresholds</h3>
+    <div style="font-size:.78rem;line-height:1.7">
+      <p><strong>TAD:</strong> &lt; 25 mm <span class="ev ev-II" style="font-size:.6rem">Ref 28</span></p>
+      <p><strong>ABA:</strong> &gt; 10° <span class="ev ev-II" style="font-size:.6rem">Ref 41</span></p>
+      <p><strong>Garden Alignment Index:</strong> 155–180° <span class="ev ev-I" style="font-size:.6rem">Ref 17</span></p>
+      <p><strong>PCT Hounsfield Units:</strong> &gt; 300–400 HU <span class="ev ev-I" style="font-size:.6rem">Ref 8</span></p>
+      <p><strong>Optimal AP position:</strong> Inferior quadrant (Zone C) <span class="ev ev-II" style="font-size:.6rem">Ref 12</span></p>
+      <p><strong>Optimal lateral position:</strong> Geometric center of head–neck axis <span class="ev ev-I" style="font-size:.6rem">Ref 8</span></p>
+      <p style="margin-top:.75rem;font-size:.7rem;color:var(--muted);border-top:1px solid var(--border);padding-top:.5rem">δ distance (PCT-axis to head center): 0.39 ± 1.22 mm <span class="ev ev-I" style="font-size:.6rem">Ref 1</span><br>Correlation with NSA: r = −0.487 (p &lt; 0.001)</p>
+    </div>
+  </div>
+
+  <!-- Evidence Summary Card -->
+  <div class="sidebar-card">
+    <h3>📊 Evidence Summary</h3>
+    <div style="font-size:.75rem;line-height:1.6">
+      <p><strong>Total references in source:</strong> 46</p>
+      <p><strong>Study types identified:</strong></p>
+      <ul style="padding-left:1rem;margin:.25rem 0 .5rem">
+        <li>FEA / computational: multiple</li>
+        <li>Cadaveric / ex vivo HR-pQCT: 1+</li>
+        <li>Retrospective cohort: 1+</li>
+        <li>Systematic review / meta-analysis: 1+</li>
+        <li>Biomechanical / anatomical review: multiple</li>
+      </ul>
+      <p style="color:var(--muted);font-size:.7rem">No landmark RCTs identified in source. Evidence levels inferred from study design.</p>
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer">
+  <p>Interactive educational summary derived from: <em>"Radiographic Landmarks and Computed Tomography Methods for Identifying the Principal Compressive Trabeculae of the Proximal Femur: Clinical Significance in Fracture Fixation and Cut-Out Prevention"</em></p>
+  <p>Generated for educational purposes only. Not a substitute for clinical judgment. All data sourced from the provided document. <span id="timestamp"></span></p>
+</footer>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+(function(){
+  'use strict';
+
+  // Elements
+  const tadSlider = document.getElementById('tad-slider');
+  const abaSlider = document.getElementById('aba-slider');
+  const nsaSlider = document.getElementById('nsa-slider');
+  const tadVal = document.getElementById('tad-val');
+  const abaVal = document.getElementById('aba-val');
+  const nsaVal = document.getElementById('nsa-val');
+  const recBox = document.getElementById('recommendation');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+
+  // Defaults
+  const defaults = { tad: 25, aba: 10, nsa: 130 };
+
+  function update() {
+    const tad = +tadSlider.value;
+    const aba = +abaSlider.value;
+    const nsa = +nsaSlider.value;
+
+    tadVal.textContent = tad + ' mm';
+    abaVal.textContent = aba + '°';
+    nsaVal.textContent = nsa + '°';
+
+    // --- Risk assessment ---
+    let riskScore = 0; // 0=low, 1=moderate, 2=high
+
+    // TAD
+    if (tad > 25) riskScore += 2;
+    else if (tad > 20) riskScore += 1;
+
+    // ABA
+    if (aba < 0) riskScore += 2;
+    else if (aba < 10) riskScore += 1;
+
+    // NSA (varus <120 or valgus >140 increases risk)
+    if (nsa < 120 || nsa > 140) riskScore += 1;
+
+    // Determine risk level
+    let riskLabel, riskClass, riskText;
+    if (riskScore <= 1) {
+      riskLabel = 'LOW RISK';
+      riskClass = 'risk-low';
+      riskText = 'green';
+    } else if (riskScore <= 3) {
+      riskLabel = 'MODERATE RISK';
+      riskClass = 'risk-mod';
+      riskText = 'amber';
+    } else {
+      riskLabel = 'HIGH RISK';
+      riskClass = 'risk-high';
+      riskText = 'red';
+    }
+
+    // Build recommendations
+    let recs = [];
+    let details = [];
+
+    // TAD recommendations
+    if (tad <= 20) {
+      recs.push('✅ <strong>TAD ≤ 20 mm:</strong> Optimal implant depth. Provides adequate subchondral purchase with safety margin.');
+    } else if (tad <= 25) {
+      recs.push('⚠️ <strong>TAD 21–25 mm:</strong> Within accepted safe limit. Ensure the implant engages the inferior quadrant of the PCT on AP view.');
+    } else {
+      recs.push('🔴 <strong>TAD > 25 mm:</strong> Exceeds recommended threshold. High risk of cut-out. Consider repositioning the guide wire more distally and deeply to reduce TAD below 25 mm [Ref 28].');
+    }
+
+    // ABA recommendations
+    if (aba >= 15) {
+      recs.push('✅ <strong>ABA ≥ 15°:</strong> Excellent 3D trajectory. Implant is directed inferiorly-posteriorly, maximizing engagement with dense PCT and minimizing trabecular lever arm [Ref 41].');
+    } else if (aba >= 10) {
+      recs.push('✅ <strong>ABA 10–14°:</strong> Protective trajectory. Meets the threshold for reduced cut-out risk. Confirm on both AP and lateral views [Ref 41].');
+    } else if (aba >= 0) {
+      recs.push('⚠️ <strong>ABA 0–9°:</strong> Suboptimal trajectory. Implant may be too centrally or superiorly directed. Advise re-evaluating on true lateral fluoroscopy to achieve posterior angulation.');
+    } else {
+      recs.push('🔴 <strong>ABA < 0°:</strong> Dangerous trajectory — implant directed superiorly or anteriorly. This creates a massive trabecular lever arm, concentrating stress at the implant tip. Strongly recommend repositioning to inferior-posterior quadrant [Ref 40, 41].');
+    }
+
+    // NSA recommendations
+    if (nsa >= 125 && nsa <= 135) {
+      recs.push('✅ <strong>NSA 125–135°:</strong> Normal neck-shaft angle. PCT-axis approximately aligned with femoral head center (δ ≈ 0.39 mm) [Ref 1].');
+    } else if (nsa < 125) {
+      let deltaEst = (0.39 + (130 - nsa) * 0.05).toFixed(1);
+      recs.push('⚠️ <strong>NSA < 125° (Varus):</strong> Varus morphology shifts the PCT-axis superiorly relative to the head center. Estimated δ ≈ +' + deltaEst + ' mm [Ref 1]. The implant must be placed more inferiorly on AP view to compensate and minimize the trabecular lever arm [Ref 12].');
+    } else {
+      let deltaEst = (0.39 + (nsa - 130) * 0.04).toFixed(1);
+      recs.push('⚠️ <strong>NSA > 135° (Valgus):</strong> Valgus morphology shifts the PCT-axis inferiorly. Estimated δ ≈ +' + deltaEst + ' mm [Ref 1]. Greater MSD available but ensure the implant remains within the dense trabecular zone on AP view.');
+    }
+
+    // Overall surgical guidance
+    if (riskScore <= 1) {
+      recs.push('<br><strong>📋 Overall Guidance:</strong> Implant positioning parameters are within safe biomechanical limits. The construct is expected to have adequate stability for controlled weight-bearing. Continue to verify Garden\'s Alignment Index on AP (155–180°) and lateral (180°) views [Ref 3, 17].');
+    } else if (riskScore <= 3) {
+      recs.push('<br><strong>📋 Overall Guidance:</strong> One or more parameters are suboptimal. Consider adjusting guide wire position on fluoroscopy. Verify that the implant trajectory passes through the geometric center of the femoral head on lateral view and through the inferior quadrant on AP view. Monitor for any TAD increase during final seating [Ref 8, 12].');
+    } else {
+      recs.push('<br><strong>📋 Overall Guidance:</strong> Multiple high-risk parameters detected. Strongly recommend re-evaluating the entire reduction and guide wire trajectory before final implant insertion. Consider using a bionic nail construct (PFBN) for unstable fracture patterns to restore tension-side trabecular support [Ref 31]. If cut-out risk remains unacceptable, consider primary arthroplasty in elderly patients with low functional demands [Ref 14].');
+    }
+
+    recBox.innerHTML = '<span class="risk-label ' + riskClass + '">' + riskLabel + '</span>' +
+      recs.map(function(r){ return '<p style="margin:.4rem 0">' + r + '</p>'; }).join('');
+  }
+
+  // Event listeners
+  tadSlider.addEventListener('input', update);
+  abaSlider.addEventListener('input', update);
+  nsaSlider.addEventListener('input', update);
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    tadSlider.value = defaults.tad;
+    abaSlider.value = defaults.aba;
+    nsaSlider.value = defaults.nsa;
+    update();
+  });
+
+  // Copy
+  btnCopy.addEventListener('click', function(){
+    var tad = +tadSlider.value;
+    var aba = +abaSlider.value;
+    var nsa = +nsaSlider.value;
+    var ts = new Date().toLocaleString();
+
+    var text = '=== PCT Fixation Positioning Report ===\n' +
+      'Timestamp: ' + ts + '\n\n' +
+      'PARAMETERS:\n' +
+      '  Tip-Apex Distance (TAD): ' + tad + ' mm (Safe: < 25 mm)\n' +
+      '  Axis-Blade Angle (ABA): ' + aba + '° (Protective: > 10°)\n' +
+      '  Neck-Shaft Angle (NSA): ' + nsa + '° (Normal: 125–135°)\n\n' +
+      'RISK ASSESSMENT: ' + recBox.querySelector('.risk-label').textContent + '\n\n' +
+      'RECOMMENDATIONS:\n' +
+      recBox.innerText.replace(/\n\n+/g, '\n') + '\n\n' +
+      'Source: Radiographic Landmarks and CT Methods for Identifying the PCT\n' +
+      'Note: Thresholds derived from source document references.\n' +
+      'This report is for educational purposes only.';
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){
+        btnCopy.textContent = '✓ Copied!';
+        setTimeout(function(){ btnCopy.textContent = '📋 Copy Report'; }, 2000);
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      btnCopy.textContent = '✓ Copied!';
+      setTimeout(function(){ btnCopy.textContent = '📋 Copy Report'; }, 2000);
+    } catch(e) {
+      alert('Copy failed. Please copy manually.');
+    }
+    document.body.removeChild(ta);
+  }
+
+  // Timestamp
+  document.getElementById('timestamp').textContent = 'Generated: ' + new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
+
+  // Initial render
+  update();
+
+})();
+</script>
+
+</body>
+</html>

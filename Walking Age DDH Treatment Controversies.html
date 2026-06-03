@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDH in Walking-Age Children (12–24 Months): Interactive Clinical Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2b6cb0;
+    --primary-lighter: #bee3f8;
+    --accent: #c53030;
+    --accent-light: #feb2b2;
+    --success: #276749;
+    --success-light: #c6f6d5;
+    --warning: #b7791f;
+    --warning-light: #fefcbf;
+    --info: #2b6cb0;
+    --info-light: #bee3f8;
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  .site-header h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.3rem;
+  }
+  .site-header .subtitle {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    font-weight: 400;
+  }
+
+  /* LAYOUT */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 1.5rem auto;
+    padding: 0 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { order: -1; position: static !important; }
+  }
+
+  /* MAIN CONTENT */
+  .main-content { min-width: 0; }
+
+  .content-card {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  .content-card h2 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--primary-lighter);
+  }
+
+  .content-card h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .content-card h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1.25rem 0 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .content-card p {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .content-card ul, .content-card ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .content-card li { margin-bottom: 0.4rem; }
+
+  .content-card strong { color: var(--primary); }
+
+  /* EVIDENCE BADGE */
+  .ev {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15em 0.5em;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 4px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .ev-1 { background: #c6f6d5; color: #22543d; }
+  .ev-2 { background: #bee3f8; color: #2a4365; }
+  .ev-3 { background: #fefcbf; color: #744210; }
+  .ev-4 { background: #fed7d7; color: #742a2a; }
+  .ev-5 { background: #e2e8f0; color: #2d3748; }
+  .ev-ns { background: #e2e8f0; color: #4a5568; font-weight: 500; }
+
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .callout-title {
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+  .callout-info { background: var(--info-light); border-left: 4px solid var(--info); }
+  .callout-warning { background: var(--warning-light); border-left: 4px solid var(--warning); }
+  .callout-danger { background: var(--accent-light); border-left: 4px solid var(--accent); }
+  .callout-success { background: var(--success-light); border-left: 4px solid var(--success); }
+
+  /* TABLES */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1rem 0;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    min-width: 600px;
+  }
+  caption {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background: var(--primary);
+    color: white;
+  }
+  thead th {
+    background: #edf2f7;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:hover { background: #f7fafc; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: 120px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+  }
+  .sidebar-card {
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .sidebar-card h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--primary-lighter);
+  }
+
+  /* SLIDERS */
+  .slider-group { margin-bottom: 1.25rem; }
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.3rem;
+  }
+  .slider-label span:first-child {
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+  .slider-value {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--primary);
+    min-width: 50px;
+    text-align: right;
+  }
+  .slider-unit {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, var(--success-light), var(--warning-light), var(--accent-light));
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    border: none;
+  }
+  .slider-note {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    font-style: italic;
+  }
+
+  /* RECOMMENDATION PANEL */
+  #recommendation-panel {
+    background: linear-gradient(135deg, #ebf8ff, #f0fff4);
+    border: 2px solid var(--primary-lighter);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-top: 0.75rem;
+    transition: all 0.3s ease;
+  }
+  #recommendation-panel .rec-title {
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  #recommendation-panel .rec-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  #recommendation-panel .rec-risk {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .risk-low { background: var(--success-light); color: var(--success); }
+  .risk-mod { background: var(--warning-light); color: var(--warning); }
+  .risk-high { background: var(--accent-light); color: var(--accent); }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-light); }
+  .btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary-lighter); }
+  .btn-group { display: flex; gap: 0.5rem; margin-top: 1rem; }
+
+  /* ALGORITHM FLOWCHART */
+  .algo-box {
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    position: relative;
+  }
+  .algo-box.decision {
+    background: #fffbeb;
+    border-color: var(--warning);
+    transform: rotate(0deg);
+  }
+  .algo-box.action { background: #ebf8ff; border-color: var(--info); }
+  .algo-box.endpoint-good { background: var(--success-light); border-color: var(--success); }
+  .algo-box.endpoint-warn { background: var(--accent-light); border-color: var(--accent); }
+  .algo-arrow {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    margin: 0.15rem 0;
+  }
+
+  /* NAV TOC */
+  .toc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc li { margin-bottom: 0.25rem; }
+  .toc a {
+    display: block;
+    padding: 0.35rem 0.6rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 4px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .toc a:hover, .toc a.active {
+    color: var(--primary);
+    background: var(--primary-lighter);
+    border-left-color: var(--primary);
+  }
+  .toc .sub { padding-left: 1.2rem; font-size: 0.75rem; }
+
+  /* FOOTER / REFERENCES */
+  .references {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .references ol { margin-left: 1.25rem; }
+  .references li { margin-bottom: 0.3rem; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    z-index: 200;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* PRINT */
+  @media print {
+    .sidebar, .site-header, .btn-group { display: none !important; }
+    .layout { grid-template-columns: 1fr !important; }
+    .content-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Developmental Dysplasia of the Hip in the Walking-Age Child</h1>
+  <div class="subtitle">Pathoanatomy &amp; Contemporary Treatment Controversies (12–24 Months) · Interactive Evidence-Based Summary</div>
+</header>
+
+<div class="layout">
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main class="main-content" role="main">
+
+<!-- SECTION I -->
+<article class="content-card" id="sec-intro">
+<h2>I. The Clinical Challenge of Walking-Age DDH</h2>
+
+<p>The diagnosis of Developmental Dysplasia of the Hip (DDH) in the ambulatory toddler (12–24 months) represents a <strong>distinct clinical entity</strong> from its infantile counterpart. This late presentation is often the result of failed neonatal screening or unsuccessful non-operative management. Ambulation on an unstable or dislocated hip introduces weight-bearing forces that rapidly accelerate pathological changes, transforming a condition of biologic laxity into one of <strong>fixed structural deformity</strong>.<sup class="ev ev-1">Ref 1</sup></p>
+
+<h3>A. Clinical Presentation and Diagnosis</h3>
+
+<p>In contrast to the first three months of life—where palpable instability (Ortolani "clunk of entry," Barlow "click of exit") are the hallmarks<sup class="ev ev-2">Ref 3</sup>—the walking-age child presents with <strong>fixed deformity and functional deficit</strong>, not joint instability. These instability signs vanish by 3–6 months as capsular laxity is replaced by adaptive soft-tissue contractures.</p>
+
+<h4>Key Clinical Findings (12–24 Months)</h4>
+<ul>
+  <li><strong>Trendelenburg Gait:</strong> A lurching or waddling motion pathognomonic for hip abductor insufficiency, caused by superior/posterior migration of the femoral head shortening the abductor lever arm.<sup class="ev ev-2">Ref 3</sup></li>
+  <li><strong>Lumbar Lordosis:</strong> In bilateral dislocations, compensatory anterior pelvic tilt addresses fixed bilateral hip flexion contractures.<sup class="ev ev-2">Ref 3</sup></li>
+  <li><strong>Toe-Walking:</strong> On the affected side, compensating for functional limb shortening.<sup class="ev ev-2">Ref 3</sup></li>
+  <li><strong>Limited Hip Abduction:</strong> The <em>most sensitive and reliable</em> clinical test in this age group—a direct consequence of adductor contracture.<sup class="ev ev-2">Ref 3</sup></li>
+  <li><strong>Galeazzi (Allis) Sign:</strong> With hips and knees flexed to 90°, the femur on the dislocated side appears shortened due to posterior displacement of the femoral head.<sup class="ev ev-3">Ref 6</sup></li>
+  <li><strong>Asymmetric Skin Folds:</strong> Non-specific but classic indicators (gluteal, anterior thigh, groin creases).<sup class="ev ev-2">Ref 4</sup></li>
+  <li><strong>Klisic Test:</strong> An imaginary line from the greater trochanter to the ASIS normally points to the umbilicus; in dislocation, the elevated trochanter shifts this line inferiorly.<sup class="ev ev-2">Ref 3</sup></li>
+</ul>
+
+<h3>B. Radiographic Assessment</h3>
+
+<p>After 4–6 months, the femoral head begins to ossify, making <strong>plain radiography</strong> the primary imaging modality. However, ossific nucleus appearance is often significantly delayed in dysplastic hips.<sup class="ev ev-3">Ref 7</sup></p>
+
+<h4>Key Radiographic Parameters</h4>
+<ul>
+  <li><strong>Acetabular Index (AI):</strong> The angle between Hilgenreiner's line and the lateral acetabular edge. Normative values: ~27.5° at birth, ~23.5° at 6 months, ~20° at 24 months. An AI <strong>&gt;30° at 24 months</strong> is definitive for acetabular dysplasia. Pre-operative AI in surgical candidates ranges from 36.6° to 44.7°.<sup class="ev ev-2">Ref 8, 9</sup></li>
+  <li><strong>Shenton's Line:</strong> Disruption of the arc (medial femoral neck to inferior pubic ramus) indicates superior/lateral migration.<sup class="ev ev-2">Ref 9</sup></li>
+  <li><strong>Hilgenreiner's &amp; Perkin's Lines:</strong> The femoral head normally resides in the inferomedial quadrant; in dislocation, it displaces superolaterally.<sup class="ev ev-3">Ref 6</sup></li>
+</ul>
+
+<h4>Severity Classifications</h4>
+<ul>
+  <li><strong>IHDI Classification:</strong> Grades severity based on femoral head position relative to Perkin's and Hilgenreiner's lines; does not require an ossific nucleus.<sup class="ev ev-3">Ref 6</sup></li>
+  <li><strong>Tönnis Classification:</strong> Grades dislocation based on ossific nucleus position.<sup class="ev ev-2">Ref 12</sup></li>
+</ul>
+
+<div class="callout callout-danger">
+  <div class="callout-title">⚠ Clinical Pearl</div>
+  <p>High-grade dislocations (IHDI III/IV, Tönnis III/IV) are strongly associated with failure of closed reduction and typically necessitate open surgical intervention.<sup class="ev ev-2">Ref 14</sup></p>
+</div>
+</article>
+
+<!-- SECTION II -->
+<article class="content-card" id="sec-pathoanat">
+<h2>II. Pathoanatomy of Late-Diagnosis DDH</h2>
+
+<p>Persistent dislocation throughout infancy induces a cascade of predictable adaptive changes in bone and soft tissue. These changes constitute the <strong>mechanical barriers</strong> that prevent concentric reduction.<sup class="ev ev-1">Ref 1</sup> Treatment is defined by systematically identifying and releasing or excising these blocks.</p>
+
+<h3>A. Adaptive Bony Deformities</h3>
+<ul>
+  <li><strong>Acetabular Dysplasia:</strong> The shallow, oblique acetabulum. Normal growth requires a spherical femoral head as a mechanical stimulus; without it, the roof fails to develop (high AI).<sup class="ev ev-2">Ref 8</sup></li>
+  <li><strong>Neolimbus (False Acetabulum):</strong> Weight-bearing forces the femoral head against the iliac wing, forming a fibrocartilaginous rim superior to the true socket that stabilizes the dislocation and blocks reduction.<sup class="ev ev-1">Ref 1</sup></li>
+  <li><strong>Excessive Femoral Anteversion:</strong> Twisted femoral neck, a primary contributor to post-reduction instability, often requiring femoral derotation osteotomy.<sup class="ev ev-2">Ref 2, 13</sup></li>
+  <li><strong>Coxa Valga:</strong> Increased neck-shaft angle, further contributing to instability.<sup class="ev ev-2">Ref 3</sup></li>
+</ul>
+
+<h3>B. Soft-Tissue Contractures and Intra-Articular Blocks</h3>
+
+<h4>Extra-Articular Blocks</h4>
+<ul>
+  <li><strong>Iliopsoas Tendon:</strong> Functionally shortened, constricts the capsule into an "hourglass" deformity; primary target for tenotomy.<sup class="ev ev-2">Ref 3, 18</sup></li>
+  <li><strong>Adductor Musculature:</strong> Severe contracture tethering the femur medially; direct cause of limited abduction.<sup class="ev ev-2">Ref 3, 18</sup></li>
+</ul>
+
+<h4>Intra-Articular Blocks</h4>
+<ul>
+  <li><strong>Inverted Labrum (Limbus):</strong> Hypertrophied and folded inward, acting as a flap valve blocking femoral head entry.<sup class="ev ev-1">Ref 1</sup></li>
+  <li><strong>Hypertrophied Pulvinar:</strong> Fibrofatty mass filling the empty acetabulum; must be excised during open reduction.<sup class="ev ev-2">Ref 1, 18, 26</sup></li>
+  <li><strong>Elongated Ligamentum Teres:</strong> Stretched and thickened, tethering the head from full seating.<sup class="ev ev-1">Ref 1, 18</sup></li>
+  <li><strong>Contracted Transverse Acetabular Ligament (TAL):</strong> Acts as an inferior sling preventing deep seating.<sup class="ev ev-2">Ref 3, 28, 31</sup></li>
+</ul>
+
+<div class="callout callout-info">
+  <div class="callout-title">🔑 Mechanical Concept</div>
+  <p>The femoral head ("key") is tethered by extra-articular contractures (psoas, adductors), and the acetabulum ("lock") is occluded by intra-articular blocks (pulvinar, labrum, ligamentum teres). <strong>Closed reduction</strong> can only succeed by compressing these blocks; <strong>open reduction</strong> succeeds by surgically removing them.</p>
+</div>
+
+<!-- TABLE 1 -->
+<div class="table-wrap">
+<table>
+<caption>Table 1: Pathoanatomical Barriers to Concentric Reduction in Walking-Age DDH (12–24 Months)</caption>
+<thead>
+<tr><th>Structure</th><th>Pathological Change</th><th>Block to Reduction</th><th>Typical Management</th></tr>
+</thead>
+<tbody>
+<tr><td colspan="4" style="background:#edf2f7;font-weight:600;">Bony</td></tr>
+<tr><td>Acetabulum</td><td>Shallow, oblique roof; high AI<sup class="ev ev-2">8, 9</sup></td><td>Lacks coverage; promotes superior re-dislocation</td><td>Remodeling<sup class="ev ev-2">10</sup>; Pelvic Osteotomy<sup class="ev ev-2">29</sup></td></tr>
+<tr><td>Ilium</td><td>False acetabulum (neolimbus)<sup class="ev ev-1">1, 19</sup></td><td>Shelf blocks reduction into true socket</td><td>Open reduction to bypass</td></tr>
+<tr><td>Femur</td><td>Excessive anteversion; coxa valga<sup class="ev ev-2">3, 8, 19</sup></td><td>Promotes anterior instability</td><td>Femoral derotation/varus osteotomy<sup class="ev ev-2">3</sup></td></tr>
+<tr><td colspan="4" style="background:#edf2f7;font-weight:600;">Extra-Articular</td></tr>
+<tr><td>Adductor Longus</td><td>Severe contracture<sup class="ev ev-2">3, 18</sup></td><td>Prevents required abduction</td><td>Percutaneous adductor tenotomy<sup class="ev ev-2">20</sup></td></tr>
+<tr><td>Iliopsoas Tendon</td><td>Shortened; constricts capsule<sup class="ev ev-2">3, 18</sup></td><td>"Hourglass" deformity blocks deep seating</td><td>Iliopsoas tenotomy<sup class="ev ev-2">18, 21</sup></td></tr>
+<tr><td>Hip Capsule</td><td>Thickened, constricted, adherent<sup class="ev ev-2">3</sup></td><td>"Hourglass" constriction</td><td>Capsulotomy / capsulorrhaphy<sup class="ev ev-2">22</sup></td></tr>
+<tr><td colspan="4" style="background:#edf2f7;font-weight:600;">Intra-Articular</td></tr>
+<tr><td>Labrum</td><td>Inverted &amp; hypertrophied (limbus)<sup class="ev ev-1">1</sup></td><td>Flap-valve blocks entry</td><td>Excision or eversion during OR<sup class="ev ev-2">3, 16</sup></td></tr>
+<tr><td>Pulvinar</td><td>Massively hypertrophied<sup class="ev ev-2">1, 18</sup></td><td>Fills acetabular volume</td><td>Surgical excision<sup class="ev ev-2">3, 26</sup></td></tr>
+<tr><td>Ligamentum Teres</td><td>Elongated &amp; hypertrophied<sup class="ev ev-1">1</sup></td><td>Tethering band</td><td>Surgical excision<sup class="ev ev-1">18</sup></td></tr>
+<tr><td>TAL</td><td>Contracted &amp; taut<sup class="ev ev-2">3</sup></td><td>Inferior sling</td><td>Release/resection during OR<sup class="ev ev-2">28, 31</sup></td></tr>
+</tbody>
+</table>
+</div>
+</article>
+
+<!-- SECTION III -->
+<article class="content-card" id="sec-treatment">
+<h2>III. The Primary Treatment Dilemma: Closed vs. Open Reduction</h2>
+
+<p>Non-operative treatment (Pavlik harness) is ineffective and contraindicated at this age,<sup class="ev ev-2">Ref 3</sup> and open reduction with osteotomy is the clear choice over age 2. The 12–24 month window is the <strong>critical transition zone</strong> where consensus fractures.</p>
+
+<h3>A. The Case for Closed Reduction (CR)</h3>
+<p>CR is a non-arthrotomy procedure: (1) adductor tenotomy, (2) gentle manipulation under GA, (3) intra-operative arthrogram confirmation, and (4) spica cast immobilization.<sup class="ev ev-2">Ref 3</sup></p>
+<p>A 2025 comparative study found <strong>no significant difference</strong> in radiographic outcomes (AI, Center-Edge Angle) or clinical outcomes (Severin, McKay grades) between CR and ORPO in 18–24 month-olds.<sup class="ev ev-2">Ref 34</sup> AVN was lower (though not statistically significant, <em>p</em> = 0.131) in the CR group (18.9% vs 33.3%).<sup class="ev ev-2">Ref 35</sup></p>
+<p>Some evidence suggests that an "imperfect" reduction may be acceptable—if stable CR is obtained with medial dye pool up to 6 mm, the femoral head may "dock" and achieve concentricity over time.<sup class="ev ev-2">Ref 32</sup></p>
+
+<h3>B. Predictors of CR Failure</h3>
+<div class="callout callout-warning">
+  <div class="callout-title">📊 Failure Rates</div>
+  <p><strong>Overall CR failure rate: 20%</strong> (2024 meta-analysis, 5,281 hips)<sup class="ev ev-1">Ref 16</sup> and <strong>31.16%</strong> (2020 retrospective study).<sup class="ev ev-2">Ref 15</sup></p>
+</div>
+<ul>
+  <li><strong>Age ≥ 18.35 months</strong> — significant risk factor for failure<sup class="ev ev-2">Ref 15</sup></li>
+  <li><strong>High-grade dislocations (IHDI III/IV, Tönnis IV)</strong> — major predictor<sup class="ev ev-2">Ref 15, 16</sup></li>
+  <li><strong>Bilateral disease; Male gender</strong><sup class="ev ev-1">Ref 16</sup></li>
+</ul>
+
+<h4>Arthrographic Predictors of Failure</h4>
+<ul>
+  <li>Obstructive inverted limbus<sup class="ev ev-1">Ref 16</sup></li>
+  <li><strong>Medial Dye Pool (MDP) ≥ 6 mm</strong> — femoral head not deeply seated<sup class="ev ev-2">Ref 15</sup></li>
+  <li>Poor femoral head coverage — risk for residual dysplasia<sup class="ev ev-2">Ref 25</sup></li>
+</ul>
+
+<h3>C. The Argument for Primary Open Reduction (OR)</h3>
+<p>OR allows <strong>direct visualization and removal</strong> of all pathoanatomical blocks.<sup class="ev ev-2">Ref 28</sup></p>
+<ul>
+  <li>A 2022 study (701 patients): initial CR associated with <strong>1.8–9.0× higher risk of re-operation</strong> vs. initial OR.<sup class="ev ev-2">Ref 37</sup></li>
+  <li>A 2017 meta-analysis: OR patients had significantly lower need for further surgery (OR 0.30).<sup class="ev ev-1">Ref 38</sup></li>
+  <li>Re-operation rate for residual dysplasia: <strong>29.7% for isolated OR</strong> but only <strong>15% for OR + pelvic osteotomy</strong>.<sup class="ev ev-2">Ref 39</sup></li>
+</ul>
+
+<div class="callout callout-danger">
+  <div class="callout-title">⚖ Reframing the Debate</div>
+  <p>The true choice is: <strong>"CR with a 20–30% risk of requiring a future ORPO"</strong> vs. <strong>"a definitive primary ORPO."</strong> CR prioritizes avoiding initial surgical morbidity; ORPO prioritizes minimizing lifetime re-operation rate. For high-grade (IHDI III/IV) dislocations, most surgeons consider primary OR standard of care.<sup class="ev ev-2">Ref 15</sup></p>
+</div>
+
+<!-- TABLE 2 -->
+<div class="table-wrap">
+<table>
+<caption>Table 2: Comparative Outcomes — Closed Reduction vs. Open Reduction (Ages 12–24 Months)</caption>
+<thead>
+<tr><th>Modality</th><th>Age Range</th><th>Radiographic Success</th><th>AVN Rate (K-M II–IV)</th><th>Re-operation Rate</th><th>Key Study</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>CR</strong></td><td>18–24 mo</td><td>No sig. diff. vs ORPO (58.4% satisfactory Severin)</td><td>18.9%</td><td>18.8% (overall failure 31.16%)</td><td>Refs 34, 35, 15</td></tr>
+<tr><td><strong>ORPO</strong></td><td>18–24 mo</td><td>No sig. diff. vs CR (56.6% satisfactory Severin)</td><td>33.3%</td><td>15%</td><td>Refs 34, 39</td></tr>
+<tr><td><strong>OR vs CR</strong> (meta)</td><td>Pediatric</td><td>—</td><td>OR 2.46× (grades II–IV)</td><td>OR 0.30 (lower re-op)</td><td>Ref 38</td></tr>
+<tr><td><strong>OR vs CR</strong> (cohort)</td><td>1–3 yr</td><td>—</td><td>—</td><td>CR 1.8–9.0× higher re-op</td><td>Ref 37</td></tr>
+</tbody>
+</table>
+</div>
+</article>
+
+<!-- SECTION IV -->
+<article class="content-card" id="sec-open-strategies">
+<h2>IV. Open Reduction Surgical Strategies</h2>
+
+<h3>A. Approach Controversy: Medial vs. Anterior</h3>
+
+<h4>Medial Approach (Ludloff, Weinstein-Ponseti)</h4>
+<ul>
+  <li><strong>Advantages:</strong> Less soft-tissue dissection, reduced blood loss, shorter operative time, cosmetic scar; direct visualization of medial blocks (psoas, TAL).<sup class="ev ev-2">Ref 28</sup></li>
+  <li><strong>Disadvantages:</strong> Cannot perform capsulorrhaphy; <strong>cannot perform pelvic osteotomy</strong>.<sup class="ev ev-2">Ref 28</sup></li>
+</ul>
+
+<h4>Anterior Approach (Smith-Petersen)</h4>
+<ul>
+  <li><strong>Advantages:</strong> Wide exposure; enables robust capsulorrhaphy; <strong>only approach for pelvic osteotomy</strong>.<sup class="ev ev-2">Ref 12, 22, 28</sup></li>
+  <li><strong>Disadvantages:</strong> More extensive dissection; longer operative time; theoretical MFCA risk.<sup class="ev ev-2">Ref 30</sup></li>
+</ul>
+
+<div class="callout callout-info">
+  <div class="callout-title">🔬 Modern AVN Evidence</div>
+  <p>A 2022 systematic review: <strong>no significant difference</strong> in AVN (18.7% medial vs 19.6% anterior).<sup class="ev ev-1">Ref 30</sup> A 2023 meta-analysis: anterior approach had <strong>2.27× higher odds of AVN</strong> vs. medial—but this likely reflects selection bias (anterior is chosen for older, more severe cases).<sup class="ev ev-1">Ref 44</sup></p>
+</div>
+
+<p><strong>The decision driver is the surgical plan, not AVN risk:</strong> If an osteotomy is needed → anterior approach is mandatory.<sup class="ev ev-2">Ref 12</sup></p>
+
+<!-- TABLE 3 -->
+<div class="table-wrap">
+<table>
+<caption>Table 3: Medial vs. Anterior Surgical Approach Comparison</caption>
+<thead>
+<tr><th>Attribute</th><th>Medial Approach</th><th>Anterior Approach</th></tr>
+</thead>
+<tbody>
+<tr><td>Key Advantage</td><td>Less invasive; direct medial block access<sup class="ev ev-2">28</sup></td><td>Allows pelvic osteotomy<sup class="ev ev-2">12, 28</sup></td></tr>
+<tr><td>Key Disadvantage</td><td>Cannot perform pelvic osteotomy or capsulorrhaphy<sup class="ev ev-2">28</sup></td><td>More extensive dissection; longer OR time<sup class="ev ev-2">30</sup></td></tr>
+<tr><td>Modern AVN Rate</td><td>18.7%<sup class="ev ev-1">Ref 30</sup></td><td>19.6%<sup class="ev ev-1">Ref 30</sup>; 2.27× higher odds<sup class="ev ev-1">Ref 44</sup></td></tr>
+<tr><td>Ideal Indication</td><td>Younger, lower-grade; OR alone</td><td>Older, severe; OR + osteotomy</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>B. The Osteotomy Debate: OR Alone vs. One-Stage Combined Procedure</h3>
+
+<h4>Case for OR Alone (Remodeling Potential)</h4>
+<p>A 2021 study: 85% of hips achieved satisfactory remodeling (AI &lt; 30°) by age 6, with remodeling significantly better when surgery was at <strong>≤24 months</strong>.<sup class="ev ev-2">Ref 10</sup> Another study reported 90% success, correcting AI from 41.8° to 16.1°.<sup class="ev ev-2">Ref 11</sup></p>
+
+<h4>Case for Concomitant Osteotomy (ORPO)</h4>
+<ul>
+  <li><strong>Pelvic osteotomy</strong> (Salter, Dega, Pemberton): Corrects acetabular dysplasia; recommended over 18 months.<sup class="ev ev-2">Ref 2, 3</sup></li>
+  <li><strong>Femoral osteotomy</strong> (shortening, derotation, varus): Corrects femoral deformity; <strong>femoral shortening reduces joint pressure to prevent AVN</strong>.<sup class="ev ev-2">Ref 14, 17</sup></li>
+</ul>
+
+<h4>The Trade-Off</h4>
+<ul>
+  <li>OR alone: high remodeling potential<sup class="ev ev-2">10</sup> but <strong>~30% re-operation rate</strong>.<sup class="ev ev-2">Ref 39</sup></li>
+  <li>ORPO: prophylactic dysplasia correction, re-op OR 0.34,<sup class="ev ev-2">Ref 37</sup> but AVN more frequent when Salter is combined with OR.<sup class="ev ev-2">Ref 51</sup></li>
+  <li>Triple procedure (OR + pelvic + femoral): definitive but <strong>highest AVN rates</strong>.<sup class="ev ev-2">Ref 40</sup></li>
+</ul>
+
+<!-- TABLE 4 -->
+<div class="table-wrap">
+<table>
+<caption>Table 4: OR Alone vs. One-Stage Combined Osteotomy</caption>
+<thead>
+<tr><th>Strategy</th><th>Typical Age</th><th>Remodeling</th><th>Re-op Rate</th><th>AVN Risk</th><th>Key Refs</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>OR Alone</strong></td><td>&lt; 18–24 mo</td><td>85% achieve AI &lt; 30° by age 6</td><td>29.7%</td><td>Moderate</td><td>10, 11, 39</td></tr>
+<tr><td><strong>OR + Pelvic (ORPO)</strong></td><td>&gt; 18 mo</td><td>Prophylactic correction</td><td>15%</td><td>May be ↑ vs OR alone</td><td>37, 39, 51</td></tr>
+<tr><td><strong>OR + Femoral (ORFO)</strong></td><td>&gt; 18 mo, high</td><td>Corrects femur</td><td>Lower than OR alone</td><td><strong>Protective</strong></td><td>10, 13, 14, 17</td></tr>
+<tr><td><strong>Triple Procedure</strong></td><td>&gt; 18 mo, severe</td><td>Definitive</td><td>Lowest</td><td><strong>Highest</strong></td><td>13, 17, 40</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>C. Bilateral DDH: Simultaneous vs. Staged</h3>
+<p>Multiple retrospective analyses found <strong>no statistically significant difference</strong> in radiographic outcomes, AVN rates, or clinical scores between simultaneous and staged bilateral procedures (mean age ~18 months).<sup class="ev ev-2">Ref 52, 53</sup> Simultaneous surgery is advantageous for reduced total anesthesia duration, shorter hospitalization, and lower costs.<sup class="ev ev-2">Ref 52</sup></p>
+</article>
+
+<!-- SECTION V -->
+<article class="content-card" id="sec-avn">
+<h2>V. Avascular Necrosis: Aetiology and Prevention</h2>
+
+<p>AVN of the femoral head is the <strong>most feared complication</strong> of DDH treatment—an iatrogenic ischemic injury caused by compression/kinking of the fragile blood supply (primarily MFCA) to the cartilaginous epiphysis.<sup class="ev ev-1">Ref 1, 30</sup> Reported rates: 4%–60%.<sup class="ev ev-1">Ref 55</sup></p>
+
+<h3>Kalamchi-MacEwen Classification</h3>
+<ul>
+  <li><strong>Group I:</strong> Delayed appearance/mottling of ossific nucleus only (transient, good outcomes).<sup class="ev ev-1">Ref 56</sup></li>
+  <li><strong>Group II:</strong> Lateral physis damage.<sup class="ev ev-1">Ref 56</sup></li>
+  <li><strong>Group III:</strong> Central physis damage.<sup class="ev ev-1">Ref 56</sup></li>
+  <li><strong>Group IV:</strong> Entire femoral head and physis involved.<sup class="ev ev-1">Ref 56</sup></li>
+</ul>
+
+<h3>Pre-operative Traction: An Unresolved Debate</h3>
+
+<div class="callout callout-warning">
+  <div class="callout-title">🌍 International Disagreement</div>
+  <p>Most EPOS members utilize traction; few POSNA members do.<sup class="ev ev-2">Ref 62</sup></p>
+</div>
+
+<p><strong>Against traction:</strong> Multiple meta-analyses show <strong>no significant difference</strong> in AVN rates.<sup class="ev ev-1">Ref 60, 64</sup></p>
+<p><strong>For traction (new data):</strong> A large 2023 cohort study found traction significantly decreased AVN risk (<strong>OR 0.37 overall; OR 0.28 in the 1–3 year age group</strong>), particularly for open reductions.<sup class="ev ev-2">Ref 67</sup> This re-opens the debate for this specific high-risk population.</p>
+
+<h3>Intra- and Post-operative AVN Prevention Strategies</h3>
+
+<h4>The "Safe Zone" of Reduction</h4>
+<p>The hip should be stable in high flexion (90°–100°) and moderate abduction <strong>without excessive force</strong>. If only stable in wide abduction → iatrogenic AVN risk.<sup class="ev ev-2">Ref 21, 71</sup></p>
+
+<h4>The "Human Position" Spica Cast</h4>
+<div class="callout callout-danger">
+  <div class="callout-title">🚨 CRITICAL THRESHOLD</div>
+  <p>Spica cast abduction <strong>&gt; 54°</strong> is associated with a <strong>38.44-fold increase in AVN risk</strong>.<sup class="ev ev-2">Ref 72</sup></p>
+</div>
+<p><strong>Safe position:</strong> High flexion (90°–110°), moderate abduction (<strong>&lt; 60°</strong>, ideally 45°–50°), neutral rotation.<sup class="ev ev-2">Ref 3, 73, 74</sup></p>
+
+<!-- TABLE 5 -->
+<div class="table-wrap">
+<table>
+<caption>Table 5: AVN Prevention Strategies — Evidence Summary</caption>
+<thead>
+<tr><th>Strategy</th><th>Mechanism</th><th>Evidence</th><th>Recommendation</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Pre-op Traction</strong></td><td>Stretches contractures → less force</td><td>HIGHLY CONTROVERSIAL. Meta-analyses: no benefit<sup class="ev ev-1">60, 64</sup>. 2023 study: protective in 1–3 yr (OR 0.28)<sup class="ev ev-2">67</sup></td><td>Debatable; re-opened for walking-age OR</td></tr>
+<tr><td><strong>Adductor Tenotomy</strong></td><td>Releases adduction contracture</td><td>Low controversy; routine step<sup class="ev ev-2">20</sup></td><td>Routinely performed</td></tr>
+<tr><td><strong>"Safe Zone"</strong></td><td>Identifies stable arc without compression</td><td>Standard of care<sup class="ev ev-2">21</sup></td><td>Stable in &lt; 65° abduction<sup class="ev ev-2">69</sup></td></tr>
+<tr><td><strong>"Human Position"</strong></td><td>High flexion + moderate abduction</td><td>Definitive. Abduction &gt; 54° → 38.44× AVN risk<sup class="ev ev-2">72</sup></td><td>AVOID abduction &gt; 60°<sup class="ev ev-2">24, 71</sup></td></tr>
+<tr><td><strong>Femoral Shortening</strong></td><td>Reduces tension and pressure</td><td>Standard for high dislocations<sup class="ev ev-2">14, 17</sup></td><td>Recommended for Tönnis 3/4<sup class="ev ev-2">13, 14</sup></td></tr>
+</tbody>
+</table>
+</div>
+</article>
+
+<!-- SECTION VI -->
+<article class="content-card" id="sec-emerging">
+<h2>VI. Emerging Horizons and Synthesis</h2>
+
+<h3>A. Arthroscopic-Assisted Reduction</h3>
+<p>A paradigm-shifting technique that challenges the traditional CR vs. OR dichotomy. Hip arthroscopy (2 portals) allows resection of intra-articular blocks—hypertrophied ligamentum teres, pulvinar, contracted TAL—<strong>without open incision</strong>.<sup class="ev ev-2">Ref 26, 31, 76</sup></p>
+<ul>
+  <li><strong>Primary indication:</strong> Failed CR in walking-age children (12–24 months).<sup class="ev ev-2">Ref 31</sup></li>
+  <li><strong>Radiographic outcomes:</strong> Comparable to OR. AI corrected from ~38° to 26°<sup class="ev ev-2">Ref 27</sup> and from 40.3° to 21.9° at 5-year follow-up.<sup class="ev ev-2">Ref 31</sup></li>
+  <li><strong>Morbidity advantage:</strong> Lower redislocation rates, shorter OR time, less blood loss.<sup class="ev ev-1">Ref 78</sup> AVN: 21% arthroscopic vs. 44% open (<em>p</em> = 0.074).<sup class="ev ev-1">Ref 78</sup></li>
+  <li><strong>5-year outcomes:</strong> Zero AVN, zero redislocation, zero re-operation for residual dysplasia.<sup class="ev ev-2">Ref 31</sup></li>
+  <li><strong>Limitation:</strong> Cannot be combined with pelvic osteotomy (same as medial OR).</li>
+</ul>
+
+<h3>B. Evidence-Based Clinical Algorithm</h3>
+
+<div class="algo-box action"><strong>Step 1 — All patients (12–24 mo):</strong> Attempt Closed Reduction with adductor tenotomy under GA → Perform intra-operative arthrogram.</div>
+<div class="algo-arrow">▼</div>
+<div class="algo-box decision"><strong>Step 2 — Decision (Arthrogram):</strong><br>
+<strong>If CR is stable &amp; concentric</strong> (MDP &lt; 6 mm, no limbus block):<br>
+→ "Human Position" Spica Cast (flexion 90°–110°, abduction 45°–50°)<br>
+→ Monitor for remodeling; counsel on ~20–30% risk of future pelvic osteotomy.<br><br>
+<strong>If CR is non-concentric or unstable</strong> (MDP ≥ 6 mm, obstructive limbus):</div>
+<div class="algo-arrow">▼</div>
+<div class="algo-box action" style="margin-left:1.5rem;">
+<strong>Age 12–18 mo (or &lt; 24 mo with low-grade):</strong><br>
+→ Arthroscopic-Assisted Reduction OR Medial Open Reduction to clear blocks → "Human Position" Cast
+</div>
+<div class="algo-box endpoint-warn" style="margin-left:1.5rem;">
+<strong>Age 18–24 mo (especially IHDI III/IV):</strong><br>
+→ One-Stage <strong>Anterior OR + Femoral Shortening/Derotation + Pelvic Osteotomy (Salter/Dega)</strong><br>
+→ Definitively addresses all deformities; minimizes re-operation risk; femoral shortening prevents AVN.
+</div>
+</article>
+
+<!-- REFERENCES -->
+<article class="content-card" id="sec-refs">
+<h2>References (Derived from Source Document)</h2>
+<div class="references">
+<ol>
+<li>Developmental dysplasia of the hip: What has changed in the last 20 years? — PMC</li>
+<li>Evaluation of the results of operative treatment of hip dysplasia in children after the walking age — tandfonline.com</li>
+<li>Developmental Dysplasia of the Hip (DDH) — Orthobullets</li>
+<li>DDH | Hip Dysplasia in Babies — Lurie Children's</li>
+<li>Developmental Dysplasia of the Hip — StatPearls, NCBI</li>
+<li>Update on the management of infant and toddler DDH — racgp.org.au</li>
+<li>Developmental Dysplasia of the Hip-Child — ACR</li>
+<li>DDH: Etiology, Diagnosis, and Management — PMC</li>
+<li>Guideline discordance in DDH management — medtigo Journal</li>
+<li>Evaluation of Acetabular Development Following OR of DDH — PMC</li>
+<li>Acetabular development after OR for DDH after walking age — JMSR</li>
+<li>Management of DDH in less than 24 months — PMC</li>
+<li>One-Stage Combined Surgical Treatment of DDH &gt; 18 Months — CJMS</li>
+<li>Surgical treatment of DDH: 414 hips — PMC</li>
+<li>Efficacy of closed reduction for DDH — PMC</li>
+<li>Rates and risk factors for failure of CR in DDH — EFORT Open Reviews</li>
+<li>Outcome of one-stage treatment of DDH in older children — PMC</li>
+<li>No Detectable Major Changes in Gait After Soft Tissue Release — PMC</li>
+<li>Reconstruction of the Acetabulum in DDH — PMC</li>
+<li>Closed Reduction — IHDI</li>
+<li>Closed Reduction of DDH with Waterproof Cast — JPOSNA</li>
+<li>DDH Book — IHDI</li>
+<li>CR with Adductor Tenotomy and Casting — ResearchGate</li>
+<li>Intraoperative Arthrogram Predicts Residual Dysplasia — PMC</li>
+<li>Hip arthrogram parameters predict outcomes — PMC</li>
+<li>Arthroscopic vs open, medial approach for DDH — tandfonline</li>
+<li>Arthroscopic vs open, medial approach for DDH — PMC</li>
+<li>Medial Open Reduction: Long-term Outcomes — Haseki</li>
+<li>Dega Osteotomy for DDH — Orthopedic Reviews</li>
+<li>DDH: Controversies in Management — PMC</li>
+<li>Medium-term results: arthroscopic reduction in walking-age DDH — PMC</li>
+<li>Retrospective Comparison: CR vs OR for DDH 6–24 Months — PMC</li>
+<li>Short vs Long-Leg Hip Spica After CR — PubMed</li>
+<li>Comparative efficacy CR vs ORPO 18–24 months — ResearchGate</li>
+<li>Comparative efficacy CR vs ORPO 18–24 months — PLOS One</li>
+<li>CR for Treatment of DDH — mdedge.com</li>
+<li>Reoperations as Outcome Indicator for DDH — JBJS</li>
+<li>Association between OR/CR and AVN in DDH — PMC</li>
+<li>Outcomes following OR for late-presenting DDH — PMC</li>
+<li>Outcome of OR Alone or with Bony Procedures — MDPI</li>
+<li>Medial Open Reduction: Long-term Outcomes — Haseki</li>
+<li>Incidence of AVN following medial OR — ResearchGate</li>
+<li>Clinical/radiological outcomes medial vs anterior — JDRS</li>
+<li>Medial vs anterior approach: meta-analysis — PMC</li>
+<li>Medial vs anterior approach: meta-analysis — PubMed</li>
+<li>Modified Smith–Petersen approach — PMC</li>
+<li>OR Alone vs OR + Pemberton — PMC</li>
+<li>Predictors of residual dysplasia — Translational Pediatrics</li>
+<li>OR Alone vs ORPO &gt; 1.5 years — PMC</li>
+<li>OR Alone vs OR + Pemberton — ResearchGate</li>
+<li>Long-Term Results After Salter Osteotomy — MDPI</li>
+<li>Simultaneous vs staged bilateral DDH — PMC</li>
+<li>Simultaneous vs staged bilateral DDH — PubMed</li>
+<li>Simultaneous vs staged bilateral DDH — ResearchGate</li>
+<li>AVN following CR for DDH: systematic review — PMC</li>
+<li>Kalamchi and MacEwen classification — ResearchGate</li>
+<li>DDH: OR as Risk Factor for Osteonecrosis — PMC</li>
+<li>Risk factors for AVN in Tönnis IV — PubMed</li>
+<li>Kalamchi Group I AVN — PubMed</li>
+<li>Overhead Bryant's Traction — PubMed</li>
+<li>Prereduction traction meta-analysis — Dove Medical Press</li>
+<li>Diagnostic/treatment preferences EPOS vs POSNA — PMC</li>
+<li>Outpatient Bryant's Traction — ResearchGate</li>
+<li>Prereduction traction meta-analysis — PMC</li>
+<li>Traction for DDH: protocol — BMJ Open</li>
+<li>Effect of Traction Before CR — MDPI</li>
+<li>Risk factors for AVN in DDH — Frontiers</li>
+<li>Adductor Tenotomy Prognostic Value — PMC</li>
+<li>Management of residual limbus inversion — Frontiers</li>
+<li>Role of intraoperative arthrogram — ijoro.org</li>
+<li>CR, Arthrogram and Spica Application — PMC</li>
+<li>AVN predictive factors after CR — PMC</li>
+<li>MRI-based parameters — Frontiers</li>
+<li>Long-leg spica casts: superior outcomes — PMC</li>
+<li>Arthroscopic reduction: medium-term — d-nb.info</li>
+<li>Pediatric Hip Arthroscopy review — PMC</li>
+<li>Arthroscopic-Assisted Reduction: Systematic Review — ResearchGate</li>
+<li>Arthroscopic vs Open Reduction: RCT — PubMed</li>
+<li>Arthroscopic vs Open Reduction: RCT — ResearchGate</li>
+</ol>
+</div>
+</article>
+
+</main>
+
+<!-- ===================== SIDEBAR ===================== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tool">
+
+<!-- NAV -->
+<div class="sidebar-card">
+<h3>📑 Navigation</h3>
+<ul class="toc">
+  <li><a href="#sec-intro">I. Clinical Challenge</a></li>
+  <li><a href="#sec-pathoanat">II. Pathoanatomy</a></li>
+  <li><a href="#sec-treatment">III. CR vs. OR</a></li>
+  <li><a href="#sec-open-strategies">IV. Surgical Strategies</a></li>
+  <li><a href="#sec-avn">V. AVN Prevention</a></li>
+  <li><a href="#sec-emerging">VI. Synthesis &amp; Algorithm</a></li>
+  <li><a href="#sec-refs">References</a></li>
+</ul>
+</div>
+
+<!-- INTERACTIVE SLIDERS -->
+<div class="sidebar-card">
+<h3>🎛 Interactive Decision Tool</h3>
+<p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:1rem;">Adjust parameters to see real-time clinical recommendations based on the evidence in this report.</p>
+
+<div class="slider-group">
+  <div class="slider-label">
+    <span>Patient Age</span>
+    <span class="slider-value" id="age-val">18 <span class="slider-unit">months</span></span>
+  </div>
+  <input type="range" id="age-slider" min="12" max="24" step="1" value="18" aria-label="Patient age in months">
+  <div class="slider-note">Source threshold: CR failure risk ↑ at ≥ 18.35 mo [Ref 15]</div>
+</div>
+
+<div class="slider-group">
+  <div class="slider-label">
+    <span>Acetabular Index</span>
+    <span class="slider-value" id="ai-val">35 <span class="slider-unit">degrees</span></span>
+  </div>
+  <input type="range" id="ai-slider" min="15" max="55" step="1" value="35" aria-label="Acetabular Index in degrees">
+  <div class="slider-note">Normal at 24 mo: ~20°. Dysplasia: &gt; 30° [Ref 8]</div>
+</div>
+
+<div class="slider-group">
+  <div class="slider-label">
+    <span>Spica Abduction Angle</span>
+    <span class="slider-value" id="abd-val">50 <span class="slider-unit">degrees</span></span>
+  </div>
+  <input type="range" id="abd-slider" min="20" max="80" step="1" value="50" aria-label="Spica cast abduction angle in degrees">
+  <div class="slider-note">⚠ AVN risk: &gt; 54° → 38.44× increase [Ref 72]</div>
+</div>
+
+<div id="recommendation-panel">
+  <div class="rec-title">📋 Clinical Recommendation</div>
+  <div class="rec-text" id="rec-text">—</div>
+  <div class="rec-risk" id="rec-risk">—</div>
+</div>
+
+<div class="btn-group">
+  <button class="btn btn-outline" id="reset-btn" aria-label="Reset sliders to defaults">↺ Reset</button>
+  <button class="btn btn-primary" id="copy-btn" aria-label="Copy recommendation to clipboard">📋 Copy Summary</button>
+</div>
+</div>
+
+<!-- IHDI QUICK REF -->
+<div class="sidebar-card">
+<h3>📐 IHDI Classification</h3>
+<table style="font-size:0.75rem;">
+<thead><tr><th>Grade</th><th>Femoral Head Position</th></tr></thead>
+<tbody>
+<tr><td><strong>I</strong></td><td>Inferior to H-line</td></tr>
+<tr><td><strong>II</strong></td><td>At level of H-line</td></tr>
+<tr><td><strong>III</strong></td><td>Above H-line, below P-line</td></tr>
+<tr><td><strong>IV</strong></td><td>Above P-line</td></tr>
+</tbody>
+</table>
+<p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.5rem;">Grades III–IV are high-grade; strongly associated with CR failure [Ref 14].</p>
+</div>
+
+<!-- EVIDENCE KEY -->
+<div class="sidebar-card">
+<h3>🏷 Evidence Badge Key</h3>
+<div style="font-size:0.78rem;line-height:2;">
+<span class="ev ev-1">Ref #</span> — Systematic review / meta-analysis<br>
+<span class="ev ev-2">Ref #</span> — Cohort / retrospective study<br>
+<span class="ev ev-3">Ref #</span> — Guideline / textbook / narrative review<br>
+<span class="ev ev-4">Ref #</span> — Case series / expert opinion<br>
+<span class="ev ev-ns">n/s</span> — Not specified in source
+</div>
+</div>
+
+</aside>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const ageSlider = document.getElementById('age-slider');
+  const aiSlider = document.getElementById('ai-slider');
+  const abdSlider = document.getElementById('abd-slider');
+  const ageVal = document.getElementById('age-val');
+  const aiVal = document.getElementById('ai-val');
+  const abdVal = document.getElementById('abd-val');
+  const recText = document.getElementById('rec-text');
+  const recRisk = document.getElementById('rec-risk');
+  const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-btn');
+  const toast = document.getElementById('toast');
+
+  function update() {
+    const age = parseInt(ageSlider.value);
+    const ai = parseInt(aiSlider.value);
+    const abd = parseInt(abdSlider.value);
+
+    ageVal.innerHTML = age + ' <span class="slider-unit">months</span>';
+    aiVal.innerHTML = ai + ' <span class="slider-unit">degrees</span>';
+    abdVal.innerHTML = abd + ' <span class="slider-unit">degrees</span>';
+
+    // Color the sliders dynamically
+    ageSlider.style.setProperty('--thumb', age >= 18 ? '#c53030' : '#276749');
+    aiSlider.style.setProperty('--thumb', ai > 30 ? '#c53030' : '#276749');
+    abdSlider.style.setProperty('--thumb', abd > 54 ? '#c53030' : abd > 45 ? '#b7791f' : '#276749');
+
+    let rec = '';
+    let riskLevel = '';
+    let riskClass = '';
+
+    // Recommendation logic based on source thresholds
+    if (age < 18 && ai <= 30) {
+      rec = 'Patient ≤ 18 mo with AI ≤ 30° (near-normal). Attempt <strong>Closed Reduction</strong> with adductor tenotomy. If stable and concentric on arthrogram (MDP &lt; 6 mm), proceed with <strong>"Human Position" Spica Cast</strong> (flexion 90°–110°, abduction 45°–50°). Monitor for acetabular remodeling.';
+      riskLevel = 'LOW RISK — High remodeling potential; CR likely sufficient.';
+      riskClass = 'risk-low';
+    } else if (age < 18 && ai > 30 && ai <= 40) {
+      rec = 'Patient ≤ 18 mo with moderate dysplasia (AI ' + ai + '°, &gt; 30°). Attempt <strong>Closed Reduction</strong> with adductor tenotomy under GA. Assess arthrogram: If stable/concentric, cast in "Human Position." If MDP ≥ 6 mm or obstructive limbus, consider <strong>Medial Open Reduction</strong> or <strong>Arthroscopic-Assisted Reduction</strong> to clear intra-articular blocks. Pelvic osteotomy generally deferred in this age group.';
+      riskLevel = 'MODERATE RISK — Dysplasia present; ~20–30% risk of future pelvic osteotomy if CR succeeds [Ref 15, 39].';
+      riskClass = 'risk-mod';
+    } else if (age < 18 && ai > 40) {
+      rec = 'Patient ≤ 18 mo but severe dysplasia (AI ' + ai + '°). CR has high probability of failure due to severe bony deformity. Strongly consider <strong>Primary Open Reduction</strong> via anterior approach with <strong>pelvic osteotomy (Salter/Dega)</strong> ± femoral shortening osteotomy. Femoral shortening is protective against AVN in severe cases [Ref 14, 17]. Pre-operative traction may be considered for this high-risk group [Ref 67].';
+      riskLevel = 'HIGH RISK — Severe dysplasia mandates definitive surgical correction.';
+      riskClass = 'risk-high';
+    } else if (age >= 18 && age < 24 && ai <= 35) {
+      rec = 'Patient ≥ 18 mo with mild-moderate dysplasia (AI ' + ai + '°). Attempt <strong>Closed Reduction</strong> with adductor tenotomy. Age ≥ 18.35 mo is a significant CR failure risk factor [Ref 15]. If arthrogram shows non-concentric reduction or MDP ≥ 6 mm, proceed to <strong>Open Reduction</strong>. Given age, consider concurrent <strong>pelvic osteotomy</strong> to minimize re-operation rate (OR 0.34 vs OR alone [Ref 37]). Arthroscopic reduction is a viable minimally invasive alternative if no osteotomy needed [Ref 31].';
+      riskLevel = 'MODERATE-HIGH RISK — Age ≥ 18 mo increases CR failure risk; OR + pelvic osteotomy should be strongly considered.';
+      riskClass = 'risk-mod';
+    } else if (age >= 18 && ai > 35 && ai <= 45) {
+      rec = 'Patient ≥ 18 mo with significant dysplasia (AI ' + ai + '°). <strong>Primary One-Stage Anterior Open Reduction + Pelvic Osteotomy (Salter/Dega)</strong> is recommended. For IHDI Grade III/IV dislocations, add <strong>femoral shortening osteotomy</strong> to reduce joint pressure and prevent AVN [Ref 14, 17]. Strictly adhere to <strong>"Human Position" spica cast</strong> post-op: abduction MUST be &lt; 54° (abduction &gt; 54° → 38.44× AVN risk [Ref 72]). Consider pre-operative traction for this high-risk group [Ref 67].';
+      riskLevel = 'HIGH RISK — Definitive combined procedure recommended; avoid excessive abduction.';
+      riskClass = 'risk-high';
+    } else if (age >= 18 && ai > 45) {
+      rec = 'Patient ≥ 18 mo with very severe dysplasia (AI ' + ai + '°). <strong>Primary "Triple Procedure": Anterior OR + Femoral Shortening/Derotation Osteotomy + Pelvic Osteotomy</strong> is indicated. This addresses all pathoanatomical deformities in a single stage. Note: triple procedure carries the highest AVN rate among combined approaches [Ref 40]. Meticulous surgical technique and strict post-op "Human Position" casting are essential. Femoral shortening is protective by reducing joint pressure. Pre-operative traction debated but may be beneficial [Ref 67].';
+      riskLevel = 'VERY HIGH RISK — Severe deformity; definitive multi-component surgery required.';
+      riskClass = 'risk-high';
+    } else {
+      rec = 'Evaluate patient using the decision algorithm. Attempt <strong>Closed Reduction</strong> with adductor tenotomy and intra-operative arthrogram. Decision for further surgery depends on arthrogram findings (MDP ≥ 6 mm → failure). For age ≥ 18 mo or high-grade dislocations, <strong>Primary OR</strong> is recommended.';
+      riskLevel = 'Assess individual risk factors per source guidelines.';
+      riskClass = 'risk-mod';
+    }
+
+    // AVN risk from spica angle
+    if (abd > 54) {
+      rec += '<br><br><strong style="color:#c53030;">⚠ WARNING:</strong> Spica abduction angle ' + abd + '° exceeds the 54° threshold. This is associated with a <strong>38.44-fold increase in AVN risk</strong> [Ref 72]. Reduce to 45°–50° in high flexion.';
+    } else if (abd > 45 && abd <= 54) {
+      rec += '<br><br><em>Note:</em> Abduction angle ' + abd + '° is within the acceptable range but near the danger threshold. Ideal: 45°–50° with high flexion (90°–110°).';
+    }
+
+    recText.innerHTML = rec;
+    recRisk.className = 'rec-risk ' + riskClass;
+    recRisk.textContent = riskLevel;
+  }
+
+  ageSlider.addEventListener('input', update);
+  aiSlider.addEventListener('input', update);
+  abdSlider.addEventListener('input', update);
+
+  resetBtn.addEventListener('click', function() {
+    ageSlider.value = 18;
+    aiSlider.value = 35;
+    abdSlider.value = 50;
+    update();
+  });
+
+  copyBtn.addEventListener('click', function() {
+    const now = new Date().toLocaleString();
+    const plainText =
+      'DDH Clinical Decision Summary\n' +
+      '==============================\n' +
+      'Date/Time: ' + now + '\n\n' +
+      'Patient Parameters:\n' +
+      '  Age: ' + ageSlider.value + ' months\n' +
+      '  Acetabular Index: ' + aiSlider.value + '°\n' +
+      '  Spica Abduction Angle: ' + abdSlider.value + '°\n\n' +
+      'Recommendation:\n' +
+      recText.textContent.trim() + '\n\n' +
+      'Risk Assessment: ' + recRisk.textContent.trim() + '\n\n' +
+      'Key Thresholds (from source document):\n' +
+      '  - CR failure risk ↑ at age ≥ 18.35 months [Ref 15]\n' +
+      '  - AI > 30° at 24 months = definitive dysplasia [Ref 8]\n' +
+      '  - MDP ≥ 6 mm on arthrogram = CR failure predictor [Ref 15]\n' +
+      '  - Spica abduction > 54° = 38.44× AVN risk increase [Ref 72]\n' +
+      '  - IHDI III/IV = high-grade; primary OR recommended [Ref 14, 15]\n' +
+      '  - "Human Position": flexion 90°–110°, abduction 45°–50° [Ref 3]\n\n' +
+      'Generated from: DDH in Walking-Age Children (12–24 Months) Interactive Summary';
+
+    navigator.clipboard.writeText(plainText).then(function() {
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = plainText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  });
+
+  // Initialize
+  update();
+
+})();
+</script>
+
+</body>
+</html>

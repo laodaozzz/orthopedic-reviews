@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hemodynamic Architecture of the Trapezium – Interactive Educational Summary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #fafbfc; --card: #ffffff; --text: #1a1a2e; --muted: #6b7280;
+            --primary: #0f4c81; --primary-light: #e8f1fb; --accent: #d97706;
+            --accent-light: #fef3c7; --success: #059669; --danger: #dc2626;
+            --border: #e5e7eb; --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -2px rgba(0,0,0,.04);
+            --radius: 10px; --font-body: 'Inter', sans-serif; --font-heading: 'Merriweather', serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.75; font-size: 15.5px; }
+        /* Header */
+        .site-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a3a5c 100%);
+            color: #fff; padding: 2.5rem 2rem; text-align: center; position: relative; overflow: hidden;
+        }
+        .site-header::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(255,255,255,.06) 0%, transparent 60%);
+        }
+        .site-header h1 { font-family: var(--font-heading); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; position: relative; max-width: 900px; margin: 0 auto; }
+        .site-header .subtitle { font-size: .95rem; opacity: .85; margin-top: .6rem; font-weight: 300; position: relative; }
+        /* Layout */
+        .layout { display: grid; grid-template-columns: 1fr 340px; gap: 2rem; max-width: 1320px; margin: 0 auto; padding: 2rem 1.5rem; }
+        @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } aside { order: -1; position: static !important; } }
+        /* Main content */
+        main { min-width: 0; }
+        main section { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 2rem; margin-bottom: 1.5rem; }
+        main h2 { font-family: var(--font-heading); font-size: 1.35rem; color: var(--primary); margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid var(--primary-light); }
+        main h3 { font-size: 1.05rem; color: var(--primary); margin: 1.5rem 0 .6rem; font-weight: 600; }
+        main h4 { font-size: .95rem; color: var(--text); margin: 1.2rem 0 .4rem; font-weight: 600; }
+        main p { margin-bottom: .9rem; }
+        main ul, main ol { margin: .5rem 0 1rem 1.5rem; }
+        main li { margin-bottom: .35rem; }
+        strong { color: var(--primary); }
+        /* Evidence badge */
+        .ev { display: inline-block; font-size: .7rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; vertical-align: middle; margin-left: 4px; letter-spacing: .02em; }
+        .ev-4 { background: #dbeafe; color: #1e40af; }
+        .ev-5 { background: #e0e7ff; color: #3730a3; }
+        .ev-ns { background: #f3f4f6; color: #6b7280; }
+        /* Callout */
+        .callout { background: var(--accent-light); border-left: 4px solid var(--accent); padding: 1rem 1.2rem; border-radius: 0 var(--radius) var(--radius) 0; margin: 1.2rem 0; font-size: .92rem; }
+        .callout.info { background: var(--primary-light); border-left-color: var(--primary); }
+        .callout.danger { background: #fef2f2; border-left-color: var(--danger); }
+        .callout strong { display: block; margin-bottom: .2rem; }
+        /* Tables */
+        .table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: var(--radius); border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+        caption { text-align: left; font-weight: 600; font-size: .95rem; padding: .6rem 1rem; background: var(--primary-light); color: var(--primary); }
+        th { background: #f1f5f9; text-align: left; padding: .6rem .8rem; font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border-bottom: 2px solid var(--border); }
+        td { padding: .6rem .8rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        /* Sidebar */
+        aside { position: sticky; top: 1rem; align-self: start; }
+        .sidebar-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.5rem; margin-bottom: 1.2rem; border: 1px solid var(--border); }
+        .sidebar-card h3 { font-size: .95rem; color: var(--primary); margin-bottom: 1rem; text-align: center; border-bottom: 1px solid var(--border); padding-bottom: .5rem; }
+        .slider-group { margin-bottom: 1.3rem; }
+        .slider-group label { display: flex; justify-content: space-between; font-size: .82rem; font-weight: 600; margin-bottom: .3rem; }
+        .slider-group label span.val { color: var(--accent); font-weight: 700; }
+        input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; height: 6px; }
+        .slider-note { font-size: .72rem; color: var(--muted); margin-top: .2rem; font-style: italic; }
+        /* Recommendation box */
+        #recommendation { background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #a7f3d0; border-radius: var(--radius); padding: 1rem; min-height: 120px; font-size: .88rem; line-height: 1.6; margin-top: .5rem; }
+        #recommendation .rec-title { font-weight: 700; color: var(--success); font-size: .92rem; margin-bottom: .4rem; }
+        .btn-row { display: flex; gap: .5rem; margin-top: .8rem; }
+        .btn { flex: 1; padding: .55rem; border: none; border-radius: 6px; font-size: .8rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+        .btn-reset { background: #f1f5f9; color: var(--text); }
+        .btn-reset:hover { background: #e2e8f0; }
+        .btn-export { background: var(--primary); color: #fff; }
+        .btn-export:hover { background: #0d3d6b; }
+        /* Number legend */
+        .legend { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+        .legend-item { display: flex; align-items: center; gap: .3rem; font-size: .78rem; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+        /* References */
+        .ref-list { font-size: .82rem; color: var(--muted); }
+        .ref-list li { margin-bottom: .3rem; }
+        /* Responsive images placeholder */
+        .fig-placeholder { background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: var(--radius); padding: 2rem; text-align: center; color: var(--muted); font-size: .85rem; margin: 1rem 0; }
+        /* Print */
+        @media print { aside { display: none; } .layout { grid-template-columns: 1fr; } }
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        main section { animation: fadeIn .5s ease both; }
+        main section:nth-child(2) { animation-delay: .05s; }
+        main section:nth-child(3) { animation-delay: .1s; }
+        .toc { background: var(--primary-light); border-radius: var(--radius); padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
+        .toc h3 { margin-top: 0; font-size: .95rem; }
+        .toc ol { margin: .5rem 0 0 1.2rem; font-size: .88rem; }
+        .toc a { color: var(--primary); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+        @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+        .highlight-box { background: #fffbeb; border: 1px solid #fcd34d; border-radius: var(--radius); padding: 1rem; }
+        .group-badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-weight: 700; font-size: .85rem; }
+        .g1 { background: #fef2f2; color: #b91c1c; }
+        .g2 { background: #fffbeb; color: #b45309; }
+        .g3 { background: #ecfdf5; color: #047857; }
+        .arrow { color: var(--accent); font-weight: 700; }
+        .cycle-step { display: flex; align-items: flex-start; gap: .6rem; margin-bottom: .8rem; }
+        .cycle-num { background: var(--primary); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+        .cycle-text { font-size: .9rem; }
+        .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--primary); color: #fff; padding: .8rem 1.5rem; border-radius: 8px; font-size: .85rem; font-weight: 600; box-shadow: var(--shadow-lg); transform: translateY(100px); opacity: 0; transition: all .3s; z-index: 999; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <h1>The Hemodynamic Architecture of the Trapezium</h1>
+    <p class="subtitle">Intraosseous Vascular Anatomy &amp; Its Pathophysiological Role in Carpometacarpal Degeneration — Interactive Educational Summary</p>
+</header>
+
+<div class="layout">
+<main>
+
+<!-- TOC -->
+<nav class="toc" aria-label="Table of contents">
+    <h3>Contents</h3>
+    <ol>
+        <li><a href="#intro">Introduction &amp; Clinical Dichotomy</a></li>
+        <li><a href="#extra">Extraosseous Vascular Environment</a></li>
+        <li><a href="#intra">Intraosseous Vascular Anatomy</a></li>
+        <li><a href="#microct">Micro-CT &amp; Vascular Density</a></li>
+        <li><a href="#oa">CMC Osteoarthritis Etiology</a></li>
+        <li><a href="#avn">Avascular Necrosis: The Exception</a></li>
+        <li><a href="#landmark">Landmark Studies</a></li>
+        <li><a href="#surgery">Surgical Implications</a></li>
+        <li><a href="#refs">References</a></li>
+    </ol>
+</nav>
+
+<!-- Section 1: Introduction -->
+<section id="intro">
+    <h2>I. Introduction &amp; Clinical Dichotomy</h2>
+    <p>The <strong>trapezium</strong>, positioned at the radial terminus of the distal carpal row, serves as the biomechanical fulcrum for the human thumb. Its saddle-shaped distal articulation — the <strong>trapeziometacarpal (TMC) or first carpometacarpal (CMC) joint</strong> — enables opposition, circumduction, and forceful pinch. Yet this versatility exacts a physiological toll: the first CMC joint is the <strong>second most frequent site of osteoarthritis</strong> in the human skeleton, exceeded only by the distal interphalangeal joints. <span class="ev ev-5">Level V</span></p>
+
+    <p>In striking contrast, the trapezium demonstrates <strong>remarkable resilience against ischemic insults</strong>. Avascular necrosis (AVN) of the trapezium is exceptionally rare, sharply juxtaposed against the high osteonecrosis rates of the neighboring scaphoid and lunate. <span class="ev ev-5">Level V</span></p>
+
+    <div class="callout">
+        <strong>Clinical Dichotomy — Key Concept</strong>
+        High susceptibility to OA ↔ Robust resistance to necrosis. Understanding this paradox requires investigation into the trapezium's unique intraosseous vascular architecture.
+    </div>
+
+    <p>This report synthesizes data from classical injection studies and contemporary micro-imaging modalities to: (1) delineate arterial contributions from the radial artery and its branches, (2) map nutrient artery entry points, (3) analyze intraosseous vascular density patterns, and (4) investigate the etiological correlation between vascular architecture and CMC osteoarthritis development.</p>
+
+    <p>The central hypothesis tested is that <strong>the same hypervascularity that prevents necrosis may paradoxically contribute to the sclerotic and osteophytic progression of degenerative joint disease</strong>. <span class="ev ev-ns">Not specified in source</span></p>
+</section>
+
+<!-- Section 2: Extraosseous -->
+<section id="extra">
+    <h2>II. The Extraosseous Vascular Environment: Radial Artery Dominance</h2>
+    <p>The vascular supply to the trapezium is overwhelmingly dominated by the <strong>radial artery</strong> and its arborization within the radial carpal region. Unlike ulnar-sided carpal bones (triquetrum, pisiform), the trapezium lies directly in the path of the radial artery as it navigates the anatomical snuffbox to form the deep palmar arch. <span class="ev ev-5">Level V</span></p>
+
+    <h3>2.1 Anatomical Course — Three Zones</h3>
+    <div class="two-col">
+        <div class="highlight-box">
+            <h4>Zone 1: Distal Forearm &amp; Carpal Entry</h4>
+            <p>The radial artery runs deep to the brachioradialis before becoming superficial at the wrist. It gives rise to the <strong>superficial palmar branch</strong>, which courses through the thenar musculature to supply the <strong>volar aspect</strong> of the trapezium. <span class="ev ev-5">Level V</span></p>
+        </div>
+        <div class="highlight-box">
+            <h4>Zone 2: Anatomical Snuffbox</h4>
+            <p>The radial artery passes <strong>dorsal to the scaphoid and trapezium</strong> within the snuffbox (bounded by EPL medially; APL &amp; EPB laterally). Intimate apposition allows short, direct nutrient branches to penetrate the dorsal cortex. <span class="ev ev-5">Level V</span></p>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <h4>Zone 3: Palmar Transition</h4>
+        <p>Distal to the snuffbox, the radial artery plunges between the two heads of the first dorsal interosseous muscle. As it turns medially to form the <strong>deep palmar arch</strong>, it provides retrograde recurrent flow to the distal-volar trapezium. The bone is thus <strong>bracketed by arterial pressure heads on both dorsal and volar surfaces</strong>. <span class="ev ev-5">Level V</span></p>
+    </div>
+
+    <h3>2.2 Key Arterial Contributions</h3>
+    <div class="table-wrap">
+        <table>
+            <caption>Table 1 — Arterial Structures Contributing to Trapezial Blood Supply</caption>
+            <thead>
+                <tr><th>Arterial Structure</th><th>Origin</th><th>Anatomical Course &amp; Contribution</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Dorsal Carpal Branch</strong></td>
+                    <td>Radial artery (distal to styloid)</td>
+                    <td>Arises within the snuffbox; crosses dorsal surface of scaphoid and trapezium; anastomoses with ulnar dorsal carpal branch to form the <strong>Dorsal Carpal Arch</strong>. Primary source for dorsal nutrient foramina. <span class="ev ev-5">Level V</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Superficial Palmar Branch</strong></td>
+                    <td>Radial artery (proximal forearm)</td>
+                    <td>Passes through/over thenar muscles; supplies the <strong>volar tubercle (crest)</strong> of the trapezium and attachments of the transverse carpal ligament. <span class="ev ev-5">Level V</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Princeps Pollicis Artery</strong></td>
+                    <td>Radial artery (deep arch)</td>
+                    <td>Arises as radial artery enters palm between first dorsal interosseous heads; sends recurrent branches to <strong>distal-volar facet</strong> of trapezium and CMC joint capsule. <span class="ev ev-5">Level V</span></td>
+                </tr>
+                <tr>
+                    <td><strong>First Dorsal Metacarpal Artery</strong></td>
+                    <td>Radial artery</td>
+                    <td>Supplies dorsal skin and first ray; contributes periosteal branches to the <strong>distal-dorsal aspect</strong> of the trapezium. <span class="ev ev-5">Level V</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Recurrent Radial Artery</strong></td>
+                    <td>Radial artery (proximal)</td>
+                    <td>Contributes to collateral circulation via anastomoses with anterior interosseous artery (AIA), indirectly supporting the carpal arches. <span class="ev ev-5">Level V</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>2.3 The Anastomotic "Safety Net"</h3>
+    <p>The extraosseous supply to the trapezium features <strong>high redundancy</strong> via anastomotic arches. The carpus is encircled by a vascular ring formed by the dorsal and palmar carpal arches, connected by longitudinal anastomoses. <span class="ev ev-5">Level V</span></p>
+    <p>The <strong>anterior interosseous artery (AIA)</strong> also plays a vital collateral role — its dorsal and palmar branches join the dorsal and palmar carpal arches, respectively. This rich collateralization contrasts sharply with the precarious supply of the proximal scaphoid, where the dorsal carpal branch is often the sole significant vessel, creating a <strong>"watershed" effect</strong> at the scaphoid waist. <span class="ev ev-5">Level V</span></p>
+
+    <div class="callout info">
+        <strong>Hemodynamic Nexus</strong>
+        The trapezium sits at the intersection of the radial, superficial palmar, and dorsal carpal systems — a hemodynamic nexus ensuring robust perfusion pressures under varying physiological conditions.
+    </div>
+</section>
+
+<!-- Section 3: Intraosseous -->
+<section id="intra">
+    <h2>III. Intraosseous Vascular Anatomy</h2>
+    <p>While extraosseous anatomy describes the potential supply, biological viability is determined by how vessels penetrate the cortex and arborize within the marrow. Seminal injection studies using Spalteholz clearing techniques and latex perfusion established the foundational classification for carpal vascularity. <span class="ev ev-5">Level V</span></p>
+
+    <h3>3.1 Gelberman's Classification — The Group III Distinction</h3>
+    <p>Gelberman, Panagis, and colleagues categorized carpal bones into three groups based on vessel dependence and internal anastomoses. <span class="ev ev-5">Level V</span></p>
+
+    <div class="table-wrap">
+        <table>
+            <caption>Table 2 — Gelberman's Carpal Vascular Classification</caption>
+            <thead>
+                <tr><th>Group</th><th>Risk</th><th>Characteristics</th><th>Example Bones</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="group-badge g1">Group I</span></td>
+                    <td>High</td>
+                    <td>Large intraosseous areas dependent on a <strong>single vessel</strong>; no significant internal anastomoses</td>
+                    <td>Scaphoid, Capitate</td>
+                </tr>
+                <tr>
+                    <td><span class="group-badge g2">Group II</span></td>
+                    <td>Intermediate</td>
+                    <td>Two distinct vessel entry areas but <strong>lack consistent intraosseous anastomoses</strong></td>
+                    <td>Trapezoid, Hamate</td>
+                </tr>
+                <tr>
+                    <td><span class="group-badge g3">Group III</span></td>
+                    <td>Low</td>
+                    <td>Nutrient arteries via ≥2 non-articular surfaces; <strong>consistent intraosseous anastomoses</strong> connecting vascular systems</td>
+                    <td><strong>Trapezium</strong>, Triquetrum, Pisiform, ~80% of Lunates</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>The classification of the trapezium as a <span class="group-badge g3">Group III</span> bone is the anatomical explanation for its clinical resilience — the internal anastomotic network ensures that arterial inflow from the dorsal system can perfuse volar segments, and vice versa. <span class="ev ev-5">Level V</span></p>
+
+    <h3>3.2 Topography of Nutrient Foramina</h3>
+    <h4>Dorsal Entry Complex</h4>
+    <ul>
+        <li><strong>Vascular source:</strong> Branches from the dorsal carpal branch of the radial artery form a plexus on the roughened, non-articular dorsal surface.</li>
+        <li><strong>Foraminal pattern:</strong> Multiple small foramina pierce the dorsal ridge — a "shower" of smaller nutrient vessels rather than a single large foramen, preventing catastrophic de-vascularization. <span class="ev ev-5">Level V</span></li>
+        <li><strong>Functional zone:</strong> Perfuses the <strong>dorsal two-thirds</strong> of the bone, including subchondral bone beneath the dorsal CMC facet.</li>
+    </ul>
+
+    <h4>Volar Entry Complex</h4>
+    <ul>
+        <li><strong>Vascular source:</strong> Superficial palmar branch of the radial artery and recurrent branches from the deep palmar arch. <span class="ev ev-5">Level V</span></li>
+        <li><strong>Foraminal pattern:</strong> Nutrient vessels penetrate the base of the tubercle and the region ulnar to the crest (near AOL insertion).</li>
+        <li><strong>Functional zone:</strong> Supplies the <strong>volar third</strong> — critically, the "volar beak" region, which is the primary loading zone in pinch grip and the site of early osteoarthritic changes. <span class="ev ev-4">Level IV</span></li>
+    </ul>
+
+    <h3>3.3 Intraosseous Anastomoses: The Hemodynamic Bridge</h3>
+    <p>Injection studies demonstrate that contrast material introduced solely into the radial artery (dorsal system) successfully perfuses the volar aspects of the trapezium, and vice versa — confirming a <strong>patent and functional interconnectivity</strong> within the trabecular marrow spaces. <span class="ev ev-5">Level V</span></p>
+    <p>This contrasts with the scaphoid, where the proximal pole is a vascular cul-de-sac receiving only distal-to-proximal retrograde flow with no secondary input. <span class="ev ev-5">Level V</span></p>
+</section>
+
+<!-- Section 4: Micro-CT -->
+<section id="microct">
+    <h2>IV. Micro-CT Analysis &amp; Vascular Density Patterns</h2>
+    <p>Modern micro-CT provides a quantitative window into internal vascular density and its correlation with bone mineral density (BMD). Contrast agents such as Microfil (lead-chromate) or barium sulfate are perfused prior to scanning to visualize the intraosseous vasculature. <span class="ev ev-5">Level V</span></p>
+
+    <h3>4.1 The Healthy Trapezium</h3>
+    <p>In the normal trapezium, vascular density is <strong>relatively uniform</strong>, though slightly higher in subchondral regions supporting the concave CMC articular surface. Unlike the capitate (distinct polarity — rich distal, sparse proximal), the trapezium <strong>does not exhibit a vascular watershed zone</strong>. <span class="ev ev-4">Level IV</span></p>
+
+    <h3>4.2 The Osteoarthritic Trapezium — The Volar-Ulnar Phenomenon</h3>
+    <p>Quantitative micro-CT studies comparing arthritic and non-arthritic trapeziums reveal:</p>
+
+    <div class="table-wrap">
+        <table>
+            <caption>Table 3 — Micro-CT Findings: Healthy vs. Osteoarthritic Trapezium</caption>
+            <thead>
+                <tr><th>Parameter</th><th>Healthy Trapezium</th><th>Osteoarthritic Trapezium</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Vascular Density</td><td>Uniform, slightly higher subchondrally</td><td>Increased in volar-ulnar quadrant <span class="ev ev-4">Level IV</span></td></tr>
+                <tr><td>Bone Volume Fraction (BVF)</td><td>Baseline uniform distribution</td><td><strong>Significantly increased in volar-ulnar (VU) quadrant</strong> <span class="ev ev-4">Level IV</span></td></tr>
+                <tr><td>Trabecular Thickness</td><td>Normal</td><td>Increased (sclerosis) in VU quadrant <span class="ev ev-4">Level IV</span></td></tr>
+                <tr><td>Vascular Watershed</td><td>Absent</td><td>Absent — but "congested hyperemia" possible</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="callout danger">
+        <strong>The Paradox — "Congested Hyperemia"</strong>
+        Micro-CT data suggests that sclerotic bone in OA is metabolically active, requiring increased arterial inflow. However, densified trabeculae physically compress venous outflow tracts, leading to <strong>intraosseous hypertension</strong> — a key theorized mechanism for OA pain. <span class="ev ev-ns">Inferred from vascular theory — source references [24, 28]</span>
+    </div>
+
+    <h3>4.3 Comparative Vascular Density Across Carpal Bones</h3>
+    <div class="table-wrap">
+        <table>
+            <caption>Table 4 — Comparative Carpal Bone Vascular Patterns</caption>
+            <thead>
+                <tr><th>Bone</th><th>Vascular Pattern</th><th>Clinical Implication</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Scaphoid</strong></td><td>High density distal pole/waist; sparse, single-vessel proximal pole</td><td>High AVN &amp; nonunion risk</td></tr>
+                <tr><td><strong>Capitate</strong></td><td>Dense retrograde supply in head; sparse body/waist</td><td>Proximal pole AVN risk</td></tr>
+                <tr><td><strong>Trapezium</strong></td><td>Diffuse, multi-focal density; capacity for localized hyper-densification (sclerosis)</td><td>Low AVN risk; fuels OA remodeling</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Section 5: OA Etiology -->
+<section id="oa">
+    <h2>V. Etiology of Thumb CMC Osteoarthritis: Vascular-Mechanical Integration</h2>
+    <p>The relationship between trapezium blood supply and CMC OA involves a dynamic interplay between mechanical instability and vascular response. Two primary hypotheses are integrated with the vascular/subchondral ischemia hypothesis. <span class="ev ev-4">Level IV</span></p>
+
+    <h3>5.1 Mechanical Initiator: Ligamentous Laxity</h3>
+    <p>The <strong>anterior oblique ligament (AOL or "beak ligament")</strong> originates on the volar tubercle of the trapezium and inserts on the volar beak of the first metacarpal — the primary stabilizer against dorsal translation. <span class="ev ev-5">Level V</span></p>
+    <p>Laxity or attenuation of the AOL (aging, hormonal factors in women) allows the first metacarpal to <strong>subluxate dorsally and radially</strong>. This shifts the contact point during pinch grip from the broad central saddle to the <strong>volar-ulnar beak</strong> — a small surface area subjected to immense shear forces. <span class="ev ev-4">Level IV</span></p>
+
+    <h3>5.2 The Vascular Response: Sclerosis &amp; Venous Congestion</h3>
+    <h4>Hyperemia and Remodeling</h4>
+    <p>Mechanical stress at the volar beak triggers an osteoblastic response. The robust arterial supply (via superficial palmar branch) facilitates rapid formation of subchondral sclerosis and osteophytes. <span class="ev ev-4">Level IV</span></p>
+
+    <h4>Venous Congestion Hypothesis</h4>
+    <p>As trabeculae thicken (sclerosis), venous sinusoids within the marrow are compressed:</p>
+    <ul>
+        <li><strong>Inflow:</strong> Arterial blood enters at high pressure (systolic).</li>
+        <li><strong>Outflow:</strong> Venous blood must exit at low pressure.</li>
+        <li><strong>Result:</strong> Compressed venous channels → <strong>intraosseous venous hypertension</strong>. <span class="ev ev-ns">Source references [24, 28]</span></li>
+    </ul>
+
+    <div class="callout">
+        <strong>Clinical Correlation</strong>
+        Intraosseous hypertension is a potent cause of the deep, aching, "toothache-like" pain characteristic of CMC OA. This pain often precedes significant radiographic cartilage loss, suggesting a <strong>vascular/osseous origin</strong> rather than purely cartilaginous.
+    </div>
+
+    <h3>5.3 The Vascular-Mechanical Cycle</h3>
+    <p>The robust vascularity of the trapezium, which protects it from necrosis, paradoxically enables the florid osteoarthritic process:</p>
+
+    <div style="background: #f8fafc; border-radius: var(--radius); padding: 1.2rem; margin: 1rem 0; border: 1px solid var(--border);">
+        <div class="cycle-step"><div class="cycle-num">1</div><div class="cycle-text"><strong>Instability:</strong> AOL failure shifts load to the volar beak</div></div>
+        <div class="cycle-step"><div class="cycle-num">2</div><div class="cycle-text"><strong>Vascular Recruitment:</strong> Bone recruits blood supply to remodel the stressed area → sclerosis &amp; osteophytes</div></div>
+        <div class="cycle-step"><div class="cycle-num">3</div><div class="cycle-text"><strong>Congestion:</strong> Resulting sclerosis compromises venous outflow</div></div>
+        <div class="cycle-step"><div class="cycle-num">4</div><div class="cycle-text"><strong>Degeneration:</strong> Venous hypertension causes pain; toxic subchondral microenvironment accelerates cartilage degradation</div></div>
+    </div>
+
+    <p>In this model, the trapezium's blood supply acts as a <strong>"fuel source for the fire" of osteoarthritis</strong>, facilitating hypertrophic changes impossible in ischemic bones like the necrotic scaphoid. <span class="ev ev-ns">Synthesized from source data — not a direct quote</span></p>
+</section>
+
+<!-- Section 6: AVN -->
+<section id="avn">
+    <h2>VI. Avascular Necrosis: The Exception Proving the Rule</h2>
+    <p>AVN of the trapezium is <strong>exceedingly rare</strong>, accounting for a negligible fraction of carpal osteonecrosis cases. This rarity serves as a negative control validating the "Group III" classification. <span class="ev ev-ns">Source reference [3]</span></p>
+
+    <h3>6.1 Anatomical Basis for Survival</h3>
+    <ul>
+        <li><strong>Redundancy:</strong> In fracture, the distal and proximal fragments typically retain independent vascular supplies (dorsal vs. volar/palmar network). <span class="ev ev-5">Level V</span></li>
+        <li><strong>Anastomotic rescue:</strong> Even if one system is disrupted (e.g., dorsal degloving injury), intraosseous anastomoses allow the remaining system to perfuse the entire bone volume. <span class="ev ev-5">Level V</span></li>
+    </ul>
+
+    <h3>6.2 Reported Etiologies of Trapezial AVN</h3>
+    <ul>
+        <li><strong>Systemic corticosteroid-induced:</strong> Intraosseous adipogenesis — fat cell hypertrophy increases intraosseous pressure, collapsing capillaries from the inside. <span class="ev ev-ns">Source reference [3]</span></li>
+        <li><strong>High-energy devascularization:</strong> Catastrophic trauma simultaneously stripping dorsal and volar soft tissue envelopes.</li>
+        <li><strong>Diagnosis of exclusion:</strong> AVN confirmed by MRI (diffuse marrow death, low T1 signal) without characteristic osteophytes/joint space narrowing of OA. <span class="ev ev-ns">Source reference [3]</span></li>
+    </ul>
+</section>
+
+<!-- Section 7: Landmark Studies -->
+<section id="landmark">
+    <h2>VII. Landmark Studies Detailing Trapezial Vascularity</h2>
+
+    <div class="callout info">
+        <strong>Evidence Note</strong>
+        The source document identifies 4–5 key studies. The following table summarizes the pivotal research that defines our understanding of trapezial vascularity. <em>Evidence gap: Only 4 major studies were identified in the source document.</em>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <caption>Table 5 — Summary of Landmark Studies on Trapezial Vascular Anatomy</caption>
+            <thead>
+                <tr><th>#</th><th>Study / Author</th><th>Methodology</th><th>Key Findings</th><th>Evidence Level</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Gelberman et al. (1983)</strong><br>"The Arterial Anatomy of the Human Carpus" <sup>[10, 11]</sup></td>
+                    <td>Latex injection &amp; Spalteholz clearing</td>
+                    <td>Defined trapezium as <span class="group-badge g3">Group III</span>. Confirmed nutrient arteries on two non-articular surfaces and consistent intraosseous anastomoses. Established radial artery as primary source.</td>
+                    <td><span class="ev ev-5">V (Cadaveric)</span></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>Panagis et al. (1983)</strong><br>"The Intraosseous Vascularity..." <sup>[15]</sup></td>
+                    <td>Spalteholz clearing</td>
+                    <td>Demonstrated contrast injected into dorsal system filled volar system, proving functional connectivity. Validated low risk of AVN.</td>
+                    <td><span class="ev ev-5">V (Cadaveric)</span></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>Pillai et al. (2013)</strong><br>"Quantitative Micro-CT Analysis..." <sup>[21]</sup></td>
+                    <td>Micro-CT of OA specimens</td>
+                    <td>Found significantly higher <strong>Bone Volume Fraction (BVF)</strong> in volar-ulnar quadrant of arthritic trapeziums. Established link between mechanical loading (pinch grip) and subchondral sclerotic remodeling.</td>
+                    <td><span class="ev ev-4">IV (Cross-sectional)</span></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>Morsy et al. (2019) &amp; Kadar et al. (2017)</strong> <sup>[13]</sup></td>
+                    <td>Micro-CT (comparative)</td>
+                    <td>Provided comparative baseline for high-risk (retrograde) vs. low-risk (diffuse) carpal vascularity. Validated dorsal ridge as universal entry point for radial branches.</td>
+                    <td><span class="ev ev-4">IV (Comparative)</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="callout">
+        <strong>Evidence Gap</strong>
+        The source document did not identify any prospective cohort studies or randomized controlled trials regarding trapezial vascularity. All key evidence derives from cadaveric anatomical studies (Level V) and cross-sectional micro-CT analyses (Level IV). This is consistent with the anatomical nature of the research question.
+    </div>
+</section>
+
+<!-- Section 8: Surgical Implications -->
+<section id="surgery">
+    <h2>VIII. Surgical Implications &amp; Clinical Relevance</h2>
+
+    <h3>8.1 Trapeziectomy &amp; Hematoma Arthroplasty</h3>
+    <p>The gold standard treatment for advanced CMC OA is <strong>trapeziectomy</strong> (removal of the trapezium). This necessitates cauterization or ligation of numerous nutrient vessels from radial artery branches. The "hyperemic" state of the arthritic trapezium often results in <strong>significant intraoperative oozing</strong>, confirming rich vascular recruitment. <span class="ev ev-ns">Source reference [33]</span></p>
+
+    <h3>8.2 Osteotomy &amp; Arthrodesis</h3>
+    <p>In joint-sparing procedures, maintaining vascular supply is paramount. The standard dorsal approach requires care to preserve the <strong>dorsal carpal branch of the radial artery</strong> in the snuffbox. The Group III redundancy provides a safety margin; however, excessive volar capsule stripping (AOL region) could compromise the volar-ulnar beak — the very area requiring healing. <span class="ev ev-ns">Annotated clinical guidance — not explicitly from source</span></p>
+
+    <h3>8.3 Vascularized Bone Transfer</h3>
+    <p>The <strong>1,2 intercompartmental supraretinacular artery (1,2 ICSRA)</strong>, a branch of the radial artery used for vascularized grafts for scaphoid nonunion, courses in close proximity to the trapezium. Understanding distinct vascular pedicles prevents iatrogenic injury to trapezial supply during graft harvest. <span class="ev ev-ns">Source reference [35]</span></p>
+</section>
+
+<!-- References -->
+<section id="refs">
+    <h2>IX. References</h2>
+    <ol class="ref-list">
+        <li>[1] Carpometacarpal osteoarthritis of the thumb — PMC/NIH. <em>PMC3563889</em></li>
+        <li>[3] A Case of Trapezium Avascular Necrosis Treated Conservatively — PMC/NIH. <em>PMC5463138</em></li>
+        <li>[5] Anatomy, Shoulder and Upper Limb, Forearm Radial Artery — StatPearls. <em>NBK546626</em></li>
+        <li>[7] Anatomy, Shoulder and Upper Limb, Hand Arteries — StatPearls. <em>NBK546583</em></li>
+        <li>[10] Gelberman et al. The arterial anatomy of the human carpus. Part I: Extraosseous vascularity.</li>
+        <li>[11] Review of extraosseous and intraosseous blood supply of the carpal bones — ResearchGate.</li>
+        <li>[13] The Vascular Anatomy of the Scaphoid: New Discoveries Using Micro-CT Imaging — ResearchGate.</li>
+        <li>[15] Panagis et al. The arterial anatomy of the human carpus. Part II: The intraosseous vascularity. <em>PubMed 6886331</em></li>
+        <li>[17] The Vascular Anatomy of the Capitate: New Discoveries Using Micro-CT — ResearchGate.</li>
+        <li>[18] Trapeziometacarpal Ligaments Biomechanical Study — PMC. <em>PMC5074831</em></li>
+        <li>[21] Trapezium trabecular morphology in carpometacarpal arthritis — PMC. <em>PMC3932241</em></li>
+        <li>[24] Subchondral bone in osteoarthritis: insight into risk factors and microstructural changes — PMC. <em>PMC4061721</em></li>
+        <li>[28] Arthritis at the Base of the Thumb — Massachusetts General Hospital.</li>
+        <li>[33] Thumb Carpometacarpal (CMC) Arthroplasty — OrthoInfo/AAOS.</li>
+        <li>[35] Bone Morphology and Vascular Supply of Pedicled Distal Radius Bone Using Nano-CT — PMC. <em>PMC11284988</em></li>
+    </ol>
+</section>
+
+</main>
+
+<!-- Sidebar -->
+<aside aria-label="Interactive clinical tools">
+    <div class="sidebar-card">
+        <h3>🔬 Vascular-Mechanical Predictor</h3>
+        <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:1rem;">Adjust parameters to explore how vascular and mechanical factors interact in CMC OA pathogenesis.</p>
+
+        <div class="slider-group">
+            <label>
+                <span>Volar-Ulnar Sclerosis (BVF)</span>
+                <span class="val" id="val-bvf">50%</span>
+            </label>
+            <input type="range" id="slider-bvf" min="0" max="100" value="50" aria-label="Bone Volume Fraction in volar-ulnar quadrant">
+            <div class="slider-note">Relative subchondral bone density in the VU quadrant. Higher values = more sclerotic remodeling. Thresholds based on general clinical knowledge — not from source.</div>
+        </div>
+
+        <div class="slider-group">
+            <label>
+                <span>Venous Outflow Resistance</span>
+                <span class="val" id="val-venous">50%</span>
+            </label>
+            <input type="range" id="slider-venous" min="0" max="100" value="50" aria-label="Venous outflow resistance">
+            <div class="slider-note">Degree of venous sinusoid compression by sclerotic trabeculae. Higher = more congestion. Threshold based on vascular theory of OA [24].</div>
+        </div>
+
+        <div class="slider-group">
+            <label>
+                <span>AOL Ligament Integrity</span>
+                <span class="val" id="val-aol">50%</span>
+            </label>
+            <input type="range" id="slider-aol" min="0" max="100" value="50" aria-label="Anterior Oblique Ligament integrity">
+            <div class="slider-note">100% = fully intact AOL (stable); 0% = completely attenuated (unstable). Thresholds assumed — not from source.</div>
+        </div>
+
+        <button class="btn btn-reset" onclick="resetSliders()" style="width:100%;margin-top:.5rem;">↺ Reset All</button>
+    </div>
+
+    <div class="sidebar-card">
+        <h3>📋 Real-Time Assessment</h3>
+        <div id="recommendation">
+            <div class="rec-title">Assessment:</div>
+            <div id="rec-text">Adjust sliders to generate a clinical assessment based on the vascular-mechanical model.</div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-export" onclick="exportSummary()">📋 Copy Summary</button>
+        </div>
+    </div>
+
+    <div class="sidebar-card">
+        <h3>🏷️ Evidence Legend</h3>
+        <div class="legend">
+            <div class="legend-item"><span class="ev ev-4">IV</span> Cross-sectional / Comparative</div>
+            <div class="legend-item"><span class="ev ev-5">V</span> Cadaveric / Case report</div>
+            <div class="legend-item"><span class="ev ev-ns">NS</span> Not specified in source</div>
+        </div>
+    </div>
+
+    <div class="sidebar-card">
+        <h3>🦴 Gelberman Group Classification</h3>
+        <div style="font-size:.82rem;">
+            <div style="margin-bottom:.5rem;"><span class="group-badge g1">Group I</span> <strong>High risk</strong> — single vessel, no anastomoses (scaphoid, capitate)</div>
+            <div style="margin-bottom:.5rem;"><span class="group-badge g2">Group II</span> <strong>Intermediate</strong> — two entries, limited anastomoses (trapezoid, hamate)</div>
+            <div><span class="group-badge g3">Group III</span> <strong>Low risk</strong> — dual entry + consistent anastomoses (<strong>trapezium</strong>, triquetrum, pisiform)</div>
+        </div>
+    </div>
+</aside>
+</div>
+
+<div class="toast" id="toast">✅ Summary copied to clipboard!</div>
+
+<script>
+const sliderBVF = document.getElementById('slider-bvf');
+const sliderVenous = document.getElementById('slider-venous');
+const sliderAOL = document.getElementById('slider-aol');
+const valBVF = document.getElementById('val-bvf');
+const valVenous = document.getElementById('val-venous');
+const valAOL = document.getElementById('val-aol');
+const recText = document.getElementById('rec-text');
+
+function updateRecommendation() {
+    const bv = parseInt(sliderBVF.value);
+    const vn = parseInt(sliderVenous.value);
+    const aol = parseInt(sliderAOL.value);
+
+    valBVF.textContent = bv + '%';
+    valVenous.textContent = vn + '%';
+    valAOL.textContent = aol + '%';
+
+    let riskScore = 0;
+    let findings = [];
+    let recommendations = [];
+    let rationale = [];
+
+    // AOL integrity (lower = worse)
+    if (aol < 30) {
+        riskScore += 3;
+        findings.push('⚠️ Severe AOL attenuation — high risk of dorsal subluxation of first metacarpal');
+        rationale.push('AOL laxity shifts contact to volar-ulnar beak (source §V.1)');
+        recommendations.push('Consider surgical stabilization or early joint-preserving intervention');
+    } else if (aol < 60) {
+        riskScore += 2;
+        findings.push('⚡ Moderate AOL laxity — early mechanical instability');
+        rationale.push('Progressive AOL attenuation precedes contact patch shift');
+        recommendations.push('Activity modification, thumb spica splint, and monitoring');
+    } else {
+        findings.push('✅ AOL integrity preserved — stable CMC joint mechanics');
+        rationale.push('Intact AOL maintains central contact patch');
+    }
+
+    // Sclerosis (BVF)
+    if (bv > 70) {
+        riskScore += 3;
+        findings.push('🔴 High VU quadrant sclerosis — advanced subchondral remodeling');
+        rationale.push('Elevated BVF in volar-ulnar quadrant corresponds to OA progression (Pillai et al. 2013, source §IV.2)');
+        recommendations.push('Subchondral pathology likely advanced; consider definitive surgical intervention (trapeziectomy ± arthroplasty)');
+    } else if (bv > 40) {
+        riskScore += 1;
+        findings.push('🟡 Moderate subchondral sclerosis — active remodeling phase');
+        rationale.push('Osteoblastic response driven by trapezium\'s robust arterial supply');
+        recommendations.push('Conservative management with anti-inflammatory therapy; monitor for progression');
+    } else {
+        findings.push('🟢 Low subchondral sclerosis — minimal remodeling');
+    }
+
+    // Venous congestion
+    if (vn > 70) {
+        riskScore += 3;
+        findings.push('🔴 Severe venous congestion — intraosseous hypertension likely');
+        rationale.push('Sclerotic trabeculae compress venous sinusoids → intraosseous hypertension (source §V.2, ref [24])');
+        findings.push('   ↳ Deep aching "toothache-like" pain expected even without radiographic cartilage loss');
+        recommendations.push('Pain may be vascular/osseous in origin; intraosseous decompression may be considered in refractory cases');
+    } else if (vn > 40) {
+        riskScore += 1;
+        findings.push('🟡 Moderate venous outflow resistance — early congestion');
+        rationale.push('Subclinical venous stasis may contribute to subchondral toxic microenvironment');
+        recommendations.push('Elevate limb, avoid prolonged dependent positioning; pharmacologic venous support');
+    } else {
+        findings.push('🟢 Normal venous outflow — hemodynamic balance maintained');
+    }
+
+    // Overall assessment
+    let severity, severityColor;
+    if (riskScore >= 7) {
+        severity = 'HIGH RISK — Advanced Vascular-Mechanical Degenerative Cycle';
+        severityColor = '#dc2626';
+    } else if (riskScore >= 4) {
+        severity = 'MODERATE RISK — Active Remodeling Phase';
+        severityColor = '#d97706';
+    } else {
+        severity = 'LOW RISK — Preserved Hemodynamic Architecture';
+        severityColor = '#059669';
+    }
+
+    // Integrated assessment
+    if (aol < 30 && bv > 70 && vn > 70) {
+        findings.push('');
+        findings.push('🔗 <strong>Full vascular-mechanical cycle active:</strong> AOL failure → load shift → VU sclerosis → venous congestion → pain & cartilage degradation');
+        rationale.push('Represents the complete pathological cascade described in the source (§V.4)');
+    }
+
+    let html = `<div class="rec-title" style="color:${severityColor}">${severity}</div>`;
+    html += '<div style="margin-top:.5rem;"><strong>Findings:</strong><br>';
+    html += findings.map(f => '&bull; ' + f).join('<br>');
+    html += '</div>';
+
+    if (recommendations.length > 0) {
+        html += '<div style="margin-top:.6rem;"><strong>Recommendations:</strong><br>';
+        html += recommendations.map(r => '→ ' + r).join('<br>');
+        html += '</div>';
+    }
+
+    html += '<div style="margin-top:.6rem;font-size:.75rem;color:var(--muted);"><strong>Rationale:</strong> ';
+    html += rationale.join('; ');
+    html += '</div>';
+
+    html += '<div style="margin-top:.4rem;font-size:.72rem;color:#9ca3af;">Note: Thresholds annotated as "Assumed based on common clinical knowledge" unless explicitly cited from the source document.</div>';
+
+    recText.innerHTML = html;
+}
+
+function resetSliders() {
+    sliderBVF.value = 50;
+    sliderVenous.value = 50;
+    sliderAOL.value = 50;
+    updateRecommendation();
+}
+
+function exportSummary() {
+    const bv = sliderBVF.value;
+    const vn = sliderVenous.value;
+    const aol = sliderAOL.value;
+    const now = new Date().toLocaleString();
+
+    const recPlain = recText.innerText || recText.textContent;
+
+    const summary = `TRAPEZIUM VASCULAR-MECHANICAL ASSESSMENT
+========================================
+Date: ${now}
+
+PARAMETERS:
+- Volar-Ulnar Sclerosis (BVF): ${bv}%
+- Venous Outflow Resistance: ${vn}%
+- AOL Ligament Integrity: ${aol}%
+
+ASSESSMENT:
+${recPlain}
+
+SOURCE DOCUMENT:
+"The Hemodynamic Architecture of the Trapezium: Intraosseous Vascular Anatomy and its Pathophysiological Role in Carpometacarpal Degeneration"
+
+KEY EVIDENCE:
+- Gelberman et al. (1983): Trapezium = Group III (dual entry + anastomoses)
+- Panagis et al. (1983): Confirmed functional intraosseous connectivity
+- Pillai et al. (2013): BVF increased in VU quadrant in OA
+- Morsy/Kadar (2017/2019): Comparative carpal vascular density baseline
+
+NOTE: Thresholds are annotated; some assumed from general clinical knowledge, not from source document.
+Generated by Interactive Educational Tool.`;
+
+    navigator.clipboard.writeText(summary).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }).catch(() => {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea');
+        ta.value = summary;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    });
+}
+
+// Event listeners
+sliderBVF.addEventListener('input', updateRecommendation);
+sliderVenous.addEventListener('input', updateRecommendation);
+sliderAOL.addEventListener('input', updateRecommendation);
+
+// Initial call
+updateRecommendation();
+</script>
+
+</body>
+</html>

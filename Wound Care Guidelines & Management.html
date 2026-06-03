@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conservative Wound Management: Evidence-Based Interactive Summary</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --clr-primary:#1a6b4f;--clr-primary-light:#e8f5ef;--clr-accent:#c44b2b;
+    --clr-bg:#f7f8fa;--clr-card:#ffffff;--clr-text:#23272f;--clr-muted:#6b7280;
+    --clr-border:#d1d5db;--clr-badge-I:#166534;--clr-badge-II:#1e40af;
+    --clr-badge-III:#92400e;--clr-badge-IV:#7c2d12;--clr-badge-V:#6b21a8;
+    --clr-notavail:#6b7280;--radius:8px;--shadow:0 2px 12px rgba(0,0,0,.08);
+    --font-sans:'Segoe UI',system-ui,-apple-system,sans-serif;
+    --font-mono:'Cascadia Code','Fira Code',monospace;
+  }
+  html{scroll-behavior:smooth;font-size:16px}
+  body{font-family:var(--font-sans);color:var(--clr-text);background:var(--clr-bg);line-height:1.72}
+  a{color:var(--clr-primary);text-decoration:none}a:hover{text-decoration:underline}
+  h1,h2,h3,h4{line-height:1.25;font-weight:700}
+  h1{font-size:2rem;margin-bottom:.4rem}
+  h2{font-size:1.55rem;margin:2.2rem 0 .8rem;padding-bottom:.35rem;border-bottom:3px solid var(--clr-primary)}
+  h3{font-size:1.2rem;margin:1.6rem 0 .5rem;color:var(--clr-primary)}
+  h4{font-size:1.05rem;margin:1.2rem 0 .4rem}
+  p,li{margin-bottom:.55rem}
+  ul,ol{padding-left:1.4rem}
+  strong{color:var(--clr-accent)}
+
+  /* Header */
+  .site-header{position:sticky;top:0;z-index:100;background:var(--clr-primary);color:#fff;padding:.9rem 1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  .site-header h1{font-size:1.25rem;margin:0;color:#fff}
+  .site-header p{font-size:.82rem;opacity:.85;margin:0}
+
+  /* Layout */
+  .wrapper{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;max-width:1360px;margin:0 auto;padding:1.5rem}
+  @media(max-width:960px){.wrapper{grid-template-columns:1fr;}.sidebar{order:-1}}
+
+  /* Main */
+  main{min-width:0}
+  .card{background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.6rem 1.8rem;margin-bottom:1.5rem}
+  .callout{background:var(--clr-primary-light);border-left:4px solid var(--clr-primary);padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1rem 0}
+  .callout.warn{background:#fef3c7;border-left-color:#d97706}
+  .callout.limit{background:#fef2f2;border-left-color:#dc2626}
+
+  /* Evidence badge */
+  .ev{display:inline-block;font-size:.72rem;font-weight:700;padding:1px 7px;border-radius:10px;color:#fff;vertical-align:middle;margin-left:4px;letter-spacing:.3px}
+  .ev-I{background:var(--clr-badge-I)}.ev-II{background:var(--clr-badge-II)}.ev-III{background:var(--clr-badge-III)}
+  .ev-IV{background:var(--clr-badge-IV)}.ev-V{background:var(--clr-badge-V)}.ev-NA{background:var(--clr-notavail)}
+
+  /* Tables */
+  .tbl-wrap{overflow-x:auto;margin:1rem 0;border-radius:var(--radius);border:1px solid var(--clr-border)}
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  caption{font-weight:700;padding:.7rem .8rem;text-align:left;background:var(--clr-primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0}
+  th{background:#eef2f5;font-weight:600;text-align:left;padding:.55rem .7rem;border-bottom:2px solid var(--clr-border)}
+  td{padding:.5rem .7rem;border-bottom:1px solid var(--clr-border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--clr-primary-light)}
+
+  /* Sidebar */
+  .sidebar{position:sticky;top:80px;align-self:start}
+  .sidebar .card{padding:1.2rem 1.3rem}
+  .sidebar h3{margin-top:0;text-align:center;font-size:1.05rem}
+  label.slider-label{display:block;font-size:.84rem;font-weight:600;margin:.7rem 0 .2rem;color:var(--clr-text)}
+  input[type=range]{width:100%;accent-color:var(--clr-primary);margin-bottom:.15rem}
+  .slider-val{text-align:center;font-size:1.15rem;font-weight:700;color:var(--clr-primary);margin-bottom:.5rem}
+  .rec-box{background:var(--clr-primary-light);border:1px solid var(--clr-primary);border-radius:var(--radius);padding:.9rem 1rem;margin-top:1rem;min-height:80px;font-size:.85rem;line-height:1.55}
+  .rec-box h4{margin:0 0 .35rem;font-size:.92rem;color:var(--clr-primary)}
+  .btn-row{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap}
+  .btn{border:none;border-radius:var(--radius);padding:.5rem .85rem;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s}
+  .btn-reset{background:#e5e7eb;color:var(--clr-text)}.btn-reset:hover{background:#d1d5db}
+  .btn-copy{background:var(--clr-primary);color:#fff}.btn-copy:hover{background:#14532d}
+  .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#166534;color:#fff;padding:.7rem 1.2rem;border-radius:var(--radius);font-size:.85rem;opacity:0;transition:opacity .3s;z-index:200;pointer-events:none}
+  .toast.show{opacity:1}
+
+  /* References */
+  .ref-list{font-size:.82rem;color:var(--clr-muted);column-count:2;column-gap:2rem}
+  .ref-list li{break-inside:avoid}
+
+  /* Footer */
+  footer{text-align:center;padding:2rem 1rem;font-size:.78rem;color:var(--clr-muted)}
+
+  /* Responsive */
+  @media(max-width:600px){
+    .wrapper{padding:1rem}
+    .card{padding:1.1rem 1rem}
+    h1{font-size:1.5rem}h2{font-size:1.25rem}
+    .ref-list{column-count:1}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Conservative Wound Management: Advanced Modalities, TIMERS &amp; Global Guidelines</h1>
+  <p>Interactive evidence-based educational summary — Senior residents &amp; clinicians</p>
+</header>
+
+<div class="wrapper">
+
+<!-- ============ MAIN CONTENT ============ -->
+<main>
+
+<!-- Introduction -->
+<section class="card" id="sec-intro">
+<h2>1. Introduction</h2>
+<p>The global burden of impaired tissue repair is escalating, driven by rising incidences of <strong>diabetes mellitus, peripheral arterial disease, obesity, and an aging demographic</strong>. Chronic wounds—including diabetic foot ulcers (DFUs), postoperative surgical site infections (SSIs), and acute hand trauma—impose immense morbidity and economic demands. Contemporary molecular biology has definitively demonstrated that successful tissue regeneration requires an <strong>active wound bed modulation strategy</strong> maintaining moist balance, managing exudate, disrupting biofilms, and stimulating cellular proliferation.</p>
+<p>This summary synthesises current evidence-based consensus from the <strong>IWGDF</strong>, <strong>EWMA</strong>, and <strong>WHS</strong>, comparing traditional topical agents with modern advanced dressings, detailing the operationalised <strong>TIMERS</strong> framework, and applying guidelines to DFUs, postoperative infections, and hand trauma.</p>
+</section>
+
+<!-- Pathophysiology -->
+<section class="card" id="sec-path">
+<h2>2. Pathophysiology of the Chronic Wound</h2>
+<p>Normal wound healing proceeds through four overlapping phases: <strong>hemostasis → inflammation → proliferation → remodelling</strong>.<span class="ev ev-I" title="Systematic review / foundational pathophysiology">I</span> In chronic wounds, this cascade arrests in a prolonged, destructive inflammatory phase characterised by:</p>
+<ul>
+  <li><strong>Persistent neutrophil and macrophage infiltration</strong> with continuous secretion of IL-1 and TNF-α.</li>
+  <li><strong>Hyper-elevated matrix metalloproteinases (MMPs)</strong> that indiscriminately degrade nascent granulation tissue, growth factors, and extracellular matrix scaffolding.<span class="ev ev-I" title="Evidence from systematic reviews">I</span></li>
+  <li><strong>Bacterial biofilm formation</strong> — complex exopolysaccharide-encased communities profoundly resistant to host immunity and systemic antibiotics, further exacerbating inflammation.<span class="ev ev-II" title="RCTs / in-vivo studies">II</span></li>
+</ul>
+<div class="callout">
+  <strong>Clinical Implication:</strong> Traditional passive dressings are fundamentally unequipped to alter this hostile microenvironment. Advanced dressings are a <em>physiological necessity</em> to neutralise excess MMPs, sequester corrosive exudate, disrupt biofilms, and reinstate normal healing.
+</div>
+</section>
+
+<!-- Comparative Table: Traditional vs Modern -->
+<section class="card" id="sec-compare">
+<h2>3. Comparative Efficacy: Traditional vs. Modern Dressings</h2>
+
+<div class="tbl-wrap">
+<table>
+<caption>Table 1 — Traditional Topical Agents vs. Modern Advanced Dressings</caption>
+<thead>
+<tr><th>Modality</th><th>Mechanism of Action</th><th>Indications</th><th>Key Limitations</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Silver Sulfadiazine (SSD)</strong></td>
+  <td>Broad antimicrobial (Ag⁺ + sulfadiazine)</td>
+  <td>Historically partial-thickness burns (now limited)<span class="ev ev-II">II</span></td>
+  <td>High cellular cytotoxicity; delays re-epithelialization (12.88 vs 7.47 days); painful dressing changes<span class="ev ev-II">II</span></td>
+</tr>
+<tr>
+  <td><strong>Erythromycin / Triple Antibiotic Ointment</strong></td>
+  <td>Broad-spectrum bacteriostatic</td>
+  <td>Minor abrasions; historical SSI prophylaxis<span class="ev ev-II">II</span></td>
+  <td>15.9% allergic contact dermatitis risk; promotes AMR; no infection-rate benefit over inert dressings<span class="ev ev-II">II</span></td>
+</tr>
+<tr>
+  <td><strong>Biafine (Trolamine)</strong></td>
+  <td>Macrophage chemotaxis; IL-1/IL-6 ratio modulation</td>
+  <td>Dermatological biopsies; radiation dermatitis; superficial burns<span class="ev ev-III">III</span></td>
+  <td>Cannot manage moderate/heavy exudate; transient erythema possible<span class="ev ev-III">III</span></td>
+</tr>
+<tr>
+  <td><strong>Hydrogels</strong></td>
+  <td>Active moisture donation; autolytic debridement</td>
+  <td>Dry, desiccated, necrotic, sloughy wounds; painful ulcers<span class="ev ev-I">I</span></td>
+  <td>Contraindicated in moderate/high exudate (periwound maceration risk)</td>
+</tr>
+<tr>
+  <td><strong>Alginates / Polymeric Foams</strong></td>
+  <td>Ion-exchange absorption / vertical wicking; MMP sequestration</td>
+  <td>Moderate–heavy exudate; cavity packing; VLU<span class="ev ev-I">I</span></td>
+  <td>Contraindicated in dry wounds (tissue avulsion on removal)</td>
+</tr>
+<tr>
+  <td><strong>Silver-Impregnated Hydrofibers</strong></td>
+  <td>Sustained sub-cytotoxic Ag⁺ release; exudate control</td>
+  <td>Critically colonised or locally infected wounds<span class="ev ev-I">I</span></td>
+  <td>Not for clean, uninfected wounds (antimicrobial stewardship)<span class="ev ev-I">I</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>3.1 Silver Sulfadiazine — Detailed Evidence</h3>
+<p>A systematic review and meta-analysis demonstrated <strong>dose-dependent cytotoxicity to keratinocytes and fibroblasts</strong>. Specific RCTs showed mean complete healing time of <strong>12.88 days for SSD</strong> vs. <strong>7.47 days for silver-impregnated collagen</strong>.<span class="ev ev-II">II</span> Visual Analog Scale pain scores were consistently higher with SSD due to pseudo-eschar formation requiring traumatic dressing changes.<span class="ev ev-II">II</span> Major guidelines no longer recommend SSD as first-line.<span class="ev ev-I">I</span></p>
+
+<h3>3.2 Topical Antibiotics — Antimicrobial Resistance</h3>
+<p>A large open-label RCT (dermatological surgery) comparing triple antibiotic ointment vs. silicone film dressing found <strong>15.9% contact dermatitis in antibiotic group vs. 0% in silicone group</strong>, with no difference in infection rates.<span class="ev ev-II">II</span> The <strong>EWMA Antimicrobial Stewardship Programme</strong> strongly advises against prophylactic topical antibiotics in non-infected wounds.<span class="ev ev-I">I</span></p>
+
+<h3>3.3 Hydrogels — Clinical Outcomes</h3>
+<p>Network meta-analyses confirm hydrogels yield <strong>significantly higher cure rates than gauze</strong> in pressure injuries.<span class="ev ev-I">I</span> They provide cooling analgesia and promote rapid lateral epidermal migration. Primary limitation: strictly contraindicated when exudate exceeds minimal levels.</p>
+
+<h3>3.4 Alginates, Foams &amp; Silver Dressings</h3>
+<p>Alginates undergo <strong>Ca²⁺/Na⁺ ion exchange</strong> forming cohesive gel conforming to wound contours. Foams use <strong>vertical wicking</strong> to sequester MMP-rich exudate. Silver-impregnated dressings achieve a <strong>Standardised Mean Difference of −0.95</strong> (faster healing) vs. iodine dressings.<span class="ev ev-I">I</span></p>
+</section>
+
+<!-- TIMERS -->
+<section class="card" id="sec-timers">
+<h2>4. The TIMERS Framework for Wound Bed Preparation</h2>
+<p>The original TIME framework (EWMA, 2003) has been expanded to <strong>TIMERS</strong>, incorporating advanced regenerative therapies and patient-centric psychosocial factors.<span class="ev ev-I">I</span></p>
+
+<div class="tbl-wrap">
+<table>
+<caption>Table 2 — The TIMERS Framework: Clinical Observations, Objectives &amp; Interventions</caption>
+<thead>
+<tr><th>Element</th><th>Clinical Observation</th><th>Objective</th><th>Recommended Interventions</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>T — Tissue</strong></td>
+  <td>Necrotic eschar, viscous slough</td>
+  <td>Clean, viable, vascularised bed</td>
+  <td>Hydrogels (dry eschar); Cadexomer iodine, hydrofibers (wet slough)<span class="ev ev-I">I</span></td>
+</tr>
+<tr>
+  <td><strong>I — Infection</strong></td>
+  <td>Erythema, pain, exudate ↑, malodor, stalled healing</td>
+  <td>Eradicate biofilm; reduce bioburden without AMR</td>
+  <td>Silver foams/fibers, DACC dressings, medical honey (2-week review)<span class="ev ev-I">I</span></td>
+</tr>
+<tr>
+  <td><strong>M — Moisture</strong></td>
+  <td>Desiccation or corrosive exudate → maceration</td>
+  <td>Restore balance; sequester destructive MMPs</td>
+  <td>Hydrocolloids (low); Foams (moderate); SAP pads or NPWT (heavy)<span class="ev ev-I">I</span></td>
+</tr>
+<tr>
+  <td><strong>E — Edge</strong></td>
+  <td>Epibole, hyperkeratosis, undermining, non-advancing</td>
+  <td>Disrupt senescence; protect periwound skin</td>
+  <td>Monofilament debridement pads; acrylate barrier films<span class="ev ev-II">II</span></td>
+</tr>
+<tr>
+  <td><strong>R — Repair</strong></td>
+  <td>Stalled trajectory despite optimal local care</td>
+  <td>Stimulate mitosis &amp; ECM reconstruction</td>
+  <td>Topical oxygen, acellular matrices, growth factors<span class="ev ev-II">II</span></td>
+</tr>
+<tr>
+  <td><strong>S — Social</strong></td>
+  <td>Poor adherence, severe pain, limited caregiver capability</td>
+  <td>Ensure engagement, manage pain, optimise feasibility</td>
+  <td>Extended-wear silicone-bordered dressings; patient education<span class="ev ev-III">III</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+  <strong>Antimicrobial Stewardship Note:</strong> The EWMA programme mandates that systemic antibiotics be reserved for spreading cellulitis or systemic sepsis. Localised bioburden must be managed with <em>non-antibiotic topical antimicrobials</em> with strict 2-week clinical review to prevent long-term cellular toxicity.<span class="ev ev-I">I</span>
+</div>
+</section>
+
+<!-- DFU Application -->
+<section class="card" id="sec-dfu">
+<h2>5. Clinical Application 1: Diabetic Foot Ulcers</h2>
+
+<h3>5.1 Classification Systems</h3>
+<p>The <strong>WIfI (Wound, Ischemia, foot Infection)</strong> classification and the <strong>University of Texas system</strong> are mandated by WHS and IWGDF as gold standards, mathematically accounting for wound depth, arterial ischemia, and infection severity—directly predictive of amputation risk.<span class="ev ev-I">I</span></p>
+
+<h3>5.2 IWGDF 2023 Guidelines — Wound Healing Interventions</h3>
+<p>The foundational principle: <strong>"best standard of care" must be universally applied</strong> before any advanced modality. This includes:</p>
+<ul>
+  <li><strong>Non-removable knee-high offloading devices</strong> for plantar forefoot ulcers</li>
+  <li><strong>Regular sharp debridement</strong> by trained clinicians</li>
+  <li><strong>Basic interactive dressings</strong> managing exudate in a moist environment</li>
+</ul>
+
+<div class="callout">
+  <strong>Failure Threshold:</strong> When standard care achieves <strong>&lt;50% wound area reduction after 2–4 weeks</strong>, adjunctive interventions are indicated.<span class="ev ev-I">I</span>
+</div>
+
+<h3>5.3 Supported Adjunctive Interventions (Conditional Recommendations)</h3>
+<ol>
+  <li><strong>Sucrose Octasulfate-Impregnated Dressings:</strong> Strongly conditionally recommended for neuro-ischemic DFUs recalcitrant to standard care. Inhibits excess MMP activity.<span class="ev ev-I">I</span></li>
+  <li><strong>Negative Pressure Wound Therapy (NPWT):</strong> Conditionally recommended for <em>post-surgical</em> diabetic foot wounds only. <strong>Explicitly recommended against</strong> for unoperated chronic ulcers.<span class="ev ev-I">I</span></li>
+  <li><strong>Placental-Derived Products:</strong> Dehydrated human amniotic membrane and autologous leucocyte/platelet/fibrin patches receive conditional support where funding permits.<span class="ev ev-I">I</span></li>
+  <li><strong>Oxygen Therapies:</strong> Systemic hyperbaric and topical oxygen are conditionally supported for neuro-ischemic/ischemic ulcers only—not for infection alone.<span class="ev ev-I">I</span></li>
+</ol>
+
+<h3>5.4 Interventions Explicitly Advised Against</h3>
+<ul>
+  <li>Routine antimicrobial dressings in <strong>uninfected</strong> DFUs<span class="ev ev-I">I</span></li>
+  <li>Autolytic, enzymatic, hydrosurgical, or laser debridement when sharp debridement is available<span class="ev ev-I">I</span></li>
+  <li>Medical-grade honey, passive collagen, simple alginates, topical phenytoin as primary therapy<span class="ev ev-I">I</span></li>
+</ul>
+
+<h3>5.5 Antimicrobial Therapy for Infected DFUs</h3>
+<p>IWGDF/IDSA mandate <strong>culture-directed systemic antibiotics for 1–2 weeks</strong> (extendable to 3–4 weeks with extensive infection or severe PAD). Failure to resolve at 4 weeks mandates complete re-evaluation for osteomyelitis or deep abscess.<span class="ev ev-I">I</span></p>
+</section>
+
+<!-- SSI Application -->
+<section class="card" id="sec-ssi">
+<h2>6. Clinical Application 2: Postoperative Wound Infections</h2>
+<p>SSIs occur in <strong>5–20% of surgical patients</strong>, increasing morbidity, prolonging hospital stay by 7–11 days, and elevating mortality risk.<span class="ev ev-III">III</span></p>
+
+<h3>6.1 Conservative Management Protocols</h3>
+<ol>
+  <li><strong>Incision &amp; Drainage:</strong> Targeted removal of sutures/staples to evacuate purulent fluid and allow bedside debridement of necrotic tissue.<span class="ev ev-III">III</span></li>
+  <li><strong>Cleansing:</strong> Leave closed wounds undisturbed for ≥48 hours; then gentle tap water or sterile saline irrigation.<span class="ev ev-III">III</span></li>
+  <li><strong>Dressing Selection for Secondary Intention:</strong></li>
+</ol>
+
+<div class="tbl-wrap">
+<table>
+<caption>Table 3 — Dressing Selection for Surgical Wounds Healing by Secondary Intention</caption>
+<thead>
+<tr><th>Scenario</th><th>Historical Practice</th><th>Modern Consensus</th><th>Evidence</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>Deep surgical cavity packing</td>
+  <td>Wet-to-dry saline gauze (non-selective debridement, severe pain)</td>
+  <td><strong>Alginates or cohesive hydrofibers</strong> — absorb exudate, conform to cavity, atraumatic removal</td>
+  <td><span class="ev ev-I">EWMA guidelines</span></td>
+</tr>
+<tr>
+  <td>High bioburden / stalled healing</td>
+  <td>Topical antibiotics</td>
+  <td><strong>Silver-impregnated foams</strong> or <strong>DACC-coated dressings</strong> to disrupt biofilm</td>
+  <td><span class="ev ev-II">RCTs</span></td>
+</tr>
+<tr>
+  <td>Closed, healing incisions</td>
+  <td>Prophylactic topical antibiotics</td>
+  <td><strong>Sterile, absorbent, flexible moisture-balancing barrier</strong>; no topical antibiotics</td>
+  <td><span class="ev ev-I">EWMA consensus</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+  <strong>Paradigm Shift:</strong> The routine prophylactic application of topical antibiotics (erythromycin, bacitracin) to postoperative wounds is <strong>completely unsupported by current high-level evidence</strong> and actively contributes to antimicrobial resistance.<span class="ev ev-I">I</span>
+</div>
+</section>
+
+<!-- Hand Trauma Application -->
+<section class="card" id="sec-hand">
+<h2>7. Clinical Application 3: Hand Trauma Wounds</h2>
+<p>Goals: rapid tissue integrity restoration, prevention of deep space infection, preservation of ROM, sensory perception, and aesthetics.<span class="ev ev-III">III</span></p>
+
+<h3>7.1 Fingertip Injuries — Conservative Superiority</h3>
+<p>Small defects (&lt;2 cm², no exposed bone/tendon) are optimally managed by <strong>secondary intention healing</strong> with semi-occlusive dressings (e.g., IV3000) or artificial dermal matrices (Pelnac).<span class="ev ev-II">II</span></p>
+<ul>
+  <li><strong>Healing time:</strong> Average 4.2 weeks with minimal dressing changes<span class="ev ev-II">II</span></li>
+  <li><strong>Sensory recovery:</strong> Near-normal two-point discrimination; complete dermatoglyphic (fingerprint) regeneration — rarely achieved with surgical flaps<span class="ev ev-II">II</span></li>
+  <li><strong>Patient satisfaction:</strong> Exceptionally high; primary adverse effect is transient malodor beneath occlusive film, mitigated by charcoal dressings<span class="ev ev-II">II</span></li>
+</ul>
+
+<h3>7.2 Degloving Injuries</h3>
+<p>Closed internal (Morel-Lavallée) lesions &lt;50 mL: compression + serial aspiration. ≥50 mL: mandatory surgical drainage.<span class="ev ev-IV">IV</span> Open degloving: defatting, meshing, readaptation of avulsed flap + immediate NPWT for mechanical stabilization and exudate removal.<span class="ev ev-III">III</span></p>
+
+<div class="tbl-wrap">
+<table>
+<caption>Table 4 — Hand Trauma: Conservative Management &amp; Critical Timeframes</caption>
+<thead>
+<tr><th>Injury Type</th><th>Conservative Approach</th><th>Dressing / Modality</th><th>Timeframe</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>Fingertip Amputation (Allen Zone 1 &amp; 2)</td>
+  <td>Secondary intention; preserve geometry</td>
+  <td>PU films (IV3000); artificial dermis (Pelnac)</td>
+  <td>Within 4 days; superior dermatoglyphic return</td>
+</tr>
+<tr>
+  <td>Mammalian Bite Wounds</td>
+  <td>High-pressure irrigation</td>
+  <td>Non-occlusive absorbent dressings</td>
+  <td><strong>Must</strong> be assessed within 24 hours</td>
+</tr>
+<tr>
+  <td>Closed Degloving (&lt;50 mL)</td>
+  <td>Compression + aspiration</td>
+  <td>High-compression bandaging</td>
+  <td>If reaccumulates or ≥50 mL → immediate surgery</td>
+</tr>
+<tr>
+  <td>Open Degloving / Avulsion</td>
+  <td>Tissue preservation; exudate management</td>
+  <td>Defat/mesh avulsed flap → NPWT</td>
+  <td>Early recognition critical to prevent necrosis/sepsis</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>7.3 ASSH/BSSH Triage Guidelines</h3>
+<div class="callout">
+  <strong>Open fractures, joint injuries, bite wounds:</strong> irrigation + debridement + advanced dressing within <strong>24 hours</strong>.<br>
+  <strong>Other open soft tissue injuries:</strong> definitive management within <strong>4 days</strong> to prevent scar contracture, stiffness, and deep infection.<span class="ev ev-III">III</span>
+</div>
+</section>
+
+<!-- Future Directions -->
+<section class="card" id="sec-future">
+<h2>8. Future Directions: Smart Dressings &amp; Emerging Technologies</h2>
+<p>Future guidelines (e.g., WHS 2026) are expected to incorporate <strong>"smart" biomaterials</strong> featuring:</p>
+<ul>
+  <li>Embedded <strong>microelectronics and biochemical sensors</strong> for real-time wound telemetry (pH, temperature, O₂ tension)</li>
+  <li><strong>Stimuli-responsive hydrogels</strong> releasing therapeutic agents (anti-infective, anti-inflammatory, growth factors) in response to environmental triggers such as bacterial enzymes or elevated MMPs</li>
+  <li>Early warning systems detecting biofilm initiation <em>days before</em> macroscopic clinical signs<span class="ev ev-IV">IV</span></li>
+</ul>
+</section>
+
+<!-- Conclusion -->
+<section class="card" id="sec-conc">
+<h2>9. Conclusion</h2>
+<p>Conservative wound management has <strong>irreversibly transitioned</strong> from empirical topical agents to a biologically informed, algorithmically guided discipline. Traditional agents (silver sulfadiazine, topical antibiotics) are clinically obsolete for complex wounds, exhibiting unacceptable cytotoxicity, promoting antimicrobial resistance, and delaying healing.</p>
+<p>Modern advanced dressings function as <strong>active biochemical modulators</strong> — orchestrating moisture balance, sequestering destructive enzymes, and providing targeted non-toxic bioburden control. The <strong>TIMERS framework</strong> provides the operational algorithm for their deployment. For DFUs, the IWGDF mandates optimal standard care before adjuncts. For SSIs, drainage and interactive packing dressings replace topical antibiotics. For hand trauma, conservative management with semi-occlusive dressings achieves superior sensory and aesthetic outcomes.</p>
+</section>
+
+<!-- References -->
+<section class="card" id="sec-refs">
+<h2>10. Key References</h2>
+<ol class="ref-list">
+  <li>StatPearls — Wound Dressings. NCBI Bookshelf. <a href="https://www.ncbi.nlm.nih.gov/books/NBK470199/" target="_blank">NBK470199</a></li>
+  <li>StatPearls — Complex Wound Management. <a href="https://www.ncbi.nlm.nih.gov/books/NBK576385/" target="_blank">NBK576385</a></li>
+  <li>Wound Dressings and Comparative Effectiveness Data. PMC 4121107.</li>
+  <li>Dressing Selection for Chronic Wounds. WoundSource, 2025.</li>
+  <li>EWMA Antimicrobial Stewardship Programme. EWMA, 2025.</li>
+  <li>EWMA Publications 2024–2025. DORS.</li>
+  <li>SSD vs. other materials — systematic review &amp; meta-analysis. PubMed 29903603.</li>
+  <li>Silver &amp; silver-based products review. MDPI J Funct Biomater 17(1):27.</li>
+  <li>SSD-impregnated collagen vs. conventional dressings. PMC 6396622.</li>
+  <li>Cochrane — Silver-containing dressings. Evidence summary CD006478.</li>
+  <li>Antibiotic-free film dressing vs. triple antibiotic. PMC 7839735.</li>
+  <li>Topical antibiotics for SSI prevention. PMC 6465080.</li>
+  <li>EWMA — Antimicrobials and non-healing wounds. 2025 update.</li>
+  <li>Antimicrobial wound dressings review. MDPI Antibiotics 12(9):1434.</li>
+  <li>Trolamine emulsion for wound healing. Semanticscholar / Kircik.</li>
+  <li>Trolamine study — ResearchGate.</li>
+  <li>Trolamine study — full text. MDedge PDF.</li>
+  <li>Trolamine study — PubMed 19681344.</li>
+  <li>Trolamine vs. Manuka gel vs. polymyxin-bacitracin. PubMed 32195725.</li>
+  <li>Biafine for radiation skin toxicity. ResearchGate.</li>
+  <li>Hydrogel dressings — systematic review &amp; meta-analysis. PMC 6881259.</li>
+  <li>Modern wound dressings: hydrogels. PMC 8472341.</li>
+  <li>Hydrogel evidence summary. Cambridge Media WPR 24(1).</li>
+  <li>Hydrogel vs. ointment tissue breathability. Cell.com PDF.</li>
+  <li>Pressure injury dressings — network meta-analysis. PMC 10416006.</li>
+  <li>Wound care dressing categories. WoundSource.</li>
+  <li>Gloucestershire Wound Care Dressing Guide 2025.</li>
+  <li>Silver and iodine dressings — meta-analysis. BMJ Open 14(8):e077902.</li>
+  <li>Wound bed preparation: TIME for an update. PMC 7949772.</li>
+  <li>EWMA Wound Bed Preparation in Practice. 2004.</li>
+  <li>Quick Guide: TIMES Model. Wounds-UK.</li>
+  <li>EWMA Antimicrobial Stewardship Programme.</li>
+  <li>Advancements in wound dressings — hydrogels, foams, antimicrobials. MDPI Gels 11(2):123.</li>
+  <li>WHS DFU treatment guidelines 2023. AOT Inc.</li>
+  <li>IWGDF Guidelines 2023 — prevention &amp; management of diabetes-related foot disease.</li>
+  <li>IWGDF 2023 — interventions to enhance healing.</li>
+  <li>IWGDF/IDSA — diagnosis &amp; treatment of DF infections. Oxford Academic.</li>
+  <li>Prevention of postoperative wound infections. PMC 7122543.</li>
+  <li>StatPearls — Postoperative Wound Infections. NBK560533.</li>
+  <li>Surgical wound infection treatment. MedlinePlus.</li>
+  <li>Post-operative wound management. RACGP AFP Dec 2013.</li>
+  <li>Wound Management in 2025. Bridgeway Healthcare.</li>
+  <li>EWMA — Surgical Site Infection.</li>
+  <li>Incision care &amp; dressing selection. Wounds International NZ.</li>
+  <li>Suturing vs. conservative hand laceration management. PMC 1124590.</li>
+  <li>Approach to traumatic hand injuries. PMC 3681444.</li>
+  <li>Fingertip injuries guide. EMOttawa Blog 2025.</li>
+  <li>Fingertip injuries — systematic review. IJRR 12(2).</li>
+  <li>Management of fingertip injuries. PMC 12203294.</li>
+  <li>Occlusive dressings for fingertip amputations. PMC 12818269.</li>
+  <li>Fingertip regeneration outcomes. MDPI JCM 13(13):3646.</li>
+  <li>Extremity degloving with full-thickness grafts. JournalAgent UTD 19(6).</li>
+  <li>Therapeutic challenges of degloving injuries. PMC 4126125.</li>
+  <li>StatPearls — Degloving Injuries. NBK557707.</li>
+  <li>Traumatic degloving — prospective study. J Trauma Inj.</li>
+  <li>Hand trauma quality improvement — BSSH guidelines. PMC 12535467.</li>
+  <li>ASSH/ACEP hand surgery consultation &amp; transfer guidelines.</li>
+  <li>SAWC Spring 2026 — WHS session agenda.</li>
+  <li>Innovations in wound dressings 2025+. West Coast Wound.</li>
+</ol>
+</section>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tool">
+<div class="card">
+  <h3>🧰 Interactive Decision Tool</h3>
+  <p style="font-size:.8rem;color:var(--clr-muted);text-align:center;margin-bottom:.8rem">Adjust parameters to receive real-time dressing &amp; management recommendations based on source guidelines.</p>
+
+  <!-- Slider 1: Wound Area Reduction at 4 Weeks -->
+  <label class="slider-label" for="sliderArea">Wound Area Reduction at 4 Weeks (%)</label>
+  <input type="range" id="sliderArea" min="0" max="100" value="50" step="1"
+         aria-label="Wound area reduction percentage after four weeks of standard care">
+  <div class="slider-val" id="valArea">50%</div>
+
+  <!-- Slider 2: Exudate Level -->
+  <label class="slider-label" for="sliderExudate">Exudate Volume (1 = Dry, 5 = Catastrophic)</label>
+  <input type="range" id="sliderExudate" min="1" max="5" value="3" step="1"
+         aria-label="Wound exudate volume level from dry to catastrophic">
+  <div class="slider-val" id="valExudate">3 / 5</div>
+
+  <!-- Slider 3: Wound Duration (Weeks) -->
+  <label class="slider-label" for="sliderDuration">Wound Duration (Weeks)</label>
+  <input type="range" id="sliderDuration" min="1" max="52" value="8" step="1"
+         aria-label="Wound duration in weeks since onset">
+  <div class="slider-val" id="valDuration">8 weeks</div>
+
+  <!-- Recommendation Box -->
+  <div class="rec-box" id="recBox" aria-live="polite">
+    <h4>📋 Recommendation</h4>
+    <div id="recText">Adjust sliders to generate a recommendation.</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-reset" id="btnReset" aria-label="Reset all sliders to defaults">↺ Reset</button>
+    <button class="btn btn-copy" id="btnCopy" aria-label="Copy recommendation to clipboard">📋 Copy / Export</button>
+  </div>
+</div>
+
+<!-- Quick Reference -->
+<div class="card" style="margin-top:1rem">
+  <h3>⚡ Quick Reference</h3>
+  <ul style="font-size:.82rem;padding-left:1.1rem">
+    <li><strong>IWGDF failure:</strong> &lt;50% area reduction at 2–4 wks → escalate</li>
+    <li><strong>SSI:</strong> Drain first; <em>no</em> prophylactic topical antibiotics</li>
+    <li><strong>Hand trauma:</strong> Bite wounds → 24 hr window</li>
+    <li><strong>Antimicrobial stewardship:</strong> 2-week review protocol</li>
+    <li><strong>TIMERS:</strong> Address all 6 elements sequentially</li>
+  </ul>
+</div>
+</aside>
+
+</div><!-- /.wrapper -->
+
+<footer>
+  <p>Evidence-based interactive summary derived from the provided source document. All citations reference the original document's reference list. Generated for educational purposes — not a substitute for clinical judgment.</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+(function(){
+  // Elements
+  const sArea = document.getElementById('sliderArea');
+  const sExudate = document.getElementById('sliderExudate');
+  const sDuration = document.getElementById('sliderDuration');
+  const vArea = document.getElementById('valArea');
+  const vExudate = document.getElementById('valExudate');
+  const vDuration = document.getElementById('valDuration');
+  const recText = document.getElementById('recText');
+  const btnReset = document.getElementById('btnReset');
+  const btnCopy = document.getElementById('btnCopy');
+  const toast = document.getElementById('toast');
+
+  function update(){
+    const area = +sArea.value;
+    const exu = +sExudate.value;
+    const dur = +sDuration.value;
+
+    vArea.textContent = area + '%';
+    vExudate.textContent = exu + ' / 5';
+    vDuration.textContent = dur + ' week' + (dur>1?'s':'');
+
+    let rec = '';
+    let dressing = '';
+    let timEl = '';
+
+    // --- Wound area reduction logic (IWGDF) ---
+    if(area < 50 && dur >= 2){
+      rec += '<strong>IWGDF Threshold Breach:</strong> Wound area reduction of only <strong>' + area + '%</strong> after ' + dur + ' weeks indicates failure of standard care. Adjunctive interventions are indicated.<br>';
+      rec += '• Consider <strong>sucrose octasulfate-impregnated dressings</strong> for neuro-ischemic DFUs.<br>';
+      rec += '• <strong>NPWT</strong> only if post-surgical; contraindicated for unoperated chronic ulcers.<br>';
+      rec += '• Evaluate for placental-derived products or oxygen therapies if ischemic component present.<br>';
+      rec += '• <em>Source: IWGDF 2023 [Refs 35, 36]</em><br><br>';
+      timEl = 'Repair (R)';
+    } else if(area >= 50 && area < 80){
+      rec += '<strong>Healing on Track:</strong> ' + area + '% reduction at ' + dur + ' weeks is acceptable. Continue current regimen with close monitoring.<br>';
+      rec += '• Reassess weekly; ensure ongoing moisture balance and infection surveillance.<br>';
+      rec += '• <em>Source: IWGDF 2023 [Ref 35]</em><br><br>';
+      timEl = 'Moisture (M) / Edge (E)';
+    } else if(area >= 80){
+      rec += '<strong>Excellent Progress:</strong> ' + area + '% reduction. Wound likely approaching closure.<br>';
+      rec += '• Continue supportive dressings; protect advancing epithelial edge with barrier films.<br>';
+      rec += '• Monitor for epibole or undermining at margins.<br>';
+      rec += '• <em>Source: TIMERS framework [Ref 29]</em><br><br>';
+      timEl = 'Edge (E)';
+    } else {
+      rec += '<strong>Early Assessment:</strong> Wound at ' + dur + ' week(s) with ' + area + '% reduction. Standard care should continue for ≥2 weeks before escalation decisions.<br><br>';
+      timEl = 'Tissue (T) / Moisture (M)';
+    }
+
+    // --- Exudate-based dressing selection ---
+    if(exu === 1){
+      dressing = '<strong>Exudate: Dry</strong> → <strong>Hydrogel</strong> to donate moisture and facilitate autolytic debridement. ' +
+        'Contraindicated: Foams, alginates (will adhere and avulse tissue).<br>' +
+        '<em>TIMERS: Tissue (T) — autolytic debridement [Refs 22, 23]</em>';
+    } else if(exu === 2){
+      dressing = '<strong>Exudate: Low</strong> → <strong>Low-adherent dressings or hydrocolloids</strong> to retain endogenous moisture and prevent desiccation.<br>' +
+        '<em>TIMERS: Moisture (M) balance [Ref 25]</em>';
+    } else if(exu === 3){
+      dressing = '<strong>Exudate: Moderate</strong> → <strong>Polyurethane foam dressing</strong> for vertical wicking and MMP sequestration. ' +
+        'Maintains thermal insulation for optimal cellular mitosis.<br>' +
+        '<em>TIMERS: Moisture (M) [Refs 4, 25]</em>';
+    } else if(exu === 4){
+      dressing = '<strong>Exudate: Heavy</strong> → <strong>Alginate or superabsorbent polymer (SAP) pad</strong>. Ion-exchange gel conforms to cavity contours, traps bacteria and debris.<br>' +
+        'If critically colonised: <strong>Silver-impregnated hydrofiber</strong> (sub-cytotoxic Ag⁺ release). ' +
+        'Limit silver use to 2 weeks per antimicrobial stewardship.<br>' +
+        '<em>TIMERS: Moisture (M) + Infection (I) [Refs 5, 26, 28]</em>';
+    } else {
+      dressing = '<strong>Exudate: Catastrophic</strong> → <strong>Negative Pressure Wound Therapy (NPWT)</strong> or continuous SAP pads. ' +
+        'Actively removes fluid, sequesters destructive MMPs, protects periwound skin from excoriation.<br>' +
+        'Critical: Assess for systemic involvement; consider vascular assessment.<br>' +
+        '<em>TIMERS: Moisture (M) [Ref 4]</em>';
+    }
+
+    // --- Duration-based chronicity note ---
+    let chronicNote = '';
+    if(dur >= 4){
+      chronicNote = '<br><strong>Chronicity Alert (≥4 weeks):</strong> Wound likely stalled in destructive inflammatory phase. ' +
+        'Evaluate for biofilm presence (look for subtle signs: persistent low-grade erythema, failure to progress). ' +
+        'Consider biofilm disruption strategies per TIMERS-Infection element.<br>' +
+        '<em>Source: EWMA AMS [Ref 5]</em>';
+    }
+
+    // --- Social factors reminder ---
+    const socialNote = '<br><hr style="margin:.6rem 0;border:none;border-top:1px dashed var(--clr-border)">' +
+      '<strong>TIMERS — Social (S):</strong> Ensure dressing wear-time is feasible for caregivers, pain is managed, ' +
+      'nutritional status and glycemic control are optimised. Extended-wear silicone-bordered dressings ' +
+      'minimise change frequency. <em>[Ref 4]</em>';
+
+    recText.innerHTML = '<strong>Active TIMERS Element:</strong> ' + timEl + '<br><br>' +
+      rec + dressing + chronicNote + socialNote;
+  }
+
+  // Event listeners
+  sArea.addEventListener('input', update);
+  sExudate.addEventListener('input', update);
+  sDuration.addEventListener('input', update);
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    sArea.value = 50;
+    sExudate.value = 3;
+    sDuration.value = 8;
+    update();
+  });
+
+  // Copy/Export
+  btnCopy.addEventListener('click', function(){
+    const now = new Date().toISOString();
+    const text =
+      '=== WOUND MANAGEMENT DECISION SUMMARY ===\n' +
+      'Timestamp: ' + now + '\n\n' +
+      'PARAMETERS:\n' +
+      '  Wound Area Reduction at 4 Weeks: ' + sArea.value + '%\n' +
+      '  Exudate Volume (1-5): ' + sExudate.value + '\n' +
+      '  Wound Duration: ' + sDuration.value + ' weeks\n\n' +
+      'RECOMMENDATION:\n' +
+      recText.textContent + '\n\n' +
+      'SOURCE: Conservative Wound Management — TIMERS Framework & IWGDF 2023 Guidelines\n' +
+      'NOTE: Recommendations derived from source document evidence. ' +
+      'Clinical judgment required for individual patient care.\n';
+
+    navigator.clipboard.writeText(text).then(function(){
+      toast.classList.add('show');
+      setTimeout(function(){toast.classList.remove('show')}, 2200);
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function(){toast.classList.remove('show')}, 2200);
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+</body>
+</html>

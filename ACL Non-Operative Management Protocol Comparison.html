@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optimal Knee Immobilization Angles for ACL Rupture Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#fff;--text:#1a1d23;--muted:#5a6270;--accent:#2563eb;--accent-light:#dbeafe;
+  --green:#16a34a;--green-light:#dcfce7;--orange:#ea580c;--orange-light:#fff7ed;--red:#dc2626;--red-light:#fef2f2;
+  --border:#e2e5ea;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.08);--radius:10px;--radius-sm:6px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* HEADER */
+.site-header{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);color:#fff;padding:2.5rem 2rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(37,99,235,.3)}
+.site-header h1{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;max-width:900px;margin:0 auto}
+.site-header p{margin-top:.5rem;font-size:.9rem;opacity:.85;max-width:700px;margin-left:auto;margin-right:auto}
+
+/* LAYOUT */
+.container{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1280px;margin:2rem auto;padding:0 1.5rem;align-items:start}
+main{min-width:0}
+aside{position:sticky;top:120px;max-height:calc(100vh - 140px);overflow-y:auto}
+
+/* CARDS */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem;margin-bottom:1.5rem;border:1px solid var(--border)}
+.card h2{font-size:1.25rem;font-weight:700;color:var(--accent);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent-light)}
+.card h3{font-size:1.05rem;font-weight:600;margin:1.2rem 0 .6rem;color:var(--text)}
+.card p{margin-bottom:.8rem;color:var(--muted)}
+.card ul{margin:.5rem 0 1rem 1.2rem}
+.card li{margin-bottom:.4rem;color:var(--muted)}
+.card li strong{color:var(--text)}
+
+/* EVIDENCE BADGE */
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle;margin-left:6px}
+.badge-i{background:#dcfce7;color:#15803d}.badge-ii{background:#dbeafe;color:#1d4ed8}.badge-iii{background:#fef9c3;color:#a16207}
+.badge-iv{background:#ffedd5;color:#c2410c}.badge-v{background:#fce7f3;color:#be185d}.badge-ns{background:#f1f5f9;color:#64748b}
+
+/* CALLOUT */
+.callout{border-left:4px solid var(--accent);background:var(--accent-light);padding:1rem 1.2rem;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:1rem 0;font-size:.9rem}
+.callout.warning{border-left-color:var(--orange);background:var(--orange-light)}
+.callout.danger{border-left-color:var(--red);background:var(--red-light)}
+.callout strong{color:var(--text)}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:var(--radius-sm);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+caption{caption-side:top;text-align:left;font-weight:700;padding:.6rem .8rem;background:var(--accent-light);color:var(--accent);border-radius:var(--radius-sm) var(--radius-sm) 0 0;font-size:.9rem}
+th{background:#f1f5f9;font-weight:600;text-align:left;padding:.6rem .8rem;border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:.6rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+
+/* SIDEBAR */
+.sidebar-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:1.5rem;margin-bottom:1.2rem;border:1px solid var(--border)}
+.sidebar-card h3{font-size:.95rem;font-weight:700;margin-bottom:1rem;color:var(--accent)}
+.slider-group{margin-bottom:1.4rem}
+.slider-group label{display:block;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.slider-group .slider-value{font-size:1.3rem;font-weight:800;color:var(--accent);margin-bottom:.4rem}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:#e2e5ea;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(37,99,235,.3)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:none}
+.slider-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-top:2px}
+
+/* RECOMMENDATION BOX */
+.rec-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;border-radius:var(--radius-sm);padding:1rem;margin-top:.8rem;font-size:.85rem}
+.rec-box.alert{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:#fcd34d}
+.rec-box.danger-rec{background:linear-gradient(135deg,#fef2f2,#fecaca);border-color:#fca5a5}
+.rec-box h4{font-size:.85rem;font-weight:700;margin-bottom:.4rem;color:var(--text)}
+.rec-box p{color:#374151;font-size:.8rem;margin:0}
+.rec-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;margin-bottom:.5rem}
+.rec-badge.eligible{background:#16a34a;color:#fff}
+.rec-badge.partial{background:#ea580c;color:#fff}
+.rec-badge.ineligible{background:#dc2626;color:#fff}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:#1d4ed8}
+.btn-secondary{background:#f1f5f9;color:var(--text);border:1px solid var(--border)}.btn-secondary:hover{background:#e2e5ea}
+.btn-group{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:28px;margin:1rem 0}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:1.2rem}
+.timeline-item::before{content:'';position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--accent-light)}
+.timeline-item .time{font-size:.75rem;font-weight:700;color:var(--accent)}
+.timeline-item .desc{font-size:.85rem;color:var(--muted);margin-top:2px}
+
+/* GRADE CHART */
+.grade-bar{display:flex;border-radius:var(--radius-sm);overflow:hidden;height:32px;margin:.5rem 0}
+.grade-bar div{display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff}
+.grade-1{background:#16a34a}.grade-2{background:#ea580c}.grade-3{background:#dc2626}
+.grade-legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.75rem;margin-top:.4rem}
+.grade-legend span{display:flex;align-items:center;gap:4px}
+.grade-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* FOOTER */
+.footer{text-align:center;padding:2rem;color:var(--muted);font-size:.78rem;border-top:1px solid var(--border);margin-top:2rem}
+
+/* CITATIONS */
+sup a{color:var(--accent);text-decoration:none;font-weight:600}
+sup a:hover{text-decoration:underline}
+
+/* MOBILE */
+@media(max-width:900px){
+  .container{grid-template-columns:1fr;gap:1rem;padding:0 1rem}
+  aside{position:static;max-height:none;order:-1}
+  .site-header h1{font-size:1.2rem}
+  .site-header{padding:1.5rem 1rem;position:static}
+}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;z-index:999;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* REFERENCES */
+.ref-list{font-size:.8rem;counter-reset:ref}
+.ref-list li{counter-increment:ref;margin-bottom:.4rem;padding-left:4px}
+.ref-list li::marker{content:counter(ref) ". ";font-weight:700;color:var(--accent)}
+.ref-list a{color:var(--accent);word-break:break-all}
+
+/* LIMITATION BOX */
+.limitation{background:#fefce8;border:1px solid #fde047;border-radius:var(--radius-sm);padding:.8rem 1rem;font-size:.82rem;color:#854d0e;margin:1rem 0}
+.limitation strong{color:#713f12}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Optimal Knee Immobilization Angles for Non-Operative ACL Rupture Management</h1>
+  <p>Cross Bracing Protocol (90° Flexion) vs Traditional Extension Protocols — An Evidence-Based Educational Summary</p>
+</header>
+
+<div class="container">
+<main>
+
+<!-- SECTION 1 -->
+<section class="card" id="intro">
+  <h2>1. Introduction: The Paradigm Shift</h2>
+  <p>The management of acute Anterior Cruciate Ligament (ACL) rupture is undergoing a profound transformation. Historically, the orthopedic consensus held that the ACL possesses negligible capacity for spontaneous healing due to the <strong>fibrinolytic activity of synovial fluid</strong>, which prevents stable platelet clot formation.<sup><a href="#ref1">1</a></sup></p>
+  <p>This belief led to a binary treatment model: <strong>surgical reconstruction (ACLR)</strong> for active individuals and <strong>non-operative rehabilitation alone</strong> for those willing to modify activity levels — where the goal was functional compensation via neuromuscular adaptation, not biological healing.</p>
+  <div class="callout">
+    <strong>Key Disruption (2020–2024):</strong> Secondary analyses of the KANON trial and the introduction of the <strong>Cross Bracing Protocol (CBP)</strong> have demonstrated that the ACL retains significant healing potential under specific mechanical conditions — namely, <strong>immobilization at 90° flexion</strong>.<sup><a href="#ref1">1</a>,<a href="#ref11">11</a></sup>
+  </div>
+  <p>This report synthesizes data from RCTs, cohort studies, and case series to compare the clinical efficacy, biological healing rates, and safety profiles of <strong>90° flexion immobilization</strong> versus <strong>traditional extension-based protocols</strong>.</p>
+</section>
+
+<!-- SECTION 2 -->
+<section class="card" id="biomechanics">
+  <h2>2. Biomechanical and Histological Rationale</h2>
+
+  <h3>2.1 The Hostile Environment and the "Gap" Theory</h3>
+  <p>The primary biological barrier to ACL healing is the synovial fluid containing <strong>plasmin</strong>, which breaks down fibrin clots. Unlike extra-articular ligaments (e.g., MCL), the intra-articular ACL rupture site is bathed in synovial fluid that washes away the hematoma before the proliferative phase can begin.<sup><a href="#ref1">1</a></sup></p>
+  <p>Mechanical separation is equally culpable. When the ACL ruptures, the stumps retract. In full extension (0°), gravity and quadriceps tone pull the tibia anteriorly, <strong>significantly widening the gap</strong> between femoral and tibial footprints. If the gap exceeds a critical threshold (~6mm), the fibrin scaffold cannot bridge the defect.<sup><a href="#ref3">3</a></sup></p>
+
+  <h3>2.2 Biomechanics of 90° Flexion (CBP Rationale)</h3>
+  <div class="callout">
+    <strong>Anatomical basis:</strong> The distance between ACL origin (lateral femoral condyle) and insertion (tibial plateau) is <strong>shortest between 90° and 135° of knee flexion</strong>.<sup><a href="#ref1">1</a></sup>
+  </div>
+  <ul>
+    <li><strong>Posterior Reduction:</strong> At 90° flexion, the weight of the lower leg and hamstring pull exert a posterior force on the tibia, reversing anterior subluxation.<sup><a href="#ref3">3</a></sup></li>
+    <li><strong>Stump Approximation:</strong> By minimizing inter-footprint distance, the ruptured stumps are brought into close proximity — a "closed reduction."<sup><a href="#ref6">6</a></sup></li>
+    <li><strong>Synovial Shielding:</strong> Apposed stumps physically shield the healing interface from turbulent synovial flow, protecting the fibrin clot during the critical inflammatory phase.<sup><a href="#ref4">4</a></sup></li>
+  </ul>
+
+  <h3>2.3 Biomechanics of 0° Extension (Traditional Rationale)</h3>
+  <ul>
+    <li><strong>Cyclops Lesion Prevention:</strong> Historically, flexion immobilization was associated with arthrofibrosis and nodule formation in the intercondylar notch.<sup><a href="#ref8">8</a></sup></li>
+    <li><strong>Arthrofibrosis Avoidance:</strong> The posterior capsule is prone to contracture in flexion; loss of extension is functionally debilitating.<sup><a href="#ref8">8</a></sup></li>
+    <li><strong>Gap Widening:</strong> Full extension maximizes the gap between ACL stumps, making biological reunion anatomically impossible for most tears.<sup><a href="#ref2">2</a></sup></li>
+  </ul>
+</section>
+
+<!-- SECTION 3 -->
+<section class="card" id="evidence">
+  <h2>3. Spontaneous Healing Rates: Evidence (2020–2024)</h2>
+
+  <h3>3.1 Traditional Rehabilitation</h3>
+  <p>The secondary analysis of the <strong>KANON trial</strong> (Filbay et al., 2022) re-established the baseline for spontaneous healing.<sup><a href="#ref11">11</a>,<a href="#ref12">12</a></sup></p>
+  <ul>
+    <li><strong>Healing Rate:</strong> ~30% (intent-to-treat) at 2-year follow-up showed MRI evidence of ACL fiber continuity. Excluding non-copers, the rate rose to 53%.</li>
+    <li><strong>Blanke et al. (2022):</strong> Found only 14% spontaneous healing with standard bracing.<sup><a href="#ref13">13</a></sup></li>
+  </ul>
+  <span class="badge badge-ii">Level II</span>
+  <p style="margin-top:.5rem">These findings confirm that traditional extension/early-motion protocols fail to induce healing in roughly half to two-thirds of patients — likely due to the stump gap remaining too wide.</p>
+
+  <h3>3.2 The Cross Bracing Protocol</h3>
+  <p>The seminal case series by Filbay, Cross et al. (2023, BJSM) followed <strong>80 consecutive acute ACL rupture patients</strong> treated with the CBP.<sup><a href="#ref1">1</a>,<a href="#ref14">14</a></sup></p>
+  <ul>
+    <li><strong>Healing Rate:</strong> <strong>90% (72/80)</strong> showed MRI evidence of ACL healing at 3 months.</li>
+    <li><strong>Healing Quality (ACLOAS Grading):</strong></li>
+  </ul>
+
+  <div class="grade-bar">
+    <div class="grade-1" style="width:50%">Grade 1: 50%</div>
+    <div class="grade-2" style="width:40%">Grade 2: 40%</div>
+    <div class="grade-3" style="width:10%">10%</div>
+  </div>
+  <div class="grade-legend">
+    <span><span class="grade-dot" style="background:#16a34a"></span> Grade 1: Continuous, thickened ligament (high signal)</span>
+    <span><span class="grade-dot" style="background:#ea580c"></span> Grade 2: Continuous but thinned/elongated</span>
+    <span><span class="grade-dot" style="background:#dc2626"></span> Grade 3: Discontinuity (failed healing)</span>
+  </div>
+  <span class="badge badge-iv">Level IV</span>
+
+  <h3>3.3 Clinical Correlation of Healing Grades</h3>
+  <ul>
+    <li><strong>Return to Sport:</strong> 92% of Grade 1 healers returned to pre-injury sport vs. 64% of Grade 2/3.<sup><a href="#ref14">14</a></sup></li>
+    <li><strong>Knee Laxity:</strong> 100% of Grade 1 had normal laxity (negative Lachman); 60% of Grade 2 showed residual laxity.</li>
+    <li><strong>Patient-Reported Outcomes:</strong> Grade 1 healers reported a median Lysholm score of <strong>98/100</strong> and higher ACL-QOL scores.<sup><a href="#ref14">14</a></sup></li>
+  </ul>
+
+  <h3>Comparative Table: Healing Outcomes</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1. Traditional Rehabilitation vs Cross Bracing Protocol — Healing Outcomes</caption>
+      <thead>
+        <tr><th>Outcome Metric</th><th>Traditional Rehab (KANON)</th><th>Cross Bracing Protocol (Filbay 2023)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Immobilization Angle</strong></td><td>0° (Extension) / Functional ROM</td><td>90° Flexion (Locked)</td></tr>
+        <tr><td><strong>Overall Healing Rate</strong></td><td>~30% (ITT); 53% (per-protocol)</td><td>90%</td></tr>
+        <tr><td><strong>Grade 1 (Thickened) Healing</strong></td><td>Data not available in source</td><td>50%</td></tr>
+        <tr><td><strong>Grade 2 (Thinned) Healing</strong></td><td>Data not available in source</td><td>40%</td></tr>
+        <tr><td><strong>Key Mechanism</strong></td><td>Neuromuscular compensation</td><td>Biological reunion (closed reduction)</td></tr>
+        <tr><td><strong>Follow-Up</strong></td><td>2 Years</td><td>3 Months (MRI), 12 Months (Clinical)</td></tr>
+        <tr><td><strong>Evidence Level</strong></td><td>Level II (Secondary analysis of RCT)</td><td>Level IV (Case series)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="limitation"><strong>Limitation:</strong> The source document provides direct comparison data for only two studies. The ongoing EMBRACE RCT (NCT06956339) will provide Level I evidence.<sup><a href="#ref20">20</a></sup></div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="card" id="protocol">
+  <h2>4. The Cross Bracing Protocol: Detailed Methodology</h2>
+  <p>The CBP is a rigid, time-sensitive intervention requiring strict adherence to a multiphase timeline, balancing biological immobilization needs with functional stiffness prevention.<sup><a href="#ref4">4</a>,<a href="#ref18">18</a></sup></p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="time">Phase 1 — Weeks 1–4: Absolute Immobilization</div>
+      <div class="desc">Knee locked at <strong>90° flexion</strong>, 24 hours/day. Non-weight-bearing on crutches. This is the critical "biological window" where the inflammatory cascade creates the fibrin clot (days 4–10).<sup><a href="#ref3">3</a></sup></div>
+    </div>
+    <div class="timeline-item">
+      <div class="time">Phase 2 — Weeks 5–8: Gradual Range Expansion</div>
+      <div class="desc">Brace range opened incrementally: Week 5: 60°–90° → Week 6: 45°–90° → Week 7: 30°–90° (start partial weight-bearing) → Week 8: 20°–unrestricted flexion.<sup><a href="#ref3">3</a></sup></div>
+    </div>
+    <div class="timeline-item">
+      <div class="time">Phase 3 — Weeks 9–12: Normalization and Weaning</div>
+      <div class="desc">Full weight-bearing as brace allows extension to 10°, then 0°. Brace removed at Week 12. Functional loading stimulates collagen alignment.<sup><a href="#ref6">6</a></sup></div>
+    </div>
+  </div>
+
+  <h3>Protocol Variations</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2. CBP Duration Variations</caption>
+      <thead><tr><th>Duration</th><th>Indication</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td><strong>6-Week Protocol</strong></td><td>Mild tears / stable injuries</td><td>Risk of stiffness outweighs non-healing risk</td></tr>
+        <tr><td><strong>8-Week Protocol</strong></td><td>Good tissue quality with time constraints</td><td>Moderate approach</td></tr>
+        <tr><td><strong>12-Week Protocol</strong></td><td>Complete ruptures (standard)</td><td>Maximize healing probability<sup><a href="#ref18">18</a></sup></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 5 -->
+<section class="card" id="eligibility">
+  <h2>5. Patient Eligibility: The "Spectrum of Injury"</h2>
+  <p>The CBP is not suitable for all ACL ruptures. The <strong>ACL-ARCH</strong> (ACL Acute Rupture Characteristics for Healing) criteria standardize eligibility based on acute MRI features.<sup><a href="#ref19">19</a></sup></p>
+
+  <h3>Key Inclusion Criteria</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3. ACL-ARCH Eligibility Criteria</caption>
+      <thead><tr><th>Criterion</th><th>Requirement</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Time to Brace</strong></td><td>Within 4–10 days of injury</td><td>Beyond ~14–21 days, stump resorption begins; biological window closes.<sup><a href="#ref4">4</a></sup></td></tr>
+        <tr><td><strong>Gap Distance</strong></td><td>&lt;4–6 mm between stumps</td><td>Larger gaps may not bridge even at 90°.<sup><a href="#ref7">7</a></sup></td></tr>
+        <tr><td><strong>Tissue Location</strong></td><td>Fibers contained within intercondylar notch</td><td>Displaced stumps cannot be mechanically reduced.<sup><a href="#ref6">6</a></sup></td></tr>
+        <tr><td><strong>Tear Location</strong></td><td>Proximal (femoral) preferred; mid-substance eligible</td><td>Femoral tears preserve vascular supply; distal avulsions less predictable.<sup><a href="#ref7">7</a></sup></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Contraindications and Exclusions</h3>
+  <div class="callout danger">
+    <strong>Absolute Contraindications:</strong>
+    <ul>
+      <li><strong>Displaced Bucket-Handle Meniscus:</strong> Requires urgent surgical repair; incompatible with NWB/immobilization.<sup><a href="#ref20">20</a></sup></li>
+      <li><strong>Osteochondral Loose Bodies:</strong> Require surgical removal.<sup><a href="#ref20">20</a></sup></li>
+      <li><strong>Grade 3 MCL/PLC Injuries:</strong> Severe multi-ligament instability may render 90° insufficient.<sup><a href="#ref21">21</a></sup></li>
+      <li><strong>Personal/strong family history of DVT or hypercoagulability:</strong> The venous stasis from 90° immobilization creates unacceptable thrombotic risk.<sup><a href="#ref20">20</a></sup></li>
+    </ul>
+  </div>
+</section>
+
+<!-- SECTION 6 -->
+<section class="card" id="complications">
+  <h2>6. Complications and Risks</h2>
+
+  <h3>6.1 Deep Vein Thrombosis (DVT)</h3>
+  <p>Immobilization at 90° flexes the popliteal vein and inhibits the calf muscle pump, creating significant venous stasis (Virchow's triad).<sup><a href="#ref16">16</a></sup></p>
+  <ul>
+    <li><strong>Incidence:</strong> 2.5% (2/80) in the Filbay 2023 cohort, occurring before standardized anticoagulation.<sup><a href="#ref1">1</a></sup></li>
+    <li><strong>Management:</strong> Chemical thromboprophylaxis (Rivaroxaban 10mg daily or Enoxaparin) is <strong>mandatory</strong> for the first 6–8 weeks. This is a major differentiator from traditional rehab where anticoagulation is rarely indicated.<sup><a href="#ref16">16</a></sup></li>
+  </ul>
+
+  <h3>6.2 Stiffness and Arthrofibrosis</h3>
+  <ul>
+    <li><strong>Transient stiffness:</strong> 14% of patients had flexion contracture upon brace removal, but <strong>all resolved</strong> with physical therapy. No patients required surgical lysis.<sup><a href="#ref14">14</a></sup></li>
+    <li><strong>Mechanism:</strong> The stiffness is extra-articular (muscular/capsular) rather than intra-articular scarring, making it responsive to rehabilitation. No surgical trauma means no cytokine storm.<sup><a href="#ref9">9</a></sup></li>
+  </ul>
+
+  <h3>6.3 Muscle Atrophy and Functional Recovery</h3>
+  <ul>
+    <li>Four weeks of 90° immobilization causes <strong>profound quadriceps and hamstring atrophy</strong>.</li>
+    <li>Return-to-sport timeline for CBP is typically <strong>12 months</strong>, compared to 9–12 months for ACLR.<sup><a href="#ref25">25</a></sup></li>
+    <li>The psychological burden of NWB and sleeping in a brace for one month is significant.<sup><a href="#ref27">27</a></sup></li>
+  </ul>
+
+  <h3>Comparative Table: Complication Profiles</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 4. CBP vs Traditional Rehab — Complication Comparison</caption>
+      <thead><tr><th>Complication</th><th>Cross Bracing Protocol</th><th>Traditional Extension Rehab</th></tr></thead>
+      <tbody>
+        <tr><td><strong>DVT Risk</strong></td><td>Higher (~2.5%); anticoagulation mandatory</td><td>Low; anticoagulation rarely used</td></tr>
+        <tr><td><strong>Stiffness (Flexion Contracture)</strong></td><td>14% transient; all resolved with PT</td><td>Low; extension prioritized</td></tr>
+        <tr><td><strong>Arthrofibrosis / Cyclops</strong></td><td>No surgical trauma → no intra-articular scarring</td><td>Rare; managed by early motion</td></tr>
+        <tr><td><strong>Muscle Atrophy</strong></td><td>Profound; ~12-month RTS</td><td>Less severe; early strengthening</td></tr>
+        <tr><td><strong>Psychological Burden</strong></td><td>High (brace 24/7 for 4 weeks)</td><td>Low</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 7 -->
+<section class="card" id="implications">
+  <h2>7. Comparative Efficacy and Healthcare Implications</h2>
+
+  <h3>7.1 Meniscal Preservation</h3>
+  <p>In the CBP cohort, <strong>49%</strong> of patients had concomitant meniscal injuries, yet only <strong>one</strong> patient required meniscal surgery during follow-up. The immobilization and NWB period may facilitate meniscal healing or settling, potentially avoiding meniscectomies that accelerate osteoarthritis.<sup><a href="#ref21">21</a></sup></p>
+
+  <h3>7.2 Economic and Systemic Impact</h3>
+  <ul>
+    <li><strong>Surgical Volume:</strong> With ~50% of acute ACL injuries potentially eligible for CBP and a 90% healing rate, surgical volume could decrease significantly.<sup><a href="#ref6">6</a></sup></li>
+    <li><strong>Resource Shift:</strong> Burden moves from operating theater to radiology suite and physiotherapy. Acute MRI access becomes the critical bottleneck — without MRI within 4–7 days, the healing window closes.<sup><a href="#ref6">6</a></sup></li>
+  </ul>
+
+  <h3>7.3 Long-Term Joint Health</h3>
+  <p>The KANON trial analysis suggested that patients with healed native ACLs have <strong>lower osteoarthritis rates</strong> at 5 and 10 years compared to reconstructed ACLs. A healed native ligament retains proprioceptive nerve fibers (mechanoreceptors), which are lost in a graft.<sup><a href="#ref1">1</a>,<a href="#ref15">15</a></sup></p>
+</section>
+
+<!-- SECTION 8 -->
+<section class="card" id="algorithm">
+  <h2>8. Clinical Decision Algorithm</h2>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 5. Stepwise Clinical Algorithm</caption>
+      <thead><tr><th>Step</th><th>Timing</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Immediate</strong></td><td>Days 0–4</td><td>Suspect ACL injury. NWB, <strong>avoid anti-inflammatories</strong>. Order <strong>urgent MRI</strong>.</td></tr>
+        <tr><td><strong>2. Triage</strong></td><td>Days 4–7</td><td><strong>Eligible</strong> (proximal/mid-substance, &lt;6mm gap, in notch) → Offer CBP. <strong>Ineligible</strong> (displaced, retracted, large gap) → Standard rehab ± delayed reconstruction.</td></tr>
+        <tr><td><strong>3. Execution</strong></td><td>Weeks 1–12</td><td>If CBP: Lock at 90° for 4 weeks. Mandate anticoagulation. Monitor for DVT. Gradual ROM expansion → normalization.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 9 -->
+<section class="card" id="conclusion">
+  <h2>9. Conclusion</h2>
+  <p>The Cross Bracing Protocol represents a <strong>disruptive innovation</strong> in sports medicine. The evidence demonstrates that <strong>90° flexion immobilization</strong> facilitates spontaneous healing in approximately <strong>90%</strong> of eligible acute ruptures, compared to ~30% in traditional extension protocols. This superiority is driven by biomechanical reduction of the ligament stumps during the critical inflammatory phase.</p>
+  <div class="callout">
+    <strong>Context-Dependent Optimality:</strong> While 90° is optimal for <em>healing</em>, it imposes a high burden of care and specific risks (DVT, stiffness). Traditional extension protocols remain the standard for patients ineligible for CBP or who prioritize immediate function over biological restoration.
+  </div>
+  <p>As the results of the randomized <strong>EMBRACE trial</strong> (NCT06956339) emerge, 90° immobilization is likely to become a standard first-line treatment for a defined subset of ACL injuries, fundamentally shifting the paradigm from "reconstruct by default" to <strong>"heal by design."</strong></p>
+  <span class="badge badge-ii">Level II (KANON); Level IV (CBP cohort); Pending Level I (EMBRACE)</span>
+</section>
+
+<!-- REFERENCES -->
+<section class="card" id="references">
+  <h2>References (Derived from Source Document)</h2>
+  <ol class="ref-list">
+    <li id="ref1">Filbay S, Cross M, et al. Healing of acute anterior cruciate ligament rupture on MRI and outcomes following non-surgical management with the Cross Bracing Protocol. <em>Br J Sports Med</em>. 2023;57(23):1490.</li>
+    <li id="ref2">A torn ACL can heal: interview with Dr. Stephanie Filbay. Reddit r/ACL. 2023.</li>
+    <li id="ref3">The Cross Bracing Protocol. medi Australia. Accessed 2025.</li>
+    <li id="ref4">CBP Clinician Information Booklet v1.3. Cross Bracing Protocol. 2025.</li>
+    <li id="ref5">Biomechanics of the anterior cruciate ligament and implications for surgical reconstruction. <em>PMC/PubMed Central</em>.</li>
+    <li id="ref6">ACL Cross Bracing Protocol. FIT AS A PHYSIO, Mosman. Accessed 2025.</li>
+    <li id="ref7">ACL Cross Bracing Protocol: Key Patient Selection Factors. Physio Network. Accessed 2025.</li>
+    <li id="ref8">Recent advances following ACL reconstruction: rehabilitation perspectives. <em>NIH/PMC</em>.</li>
+    <li id="ref9">Arthrofibrosis of the Knee. <em>J Am Acad Orthop Surg</em>. 2007.</li>
+    <li id="ref10">Recent Advances in the Rehabilitation of ACL Injuries. <em>J Orthop Sports Phys Ther</em>. 2012.</li>
+    <li id="ref11">Filbay S, et al. Evidence of ACL healing on MRI following ACL rupture treated with rehabilitation alone. <em>Br J Sports Med</em>. 2022 (KANON secondary analysis).</li>
+    <li id="ref12">Filbay S, et al. Evidence of ACL healing on MRI following ACL rupture treated with rehabilitation alone may be associated with better patient-reported outcomes. <em>Br J Sports Med</em>. 2023;57(2):91.</li>
+    <li id="ref13">Blanke F, et al. Spontaneous healing of ACL ruptures — cohort study (2022). Referenced in The Sports Physio.</li>
+    <li id="ref14">Filbay S, Cross M, et al. Healing of acute ACL rupture on MRI and outcomes following CBP. <em>PubMed</em>. 2023;PMID:37316199.</li>
+    <li id="ref15">Association Between ACL Continuity on MRI at 5 Years and 11-Year Outcomes: KANON Secondary Analysis. <em>Researcher.life</em>.</li>
+    <li id="ref16">ACL Cross Bracing Protocol: Everything you need to know. The Rehab Room Physio. Accessed 2025.</li>
+    <li id="ref17">Cross Bracing Protocol Patient Information Booklet. Stadium Clinic. Accessed 2025.</li>
+    <li id="ref18">CBP Clinician Information Booklet v1.1. Cross Bracing Protocol. 2025.</li>
+    <li id="ref19">A new way of grading severity of ACL rupture on acute MRI (ACL-ARCH criteria). <em>PubMed</em>. 2025.</li>
+    <li id="ref20">EMBRACE Trial: Cross Bracing Protocol Versus Surgery (NCT06956339). <em>ClinicalTrials.gov</em>.</li>
+    <li id="ref21">Healing of acute ACL rupture — Physio Network Research Review. Accessed 2025.</li>
+    <li id="ref22">ACL Healing and The Cross Bracing Protocol. Niseko Physio. Accessed 2025.</li>
+    <li id="ref23">The Cross Bracing Protocol. <em>Aspetar Sports Medicine Journal</em>. Vol 12.</li>
+    <li id="ref24">Pathological mechanisms and therapeutic outlooks for arthrofibrosis. <em>PMC</em>. 2019.</li>
+    <li id="ref25">Clinical References — HealMyACL. Wider Cohort Study. Accessed 2025.</li>
+    <li id="ref26">Cross Bracing Protocol for ACL Rehab: A Complete Guide. Elite Physiotherapy. Accessed 2025.</li>
+    <li id="ref27">ACL Cross Bracing Protocol Guide. Kaylana Wellness Collective. Accessed 2025.</li>
+  </ol>
+</section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sidebar-card">
+    <h3>📊 Interactive Clinical Decision Tool</h3>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:1rem">Adjust the parameters below to receive real-time eligibility guidance based on source document data.</p>
+
+    <div class="slider-group">
+      <label for="angleSlider">Knee Flexion Angle</label>
+      <div class="slider-value" id="angleValue">90°</div>
+      <input type="range" id="angleSlider" min="0" max="120" value="90" step="5">
+      <div class="slider-labels"><span>0° (Extension)</span><span>120°</span></div>
+    </div>
+
+    <div class="slider-group">
+      <label for="gapSlider">Stump Gap Distance</label>
+      <div class="slider-value" id="gapValue">4 mm</div>
+      <input type="range" id="gapSlider" min="0" max="15" value="4" step="1">
+      <div class="slider-labels"><span>0 mm</span><span>15 mm</span></div>
+    </div>
+
+    <div class="slider-group">
+      <label for="daysSlider">Days Since Injury</label>
+      <div class="slider-value" id="daysValue">7 days</div>
+      <input type="range" id="daysSlider" min="0" max="28" value="7" step="1">
+      <div class="slider-labels"><span>Day 0</span><span>Day 28</span></div>
+    </div>
+
+    <div id="recommendation" class="rec-box"></div>
+
+    <div class="btn-group">
+      <button class="btn btn-secondary" id="resetBtn" onclick="resetSliders()">↺ Reset</button>
+      <button class="btn btn-primary" id="copyBtn" onclick="copySummary()">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>📌 Key Thresholds</h3>
+    <div style="font-size:.82rem;color:var(--muted);line-height:1.8">
+      <div><strong>Optimal healing angle:</strong> 90° flexion <span class="badge badge-iv">Source</span></div>
+      <div><strong>Max gap for CBP:</strong> &lt;6 mm <span class="badge badge-iv">Source</span></div>
+      <div><strong>Time window:</strong> 4–10 days <span class="badge badge-iv">Source</span></div>
+      <div><strong>DVT risk (CBP):</strong> 2.5% <span class="badge badge-iv">Source</span></div>
+      <div><strong>Healing rate (CBP):</strong> 90% <span class="badge badge-iv">Source</span></div>
+      <div><strong>Healing rate (Trad.):</strong> ~30% <span class="badge badge-ii">Source</span></div>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>⚠️ Disclaimer</h3>
+    <p style="font-size:.78rem;color:var(--muted)">This tool is for educational purposes only. All thresholds are derived from the source document unless annotated. Clinical decisions must be individualized and made in consultation with qualified specialists.</p>
+  </div>
+</aside>
+</div>
+
+<footer class="footer">
+  <p>Educational Summary — Generated from provided source document. All data attributed to cited references. No external clinical data added.</p>
+  <p>© 2025 | Evidence-Based Orthopaedic Education</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+const angleSlider = document.getElementById('angleSlider');
+const gapSlider = document.getElementById('gapSlider');
+const daysSlider = document.getElementById('daysSlider');
+const angleValue = document.getElementById('angleValue');
+const gapValue = document.getElementById('gapValue');
+const daysValue = document.getElementById('daysValue');
+const recommendation = document.getElementById('recommendation');
+
+function updateRecommendation() {
+  const angle = parseInt(angleSlider.value);
+  const gap = parseInt(gapSlider.value);
+  const days = parseInt(daysSlider.value);
+
+  angleValue.textContent = angle + '°';
+  gapValue.textContent = gap + ' mm';
+  daysValue.textContent = days + ' days';
+
+  let eligible = true;
+  let reasons = [];
+  let warnings = [];
+  let classSuffix = '';
+
+  // Angle analysis
+  if (angle >= 80 && angle <= 100) {
+    warnings.push('✓ Flexion angle in optimal range for stump approximation (90° ± 10°).');
+  } else if (angle >= 60 && angle < 80) {
+    warnings.push('⚠ Sub-optimal angle. Stump gap may not be fully reduced. Consider increasing to 90°.');
+  } else if (angle > 100 && angle <= 135) {
+    warnings.push('⚠ Slightly beyond optimal range. Biomechanical data supports 90°–135° window.');
+  } else if (angle < 60) {
+    eligible = false;
+    reasons.push('✗ Angle too low. Extension positions widen the stump gap, preventing biological reunion (Source: §2.3).');
+  } else {
+    warnings.push('⚠ Excessive flexion. May increase posterior capsular strain without additional healing benefit.');
+  }
+
+  // Gap analysis
+  if (gap <= 6) {
+    warnings.push('✓ Stump gap ≤6mm. Eligible per ACL-ARCH criteria (Source: §5.1).');
+  } else if (gap <= 9) {
+    eligible = false;
+    reasons.push('✗ Gap exceeds 6mm threshold. Fibrin scaffold unlikely to bridge the defect even at 90° (Source: §5.1).');
+  } else {
+    eligible = false;
+    reasons.push('✗ Gap is critically large (>9mm). Stumps cannot be approximated. CBP not indicated.');
+  }
+
+  // Time analysis
+  if (days <= 10) {
+    warnings.push('✓ Within the 4–10 day biological window. Clot formation and inflammatory phase protected (Source: §4.1).');
+  } else if (days <= 14) {
+    warnings.push('⚠ Borderline timing. Stump resorption may be initiating. Urgent specialist assessment recommended.');
+  } else if (days <= 21) {
+    eligible = false;
+    reasons.push('✗ Beyond ~14–21 days. Stump resorption has likely begun; biological window for primary reunion is closing (Source: §5.1).');
+  } else {
+    eligible = false;
+    reasons.push('✗ >21 days post-injury. CBP is no longer indicated. Consider standard rehabilitation ± delayed reconstruction.');
+  }
+
+  // Build recommendation
+  let badgeText, badgeClass, boxClass;
+  if (eligible && reasons.length === 0) {
+    badgeText = 'CBP Eligible';
+    badgeClass = 'eligible';
+    boxClass = 'rec-box';
+  } else if (!eligible && reasons.some(r => r.includes('too low') || r.includes('Extension'))) {
+    badgeText = 'Not Eligible — Angle Issue';
+    badgeClass = 'ineligible';
+    boxClass = 'rec-box danger-rec';
+  } else if (!eligible) {
+    badgeText = 'Not Eligible';
+    badgeClass = 'ineligible';
+    boxClass = 'rec-box danger-rec';
+  } else {
+    badgeText = 'Conditional';
+    badgeClass = 'partial';
+    boxClass = 'rec-box alert';
+  }
+
+  let html = `<span class="rec-badge ${badgeClass}">${badgeText}</span>`;
+
+  if (eligible && reasons.length === 0) {
+    html += `<h4>Recommendation: Offer Cross Bracing Protocol</h4>`;
+    html += `<p>With a ${angle}° flexion angle, ${gap}mm stump gap, and ${days}-day post-injury window, this patient meets ACL-ARCH criteria for CBP. Lock brace at 90° for Phase 1 (4 weeks). <strong>Mandate anticoagulation</strong> for DVT prophylaxis. Monitor for DVT symptoms. Expected healing rate: ~90% (Source: Filbay et al. 2023).</p>`;
+  } else if (eligible) {
+    html += `<h4>Recommendation: CBP May Be Considered with Caution</h4>`;
+    html += `<p>Parameters are borderline. ${warnings.join(' ')} ${reasons.join(' ')}</p>`;
+    html += `<p><strong>Recommended action:</strong> Specialist review. Confirm MRI ACL-ARCH criteria. Discuss risk-benefit including DVT prophylaxis, atrophy, and 12-month recovery timeline.</p>`;
+  } else {
+    html += `<h4>Recommendation: CBP Not Indicated</h4>`;
+    html += `<p>${reasons.join(' ')}</p>`;
+    html += `<p><strong>Recommended action:</strong> Proceed with standard rehabilitation (early motion, extension-based). Consider optional delayed ACLR. Expected spontaneous healing with traditional rehab: ~30% (Source: KANON analysis).</p>`;
+  }
+
+  // Always show warnings
+  if (warnings.length > 0) {
+    html += `<div style="margin-top:.6rem;padding-top:.5rem;border-top:1px solid rgba(0,0,0,.1);font-size:.75rem">`;
+    html += warnings.join('<br>');
+    html += `</div>`;
+  }
+
+  recommendation.className = boxClass;
+  recommendation.innerHTML = html;
+}
+
+function resetSliders() {
+  angleSlider.value = 90;
+  gapSlider.value = 4;
+  daysSlider.value = 7;
+  updateRecommendation();
+}
+
+function copySummary() {
+  const angle = angleSlider.value;
+  const gap = gapSlider.value;
+  const days = daysSlider.value;
+  const recText = recommendation.innerText;
+  const timestamp = new Date().toISOString();
+
+  const text = `ACL Immobilization Assessment Summary
+========================================
+Generated: ${timestamp}
+
+Parameters:
+- Knee Flexion Angle: ${angle}°
+- Stump Gap Distance: ${gap} mm
+- Days Since Injury: ${days}
+
+Clinical Recommendation:
+${recText}
+
+Evidence Basis:
+- CBP healing rate: 90% (Filbay et al., BJSM 2023)
+- Traditional rehab healing: ~30% (KANON trial secondary analysis, 2022)
+- ACL-ARCH eligibility criteria applied
+
+Source: Optimal Knee Immobilization Angles for Non-Operative Management of Acute ACL Rupture
+Disclaimer: Educational tool only. Clinical decisions require specialist evaluation.`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+}
+
+// Event listeners
+angleSlider.addEventListener('input', updateRecommendation);
+gapSlider.addEventListener('input', updateRecommendation);
+daysSlider.addEventListener('input', updateRecommendation);
+
+// Initialize
+updateRecommendation();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1147 @@
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Management of Delayed SSI Following All-Inside ACL Reconstruction</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --primary-bg: #eaf2f8;
+  --accent: #c0392b;
+  --accent-light: #e74c3c;
+  --success: #27ae60;
+  --success-bg: #eafaf1;
+  --warning: #f39c12;
+  --warning-bg: #fef9e7;
+  --danger-bg: #fdedec;
+  --neutral-bg: #f8f9fa;
+  --text: #2c3e50;
+  --text-light: #5d6d7e;
+  --border: #d5dbdb;
+  --white: #ffffff;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text);
+  background: #f0f3f6;
+  line-height: 1.7;
+}
+h1, h2, h3, h4 {
+  font-family: 'Merriweather', Georgia, serif;
+  line-height: 1.3;
+}
+
+/* Header */
+.site-header {
+  background: linear-gradient(135deg, var(--primary) 0%, #1a3c5e 100%);
+  color: var(--white);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.site-header h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.site-header .subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.85;
+  margin-top: 0.5rem;
+}
+
+/* Layout */
+.page-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+@media (max-width: 1024px) {
+  .page-wrapper { grid-template-columns: 1fr; }
+}
+
+/* Main Content */
+main {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 2.5rem;
+  min-width: 0;
+}
+main h2 {
+  font-size: 1.45rem;
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary-light);
+  padding-bottom: 0.6rem;
+  margin: 2.5rem 0 1.2rem;
+}
+main h2:first-of-type { margin-top: 0; }
+main h3 {
+  font-size: 1.15rem;
+  color: var(--primary);
+  margin: 1.8rem 0 0.8rem;
+}
+main h4 {
+  font-size: 1rem;
+  color: var(--text);
+  margin: 1.2rem 0 0.5rem;
+}
+main p { margin-bottom: 1rem; }
+main ul, main ol { margin: 0.5rem 0 1rem 1.5rem; }
+main li { margin-bottom: 0.5rem; }
+
+/* Evidence Badge */
+.evidence {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+.ev1 { background: #27ae60; color: #fff; }
+.ev2 { background: #2ecc71; color: #fff; }
+.ev3 { background: #f39c12; color: #fff; }
+.ev4 { background: #e67e22; color: #fff; }
+.ev5 { background: #95a5a6; color: #fff; }
+.ev-ns { background: #bdc3c7; color: #333; font-size: 0.65rem; }
+
+/* Callout Boxes */
+.callout {
+  border-left: 4px solid;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  font-size: 0.92rem;
+}
+.callout-info { border-color: var(--primary-light); background: var(--primary-bg); }
+.callout-success { border-color: var(--success); background: var(--success-bg); }
+.callout-warning { border-color: var(--warning); background: var(--warning-bg); }
+.callout-danger { border-color: var(--accent); background: var(--danger-bg); }
+.callout strong { display: block; margin-bottom: 0.3rem; }
+
+/* Tables */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+table caption {
+  font-weight: 700;
+  color: var(--primary);
+  text-align: left;
+  padding: 0.8rem 1rem;
+  background: var(--primary-bg);
+  font-size: 0.9rem;
+}
+th {
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:nth-child(even) { background: #fafbfc; }
+tr:hover { background: var(--primary-bg); }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 1rem 0 1.5rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--accent), var(--warning), var(--success));
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.2rem;
+  padding: 0.8rem 1rem;
+  background: var(--neutral-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.65rem;
+  top: 1rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid var(--white);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+.timeline-item.phase-early::before { background: var(--accent); }
+.timeline-item.phase-prolif::before { background: var(--warning); }
+.timeline-item.phase-mature::before { background: var(--success); }
+.timeline-item .phase-label {
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.timeline-item .phase-label.early { color: var(--accent); }
+.timeline-item .phase-label.prolif { color: var(--warning); }
+.timeline-item .phase-label.mature { color: var(--success); }
+
+/* Algorithm Steps */
+.algo-steps {
+  counter-reset: algo;
+  list-style: none;
+  margin-left: 0;
+  padding: 0;
+}
+.algo-steps li {
+  counter-increment: algo;
+  position: relative;
+  padding: 1rem 1rem 1rem 3.5rem;
+  margin-bottom: 1rem;
+  background: var(--neutral-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-height: 70px;
+}
+.algo-steps li::before {
+  content: counter(algo);
+  position: absolute;
+  left: 0.8rem;
+  top: 0.8rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* References */
+.references {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+.references ol { margin-left: 1.5rem; }
+.references li { margin-bottom: 0.2rem; }
+.ref-link {
+  color: var(--primary-light);
+  word-break: break-all;
+}
+
+/* Sidebar */
+aside.sidebar {
+  position: relative;
+}
+@media (min-width: 1025px) {
+  aside.sidebar {
+    position: sticky;
+    top: 140px;
+    align-self: start;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+  }
+}
+.sidebar-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+.sidebar-card h3 {
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-bg);
+}
+
+/* Sliders */
+.slider-group {
+  margin-bottom: 1.3rem;
+}
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+.slider-value {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1rem;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--accent) 0%, var(--warning) 50%, var(--success) 100%);
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid var(--white);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid var(--white);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.slider-hint {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  margin-top: 0.2rem;
+  font-style: italic;
+}
+
+/* Recommendation Box */
+.recommendation-box {
+  background: linear-gradient(135deg, #eaf2f8, #d5e8f0);
+  border: 2px solid var(--primary-light);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+.recommendation-box h4 {
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-family: 'Inter', sans-serif;
+}
+.rec-status {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.rec-status.safe { color: var(--success); }
+.rec-status.caution { color: var(--warning); }
+.rec-status.danger { color: var(--accent); }
+.rec-detail {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* Buttons */
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.btn {
+  flex: 1;
+  padding: 0.55rem 0.8rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  transition: all 0.2s;
+}
+.btn-reset {
+  background: var(--neutral-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-reset:hover { background: #e8e8e8; }
+.btn-export {
+  background: var(--primary);
+  color: var(--white);
+}
+.btn-export:hover { background: var(--primary-light); }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Toggle */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+}
+.toggle-label { font-size: 0.82rem; font-weight: 600; }
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #ccc;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--primary-light); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+/* Anchor superscript */
+sup a {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 600;
+}
+sup a:hover { text-decoration: underline; }
+
+/* Color-coded rows in functional outcomes table */
+.row-good td:first-child { border-left: 4px solid var(--success); }
+.row-mod td:first-child { border-left: 4px solid var(--warning); }
+.row-poor td:first-child { border-left: 4px solid var(--accent); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .site-header h1 { font-size: 1.2rem; }
+  main { padding: 1.5rem 1rem; }
+  .page-wrapper { padding: 1rem; }
+  h2 { font-size: 1.2rem; }
+  table { font-size: 0.75rem; }
+  th, td { padding: 0.4rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Management of Delayed Surgical Site Infection Following All-Inside Anterior Cruciate Ligament Reconstruction</h1>
+  <div class="subtitle">A Comprehensive Evidence-Based Interactive Summary &bull; Based on Provided Research Document</div>
+</header>
+
+<div class="page-wrapper">
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<main role="main" aria-label="Main educational content">
+
+<!-- INTRODUCTION -->
+<h2>1. Introduction to the Clinical Paradigm</h2>
+
+<p>Postoperative surgical site infection (SSI) following anterior cruciate ligament reconstruction (ACLR) represents a rare but potentially catastrophic complication, with contemporary epidemiological data indicating incidence rates generally ranging between <strong>0.3% and 1.7%</strong> in primary reconstructive procedures.<sup><a href="#ref1">1</a></sup> While the overwhelming majority of these infections manifest during the acute or subacute postoperative phases—typically within the first two to eight weeks—delayed presentations occurring several months postoperatively introduce a profoundly distinct diagnostic and therapeutic challenge.<sup><a href="#ref2">2</a></sup></p>
+
+<p>The advent and widespread global adoption of the <strong>"All-Inside" ACLR technique</strong> has fundamentally altered both the biomechanics of graft incorporation and the localized microenvironment where foreign bodies are introduced.<sup><a href="#ref4">4</a></sup> This technique is characterized by:</p>
+<ul>
+  <li>Creation of <strong>closed-end bone sockets (half-tunnels)</strong></li>
+  <li>Preservation of native bone stock</li>
+  <li>Utilization of <strong>adjustable-loop suspensory cortical fixation</strong> on both femoral and tibial sides</li>
+</ul>
+
+<div class="callout callout-info">
+  <strong>🔬 Specific Clinical Scenario Under Investigation</strong>
+  A patient precisely <strong>6 months post-all-inside ACLR</strong>, presenting with a localized, purulent <strong>extra-articular infection</strong> specifically isolated to the sites of the tibial and femoral cortical suspensory fixation (e.g., EndoButton, TightRope). Diagnostic arthroscopy unequivocally confirms a pristine, clear intra-articular joint cavity containing a viable, adequately tensioned graft displaying extensive synovialization.<sup><a href="#ref6">6</a></sup>
+</div>
+
+<p>This presentation distinctively separates the underlying pathology from catastrophic intra-articular septic arthritis (such as Gächter stage III or IV), definitively reclassifying it as a <strong>delayed, implant-associated extra-articular SSI</strong>.<sup><a href="#ref3">3</a></sup> The fundamental clinical dilemma is whether complete excision of the metallic cortical buttons and their associated braided ultra-high-molecular-weight polyethylene (UHMWPE) adjustable loops will result in catastrophic loss of graft tension and subsequent clinical failure, or if the biological graft-to-bone integration at 6 months is sufficiently robust to allow for hardware explantation without compromising joint stability.<sup><a href="#ref7">7</a></sup></p>
+
+<!-- GRAFT HEALING -->
+<h2>2. Graft-to-Bone Healing vs. Hardware Removal at 6 Months</h2>
+
+<p>The primary biomechanical apprehension when contemplating the removal of cortical suspensory fixation devices is the immediate risk of graft slippage, catastrophic loss of tension, or complete graft pull-out from the bone sockets.<sup><a href="#ref7">7</a></sup> In the all-inside ACLR technique, the initial "time-zero" fixation relies entirely on the mechanical interface between the metallic button resting on the outer cortical bone and the adjustable braided loop suspending the soft-tissue graft within the closed-end socket.<sup><a href="#ref10">10</a></sup> However, the ultimate longitudinal success of the procedure is completely dependent on the biological transition from this temporary mechanical fixation to permanent biological integration—defined by the processes of <strong>ligamentization and osseointegration</strong>.<sup><a href="#ref11">11</a></sup></p>
+
+<h3>2.1 The Chronology of Ligamentization and Osseointegration</h3>
+
+<p>The biological healing of a free tendon autograft (such as the quadrupled semitendinosus graft most frequently utilized in all-inside ACLR) within a newly drilled cancellous bone socket undergoes three distinct, overlapping biological phases:<sup><a href="#ref12">12</a></sup></p>
+
+<div class="timeline">
+  <div class="timeline-item phase-early">
+    <span class="phase-label early">Phase 1: Early Healing (0–4 Weeks)</span>
+    <p>Characterized by an acute inflammatory response, formation of a localized hematoma within the bone socket, and rapid influx of macrophages, neutrophils, and fibroblasts. The graft undergoes profound central necrosis due to acute lack of vascularity. <strong>The graft is entirely dependent on the mechanical suspensory hardware</strong>, and biological pull-out strength drops precipitously.<sup><a href="#ref12">12</a></sup></p>
+  </div>
+  <div class="timeline-item phase-prolif">
+    <span class="phase-label prolif">Phase 2: Proliferation (4–12 Weeks)</span>
+    <p>Marked by intense cellular activity, revascularization (synovialization), and deposition of an immature, highly cellular extracellular matrix. Critical initiation of fibrovascular tissue formation at the precise graft-bone interface, progressively bridging the physical gap between the outer layer of the tendon and the cancellous bone wall of the socket.<sup><a href="#ref11">11</a></sup><sup><a href="#ref14">14</a></sup></p>
+  </div>
+  <div class="timeline-item phase-mature">
+    <span class="phase-label mature">Phase 3: Maturation &amp; Ligamentization (12 Weeks–24 Months)</span>
+    <p>Randomly organized type III collagen is gradually absorbed and replaced by highly organized, longitudinally oriented <strong>type I collagen</strong>. The graft tissue is biologically remodeled under physiological mechanical stress to mimic the ultrastructure of the native ACL.<sup><a href="#ref14">14</a></sup></p>
+  </div>
+</div>
+
+<div class="callout callout-success">
+  <strong>✅ Key Finding at 6 Months</strong>
+  By the 6-month postoperative mark, the intra-articular portion of the graft has progressed deeply into the maturation phase, while the extra-articular (intra-socket) portion has established significant, permanent structural connections to the host bone.<sup><a href="#ref14">14</a></sup> The biological environment has fundamentally shifted away from mechanical hardware dependence.
+</div>
+
+<h3>2.2 Formation and Mineralization of Sharpey's Fibers</h3>
+<p>The structural integrity and ultimate tensile strength of a soft-tissue graft within a bone tunnel are dictated exclusively by the formation of an <strong>indirect enthesis</strong>, characterized by the development of Sharpey-like penetrating fibers.<sup><a href="#ref15">15</a></sup> These robust collagenous fibers serve as biological anchors, penetrating from the periosteum and the outer adventitia of the remodeling tendon directly into the mineralizing bone matrix of the socket wall.</p>
+
+<p>Histological and biomechanical studies (<span class="evidence ev2">Level II–III</span>) demonstrate a highly predictable timeline:<sup><a href="#ref17">17</a></sup></p>
+<ul>
+  <li><strong>3–6 weeks:</strong> Initial emergence of anchoring Sharpey-like fibers at the healing tendon-bone interface.<sup><a href="#ref17">17</a></sup></li>
+  <li><strong>12 weeks:</strong> Substantial, organized Sharpey's fibers are formed. The biomechanical "weakest link" transitions from the tendon-bone interface to the mid-substance of the intra-articular graft (mid-substance rupture). This indicates that biological fixation strength has officially surpassed the intrinsic tensile strength of the remodeling tendon tissue.<sup><a href="#ref13">13</a></sup></li>
+  <li><strong>24 weeks (6 months):</strong> Histological cross-sections exhibit a highly distinct, mature four-layered architecture resembling native indirect ligamentous insertions.<sup><a href="#ref20">20</a></sup> High-level animal models (Meller et al., <em>Arthroscopy</em>) demonstrate that maximum load to failure is restored to approximately <strong>70% of native knee strength</strong>.<sup><a href="#ref17">17</a></sup></li>
+</ul>
+
+<h3>2.3 Biomechanical Superiority of All-Inside Sockets vs. Full Tunnels</h3>
+<p>The all-inside ACLR technique utilizing blind-ended sockets provides a highly unique microenvironment that further accelerates and fortifies graft integration, making hardware removal at 6 months significantly safer than in traditional techniques. Traditional full-tunnels with aperture fixation via resorbable interference screws (RIS) suffer from limited biological contact because the interference screw physically blocks osteoblast migration.<sup><a href="#ref10">10</a></sup></p>
+
+<p>A prospective <span class="evidence ev2">Level II</span> cohort study demonstrated that adjustable suspensory fixation (ASF) provided significantly more favorable biological conditions:<sup><a href="#ref10">10</a></sup></p>
+
+<div class="table-wrapper">
+  <table>
+    <caption>Table 1. Biomechanical/Radiological Comparison: Traditional vs. All-Inside Fixation<sup><a href="#ref10">10</a></sup></caption>
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Full-Tunnel + Interference Screw</th>
+        <th>All-Inside Closed Socket + ASF</th>
+        <th>Clinical Implication at 6 Months</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Graft-to-Bone Contact Area</strong></td>
+        <td>Significantly reduced (compressed by physical mass of the interference screw)</td>
+        <td>360-degree circumferential contact along entire socket length</td>
+        <td>Maximized biological surface area for osteoblast migration and Sharpey's fiber insertion</td>
+      </tr>
+      <tr>
+        <td><strong>Tunnel Widening (at 6 mo)</strong></td>
+        <td>4.7 ± 2.8 mm</td>
+        <td>2.3 ± 1.1 mm</td>
+        <td>Minimal widening indicates absence of micromotion, confirming robust biological anchorage</td>
+      </tr>
+      <tr>
+        <td><strong>MRI SNQ (Graft Maturity)</strong></td>
+        <td>0.671 (higher fluid, edema, immaturity)</td>
+        <td>0.078 (mature, dense, organized tissue)</td>
+        <td>Graft is structurally solid; mechanical hardware no longer primary load-bearing element</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout callout-success">
+  <strong>✅ Synthesis: Structural Integrity at 6 Months</strong>
+  By 6 months post-operation, the initial mechanical reliance on the extracortical button and the braided adjustable loop is functionally obsolete. The biological fixation—achieved via dense, organized, mineralized Sharpey's fibers spanning the entire 360-degree circumference of the bone socket—is fully capable of withstanding physiological loads. <strong>Complete surgical excision of the metallic cortical button and braided suspensory sutures will not compromise structural integrity, resting tension, or biological viability of the intra-articular graft.</strong><sup><a href="#ref10">10</a></sup><sup><a href="#ref17">17</a></sup>
+</div>
+
+<!-- BIOFILM -->
+<h2>3. Biofilm Eradication: The Absolute Mandate for Hardware Removal</h2>
+
+<h3>3.1 Pathogenesis of Implant-Associated Biofilms</h3>
+<p>Whenever a synthetic foreign body is introduced into the human body, it immediately triggers a localized, transient immunocompromised zone. The presence of the avascular hardware locally paralyzes macrophage function and provides an inert surface devoid of host immune surveillance.<sup><a href="#ref24">24</a></sup> A landmark study presented at the AAOS 2025 Annual Meeting by Cavendish et al. revealed that detectable levels of subclinical bacterial contamination occur in <strong>up to 50% of ACLR surgeries</strong>, with the highest risk occurring immediately prior to graft passage.<sup><a href="#ref22">22</a></sup></p>
+
+<p>Once planktonic pathogens adhere to hardware, they undergo a profound phenotypic shift, secreting a dense polymeric glycocalyx—the <strong>biofilm</strong>.<sup><a href="#ref24">24</a></sup> This biofilm serves as an impenetrable physical and chemical barrier against host leukocytes, antibodies, and systemic pharmacological interventions.<sup><a href="#ref25">25</a></sup></p>
+
+<div class="callout callout-danger">
+  <strong>⚠️ Minimum Biofilm Eradication Concentration (MBEC)</strong>
+  The MBEC frequently requires local antibiotic concentrations that are <strong>100 to 1000 times higher</strong> than the Minimum Inhibitory Concentration (MIC) for the same strain in a planktonic state.<sup><a href="#ref8">8</a></sup> Achieving such concentrations systemically is impossible due to host toxicity limits.
+</div>
+
+<h3>3.2 The Distinct Microbiological Threat of Braided Sutures</h3>
+<p>High-level <span class="evidence ev2">Level II</span> studies demonstrate that braided sutures retain, harbor, and protect significantly higher bacterial loads than monofilament sutures or solid metallic hardware.<sup><a href="#ref27">27</a></sup> The architecture of a braided suture features microscopic interstices—tiny gaps between the woven polyethylene filaments—that provide an ideal, protected microenvironment for bacterial nesting. Because host macrophages are physically larger than these interstitial gaps, bacteria proliferate entirely unmolested.<sup><a href="#ref27">27</a></sup></p>
+
+<div class="table-wrapper">
+  <table>
+    <caption>Table 2. Biofilm Susceptibility by Fixation Component<sup><a href="#ref24">24</a></sup><sup><a href="#ref27">27</a></sup><sup><a href="#ref29">29</a></sup></caption>
+    <thead>
+      <tr>
+        <th>Fixation Component</th>
+        <th>Material &amp; Architecture</th>
+        <th>Biofilm Susceptibility</th>
+        <th>Efficacy of Surgical I&amp;D</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Cortical Button</strong></td>
+        <td>Solid Titanium / Stainless Steel (smooth surface)</td>
+        <td>Moderate (surface adherence only)</td>
+        <td>Can be partially debrided; microscopic molecular adherence often remains</td>
+      </tr>
+      <tr>
+        <td><strong>Adjustable Loop Suture</strong></td>
+        <td>Braided UHMWPE / Polyglactin (complex woven structure)</td>
+        <td style="color:var(--accent);font-weight:700;">Extremely High (deep interstitial nesting)</td>
+        <td style="color:var(--accent);font-weight:700;">Highly resistant. Standard I&amp;D completely ineffective at eradicating core biomass</td>
+      </tr>
+      <tr>
+        <td><strong>Autologous Graft</strong></td>
+        <td>Vascularizing, cellular biological tissue</td>
+        <td>Low (once fully synovialized)</td>
+        <td>Host immune cells highly active; responds well to joint lavage and I&amp;D</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>3.3 Evidence Supporting Mandatory Hardware Explantation</h3>
+<p>Contemporary guidelines endorsed by the <strong>European Bone and Joint Infection Society (EBJIS)</strong> and the <strong>European Society of Sports Traumatology, Knee Surgery and Arthroscopy (ESSKA)</strong> provide a definitive framework for managing infectious complications following ACLR.<sup><a href="#ref31">31</a></sup> While early, acute intra-articular infections are managed with arthroscopic lavage and graft retention, <strong>delayed infections specifically localized to the hardware mandate a radically different approach</strong>.<sup><a href="#ref33">33</a></sup></p>
+
+<p>A compelling case report in the <em>World Journal of Orthopedics</em> described a 33-year-old patient presenting with a delayed recurrent abscess centered around the femoral EndoButton, fully <strong>5 years post-ACLR</strong>.<sup><a href="#ref9">9</a></sup> Initial isolated I&amp;D procedures failed. Complete eradication was only achieved following radical secondary surgery involving complete excision of the sinus tract and total removal of the EndoButton and all associated braided sutures, while diagnostic arthroscopy confirmed the graft remained entirely viable.<sup><a href="#ref9">9</a></sup></p>
+
+<div class="callout callout-warning">
+  <strong>🔑 Critical Clinical Imperative</strong>
+  A chronic, biofilm-driven SSI cannot be definitively cured with suppressive antibiotic therapy or superficial irrigation alone.<sup><a href="#ref8">8</a></sup> The failure to comprehensively remove braided sutures and metallic hardware invariably leads to infection recurrence, chronic draining sinus tracts, and eventual osteomyelitis of the bone tunnels.<sup><a href="#ref7">7</a></sup>
+</div>
+
+<!-- CLINICAL OUTCOMES -->
+<h2>4. Clinical Outcomes: Hardware Removal with Graft Retention</h2>
+
+<h3>4.1 Eradication Efficacy and Late Graft Failure Rates</h3>
+<p>A comprehensive systematic review published in the <em>American Journal of Sports Medicine</em> by Lo Presti et al. analyzed outcomes of graft-preserving arthroscopic debridement paired with extra-articular hardware removal.<sup><a href="#ref36">36</a></sup> The study reported a <strong>100% eradication rate</strong> of infection following hardware removal. Among retained grafts, clinical failure (insufficient ligamentous tension requiring revision) occurred in only <strong>1 out of 24 patients</strong>.<sup><a href="#ref36">36</a></sup></p>
+
+<p>A broader meta-analysis by Kuršumović et al. indicates that modern graft preservation protocols achieve an approximately <strong>85% overall success rate</strong> across various infection severities.<sup><a href="#ref3">3</a></sup></p>
+
+<h3>4.2 Long-Term Functional Outcomes: IKDC and Lysholm Scores</h3>
+
+<p><span class="evidence ev3">Level III–IV</span> prospective cohort studies comparing graft-salvage patients against matched, uncomplicated ACLR controls offer vital clinical insights:<sup><a href="#ref5">5</a></sup><sup><a href="#ref34">34</a></sup><sup><a href="#ref35">35</a></sup></p>
+
+<ul>
+  <li><strong>Lysholm Scores:</strong> A landmark study by Hantes et al. (<em>The Knee</em>) reported excellent mean Lysholm scores of <strong>92</strong> in patients whose grafts were salvaged, statistically comparable to uncomplicated primary ACLR (typically 90 ± 4).<sup><a href="#ref5">5</a></sup></li>
+  <li><strong>IKDC Scores:</strong> Consistently reach the mid-to-high 80s (mean IKDC score of <strong>87</strong>) in patients with successfully retained grafts.<sup><a href="#ref34">34</a></sup></li>
+  <li><strong>Instrumented Laxity:</strong> KT-1000 arthrometer at 134N shows minimal side-to-side differences (<strong>&lt;3 mm</strong> translation), confirming hardware removal does not induce late-stage laxity.<sup><a href="#ref35">35</a></sup></li>
+</ul>
+
+<h3>4.3 The Paradox of Arthrofibrosis</h3>
+
+<div class="callout callout-warning">
+  <strong>⚠️ Critical Caveat: Arthrofibrosis Risk</strong>
+  Lo Presti et al. (<em>AJSM</em> 2020) highlighted that while hardware removal and graft retention were highly effective in clearing infection (100%) and restoring stability, concomitant signs of severe <strong>arthrofibrosis were detected in 81%</strong> of patients on postoperative MRI. Severe cartilage defects (ICRS ≥3) were reported in <strong>63%</strong> of cases over the long term, likely driven by inflammatory cytokines (IL-1β, TNF-α) released during the infectious period.<sup><a href="#ref37">37</a></sup>
+</div>
+
+<h3>4.4 Comparative Functional Metrics</h3>
+
+<div class="table-wrapper">
+  <table>
+    <caption>Table 3. Clinical Outcomes by Management Pathway for Delayed SSI<sup><a href="#ref5">5</a></sup><sup><a href="#ref3">3</a></sup><sup><a href="#ref34">34</a></sup><sup><a href="#ref35">35</a></sup><sup><a href="#ref36">36</a></sup></caption>
+    <thead>
+      <tr>
+        <th>Management Pathway</th>
+        <th>Infection Eradication</th>
+        <th>Graft Survival</th>
+        <th>Lysholm Score</th>
+        <th>IKDC Score</th>
+        <th>Primary Long-Term Complication</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-good">
+        <td><strong>Uncomplicated All-Inside ACLR (Control)</strong></td>
+        <td>N/A</td>
+        <td>&gt;95%</td>
+        <td>90–95</td>
+        <td>88–92</td>
+        <td>Minimal (standard ACLR risks)</td>
+      </tr>
+      <tr class="row-mod">
+        <td><strong>Hardware Removal + Graft Retention</strong></td>
+        <td>100%<sup><a href="#ref36">36</a></sup></td>
+        <td>85–95%</td>
+        <td>85–92</td>
+        <td>82–88</td>
+        <td>Arthrofibrosis (stiffness), chondral wear</td>
+      </tr>
+      <tr class="row-poor">
+        <td><strong>Complete Explantation (Hardware + Graft)</strong></td>
+        <td>100%</td>
+        <td>0% (mandates 2-stage revision)</td>
+        <td>&lt;75 (pre-revision)</td>
+        <td>&lt;70 (pre-revision)</td>
+        <td>Gross instability, meniscal/cartilage damage</td>
+      </tr>
+      <tr class="row-poor">
+        <td><strong>Conservative Therapy (Antibiotics Only)</strong></td>
+        <td>&lt;20% (biofilm persistence)</td>
+        <td>Varies (high risk of necrosis)</td>
+        <td>Poor</td>
+        <td>Poor</td>
+        <td>Recurrent sinus tract, bone tunnel osteomyelitis</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout callout-info">
+  <strong>💡 Synthesis: True Morbidity Source</strong>
+  The true morbidity associated with the "hardware removal and graft retention" protocol is <strong>not</strong> driven by mechanical failure, graft pull-out, or ligamentous laxity. Rather, the morbidity is driven entirely by the host's aggressive inflammatory response to both the localized infection and the secondary surgical intervention, inevitably leading to joint capsule stiffness (arthrofibrosis) and accelerated chondral degradation.<sup><a href="#ref37">37</a></sup>
+</div>
+
+<!-- TREATMENT ALGORITHM -->
+<h2>5. Evidence-Based Treatment Algorithm</h2>
+
+<p>Synthesizing the microbiological, biomechanical, and clinical literature, a clear, structured algorithm emerges for the specific clinical presentation of a delayed (6-month) extra-articular SSI with a viable intra-articular graft following all-inside ACLR.</p>
+
+<ol class="algo-steps">
+  <li>
+    <h4>Preoperative Optimization and Microbiological Diagnosis</h4>
+    <p>Sterile aspiration of extra-articular fluid for Gram staining, aerobic and anaerobic cultures, and specific sensitivities. <strong>Empirical antibiotics should NOT be initiated until cultures are obtained</strong> to prevent false-negative results.<sup><a href="#ref32">32</a></sup> MRI with metal artifact reduction sequences to confirm absence of deep osteomyelitis.<sup><a href="#ref9">9</a></sup></p>
+  </li>
+  <li>
+    <h4>Diagnostic Arthroscopy (Intra-articular Phase)</h4>
+    <p>Surgical procedure must begin with diagnostic arthroscopy, completely isolated from extra-articular purulence. The surgeon must meticulously avoid breaching the intra-articular space with any instruments that have contacted the extra-articular purulence to prevent iatrogenic seeding.<sup><a href="#ref7">7</a></sup> High-volume lavage of the joint cavity to dilute inflammatory cytokines.</p>
+  </li>
+  <li>
+    <h4>Extra-articular Hardware Excision</h4>
+    <p>Approaching via separate, localized incisions over palpable hardware sites—radical, <strong>oncologic-style excision</strong> of all synthetic materials. The braided adjustable loops and metallic buttons are the irreversible nidus of the biofilm and must be completely extracted.<sup><a href="#ref27">27</a></sup> Cortical bone bed should be lightly curetted.</p>
+  </li>
+  <li>
+    <h4>Biomechanical Assurance and Graft Probing</h4>
+    <p>Gently probe the graft intra-articularly post-hardware removal to confirm maintained resting tension. Redundant suture anchors or secondary fixation are virtually never required at this late stage, as biological osseointegration has permanently superseded mechanical fixation.<sup><a href="#ref10">10</a></sup> <strong>Adding new hardware into an infected field is absolutely contraindicated.</strong></p>
+  </li>
+  <li>
+    <h4>Targeted Antimicrobial Therapy</h4>
+    <p>Targeted IV antibiotics based on definitive culture results. For biofilm-producing pathogens (MRSA, <em>S. epidermidis</em>), transition to oral agents with high bone-penetrance. <strong>Rifampin + fluoroquinolone (e.g., Levofloxacin)</strong> is recommended by ESSKA/EBJIS for 4–6 weeks (up to 12 weeks in complex cases).<sup><a href="#ref32">32</a></sup></p>
+  </li>
+  <li>
+    <h4>Aggressive Rehabilitation and Arthrofibrosis Mitigation</h4>
+    <p>Immediate aggressive range-of-motion (ROM) and patellar mobilization rehabilitation. Because the graft's structural integrity is biologically secured within the bone tunnels, there is no biomechanical requirement to restrict weight-bearing or ROM beyond standard pain-tolerance limits.<sup><a href="#ref36">36</a></sup><sup><a href="#ref37">37</a></sup></p>
+  </li>
+</ol>
+
+<!-- CONCLUSION -->
+<h2>6. Conclusion</h2>
+
+<p>For a patient presenting at exactly 6 months post-operation with a localized, extra-articular infection and an intact, viable intra-articular graft, the high-level evidence <strong>unequivocally supports a standardized protocol of mandatory hardware explantation strictly coupled with intra-articular graft retention</strong>.</p>
+
+<p>Extensive biomechanical and histological literature robustly demonstrates that by the 6-month postoperative mark, the intra-tunnel tendon-to-bone healing—anchored by dense, maturing, and mineralized Sharpey's fibers—is sufficiently robust to maintain graft tension and global knee stability entirely independent of the initial suspensory cortical buttons and braided adjustable loops.</p>
+
+<p>Conversely, the microbiological risk of retaining the hardware is absolute and unforgiving. Conservative management is functionally incapable of eradicating deep interstitial biofilm. By flawlessly executing a meticulous, staged surgical explantation while preserving the pristine intra-articular space, surgeons can reliably achieve <strong>100% infection eradication</strong> with excellent long-term functional outcomes—reflected in Lysholm and IKDC scores—that closely mirror those of uncomplicated primary ACL reconstructions.<sup><a href="#ref5">5</a></sup><sup><a href="#ref34">34</a></sup><sup><a href="#ref36">36</a></sup></p>
+
+<!-- REFERENCES -->
+<h2>References</h2>
+<div class="references">
+<ol>
+  <li id="ref1">[1] "Infection after Anterior Cruciate Ligament Reconstruction: A Narrative Review of the Literature." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11083079/" target="_blank">PMC11083079</a></li>
+  <li id="ref2">[2] "Recurrent surgical site infection after anterior cruciate ligament reconstruction: A case report." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6591696/" target="_blank">PMC6591696</a></li>
+  <li id="ref3">[3] "Infection after Anterior Cruciate Ligament Reconstruction: A Narrative Review of the Literature." <em>Healthcare (MDPI)</em>. <a class="ref-link" href="https://www.mdpi.com/2227-9032/12/9/894" target="_blank">MDPI 2024</a></li>
+  <li id="ref4">[4] "All-Inside Anterior Cruciate Ligament Reconstruction Technique: Tips and Tricks." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10532376/" target="_blank">PMC10532376</a></li>
+  <li id="ref5">[5] "Research progress and clinical application of all-inside reconstruction techniques: narrative review." <em>Frontiers in Surgery</em>. <a class="ref-link" href="https://www.frontiersin.org/journals/surgery/articles/10.3389/fsurg.2025.1644737/full" target="_blank">Frontiers 2025</a></li>
+  <li id="ref6">[6] "Graft healing after anterior cruciate ligament reconstruction (ACLR)." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8134949/" target="_blank">PMC8134949</a></li>
+  <li id="ref7">[7] "Recurrent surgical site infection after anterior cruciate ligament reconstruction: A case report." <em>ResearchGate</em>. <a class="ref-link" href="https://www.researchgate.net/publication/333853966" target="_blank">ResearchGate</a></li>
+  <li id="ref8">[8] "Principles in the Management of Infection With Hardware." <em>Podiatry Today</em>. <a class="ref-link" href="https://www.hmpgloballearningnetwork.com/site/podiatry/case-study/principles-management-infection-hardware" target="_blank">HMP Global</a></li>
+  <li id="ref9">[9] "Recurrent surgical site infection after anterior cruciate ligament reconstruction: A case report." <em>World Journal of Orthopedics</em>. <a class="ref-link" href="https://www.wjgnet.com/2218-5836/full/v10/i6/255.htm" target="_blank">WJO 2019</a></li>
+  <li id="ref10">[10] "Incorporation of Hamstring Grafts Within the Tibial Tunnel After ACL Reconstruction: MRI of Suspensory Fixation Versus Interference Screws." <em>ResearchGate</em>. <a class="ref-link" href="https://www.researchgate.net/publication/305747088" target="_blank">ResearchGate</a></li>
+  <li id="ref11">[11] "Graft Intra-Articular Remodeling and Bone Incorporation in ACL Reconstruction." <em>JCM (MDPI)</em>. <a class="ref-link" href="https://www.mdpi.com/2077-0383/11/22/6704" target="_blank">MDPI 2022</a></li>
+  <li id="ref12">[12] "Postoperative healing and complications based on anterior cruciate ligament reconstruction graft type." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11304102/" target="_blank">PMC11304102</a></li>
+  <li id="ref13">[13] "ACL reconstruction healing and Return to Play." <em>SlideServe</em>. <a class="ref-link" href="https://www.slideserve.com/niveditha/acl-reconstruction-healing-and-return-to-play" target="_blank">SlideServe</a></li>
+  <li id="ref14">[14] "Postoperative healing and complications based on anterior cruciate ligament reconstruction graft type." <em>Annals of Joint</em>. <a class="ref-link" href="https://aoj.amegroups.org/article/view/8633/html" target="_blank">AOJ</a></li>
+  <li id="ref15">[15] "Chronological changes in the collagen-type composition at tendon–bone interface in rabbits." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3626213/" target="_blank">PMC3626213</a></li>
+  <li id="ref17">[17] Meller et al. "Histologic and biomechanical analysis of anterior cruciate ligament graft to bone healing in skeletally immature sheep." <em>Arthroscopy / PubMed</em>. <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/18971051/" target="_blank">PubMed 18971051</a></li>
+  <li id="ref20">[20] "Preparation and evaluation of an injectable HAp/Col I composite for promoting tendon-to-bone healing in ACL reconstruction." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12637066/" target="_blank">PMC12637066</a></li>
+  <li id="ref22">[22] "Study Finds Some Bacterial Contamination in Half of ACL Reconstruction Cases." <em>AAOS 2025</em>. <a class="ref-link" href="https://www.aaos.org/aaosnow/2025/tuesday/research/research02/" target="_blank">AAOS</a></li>
+  <li id="ref24">[24] "Recent Strategies to Combat Infections from Biofilm-Forming Bacteria on Orthopaedic Implants." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8549706/" target="_blank">PMC8549706</a></li>
+  <li id="ref25">[25] "Infections in Anterior Cruciate Ligament Surgery." <em>PlasticSurgeryKey</em>. <a class="ref-link" href="https://plasticsurgerykey.com/infections-in-anterior-cruciate-ligament-surgery/" target="_blank">Link</a></li>
+  <li id="ref27">[27] "Does Suture Type Influence Bacterial Retention and Biofilm Formation After Irrigation in a Mouse Model?" <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6345317/" target="_blank">PMC6345317</a></li>
+  <li id="ref29">[29] "CORR Insights®: Does Suture Type Influence Bacterial Retention..." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6345306/" target="_blank">PMC6345306</a></li>
+  <li id="ref30">[30] "Bacterial biofilms on implanted suture material are a cause of surgical site infection." <em>PubMed</em>. <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/24833403/" target="_blank">PubMed 24833403</a></li>
+  <li id="ref31">[31] "ESSKA &amp; EBJIS recommendations for the management of infections after ACL-R." <a class="ref-link" href="https://www.esska.org/news/566072/" target="_blank">ESSKA</a></li>
+  <li id="ref32">[32] "Prevention and Management of Postoperative Infection After Anterior Cruciate Ligament Reconstruction: A Narrative Review." <em>JCM (MDPI)</em>. <a class="ref-link" href="https://www.mdpi.com/2077-0383/14/2/336" target="_blank">MDPI 2025</a></li>
+  <li id="ref33">[33] "ESSKA and EBJIS recommendations for the management of infections after ACL-R." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10471731/" target="_blank">PMC10471731</a></li>
+  <li id="ref34">[34] "Management of septic arthritis after arthroscopic anterior cruciate ligament reconstruction using a standard surgical protocol." <a class="ref-link" href="https://www.orthopedikos-larisa.gr/wp-content/uploads/2022/03/61Management-of-septic-arthritis-after-arthroscopic-anterior-cruciate-ligament-reconstruction-using-a-standard-surgical-protocopdf.pdf" target="_blank">PDF</a></li>
+  <li id="ref35">[35] "Multiple arthroscopic debridement and graft retention in septic knee arthritis after ACL reconstruction." <em>PMC</em>. <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3890115/" target="_blank">PMC3890115</a></li>
+  <li id="ref36">[36] Lo Presti et al. "Graft-Preserving Arthroscopic Debridement With Hardware Removal Is Effective for Septic Arthritis After ACL Reconstruction." <em>AJSM</em>. <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/32520578/" target="_blank">PubMed 32520578</a></li>
+  <li id="ref37">[37] Lo Presti et al. "Graft-Preserving Arthroscopic Debridement... A Clinical, Arthrometric, and MRI Evaluation." <em>AJSM / PubMed</em>. <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/32520578/" target="_blank">PubMed 32520578</a></li>
+  <li id="ref38">[38] "Recommendations on diagnosis and antimicrobial treatment of infections after ACL-R." <em>UU Repository</em>. <a class="ref-link" href="https://dspace.library.uu.nl/bitstream/handle/1874/459049/PIIS0163445323001937.pdf" target="_blank">PDF</a></li>
+</ol>
+</div>
+
+</main>
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical decision tools">
+
+  <div class="sidebar-card">
+    <h3>🎛️ Clinical Decision Parameters</h3>
+    <p style="font-size:0.75rem;color:var(--text-light);margin-bottom:1rem;">Adjust parameters below to see real-time clinical recommendations. All thresholds derived from source document unless annotated.</p>
+
+    <!-- Slider 1: Post-Op Week -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Post-Operative Timeline</span>
+        <span class="slider-value" id="weekVal">24 weeks</span>
+      </div>
+      <input type="range" id="weekSlider" min="1" max="52" value="24" aria-label="Post-operative week">
+      <div class="slider-hint">Key phases: 0–4 wk early healing, 4–12 wk proliferation, 12–24+ wk maturation (source ref 12, 14)</div>
+    </div>
+
+    <!-- Slider 2: Tunnel Widening -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Tunnel Widening (mm)</span>
+        <span class="slider-value" id="tunnelVal">2.3 mm</span>
+      </div>
+      <input type="range" id="tunnelSlider" min="0" max="10" step="0.1" value="2.3" aria-label="Tunnel widening in millimeters">
+      <div class="slider-hint">ASF all-inside: 2.3 ± 1.1 mm vs. RIS full-tunnel: 4.7 ± 2.8 mm (source ref 10)</div>
+    </div>
+
+    <!-- Slider 3: MRI SNQ -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>MRI Signal-to-Noise Quotient</span>
+        <span class="slider-value" id="snqVal">0.078</span>
+      </div>
+      <input type="range" id="snqSlider" min="0" max="1" step="0.001" value="0.078" aria-label="MRI Signal-to-Noise Quotient">
+      <div class="slider-hint">ASF: 0.078 (mature) vs. RIS: 0.671 (immature) — lower = better (source ref 10)</div>
+    </div>
+
+    <!-- Toggle: Intra-articular joint status -->
+    <div class="toggle-row">
+      <span class="toggle-label">Pristine Intra-articular Joint</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="jointToggle" checked aria-label="Intra-articular joint pristine status">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- Toggle: Biofilm-producing organism -->
+    <div class="toggle-row">
+      <span class="toggle-label">Biofilm-Producing Pathogen Confirmed</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="biofilmToggle" checked aria-label="Biofilm-producing pathogen status">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div class="sidebar-card">
+    <h3>📋 Real-Time Recommendation</h3>
+    <div class="recommendation-box" id="recBox">
+      <h4>Hardware Removal Safety Assessment</h4>
+      <div class="rec-status safe" id="recStatus">✅ Safe to Proceed with Hardware Explantation</div>
+      <div class="rec-detail" id="recDetail">
+        At post-operative week 24, Sharpey's fibers are sufficiently mineralized. Tunnel widening of 2.3 mm and SNQ of 0.078 confirm robust biological integration per source data (ref 10, 17).
+      </div>
+    </div>
+
+    <div class="recommendation-box" id="antibioBox" style="margin-top:0.8rem;">
+      <h4>Antimicrobial Strategy</h4>
+      <div class="rec-detail" id="antibioDetail">
+        Biofilm-producing pathogen confirmed. Per ESSKA/EBJIS guidelines: Rifampin + fluoroquinolone combination for 4–6 weeks (up to 12 weeks if complex). Hardware removal is mandatory for cure (ref 31, 32).
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-reset" id="resetBtn" aria-label="Reset all parameters">↺ Reset</button>
+      <button class="btn btn-export" id="exportBtn" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <!-- Quick Reference -->
+  <div class="sidebar-card">
+    <h3>📖 Key Thresholds from Source</h3>
+    <table style="font-size:0.75rem;">
+      <tr><td><strong>SSI Incidence</strong></td><td>0.3–1.7%</td></tr>
+      <tr><td><strong>Load to failure @ 24 wk</strong></td><td>~70% native</td></tr>
+      <tr><td><strong>Eradication rate (HW removal)</strong></td><td>100%</td></tr>
+      <tr><td><strong>Graft survival (HW removal)</strong></td><td>85–95%</td></tr>
+      <tr><td><strong>Lysholm (graft retention)</strong></td><td>85–92</td></tr>
+      <tr><td><strong>IKDC (graft retention)</strong></td><td>82–88</td></tr>
+      <tr><td><strong>Arthrofibrosis risk</strong></td><td>81%</td></tr>
+      <tr><td><strong>Chondral defects (ICRS ≥3)</strong></td><td>63%</td></tr>
+      <tr><td><strong>Subclinical contamination</strong></td><td>~50% of ACLR</td></tr>
+      <tr><td><strong>MBEC vs MIC ratio</strong></td><td>100–1000×</td></tr>
+    </table>
+  </div>
+
+</aside>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="alert" aria-live="polite">Summary copied to clipboard!</div>
+
+<script>
+(function() {
+  // Elements
+  const weekSlider = document.getElementById('weekSlider');
+  const tunnelSlider = document.getElementById('tunnelSlider');
+  const snqSlider = document.getElementById('snqSlider');
+  const jointToggle = document.getElementById('jointToggle');
+  const biofilmToggle = document.getElementById('biofilmToggle');
+
+  const weekVal = document.getElementById('weekVal');
+  const tunnelVal = document.getElementById('tunnelVal');
+  const snqVal = document.getElementById('snqVal');
+
+  const recStatus = document.getElementById('recStatus');
+  const recDetail = document.getElementById('recDetail');
+  const recBox = document.getElementById('recBox');
+  const antibioDetail = document.getElementById('antibioDetail');
+  const antibioBox = document.getElementById('antibioBox');
+
+  const resetBtn = document.getElementById('resetBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const toast = document.getElementById('toast');
+
+  function update() {
+    const week = parseInt(weekSlider.value);
+    const tunnel = parseFloat(tunnelSlider.value);
+    const snq = parseFloat(snqSlider.value);
+    const jointPristine = jointToggle.checked;
+    const biofilmConfirmed = biofilmToggle.checked;
+
+    // Display values
+    weekVal.textContent = week + ' weeks';
+    tunnelVal.textContent = tunnel.toFixed(1) + ' mm';
+    snqVal.textContent = snq.toFixed(3);
+
+    // Phase determination
+    let phase = '';
+    let phaseColor = '';
+    if (week <= 4) { phase = 'Early Healing (Hardware-Dependent)'; phaseColor = 'danger'; }
+    else if (week <= 12) { phase = 'Proliferative Phase (Transitioning)'; phaseColor = 'caution'; }
+    else { phase = 'Maturation Phase (Biological Integration)'; phaseColor = 'safe'; }
+
+    // Tunnel assessment
+    let tunnelAssess = '';
+    let tunnelOk = tunnel <= 3.4; // 2.3 + 1.1 (ASF mean + 1SD)
+    if (tunnel <= 2.3) tunnelAssess = 'Excellent (within ASF norms, ref 10)';
+    else if (tunnel <= 3.4) tunnelAssess = 'Acceptable (within 1 SD of ASF norms)';
+    else if (tunnel <= 4.7) tunnelAssess = 'Concerning (approaching RIS range, ref 10)';
+    else tunnelAssess = 'Poor (consistent with RIS/micromotion, ref 10)';
+
+    // SNQ assessment
+    let snqAssess = '';
+    let snqOk = snq <= 0.2;
+    if (snq <= 0.15) snqAssess = 'Mature, dense graft tissue (ref 10)';
+    else if (snq <= 0.35) snqAssess = 'Intermediate maturity — monitor closely';
+    else snqAssess = 'Immature/high fluid content — biological fixation questionable (ref 10)';
+
+    // Composite recommendation
+    let statusClass = '';
+    let statusText = '';
+    let detailText = '';
+
+    const canRemove = week >= 12 && tunnelOk && snqOk && jointPristine;
+
+    if (canRemove) {
+      statusClass = 'safe';
+      statusText = '✅ Safe to Proceed with Hardware Explantation';
+      recBox.style.borderColor = '#27ae60';
+      recBox.style.background = 'linear-gradient(135deg, #eafaf1, #d5f5e3)';
+      detailText = 'At post-operative week ' + week + ', the graft is in the ' + phase + '. ';
+      detailText += 'Tunnel widening (' + tunnel.toFixed(1) + ' mm): ' + tunnelAssess + '. ';
+      detailText += 'MRI SNQ (' + snq.toFixed(3) + '): ' + snqAssess + '. ';
+      if (week >= 24) {
+        detailText += 'At 24+ weeks, Sharpey\'s fibers are fully mineralized and load-to-failure is ~70% of native knee (ref 17). ';
+      } else {
+        detailText += 'Note: At <24 weeks, biological fixation is progressing but not yet at peak strength. Proceed with caution per clinical judgment. ';
+      }
+      detailText += 'Complete removal of braided suture and cortical button is mandatory for biofilm eradication (ref 27, 31).';
+    } else {
+      let reasons = [];
+      if (week < 12) reasons.push('post-operative timeline (' + week + ' wk) is within the hardware-dependent or early proliferative phase');
+      if (!tunnelOk) reasons.push('tunnel widening (' + tunnel.toFixed(1) + ' mm) suggests insufficient biological integration');
+      if (!snqOk) reasons.push('MRI SNQ (' + snq.toFixed(3) + ' indicates graft immaturity)');
+      if (!jointPristine) reasons.push('intra-articular joint is not pristine — risk of septic arthritis');
+
+      if (week < 4) {
+        statusClass = 'danger';
+        statusText = '⛔ Do NOT Remove Hardware — Critical Phase';
+        recBox.style.borderColor = '#c0392b';
+        recBox.style.background = 'linear-gradient(135deg, #fdedec, #f5b7b1)';
+      } else if (week < 12 || !tunnelOk || !snqOk) {
+        statusClass = 'caution';
+        statusText = '⚠️ Caution — Suboptimal Biological Integration';
+        recBox.style.borderColor = '#f39c12';
+        recBox.style.background = 'linear-gradient(135deg, #fef9e7, #fdebd0)';
+      } else {
+        statusClass = 'danger';
+        statusText = '⛔ High Risk — Additional Factors Contraindicate';
+        recBox.style.borderColor = '#c0392b';
+        recBox.style.background = 'linear-gradient(135deg, #fdedec, #f5b7b1)';
+      }
+
+      detailText = 'Hardware removal is currently NOT recommended. Reason(s): ' + reasons.join('; ') + '. ';
+      if (week < 12) detailText += 'Biological fixation via Sharpey\'s fibers is insufficient before 12 weeks (ref 13, 17). ';
+      detailText += 'Consider suppressive antibiotic therapy and reassess at a later timepoint.';
+    }
+
+    recStatus.className = 'rec-status ' + statusClass;
+    recStatus.textContent = statusText;
+    recDetail.textContent = detailText;
+
+    // Antibiotic recommendation
+    let abText = '';
+    if (biofilmConfirmed) {
+      abText = 'Biofilm-producing pathogen confirmed. Per ESSKA/EBJIS guidelines (ref 31, 32): initiate targeted IV antibiotics based on culture sensitivities, then transition to Rifampin + fluoroquinolone (e.g., Levofloxacin) combination for 4–6 weeks (up to 12 weeks in complex cases). ';
+      if (!canRemove) abText += 'Without hardware removal, suppressive therapy alone has <20% success rate due to biofilm persistence (ref 8).';
+      else abText += 'Post-hardware removal, antimicrobial therapy serves as adjunctive treatment to address residual planktonic bacteria.';
+      antibioBox.style.borderColor = '#c0392b';
+    } else {
+      abText = 'No biofilm-producing pathogen confirmed. Standard empiric antibiotic therapy should be guided by intraoperative cultures. Per source document (ref 32): do not initiate antibiotics before obtaining cultures to avoid false-negative results. ';
+      if (canRemove) abText += 'Hardware removal remains indicated if localized purulence is present.';
+      antibioBox.style.borderColor = '#2980b9';
+    }
+    antibioDetail.textContent = abText;
+  }
+
+  // Event listeners
+  weekSlider.addEventListener('input', update);
+  tunnelSlider.addEventListener('input', update);
+  snqSlider.addEventListener('input', update);
+  jointToggle.addEventListener('change', update);
+  biofilmToggle.addEventListener('change', update);
+
+  // Reset
+  resetBtn.addEventListener('click', function() {
+    weekSlider.value = 24;
+    tunnelSlider.value = 2.3;
+    snqSlider.value = 0.078;
+    jointToggle.checked = true;
+    biofilmToggle.checked = true;
+    update();
+  });
+
+  // Export
+  exportBtn.addEventListener('click', function() {
+    const week = weekSlider.value;
+    const tunnel = tunnelSlider.value;
+    const snq = snqSlider.value;
+    const joint = jointToggle.checked ? 'Yes' : 'No';
+    const biofilm = biofilmToggle.checked ? 'Yes' : 'No';
+    const status = recStatus.textContent;
+    const detail = recDetail.textContent;
+    const ab = antibioDetail.textContent;
+    const ts = new Date().toLocaleString();
+
+    let text = '══════════════════════════════════════════\n';
+    text += 'MANAGEMENT OF DELAYED SSI FOLLOWING ALL-INSIDE ACLR\n';
+    text += 'Clinical Decision Summary\n';
+    text += '══════════════════════════════════════════\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Post-Operative Timeline: ' + week + ' weeks\n';
+    text += '  Tunnel Widening: ' + tunnel + ' mm\n';
+    text += '  MRI SNQ: ' + snq + '\n';
+    text += '  Pristine Intra-articular Joint: ' + joint + '\n';
+    text += '  Biofilm-Producing Pathogen: ' + biofilm + '\n\n';
+    text += 'HARDWARE REMOVAL ASSESSMENT:\n';
+    text += '  Status: ' + status + '\n';
+    text += '  Rationale: ' + detail + '\n\n';
+    text += 'ANTIMICROBIAL STRATEGY:\n';
+    text += '  ' + ab + '\n\n';
+    text += 'KEY THRESHOLDS (from source document):\n';
+    text += '  - SSI incidence: 0.3–1.7%\n';
+    text += '  - Sharpey\'s fiber maturation: 12–24 weeks\n';
+    text += '  - Load to failure at 24 wk: ~70% native (ref 17)\n';
+    text += '  - ASF tunnel widening: 2.3 ± 1.1 mm (ref 10)\n';
+    text += '  - ASF SNQ: 0.078 vs RIS SNQ: 0.671 (ref 10)\n';
+    text += '  - Infection eradication (HW removal): 100% (ref 36)\n';
+    text += '  - Graft survival (HW removal): 85–95%\n';
+    text += '  - Lysholm (graft retention): 85–92\n';
+    text += '  - IKDC (graft retention): 82–88\n';
+    text += '  - Arthrofibrosis risk: 81% (ref 37)\n\n';
+    text += 'GUIDELINES: ESSKA & EBJIS recommendations (ref 31, 33)\n';
+    text += '──────────────────────────────────────────\n';
+    text += 'Generated: ' + ts + '\n';
+    text += 'Source: Based exclusively on provided research document.\n';
+    text += '══════════════════════════════════════════\n';
+
+    navigator.clipboard.writeText(text).then(function() {
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

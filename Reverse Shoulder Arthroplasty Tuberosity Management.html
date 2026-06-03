@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuberosity Management in Reverse Shoulder Arthroplasty for Proximal Humerus Fractures</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a5276;--primary-light:#2980b9;--accent:#e74c3c;--accent-light:#fadbd8;
+  --bg:#f8f9fa;--card:#ffffff;--text:#2c3e50;--text-light:#5d6d7e;
+  --border:#dce1e6;--success:#27ae60;--warning:#f39c12;--info:#3498db;
+  --sidebar-w:340px;--header-h:72px;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.72}
+h1,h2,h3,h4{font-family:'Merriweather',Georgia,serif;line-height:1.3;color:var(--primary)}
+h1{font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:.6em}
+h2{font-size:clamp(1.25rem,2.2vw,1.65rem);margin:2em 0 .6em;padding-bottom:.35em;border-bottom:3px solid var(--primary-light)}
+h3{font-size:1.15rem;margin:1.4em 0 .5em;color:var(--primary-light)}
+h4{font-size:1rem;margin:1em 0 .4em}
+p{margin-bottom:1em}
+ul,ol{margin:0 0 1em 1.4em}
+li{margin-bottom:.35em}
+strong{color:var(--primary)}
+a{color:var(--primary-light);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── Header ── */
+.site-header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--primary),#1a3c5e);color:#fff;padding:1rem 1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.site-header h1{color:#fff;font-size:clamp(1rem,2.5vw,1.45rem);margin:0;font-weight:700}
+.site-header p{margin:0;font-size:.82rem;opacity:.85;font-weight:300}
+
+/* ── Layout ── */
+.layout{display:grid;grid-template-columns:1fr var(--sidebar-w);gap:2rem;max-width:1360px;margin:0 auto;padding:1.5rem}
+main{min-width:0}
+@media(max-width:960px){
+  .layout{grid-template-columns:1fr;padding:1rem}
+  .sidebar{position:static!important;width:100%;max-height:none}
+}
+
+/* ── Sidebar ── */
+.sidebar{position:sticky;top:calc(var(--header-h) + 1rem);align-self:start;max-height:calc(100vh - var(--header-h) - 2rem);overflow-y:auto;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.4rem}
+.sidebar h2{font-size:1.05rem;margin:.8em 0 .5em;border:none;padding:0;color:var(--primary)}
+.slider-group{margin-bottom:1.3rem}
+.slider-group label{display:block;font-weight:600;font-size:.82rem;margin-bottom:.3rem;color:var(--text)}
+.slider-group .value-display{font-size:.95rem;font-weight:700;color:var(--accent);margin-bottom:.25rem}
+input[type=range]{width:100%;accent-color:var(--primary-light);cursor:pointer}
+.rec-box{background:#eaf2f8;border-left:4px solid var(--primary-light);padding:.9rem 1rem;border-radius:0 var(--radius) var(--radius) 0;margin:1rem 0;font-size:.85rem;line-height:1.55}
+.rec-box strong{display:block;margin-bottom:.25rem;color:var(--primary)}
+.btn-row{display:flex;gap:.5rem;margin-top:1rem}
+.btn{flex:1;padding:.55rem .6rem;border:none;border-radius:6px;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-reset{background:var(--border);color:var(--text)}
+.btn-reset:hover{background:#c8d0d8}
+.btn-copy{background:var(--primary);color:#fff}
+.btn-copy:hover{background:var(--primary-light)}
+.btn:active{transform:scale(.97)}
+.timestamp{font-size:.72rem;color:var(--text-light);margin-top:.8rem;text-align:right}
+
+/* ── Evidence Badges ── */
+.badge{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:6px;letter-spacing:.3px}
+.badge-I{background:#d5f5e3;color:#1e8449}
+.badge-II{background:#d6eaf8;color:#1a5276}
+.badge-III{background:#fdebd0;color:#b9770e}
+.badge-IV{background:#fadbd8;color:#922b21}
+.badge-V{background:#e8daef;color:#6c3483}
+.badge-na{background:#eee;color:#888;font-weight:500}
+
+/* ── Tables ── */
+.table-wrap{overflow-x:auto;margin:1.2em 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+caption{caption-side:top;text-align:left;font-weight:700;padding:.6em 1em;background:var(--primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0;font-size:.88rem}
+th{background:#eaf2f8;color:var(--primary);font-weight:600;padding:.55em .7em;text-align:left;white-space:nowrap}
+td{padding:.5em .7em;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7f9fb}
+.highlight-row td{background:#eafaf1;font-weight:600}
+
+/* ── Callout boxes ── */
+.callout{padding:1em 1.2em;border-radius:var(--radius);margin:1.2em 0;font-size:.88rem}
+.callout-key{background:#eaf2f8;border-left:4px solid var(--primary-light)}
+.callout-warning{background:#fef9e7;border-left:4px solid var(--warning)}
+.callout-succcess{background:#eafaf1;border-left:4px solid var(--success)}
+
+/* ── TOC ── */
+.toc{background:var(--card);padding:1rem 1.3rem;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:1.5rem}
+.toc h3{margin-top:0;font-size:.95rem}
+.toc ol{margin:0;padding-left:1.3rem;font-size:.84rem}
+.toc li{margin-bottom:.3rem}
+.toc a{color:var(--primary)}
+
+/* ── Study cards ── */
+.study-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1em 1.2em;margin-bottom:1em;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.study-card h4{margin:0 0 .3em;font-size:.92rem}
+.study-card .meta{font-size:.78rem;color:var(--text-light);margin-bottom:.5em}
+
+/* ── Footer ── */
+footer{text-align:center;padding:2rem 1rem;font-size:.78rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:3rem}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--primary);color:#fff;padding:.8rem 1.4rem;border-radius:8px;font-size:.85rem;opacity:0;transform:translateY(20px);transition:all .3s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* ── Scrollbar ── */
+.sidebar::-webkit-scrollbar{width:5px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── Print ── */
+@media print{.sidebar,.site-header,.btn-row,.toc{display:none!important}.layout{display:block}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" role="banner">
+  <h1>Tuberosity Management in Reverse Shoulder Arthroplasty for Proximal Humerus Fractures</h1>
+  <p>A Comprehensive, Evidence-Based Interactive Surgical Guide</p>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<main role="main" aria-label="Main educational content">
+
+<!-- TOC -->
+<nav class="toc" aria-label="Table of Contents">
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#s1">The Central Role of Tuberosities</a></li>
+    <li><a href="#s2">Biomechanical Rationale</a></li>
+    <li><a href="#s3">Clinical Outcomes: Union vs. Non-Union</a></li>
+    <li><a href="#s4">Preoperative Planning &amp; Patient Considerations</a></li>
+    <li><a href="#s5">Core Surgical Principles</a></li>
+    <li><a href="#s6">Fixation Techniques Compendium</a></li>
+    <li><a href="#s7">Implant Design Influence</a></li>
+    <li><a href="#s8">Complications &amp; Management</a></li>
+    <li><a href="#s9">Post-Operative Rehabilitation</a></li>
+    <li><a href="#s10">Future Horizons</a></li>
+    <li><a href="#s11">Landmark Studies Summary</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ── Section 1 ── -->
+<section id="s1">
+<h2>1. The Central Role of Tuberosities in Modern RSA for Fracture</h2>
+<p>The surgical management of acute, comminuted 3- and 4-part proximal humerus fractures in the elderly population presents a formidable challenge, characterized by poor bone quality, complex fracture patterns, and a tenuous vascular supply. While hemiarthroplasty (HA) was once a common treatment, its outcomes have proven unpredictable, with success being critically dependent on the healing of the greater and lesser tuberosities—an often elusive goal in this patient demographic. <span class="badge badge-I">Level I</span><sup>[1]</sup></p>
+
+<p>The advent and subsequent refinement of <strong>reverse shoulder arthroplasty (RSA)</strong> have marked a paradigm shift in the treatment of these injuries. Initially conceived to function in the absence of a competent rotator cuff, the philosophy surrounding RSA for fracture has evolved dramatically. It is now unequivocally established that while RSA can provide reliable pain relief and forward elevation even with tuberosity failure, <strong>the anatomical reconstruction and biological healing of the tuberosities are paramount for achieving superior functional outcomes, restoring rotational capacity, and ensuring long-term implant stability and survival.</strong> <span class="badge badge-I">Level I</span><sup>[3]</sup></p>
+
+<div class="callout callout-key">
+  <strong>Key Paradigm Shift:</strong> The evolution from "tuberosities are optional" to "tuberosities are integral" represents a fundamental transition in surgical philosophy, moving RSA from a salvage procedure to a truly reconstructive one, where the goal is to restore the entire proximal humeral anatomy around a biomechanically advantaged prosthesis.
+</div>
+</section>
+
+<!-- ── Section 2 ── -->
+<section id="s2">
+<h2>2. Biomechanical Rationale: From Rotator Cuff Levers to Stabilizing Buttresses</h2>
+
+<h3>2.1 Native Anatomy &amp; Function</h3>
+<p>The greater and lesser tuberosities are critical anatomical landmarks that serve as insertion sites for the four rotator cuff muscles:</p>
+<ul>
+  <li><strong>Greater Tuberosity (GT):</strong> Three facets receive the supraspinatus, infraspinatus, and teres minor—collectively acting as primary external rotators and dynamic superior/posterior stabilizers.<sup>[6]</sup></li>
+  <li><strong>Lesser Tuberosity (LT):</strong> Receives the subscapularis—the principal internal rotator and anterior stabilizer.<sup>[8]</sup></li>
+</ul>
+<p>These muscle-tendon-bone units function as force couples to produce rotation and compress/center the humeral head within the glenoid fossa during arm elevation.<sup>[7]</sup></p>
+
+<h3>2.2 The Grammont Revolution and Its Limitations</h3>
+<p>The original Grammont-style RSA was revolutionary in its circumvention of the native biomechanical system. By medializing the glenohumeral center of rotation and distalizing the humerus, the RSA increases the lever arm of the deltoid muscle, transforming it into the primary elevator of the arm.<sup>[10]</sup></p>
+
+<p>This biomechanical ingenuity led to an early belief that the rotator cuff—and by extension the tuberosities—were obsolete in the setting of an RSA. Initial reports on RSA for fracture often overlooked tuberosity repair or even advocated for their excision.<sup>[14]</sup></p>
+
+<div class="callout callout-warning">
+  <strong>Critical Limitation Identified:</strong> While the deltoid can effectively power elevation and abduction, <em>it cannot restore active rotation</em>. Restoration of active external rotation is critically dependent on the healing of the GT with its attached infraspinatus/teres minor, and active internal rotation relies on the healing of the LT with its attached subscapularis.<sup>[1]</sup> Without these tendinous levers, patients are left with a functional pseudoparalysis in rotation, severely compromising activities of daily living.
+</div>
+
+<h3>2.3 Tuberosities as Dynamic Stabilizers &amp; Buttresses</h3>
+<p>Beyond their role as rotational levers, healed tuberosities serve crucial secondary biomechanical functions:</p>
+<ul>
+  <li><strong>Deltoid Wrapping:</strong> Anatomic reconstruction re-establishes the normal width and contour of the proximal humerus, improving deltoid wrapping, increasing resting tension, and improving efficiency throughout the arc of motion.<sup>[3]</sup></li>
+  <li><strong>Anteroposterior Stability:</strong> The healed GT (posteriorly) and LT (anteriorly) act as physical barriers that enhance rotational stability of the semi-constrained reverse articulation. This buttressing effect is a key factor in reducing postoperative dislocation risk.<sup>[18]</sup></li>
+  <li><strong>Implant Loading:</strong> Tuberosity non-union leads to a significant reduction in joint reaction forces, which may alter implant loading patterns and potentially contribute to long-term glenoid component loosening.<sup>[4]</sup></li>
+</ul>
+</section>
+
+<!-- ── Section 3 ── -->
+<section id="s3">
+<h2>3. Clinical Outcomes: Quantifying the Impact of Tuberosity Union vs. Non-Union</h2>
+<p>The biomechanical importance of tuberosity healing is substantiated by a large and growing body of clinical evidence. While RSA provides a reliable baseline of pain relief and function irrespective of tuberosity status, the <strong>functional ceiling is substantially higher when the tuberosities heal.</strong> <span class="badge badge-I">Level I</span><sup>[1]</sup></p>
+
+<h3>3.1 Range of Motion (ROM)</h3>
+<p>The most dramatic and consistent benefit of tuberosity healing is seen in the restoration of active range of motion, particularly rotation:</p>
+<ul>
+  <li><strong>External Rotation (ER):</strong> Patients with healed tuberosities achieve a mean active ER of approximately 28°–31°, whereas non-union patients are left with severe deficits (8°–10°). The mean difference is consistently 15°–20°.<sup>[1,21]</sup> <span class="badge badge-I">Level I</span></li>
+  <li><strong>Forward Flexion:</strong> Healed groups demonstrate mean values exceeding 135° vs. ~112° in non-healed groups (mean difference 22°–24°).<sup>[20]</sup> <span class="badge badge-I">Level I</span></li>
+  <li><strong>Abduction:</strong> Healed: ~115° vs. Non-healed: ~95°.<sup>[20]</sup></li>
+  <li><strong>Internal Rotation:</strong> Also significantly better with tuberosity union, measured by vertebral level reachable.<sup>[2]</sup></li>
+</ul>
+
+<h3>3.2 Functional Scores &amp; Strength</h3>
+<ul>
+  <li><strong>Constant-Murley Score:</strong> Healed groups: 64–79 vs. Non-healed: 55–57. Mean difference can reach 24 points, far exceeding the minimal clinically important difference.<sup>[2,21]</sup> <span class="badge badge-I">Level I</span></li>
+  <li><strong>ASES Score:</strong> Healed: ~90 vs. Non-healed: ~69 (difference: +21.3).<sup>[1]</sup></li>
+  <li><strong>DASH Score:</strong> Healed: 22.1 vs. Non-healed: 37.6 (lower is better; difference: –15.5).<sup>[1]</sup></li>
+</ul>
+
+<h3>3.3 Patient-Reported Outcome Measures (PROMs): An Important Nuance</h3>
+<p>Several large systematic reviews have found that while objective measures (ROM, Constant score) are clearly superior with tuberosity healing, <strong>patient-reported scores for pain (VAS) and overall function (ASES, SSV) are often not statistically different</strong> between healed and non-healed groups.<sup>[21]</sup> This underscores that RSA remains a valuable procedure with a high likelihood of patient satisfaction regardless of tuberosity healing status—a critical point for preoperative counseling. <span class="badge badge-I">Level I</span></p>
+
+<h3>3.4 Summary Comparison Table</h3>
+<div class="table-wrap" role="region" aria-label="Clinical outcomes comparison table" tabindex="0">
+<table>
+  <caption>Table 1: Comparative Clinical Outcomes—Healed vs. Non-Healed Tuberosities (Synthesis of Evidence)</caption>
+  <thead>
+    <tr><th>Outcome Measure</th><th>Healed Tuberosity Group</th><th>Non-Healed Tuberosity Group</th><th>Mean Difference</th><th>Sources</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Active Forward Flexion</td><td>134.1°–165.1°</td><td>90.0°–112.5°</td><td class="highlight-row"><strong>+21.6° to +45.0°</strong></td><td><sup>[1,20]</sup></td></tr>
+    <tr><td>Active Abduction</td><td>105.0°–114.8°</td><td>75.0°–95.1°</td><td><strong>+19.7° to +30.0°</strong></td><td><sup>[2,20]</sup></td></tr>
+    <tr><td>Active External Rotation</td><td>27.8°–60.0°</td><td>7.6°–30.0°</td><td class="highlight-row"><strong>+20.2° to +30.0°</strong></td><td><sup>[1,2,21]</sup></td></tr>
+    <tr><td>Constant-Murley Score</td><td>63.5–85.0</td><td>55.0–60.0</td><td><strong>+6.9 to +24.0</strong></td><td><sup>[2,21]</sup></td></tr>
+    <tr><td>ASES Score</td><td>~90.3</td><td>~69.0</td><td><strong>+21.3</strong></td><td><sup>[1]</sup></td></tr>
+    <tr><td>DASH Score</td><td>~22.1</td><td>~37.6</td><td><strong>–15.5 (lower=better)</strong></td><td><sup>[1]</sup></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3.5 Complications</h3>
+<p>Failure of tuberosity repair is not merely a functional issue but is associated with an increased rate of serious complications including instability/dislocation, infection, and component loosening.<sup>[1,11]</sup></p>
+</section>
+
+<!-- ── Section 4 ── -->
+<section id="s4">
+<h2>4. Preoperative Planning &amp; Patient Considerations</h2>
+
+<h3>4.1 Advanced Imaging for Fracture Characterization</h3>
+
+<h4>Standard Radiographs</h4>
+<p>A trauma series (Grashey AP, scapular-Y, axillary lateral) is the foundational study for identifying fracture pattern and ruling out dislocation.<sup>[28]</sup> However, plain radiographs are notoriously unreliable for quantifying tuberosity displacement, particularly posterior GT displacement.<sup>[7]</sup> <span class="badge badge-III">Level III</span></p>
+
+<h4>Computed Tomography (CT) with 3D Reconstructions</h4>
+<p>For any complex, displaced proximal humerus fracture being considered for surgical intervention, a CT scan with 3D reconstructions is now considered <strong>standard of care.</strong><sup>[7]</sup> Key information provided:</p>
+<ul>
+  <li>Precise fracture morphology, comminution degree, tuberosity fragment size/shape/orientation</li>
+  <li>Articular integrity assessment (head-splitting patterns)</li>
+  <li>Bone stock quality and quantity evaluation</li>
+  <li>True multiplanar displacement measurement of tuberosities</li>
+</ul>
+
+<h4>Computer-Assisted Virtual Surgical Technology (CAVST) &amp; 3D Printing</h4>
+<p>These technologies have transformed preoperative planning from passive assessment into active rehearsal:<sup>[29,30]</sup></p>
+<ul>
+  <li><strong>CAVST:</strong> Creates interactive 3D renderings allowing surgeons to simulate reduction, trial implant sizes/positions, and develop precise step-by-step plans.</li>
+  <li><strong>3D Printing:</strong> Produces 1:1 physical replicas providing haptic feedback and spatial understanding. Studies demonstrate significantly reduced operative time, blood loss, and fluoroscopy exposure.<sup>[29]</sup></li>
+  <li><strong>Patient-Specific Instrumentation (PSI):</strong> Custom drill guides for glenoid placement improve implantation accuracy.<sup>[34]</sup></li>
+</ul>
+
+<div class="callout callout-key">
+  <strong>Paradigm Shift in Planning:</strong> The progression from 2D shadows → 3D maps → 4D rehearsals (3D + time/process) front-loads the most complex cognitive and technical challenges into the preoperative phase, converting a potentially chaotic procedure into a well-orchestrated execution of a pre-validated plan.
+</div>
+
+<h3>4.2 Patient-Specific Factors Influencing Tuberosity Healing</h3>
+
+<div class="table-wrap" role="region" aria-label="Patient risk factors table" tabindex="0">
+<table>
+  <caption>Table 2: Patient-Specific Risk Factors for Tuberosity Non-Union</caption>
+  <thead>
+    <tr><th>Factor</th><th>Impact</th><th>Clinical Significance</th><th>Source</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Osteoporosis</strong></td><td>Weak/brittle bone; poor suture purchase; diminished cellular healing activity</td><td>Primary contributor to fracture and treatment difficulty</td><td><sup>[36,37,40]</sup></td></tr>
+    <tr><td><strong>Diabetes Mellitus</strong></td><td>Impaired microvascular circulation and cellular function</td><td>Well-established risk factor for poor bone healing</td><td><sup>[1]</sup></td></tr>
+    <tr><td><strong>Nicotine Use</strong></td><td>Potent inhibitor of osteoblast function</td><td>Major risk factor for non-union development</td><td><sup>[41]</sup></td></tr>
+    <tr><td><strong>4-Part Fracture</strong></td><td>Greater comminution and displacement</td><td>Significantly higher risk vs. 3-part fractures</td><td><sup>[55]</sup></td></tr>
+    <tr><td><strong>Delayed Surgery (&gt;4 weeks)</strong></td><td>Organized hematoma, callus formation, soft tissue contraction</td><td>More challenging mobilization; increased non-union risk</td><td><sup>[2,45]</sup></td></tr>
+    <tr><td><strong>Head-Split Component</strong></td><td>Articular surface compromise</td><td>Further increases complexity and failure risk</td><td><sup>[1]</sup></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>4.3 Surgical Timing</h3>
+<p>While some evidence suggests mid-term outcomes may be similar between acute and delayed RSA,<sup>[44]</sup> performing surgery <strong>within the first 3–4 weeks</strong> is generally preferred. Beyond this timeframe, hematoma organization, callus formation, and soft tissue contraction make fragment mobilization more challenging and can compromise the tenuous blood supply.<sup>[2,45]</sup></p>
+</section>
+
+<!-- ── Section 5 ── -->
+<section id="s5">
+<h2>5. Core Surgical Principles &amp; Technical Execution</h2>
+
+<h3>5.1 Surgical Approach &amp; Exposure</h3>
+<p>The <strong>deltopectoral approach</strong> is the most commonly utilized, using the internervous plane between deltoid (axillary nerve) and pectoralis major (medial/lateral pectoral nerves).<sup>[10]</sup> Some surgeons advocate a superolateral deltoid-splitting approach for more direct GT access, though it carries higher axillary nerve injury risk.<sup>[45]</sup> <span class="badge badge-III">Level III</span></p>
+
+<h3>5.2 Fragment Identification &amp; Atraumatic Handling</h3>
+<p>Key principles for preserving fragment vascularity:<sup>[38,45,47]</sup></p>
+<ul>
+  <li><strong>Biceps Tendon Landmark:</strong> The long head of biceps runs in the intertubercular sulcus, separating GT and LT. It is typically tenodesed or tenotomized.<sup>[2]</sup></li>
+  <li><strong>Early Stay Sutures:</strong> Heavy, non-absorbable "tagging" sutures (#2 or #5 FiberWire/Ethibond) placed through the tendon-bone junction early in the procedure allow fragment manipulation without direct bone grasping.<sup>[38]</sup></li>
+  <li><strong>Tendon-Based Purchase:</strong> Pass sutures through the robust tendon substance at the insertion site rather than through osteoporotic bone, which can cause iatrogenic comminution.<sup>[38]</sup></li>
+  <li><strong>Limited Soft-Tissue Dissection:</strong> Mobilize fragments just enough for anatomic reduction without skeletonizing them—preserve blood supply from the ascending branch of anterior humeral circumflex artery and posterior humeral circumflex artery.<sup>[47]</sup></li>
+</ul>
+
+<h3>5.3 Determining Optimal Implant Position</h3>
+
+<div class="table-wrap" role="region" aria-label="Implant positioning parameters table" tabindex="0">
+<table>
+  <caption>Table 3: Key Parameters for Humeral Component Positioning</caption>
+  <thead>
+    <tr><th>Parameter</th><th>Target</th><th>Landmark / Technique</th><th>Rationale</th><th>Source</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Humeral Height</strong></td>
+      <td>GT reduced 5–10 mm below apex of component</td>
+      <td>Top of component ~5.6 cm proximal to pectoralis major tendon; calcar reference</td>
+      <td>Restore deltoid tension; avoid subacromial impingement; prevent instability</td>
+      <td><sup>[1,2,47]</sup></td>
+    </tr>
+    <tr>
+      <td><strong>Retroversion</strong></td>
+      <td>0°–20° (many prefer 10°)</td>
+      <td>Forearm aligned parallel to version guide with elbow at 90°</td>
+      <td>Increase ER range before impingement; enhance anterior stability</td>
+      <td><sup>[49,52]</sup></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.4 Strategies for Stable Fixation in Osteoporotic Bone</h3>
+<ul>
+  <li><strong>Suture-Based Fixation:</strong> Heavy, non-absorbable braided sutures or suture tapes distribute forces over larger area, reducing "cut-out" risk. Purchase in rotator cuff tendon at insertion provides far stronger anchor than bone.<sup>[38]</sup></li>
+  <li><strong>Tensionable Constructs:</strong> Modern suture tape systems with tensioning devices apply measured, consistent tension before locking. Biomechanical studies confirm significantly higher initial fixation stability vs. manually knotted cerclage.<sup>[53]</sup> <span class="badge badge-II">Level II</span></li>
+  <li><strong>Biological Augmentation (Bone Graft):</strong> Cancellous bone from resected humeral head is osteoinductive and osteoconductive. Identified as a significant protective factor against non-union.<sup>[54]</sup> <span class="badge badge-I">Level I</span></li>
+  <li><strong>Cement Technique:</strong> Use distal cementation to prevent thermal necrosis at the repair site. The "black and tan" technique creates a buffer of impacted bone graft between cement and tuberosities.<sup>[1,3]</sup></li>
+</ul>
+</section>
+
+<!-- ── Section 6 ── -->
+<section id="s6">
+<h2>6. A Compendium of Tuberosity Fixation Techniques</h2>
+
+<h3>6.1 Fundamental Suture Components</h3>
+<ul>
+  <li><strong>Horizontal Cerclage Sutures:</strong> Passed circumferentially around the prosthesis neck, weaving through tendon insertions. Act as a "hoop" compressing tuberosities medially against stem and against each other. Multiple sutures at different levels ensure broad compression.<sup>[17]</sup></li>
+  <li><strong>Vertical Tension-Band Sutures:</strong> Passed through drill holes in the humeral shaft distal to fracture, brought superiorly over tuberosities through tendon substance. Create a tension-band effect converting tensile forces into compressive forces, preventing proximal escape.<sup>[2]</sup></li>
+</ul>
+
+<h3>6.2 Specific Named Techniques</h3>
+
+<div class="table-wrap" role="region" aria-label="Fixation techniques comparison table" tabindex="0">
+<table>
+  <caption>Table 4: Comparison of Tuberosity Fixation Techniques</caption>
+  <thead>
+    <tr><th>Technique</th><th>Description</th><th>Reported Union Rate</th><th>Key Features</th><th>Source</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Boileau Technique</strong></td>
+      <td>4 horizontal cerclage sutures + 2 vertical tension-band sutures through diaphyseal drill holes</td>
+      <td>Well-established; widely adopted</td>
+      <td>Stepwise: GT first → LT → vertical neutralization</td>
+      <td><sup>[2]</sup></td>
+    </tr>
+    <tr>
+      <td><strong>"7 Sutures, 8 Knots"</strong></td>
+      <td>3 sutures around implant + 5 bridging sutures between tuberosities</td>
+      <td>87.9%</td>
+      <td>Simpler alternative; reliable anatomic restoration</td>
+      <td><sup>[3,59,60]</sup></td>
+    </tr>
+    <tr>
+      <td><strong>Turned Suture Tension Band</strong></td>
+      <td>10 sutures through fracture-specific stem holes; 5 clockwise (subscapularis) + 5 counter-clockwise (infraspinatus/teres minor)</td>
+      <td>100% (small series)</td>
+      <td>Highly integrated stem-suture construct; technically demanding</td>
+      <td><sup>[4,61]</sup></td>
+    </tr>
+    <tr>
+      <td><strong>Integrated Suture Tape (e.g., FxBridge™)</strong></td>
+      <td>High-strength suture tapes with dedicated tensioning devices</td>
+      <td>Comparable or superior to manual techniques</td>
+      <td>Simplified, standardized, reproducible high-tension construct</td>
+      <td><sup>[53,63]</sup></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>6.3 Advanced Knotting Techniques</h3>
+<p>Biomechanical research demonstrates that <strong>double suture loop cerclage techniques</strong> are significantly stronger than single-stranded knots. The "Cow Hitch" and "Nice Knot" configurations have been shown to be the stiffest and strongest, providing superior resistance to loosening and displacement.<sup>[4]</sup></p>
+
+<h3>6.4 Biological Augmentation: In-Depth</h3>
+
+<h4>The "Horseshoe Graft" Technique</h4>
+<p>The resected humeral head is fashioned into a "U" shape, creating a trough that fits snugly around the lateral/posterior aspect of the prosthesis. This provides a large, congruent vital bony surface against which the GT can compress and heal—a bone-on-bone interface that is biologically superior to bone-on-metal. It also acts as a lateral buttress, preventing medial GT collapse.<sup>[47]</sup></p>
+
+<h4>The "Black and Tan" Technique</h4>
+<p>This hybrid technique combines cementation and impaction grafting:<sup>[3,57,65]</sup></p>
+<ul>
+  <li>Distal humeral canal is cemented for rigid axial/rotational stability</li>
+  <li>Proximal metaphysis is packed with morselized cancellous autograft from humeral head</li>
+  <li>Stem is impacted into the graft bed</li>
+  <li>Creates a "biologic transition zone" shielding tuberosities from cement exothermic heat</li>
+  <li>Reported union rate: 88%<sup>[65]</sup></li>
+</ul>
+</section>
+
+<!-- ── Section 7 ── -->
+<section id="s7">
+<h2>7. The Influence of Implant Design on Tuberosity Healing</h2>
+
+<h3>7.1 Standard vs. Fracture-Specific Humeral Stems</h3>
+
+<div class="table-wrap" role="region" aria-label="Implant design comparison table" tabindex="0">
+<table>
+  <caption>Table 5: Standard vs. Fracture-Specific Humeral Stem Design Features</caption>
+  <thead>
+    <tr><th>Feature</th><th>Standard Stem</th><th>Fracture-Specific Stem</th><th>Clinical Implication</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Proximal Geometry</td><td>Bulky, quadrangular</td><td>Low-profile, conical/rounded</td><td>More space for anatomic tuberosity reduction</td></tr>
+    <tr><td>Suture Features</td><td>None (smooth neck only)</td><td>Multiple holes/eyelets</td><td>Secure, integrated fixation to implant</td></tr>
+    <tr><td>Lateral Fin</td><td>Absent</td><td>Prominent</td><td>GT buttress; enhanced rotational stability</td></tr>
+    <tr><td>Surface Coating</td><td>Standard</td><td>Porous tantalum/titanium + HA</td><td>Promotes direct bony ingrowth</td></tr>
+    <tr><td>Metaphyseal Windows</td><td>Absent</td><td>Present</td><td>Allows bone graft placement around stem</td></tr>
+  </tbody>
+</table>
+</div>
+<p><span class="badge badge-I">Level I</span> Multiple meta-analyses confirm that fracture-dedicated prostheses are associated with significantly higher GT healing rates compared to standard stems.<sup>[19]</sup></p>
+
+<h3>7.2 Neck-Shaft Angle (NSA) &amp; Prosthesis Lateralization</h3>
+<ul>
+  <li><strong>NSA:</strong> The original Grammont 155° valgus design is associated with higher scapular notching risk and challenging tuberosity healing mechanics. A <strong>135° varus NSA</strong> is associated with significantly higher tuberosity healing rates, creating a more stable platform with reduced shear stresses.<sup>[22,71]</sup> <span class="badge badge-I">Level I</span></li>
+  <li><strong>Onlay vs. Inlay:</strong> Onlay designs (socket on top of humeral neck cut) preserve metaphyseal bone stock and provide a better anatomic platform for tuberosity apposition. Inlay designs (recessed within metaphysis) require more bone removal.<sup>[4]</sup></li>
+  <li><strong>Global Lateralization:</strong> Increasing offset on humeral (onlay stem, lower NSA) and/or glenoid (lateralized baseplate, eccentric glenosphere) sides restores a more anatomic center of rotation, improves external rotation, reduces notching, and may enhance tuberosity healing.<sup>[4,73]</sup></li>
+</ul>
+</section>
+
+<!-- ── Section 8 ── -->
+<section id="s8">
+<h2>8. Complications, Prevention &amp; Management</h2>
+
+<h3>8.1 Modes of Tuberosity Failure</h3>
+<div class="table-wrap" role="region" aria-label="Tuberosity failure modes table" tabindex="0">
+<table>
+  <caption>Table 6: Classification of Tuberosity Failure Modes</caption>
+  <thead>
+    <tr><th>Mode</th><th>Definition</th><th>Clinical Impact</th><th>Source</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Non-union</strong></td><td>Failure of bony union at 6–9 months</td><td>Variable; stable fibrous non-union may have good outcomes if anatomic position maintained</td><td><sup>[1,43]</sup></td></tr>
+    <tr><td><strong>Malunion</strong></td><td>Healing in non-anatomic position</td><td>Superior malunion → subacromial impingement; mild displacement may not affect outcomes</td><td><sup>[45,75]</sup></td></tr>
+    <tr><td><strong>Migration/Displacement</strong></td><td>Gross displacement from repaired position (typically superior)</td><td>Worst outcomes; mechanical fixation failure</td><td><sup>[1,75]</sup></td></tr>
+    <tr><td><strong>Resorption/Lysis</strong></td><td>Progressive radiographic disappearance</td><td>Avascular necrosis with bone resorption</td><td><sup>[1]</sup></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-succcess">
+  <strong>Pivotal Clinical Insight:</strong> A stable, fibrous non-union in anatomic position can yield functional outcomes not significantly different from solid bony union. In contrast, complete superior migration or resorption causes dramatically worse outcomes. <em>Preventing displacement is paramount.</em><sup>[58]</sup>
+</div>
+
+<h3>8.2 Risk Factor Summary &amp; Prevention Strategies</h3>
+
+<h4>Modifiable (Surgeon-Controlled) Prevention Strategies:</h4>
+<ol>
+  <li><strong>Biological Augmentation:</strong> Liberal use of autologous bone graft—most powerful preventative measure.<sup>[54]</sup></li>
+  <li><strong>Implant Selection:</strong> Fracture-specific stem with 135° NSA.<sup>[19]</sup></li>
+  <li><strong>Atraumatic Technique:</strong> Meticulous soft-tissue preservation for vascularity.</li>
+  <li><strong>Stable Fixation:</strong> Robust, multi-planar suture construct with tensionable systems.</li>
+  <li><strong>Cement Avoidance at Repair Site:</strong> Distal cementation or "black and tan" technique.<sup>[57]</sup></li>
+  <li><strong>Supraspinatus Excision:</strong> Some advocate resecting supraspinatus from GT to reduce superior deforming forces without compromising outcomes.<sup>[11]</sup></li>
+</ol>
+
+<h3>8.3 Salvage &amp; Revision Strategies</h3>
+<ul>
+  <li><strong>Asymptomatic Non-Union/Malunion:</strong> Observation. Not all radiographic failures require re-intervention.<sup>[41]</sup></li>
+  <li><strong>Symptomatic Malunion with Impingement:</strong> Arthroscopic tuberoplasty or open osteotomy with revision fixation.<sup>[43]</sup></li>
+  <li><strong>Symptomatic Non-Union/Migration/Resorption:</strong> Revision fixation with bone grafting (autograft preferred, structural allograft if needed). End-stage cases may require allograft-prosthetic composite (APC) or proximal humeral replacement.<sup>[41,79]</sup></li>
+</ul>
+</section>
+
+<!-- ── Section 9 ── -->
+<section id="s9">
+<h2>9. Post-Operative Management &amp; Rehabilitation</h2>
+<p>The rehabilitation protocol following RSA for fracture with tuberosity reconstruction is <strong>fundamentally different from elective RSA.</strong> The primary objective is strict protection of the bone-tendon-suture construct to allow undisturbed healing. An overly aggressive program is a common cause of fixation failure.<sup>[81]</sup></p>
+
+<div class="table-wrap" role="region" aria-label="Rehabilitation phases table" tabindex="0">
+<table>
+  <caption>Table 7: Evidence-Based Rehabilitation Protocol Phases</caption>
+  <thead>
+    <tr><th>Phase</th><th>Timeline</th><th>Goals</th><th>Key Restrictions</th><th>Permitted Activities</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Phase 1: Strict Protection</strong></td>
+      <td>Weeks 0–6</td>
+      <td>Protect surgical repair; prevent stiffness</td>
+      <td><strong>NO active shoulder motion.</strong> Sling with abduction pillow at all times. PROM: elevation ≤90°, ER 0°–30° in scapular plane. Dislocation precautions (avoid extension beyond neutral, adduction+extension+IR).</td>
+      <td>Hand/wrist/elbow AROM; pendulum (Codman's) exercises</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 2: Active-Assisted Motion</strong></td>
+      <td>Weeks 6–12</td>
+      <td>Gradual motion restoration</td>
+      <td>No strengthening; no lifting &gt;coffee cup. Gradual sling weaning.</td>
+      <td>AAROM (pulley, dowel); gentle supine AROM progressing to upright; no resistance</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 3: Strengthening</strong></td>
+      <td>Weeks 12+ (radiographic healing confirmed)</td>
+      <td>Restore strength and function</td>
+      <td>Heavy lifting may be lifelong restriction (&gt;20–25 lbs). Premature strengthening contraindicated.</td>
+      <td>Isometrics → light resistance bands (high rep, low resistance); functional/work-specific training</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-warning">
+  <strong>Critical Warning:</strong> Strengthening exercises must <strong>not</strong> begin until there is clear radiographic evidence of tuberosity healing (typically ≥12 weeks). Premature strengthening is a primary cause of late tuberosity displacement.<sup>[81,82]</sup>
+</div>
+
+<p><strong>Expected Excellent Outcomes:</strong> Approximately 120° forward elevation and 20° external rotation. Full recovery may take 12+ months. Patients should be counseled that final ROM will likely be less than a native shoulder.<sup>[82]</sup></p>
+</section>
+
+<!-- ── Section 10 ── -->
+<section id="s10">
+<h2>10. Future Horizons &amp; Emerging Technologies</h2>
+
+<h3>10.1 3D Printing, PSI &amp; Virtual Surgical Planning</h3>
+<ul>
+  <li><strong>Wider Adoption:</strong> As costs decrease and software improves, these tools will transition from complex/revision cases to routine preoperative workflow.<sup>[29]</sup></li>
+  <li><strong>AI Integration:</strong> Future CAVST systems will incorporate AI/ML to automatically segment fracture fragments, propose optimal reduction strategies, and recommend implant choices based on large outcome databases.<sup>[29]</sup></li>
+  <li><strong>Custom Implants:</strong> 3D-printed custom glenoid and humeral components (already used in tumor/revision surgery) could offer tailored solutions for severe bone loss not amenable to off-the-shelf implants.<sup>[95,96,97]</sup></li>
+</ul>
+
+<h3>10.2 Biologics &amp; Advanced Materials</h3>
+<ul>
+  <li><strong>Advanced Biological Augmentation:</strong> Future research may investigate concentrated growth factors (BMPs, PRP, mesenchymal stem cells) delivered via scaffold or injectable carrier to accelerate healing in high-risk patients.<sup>[41]</sup></li>
+  <li><strong>Bio-inductive Sutures:</strong> Sutures or tapes coated with factors promoting tendon-to-bone healing.</li>
+  <li><strong>Bio-absorbable Polymers:</strong> Providing strong initial fixation before gradually being replaced by host tissue.</li>
+</ul>
+</section>
+
+<!-- ── Section 11: Landmark Studies ── -->
+<section id="s11">
+<h2>11. Landmark Studies Summary</h2>
+<p><em>Note: The source document synthesizes evidence from multiple systematic reviews and meta-analyses rather than presenting a discrete set of individual RCTs. The key evidence-generating studies are summarized below.</em></p>
+
+<div class="study-card">
+  <h4>Systematic Review &amp; Meta-Analysis: Tuberosity Healing Outcomes in RSA for Fracture</h4>
+  <div class="meta">Multiple SRs/MAs (refs [1], [2], [20], [21]) &bull; <span class="badge badge-I">Level I</span></div>
+  <p>Consistently demonstrate statistically significant and clinically meaningful improvements in external rotation (+15°–20°), forward flexion (+22°–24°), Constant score (+10–24 points), and ASES score (+21 points) in healed vs. non-healed tuberosity cohorts. Patient-reported pain scores (VAS) often not significantly different, highlighting RSA's baseline efficacy for pain relief.</p>
+</div>
+
+<div class="study-card">
+  <h4>Meta-Analysis: Fracture-Dedicated Prostheses &amp; GT Healing Rates</h4>
+  <div class="meta">Frontiers in Surgery (ref [19]) &bull; <span class="badge badge-I">Level I</span></div>
+  <p>Confirmed that fracture-specific humeral stems with design features for tuberosity fixation are associated with significantly higher greater tuberosity healing rates compared to standard, non-fracture stems.</p>
+</div>
+
+<div class="study-card">
+  <h4>Systematic Review: Tuberosity Healing According to Humeral Inclination</h4>
+  <div class="meta">OHSU Digital Collections (ref [22]) &bull; <span class="badge badge-I">Level I</span></div>
+  <p>Demonstrated that a 135° neck-shaft angle is associated with significantly higher rates of tuberosity healing compared to 155° designs, supporting the trend toward more anatomic varus prosthetic geometry.</p>
+</div>
+
+<div class="study-card">
+  <h4>Risk Factors for GT Non-Union: Systematic Review &amp; Meta-Analysis</h4>
+  <div class="meta">AOAO / Scholars @ UT Health San Antonio (refs [54,55,56]) &bull; <span class="badge badge-I">Level I</span></div>
+  <p>Identified autologous bone graft use as a significant protective factor against non-union. Four-part fracture pattern, diabetes, and nicotine use were identified as significant risk factors.</p>
+</div>
+
+<div class="study-card">
+  <h4>"7 Sutures and 8 Knots" Technique Clinical Series</h4>
+  <div class="meta">PMC (refs [59,60]) &bull; <span class="badge badge-IV">Level IV</span></div>
+  <p>Reported a tuberosity union rate of 87.9% using a simplified suture configuration of three sutures around the implant and five bridging sutures, demonstrating reliability of modern fixation techniques.</p>
+</div>
+
+<div class="study-card">
+  <h4>"Black and Tan" Technique Outcomes</h4>
+  <div class="meta">ResearchGate / PubMed (refs [3,57,65]) &bull; <span class="badge badge-IV">Level IV</span></div>
+  <p>Hybrid cement/impaction grafting technique demonstrated 88% tuberosity healing rate by shielding tuberosities from cement exothermic heat while providing the stability of cement distally with biology of impaction grafting proximally.</p>
+</div>
+
+<div class="study-card">
+  <h4>Biomechanical Study: Suture Tensioning Devices</h4>
+  <div class="meta">J Shoulder Elbow Surg (ref [53]) &bull; <span class="badge badge-II">Level II</span></div>
+  <p>Confirmed that tensionable suture tape systems achieve significantly higher initial fixation stability and reduced rotational movement of tuberosities compared to manually knotted cerclage sutures.</p>
+</div>
+</section>
+
+<!-- ── Conclusions ── -->
+<section id="conclusions">
+<h2>Conclusions</h2>
+<p>The surgical treatment of acute, comminuted proximal humerus fractures in the elderly via RSA has evolved from a salvage procedure to a sophisticated reconstructive operation. Central to this evolution is the <strong>indisputable recognition of the critical importance of anatomic reduction and stable fixation of the tuberosities.</strong></p>
+
+<p>The evidence is clear: patients with healed tuberosities demonstrate dramatic improvements in external and internal rotation, enhanced forward flexion, and higher Constant scores. Furthermore, tuberosity healing enhances joint stability and is associated with lower rates of dislocation and implant loosening.</p>
+
+<div class="callout callout-key">
+  <strong>The Four Pillars of Success:</strong>
+  <ol style="margin-top:.5em">
+    <li><strong>Preoperative Planning is Paramount</strong> — CT with 3D reconstructions is mandatory; CAVST and 3D printing are powerful de-risking tools.</li>
+    <li><strong>Surgical Technique Must Be Atraumatic and Precise</strong> — Meticulous soft-tissue handling, tendon-based stay sutures, precise implant height/version.</li>
+    <li><strong>Fixation Must Create a Stable Bio-Mechanical Construct</strong> — Multi-planar suture constructs with tendon purchase, augmented with autologous bone graft, optimized by fracture-specific implants.</li>
+    <li><strong>Postoperative Rehabilitation Must Be Protective</strong> — 4–6 weeks strict immobilization; strengthening delayed until radiographic healing (≥12 weeks).</li>
+  </ol>
+</div>
+<p>Tuberosity management is no longer an afterthought in fracture RSA—it is the <strong>central technical challenge and the primary determinant of superior functional outcome.</strong></p>
+</section>
+
+<!-- ── References ── -->
+<section id="refs">
+<h2>References</h2>
+<p style="font-size:.82rem;line-height:1.6">
+[1] Effect of tuberosity repair on functional outcome of reverse shoulder arthroplasty in proximal humerus fractures. <em>Chinese J Traumatol</em>. PMC10071324.<br>
+[2] Tuberosity Healing after Reverse Shoulder Arthroplasty for Proximal Humerus Fractures. <em>Rev Bras Ortop</em>. SciELO Brasil.<br>
+[3] Tuberosity healing after reverse shoulder arthroplasty for acute proximal humerus fractures: The "black and tan" technique. ResearchGate.<br>
+[4] Prosthesis Designs and Tuberosity Fixation Techniques in Reverse Total Shoulder Arthroplasty. <em>J Clin Med</em>. PMC8468418.<br>
+[6] Fractures of the Greater Tuberosity. Midwest Orthopedic Consultants.<br>
+[7] Surgical Treatment of Displaced Greater Tuberosity Fractures of the Humerus. Orthobullets.<br>
+[8] Lesser tubercle – Knowledge and References. Taylor & Francis.<br>
+[10] Reverse Shoulder Arthroplasty. StatPearls. NCBI Bookshelf.<br>
+[11] Reverse total shoulder arthroplasty for complex proximal humerus fracture in the elderly. PMC10426567.<br>
+[14] Anatomic greater tuberosity healing does not influence functional outcomes of RSA for acute proximal humerus fractures. PMC10649508.<br>
+[17] Effect of tuberosity repair on functional outcome of RSA. MedNexus.<br>
+[18] Reverse Total Shoulder Arthroplasty for Proximal Humerus Nonunion. MDPI.<br>
+[19] Fracture-Dedicated Prosthesis Promotes the Healing Rate of Greater Tuberosity in RSA: A Meta-Analysis. <em>Front Surg</em>.<br>
+[20] Tuberosity Healing After RSA for Complex Proximal Humeral Fractures—Systematic Review and Meta-Analysis. PubMed 30593437.<br>
+[21] The effect of tuberosity healing on functional outcomes after RSA for proximal humerus fractures: systematic review and meta-analysis. ResearchGate / PubMed 39249532.<br>
+[22] Systematic review of tuberosity healing according to humeral inclination. OHSU Digital Collections.<br>
+[28] Proximal humerus fractures—Part 1: Conservative management. SciELO South Africa.<br>
+[29] Advanced Preoperative Planning Techniques in the Management of Complex Proximal Humerus Fractures. PMC10835086.<br>
+[34] 3D CT-Based Preoperative Planning and Intraoperative Navigation in RSA. <em>Medicina</em>.<br>
+[36–40] Various sources on osteoporosis and bone quality in proximal humerus fractures.<br>
+[41] Malunion & Nonunion Fractures. Cleveland Clinic; Risk factors literature.<br>
+[44] Acute versus delayed reverse total shoulder arthroplasty for proximal humerus fractures. Henry Ford Health.<br>
+[45] Reverse Shoulder Arthroplasty for Acute Proximal Humerus Fractures. Musculoskeletal Key.<br>
+[47] Reverse Shoulder Prosthesis for Acute Four-Part Fracture. Dr Brian Badman.<br>
+[49,52] Humeral retroversion references: AOJ; LINK Embrace technique guide.<br>
+[53] Tensioning device increases biomechanical stability of tuberosity fixation. J Shoulder Elbow Surg.<br>
+[54–56] Risk factors for GT non-union: systematic reviews and meta-analyses. AOAO; UT Health San Antonio.<br>
+[57,65] "Black and Tan" technique and cement avoidance. ResearchGate; PubMed 26141197.<br>
+[59,60] "7 sutures and 8 knots" technique. ResearchGate; PMC10167075.<br>
+[61] Prosthesis Designs and Tuberosity Fixation. Encyclopedia.pub.<br>
+[63] FxBridge™ Tuberosity Repair System. Arthrex.<br>
+[71] High tuberosity healing rate with 135° prosthesis. PMC6966803.<br>
+[73] Effect of tuberosity healing on functional outcomes. OUCI.<br>
+[75] Is malunion of the GT after RSA associated with worse outcomes? ResearchGate.<br>
+[79] RSA with proximal humeral replacement for massive bone loss. ResearchGate.<br>
+[81,82] Rehabilitation protocols: ArmDocs; Dr Travis Frantz.<br>
+[95–97] Custom 3D-printed implants for shoulder reconstruction. Frontiers; PMC; MDPI.
+</p>
+</section>
+
+</main>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive parameter controls and recommendations">
+  <h2 style="margin-top:0">🔬 Interactive Clinical Parameters</h2>
+  <p style="font-size:.78rem;color:var(--text-light);margin-bottom:1rem">Adjust parameters below to explore how they influence clinical decision-making. Thresholds are derived from the source document where available.</p>
+
+  <!-- Slider 1: Humeral Retroversion -->
+  <div class="slider-group">
+    <label for="sliderVersion">Humeral Component Retroversion</label>
+    <div class="value-display" id="versionVal">10°</div>
+    <input type="range" id="sliderVersion" min="0" max="30" value="10" step="1" aria-label="Humeral retroversion in degrees">
+    <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-light)"><span>0°</span><span>10° (optimal)</span><span>20°</span><span>30°</span></div>
+  </div>
+
+  <!-- Slider 2: Tuberosity Displacement -->
+  <div class="slider-group">
+    <label for="sliderDisplacement">Greater Tuberosity Displacement</label>
+    <div class="value-display" id="dispVal">5 mm</div>
+    <input type="range" id="sliderDisplacement" min="0" max="40" value="5" step="1" aria-label="Greater tuberosity displacement in mm">
+    <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-light)"><span>0 mm</span><span>10 mm</span><span>20 mm</span><span>30 mm</span></div>
+  </div>
+
+  <!-- Slider 3: Bone Quality (Composite T-score proxy) -->
+  <div class="slider-group">
+    <label for="sliderBone">Bone Quality (T-Score Proxy)</label>
+    <div class="value-display" id="boneVal">−2.5</div>
+    <input type="range" id="sliderBone" min="-4.0" max="-0.5" value="-2.5" step="0.1" aria-label="Bone quality T-score proxy">
+    <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-light)"><span>−4.0 (severe)</span><span>−2.5 (osteoporosis)</span><span>−0.5 (osteopenia)</span></div>
+  </div>
+
+  <!-- Recommendation Box -->
+  <h2>📋 Clinical Recommendation</h2>
+  <div class="rec-box" id="recommendationBox" aria-live="polite">
+    <strong>Current Assessment:</strong>
+    <span id="recText">Loading recommendations based on selected parameters...</span>
+  </div>
+
+  <!-- Risk Summary -->
+  <div class="rec-box" style="background:#fef9e7;border-left-color:var(--warning)">
+    <strong>⚠️ Risk Summary</strong>
+    <span id="riskText">Calculating risk profile...</span>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-reset" id="btnReset" aria-label="Reset all parameters to defaults">↺ Reset</button>
+    <button class="btn btn-copy" id="btnCopy" aria-label="Copy current assessment to clipboard">📋 Copy Report</button>
+  </div>
+  <div class="timestamp" id="timestamp"></div>
+
+  <!-- Key Thresholds Reference -->
+  <h2>📐 Key Source Thresholds</h2>
+  <div style="font-size:.78rem;line-height:1.6;color:var(--text-light)">
+    <p><strong>Retroversion:</strong> 0°–20° recommended (many prefer 10°).<sup>[49]</sup></p>
+    <p><strong>Humeral Height:</strong> GT ~5–10 mm below component apex; component ~5.6 cm proximal to pectoralis major insertion.<sup>[1,2]</sup></p>
+    <p><strong>Bone Graft:</strong> Use autologous graft from humeral head liberally — significant protective factor against non-union.<sup>[54]</sup></p>
+    <p><strong>NSA:</strong> 135° associated with higher healing rates vs. 155°.<sup>[22]</sup></p>
+    <p style="font-style:italic;font-size:.72rem;margin-top:.6em">Note: Displacement thresholds for surgical decision-making are based on general clinical knowledge as the source document does not specify exact cutoffs for RSA vs. non-operative management.</p>
+  </div>
+</aside>
+
+</div><!-- /layout -->
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<!-- Footer -->
+<footer>
+  <p>Tuberosity Management in Reverse Shoulder Arthroplasty — Evidence-Based Interactive Surgical Guide</p>
+  <p>Content derived exclusively from the provided source document. For educational purposes only. Not a substitute for clinical judgment.</p>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  // ── DOM Elements ──
+  const sVersion = document.getElementById('sliderVersion');
+  const sDisp = document.getElementById('sliderDisplacement');
+  const sBone = document.getElementById('sliderBone');
+  const vVersion = document.getElementById('versionVal');
+  const vDisp = document.getElementById('dispVal');
+  const vBone = document.getElementById('boneVal');
+  const recText = document.getElementById('recText');
+  const riskText = document.getElementById('riskText');
+  const timestampEl = document.getElementById('timestamp');
+  const toast = document.getElementById('toast');
+  const btnReset = document.getElementById('btnReset');
+  const btnCopy = document.getElementById('btnCopy');
+
+  // ── Update Functions ──
+  function updateDisplay(){
+    vVersion.textContent = sVersion.value + '°';
+    vDisp.textContent = sDisp.value + ' mm';
+    vBone.textContent = parseFloat(sBone.value).toFixed(1);
+    updateRecommendation();
+    updateTimestamp();
+  }
+
+  function updateRecommendation(){
+    const ver = parseInt(sVersion.value);
+    const disp = parseInt(sDisp.value);
+    const bone = parseFloat(sBone.value);
+
+    // ── Retroversion Assessment ──
+    let verRec = '';
+    if(ver >= 0 && ver <= 20){
+      verRec = '<span style="color:#27ae60">✓ Retroversion within recommended range (0°–20°).</span> ' +
+               'This range maximizes external rotation before impingement and enhances anterior stability. [Source: ref 49]';
+    } else if(ver > 20 && ver <= 30){
+      verRec = '<span style="color:#e74c3c">⚠ Retroversion exceeds recommended range.</span> ' +
+               'Values >20° may increase anterior impingement risk and reduce available external rotation. Consider reducing to 10°–15°. [Source: ref 49,52]';
+    } else {
+      verRec = '<span style="color:#27ae60">✓ Retroversion within range.</span>';
+    }
+
+    // ── Displacement Assessment ──
+    let dispRec = '';
+    if(disp <= 5){
+      dispRec = '<span style="color:#27ae60">✓ Minimal displacement.</span> ' +
+                'Tuberosity is well-positioned for anatomic reduction. Standard suture-based fixation with cerclage and tension-band sutures is appropriate. [Source: ref 2,17]';
+    } else if(disp <= 15){
+      dispRec = '<span style="color:#f39c12">⚠ Moderate displacement ('+disp+' mm).</span> ' +
+                'Requires careful reduction with stay sutures through tendon-bone junction. Consider fracture-specific stem with suture eyelets and autologous bone graft augmentation. [Source: ref 19,38,54]';
+    } else if(disp <= 25){
+      dispRec = '<span style="color:#e74c3c">⚠ Significant displacement ('+disp+' mm).</span> ' +
+                'CT with 3D reconstructions and virtual surgical planning strongly recommended. Fracture-specific implant with integrated fixation features. Liberal bone grafting essential. Consider CAVST/3D printing for preoperative rehearsal. [Source: ref 7,19,29]';
+    } else {
+      dispRec = '<span style="color:#e74c3c"><strong>⚠ Severe displacement ('+disp+' mm).</strong></span> ' +
+                'High risk for non-union/migration. Advanced planning mandatory (3D printing/CAVST). Fracture-specific stem with "horseshoe graft" or "black and tan" technique strongly recommended. Supraspinatus excision from GT may reduce deforming forces. [Source: ref 3,11,29,47,57]';
+    }
+
+    // ── Bone Quality Assessment ──
+    let boneRec = '';
+    if(bone >= -1.0){
+      boneRec = '<span style="color:#27ae60">✓ Normal to osteopenic bone quality.</span> ' +
+                'Standard suture fixation should provide adequate purchase. Bone graft augmentation still recommended for optimal healing environment. [Source: ref 36]';
+    } else if(bone >= -2.5){
+      boneRec = '<span style="color:#f39c12">⚠ Osteoporotic bone quality (T-score proxy: '+bone.toFixed(1)+').</span> ' +
+                'Prioritize tendon-based suture purchase over bone purchase. Use heavy, non-absorbable braided sutures or suture tapes. Tensionable constructs recommended. Liberal autologous bone graft from humeral head. If cementing, use "black and tan" technique. [Source: ref 36,37,38,53,54,57]';
+    } else {
+      boneRec = '<span style="color:#e74c3c"><strong>⚠ Severely osteoporotic (T-score proxy: '+bone.toFixed(1)+').</strong></span> ' +
+                'High risk for suture cut-out and non-union. Fracture-specific stem with porous/HA coating for bony ingrowth essential. 135° NSA preferred over 155°. "Horseshoe graft" for structural augmentation. Distal cementation only ("black and tan"). Tensionable suture tape systems mandatory. Consider 135° NSA implant for improved healing. [Source: ref 19,22,36,38,47,53,57]';
+    }
+
+    // ── Composite Recommendation ──
+    let composite = '';
+    const riskScore = (ver > 20 ? 1 : 0) + (disp > 15 ? 1 : 0) + (bone < -2.5 ? 1 : 0);
+    if(riskScore === 0){
+      composite = '<div style="margin-top:.8em;padding:.6em;background:#eafaf1;border-radius:6px"><strong style="color:#27ae60">Overall: LOW RISK profile.</strong> ' +
+                  'Standard modern RSA techniques with tuberosity repair should yield favorable outcomes. Ensure atraumatic handling, tendon-based suture fixation, and autologous bone graft augmentation. [Source: ref 1,2,3]</div>';
+    } else if(riskScore === 1){
+      composite = '<div style="margin-top:.8em;padding:.6em;background:#fef9e7;border-radius:6px"><strong style="color:#f39c12">Overall: MODERATE RISK profile.</strong> ' +
+                  'Consider fracture-specific stem (135° NSA), tensionable suture systems, and liberal bone graft use. Preoperative CT with 3D reconstructions is mandatory. Phased rehabilitation with strict immobilization for 6 weeks. [Source: ref 19,22,53,54,81]</div>';
+    } else {
+      composite = '<div style="margin-top:.8em;padding:.6em;background:#fadbd8;border-radius:6px"><strong style="color:#e74c3c">Overall: HIGH RISK profile.</strong> ' +
+                  'Multiple risk factors present. Advanced preoperative planning (CAVST/3D printing) strongly recommended. Fracture-specific stem with all available fixation features. "Horseshoe graft" and/or "black and tan" technique. Tensionable suture tape systems. Strict postoperative immobilization protocol (≥6 weeks). Delay strengthening until radiographic union confirmed (≥12 weeks). Counsel patient on higher non-union risk. [Source: ref 3,19,29,47,53,57,81]</div>';
+    }
+
+    recText.innerHTML = verRec + '<br><br>' + dispRec + '<br><br>' + boneRec + composite;
+
+    // ── Risk Summary ──
+    let riskItems = [];
+    if(ver > 20) riskItems.push('Excessive retroversion');
+    if(disp > 15) riskItems.push('Significant tuberosity displacement');
+    if(disp > 25) riskItems.push('Severe displacement — migration risk');
+    if(bone < -2.5) riskItems.push('Severe osteoporosis');
+    if(ver >= 0 && ver <= 20 && disp <= 15 && bone >= -2.5) riskItems.push('No major risk factors identified');
+    riskText.innerHTML = '<br>• ' + riskItems.join('<br>• ');
+  }
+
+  function updateTimestamp(){
+    const now = new Date();
+    timestampEl.textContent = 'Assessment: ' + now.toLocaleString('en-US', {
+      year:'numeric', month:'short', day:'numeric',
+      hour:'2-digit', minute:'2-digit', second:'2-digit'
+    });
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'), 2500);
+  }
+
+  // ── Event Listeners ──
+  sVersion.addEventListener('input', updateDisplay);
+  sDisp.addEventListener('input', updateDisplay);
+  sBone.addEventListener('input', updateDisplay);
+
+  btnReset.addEventListener('click', function(){
+    sVersion.value = 10;
+    sDisp.value = 5;
+    sBone.value = -2.5;
+    updateDisplay();
+    showToast('Parameters reset to defaults');
+  });
+
+  btnCopy.addEventListener('click', function(){
+    const ver = sVersion.value + '°';
+    const disp = sDisp.value + ' mm';
+    const bone = parseFloat(sBone.value).toFixed(1);
+    const ts = new Date().toLocaleString('en-US');
+
+    // Extract plain text from recommendation
+    const recBox = document.getElementById('recommendationBox');
+    const recPlain = recBox.innerText || recBox.textContent;
+
+    const report = [
+      '═══════════════════════════════════════════',
+      'TUBEROSITY MANAGEMENT IN RSA — CLINICAL ASSESSMENT',
+      '═══════════════════════════════════════════',
+      '',
+      'PARAMETERS:',
+      '  • Humeral Component Retroversion: ' + ver,
+      '  • Greater Tuberosity Displacement: ' + disp,
+      '  • Bone Quality (T-Score Proxy): ' + bone,
+      '',
+      'CLINICAL ASSESSMENT:',
+      recPlain.trim(),
+      '',
+      '───────────────────────────────────────────',
+      'Source: Tuberosity Management in Reverse Shoulder',
+      'Arthroplasty for Proximal Humerus Fractures',
+      'Generated: ' + ts,
+      '───────────────────────────────────────────',
+      'Note: This assessment is for educational purposes only.',
+      'Clinical decisions should be based on comprehensive',
+      'patient evaluation and surgeon expertise.'
+    ].join('\n');
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(report).then(function(){
+        showToast('✓ Assessment copied to clipboard');
+      }).catch(function(){
+        fallbackCopy(report);
+      });
+    } else {
+      fallbackCopy(report);
+    }
+  });
+
+  function fallbackCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast('✓ Assessment copied to clipboard');
+    } catch(e){
+      showToast('Copy failed — please select and copy manually');
+    }
+    document.body.removeChild(ta);
+  }
+
+  // ── Init ──
+  updateDisplay();
+})();
+</script>
+
+</body>
+</html>

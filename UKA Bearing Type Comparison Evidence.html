@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile-Bearing vs. Fixed-Bearing UKA: Evidence Synthesis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#ffffff;--text:#1a1d23;--text-secondary:#555b66;
+  --primary:#2563eb;--primary-light:#dbeafe;--primary-dark:#1d4ed8;
+  --accent:#059669;--accent-light:#d1fae5;
+  --warning:#d97706;--warning-light:#fef3c7;
+  --danger:#dc2626;--danger-light:#fee2e2;
+  --border:#e2e5ea;--shadow:0 1px 3px rgba(0,0,0,.08);
+  --shadow-lg:0 4px 24px rgba(0,0,0,.1);
+  --radius:10px;
+  --evidence-ii:#7c3aed;--evidence-iii:#2563eb;--evidence-iv:#0891b2;--evidence-v:#6b7280;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* HEADER */
+.site-header{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);color:#fff;padding:2rem 2.5rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.15)}
+.site-header h1{font-size:1.65rem;font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.site-header p{font-size:.9rem;color:#cbd5e1;margin-top:.35rem;font-weight:400}
+.header-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.header-icon{width:44px;height:44px;background:var(--primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1440px;margin:0 auto;padding:2rem 2.5rem}
+@media(max-width:1024px){.layout{grid-template-columns:1fr;padding:1.2rem}}
+
+/* MAIN CONTENT */
+.main-content{min-width:0}
+.section{background:var(--surface);border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border)}
+.section h2{font-size:1.4rem;font-weight:700;color:var(--primary-dark);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--primary-light)}
+.section h3{font-size:1.15rem;font-weight:600;color:var(--text);margin:1.4rem 0 .6rem}
+.section h4{font-size:1rem;font-weight:600;color:var(--text-secondary);margin:1rem 0 .4rem}
+.section p,.section li{color:var(--text-secondary);font-size:.93rem;margin-bottom:.7rem}
+.section ul,.section ol{padding-left:1.5rem;margin-bottom:1rem}
+.section li{margin-bottom:.45rem}
+.section strong{color:var(--text);font-weight:600}
+
+/* EVIDENCE BADGE */
+.ev{display:inline-block;font-size:.7rem;font-weight:700;padding:.15rem .55rem;border-radius:4px;vertical-align:middle;margin-left:.3rem;letter-spacing:.02em}
+.ev-ii{background:#ede9fe;color:var(--evidence-ii)}
+.ev-iii{background:#dbeafe;color:var(--evidence-iii)}
+.ev-iv{background:#cffafe;color:var(--evidence-iv)}
+.ev-v{background:#f3f4f6;color:var(--evidence-v)}
+.ev-ns{background:#fef3c7;color:#92400e;font-weight:600}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead{background:linear-gradient(135deg,#1e293b,#334155);color:#fff}
+th{padding:.7rem .9rem;text-align:left;font-weight:600;font-size:.8rem;white-space:nowrap}
+td{padding:.65rem .9rem;border-bottom:1px solid var(--border)}
+tbody tr:nth-child(even){background:#f8fafc}
+tbody tr:hover{background:var(--primary-light)}
+caption{caption-side:bottom;padding:.6rem;font-size:.8rem;color:var(--text-secondary);font-style:italic;text-align:left}
+
+/* CALLOUT BOXES */
+.callout{border-radius:8px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:.9rem;line-height:1.6}
+.callout-info{background:var(--primary-light);border-left:4px solid var(--primary)}
+.callout-warning{background:var(--warning-light);border-left:4px solid var(--warning)}
+.callout-danger{background:var(--danger-light);border-left:4px solid var(--danger)}
+.callout-success{background:var(--accent-light);border-left:4px solid var(--accent)}
+.callout strong{display:block;margin-bottom:.25rem;font-size:.88rem}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:90px;align-self:start;display:flex;flex-direction:column;gap:1.2rem}
+@media(max-width:1024px){.sidebar{position:static;order:-1}}
+.panel{background:var(--surface);border-radius:var(--radius);padding:1.4rem;box-shadow:var(--shadow);border:1px solid var(--border)}
+.panel h3{font-size:1rem;font-weight:700;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.panel h3 .icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+
+/* SLIDERS */
+.slider-group{margin-bottom:1.2rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.35rem}
+.slider-label span:first-child{font-size:.82rem;font-weight:600;color:var(--text)}
+.slider-value{font-size:.88rem;font-weight:700;color:var(--primary);background:var(--primary-light);padding:.1rem .5rem;border-radius:4px;min-width:52px;text-align:center}
+input[type="range"]{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:var(--border);border-radius:3px;outline:none;cursor:pointer}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);cursor:pointer;box-shadow:0 1px 4px rgba(37,99,235,.4)}
+input[type="range"]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--primary);cursor:pointer;border:none}
+.range-ends{display:flex;justify-content:space-between;font-size:.7rem;color:#94a3b8;margin-top:.15rem}
+
+/* RECOMMENDATION BOX */
+.rec-box{background:linear-gradient(135deg,#1e293b 0%,#1e3a5f 100%);color:#fff;border-radius:var(--radius);padding:1.4rem;box-shadow:var(--shadow-lg)}
+.rec-box h3{color:#93c5fd;margin-bottom:.6rem;font-size:.95rem}
+.rec-box .rec-title{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.5rem;line-height:1.4}
+.rec-box p{font-size:.84rem;color:#cbd5e1;line-height:1.55}
+.rec-badge{display:inline-block;padding:.2rem .6rem;border-radius:4px;font-size:.75rem;font-weight:700;margin-top:.6rem}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{flex:1;padding:.55rem .8rem;border:none;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:.35rem}
+.btn-reset{background:#e2e5ea;color:var(--text)}
+.btn-reset:hover{background:#d1d5db}
+.btn-copy{background:var(--primary);color:#fff}
+.btn-copy:hover{background:var(--primary-dark)}
+.btn-copy.copied{background:var(--accent)}
+
+/* TABS */
+.tab-bar{display:flex;gap:.3rem;margin-bottom:1rem;overflow-x:auto;padding-bottom:.2rem}
+.tab-btn{padding:.45rem 1rem;border:1px solid var(--border);background:transparent;border-radius:6px;font-size:.82rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;color:var(--text-secondary)}
+.tab-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* FLOWCHART */
+.flow{display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:1.5rem 0}
+.flow-node{background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:.7rem 1.2rem;text-align:center;font-size:.85rem;font-weight:600;max-width:320px;width:100%}
+.flow-node.decision{background:#fef3c7;border-color:var(--warning);transform:rotate(0deg)}
+.flow-node.outcome-fb{background:var(--accent-light);border-color:var(--accent)}
+.flow-node.outcome-mb{background:#ede9fe;border-color:var(--evidence-ii)}
+.flow-arrow{width:2px;height:24px;background:var(--primary);position:relative}
+.flow-arrow::after{content:'▼';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);color:var(--primary);font-size:.7rem}
+.flow-label{font-size:.75rem;color:var(--text-secondary);font-style:italic}
+
+/* REFERENCES */
+.ref-list{font-size:.78rem;color:var(--text-secondary);line-height:1.7}
+.ref-list li{margin-bottom:.3rem}
+.ref-list a{color:var(--primary);word-break:break-all}
+
+/* SUMMARY STATS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;margin:1rem 0}
+.stat-card{text-align:center;padding:.8rem;background:#f8fafc;border-radius:8px;border:1px solid var(--border)}
+.stat-card .num{font-size:1.4rem;font-weight:800;color:var(--primary)}
+.stat-card .label{font-size:.72rem;color:var(--text-secondary);margin-top:.15rem}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120px);background:#1e293b;color:#fff;padding:.8rem 1.5rem;border-radius:10px;font-size:.85rem;font-weight:500;z-index:999;opacity:0;transition:all .35s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ANNOTATION */
+.annotation{font-size:.78rem;color:#92400e;background:var(--warning-light);border-radius:4px;padding:.3rem .6rem;display:inline-block;margin:.3rem 0}
+
+/* COMPACT LIST */
+.check-list{list-style:none;padding:0}
+.check-list li{padding:.4rem 0 .4rem 1.6rem;position:relative}
+.check-list li::before{content:'✓';position:absolute;left:0;color:var(--accent);font-weight:700;font-size:.95rem}
+.cross-list{list-style:none;padding:0}
+.cross-list li{padding:.4rem 0 .4rem 1.6rem;position:relative}
+.cross-list li::before{content:'✗';position:absolute;left:0;color:var(--danger);font-weight:700;font-size:.95rem}
+
+/* Toggle switches */
+.toggle-group{display:flex;gap:.4rem;margin-bottom:1rem}
+.toggle-btn{flex:1;padding:.4rem .5rem;border:2px solid var(--border);background:transparent;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;text-align:center;font-family:inherit;color:var(--text-secondary)}
+.toggle-btn.active-mb{background:#ede9fe;border-color:var(--evidence-ii);color:var(--evidence-ii)}
+.toggle-btn.active-fb{background:var(--accent-light);border-color:var(--accent);color:var(--accent)}
+
+/* Responsive table */
+.table-note{font-size:.78rem;color:var(--text-secondary);font-style:italic;margin-top:.4rem}
+
+@media(max-width:600px){
+  .site-header{padding:1.2rem}
+  .site-header h1{font-size:1.25rem}
+  .layout{padding:1rem;gap:1rem}
+  .section{padding:1.2rem}
+  .stats-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <div class="header-row">
+    <div class="header-icon">🦴</div>
+    <div>
+      <h1>Mobile-Bearing vs. Fixed-Bearing Unicompartmental Knee Arthroplasty</h1>
+      <p>A Comprehensive Evidence Synthesis from Registries and Meta-Analyses</p>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+<!-- ======== MAIN CONTENT ======== -->
+<main class="main-content" role="main">
+
+  <!-- SECTION 1 -->
+  <section class="section" aria-labelledby="s1">
+    <h2 id="s1">1. Design Rationale &amp; Biomechanical Considerations</h2>
+
+    <p>Unicompartmental knee arthroplasty (UKA) is a bone- and ligament-sparing surgical procedure for end-stage, single-compartment osteoarthritis of the knee. <span class="ev ev-iii">Level III</span> As an alternative to total knee arthroplasty (TKA), UKA offers faster recovery, fewer major complications, and superior functional outcomes attributable to preservation of native knee kinematics guided by the cruciate ligaments. <span class="ev ev-iii">Level III</span> Two distinct design philosophies exist for the tibial bearing surface: <strong>fixed-bearing (FB)</strong> and <strong>mobile-bearing (MB)</strong>. <span class="ev ev-iv">Level IV</span></p>
+
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" data-tab="fb-tab" role="tab" aria-selected="true">Fixed-Bearing (FB)</button>
+      <button class="tab-btn" data-tab="mb-tab" role="tab" aria-selected="false">Mobile-Bearing (MB)</button>
+      <button class="tab-btn" data-tab="fix-tab" role="tab" aria-selected="false">Fixation Methods</button>
+    </div>
+
+    <div class="tab-content active" id="fb-tab" role="tabpanel">
+      <h3>Fixed-Bearing Paradigm</h3>
+      <p>The FB design features a polyethylene (PE) insert <strong>securely locked</strong> to a metallic tibial baseplate, prioritizing mechanical simplicity and inherent stability and eliminating the risk of bearing dislocation. <span class="ev ev-iv">Level IV</span></p>
+
+      <h4>Biomechanical Challenge</h4>
+      <p>Traditional FB designs incorporate a relatively <strong>flat tibial PE surface</strong> articulating with a curved femoral component, creating a <strong>non-conforming contact interface</strong>. This geometry mismatch leads to point or line loading, concentrating stress on the polyethylene ($P = F/A$), historically accelerating wear and creep. <span class="ev ev-iv">Level IV</span></p>
+
+      <div class="callout callout-info">
+        <strong>🔬 Material Science Breakthrough</strong>
+        The development of <strong>highly cross-linked ultra-high molecular weight polyethylene (UHMWPE)</strong> has dramatically improved wear resistance, fundamentally challenging the historical disadvantage of FB designs and potentially neutralizing what was once its primary biomechanical flaw. <span class="ev ev-iv">Level IV</span>
+      </div>
+
+      <h4>Kinematic Performance</h4>
+      <p>In-vivo studies demonstrate FB UKAs successfully restore knee motion close to normal, largely attributed to preservation of both the anterior and posterior cruciate ligaments, which remain the primary guides of knee kinematics. <span class="ev ev-iv">Level IV</span></p>
+    </div>
+
+    <div class="tab-content" id="mb-tab" role="tabpanel">
+      <h3>Mobile-Bearing Concept</h3>
+      <p>In MB UKA, the PE insert is <strong>not fixed</strong> to the tibial tray but designed to rotate and translate anteroposteriorly on a highly polished cobalt-chromium baseplate, specifically to address high contact stress and wear in early FB designs. <span class="ev ev-iv">Level IV</span></p>
+
+      <h4>Core Advantages</h4>
+      <ul class="check-list">
+        <li><strong>Highly conforming</strong> "curved-on-curved" articulation dramatically increases contact area, reducing peak contact stresses</li>
+        <li><strong>Decoupled motion</strong> — bearing rotates with the femur, theoretically dissipating torsional forces from the fixation interface, reducing risk of aseptic loosening</li>
+      </ul>
+
+      <h4>Key Risks</h4>
+      <ul class="cross-list">
+        <li><strong>Bearing dislocation</strong> — the signature, unique failure mode; PE insert displaces from the tibial tray <span class="ev ev-iii">Level III</span></li>
+        <li><strong>Technical demands</strong> — highly dependent on precise soft-tissue balancing and component alignment</li>
+        <li><strong>Steeper learning curve</strong> — stability relies on ligament tension, not implant constraint</li>
+      </ul>
+    </div>
+
+    <div class="tab-content" id="fix-tab" role="tabpanel">
+      <h3>Cemented vs. Uncemented Fixation</h3>
+      <p>The method of fixation (PMMA bone cement vs. press-fit cementless) interacts with bearing design to influence outcomes. Evidence from the <strong>New Zealand Joint Registry (NZJR)</strong> with up to 20 years follow-up: <span class="ev ev-iii">Level III</span></p>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="num" style="color:var(--accent)">92%</div>
+          <div class="label">CemFB Survivorship @ 15 yr</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" style="color:var(--evidence-ii)">91%</div>
+          <div class="label">UncemMB Survivorship @ 15 yr</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" style="color:var(--danger)">80%</div>
+          <div class="label">CemMB Survivorship @ 15 yr</div>
+        </div>
+      </div>
+
+      <div class="callout callout-danger">
+        <strong>⚠️ Critical Finding</strong>
+        Cemented mobile-bearing (cemMB) implants demonstrated <strong>significantly inferior survivorship</strong> (80% at 15 years, p = 0.02), suffering from higher rates of both aseptic loosening and OA progression. <span class="ev ev-iii">Level III</span> This indicates fixation is not an independent variable but part of a complex interplay with bearing mobility.
+      </div>
+
+      <p>Uncemented MB implants showed the lowest aseptic loosening rate (0.4% at 15 years vs. 3–4% for cemented designs), offset by higher bearing dislocation risk. <span class="ev ev-iii">Level III</span></p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="section" aria-labelledby="s2">
+    <h2 id="s2">2. Long-Term Implant Survivorship</h2>
+
+    <h3>2.1 Meta-Analyses: General Equivalence in Medial UKA</h3>
+    <p>A substantial body of meta-analytic evidence consistently fails to demonstrate superiority of one bearing design in medial UKA: <span class="ev ev-ii">Level II</span></p>
+    <ul>
+      <li>A <strong>2022 meta-analysis</strong> (25 studies, 4,696 patients) found no statistically significant difference in overall revision rate (p = 0.2). <span class="ev ev-ii">Level II</span></li>
+      <li>Pooled Time Incidence Rates: <strong>0.96</strong> revisions/100 component-years (MB) vs. <strong>0.81</strong> (FB) — not significant (p = 0.3). <span class="ev ev-ii">Level II</span></li>
+    </ul>
+
+    <div class="callout callout-warning">
+      <strong>⚠️ Important Limitations</strong>
+      Meta-analyses are constrained by relatively short follow-up periods, significant heterogeneity in implant models (historical and contemporary), diverse surgical techniques, and different patient populations. These limitations may mask clinically important long-term differences only apparent in longitudinal registry datasets.
+    </div>
+
+    <h3>2.2 National Joint Registry Data: The Definitive Long-Term Evidence</h3>
+    <p>Registries provide the most robust evidence on real-world implant performance. The data increasingly favor modern fixed-bearing designs. <span class="ev ev-iii">Level III</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption><strong>Table 1.</strong> Comparative Long-Term Survivorship from National Joint Registries and Large Cohort Studies</caption>
+        <thead>
+          <tr><th>Registry</th><th>Bearing / Fixation</th><th>Follow-up</th><th>CPR / Survivorship</th><th>Key Finding</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>AOANJRR</strong></td><td>Fixed-Bearing (Modular)</td><td>15 Years</td><td>16% CPR</td><td>HR 1.5 (p&lt;0.001) favoring FB vs. MB</td></tr>
+          <tr><td><strong>AOANJRR</strong></td><td>Mobile-Bearing</td><td>15 Years</td><td>23% CPR</td><td>50% higher revision risk than FB</td></tr>
+          <tr><td><strong>UK NJR</strong></td><td>Fixed-Bearing (Best Brands)</td><td>10 Years</td><td>5.03% CPR (94.97%)</td><td>Market share shifted to 69% FB</td></tr>
+          <tr><td><strong>NZJR</strong></td><td>Cemented FB</td><td>15 Years</td><td>92% Survivorship</td><td>No significant difference vs. uncemMB</td></tr>
+          <tr><td><strong>NZJR</strong></td><td>Uncemented MB</td><td>15 Years</td><td>91% Survivorship</td><td>No significant difference vs. cemFB</td></tr>
+          <tr><td><strong>NZJR</strong></td><td>Cemented MB</td><td>15 Years</td><td>80% Survivorship</td><td>Significantly worse (p=0.02)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">AOANJRR = Australian Orthopaedic Association National Joint Replacement Registry; CPR = Cumulative Percent Revision; UK NJR = United Kingdom National Joint Registry; NZJR = New Zealand Joint Registry.</p>
+
+    <h4>UK National Joint Registry (NJR) — Market Shift</h4>
+    <p>The 21st Annual Report (2024 data) reveals a dramatic shift: while MB options dominated until ~2015, <strong>fixed-bearing implants now account for 69% of all UKA procedures</strong>. Best-performing brands are FB designs with revision rates as low as 5.03% at 10 years. <span class="ev ev-iii">Level III</span></p>
+
+    <h4>Australian Orthopaedic Association (AOANJRR)</h4>
+    <p>Analysis of <strong>&gt;50,000 medial UKAs</strong>: At 15 years, FB modular UKA CPR = 16% vs. MB = 23%, hazard ratio of 1.5 (p&lt;0.001) — a <strong>50% higher risk of revision for MB design</strong>. <span class="ev ev-iii">Level III</span></p>
+
+    <h3>2.3 Lateral Compartment: Mobile-Bearing Inferiority</h3>
+
+    <div class="callout callout-danger">
+      <strong>🚨 Unequivocal Evidence Against MB in Lateral UKA</strong>
+      For lateral UKA, mobile-bearing revision rates are dramatically higher: <strong>PTIR 2.20 vs 0.72</strong> per 100 component-years (p&lt;0.01) — approximately <strong>four-fold higher risk of revision</strong>. <span class="ev ev-ii">Level II</span>
+    </div>
+
+    <p>The biomechanical rationale: the lateral compartment exhibits <strong>greater femoral rollback</strong> and <strong>inherent laxity</strong>, placing greater demands on soft tissues for stability. The MB design, relying heavily on soft-tissue tension, is at much higher intrinsic risk of instability and dislocation in this environment. <span class="ev ev-iv">Level IV</span></p>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="section" aria-labelledby="s3">
+    <h2 id="s3">3. Etiology of Failure: Distinct Revision Profiles</h2>
+
+    <p>MB and FB UKAs do not simply fail at different rates — they fail for <strong>fundamentally different reasons and on different timelines</strong>. This distinction reflects a core trade-off between early technique-related failure (MB) and late material failure (FB). <span class="ev ev-iii">Level III</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption><strong>Table 2.</strong> Differential Causes and Timing of Revision for Mobile-Bearing vs. Fixed-Bearing UKA</caption>
+        <thead>
+          <tr><th>Revision Cause</th><th>Mobile-Bearing (MB) UKA</th><th>Fixed-Bearing (FB) UKA</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Bearing Dislocation</strong></td>
+            <td><strong>Early (&lt;2 yr).</strong> Signature technique-dependent failure. Significantly higher risk (14% vs. 0%). <span class="ev ev-ii">Level II</span></td>
+            <td><strong>Not applicable.</strong> Fixed nature eliminates this risk.</td>
+          </tr>
+          <tr>
+            <td><strong>Aseptic Loosening</strong></td>
+            <td><strong>Mid-Late.</strong> Paradoxically higher than modern FB modular designs (HR 1.7, AOANJRR). <span class="ev ev-iii">Level III</span></td>
+            <td><strong>Late.</strong> A primary late failure mode, but rates are low with modern designs. <span class="ev ev-iii">Level III</span></td>
+          </tr>
+          <tr>
+            <td><strong>PE Wear</strong></td>
+            <td><strong>Very Late.</strong> Theoretically very low due to conforming geometry. <span class="ev ev-iv">Level IV</span></td>
+            <td><strong>Late (&gt;8 yr).</strong> Classic time-dependent failure, mitigated by modern UHMWPE. <span class="ev ev-iv">Level IV</span></td>
+          </tr>
+          <tr>
+            <td><strong>OA Progression</strong></td>
+            <td><strong>Mid-Late.</strong> Higher risk after 8 yr in some registry data. <span class="ev ev-iii">Level III</span></td>
+            <td><strong>Mid-Late.</strong> Risk is lower than MB in some long-term data. <span class="ev ev-iii">Level III</span></td>
+          </tr>
+          <tr>
+            <td><strong>Periprosthetic Fracture</strong></td>
+            <td colspan="2" style="text-align:center">Risk more related to fixation method than bearing type. <span class="ev ev-iii">Level III</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-info">
+      <strong>💡 Key Conceptual Dichotomy</strong>
+      <strong>MB failures = early, technique-driven</strong> (instability, dislocation). <strong>FB failures = late, time-dependent</strong> (wear, material degradation). This reframes the clinical decision to: <em>which risk profile is more acceptable for a given patient and surgeon?</em>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section class="section" aria-labelledby="s4">
+    <h2 id="s4">4. Clinical &amp; Functional Outcomes</h2>
+
+    <h3>4.1 Patient-Reported Outcome Measures (PROMs)</h3>
+    <p>Overwhelming consensus: <strong>no statistically or clinically significant differences</strong> in PROMs between MB and FB for surviving implants. <span class="ev ev-ii">Level II</span></p>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="num">p=0.9</div><div class="label">KSS Score (MB vs FB)</div></div>
+      <div class="stat-card"><div class="num">p=0.4</div><div class="label">Oxford Knee Score</div></div>
+      <div class="stat-card"><div class="num">p=0.2</div><div class="label">KSS Function</div></div>
+      <div class="stat-card"><div class="num">≈</div><div class="label">WOMAC &amp; SF-36</div></div>
+    </div>
+
+    <h3>4.2 Range of Motion &amp; In-Vivo Kinematics</h3>
+    <p>Despite MB's more anatomic design, ROM is largely <strong>comparable</strong>: 1–122° (MB) vs. 1–120° (FB), p = 0.34. <span class="ev ev-iii">Level III</span> The dominant factor is <strong>preservation of cruciate ligaments</strong>, which provides sufficiently powerful kinematic guidance to overshadow subtle design differences. <span class="ev ev-iv">Level IV</span></p>
+
+    <div class="callout callout-success">
+      <strong>✅ Clinical Implication</strong>
+      The choice between MB and FB is <strong>not about achieving a better functional result</strong> — both designs are excellent for surviving implants. The decision is <strong>almost entirely one of risk mitigation and implant longevity</strong>, choosing the design that minimizes the lifetime probability of revision.
+    </div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section class="section" aria-labelledby="s5">
+    <h2 id="s5">5. Critical Determinants Beyond Implant Design</h2>
+
+    <h3>5.1 Surgeon Volume Effect</h3>
+    <p>One of the most powerful predictors of UKA success. <span class="ev ev-iii">Level III</span></p>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="num" style="color:var(--danger)">4×</div><div class="label">Higher revision rate for low-volume surgeons</div></div>
+      <div class="stat-card"><div class="num" style="color:var(--danger)">82.8%</div><div class="label">10-yr survival: Low-volume</div></div>
+      <div class="stat-card"><div class="num" style="color:var(--accent)">90.0%</div><div class="label">10-yr survival: High-volume</div></div>
+    </div>
+
+    <p>Optimal outcomes: UKA constitutes <strong>40–60% of knee arthroplasty practice</strong>. <span class="ev ev-iii">Level III</span> Given MB's greater technical demands, the negative impact of low surgeon volume is <strong>likely amplified</strong> with MB designs. <span class="ev ev-iv">Level IV</span></p>
+
+    <h3>5.2 Patient Selection Factors</h3>
+    <ul>
+      <li><strong>Age:</strong> Younger age (&lt;70 yr) is an independent risk factor for revision regardless of bearing type, driven by higher demands and longer life expectancy. <span class="ev ev-iii">Level III</span></li>
+      <li><strong>BMI:</strong> Obese patients (BMI ≥30) may have higher revision risk at long-term follow-up (88.1% vs. 98.6% 10-year survival, p = 0.012). <span class="ev ev-iv">Level IV</span> However, some MB-specific studies found BMI did not influence survival. <span class="ev ev-iv">Level IV</span></li>
+      <li><strong>Activity/Ethnicity:</strong> Asian patient populations have 3.7× higher odds of bearing dislocation, potentially attributable to lifestyle factors and floor-based cultural activities. <span class="ev ev-ii">Level II</span></li>
+    </ul>
+
+    <div class="callout callout-warning">
+      <strong>⚠️ Dynamic Patient Selection</strong>
+      Selection criteria should be <strong>stratified based on the chosen implant's risk profile</strong>. A young, active patient not engaging in high-flexion activities might suit MB; an older, sedentary patient is an excellent FB candidate where dislocation risk is nil and wear is less of a concern over their remaining lifespan.
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section class="section" aria-labelledby="s6">
+    <h2 id="s6">6. Synthesis, Conclusions &amp; Recommendations</h2>
+
+    <h3>6.1 Reconciling Theory with Clinical Reality</h3>
+    <p>The theoretical biomechanical advantages of MB UKA have <strong>not consistently translated</strong> into superior long-term survivorship. Simultaneously, the primary historical disadvantage of FB — high contact stress — has been <strong>largely mitigated</strong> by highly cross-linked UHMWPE. Modern FB modular implants demonstrate equivalent or superior survivorship in the largest, longest-term registries. <span class="ev ev-iii">Level III</span></p>
+
+    <h3>6.2 Evidence-Based Framework for Implant Selection</h3>
+
+    <h4>Medial Compartment</h4>
+    <div class="flow">
+      <div class="flow-node decision">Patient with Medial Compartment OA — Candidate for UKA</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-node decision">What is surgeon UKA volume &amp; experience?</div>
+      <div class="flow-arrow"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:100%;max-width:500px">
+        <div>
+          <div class="flow-label">Low/Intermediate Volume</div>
+          <div class="flow-node outcome-fb">Modern Fixed-Bearing ✅<br><small>Most reliable &amp; robust choice</small></div>
+        </div>
+        <div>
+          <div class="flow-label">High-Volume Specialist</div>
+          <div class="flow-node outcome-mb">MB viable for young, active patients<br><small>If no high-flexion activities</small></div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Lateral Compartment</h4>
+    <div class="callout callout-success">
+      <strong>✅ Definitive Recommendation</strong>
+      A <strong>fixed-bearing implant is the standard of care</strong> for lateral UKA. Mobile-bearing designs have a significantly and unacceptably higher risk of revision (primarily dislocation) in the less-constrained lateral compartment. <span class="ev ev-ii">Level II</span>
+    </div>
+
+    <h3>6.3 Future Directions</h3>
+    <ul>
+      <li><strong>Robotics &amp; Navigation:</strong> May reduce variability in surgical execution, potentially making MB designs safer for a wider range of surgeons. <span class="ev ev-ns">(Not yet proven in long-term registry studies)</span></li>
+      <li><strong>Material Evolution:</strong> Antioxidant-infused polyethylene variants continue to improve FB long-term performance. MB design modifications aim to reduce dislocation risk.</li>
+      <li><strong>Centralization of Care:</strong> Data strongly suggests that centralizing UKA to high-volume surgeons/specialized centers is the <strong>single most effective strategy</strong> for improving overall outcomes, regardless of implant choice. <span class="ev ev-iii">Level III</span></li>
+    </ul>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="section" aria-labelledby="refs">
+    <h2 id="refs">References (as cited in source document)</h2>
+    <ol class="ref-list">
+      <li>[1] "Unicompartmental knee arthroplasty, an enigma, and the ten enigmas of medial UKA" — PMC/PubMed Central.</li>
+      <li>[2] "Advances in Medial Unicompartmental Knee Arthroplasty" — ResearchGate.</li>
+      <li>[4] "Unicompartmental knee arthroplasty: an exemplar of surgical and engineering collaboration" — PMC.</li>
+      <li>[5] "UKA — UNICOMPARTMENTAL ARTHROPLASTY" — Hip &amp; Knee Book.</li>
+      <li>[6] "Mobile Versus Fixed-Bearing in Medial UKA: An Average 10-Year Follow-Up" — MDPI/JCM.</li>
+      <li>[7] "No Long-term Difference Between Fixed and Mobile Medial UKA" — PMC/J Arthroplasty.</li>
+      <li>[11] "Similar Survivorship for Uncemented Mobile-Bearing and Cemented Fixed-Bearing Medial UKA" — ResearchGate &amp; PubMed.</li>
+      <li>[12] "Similar Survivorship but Different Revision Reasons" — PubMed (PMID 36812351).</li>
+      <li>[15] "Mobile Bearing versus Fixed Bearing for UKA" — MDPI/JCM 2022.</li>
+      <li>[21] "Survivorship of fixed vs mobile bearing UKR: Systematic review and meta-analysis of sixty-four studies and NJRs" — PubMed (PMID 33010783).</li>
+      <li>[25] UK NJR 21st Annual Report 2024 — Executive Summary, NJR Reports.</li>
+      <li>[27] "Do Fixed or Mobile Bearing Implants Have Better Survivorship in Medial UKA? AOANJRR Study" — ResearchGate.</li>
+      <li>[29] New Zealand Joint Registry — 25-Year Report, NZOA.</li>
+      <li>[36] "Bearing Dislocation and Progression of OA After Mobile UKA" — PMC (PMID 5916611).</li>
+      <li>[42] "Comparison of 10-year outcomes of cemented and cementless UKR" — Acta Orthopaedica/Taylor &amp; Francis.</li>
+      <li>[49] "The influence of obesity on clinical outcomes of fixed-bearing UKA: ten-year follow-up" — PubMed (PMID 30700121).</li>
+      <li>[50] "The effect of BMI on mid-term clinical outcomes of mobile-bearing UKA" — PMC.</li>
+    </ol>
+    <p class="table-note" style="margin-top:.6rem">Note: Reference numbers correspond to the source document's citation list. Not all references from the source document are individually listed above for brevity; the full reference list is available in the source document.</p>
+  </section>
+
+</main>
+
+<!-- ======== SIDEBAR ======== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical decision support">
+
+  <!-- SLIDERS PANEL -->
+  <div class="panel">
+    <h3><span class="icon" style="background:var(--primary-light);color:var(--primary)">⚙️</span> Patient Parameters</h3>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Patient Age</span>
+        <span class="slider-value" id="age-val">65 yr</span>
+      </div>
+      <input type="range" id="slider-age" min="40" max="90" value="65" step="1" aria-label="Patient age in years">
+      <div class="range-ends"><span>40 yr</span><span>90 yr</span></div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Body Mass Index (BMI)</span>
+        <span class="slider-value" id="bmi-val">28</span>
+      </div>
+      <input type="range" id="slider-bmi" min="18" max="45" value="28" step="0.5" aria-label="Body Mass Index">
+      <div class="range-ends"><span>18</span><span>45</span></div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Surgeon UKA Volume (% of knee practice)</span>
+        <span class="slider-value" id="vol-val">20%</span>
+      </div>
+      <input type="range" id="slider-vol" min="1" max="80" value="20" step="1" aria-label="Surgeon UKA volume as percentage of knee arthroplasty practice">
+      <div class="range-ends"><span>1%</span><span>80%</span></div>
+    </div>
+
+    <h3 style="margin-top:.5rem"><span class="icon" style="background:#fef3c7;color:var(--warning)">🏥</span> Compartment</h3>
+    <div class="toggle-group" id="compartment-toggle">
+      <button class="toggle-btn active-fb" data-val="medial" id="btn-medial">Medial</button>
+      <button class="toggle-btn" data-val="lateral" id="btn-lateral">Lateral</button>
+    </div>
+
+    <h3><span class="icon" style="background:var(--accent-light);color:var(--accent)">🦿</span> Fixation</h3>
+    <div class="toggle-group" id="fixation-toggle">
+      <button class="toggle-btn active-fb" data-val="cemented" id="btn-cemented">Cemented</button>
+      <button class="toggle-btn" data-val="uncemented" id="btn-uncemented">Uncemented</button>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATION -->
+  <div class="rec-box" id="rec-box">
+    <h3>📋 Clinical Recommendation</h3>
+    <div class="rec-title" id="rec-title">Loading...</div>
+    <p id="rec-rationale">—</p>
+    <div id="rec-badge" class="rec-badge" style="margin-top:.8rem">—</div>
+  </div>
+
+  <!-- RISK SUMMARY -->
+  <div class="panel" id="risk-panel">
+    <h3><span class="icon" style="background:var(--danger-light);color:var(--danger)">📊</span> Risk Profile</h3>
+    <div id="risk-summary" style="font-size:.84rem;color:var(--text-secondary);line-height:1.6">—</div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="panel">
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+// ===== TAB LOGIC =====
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const parent=btn.closest('.section');
+    parent.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false')});
+    parent.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ===== TOGGLE LOGIC =====
+function setupToggle(containerId){
+  const container=document.getElementById(containerId);
+  container.querySelectorAll('.toggle-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      container.querySelectorAll('.toggle-btn').forEach(b=>{b.classList.remove('active-mb','active-fb')});
+      btn.classList.add('active-fb');
+      updateRecommendation();
+    });
+  });
+}
+setupToggle('compartment-toggle');
+setupToggle('fixation-toggle');
+
+// ===== SLIDER LOGIC =====
+const sliders={
+  age:document.getElementById('slider-age'),
+  bmi:document.getElementById('slider-bmi'),
+  vol:document.getElementById('slider-vol')
+};
+const displays={
+  age:document.getElementById('age-val'),
+  bmi:document.getElementById('bmi-val'),
+  vol:document.getElementById('vol-val')
+};
+
+function getVal(id){return parseFloat(document.getElementById('slider-'+id).value)}
+function getToggle(id){
+  const btn=document.querySelector('#'+id+' .toggle-btn.active-fb, #'+id+' .toggle-btn.active-mb');
+  return btn?btn.dataset.val:null;
+}
+
+function updateDisplays(){
+  displays.age.textContent=getVal('age')+' yr';
+  displays.bmi.textContent=getVal('bmi').toFixed(1);
+  displays.vol.textContent=getVal('vol')+'%';
+}
+
+Object.values(sliders).forEach(s=>s.addEventListener('input',()=>{updateDisplays();updateRecommendation()}));
+
+// ===== RECOMMENDATION ENGINE =====
+function updateRecommendation(){
+  updateDisplays();
+  const age=getVal('age');
+  const bmi=getVal('bmi');
+  const vol=getVal('vol');
+  const compartment=getToggle('compartment-toggle');
+  const fixation=getToggle('fixation-toggle');
+
+  let title='',rationale='',badge='',badgeColor='',riskHTML='';
+
+  // Compartment logic
+  if(compartment==='lateral'){
+    title='Fixed-Bearing Implant Recommended (Lateral Compartment)';
+    rationale='Evidence from systematic reviews and meta-analyses is unequivocal: mobile-bearing designs in the lateral compartment have approximately four-fold higher revision rates (PTIR 2.20 vs. 0.72, p&lt;0.01), primarily due to bearing dislocation in the less-constrained lateral compartment.';
+    badge='Level II Evidence — Strong Recommendation';
+    badgeColor='background:#dc2626';
+    riskHTML=buildRisk(age,bmi,vol,'lateral',fixation);
+    updateUI(title,rationale,badge,badgeColor,riskHTML);
+    return;
+  }
+
+  // Medial compartment
+  if(vol>=40){
+    // High volume
+    if(age<60 && bmi<30){
+      title='Either Design Viable; Consider MB for Wear Minimization';
+      rationale='As a high-volume surgeon (≥40% UKA practice), you may achieve excellent results with either design. For younger (&lt;60), non-obese (BMI &lt;30) patients, mobile-bearing may minimize long-term polyethylene wear — provided perfect ligament balance is achieved and the patient avoids high-flexion activities.';
+      badge='Level III/IV — Expert Consideration';
+      badgeColor='background:#7c3aed';
+    } else {
+      title='Fixed-Bearing Recommended (Even in Expert Hands)';
+      rationale='Despite your high-volume expertise, registry data (AOANJRR) shows FB modular designs have 50% lower 15-year revision risk (HR 1.5, p&lt;0.001). For patients aged ≥60 or with BMI ≥30, the inherent stability and lower dislocation risk of FB provides a more predictable long-term outcome.';
+      badge='Level III — Registry Evidence';
+      badgeColor='background:#2563eb';
+    }
+  } else if(vol>=10){
+    // Intermediate
+    title='Fixed-Bearing Strongly Recommended';
+    rationale='With intermediate UKA volume (10–40% of practice), the more forgiving FB design is advisable. NJR data shows low-volume surgeons have 4× higher revision rates, and MB designs amplify technique-dependent failures (bearing dislocation). FB\'s inherent stability provides a wider margin of safety.';
+    badge='Level III — Registry Evidence';
+    badgeColor='background:#2563eb';
+  } else {
+    // Low volume
+    title='Fixed-Bearing Standard of Care for Low-Volume Surgeon';
+    rationale='UKA revision rates are up to 4× higher for low-volume surgeons (NJR: 82.8% vs. 90.0% 10-year survival). MB UKA\'s steeper learning curve and sensitivity to soft-tissue balancing errors make FB the strongly preferred choice. Consider referral to a high-volume UKA center.';
+    badge='Level III — Strong Recommendation';
+    badgeColor='background:#dc2626';
+  }
+
+  riskHTML=buildRisk(age,bmi,vol,'medial',fixation);
+  updateUI(title,rationale,badge,badgeColor,riskHTML);
+}
+
+function buildRisk(age,bmi,vol,compartment,fixation){
+  let risks=[];
+  if(age<60) risks.push('<strong style="color:var(--warning)">↑ Younger age (&lt;60):</strong> Higher revision risk independent of bearing type; higher functional demands, longer exposure time.');
+  if(age>=70) risks.push('<strong style="color:var(--accent)">✓ Older age (≥70):</strong> Lower revision risk; shorter remaining implant lifespan reduces cumulative failure risk.');
+  if(bmi>=30) risks.push('<strong style="color:var(--danger)">↑ Obesity (BMI ≥30):</strong> Higher 10-year revision risk (88.1% vs. 98.6% survival, p=0.012). Careful patient counseling advised.');
+  if(bmi<30) risks.push('<strong style="color:var(--accent)">✓ Normal/Overweight BMI:</strong> No significant additional risk from BMI on implant survivorship.');
+  if(vol<20) risks.push('<strong style="color:var(--danger)">↑ Low surgeon volume (&lt;20%):</strong> Significantly higher revision risk. Centralization to high-volume center recommended.');
+  if(vol>=40) risks.push('<strong style="color:var(--accent)">✓ High surgeon volume (≥40%):</strong> Optimal outcomes expected; both bearing types may be considered.');
+  if(compartment==='lateral') risks.push('<strong style="color:var(--danger)">🚨 Lateral compartment:</strong> MB dislocation risk is ~4× higher. FB is the standard of care.');
+  if(fixation==='uncemented' && compartment==='medial') risks.push('<strong style="color:var(--warning)">ℹ️ Uncemented fixation:</strong> Lower aseptic loosening (0.4% vs. 3–4% at 15yr) but ensure rigid initial fixation to prevent subsidence.');
+  if(fixation==='cemented') risks.push('<strong style="color:var(--accent)">✓ Cemented fixation:</strong> Proven track record. Avoid cemented MB combination (80% survivorship at 15yr, NZJR).');
+  return risks.length?'<ul style="padding-left:1.2rem;margin:0">'+risks.map(r=>'<li style="margin-bottom:.5rem">'+r+'</li>').join('')+'</ul>':'<p>No significant risk modifiers identified.</p>';
+}
+
+function updateUI(title,rationale,badge,badgeColor,riskHTML){
+  document.getElementById('rec-title').textContent=title;
+  document.getElementById('rec-rationale').innerHTML=rationale;
+  const b=document.getElementById('rec-badge');
+  b.textContent=badge;
+  b.style=badgeColor+';color:#fff';
+  document.getElementById('risk-summary').innerHTML=riskHTML;
+}
+
+// ===== RESET =====
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  document.getElementById('slider-age').value=65;
+  document.getElementById('slider-bmi').value=28;
+  document.getElementById('slider-vol').value=20;
+  // Reset toggles
+  document.querySelectorAll('#compartment-toggle .toggle-btn, #fixation-toggle .toggle-btn').forEach(b=>{b.classList.remove('active-mb','active-fb')});
+  document.getElementById('btn-medial').classList.add('active-fb');
+  document.getElementById('btn-cemented').classList.add('active-fb');
+  updateRecommendation();
+  showToast('Parameters reset to defaults');
+});
+
+// ===== COPY =====
+document.getElementById('btn-copy').addEventListener('click',()=>{
+  const age=getVal('age');
+  const bmi=getVal('bmi');
+  const vol=getVal('vol');
+  const compartment=getToggle('compartment-toggle');
+  const fixation=getToggle('fixation-toggle');
+  const title=document.getElementById('rec-title').textContent;
+  const rationale=document.getElementById('rec-rationale').textContent;
+  const badge=document.getElementById('rec-badge').textContent;
+  const ts=new Date().toLocaleString();
+
+  const text=`MB vs FB UKA — Clinical Decision Summary
+Generated: ${ts}
+═══════════════════════════════════
+PATIENT & SURGEON PARAMETERS
+  Age: ${age} years
+  BMI: ${bmi.toFixed(1)} kg/m²
+  Surgeon UKA Volume: ${vol}% of knee practice
+  Compartment: ${compartment.charAt(0).toUpperCase()+compartment.slice(1)}
+  Fixation: ${fixation.charAt(0).toUpperCase()+fixation.slice(1)}
+═══════════════════════════════════
+RECOMMENDATION: ${title}
+RATIONALE: ${rationale}
+EVIDENCE LEVEL: ${badge}
+═══════════════════════════════════
+Source: "Mobile-Bearing vs. Fixed-Bearing UKA: A Comprehensive Evidence Synthesis from Registries and Meta-Analyses"
+Disclaimer: This tool is for educational purposes. Clinical decisions should integrate individual patient factors and clinical judgment.`;
+
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('btn-copy');
+    btn.textContent='✓ Copied!';
+    btn.classList.add('copied');
+    showToast('Summary copied to clipboard');
+    setTimeout(()=>{btn.textContent='📋 Copy Summary';btn.classList.remove('copied')},2000);
+  }).catch(()=>{
+    showToast('Copy failed — please copy manually');
+  });
+});
+
+// ===== TOAST =====
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ===== INIT =====
+updateRecommendation();
+</script>
+</body>
+</html>

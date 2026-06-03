@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Paradigms in Osteoporosis Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f8f9fc;--surface:#ffffff;--text:#1a1d2e;--text-secondary:#5a6078;--accent:#2563eb;--accent-light:#dbeafe;--accent-dark:#1d4ed8;
+--success:#059669;--success-light:#d1fae5;--warning:#d97706;--warning-light:#fef3c7;--danger:#dc2626;--danger-light:#fee2e2;
+--border:#e5e7eb;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+--shadow-lg:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -2px rgba(0,0,0,.04);
+--radius:10px;--radius-sm:6px;--sidebar-width:340px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);color:#fff;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.site-header::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.site-header h1{font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.02em;position:relative;z-index:1}
+.site-header p{font-size:clamp(.85rem,1.5vw,1rem);opacity:.8;margin-top:.5rem;font-weight:300;position:relative;z-index:1;max-width:800px;margin-inline:auto}
+
+/* Layout */
+.app-layout{display:grid;grid-template-columns:1fr var(--sidebar-width);gap:2rem;max-width:1400px;margin:0 auto;padding:2rem;align-items:start}
+@media(max-width:1024px){.app-layout{grid-template-columns:1fr;padding:1rem}}
+
+/* Main Content */
+.main-content{min-width:0}
+.main-content h2{font-size:1.5rem;font-weight:700;color:var(--text);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent)}
+.main-content h3{font-size:1.2rem;font-weight:600;color:var(--text);margin:2rem 0 .75rem}
+.main-content h4{font-size:1.05rem;font-weight:600;color:var(--accent-dark);margin:1.5rem 0 .5rem}
+.main-content p{margin-bottom:1rem;color:var(--text-secondary);font-size:.95rem}
+.main-content ul,.main-content ol{margin:0 0 1.25rem 1.5rem;color:var(--text-secondary);font-size:.95rem}
+.main-content li{margin-bottom:.4rem}
+.main-content strong{color:var(--text);font-weight:600}
+
+/* Intro Card */
+.intro-card{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid #bfdbfe;border-radius:var(--radius);padding:1.5rem 2rem;margin-bottom:2rem}
+.intro-card p{margin-bottom:.5rem}
+.intro-card .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1rem}
+.stat-box{background:var(--surface);border-radius:var(--radius-sm);padding:1rem;text-align:center;box-shadow:var(--shadow)}
+.stat-box .stat-number{font-size:1.6rem;font-weight:800;color:var(--accent)}
+.stat-box .stat-label{font-size:.78rem;color:var(--text-secondary);margin-top:.2rem}
+
+/* Evidence Badge */
+.ev{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:4px;vertical-align:middle;margin-left:4px;text-transform:uppercase;letter-spacing:.03em}
+.ev-i{background:#065f46;color:#d1fae5}.ev-ii{background:#1e40af;color:#dbeafe}.ev-iii{background:#92400e;color:#fef3c7}
+.ev-iv{background:#7c3aed;color:#ede9fe}.ev-v{background:#6b7280;color:#f3f4f6}.ev-ns{background:#9ca3af;color:#fff}
+
+/* Callout */
+.callout{border-left:4px solid var(--accent);background:var(--accent-light);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:1rem 1.25rem;margin:1.25rem 0;font-size:.9rem;color:#1e3a5f}
+.callout.warning{border-left-color:var(--warning);background:var(--warning-light);color:#78350f}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-light);color:#7f1d1d}
+.callout.success{border-left-color:var(--success);background:var(--success-light);color:#064e3b}
+.callout strong{color:inherit}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;background:var(--surface)}
+caption{padding:.75rem 1rem;font-weight:700;text-align:left;background:#f1f5f9;color:var(--text);font-size:.9rem}
+thead{background:#f8fafc}
+th{padding:.65rem .8rem;text-align:left;font-weight:600;color:var(--text);border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:.6rem .8rem;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top}
+tbody tr:hover{background:#f8fafc}
+.mechanism-tag{display:inline-block;font-size:.7rem;padding:2px 6px;border-radius:3px;font-weight:500;margin:1px 2px}
+.mt-form{background:#dbeafe;color:#1e40af}.mt-resorb{background:#fee2e2;color:#991b1b}.mt-dual{background:#d1fae5;color:#065f46}
+.mt-target{background:#ede9fe;color:#5b21b6}
+
+/* Sidebar */
+.sidebar{position:sticky;top:1rem;max-height:calc(100vh - 2rem);overflow-y:auto}
+.sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:1.25rem;margin-bottom:1.5rem}
+.sidebar-card h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem}
+.slider-group{margin-bottom:1.25rem}
+.slider-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.slider-group .slider-value{font-size:1.1rem;font-weight:700;color:var(--accent);display:block;margin-bottom:.3rem}
+.slider-group input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:linear-gradient(to right,var(--success),var(--warning),var(--danger));border-radius:3px;outline:none;cursor:pointer}
+.slider-group input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+.slider-group .slider-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-secondary);margin-top:.2rem}
+.slider-group .threshold-note{font-size:.7rem;color:var(--text-secondary);font-style:italic;margin-top:.25rem}
+
+/* Recommendation Box */
+.rec-box{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:2px solid #86efac;border-radius:var(--radius);padding:1rem;margin-top:1rem}
+.rec-box h4{font-size:.85rem;font-weight:700;color:#065f46;margin-bottom:.5rem}
+.rec-box p,.rec-box li{font-size:.82rem;color:#064e3b;line-height:1.5}
+.rec-box ul{margin:.4rem 0 0 1.2rem}
+.rec-box.risk-high{background:linear-gradient(135deg,#fef2f2,#fee2e2);border-color:#fca5a5}
+.rec-box.risk-high h4{color:#991b1b}.rec-box.risk-high p,.rec-box.risk-high li{color:#7f1d1d}
+.rec-box.risk-mod{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:#fcd34d}
+.rec-box.risk-mod h4{color:#92400e}.rec-box.risk-mod p,.rec-box.risk-mod li{color:#78350f}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;border:none;cursor:pointer;transition:all .15s ease}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-dark)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}.btn-outline:hover{background:#f1f5f9}
+.btn-group{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+
+/* References */
+.ref-section{margin-top:3rem;padding-top:2rem;border-top:2px solid var(--border)}
+.ref-section ol{font-size:.8rem;color:var(--text-secondary)}
+.ref-section li{margin-bottom:.5rem;line-height:1.5}
+
+/* Section Icon */
+.section-icon{display:inline-block;width:28px;height:28px;border-radius:6px;text-align:center;line-height:28px;font-size:.9rem;margin-right:.5rem;vertical-align:middle}
+
+/* Limitation Note */
+.limitation{background:#fffbeb;border:1px solid #fcd34d;border-radius:var(--radius-sm);padding:.75rem 1rem;margin:1rem 0;font-size:.82rem;color:#92400e}
+.limitation strong{color:#78350f}
+
+/* Mobile sidebar toggle */
+.sidebar-toggle{display:none;position:fixed;bottom:1rem;right:1rem;z-index:1000;width:52px;height:52px;border-radius:50%;background:var(--accent);color:#fff;border:none;box-shadow:var(--shadow-lg);font-size:1.3rem;cursor:pointer}
+@media(max-width:1024px){
+.sidebar-toggle{display:flex;align-items:center;justify-content:center}
+.sidebar{position:fixed;top:0;right:-100%;width:min(360px,90vw);height:100vh;max-height:100vh;z-index:999;transition:right .3s ease;padding:1rem;overflow-y:auto;background:var(--bg);box-shadow:-4px 0 20px rgba(0,0,0,.15)}
+.sidebar.open{right:0}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:998}
+.sidebar-overlay.active{display:block}
+}
+
+/* Animated highlight */
+@keyframes highlightPulse{0%{box-shadow:0 0 0 0 rgba(37,99,235,.3)}70%{box-shadow:0 0 0 8px rgba(37,99,235,0)}100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}}
+.highlight-pulse{animation:highlightPulse .6s ease}
+
+/* Print */
+@media print{.sidebar,.sidebar-toggle,.sidebar-overlay,.btn-group{display:none!important}.app-layout{grid-template-columns:1fr!important}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+<h1>Advanced Paradigms in Osteoporosis Management</h1>
+<p>Novel Therapeutics, AI Integration, and Perioperative Optimization — An Evidence-Based Educational Summary (2026)</p>
+</header>
+
+<div class="app-layout">
+<main class="main-content" role="main" aria-label="Main educational content">
+
+<!-- INTRODUCTION -->
+<section id="intro">
+<div class="intro-card">
+<p><strong>Osteoporosis</strong> is a systemic, progressive disease of deteriorating bone microarchitecture — frequently termed a <em>"silent disease"</em> because skeletal degradation remains asymptomatic until catastrophic biomechanical failure occurs. <span class="ev ev-ii">Lvl II</span></p>
+<div class="stat-grid">
+<div class="stat-box"><div class="stat-number">1 in 2</div><div class="stat-label">Women &gt;50 will fracture</div></div>
+<div class="stat-box"><div class="stat-number">200M+</div><div class="stat-label">Global sufferers</div></div>
+<div class="stat-box"><div class="stat-number">25%</div><div class="stat-label">1-yr hip fracture mortality</div></div>
+<div class="stat-box"><div class="stat-number">$25.3B</div><div class="stat-label">US annual burden (2026)</div></div>
+</div>
+</div>
+<p>After age fifty, one in two women and up to one in five men will suffer an osteoporotic fracture in their remaining lifetime. In women, the cumulative incidence of osteoporotic fractures surpasses the combined incidence of myocardial infarction, stroke, and breast cancer. <span class="ev ev-ii">Lvl II</span> Fewer than half of hip fracture survivors ever recover their pre-fracture mobility. <span class="ev ev-iv">Lvl IV</span></p>
+
+<div class="callout">
+<strong>From "Treatment Gap" to "Care Gap":</strong> Contemporary international consensus groups have redefined the under-diagnosis and under-treatment of osteoporosis as a broader <em>systemic care gap</em> — encompassing fragmented workflows, inequitable diagnostic access, low public awareness, and unhelpful stereotypes. This reframing transcends mere pharmacological abstinence. <span class="ev ev-v">Lvl V — Position Statement</span>
+</div>
+
+<p>A monumental policy shift occurred when the <strong>FDA qualified image-based BMD biomarkers as a primary surrogate endpoint</strong> for fracture in osteoporosis clinical trials through the SABRE Project (FNIH/ASBMR). Using data from 52 randomized trials (160,000 patients), this qualification allows future trials to require significantly fewer patients, reducing costs and accelerating time-to-market. <span class="ev ev-i">Lvl I — Meta-analysis</span></p>
+</section>
+
+<!-- SECTION 1: THERAPEUTICS -->
+<section id="therapeutics">
+<h2><span class="section-icon">💊</span>1. The Evolving Landscape of Osteoporosis Therapeutics</h2>
+
+<h3>1.1 Limitations of Traditional Antiresorptive Paradigms</h3>
+<p>For decades, standard of care relied on <strong>bisphosphonates</strong> (alendronate, risedronate, zoledronic acid) and <strong>SERMs</strong> (raloxifene) as first-line agents. Bisphosphonates inhibit osteoclast activity and recruitment, slowing resorption. SERMs activate estrogen receptors, enhancing the OPG/RANKL ratio. <span class="ev ev-ii">Lvl II</span></p>
+
+<div class="callout warning">
+<strong>Critical Limitation:</strong> Reflexive initiation of anti-resorptives is sub-optimal for <em>age-related, low-turnover osteoporosis</em>. Age-related bone loss (beginning in the 4th decade) is driven by <strong>decreased osteoblast function</strong>, not increased resorption. Furthermore, prior potent anti-resorptive use paradoxically <strong>blunts the subsequent efficacy of anabolic medications</strong>. <span class="ev ev-ii">Lvl II</span>
+</div>
+
+<h3>1.2 Goal-Directed Sequential Therapy</h3>
+<p>Current guidelines prioritize <strong>sequential therapy</strong> for severe/imminent fracture risk: initiate a potent <strong>anabolic or dual-action agent</strong> (teriparatide, abaloparatide, or romosozumab) to rapidly rebuild trabecular architecture → transition to anti-resorptive agent to consolidate gains once the anabolic window closes or BMD goals are met. <span class="ev ev-ii">Lvl II</span></p>
+
+<p><strong>Romosozumab</strong> — a sclerostin inhibitor — exemplifies the dual-action paradigm by simultaneously stimulating osteoblastic bone formation and inhibiting osteoclastic resorption. The landmark <strong>FRAME study</strong> definitively demonstrated superiority of bone-forming treatments over traditional anti-resorptives in severe osteoporosis cohorts. <span class="ev ev-ii">Lvl II — RCT</span></p>
+
+<h3>1.3 Denosumab Biosimilars &amp; Next-Gen Monoclonal Antibodies</h3>
+<p>The period 2024–2026 has seen widespread market entry of denosumab biosimilars, fundamentally altering therapeutic accessibility. Notable approvals include:</p>
+<ul>
+<li><strong>Ponlimsi</strong> (denosumab-adet) — FDA approved March 2026 <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>Boncresa / Oziltus</strong> (denosumab-mobz) — mAbxience / Amneal Pharmaceuticals <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>Jubereq</strong> (denosumab-desu) — Accord; <strong>AVT03</strong> — Alvotech <span class="ev ev-iii">Lvl III — BLA/BPCIA stage</span></li>
+</ul>
+<p>Population PK modeling and Phase III trials confirmed bioequivalence (AUC criteria met vs. reference denosumab). <span class="ev ev-i">Lvl I — PK Modeling/Meta-analysis</span></p>
+
+<p><strong>TST002 (Blosozumab)</strong> — a humanized anti-sclerostin antibody — SAD studies demonstrated a single injection (up to 1,200 mg) induced <strong>3.52%–6.20% lumbar spine BMD increase by day 85</strong>, with P1NP (formation marker) correlating positively with dose and no new safety signals. <span class="ev ev-ii">Lvl II — Phase II</span></p>
+
+<h3>1.4 Emerging Molecular Targets</h3>
+<h4>Salt-Inducible Kinase (SIK) Inhibitors</h4>
+<p>Orally available SIK inhibitors act downstream in cellular signaling to potently stimulate bone formation — a promising non-peptide, oral alternative to current injectable anabolics. <span class="ev ev-v">Lvl V — Preclinical</span></p>
+
+<h4>EP4 Receptor Agonists</h4>
+<p>Bone-targeting EP4 agonist prodrugs and bisphosphonate-EP4a conjugate drugs (C3) utilize bisphosphonate bone affinity to deliver anabolic signals directly to the osteoporotic microenvironment, minimizing off-target effects. <span class="ev ev-v">Lvl V — Preclinical</span></p>
+
+<h4>Dual-Inhibition Bispecific Antibodies</h4>
+<p>Antibodies targeting both sclerostin and DKK-1 (endogenous Wnt/β-catenin inhibitors) have demonstrated synergistic effects in preclinical models, promoting massive bone mass accrual and accelerating fracture repair. <span class="ev ev-v">Lvl V — Preclinical</span></p>
+
+<h3>1.5 Senolytic Therapy: Targeting Cellular Aging</h3>
+<p>Cellular senescence involves irreversible cell cycle arrest with pathological SASP (senescence-associated secretory phenotype) — chronic accumulation of senescent osteocytes and MSCs creates a toxic, pro-inflammatory marrow microenvironment that inhibits osteoblastogenesis and drives osteoclast hyperactivation. <span class="ev ev-ii">Lvl II</span></p>
+
+<p><strong>Senolytics</strong> selectively induce apoptosis in senescent cells. Strategies under investigation include: kinase inhibitors, Bcl-2 family inhibitors, p53 interaction inhibitors, HSP90 inhibitors, and naturally occurring flavonoids (quercetin). Phase II RCTs in postmenopausal women have shown significant favorable alterations in bone metabolism. <span class="ev ev-ii">Lvl II — Phase II RCT</span> GDF11 experimental treatments have successfully reversed senescent phenotypes in MSCs. <span class="ev ev-v">Lvl V — Preclinical</span></p>
+
+<div class="callout warning">
+<strong>Important Caveat:</strong> Substantial discrepancies remain between animal models and human outcomes. Long-term trials are required to refine dosing, ensure sustained efficacy, and mitigate off-target toxicity before broad clinical integration.
+</div>
+
+<!-- Therapeutics Table -->
+<div class="table-wrap">
+<table>
+<caption>Table 1. Therapeutic Classification in Osteoporosis Management (Source-Derived)</caption>
+<thead>
+<tr><th>Classification</th><th>Representative Agents</th><th>Status</th><th>Mechanism</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Sclerostin Inhibition</strong></td><td>Romosozumab, TST002 (Blosozumab)</td><td>Approved / Phase II</td><td><span class="mechanism-tag mt-dual">Dual-action</span> Stimulates osteoblasts; inhibits osteoclasts</td></tr>
+<tr><td><strong>RANKL Inhibition</strong></td><td>Denosumab, Ponlimsi, MB-09</td><td>Approved (biosimilars expanding)</td><td><span class="mechanism-tag mt-resorb">Anti-resorptive</span> Halts osteoclast maturation/survival</td></tr>
+<tr><td><strong>SIK Inhibition</strong></td><td>Selective SIK inhibitors</td><td>Preclinical / Early Phase</td><td><span class="mechanism-tag mt-form">Anabolic</span> Oral downstream phosphorylation modulation</td></tr>
+<tr><td><strong>EP4 Receptor Agonism</strong></td><td>EP4a-bisphosphonate conjugates</td><td>Preclinical</td><td><span class="mechanism-tag mt-target">Targeted delivery</span> Localized anabolic signaling to bone</td></tr>
+<tr><td><strong>Senolytic Therapy</strong></td><td>Flavonoids, SASP inhibitors, BCL-2 inhibitors</td><td>Phase II RCTs</td><td><span class="mechanism-tag mt-target">Cellular</span> Clears senescent cells; resolves marrow inflammation</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- SECTION 2: BONE-MUSCLE CROSSTALK -->
+<section id="osteosarcopenia">
+<h2><span class="section-icon">🦴</span>2. Bone-Muscle Crosstalk in Osteosarcopenia</h2>
+
+<p>Osteoporosis and sarcopenia frequently coexist as <strong>osteosarcopenia (OS)</strong>. Beyond mechanotransduction (WiffWolff's Law), skeletal muscle and bone are now recognized as <strong>endocrine organs</strong> engaging in bidirectional biochemical crosstalk via <em>myokines</em> (muscle-derived) and <em>osteokines</em> (bone-derived). <span class="ev ev-ii">Lvl II</span></p>
+
+<h3>2.1 Myokines: Muscle → Bone Signaling</h3>
+<ul>
+<li><strong>Myostatin (MSTN):</strong> Elevated during aging; inhibits osteogenic differentiation of BMSCs while promoting RANKL-induced osteoclastogenesis — a destructive "hypo-osteogenic/pro-osteoclastic" axis. <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>FGF21:</strong> Pathological accumulation drives type II fiber atrophy AND activates FGFR1/α-Klotho on osteoblasts, inhibiting differentiation and upregulating RANKL. <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>IGF-1 (protective):</strong> Muscle-derived IGF-1 enhances osteogenesis and bone matrix synthesis. <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>FGF2 (protective):</strong> Stimulates osteoblast proliferation; counteracts glucocorticoid-induced bone degradation by inhibiting sclerostin. <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>Irisin (protective):</strong> Released during exercise; drives coupled myogenesis and osteogenesis. <span class="ev ev-ii">Lvl II</span></li>
+</ul>
+
+<h3>2.2 Osteokines: Bone → Muscle Signaling</h3>
+<ul>
+<li><strong>Osteocalcin (ucOCN):</strong> Uncarboxylated form activates GPRC6A receptor on muscle → upregulates PI3K/Akt/mTOR → enhances glucose uptake, counteracts muscle atrophy, improves exercise capacity. <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>RANKL/OPG Axis:</strong> Skeletal muscle expresses RANK receptors. Elevated RANKL/OPG ratio (typical in osteoporosis) activates NF-κB in muscle → rapid atrophy of fast-twitch type IIb fibers. <span class="ev ev-ii">Lvl II</span></li>
+<li><strong>Sclerostin (SOST):</strong> Beyond inhibiting bone formation, sclerostin acts as a systemic endocrine factor negatively regulating muscle protein synthesis. <span class="ev ev-ii">Lvl II</span></li>
+</ul>
+
+<h3>2.3 Dual-Action Therapeutic: Myostatin Inhibitors</h3>
+<p>Precision targeting of the <strong>myostatin/activin A pathway</strong> is the most advanced dual-action strategy. Monoclonal antibodies or soluble decoy receptors (ActRIIB-Fc) block inhibitory signals on both muscle fibers and osteoprogenitor cells simultaneously. <span class="ev ev-ii">Lvl II</span></p>
+
+<ul>
+<li><strong>Apitegromab (SRK-015)</strong> — Phase II/III for spinal muscular atrophy</li>
+<li><strong>Bimagrumab (BYM338)</strong> — early clinical evaluations</li>
+<li><strong>Sotatercept</strong> — increased bone ALP and reduced bone resorption biomarkers in postmenopausal women (RCT). <span class="ev ev-ii">Lvl II — RCT</span></li>
+<li><strong>Taldefgrobep alfa</strong> — ongoing evaluation</li>
+</ul>
+
+<div class="limitation">
+<strong>⚠ Source Limitation:</strong> While myostatin inhibitors show promise, earlier generations faced translational hurdles regarding off-target effects. The current wave of refined antibodies requires further validation before broad clinical deployment. Data specific to osteoporosis fracture endpoints (beyond biomarkers) are not yet available in this source.
+</div>
+
+<div class="table-wrap">
+<table>
+<caption>Table 2. Key Myokines and Osteokines in Osteosarcopenia Crosstalk</caption>
+<thead>
+<tr><th>Factor</th><th>Source</th><th>Effect on Bone</th><th>Effect on Muscle</th><th>Clinical Implication</th></tr>
+</thead>
+<tbody>
+<tr><td>Myostatin ↑</td><td>Muscle (aging)</td><td>Inhibits osteogenesis; ↑ osteoclastogenesis</td><td>Induces sarcopenia</td><td><span class="mechanism-tag mt-target">Therapeutic target</span> Myostatin inhibitors in trials</td></tr>
+<tr><td>FGF21 ↑</td><td>Muscle (metabolic toxicity)</td><td>Inhibits OB differentiation; ↑ RANKL</td><td>Type II fiber atrophy</td><td><span class="mechanism-tag mt-resorb">Pathological</span> Age-related catabolic driver</td></tr>
+<tr><td>IGF-1</td><td>Muscle (loaded)</td><td>↑ Osteogenesis</td><td>↑ Protein synthesis</td><td><span class="mechanism-tag mt-form">Protective</span> Exercise-induced</td></tr>
+<tr><td>Irisin</td><td>Muscle (exercise)</td><td>↑ Coupled osteogenesis</td><td>↑ Myogenesis</td><td><span class="mechanism-tag mt-form">Protective</span> Key mediator of exercise benefit</td></tr>
+<tr><td>Osteocalcin (ucOCN)</td><td>Bone (OB)</td><td>—</td><td>↑ Glucose uptake; ↑ mTOR signaling</td><td><span class="mechanism-tag mt-form">Protective</span> Counteracts muscle atrophy</td></tr>
+<tr><td>RANKL ↑</td><td>Bone/stromal cells</td><td>↑ OC activity</td><td>↑ NF-κB; type IIb atrophy</td><td><span class="mechanism-tag mt-resorb">Pathological</span> Denosumab addresses both tissues</td></tr>
+<tr><td>Sclerostin</td><td>Bone (OCY)</td><td>Inhibits Wnt/β-catenin</td><td>↓ Protein synthesis</td><td><span class="mechanism-tag mt-dual">Dual target</span> Anti-sclerostin agents benefit both</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- SECTION 3: AI IN FRACTURE PREDICTION -->
+<section id="ai">
+<h2><span class="section-icon">🤖</span>3. Artificial Intelligence in Fracture Risk Prediction</h2>
+
+<h3>3.1 Limitations of DXA and FRAX</h3>
+<p>The current diagnostic standard (DXA + FRAX) suffers from severe analytical and predictive limitations:</p>
+<ul>
+<li><strong>DXA sensitivity:</strong> 37.0%–74.0% — an unacceptably high proportion of fragility fractures occur in patients classified as "osteopenic" or "normal" <span class="ev ev-i">Lvl I — Systematic Review</span></li>
+<li><strong>FRAX sensitivity:</strong> 45.7%–84.7% <span class="ev ev-i">Lvl I — Systematic Review</span></li>
+<li>Access severely limited: <strong>&lt;25% of eligible US women</strong> undergo recommended DXA testing <span class="ev ev-iv">Lvl IV — Cohort data</span></li>
+<li>Raw 2D BMD fundamentally fails to capture 3D trabecular microarchitecture, bone toughness, microdefects, and crack propagation paths</li>
+</ul>
+
+<h3>3.2 AI &amp; Deep Learning: Disruptive Superiority</h3>
+<p>A comprehensive systematic review across hundreds of thousands of subjects found AI models (CNNs trained on radiographs and CT scans) achieved:</p>
+
+<div class="stat-grid" style="margin:1rem 0">
+<div class="stat-box"><div class="stat-number">~99%</div><div class="stat-label">Average fracture prediction accuracy</div></div>
+<div class="stat-box"><div class="stat-number">AUC ~0.925</div><div class="stat-label">Mean AUROC</div></div>
+<div class="stat-box"><div class="stat-number">68.3±15.3%</div><div class="stat-label">Mean sensitivity</div></div>
+<div class="stat-box"><div class="stat-number">p &lt; 0.001</div><div class="stat-label">vs DXA/FRAX</div></div>
+</div>
+
+<p>Architectures achieving this include <strong>GoogLeNet (Inception Net)</strong>, <strong>DeepSurv</strong>, and <strong>Random Survival Forests</strong>. Some models achieved correlation coefficients approaching 1.0. <span class="ev ev-i">Lvl I — Systematic Review of AI studies</span></p>
+
+<h3>3.3 Opportunistic Screening: The Diagnostic Breakthrough</h3>
+<p>Tens of millions of patients undergo routine non-contrast CT and chest X-rays annually for non-skeletal indications. FDA-cleared AI platforms can now retrospectively analyze these scans to extract BMD equivalents and fracture risk scores — <strong>with zero additional radiation and zero extra appointments</strong>:</p>
+<ul>
+<li><strong>OsteoSight</strong> (Naitive Technologies), <strong>Rho software</strong>, <strong>TBS Osteo</strong> (Medimaps Group) — FDA cleared <span class="ev ev-iv">Lvl IV — Validation study (n ≈ 5,000)</span></li>
+<li>Rho software: AUC = 0.840 for low BMD risk; AUC = 0.815 for osteoporosis — uniform efficacy across urban and rural populations <span class="ev ev-iv">Lvl IV</span></li>
+<li>Stanford algorithms analyze bony spinal structures from standard abdominal CTs <span class="ev ev-iv">Lvl IV</span></li>
+<li>Nanox AI: increases identification of vertebral compression fractures by up to <strong>6-fold</strong> vs. standard reading <span class="ev ev-iv">Lvl IV</span></li>
+</ul>
+
+<div class="table-wrap">
+<table>
+<caption>Table 3. Comparative Performance: Traditional vs. AI-Based Fracture Prediction</caption>
+<thead>
+<tr><th>Modality</th><th>Accuracy</th><th>Sensitivity</th><th>Key Advantages</th><th>Major Limitations</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>DXA (BMD)</strong></td><td>~65–70%</td><td>37.0%–74.0%</td><td>Established standard; regulatory acceptance</td><td>Separate visit; poor microarchitecture analysis; low compliance</td></tr>
+<tr><td><strong>FRAX Algorithm</strong></td><td>~65–70%</td><td>45.7%–84.7%</td><td>Integrates clinical risk factors</td><td>Underestimates risk in complex cohorts; DXA-dependent</td></tr>
+<tr><td><strong>AI (CNN/Deep Learning)</strong></td><td>~92–99%</td><td>68.3±15.3%</td><td>Analyzes micro-defects; zero-radiation opportunistic screening; bypasses compliance barriers</td><td>"Black box" explainability; data integration demands; demographic bias risk</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>3.4 Implementation Challenges</h3>
+<ul>
+<li><strong>Lack of Explainability:</strong> Deep neural networks as "black boxes" hinder clinical trust and violate shared decision-making principles <span class="ev ev-v">Lvl V — Expert Review</span></li>
+<li><strong>Algorithmic Bias:</strong> Models overfit to training data; algorithms trained on homogenous populations struggle with diverse cohorts, risking exacerbation of health disparities <span class="ev ev-v">Lvl V</span></li>
+<li><strong>Data Heterogeneity:</strong> Multimodal orthopedic data (3D imaging, biomarkers, intraoperative sensors, gait analyses) requires substantial EHR integration investment <span class="ev ev-v">Lvl V</span></li>
+<li><strong>Human-Factor Challenges:</strong> Clinician resistance, liability fears, and imbalanced human-AI interaction require comprehensive training programs and clear legal frameworks <span class="ev ev-v">Lvl V</span></li>
+</ul>
+</section>
+
+<!-- SECTION 4: PERIOPERATIVE MANAGEMENT -->
+<section id="perioperative">
+<h2><span class="section-icon">🏥</span>4. Perioperative Management of Osteoporotic Fractures</h2>
+
+<p>When prevention fails, the patient enters an acute high-mortality phase. Over 25% of hip fracture patients die within 12 months; &lt;50% recover pre-fracture mobility. <span class="ev ev-iv">Lvl IV — Expert Consensus</span></p>
+
+<h3>4.1 The Interdisciplinary Orthogeriatric Consensus</h3>
+<p>Guided by the <strong>Fragility Fracture Network (FFN)</strong> and allied organizations, the orthogeriatric model mandates integrated co-management from admission through recovery. Core tenets: <span class="ev ev-v">Lvl V — International Consensus</span></p>
+
+<ul>
+<li><strong>Surgical Urgency:</strong> Intervention within <strong>48 hours</strong> of admission; minimally invasive techniques allowing immediate postoperative limb loading</li>
+<li><strong>Medical Optimization:</strong> Rapid frailty/cognition/nutritional assessment; limited fasting times; early anticoagulation (VTE prevention)</li>
+<li><strong>Multimodal Analgesia &amp; Delirium Prevention:</strong> Regional anesthesia + paracetamol + NSAIDs; opioids reserved for refractory cases. <strong>Dexmedetomidine</strong> (α₂-agonist) demonstrated exceptional efficacy in preventing postoperative delirium. <span class="ev ev-i">Lvl I — Network meta-analysis (158 RCTs, 41,000+ participants)</span></li>
+<li><strong>Early Mobilization:</strong> Within 24 hours post-op; guided by Cumulated Ambulation Score (CAS)</li>
+</ul>
+
+<h3>4.2 Bone Health Optimization (BHO) &amp; Fracture Liaison Services</h3>
+<p>Premier institutions adopt formal BHO pathways via Bone Health Clinics (BHC) and Fracture Liaison Services (FLS) to address the high rates of hardware failure and non-union in osteoporotic patients. <span class="ev ev-iv">Lvl IV — Retrospective cohort</span></p>
+<ul>
+<li><strong>Opportunistic preoperative CT screening:</strong> Lumbar trabecular Hounsfield Units (HU) below established thresholds flag severely compromised bone quality for BHC referral <span class="ev ev-iv">Lvl IV</span></li>
+<li><strong>Vitamin D optimization:</strong> Serum 25-OH Vitamin D must exceed minimum thresholds; each unit increase correlates with ~20% reduction in proximal femur fracture risk and reduced perioperative mortality <span class="ev ev-iv">Lvl IV</span></li>
+<li><strong>Pharmacological sequencing:</strong> Preoperative anabolics (romosozumab/abaloparatide) → postoperative antiresorptives (denosumab). This yields significant T-score improvements, keeping hardware failure rates &lt;11.5% and revision rates &lt;5.7%. <span class="ev ev-iv">Lvl IV — Retrospective analysis</span></li>
+</ul>
+
+<h3>4.3 Advanced Surgical Fixation Technologies</h3>
+
+<h4>Cement-Augmented Fenestrated Screws</h4>
+<p>The undisputed gold standard for spinal fixation in severely osteoporotic bone. PMMA cement is injected through perforated screw shafts, creating a "chemical anchor" via interdigitation with surrounding trabeculae. <span class="ev ev-i">Lvl I — Meta-analysis (850+ patients)</span></p>
+<ul>
+<li>Odds ratio for screw loosening: <strong>0.18 (p &lt; 0.001)</strong> vs. conventional screws</li>
+<li>Significantly higher intervertebral fusion rates</li>
+<li>No concurrent increase in neurological complications</li>
+</ul>
+
+<h4>Expandable Pedicle Screws &amp; Innovative Anchors</h4>
+<p>Internal fins/wings deploy post-insertion to grip bone. Biomechanical studies show ~30% greater ultimate failure load vs. standard screws. Novel <strong>Short Expandable-Wing (SEW) suture anchors</strong> (UHMWPE) provide robust fixation in compromised sites and allow safe explantation. <span class="ev ev-iv">Lvl IV — Biomechanical study</span></p>
+
+<h3>4.4 Smart Implants &amp; Bio-Integrated Materials</h3>
+<ul>
+<li><strong>3D-Printed Porous Titanium:</strong> Patient-specific implants with lattice architectures mirroring trabecular porosity for deep osseointegration <span class="ev ev-v">Lvl V — Emerging technology</span></li>
+<li><strong>Biodegradable Magnesium Alloys:</strong> Temporary fixation that degrades as fracture callus assumes load-bearing; eliminates need for hardware removal surgery <span class="ev ev-v">Lvl V — Clinical trials ongoing</span></li>
+<li><strong>"Smart" Implants with Micro-Sensors:</strong> Embedded strain gauges wirelessly transmit real-time biomechanical data (load, strain, pressure), detecting micro-motion, subsidence, or pseudarthrosis months before radiographic visibility <span class="ev ev-v">Lvl V — Emerging technology</span></li>
+</ul>
+</section>
+
+<!-- SECTION 5: FUTURE DIRECTIONS -->
+<section id="future">
+<h2><span class="section-icon">🔭</span>5. Future Research Directions</h2>
+
+<p>Bibliometric analysis of 2,700+ recent publications (US leading output) reveals an intense focus on <strong>"extracellular vesicles," "exosomes,"</strong> and <strong>"targeted drug delivery"</strong> — indicating the future lies in utilizing endogenous cellular communication networks (stem-cell-derived exosomes) for precise osteogenic payloads delivery with minimal systemic side effects. <span class="ev ev-iv">Lvl IV — Bibliometric analysis</span></p>
+
+<div class="callout success">
+<strong>Key Policy Imperatives:</strong>
+<ul style="margin-top:.5rem">
+<li>Adoption of a universal <strong>"Fragility Fracture Code"</strong> (analogous to stroke/MI protocols) to instantly mobilize multidisciplinary resources <span class="ev ev-v">Lvl V — International consensus</span></li>
+<li>Empowerment of primary care physicians in early fracture prevention</li>
+<li>Massive expansion of Fracture Liaison Services</li>
+<li>Patient advocacy to shatter societal stereotypes surrounding aging and bone health</li>
+</ul>
+</div>
+</section>
+
+<!-- REFERENCES -->
+<section class="ref-section" id="references">
+<h2>References (Source-Derived)</h2>
+<ol>
+<li>Osteoporosis therapies and their mechanisms of action (Review). <em>PMC/NIH</em>. 2021.</li>
+<li>World Osteoporosis Day 2025. <em>American Society for Bone and Mineral Research</em>.</li>
+<li>Osteoporosis: Addressing the Unmet Need. <em>PPD / American Pharmaceutical Review</em>. 2018.</li>
+<li>Expert consensus on Prospective Precision Diagnosis and Treatment Strategies for Osteoporotic Fractures. <em>PMC</em>. 2025.</li>
+<li>Time to reframe osteoporosis: a position statement to characterize the osteoporosis care gap. <em>JBMR Plus</em>. 2026.</li>
+<li>FDA Qualifies First Surrogate Endpoint for Use in Osteoporosis Clinical Trials. <em>ASBMR</em>. 2026.</li>
+<li>Novel therapies in osteoporosis. <em>PubMed</em>. 2025.</li>
+<li>Recent Advances in Osteoporosis Therapeutics. <em>Annual Reviews of Medicine</em>. 2025.</li>
+<li>Accuracy of artificial intelligence in prediction of osteoporotic fractures. <em>PMC</em>. 2025.</li>
+<li>Evaluating an AI software for opportunistic low BMD screening. <em>PMC</em>. 2025.</li>
+<li>Clinical Translation of an AI Tool to Detect Osteoporosis. <em>Radiology / Stanford Medicine</em>. 2025.</li>
+<li>Incorporating AI into Fracture Risk Assessment. <em>Endocrinology and Metabolism</em>. 2025.</li>
+<li>Muscle–Bone Biochemical Crosstalk in Osteosarcopenia. <em>Journal of Endocrinology</em>. 2025.</li>
+<li>Myostatin inhibitors in sarcopenia treatment. <em>PubMed</em>. 2026.</li>
+<li>Interdisciplinary Consensus on Hip Fracture Care (FFN). <em>Fragility Fracture Network</em>. 2025.</li>
+<li>Bone Optimization for Perioperative Spine Patients. <em>PMC</em>. 2025.</li>
+<li>Bone cement-augmented vs. conventional pedicle screws: meta-analysis. <em>PMC</em>. 2025.</li>
+<li>Current developments in orthopaedic implant technology. <em>PMC</em>. 2025.</li>
+<li>A bibliometric analysis of osteoporosis pharmacological treatment. <em>PMC</em>. 2025.</li>
+<li>Targeting Cell Senescence and Senolytics. <em>Oxford Academic / Endocrine Reviews</em>. 2024.</li>
+</ol>
+</section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar" role="complementary" aria-label="Interactive clinical parameters">
+<div class="sidebar-card">
+<h3>📊 Clinical Parameter Explorer</h3>
+<p style="font-size:.78rem;color:var(--text-secondary);margin-bottom:1rem">Adjust parameters below to generate real-time clinical recommendations based on the source document.</p>
+
+<div class="slider-group">
+<label for="tscore">Lumbar Spine T-Score (DXA)</label>
+<span class="slider-value" id="tscore-val">-2.5</span>
+<input type="range" id="tscore" min="-4.0" max="0.0" step="0.1" value="-2.5" aria-label="Lumbar spine T-score">
+<div class="slider-labels"><span>Severe (−4.0)</span><span>Normal (0.0)</span></div>
+<div class="threshold-note">Thresholds: Osteopenia ≤ −1.0; Osteoporosis ≤ −2.5 (Standard WHO criteria — referenced in source)</div>
+</div>
+
+<div class="slider-group">
+<label for="vitd">Serum 25-OH Vitamin D (ng/mL)</label>
+<span class="slider-value" id="vitd-val">25</span>
+<input type="range" id="vitd" min="5" max="80" step="1" value="25" aria-label="Vitamin D level in ng/mL">
+<div class="slider-labels"><span>Deficient (5)</span><span>Optimal (80)</span></div>
+<div class="threshold-note">Source: levels must exceed minimum threshold; each ng/mL increase → ~20% femoral fracture risk reduction. Assumed minimum = 30 ng/mL based on source context.</div>
+</div>
+
+<div class="slider-group">
+<label for="hu">Lumbar Spine Hounsfield Units (Opportunistic CT)</label>
+<span class="slider-value" id="hu-val">110</span>
+<input type="range" id="hu" min="30" max="200" step="5" value="110" aria-label="Lumbar spine Hounsfield Units">
+<div class="slider-labels"><span>Severely porotic (30)</span><span>Normal (200)</span></div>
+<div class="threshold-note">Source references HU-based preoperative screening for severely compromised bone. Threshold &lt;110 HU associated with osteoporosis — commonly accepted clinical threshold; not explicitly stated with exact number in source.</div>
+</div>
+
+<div class="btn-group">
+<button class="btn btn-primary" onclick="generateRecommendation()">Generate Recommendation</button>
+<button class="btn btn-outline" onclick="resetSliders()">↺ Reset</button>
+<button class="btn btn-outline" onclick="copyExport()" id="copyBtn">📋 Copy Summary</button>
+</div>
+
+<div id="recommendation-box"></div>
+</div>
+
+<div class="sidebar-card">
+<h3>📋 Evidence Summary</h3>
+<ul style="font-size:.78rem;color:var(--text-secondary);line-height:1.6">
+<li><strong>Landmark trials identified:</strong> FRAME (romosozumab), SABRE Project (FDA BMD qualification), multiple denosumab biosimilar PK/efficacy trials, SAD studies (TST002/Blosozumab), dexmedetomidine meta-analysis (158 RCTs), AI systematic review</li>
+<li><strong>Key meta-analyses:</strong> Cement-augmented screws (850+ patients), AI prediction (hundreds of thousands of subjects)</li>
+<li><strong>Primary source studies:</strong> ~20 key references derived from the source document</li>
+</ul>
+<div class="limitation" style="margin-top:.75rem">
+<strong>⚠ Data Transparency:</strong> All data, study references, and thresholds are derived exclusively from the provided source document. Where exact numerical thresholds are absent from the source, commonly accepted clinical values are used and explicitly annotated.
+</div>
+</div>
+</aside>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle clinical parameters panel" onclick="toggleSidebar()">⚙</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<script>
+// Slider sync
+const sliders = [
+  {id:'tscore', valId:'tscore-val', fmt:v=>v.toFixed(1)},
+  {id:'vitd', valId:'vitd-val', fmt:v=>Math.round(v).toString()},
+  {id:'hu', valId:'hu-val', fmt:v=>Math.round(v).toString()}
+];
+sliders.forEach(s=>{
+  const el=document.getElementById(s.id);
+  const valEl=document.getElementById(s.valId);
+  el.addEventListener('input',()=>{
+    valEl.textContent=s.fmt(parseFloat(el.value));
+    valEl.classList.remove('highlight-pulse');
+    void valEl.offsetWidth;
+    valEl.classList.add('highlight-pulse');
+  });
+});
+
+function generateRecommendation(){
+  const tscore=parseFloat(document.getElementById('tscore').value);
+  const vitd=parseFloat(document.getElementById('vitd').value);
+  const hu=parseFloat(document.getElementById('hu').value);
+
+  let riskLevel='low';
+  let title='Low Fracture Risk — Preventive Strategy';
+  let recs=[];
+  let evidenceNotes=[];
+
+  // T-score logic
+  if(tscore<=-2.5){
+    riskLevel='high';
+    recs.push('<li><strong>Pharmacological therapy indicated.</strong> Per source: initiate potent anabolic/dual-action agent (romosozumab, teriparatide, or abaloparatide) → transition to anti-resorptive (denosumab or bisphosphonate) for consolidation.</li>');
+    recs.push('<li><strong>Goal-directed sequential therapy</strong> recommended. <em>(Source: current clinical guidelines prioritize this approach for severe/inminent fracture risk — Evidence Level II)</em></li>');
+    evidenceNotes.push('Sequential therapy mandate: [Ref 7,8]');
+    if(tscore<=-3.0){
+      title='Severe Osteoporosis — Urgent Intervention Required';
+      recs.push('<li><strong>Consider romosozumab</strong> as first-line anabolic (dual-action: ↑ formation, ↓ resorption). FRAME trial demonstrated superiority over anti-resorptives alone. <em>(Evidence Level II)</em></li>');
+      evidenceNotes.push('FRAME study: [Ref 14]');
+    }
+    if(tscore<=-2.5 && tscore>-3.0){
+      title='Osteoporosis — Active Treatment Indicated';
+    }
+    recs.push('<li>Screen for <strong>osteosarcopenia</strong>: evaluate muscle strength/mass. If present, consider myostatin inhibitor enrollment in clinical trials. <em>(Source: myostatin/activin A pathway targeting — Evidence Level II)</em></li>');
+    evidenceNotes.push('Osteosarcopenia crosstalk: [Ref 30-34]');
+  } else if(tscore<=-1.0){
+    if(riskLevel!=='high') riskLevel='moderate';
+    title='Osteopenia — Monitor & Optimize';
+    recs.push('<li><strong>Lifestyle interventions</strong> (weight-bearing exercise, calcium/vitamin D optimization) as baseline strategy</li>');
+    recs.push('<li>Monitor BMD at regular intervals; if declining trajectory, escalate to pharmacological therapy</li>');
+    recs.push('<li>Opportunistic AI screening from routine CT/X-ray can provide supplementary bone quality assessment. <em>(Source: AI models achieve AUC ~0.925 — Evidence Level I systematic review)</em></li>');
+    evidenceNotes.push('AI opportunistic screening: [Ref 39,41]');
+  } else {
+    title='Normal Bone Density — Preventive Maintenance';
+    recs.push('<li>Continue weight-bearing exercise and adequate calcium/vitamin D intake</li>');
+    recs.push('<li>Standard age-appropriate screening per guidelines</li>');
+  }
+
+  // Vitamin D logic
+  if(vitd<20){
+    recs.push('<li><strong>⚠ Vitamin D severely deficient ('+Math.round(vitd)+' ng/mL).</strong> Aggressive repletion required before any surgical intervention. Source: each ng/mL increase correlates with ~20% reduction in proximal femur fracture risk. <em>(Evidence Level IV)</em></li>');
+    evidenceNotes.push('Vitamin D & fracture risk: [Ref 56]');
+  } else if(vitd<30){
+    recs.push('<li><strong>Vitamin D suboptimal ('+Math.round(vitd)+' ng/mL).</strong> Supplement to exceed 30 ng/mL minimum threshold referenced in source perioperative optimization guidelines. <em>(Evidence Level IV)</em></li>');
+  } else {
+    recs.push('<li>✓ Vitamin D level adequate ('+Math.round(vitd)+' ng/mL) — meets perioperative optimization threshold from source. <em>(Evidence Level IV)</em></li>');
+  }
+
+  // HU logic
+  if(hu<110){
+    if(riskLevel!=='high') riskLevel='moderate';
+    recs.push('<li><strong>Opportunistic CT: Low Hounsfield Units ('+Math.round(hu)+' HU).</strong> Severely compromised bone quality flagged. Per source: refer to Bone Health Clinic (BHC) prior to any surgical clearance. <em>(Evidence Level IV — Retrospective cohort)</em></li>');
+    evidenceNotes.push('BHO/BHC protocols: [Ref 55]');
+    recs.push('<li>If surgery indicated: <strong>cement-augmented fenestrated screws</strong> are the gold standard for spinal fixation (OR for loosening = 0.18, p&lt;0.001). <em>(Evidence Level I — Meta-analysis)</em></li>');
+    evidenceNotes.push('Cement-augmented screws: [Ref 58]');
+  } else if(hu<150){
+    recs.push('<li>Opportunistic CT: Moderate HU value ('+Math.round(hu)+'). Bone quality is suboptimal — consider BHC evaluation if major surgery planned.</li>');
+  } else {
+    recs.push('<li>✓ Hounsfield Units adequate ('+Math.round(hu)+' HU) — bone quality appears preserved on opportunistic CT assessment.</li>');
+  }
+
+  // Perioperative note for high risk
+  if(riskLevel==='high'){
+    recs.push('<li><strong>Perioperative Optimization (if surgery needed):</strong> Orthogeriatric co-management model — surgery within 48 hours; multimodal analgesia; dexmedetomidine for delirium prevention (NMA: 158 RCTs, 41,000+ participants — <em>Evidence Level I</em>); mobilization within 24 hours. <em>(Source: FFN International Consensus — Evidence Level V)</em></li>');
+    evidenceNotes.push('Orthogeriatric consensus: [Ref 52]');
+    evidenceNotes.push('Dexmedetomidine NMA: [Ref 52]');
+  }
+
+  const boxClass = riskLevel==='high'?'risk-high':riskLevel==='moderate'?'risk-mod':'';
+  const html=`
+    <div class="rec-box ${boxClass}" style="margin-top:1rem">
+      <h4>${title}</h4>
+      <p style="font-size:.75rem;margin-bottom:.5rem;opacity:.8">Based on: T-Score = ${tscore.toFixed(1)} | Vitamin D = ${Math.round(vitd)} ng/mL | HU = ${Math.round(hu)}</p>
+      <ul>${recs.join('')}</ul>
+      <p style="font-size:.7rem;margin-top:.75rem;opacity:.7;font-style:italic">Key references: ${[...new Set(evidenceNotes)].join('; ') || 'General source document'}</p>
+    </div>
+  `;
+  document.getElementById('recommendation-box').innerHTML=html;
+}
+
+function resetSliders(){
+  document.getElementById('tscore').value=-2.5;
+  document.getElementById('vitd').value=25;
+  document.getElementById('hu').value=110;
+  sliders.forEach(s=>{
+    document.getElementById(s.valId).textContent=s.fmt(parseFloat(document.getElementById(s.id).value));
+  });
+  document.getElementById('recommendation-box').innerHTML='';
+}
+
+function copyExport(){
+  const tscore=document.getElementById('tscore').value;
+  const vitd=document.getElementById('vitd').value;
+  const hu=document.getElementById('hu').value;
+  const recBox=document.getElementById('recommendation-box');
+  const recText=recBox.innerText||'No recommendation generated yet. Please click "Generate Recommendation" first.';
+  const timestamp=new Date().toISOString();
+  const text=`OSTEOPOROSIS CLINICAL PARAMETER SUMMARY
+Generated: ${timestamp}
+==========================================
+
+PARAMETERS:
+- Lumbar Spine T-Score (DXA): ${parseFloat(tscore).toFixed(1)}
+- Serum 25-OH Vitamin D: ${Math.round(vitd)} ng/mL
+- Lumbar Spine HU (Opportunistic CT): ${Math.round(hu)}
+
+CLINICAL RECOMMENDATION:
+${recText}
+
+EVIDENCE BASIS:
+All recommendations derived from: "Advanced Paradigms in Osteoporosis Management: Novel Therapeutics, AI Integration, and Perioperative Optimization" (2026 source document).
+
+DISCLAIMER:
+This tool is for educational purposes only and does not constitute clinical advice. Thresholds are derived from the source document or annotated clinical standards. Always consult current guidelines and clinical judgment.`;
+
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    const orig=btn.innerHTML;
+    btn.innerHTML='✓ Copied!';
+    btn.style.background='#d1fae5';
+    btn.style.borderColor='#86efac';
+    setTimeout(()=>{btn.innerHTML=orig;btn.style.background='';btn.style.borderColor='';},2000);
+  }).catch(()=>{
+    // Fallback
+    const ta=document.createElement('textarea');
+    ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    const btn=document.getElementById('copyBtn');
+    const orig=btn.innerHTML;
+    btn.innerHTML='✓ Copied!';
+    setTimeout(()=>{btn.innerHTML=orig;},2000);
+  });
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('active');
+}
+
+// Auto-generate on load
+generateRecommendation();
+</script>
+</body>
+</html>

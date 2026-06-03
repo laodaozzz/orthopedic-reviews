@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPFL Reconstruction in Pediatric &amp; Adolescent Populations — Interactive Clinical Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f9fc;
+  --surface: #ffffff;
+  --primary: #1e40af;
+  --primary-light: #dbeafe;
+  --accent: #059669;
+  --accent-light: #d1fae5;
+  --warn: #d97706;
+  --warn-light: #fef3c7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,.08);
+  --radius: 10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+h1,h2,h3,h4{font-family:'Merriweather',Georgia,serif;line-height:1.3;color:var(--primary)}
+h1{font-size:1.75rem;margin-bottom:.5rem}
+h2{font-size:1.4rem;margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--primary-light)}
+h3{font-size:1.15rem;margin:1.8rem 0 .6rem;color:#334155}
+h4{font-size:1rem;margin:1.2rem 0 .4rem;color:#475569}
+p{margin-bottom:1rem}
+ul,ol{margin:0 0 1rem 1.5rem}
+li{margin-bottom:.35rem}
+strong{color:#0f172a}
+a{color:var(--primary);text-decoration:none;border-bottom:1px dashed var(--primary)}
+a:hover{border-bottom-style:solid}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1e3a5f 0%,#1e40af 100%);color:#fff;padding:2rem 1.5rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.site-header h1{color:#fff;font-size:1.5rem;margin:0}
+.site-header p{color:rgba(255,255,255,.8);font-size:.85rem;margin:.4rem 0 0}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1400px;margin:0 auto;padding:1.5rem}
+@media(max-width:1024px){.layout{grid-template-columns:1fr;}.sidebar{position:relative!important;top:auto!important}}
+
+/* Main */
+.main-content{min-width:0}
+.card{background:var(--surface);border-radius:var(--radius);padding:1.5rem 2rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border)}
+
+/* Evidence Badge */
+.ev{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:4px;letter-spacing:.5px;text-transform:uppercase}
+.ev-i{background:#dcfce7;color:#166534}.ev-ii{background:#d1fae5;color:#065f46}
+.ev-iii{background:#fef3c7;color:#92400e}.ev-iv{background:#ffedd5;color:#9a3412}
+.ev-v{background:#fee2e2;color:#991b1b}.ev-na{background:#e2e8f0;color:#475569}
+
+/* Callout */
+.callout{border-left:4px solid var(--primary);background:var(--primary-light);padding:1rem 1.25rem;border-radius:0 var(--radius) var(--radius) 0;margin:1rem 0;font-size:.9rem}
+.callout.warn{border-color:var(--warn);background:var(--warn-light)}
+.callout.danger{border-color:var(--danger);background:var(--danger-light)}
+.callout strong{display:block;margin-bottom:.25rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+caption{background:var(--primary);color:#fff;padding:.6rem 1rem;text-align:left;font-weight:600;font-size:.85rem;border-radius:var(--radius) var(--radius) 0 0}
+th{background:#f1f5f9;font-weight:600;text-align:left;padding:.55rem .7rem;border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:.55rem .7rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#f8fafc}
+
+/* Sidebar */
+.sidebar{position:sticky;top:100px;align-self:start;max-height:calc(100vh - 120px);overflow-y:auto}
+.sidebar-card{background:var(--surface);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
+.sidebar-card h3{margin-top:0;font-size:1rem;color:var(--primary)}
+
+/* Slider */
+.slider-group{margin-bottom:1.1rem}
+.slider-label{display:flex;justify-content:space-between;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+.slider-label span{color:var(--primary);font-weight:700}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--primary),var(--accent));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);cursor:pointer;box-shadow:0 2px 6px rgba(30,64,175,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--primary);cursor:pointer;border:none}
+
+/* Recommendation box */
+.rec-box{background:#f0fdf4;border:1px solid #86efac;border-radius:var(--radius);padding:1rem;font-size:.82rem;margin-top:1rem;transition:all .3s}
+.rec-box.alert{background:#fef2f2;border-color:#fca5a5}
+.rec-box .rec-title{font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:.4rem}
+.rec-box.alert .rec-title{color:var(--danger)}
+
+/* Buttons */
+.btn{display:inline-block;padding:.5rem 1rem;border:none;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,64,175,.3)}
+.btn-outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+.btn-group{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+
+/* Threshold bar */
+.threshold-bar{height:8px;border-radius:4px;background:#e2e8f0;margin:4px 0 2px;position:relative;overflow:hidden}
+.threshold-bar .fill{height:100%;border-radius:4px;transition:width .3s,background .3s}
+
+/* Chip */
+.chip{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:12px;margin:2px 2px 2px 0;font-weight:600}
+
+/* Accordion */
+.acc-btn{width:100%;text-align:left;background:none;border:none;padding:.7rem 0;font-size:.9rem;font-weight:600;cursor:pointer;color:var(--text);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.acc-btn::after{content:'▸';transition:transform .2s;font-size:.8rem}
+.acc-btn.open::after{transform:rotate(90deg)}
+.acc-panel{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.acc-panel.open{max-height:5000px}
+
+/* Footer */
+footer{background:var(--text);color:#94a3b8;text-align:center;padding:2rem 1rem;font-size:.78rem;margin-top:2rem}
+footer a{color:#93c5fd}
+
+/* Print */
+@media print{.sidebar,.site-header{display:none}.layout{grid-template-columns:1fr}.card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}}
+
+/* Utilities */
+.text-sm{font-size:.82rem}
+.text-xs{font-size:.72rem}
+.text-muted{color:var(--text-muted)}
+.mt-1{margin-top:.5rem}.mb-1{margin-bottom:.5rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:600px){.grid-2{grid-template-columns:1fr}}
+ul.styled{list-style:none;margin-left:0}
+ul.styled li::before{content:'→';color:var(--primary);font-weight:700;margin-right:6px}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Medial Patellofemoral Ligament Reconstruction in Pediatric &amp; Adolescent Populations</h1>
+  <p>Interactive Evidence-Based Clinical Summary &bull; Derived from Provided Literature Review &bull; 60 References</p>
+</header>
+
+<div class="layout">
+
+<!-- ============ MAIN CONTENT ============ -->
+<main class="main-content" role="main">
+
+<!-- SECTION 1 -->
+<div class="card">
+  <h2>1. Introduction to Patellofemoral Instability</h2>
+  <p>Patellofemoral instability is a multifactorial clinical challenge characterized by subluxation or complete dislocation of the patella from the trochlear groove. It disproportionately affects pediatric and adolescent athletic populations undergoing rapid skeletal growth. <span class="ev ev-ii">Level II</span></p>
+
+  <div class="callout">
+    <strong>Key Epidemiology (Source Data)</strong>
+    Annual incidence of primary patellar dislocation in youth aged 10–17 years: <strong>29 per 100,000</strong>. Up to <strong>61%</strong> of all primary dislocations occur in the adolescent athletic subset, driven by ligamentous laxity, dynamic valgus collapse, and pathoanatomic risk factors <sup>[2]</sup>.
+  </div>
+
+  <p>The <strong>medial patellofemoral ligament (MPFL)</strong> is the primary soft-tissue stabilizer, providing up to <strong>60%</strong> of the total medial restraint against lateral patellar translation during 0°–30° of knee flexion <sup>[2]</sup>. In virtually all lateral dislocations, the MPFL is attenuated, stretched, or completely ruptured, most frequently at its femoral origin <sup>[3]</sup>.</p>
+
+  <h3>1.1 Paradigm Shift: ESSKA 2024 Consensus on First-Time Patellar Dislocation (FTPD)</h3>
+  <p>The 2024 European Society of Sports Traumatology, Knee Surgery and Arthroscopy (ESSKA) formal consensus defines FTPD as the first-time event where the patella completely leaves the trochlear groove, confirmed clinically, radiologically, or both <sup>[4,5]</sup>. While conservative therapy remains appropriate for isolated FTPD without osteochondral lesions, there is a distinct paradigm shift toward <strong>early surgical intervention</strong> in the presence of severe anatomic risk factors or osteochondral fractures <sup>[4]</sup>. <span class="ev ev-ii">Level II</span></p>
+</div>
+
+<!-- SECTION 1.2 — RISK FACTORS -->
+<div class="card">
+  <h3>1.2 Anatomic Risk Factors for Recurrent Instability</h3>
+  <p>Anatomic predispositions, grouped under <em>"objective patellar instability,"</em> dramatically elevate recurrence risk <sup>[6]</sup>:</p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Primary &amp; Secondary Risk Factors for Patellar Instability (Source: Ref [6])</caption>
+      <thead>
+        <tr><th>Category</th><th>Risk Factor</th><th>Threshold / Definition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td rowspan="3"><strong>Primary</strong></td><td>Trochlear Dysplasia</td><td>Dejour Types B, C, D</td></tr>
+        <tr><td>Patella Alta</td><td>Caton-Deschamps Index &gt; 1.2</td></tr>
+        <tr><td>Increased TT-TG Distance</td><td>&gt; 15–20 mm</td></tr>
+        <tr><td rowspan="3"><strong>Secondary</strong></td><td>Excessive Femoral Anteversion</td><td>Clinical assessment</td></tr>
+        <tr><td>External Tibial Torsion</td><td>Clinical assessment</td></tr>
+        <tr><td>Profound Genu Valgum</td><td>LDFA &lt; 84° or lateral mechanical axis deviation</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <strong>Critical Cascade</strong>
+    Each subsequent dislocation inflicts progressive chondral shear damage to the medial patellar facet and lateral femoral condyle, predisposing to early-onset patellofemoral osteoarthritis <sup>[7]</sup>. Isolated MPFLR is the gold standard for recurrent objective patellar instability <sup>[9]</sup>.
+  </div>
+</div>
+
+<!-- SECTION 2 — SKELETALLY IMMATURE -->
+<div class="card">
+  <h2>2. Skeletally Immature Pediatric Patients</h2>
+
+  <button class="acc-btn open" onclick="toggleAcc(this)">2.1 Anatomy of the Distal Femoral Physis &amp; Radiographic Mapping</button>
+  <div class="acc-panel open">
+    <p>The primary challenge in pediatric MPFLR is the extreme proximity of the native MPFL femoral insertion to the highly active distal femoral physis. Iatrogenic growth plate injury can cause premature physeal closure, leg-length discrepancies, or progressive genu valgum <sup>[3]</sup>. <span class="ev ev-iii">Level III</span></p>
+
+    <p>In adults, the <strong>Schöttle point</strong> is the gold-standard radiographic landmark for femoral tunnel placement <sup>[12]</sup>. In pediatric patients, extensive DRR studies confirm the Schöttle point is consistently located <strong>distal</strong> to the distal medial femoral physis, with a mean minimum distance of <strong>9.9 mm</strong> <sup>[14]</sup>.</p>
+
+    <div class="callout">
+      <strong>Sex-Dependent Variation</strong>
+      Females have a Schöttle point 1.31–1.83 mm closer to the physis compared to age-matched males (mean 6.51–6.92 mm in females vs. 7.71–8.56 mm in males) <sup>[16]</sup>. This demands heightened intraoperative vigilance in young female athletes.
+    </div>
+
+    <h4>2D Fluoroscopy vs. 3D CT Discrepancy</h4>
+    <p>The distal femoral physis possesses a complex, U-shaped 3D morphology. 2D lateral radiographs superimpose anterior, central, and posterior margins, creating an illusion that the Schöttle point lies on or proximal to the physis. However, 3D CT renderings prove the true cortical position is consistently distal to the physis with a mean clearance of <strong>6.1 ± 1.9 mm</strong> <sup>[18]</sup>. <span class="ev ev-iii">Level III</span></p>
+
+    <p>Current guidelines: femoral tunnel guidewire must be advanced with <strong>15–20° distal and posterior angulation</strong>, avoiding any proximal trajectory. Reaming diameter should be <strong>≤ 6 mm</strong>; larger diameters increase physeal violation probability to 6% <sup>[12,14]</sup>.</p>
+  </div>
+
+  <button class="acc-btn" onclick="toggleAcc(this)">2.2 Physeal-Sparing Techniques: Anatomic vs. Non-Anatomic</button>
+  <div class="acc-panel">
+    <p>Historically, non-anatomic "sling-based" techniques (adductor magnus tendon, MCL) were used to avoid physeal injury entirely. However, systematic reviews demonstrate alarmingly high failure rates <sup>[11,12]</sup>:</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2 — Anatomic vs. Non-Anatomic Physeal-Sparing Techniques (Source: Ref [11,12]) <span class="ev ev-ii">Level II</span></caption>
+        <thead>
+          <tr><th>Technique</th><th>Femoral Fixation</th><th>Redislocation Rate</th><th>Physeal Closure Risk</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Adductor Sling (non-anatomic)</td><td>Pulley around adductor magnus</td><td style="color:var(--danger);font-weight:700">14.8%</td><td>0%</td></tr>
+          <tr><td>Distal Soft-Tissue Realignment</td><td>Semitendinosus tenodesis</td><td style="color:var(--danger);font-weight:700">Up to 38%</td><td>0%</td></tr>
+          <tr><td><strong>All-Epiphyseal Socket (anatomic)</strong></td><td>Shallow epiphyseal tunnel (4–6 mm, depth 15–20 mm)</td><td style="color:var(--accent);font-weight:700">3.4%</td><td>0%</td></tr>
+          <tr><td><strong>Surface-Based Fixation (anatomic)</strong></td><td>Suture anchors/staples on medial cortex</td><td style="color:var(--accent);font-weight:700">1.3%</td><td>0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger">
+      <strong>Critical Evidence Gap Noted in Source</strong>
+      Non-anatomic techniques exhibit catastrophic failure rates (up to 38%). Modern anatomic techniques achieve &lt;3.4% redislocation with 0% physeal closure incidence in systematic reviews <sup>[3,11]</sup>.
+    </div>
+
+    <p>Patient-reported outcomes (Kujala, Lysholm, Pedi-IKDC) show significant improvement with anatomic reconstruction. Pooled pediatric Kujala scores improve from <strong>59.1 → 84.6</strong> <sup>[24]</sup>. Systematic reviews report a <strong>0% incidence</strong> of premature physeal closure, angular deformity, or leg-length discrepancy with modern anatomic physeal-sparing techniques <sup>[3]</sup>.</p>
+  </div>
+
+  <button class="acc-btn" onclick="toggleAcc(this)">2.3 Graft Selection Strategies</button>
+  <div class="acc-panel">
+    <p>The <strong>gracilis tendon autograft</strong> remains the most frequently utilized (&gt;60% of pediatric cases), favored for its predictable diameter, ease of harvest, and stiffness profile approximating native MPFL failure load (~208 N) <sup>[3,26]</sup>. <span class="ev ev-ii">Level II</span></p>
+
+    <p>The <strong>pedicled quadriceps tendon autograft</strong> (quadriceps turndown technique) has gained substantial traction as an anatomy-preserving alternative <sup>[27]</sup>:</p>
+    <ul class="styled">
+      <li>A partial-thickness superficial layer (~9 cm × 10 mm) is harvested with distal attachment preserved at the superior patellar pole <sup>[28]</sup></li>
+      <li>The free proximal end is reflected 180° distally, rotated 90° medially, and secured to the Schöttle point via epiphyseal anchor <sup>[28]</sup></li>
+      <li>Preserves the fan-like medial patellar insertion of native MPFL</li>
+      <li>Avoids all patellar drilling — eliminates risk of iatrogenic patellar fracture <sup>[29]</sup></li>
+      <li>Avoids saphenous nerve neuropathy and hamstring weakness <sup>[29]</sup></li>
+    </ul>
+
+    <p>Meta-analyses comparing hamstring vs. quadriceps tendon autografts demonstrate <strong>no statistically significant differences</strong> in redislocation rates, Kujala scores, or Lysholm scores <sup>[30]</sup>. <span class="ev ev-ii">Level II</span></p>
+  </div>
+
+  <button class="acc-btn" onclick="toggleAcc(this)">2.4 Management of Concomitant Bony Abnormalities</button>
+  <div class="acc-panel">
+    <p>Aggressive bony procedures (tibial tubercle osteotomy, trochleoplasty) are <strong>contraindicated</strong> in open-physis patients <sup>[23]</sup>. Alternative strategies include:</p>
+    <ul class="styled">
+      <li><strong>Profound genu valgum (LDFA &lt; 84°):</strong> MPFLR + temporary hemiepiphysiodesis using tension-band "8-plates" spanning the medial distal femoral physis. Growth correction occurs over 12–18 months <sup>[32,33]</sup></li>
+      <li><strong>Profound patella alta:</strong> Soft-tissue patellar tendon shortening/imbrication combined with MPFLR to distalize the extensor mechanism without violating the tibial apophysis <sup>[33]</sup></li>
+    </ul>
+    <div class="callout">
+      <strong>Conceptual Framework</strong>
+      Pediatric patellofemoral instability must be viewed as a <em>dynamic, developmental biomechanical failure</em> requiring ongoing, minimally invasive architectural modulation — not merely a simple ligamentous rupture.
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2 TABLE — KEY STUDIES IMMATURE -->
+<div class="card">
+  <h3>Key Studies: Skeletally Immature Patients</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3 — Landmark Evidence: Pediatric Physeal-Sparing MPFL Reconstruction</caption>
+      <thead>
+        <tr><th>Author (Year)</th><th>Journal</th><th>Design</th><th>Key Findings</th><th>Ref</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Wilkens et al. (2020)</strong></td><td>Am J Sports Med</td>
+          <td>SR &amp; Meta-analysis <span class="ev ev-i">Level I</span></td>
+          <td>132 MPFLRs in immature patients. Redislocation rate 3.8%. 0% physeal closure with epiphyseal techniques. Autograft choice non-significant.</td><td>[3]</td>
+        </tr>
+        <tr>
+          <td><strong>Migliorini et al. (2022)</strong></td><td>Children (Basel)</td>
+          <td>Systematic Review <span class="ev ev-ii">Level II</span></td>
+          <td>477 pediatric patients. 87% RTS at 6.1 months. 5% further dislocations. Validated autograft safety for open physis.</td><td>[23]</td>
+        </tr>
+        <tr>
+          <td><strong>Sochacki et al. (2021)</strong></td><td>Am J Sports Med</td>
+          <td>SR &amp; Anatomic Mapping <span class="ev ev-ii">Level II</span></td>
+          <td>Mapped MPFL footprint relative to physis. Footprint universally distal. Mean 9.9 mm clearance established.</td><td>[14]</td>
+        </tr>
+        <tr>
+          <td><strong>Ntagiopoulos et al. (2024)</strong></td><td>J Exp Orthop</td>
+          <td>Retrospective Case Series <span class="ev ev-iv">Level IV</span></td>
+          <td>≥24-month F/U of anatomic physeal-sparing MPFLR. Pedi-IKDC 58.8 → 90.6. Zero growth arrest.</td><td>[25]</td>
+        </tr>
+        <tr>
+          <td><strong>Vasiliki et al. (2024)</strong></td><td>Children (Basel)</td>
+          <td>SR &amp; Meta-analysis <span class="ev ev-i">Level I</span></td>
+          <td>304 pediatric procedures. Surface-based and epiphyseal techniques vastly superior to adductor slings.</td><td>[12]</td>
+        </tr>
+        <tr>
+          <td><strong>Shamrock et al. (2019)</strong></td><td>Orthop J Sports Med</td>
+          <td>SR &amp; Meta-analysis <span class="ev ev-i">Level I</span></td>
+          <td>Reviewed fixation techniques. Anatomic reconstruction achieves normal tracking, minimizes PF compressive forces.</td><td>[39]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-xs text-muted"><strong>Note:</strong> Evidence levels are inferred from study design as the source document does not explicitly assign evidence grades. SR = Systematic Review; Meta = Meta-analysis.</p>
+</div>
+
+<!-- SECTION 3 — SKELETALLY MATURE -->
+<div class="card">
+  <h2>3. Skeletally Mature Adolescents</h2>
+  <p>With complete physeal closure, surgical constraints shift fundamentally. Objectives pivot to: maximizing construct rigidity, restoring biomechanical isometry, executing concomitant osseous realignments, and navigating aggressive RTS protocols.</p>
+
+  <button class="acc-btn open" onclick="toggleAcc(this)">3.1 Absolute Isometry &amp; Anatomic Reconstruction</button>
+  <div class="acc-panel open">
+    <p><strong>Isometry</strong> ensures the reconstructed ligament maintains physiologic tension throughout ROM: heavy engagement from 0°–30° of flexion (preventing subluxation) and relaxation in deeper flexion as the patella centers in the trochlea <sup>[40]</sup>. <span class="ev ev-iii">Level III</span></p>
+    <p>Non-anatomic femoral placement (proximal/anterior to Schöttle point) causes destructive graft anisometry → over-tensioning in deep flexion → chondral degradation, arthrofibrosis, medial pain, and eventual graft failure <sup>[40]</sup>. Intraoperative fluoroscopic mapping of the Schöttle point remains <strong>non-negotiable</strong>.</p>
+  </div>
+
+  <button class="acc-btn" onclick="toggleAcc(this)">3.2 Patellar Fixation: Suture Anchors vs. Transosseous Tunnels</button>
+  <div class="acc-panel">
+    <p>The native MPFL has a broad, sail-like insertion covering the proximal half to two-thirds of the medial patellar margin <sup>[36]</sup>. <strong>Double-bundle reconstruction</strong> is biomechanically superior to single-bundle <sup>[26]</sup>. <span class="ev ev-ii">Level II</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 4 — Suture Anchors vs. Transosseous Bone Tunnels for Patellar Fixation (Source: Ref [22,26]) <span class="ev ev-ii">Level II</span></caption>
+        <thead>
+          <tr><th>Parameter</th><th>Transosseous Bone Tunnels</th><th>Suture Anchors</th><th>Significance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Initial Stiffness</td><td>28 N/mm</td><td>21 N/mm</td><td>Tunnels higher initially</td></tr>
+          <tr><td>Ultimate Failure Load</td><td>354 Nm</td><td>Comparable</td><td>Non-significant</td></tr>
+          <tr><td>Cyclic Elongation (1,000 cycles)</td><td style="color:var(--danger)">3.7 mm</td><td style="color:var(--accent)">1.9 mm</td><td style="color:var(--accent)">Anchors superior (p &lt; 0.05)</td></tr>
+          <tr><td>Anterior Knee Pain</td><td style="color:var(--danger)">Higher</td><td style="color:var(--accent)">OR: 0.05</td><td style="color:var(--accent)">Anchors vastly superior (p &lt; 0.0001)</td></tr>
+          <tr><td>Positive Apprehension Test</td><td>Higher</td><td style="color:var(--accent)">OR: 0.57</td><td style="color:var(--accent)">Anchors superior (p = 0.03)</td></tr>
+          <tr><td>Revision Surgery Rate</td><td>Higher</td><td style="color:var(--accent)">OR: 0.41</td><td style="color:var(--accent)">Anchors superior (p = 0.02)</td></tr>
+          <tr><td>Patellar Fracture Risk</td><td style="color:var(--danger)">Increased (stress risers)</td><td style="color:var(--accent)">Negligible</td><td style="color:var(--accent)">Anchors superior</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Clinical Consensus</strong>
+      Prevailing evidence heavily favors <strong>suture anchors</strong> for patellar fixation in mature adolescents — superior dynamic stability with full protection of extensor mechanism structural integrity <sup>[22,26]</sup>.
+    </div>
+  </div>
+
+  <button class="acc-btn" onclick="toggleAcc(this)">3.3 The "Menu à la Carte" — Concomitant Bony Realignment</button>
+  <div class="acc-panel">
+    <p>The ESSKA consensus strongly emphasizes that isolated MPFLR is likely to fail if underlying bony architecture forces the patella laterally <sup>[1,4]</sup>. Advanced MRI and CT are mandatory to quantify parameters <sup>[5]</sup>. <span class="ev ev-ii">Level II</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 5 — Concomitant Bony Realignment Procedures (Source: Ref [6,45,46])</caption>
+        <thead>
+          <tr><th>Indication</th><th>Threshold</th><th>Procedure</th><th>Goal</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Excessive TT-TG Distance</td>
+            <td>&gt; 15–20 mm</td>
+            <td>Medializing TTO (Fulkerson / Elmslie-Trillat)</td>
+            <td>Shift patellar tendon medially; unload MPFL graft</td>
+          </tr>
+          <tr>
+            <td>Severe Patella Alta</td>
+            <td>Caton-Deschamps &gt; 1.2 or Insall-Salvati &gt; 1.4</td>
+            <td>Distalizing TTO</td>
+            <td>Pull patella inferiorly for earlier trochlear engagement</td>
+          </tr>
+          <tr>
+            <td>Severe Trochlear Dysplasia</td>
+            <td>Dejour Types B, C, D</td>
+            <td>Deepening Trochleoplasty</td>
+            <td>Create V-shaped sulcus for bony containment</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Meta-analyses confirm that combined MPFLR + TTO yields RTS rates and timelines <strong>statistically comparable</strong> to isolated MPFLR, validating the safety of combined procedures <sup>[9]</sup>.</p>
+  </div>
+
+  <button class="acc-btn" onclick="toggleAcc(this)">3.4 Rehabilitation Protocol — Criterion-Based Phases</button>
+  <div class="acc-panel">
+    <p>Modern protocols abandon strict timelines in favor of <strong>criterion-based functional progression</strong> <sup>[39]</sup>. <span class="ev ev-iii">Level III</span></p>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 6 — Criterion-Based Rehabilitation Phases (Source: Ref [39,49,50,51])</caption>
+        <thead>
+          <tr><th>Phase</th><th>Timeline</th><th>Key Goals &amp; Criteria</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Phase 1</strong> — Protection &amp; Early Activation</td>
+            <td>Weeks 0–6</td>
+            <td>Effusion control; full symmetric passive extension; flexion to 90–110°. High-intensity isometric quad sets (±NMES); patellar mobilization. Weight-bearing as tolerated (brace-locked in extension for isolated MPFLR).</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 2</strong> — Progressive Strengthening</td>
+            <td>Weeks 6–12</td>
+            <td>VMO atrophy, gluteal weakness, core instability addressed. Full ROM achieved. Closed-kinetic-chain exercises (mini-squats 0–50°, lateral step-downs, leg press). Non-impact cardio (bike, elliptical).</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 3</strong> — Advanced Strengthening &amp; Proprioception</td>
+            <td>Months 3–5</td>
+            <td>Heavy unilateral strength training. Single-leg balance on unstable surfaces. Neuromuscular control retraining.</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 4 &amp; 5</strong> — RTS Preparation</td>
+            <td>Months 5–6+</td>
+            <td>Multi-planar agility drills; rapid deceleration; plyometrics (double → single leg); running; sport-specific cutting/pivoting. <strong>Criteria:</strong> LSI &gt; 90% on isometric quad torque and all 4 hop tests; Y-Balance anterior reach difference &lt; 4 cm; MPFL-RSI ≥ 55.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3.5 — RTS -->
+<div class="card">
+  <h3>3.5 Return to Sport: Metrics, Deficits &amp; Kinesiophobia</h3>
+  <p>A landmark meta-analysis (23 studies, 930 patients) demonstrated <strong>92.8% overall RTS rate</strong> at a mean of <strong>6.7 months</strong>, with 71.3% returning to pre-injury level or higher. Recurrent instability: only 1.9%–5.4% <sup>[9]</sup>. <span class="ev ev-i">Level I</span></p>
+
+  <div class="callout danger">
+    <strong>Alarming Functional Deficits at 6–8 Months</strong>
+    Only <strong>44.4%</strong> achieved LSI &gt; 90% in isometric quadriceps strength. Only <strong>32.0%</strong> passed LSI &gt; 90% on all four hop tests simultaneously <sup>[51]</sup>. This indicates most adolescent athletes require rehabilitation extending <strong>well beyond 8 months</strong>.
+  </div>
+
+  <p><strong>Psychological readiness</strong> is a profound bottleneck: approximately <strong>47%</strong> of patients who fail RTS cite purely psychological factors (kinesiophobia) rather than physical limitation <sup>[9]</sup>. The <strong>MPFL-Return to Sport Index (MPFL-RSI)</strong> threshold of <strong>55</strong> predicts successful RTS with 90.9% sensitivity and 70.6% specificity <sup>[56,57]</sup>. <span class="ev ev-ii">Level II</span></p>
+
+  <div class="callout warn">
+    <strong>Essential Clearance Criteria (Source-Derived)</strong>
+    <ul style="margin:.4rem 0 0 1.2rem">
+      <li>LSI &gt; 90%: Isometric quadriceps peak torque</li>
+      <li>LSI &gt; 90%: Single hop, triple hop, crossover hop, timed hop</li>
+      <li>Y-Balance anterior reach difference &lt; 4 cm</li>
+      <li>MPFL-RSI score ≥ 55</li>
+    </ul>
+  </div>
+</div>
+
+<!-- KEY STUDIES MATURE -->
+<div class="card">
+  <h3>Key Studies: Skeletally Mature Adolescents</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 7 — Landmark Evidence: Skeletally Mature Adolescent MPFLR</caption>
+      <thead>
+        <tr><th>Author (Year)</th><th>Journal</th><th>Design</th><th>Key Findings</th><th>Ref</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Platt et al. (2022)</strong></td><td>Am J Sports Med</td>
+          <td>SR &amp; Meta-analysis <span class="ev ev-i">Level I</span></td>
+          <td>930 patients. 92.8% RTS at 6.7 months. Concomitant osteotomy does not delay RTS. Recurrence 1.9%.</td><td>[9]</td>
+        </tr>
+        <tr>
+          <td><strong>Migliorini et al. (2021)</strong></td><td>Arch Orthop Trauma Surg</td>
+          <td>SR &amp; Meta-analysis <span class="ev ev-i">Level I</span></td>
+          <td>Suture anchors vs. tunnels: anchors have drastically less anterior knee pain (OR 0.05), lower apprehension (OR 0.57), fewer revisions (OR 0.41).</td><td>[22]</td>
+        </tr>
+        <tr>
+          <td><strong>ESSKA Committee (2024)</strong></td><td>Knee Surg Sports Traumatol Arthrosc</td>
+          <td>Clinical Guideline <span class="ev ev-ii">Level II</span></td>
+          <td>Pan-European FTPD protocols. MPFLR over primary repair. MRI mandatory for TT-TG and dysplasia assessment.</td><td>[4]</td>
+        </tr>
+        <tr>
+          <td><strong>Manjunath et al. (2021)</strong></td><td>Am J Sports Med</td>
+          <td>Systematic Review <span class="ev ev-ii">Level II</span></td>
+          <td>1,278 patients. 85.1% RTS, only 68.3% to same level. Highlights biological vs. psychological readiness gap.</td><td>[54]</td>
+        </tr>
+        <tr>
+          <td><strong>Puzzitiello et al. (2019)</strong></td><td>Arthroscopy</td>
+          <td>Systematic Review <span class="ev ev-ii">Level II</span></td>
+          <td>MPFL reconstruction vastly superior to primary repair/reefing in biomechanics and redislocation rates.</td><td>[45]</td>
+        </tr>
+        <tr>
+          <td><strong>Hsu et al. (2025)</strong></td><td>Int J Sports Phys Ther</td>
+          <td>Clinical Commentary <span class="ev ev-v">Level V</span></td>
+          <td>Criterion-based rehab framework. LSI &gt; 90% and MPFL-RSI integration required for safe clearance.</td><td>[39]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="text-xs text-muted"><strong>Source Limitation:</strong> The provided document is a literature review, not a primary RCT. Evidence levels are inferred from study designs referenced. The document does not contain individual patient data or original trial results.</p>
+</div>
+
+<!-- CONCLUSION -->
+<div class="card">
+  <h2>4. Conclusion</h2>
+  <p>The management of recurrent patellofemoral instability in young patients demands exhaustive understanding of skeletal maturation, 3D articular geometry, and sport-specific biomechanics. The literature supports a strictly <strong>bifurcated approach</strong>:</p>
+
+  <div class="grid-2">
+    <div style="background:var(--primary-light);padding:1rem;border-radius:var(--radius)">
+      <h4 style="margin-top:0">Skeletally Immature</h4>
+      <ul class="styled text-sm">
+        <li>Physeal preservation is paramount</li>
+        <li>Anatomic epiphyseal/surface techniques: &lt;3.4% redislocation, 0% physeal injury</li>
+        <li>Quadriceps turndown: excellent PROMs, zero patellar fracture risk</li>
+        <li>Growth-guided hemiepiphysiodesis for severe valgus</li>
+      </ul>
+    </div>
+    <div style="background:var(--accent-light);padding:1rem;border-radius:var(--radius)">
+      <h4 style="margin-top:0">Skeletally Mature</h4>
+      <ul class="styled text-sm">
+        <li>Absolute anatomic restoration &amp; rigid fixation</li>
+        <li>Suture anchors preferred over tunnels (lower pain, fewer revisions)</li>
+        <li>"Menu à la carte": TTO + trochleoplasty for severe dysplasia</li>
+        <li>RTS: 92.8% rate, but only 32% meet all LSI criteria at 6–8 months</li>
+        <li>MPFL-RSI ≥ 55 needed to address kinesiophobia</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>By seamlessly marrying precise, growth-aware surgical execution with aggressive, multidimensional, and psychologically informed rehabilitation, clinicians can restore complex joint kinematics, eliminate recurrent instability, and return young athletes to peak performance.</p>
+</div>
+
+<!-- REFERENCES -->
+<div class="card">
+  <h2>Selected References from Source Document</h2>
+  <p class="text-xs text-muted">References are numbered as in the provided literature review. Full citation list available in the source document (60 references).</p>
+  <ol class="text-sm" style="column-count:2;column-gap:2rem">
+    <li id="ref1">[1] Clinical Insights — MPFL Reconstruction: Pearls &amp; Pitfalls. PMC10455723</li>
+    <li>[2] Adolescent Patellar Instability Risk Factors. Sports Med Update, Winter 2023</li>
+    <li>[3] Wilkens et al. MPFLR in Skeletally Immature: SR &amp; Meta-analysis. <em>Am J Sports Med</em>. 2020</li>
+    <li>[4] ESSKA 2024 Formal Consensus — Part 2. <em>Knee Surg Sports Traumatol Arthrosc</em></li>
+    <li>[5] ESSKA 2024 FTPD Consensus — Part 1. PMC12022820</li>
+    <li>[6] Patellar Instability: Current Approach. <em>EFORT Open Reviews</em>. 2025</li>
+    <li>[9] Platt et al. RTS After MPFLR. <em>Am J Sports Med</em>. 2022</li>
+    <li>[11] MPFLR in Immature: Outcomes by Fixation Technique. PMC11970101</li>
+    <li>[12] Vasiliki et al. Anatomic vs Non-Anatomic Femoral Fixation. <em>Children (Basel)</em>. 2024</li>
+    <li>[14] Sochacki et al. Schöttle Point Distal to Physis — DRR Study. <em>Am J Sports Med</em>. 2021</li>
+    <li>[16] Distance from Schöttle Point to Physis — MRI Method. PMC6482653</li>
+    <li>[18] Schöttle Point in Pediatric Knees — 3D Study. ResearchGate, 2024</li>
+    <li>[22] Migliorini et al. Suture Anchors vs Tunnels — SR. <em>Arch Orthop Trauma Surg</em>. 2021</li>
+    <li>[23] Migliorini et al. MPFLR Autografts in Children — SR. <em>Children (Basel)</em>. 2022</li>
+    <li>[24] MPFLR in Immature: SR &amp; Meta-analysis. PMC6664654</li>
+    <li>[25] Ntagiopoulos et al. Anatomic Physeal-Sparing MPFLR. <em>J Exp Orthop</em>. 2024</li>
+    <li>[26] Patellar Fixation: Suture Anchors vs Tunnels — SR. PMC8208927</li>
+    <li>[27] Pedicled Quadriceps Tendon Graft for MPFL — SR. PubMed, 2021</li>
+    <li>[28] Anatomic MPFLR with Quadriceps Tendon. PMC4044542</li>
+    <li>[29] MPFLR: Quadriceps vs Gracilis — Outcomes. ResearchGate, 2023</li>
+    <li>[30] Quadriceps vs Hamstring: Comparable Outcomes — SR. PMC12667484</li>
+    <li>[32] Patellofemoral Instability in Immature: Review. The Hospitalist</li>
+    <li>[33] Physeal-Sparing MPFLR with Patellar Tendon Shortening. ResearchGate, 2024</li>
+    <li>[39] Hsu et al. Current Concept: MPFLR Rehabilitation to RTS. <em>Int J Sports Phys Ther</em>. 2025</li>
+    <li>[40] Complications &amp; Recurrence after MPFLR in Children. <em>Children (Basel)</em>. 2021</li>
+    <li>[45] Puzzitiello et al. MPFLR vs Primary Repair — SR. <em>Arthroscopy</em>. 2019</li>
+    <li>[46] MPFL Reconstruction: Indications &amp; Results. PMC7944812</li>
+    <li>[51] RTS Testing After MPFLR in Adolescent Athletes. PMC6399765</li>
+    <li>[54] Manjunath et al. Return to Play After MPFLR. <em>Am J Sports Med</em>. 2021</li>
+    <li>[56] Return to Play After MPFLR — SR. ResearchGate, 2020</li>
+    <li>[57] RTS After MPFLR: SR &amp; Meta-analysis. ResearchGate, 2021</li>
+  </ol>
+</div>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tool">
+
+  <div class="sidebar-card">
+    <h3>🎯 Interactive Clinical Parameters</h3>
+    <p class="text-xs text-muted mb-1">Adjust parameters below to see real-time clinical recommendations derived from source evidence.</p>
+
+    <!-- Slider 1: TT-TG -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>TT–TG Distance</span>
+        <span id="tttg-val">15 mm</span>
+      </div>
+      <input type="range" id="tttg" min="5" max="30" value="15" step="1" oninput="update()">
+      <div class="threshold-bar"><div class="fill" id="tttg-bar"></div></div>
+      <div class="text-xs text-muted" style="display:flex;justify-content:space-between">
+        <span>5 mm</span><span style="color:var(--accent)">Normal &lt;15</span><span style="color:var(--danger)">Pathologic &gt;20</span><span>30 mm</span>
+      </div>
+    </div>
+
+    <!-- Slider 2: CD Index -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Caton–Deschamps Index</span>
+        <span id="cd-val">1.0</span>
+      </div>
+      <input type="range" id="cd" min="0.6" max="2.0" value="1.0" step="0.05" oninput="update()">
+      <div class="threshold-bar"><div class="fill" id="cd-bar"></div></div>
+      <div class="text-xs text-muted" style="display:flex;justify-content:space-between">
+        <span>0.6</span><span style="color:var(--accent)">Normal &lt;1.2</span><span style="color:var(--danger)">Alta &gt;1.2</span><span>2.0</span>
+      </div>
+    </div>
+
+    <!-- Slider 3: Dejour Dysplasia -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Trochlear Dysplasia (Dejour)</span>
+        <span id="dejour-val">Type A</span>
+      </div>
+      <input type="range" id="dejour" min="0" max="4" value="1" step="1" oninput="update()">
+      <div class="threshold-bar"><div class="fill" id="dejour-bar"></div></div>
+      <div class="text-xs text-muted" style="display:flex;justify-content:space-between">
+        <span>None</span><span>A</span><span>B</span><span>C</span><span>D</span>
+      </div>
+    </div>
+
+    <!-- Slider 4: Skeletal Maturity -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Skeletal Maturity Status</span>
+        <span id="skel-val">Open Physis</span>
+      </div>
+      <input type="range" id="skel" min="0" max="1" value="0" step="1" oninput="update()">
+      <div class="text-xs text-muted" style="display:flex;justify-content:space-between">
+        <span>Open Physis</span><span>Closed Physis</span>
+      </div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="rec-box" id="rec-box">
+      <div class="rec-title" id="rec-title">📋 Clinical Recommendation</div>
+      <div id="rec-text"></div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="resetSliders()">↺ Reset</button>
+      <button class="btn btn-outline" onclick="exportRec()">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <!-- Evidence Summary Sidebar Card -->
+  <div class="sidebar-card">
+    <h3>📊 Quick Evidence Summary</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;margin:.5rem 0">
+      <span class="chip" style="background:#dcfce7;color:#166534">6 SR/Meta-analyses — Immature</span>
+      <span class="chip" style="background:#d1fae5;color:#065f46">6 SR/Meta-analyses — Mature</span>
+      <span class="chip" style="background:#fef3c7;color:#92400e">1 ESSKA Consensus (2024)</span>
+      <span class="chip" style="background:#dbeafe;color:#1e40af">60 Total References</span>
+    </div>
+    <p class="text-xs text-muted">All evidence derived from the source literature review. No external data added.</p>
+  </div>
+
+  <!-- Key Thresholds -->
+  <div class="sidebar-card">
+    <h3>🔑 Key Thresholds from Source</h3>
+    <table style="font-size:.75rem;width:100%">
+      <tr><td style="padding:3px 6px"><strong>TT–TG</strong></td><td style="padding:3px 6px">&gt; 15–20 mm → Consider TTO <sup>[6,46]</sup></td></tr>
+      <tr><td style="padding:3px 6px"><strong>CD Index</strong></td><td style="padding:3px 6px">&gt; 1.2 → Patella Alta <sup>[6]</sup></td></tr>
+      <tr><td style="padding:3px 6px"><strong>Trochlear</strong></td><td style="padding:3px 6px">Dejour B/C/D → Consider trochleoplasty <sup>[12]</sup></td></tr>
+      <tr><td style="padding:3px 6px"><strong>Schöttle–Physis</strong></td><td style="padding:3px 6px">Mean 9.9 mm (F: 6.5, M: 8.5) <sup>[14,16]</sup></td></tr>
+      <tr><td style="padding:3px 6px"><strong>Reamer</strong></td><td style="padding:3px 6px">≤ 6 mm recommended <sup>[14]</sup></td></tr>
+      <tr><td style="padding:3px 6px"><strong>RTS LSI</strong></td><td style="padding:3px 6px">&gt; 90% on all hop tests <sup>[51]</sup></td></tr>
+      <tr><td style="padding:3px 6px"><strong>MPFL-RSI</strong></td><td style="padding:3px 6px">≥ 55 predicts successful RTS <sup>[56]</sup></td></tr>
+    </table>
+  </div>
+
+  <!-- Limitations -->
+  <div class="sidebar-card" style="border-color:#fca5a5">
+    <h3>⚠ Source Limitations</h3>
+    <ul class="text-xs" style="margin-left:1rem;color:var(--text-muted)">
+      <li>Source is a <strong>literature review</strong>, not primary trial data</li>
+      <li>Evidence levels are <strong>inferred from study design</strong></li>
+      <li>No individual patient data available</li>
+      <li>No 3 RCTs identified — mostly SR/meta-analyses of observational data</li>
+      <li>Slider thresholds are from source; Dejour classification slider uses ordinal encoding for interactivity</li>
+    </ul>
+  </div>
+
+</aside>
+</div>
+
+<footer>
+  <p>Interactive Clinical Educational Summary — Generated from provided literature review on MPFL Reconstruction in Pediatric &amp; Adolescent Populations</p>
+  <p>All content, data, and thresholds derived exclusively from the source document (60 references). Evidence levels inferred from study design.</p>
+  <p>&copy; 2025 &bull; For educational purposes only &bull; Not for direct clinical decision-making</p>
+</footer>
+
+<script>
+const types = ['None','Type A','Type B','Type C','Type D'];
+
+function update(){
+  const tttg = +document.getElementById('tttg').value;
+  const cd = +document.getElementById('cd').value;
+  const d = +document.getElementById('dejour').value;
+  const skel = +document.getElementById('skel').value;
+
+  // Display
+  document.getElementById('tttg-val').textContent = tttg + ' mm';
+  document.getElementById('cd-val').textContent = cd.toFixed(2);
+  document.getElementById('dejour-val').textContent = types[d];
+  document.getElementById('skel-val').textContent = skel === 0 ? 'Open Physis' : 'Closed Physis';
+
+  // Bars
+  setBar('tttg-bar', (tttg-5)/25, tttg<=15?1:tttg<=20?2:3);
+  setBar('cd-bar', (cd-0.6)/1.4, cd<=1.0?1:cd<=1.2?2:3);
+  setBar('dejour-bar', d/4, d<=1?1:d<=2?2:3);
+
+  // Recommendation
+  let rec = [];
+  let alert = false;
+
+  if(skel === 0){
+    rec.push('<strong>PHYSEAL-SPARING PATHWAY</strong> (Open Physis)');
+    rec.push('• Femoral fixation: <strong>all-epiphyseal socket</strong> (4–6 mm, depth 15–20 mm) or <strong>surface-based suture anchors</strong> distal to physis [11,12]');
+    rec.push('• Guidewire angulation: 15–20° distal/posterior. Reamer ≤6 mm [12,14]');
+    rec.push('• Graft choice: Gracilis autograft (most common) or <strong>pedicled quadriceps turndown</strong> (avoids patellar drilling) [3,27-30]');
+
+    if(tttg > 20){
+      rec.push('• ⚠ TT–TG &gt;20 mm: Consider <strong>temporary hemiepiphysiodesis</strong> with 8-plates (no TTO in open physis) [32,33]');
+      alert = true;
+    }
+    if(cd > 1.2){
+      rec.push('• ⚠ Patella Alta (CD &gt;1.2): Consider <strong>patellar tendon shortening/imbrication</strong> (no distalizing TTO) [33]');
+      alert = true;
+    }
+    if(d >= 3){
+      rec.push('• ⚠ Severe trochlear dysplasia (Dejour C/D): Trochleoplasty <strong>contraindicated</strong> in open physis — close monitoring required [23]');
+      alert = true;
+    }
+    rec.push('• Expected outcomes: Redislocation 1.3–3.4%, 0% physeal closure, Kujala 59→85 [3,11,24]');
+  } else {
+    rec.push('<strong>MATURE PHYSIS PATHWAY</strong> (Closed Physis)');
+    rec.push('• Femoral fixation: Transosseous tunnel at <strong>Schöttle point</strong> using fluoroscopy [40]');
+    rec.push('• Patellar fixation: <strong>Double-bundle suture anchors</strong> preferred over tunnels (less anterior knee pain, fewer revisions) [22,26]');
+    rec.push('• Isometry critical — graft should engage 0–30° flexion, relax in deeper flexion [40]');
+
+    let aLaCarte = false;
+    if(tttg > 15){
+      rec.push('• ⚠ TT–TG &gt;15 mm: <strong>Medializing tibial tubercle osteotomy</strong> (Fulkerson / Elmslie-Trillat) recommended [45,46]');
+      aLaCarte = true; alert = true;
+    }
+    if(cd > 1.2){
+      rec.push('• ⚠ Patella Alta (CD &gt;1.2): <strong>Distalizing TTO</strong> recommended [45,46]');
+      aLaCarte = true; alert = true;
+    }
+    if(d >= 3){
+      rec.push('• ⚠ Dejour C/D dysplasia: Consider <strong>deepening trochleoplasty</strong> [6,12]');
+      aLaCarte = true; alert = true;
+    }
+    if(aLaCarte) rec.push('• → <strong>"Menu à la carte"</strong> combined approach: MPFLR + osteotomy(s) does not delay RTS [9]');
+
+    rec.push('• RTS: 92.8% overall rate at ~6.7 months. Recurrence 1.9–5.4% [9]');
+    rec.push('• Clearance: LSI &gt;90% on quad strength + 4 hop tests; MPFL-RSI ≥ 55 [51,56]');
+    rec.push('• Only 32% pass all LSI criteria at 6–8 months — prolonged rehab often needed [51]');
+  }
+
+  const box = document.getElementById('rec-box');
+  const title = document.getElementById('rec-title');
+  const text = document.getElementById('rec-text');
+
+  box.className = alert ? 'rec-box alert' : 'rec-box';
+  title.textContent = alert ? '⚠ Clinical Alert' : '📋 Clinical Recommendation';
+  text.innerHTML = rec.join('<br>');
+}
+
+function setBar(id, pct, level){
+  const el = document.getElementById(id);
+  el.style.width = Math.min(100, Math.max(0, pct*100)) + '%';
+  el.style.background = level===1?'var(--accent)':level===2?'var(--warn)':'var(--danger)';
+}
+
+function resetSliders(){
+  document.getElementById('tttg').value = 15;
+  document.getElementById('cd').value = 1.0;
+  document.getElementById('dejour').value = 1;
+  document.getElementById('skel').value = 0;
+  update();
+}
+
+function exportRec(){
+  const tttg = document.getElementById('tttg-val').textContent;
+  const cd = document.getElementById('cd-val').textContent;
+  const d = document.getElementById('dejour-val').textContent;
+  const skel = document.getElementById('skel-val').textContent;
+  const rec = document.getElementById('rec-text').innerText;
+  const ts = new Date().toISOString();
+
+  const text = `MPFL Reconstruction — Clinical Parameter Summary
+═══════════════════════════════════════════════
+Generated: ${ts}
+
+PARAMETERS:
+• TT–TG Distance: ${tttg}
+• Caton-Deschamps Index: ${cd}
+• Trochlear Dysplasia: ${d}
+• Skeletal Maturity: ${skel}
+
+RECOMMENDATION:
+${rec}
+
+EVIDENCE SOURCE:
+Comprehensive literature review — MPFL Reconstruction in Pediatric & Adolescent Populations (60 references from AJSM, Arthroscopy, KSSTA, Children, etc.)
+
+NOTE: All thresholds and recommendations derived exclusively from source document.
+═══════════════════════════════════════════════`;
+
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(()=>btn.textContent = orig, 2000);
+  }).catch(()=>{
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    setTimeout(()=>btn.textContent = orig, 2000);
+  });
+}
+
+function toggleAcc(btn){
+  btn.classList.toggle('open');
+  const panel = btn.nextElementSibling;
+  panel.classList.toggle('open');
+}
+
+// Initialize
+update();
+</script>
+
+</body>
+</html>

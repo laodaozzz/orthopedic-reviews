@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPWT for Deep Spinal SSIs — Evidence-Based Clinical Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap');
+
+  :root {
+    --primary: #1a5276;
+    --primary-light: #2980b9;
+    --accent: #27ae60;
+    --accent-warn: #e67e22;
+    --accent-danger: #c0392b;
+    --bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --text: #2c3e50;
+    --text-muted: #7f8c8d;
+    --border: #dee2e6;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--primary) 0%, #154360 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+  header h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.35;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  header .subtitle {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  main { min-width: 0; }
+
+  /* Sidebar */
+  aside {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+
+  .sidebar-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-top: 4px solid var(--primary);
+  }
+  .sidebar-card h3 {
+    font-size: 1rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .slider-group { margin-bottom: 1.5rem; }
+  .slider-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .slider-group .current-val {
+    font-size: 1.1rem;
+    color: var(--primary-light);
+    font-weight: 700;
+  }
+  .slider-group input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    outline: none;
+    margin: 0.3rem 0;
+  }
+  .slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  }
+  .slider-group .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  .slider-note {
+    font-size: 0.72rem;
+    color: var(--accent-warn);
+    font-style: italic;
+    margin-top: 0.2rem;
+  }
+
+  .recommendation-box {
+    background: #eaf7f0;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1rem 1.1rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    min-height: 120px;
+    transition: all 0.3s;
+  }
+  .recommendation-box.warn {
+    background: #fef5e7;
+    border-left-color: var(--accent-warn);
+  }
+  .recommendation-box.danger {
+    background: #fdedec;
+    border-left-color: var(--accent-danger);
+  }
+  .recommendation-box h4 {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    flex: 1;
+    padding: 0.55rem 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-reset {
+    background: var(--border);
+    color: var(--text);
+  }
+  .btn-reset:hover { background: #ced4da; }
+  .btn-export {
+    background: var(--primary);
+    color: #fff;
+  }
+  .btn-export:hover { background: var(--primary-light); }
+
+  .copy-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #2c3e50;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s;
+    pointer-events: none;
+  }
+  .copy-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  /* Main content cards */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .card h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.35rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #eaecee;
+  }
+  .card h3 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin: 1.5rem 0 0.75rem;
+  }
+  .card h4 {
+    font-size: 0.95rem;
+    color: var(--primary);
+    margin: 1.2rem 0 0.5rem;
+  }
+  .card p { margin-bottom: 0.85rem; }
+
+  .evidence-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .ev-ii { background: #d4efdf; color: #1e8449; }
+  .ev-iii { background: #fef9e7; color: #b7950b; }
+  .ev-iv { background: #fdedec; color: #a93226; }
+  .ev-v { background: #f2f3f4; color: #707b7c; }
+  .ev-ns { background: #eaecee; color: #566573; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.85rem;
+  }
+  table caption {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+    text-align: left;
+    margin-bottom: 0.5rem;
+    caption-side: top;
+  }
+  thead th {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.65rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: #f8f9fa; }
+  tbody tr:hover { background: #eaf2f8; }
+
+  .callout {
+    background: #eaf2f8;
+    border-left: 4px solid var(--primary-light);
+    padding: 1rem 1.25rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 1.25rem 0;
+    font-size: 0.9rem;
+  }
+  .callout.warning {
+    background: #fef9e7;
+    border-left-color: var(--accent-warn);
+  }
+  .callout strong { color: var(--primary); }
+
+  ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+  li { margin-bottom: 0.35rem; }
+
+  .ref-section { font-size: 0.8rem; color: var(--text-muted); }
+  .ref-section li { margin-bottom: 0.3rem; }
+
+  .algorithm-step {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .step-content {
+    flex: 1;
+    padding-top: 0.2rem;
+  }
+  .step-content strong { color: var(--primary); }
+
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .risk-box {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+  }
+  .risk-box h4 {
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+    color: var(--primary);
+  }
+  .risk-box ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.82rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    aside {
+      position: relative;
+      top: 0;
+      max-height: none;
+      order: -1;
+    }
+    header h1 { font-size: 1.35rem; }
+    .risk-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .layout { padding: 0 0.75rem 3rem; }
+    .card { padding: 1.25rem; }
+    table { font-size: 0.75rem; }
+    thead th, tbody td { padding: 0.45rem 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The Role of Negative Pressure Wound Therapy in the Management of Deep Surgical Site Infections Following Spinal Surgery</h1>
+  <div class="subtitle">Comprehensive Evidence-Based Clinical Review — Interactive Educational Summary</div>
+</header>
+
+<div class="layout">
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main>
+
+  <!-- Section 1: The Challenge -->
+  <section class="card" id="challenge">
+    <h2>1. The Challenge of Deep Surgical Site Infections in Spinal Surgery</h2>
+
+    <h3>1.1 Definition, Classification &amp; Incidence</h3>
+    <p>Surgical Site Infection (SSI) is defined as an infection occurring in the part of the body where a surgical procedure was performed.<span class="evidence-badge ev-ns">CDC Definition</span> The United States Centers for Disease Control and Prevention (CDC) classifies SSIs by anatomical depth into three distinct types:</p>
+
+    <table>
+      <caption>CDC Classification of Surgical Site Infections</caption>
+      <thead>
+        <tr><th>Type</th><th>Anatomical Depth</th><th>Clinical Relevance in Spine Surgery</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Superficial Incisional SSI</strong></td>
+          <td>Skin and subcutaneous tissue only</td>
+          <td>Typically managed with local wound care and oral antibiotics</td>
+        </tr>
+        <tr>
+          <td><strong>Deep Incisional SSI</strong></td>
+          <td>Deep soft tissues: muscle layers and surrounding fascia</td>
+          <td>Requires surgical debridement; may involve hardware</td>
+        </tr>
+        <tr>
+          <td><strong>Organ/Space SSI</strong></td>
+          <td>Any anatomy opened or manipulated during surgery</td>
+          <td>Includes spondylodiscitis, epidural abscess, meningitis — most devastating</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The clinical presentation of a deep spinal SSI typically includes localized pain, erythema, swelling, and warmth, often accompanied by systemic fever.<span class="evidence-badge ev-ns">Clinical</span> A hallmark sign is purulent drainage — the NHSN requires documentation of both a specific color (e.g., yellow, green) and consistency (e.g., thick, creamy, viscous) to meet the diagnostic criterion for surveillance purposes.</p>
+
+    <div class="callout">
+      <strong>Key Data Point:</strong> The reported incidence of SSIs following spinal surgery ranges from <strong>0.4% to 20%</strong>, reflecting differences in procedure complexity, patient population, use of instrumentation, and diagnostic heterogeneity across studies.<span class="evidence-badge ev-iii">Level III</span>
+    </div>
+
+    <p>This wide variability also reflects a fundamental issue: diagnostic subjectivity. What one surgeon classifies as a deep SSI requiring aggressive intervention, another may manage as severe postoperative inflammation — a critical confounding variable when comparing outcomes across studies.</p>
+
+    <h3>1.2 Risk Factors &amp; Pathophysiology</h3>
+    <p>The most frequently isolated causative organisms are skin flora, with <strong><em>Staphylococcus aureus</em></strong> (including MRSA) being the principal agent, followed by <em>S. epidermidis</em>, <em>Streptococcus</em> species, and gram-negative bacteria like <em>Pseudomonas</em>.<span class="evidence-badge ev-iv">Level IV</span></p>
+
+    <div class="risk-grid">
+      <div class="risk-box">
+        <h4>Patient-Related Risk Factors</h4>
+        <ul>
+          <li>Diabetes mellitus</li>
+          <li>Tobacco use / smoking</li>
+          <li>Chronic steroid therapy</li>
+          <li>Malnutrition (albumin &lt; 35 g/L)</li>
+          <li>Obesity</li>
+          <li>Preoperative <em>S. aureus</em> colonization</li>
+          <li>Advanced age</li>
+        </ul>
+      </div>
+      <div class="risk-box">
+        <h4>Procedure-Related Risk Factors</h4>
+        <ul>
+          <li><strong>Spinal instrumentation/implants</strong></li>
+          <li>Spinal fusion (vs. non-fusion)</li>
+          <li>Combined anterior-posterior approach</li>
+          <li>Operative time &gt; 5 hours</li>
+          <li>High intraoperative blood loss</li>
+          <li>Perioperative blood transfusion</li>
+          <li>Surgery for trauma, tumor, or acute infection</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>1.3 The Biofilm Problem</h3>
+    <p>Among all risk factors, the presence of <strong>spinal instrumentation</strong> is arguably the most significant contributor to deep, persistent infection.<span class="evidence-badge ev-iii">Level III</span> Metallic implants provide an avascular surface ideal for bacterial adhesion and <strong>biofilm</strong> formation — a complex, structured community of microorganisms encased in a self-produced polymeric matrix. This biofilm acts as a formidable shield:</p>
+    <ul>
+      <li>Protects embedded bacteria from host immune cells (phagocytes)</li>
+      <li>Blocks penetration of systemic antibiotics</li>
+      <li>Induces a metabolically altered bacterial state with reduced antimicrobial susceptibility</li>
+    </ul>
+    <p>This creates a persistent, low-grade nidus of infection that is incredibly difficult to eradicate unless the colonized hardware is meticulously debrided or removed entirely.</p>
+
+    <h3>1.4 Clinical &amp; Economic Impact</h3>
+    <p>Deep SSIs after spinal surgery are associated with significant morbidity including prolonged pain, long-term functional disability, multiple re-operations, extended IV antibiotic courses, pseudoarthrosis, loss of correction, and spinal instability.<span class="evidence-badge ev-iv">Level IV</span> In severe cases, irreversible neurological injury, sepsis, and death can occur — with a mortality rate of approximately <strong>3%</strong>, 75% of which are directly attributable to infection. The economic burden is staggering, with infected cases costing several times more than the initial uncomplicated surgery.</p>
+  </section>
+
+  <!-- Section 2: Conventional Management -->
+  <section class="card" id="conventional">
+    <h2>2. Conventional Management Paradigms</h2>
+
+    <div class="callout warning">
+      <strong>Important Context:</strong> "Conventional therapy" is not a single standardized protocol but a collection of practices varying significantly between institutions and surgeons.<span class="evidence-badge ev-iii">Level III</span> This heterogeneity in control arms complicates interpretation of evidence regarding newer modalities like NPWT.
+    </div>
+
+    <h3>2.1 Surgical Debridement &amp; Irrigation</h3>
+    <p>The cornerstone of treatment is prompt, aggressive surgical debridement — re-opening the wound and excising all infected, devitalized, and necrotic tissue until only healthy, viable, bleeding tissue remains.<span class="evidence-badge ev-iii">Level III</span></p>
+    <p>Irrigation technique and solution lack consensus:<span class="evidence-badge ev-iii">Level III</span></p>
+    <ul>
+      <li><strong>Methods:</strong> Gravity/manual pouring vs. high-pressure pulse lavage</li>
+      <li><strong>Solutions:</strong> Normal saline, dilute povidone-iodine, hydrogen peroxide, or antibiotic solutions (e.g., bacitracin)</li>
+      <li><strong>Volume:</strong> Typically 3–9 liters or more per procedure</li>
+    </ul>
+
+    <h3>2.2 Systemic &amp; Local Antimicrobial Therapy</h3>
+    <p>Long-term systemic antibiotics (minimum 6 weeks IV) are tailored to deep intraoperative culture results.<span class="evidence-badge ev-iii">Level III</span> Empiric coverage often includes vancomycin given high MRSA prevalence. Locally, <strong>vancomycin powder</strong> placed directly into the wound bed achieves exceptionally high local concentrations while minimizing systemic toxicity.<span class="evidence-badge ev-iii">Level III</span></p>
+
+    <h3>2.3 The Implant Retention vs. Removal Dilemma</h3>
+    <p>Historically, complete implant removal was mandated. However, removal before solid fusion leads to loss of stability, progressive deformity, pseudoarthrosis, and potentially catastrophic neurological injury.<span class="evidence-badge ev-iii">Level III</span> This has driven a paradigm shift toward <strong>implant salvage</strong> when feasible — relying on extremely meticulous debridement to remove all visible biofilm from implant surfaces. Despite these efforts, a significant number of patients still require staged or delayed implant removal due to recurrent infection.</p>
+  </section>
+
+  <!-- Section 3: NPWT Mechanisms -->
+  <section class="card" id="mechanisms">
+    <h2>3. Biophysical &amp; Physiological Mechanisms of NPWT</h2>
+    <p>NPWT can be conceptualized not as a passive dressing but as an <strong>active bioreactor</strong> that converts sub-atmospheric pressure into a cascade of pro-healing biological signals through <strong>mechanotransduction</strong>.<span class="evidence-badge ev-iv">Level IV</span></p>
+
+    <h3>3.1 Four Primary Mechanisms</h3>
+
+    <table>
+      <caption>Primary Mechanisms of Action of NPWT</caption>
+      <thead>
+        <tr><th>Mechanism</th><th>Description</th><th>Clinical Effect</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Macrodeformation</strong> (Wound Contraction)</td>
+          <td>Foam collapses under pressure, exerting centripetal force on wound edges</td>
+          <td>Reduces wound volume, minimizes dead space, provides mechanical stability</td>
+        </tr>
+        <tr>
+          <td><strong>Fluid Removal</strong> &amp; Edema Reduction</td>
+          <td>Continuous vacuum removes interstitial fluid, exudate, and debris</td>
+          <td>Relieves capillary compression → improved perfusion; clears inflammatory mediators (TNF-α, proteases)</td>
+        </tr>
+        <tr>
+          <td><strong>Microdeformation</strong> (Cellular Stimulation)</td>
+          <td>Pressure transmitted through foam pores creates mechanical strain on wound bed cells</td>
+          <td>Triggers cell proliferation, migration, differentiation via mechanotransduction</td>
+        </tr>
+        <tr>
+          <td><strong>Environment Stabilization</strong></td>
+          <td>Closed, occlusive system impermeable to external microbes</td>
+          <td>Maintains moist, warm environment; less frequent dressing changes (48–72 h)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3.2 Secondary Biological Effects</h3>
+    <ul>
+      <li><strong>Angiogenesis &amp; Blood Flow:</strong> Microdeformational strain induces localized temporary hypoxia → upregulation of VEGF → increased microvessel density and improved blood supply.<span class="evidence-badge ev-iv">Level IV</span></li>
+      <li><strong>Granulation Tissue Formation:</strong> Combined macro/microdeformation + enhanced perfusion → rapid fibroblast proliferation and extracellular matrix deposition → robust granulation tissue filling deep defects and covering exposed instrumentation.<span class="evidence-badge ev-iv">Level IV</span></li>
+      <li><strong>Bacterial Load Reduction:</strong> Two mechanisms — (1) physical removal via continuous drainage, and (2) enhanced delivery of systemic antibiotics and immune cells through improved perfusion.<span class="evidence-badge ev-iv">Level IV</span></li>
+    </ul>
+  </section>
+
+  <!-- Section 4: Clinical Application -->
+  <section class="card" id="application">
+    <h2>4. Clinical Application of NPWT for Deep Spinal Wounds</h2>
+
+    <h3>4.1 Indications &amp; Contraindications</h3>
+
+    <table>
+      <caption>Indications and Contraindications for NPWT in Post-Spinal Surgery Wounds</caption>
+      <thead>
+        <tr><th>Category</th><th>Details</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Indications</strong></td>
+          <td>
+            • Established deep SSI after adequate surgical debridement<br>
+            • Postoperative wound dehiscence involving deep tissue layers<br>
+            • Large soft-tissue defects or dead space after debridement
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Absolute Contraindications</strong></td>
+          <td>
+            • Malignancy present in the wound bed<br>
+            • Untreated osteomyelitis<br>
+            • Necrotic tissue with eschar (requires debridement first)<br>
+            • Exposed vasculature, nerves, or organs<br>
+            • Non-enteric and unexplored fistulas<br>
+            • <strong>Active, unrepaired CSF leak</strong>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Relative Contraindications</strong></td>
+          <td>
+            • Repaired dural tear / non-active CSF leak (use lower pressures)<br>
+            • Active bleeding or difficult wound hemostasis<br>
+            • Bleeding diathesis or anticoagulant therapy<br>
+            • Allergy to adhesive drape components
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Evolving Paradigm — CSF Leak:</strong> Initially an absolute contraindication, NPWT can now be safely applied over repaired, non-actively leaking dural tears using <strong>modified lower pressure settings</strong> (−50 to −75 mmHg).<span class="evidence-badge ev-iii">Level III</span> This represents a shift from theoretical caution to nuanced application as clinical confidence has grown.
+    </div>
+
+    <h3>4.2 Application Techniques</h3>
+    <table>
+      <caption>NPWT Technical Parameters for Spinal Wounds</caption>
+      <thead>
+        <tr><th>Parameter</th><th>Standard Setting</th><th>Modified Setting (Dural Exposure)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Negative Pressure</strong></td>
+          <td>−125 mmHg (continuous)</td>
+          <td>−50 to −75 mmHg</td>
+        </tr>
+        <tr>
+          <td><strong>Foam Type</strong></td>
+          <td>Black open-cell polyurethane (PU)</td>
+          <td>White non-adherent polyvinyl alcohol (PVA) as interface layer over delicate structures</td>
+        </tr>
+        <tr>
+          <td><strong>Dressing Change Interval</strong></td>
+          <td colspan="2">Every 48–72 hours (in OR for active infections)</td>
+        </tr>
+        <tr>
+          <td><strong>Large Defects</strong></td>
+          <td colspan="2">Consider <strong>segmental reduction method</strong> (multiple smaller foam pieces) — shown to yield faster healing than single large piece</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>4.3 Application Over Spinal Hardware</h3>
+    <p>The primary goals are to eliminate all dead space and ensure even pressure transmission across the entire wound bed. Foam must be carefully cut and shaped to fit all contours around and over metallic implants. The suction port should not make direct contact with hardware. For external fixation, techniques such as wrapping fixator pins with hydrocolloid gel or rubber strips before applying adhesive drape prevent air leaks.<span class="evidence-badge ev-iv">Level IV</span></p>
+  </section>
+
+  <!-- Section 5: Efficacy -->
+  <section class="card" id="efficacy">
+    <h2>5. Evidence for NPWT Efficacy &amp; Outcomes</h2>
+
+    <h3>5.1 Meta-Analytic Data on Infection Resolution</h3>
+    <p>A 2024 meta-analysis of <strong>19 single-arm studies</strong> focused specifically on NPWT for deep SSIs after spine surgery reported:<span class="evidence-badge ev-iii">Level III</span></p>
+    <ul>
+      <li><strong>Post-discharge infection recurrence rate: 2%</strong> (95% CI: 0–4%)</li>
+      <li><strong>Reoperation rate for internal fixation removal: 4%</strong> (95% CI: 0–14%)</li>
+      <li>Implied <strong>hardware salvage rate: ~96%</strong></li>
+    </ul>
+
+    <div class="callout">
+      <strong>Clinical Significance:</strong> The 96% implant salvage rate represents a monumental improvement over historical outcomes where implant removal was often the norm. This finding fundamentally alters the clinical landscape by providing a crucial safety net for complex instrumented fusions in high-risk patients.
+    </div>
+
+    <h3>5.2 NPWT vs. Conventional Therapy: Head-to-Head Data</h3>
+    <p>A 2023 retrospective comparative study directly compared NPWT with conventional surgery (CVSG, including open packing) for primary spinal infections.<span class="evidence-badge ev-iii">Level III</span></p>
+
+    <table>
+      <caption>Comparative Outcomes: NPWT vs. Conventional Therapy</caption>
+      <thead>
+        <tr><th>Outcome Metric</th><th>NPWT Group</th><th>Conventional Group</th><th>p-value</th><th>Source</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cure rate at 3 months</td>
+          <td><strong>Significantly higher</strong></td>
+          <td>Lower</td>
+          <td>0.022</td>
+          <td>Ref 39</td>
+        </tr>
+        <tr>
+          <td>Infection recurrence at 12 months</td>
+          <td><strong>0%</strong> (0/19)</td>
+          <td>20.8% (5/24)</td>
+          <td>0.034</td>
+          <td>Ref 39</td>
+        </tr>
+        <tr>
+          <td>Time to ESR normalization</td>
+          <td><strong>53.1 days</strong></td>
+          <td>91.6 days</td>
+          <td>0.007</td>
+          <td>Ref 39</td>
+        </tr>
+        <tr>
+          <td>Time to CRP normalization</td>
+          <td><strong>47.1 days</strong></td>
+          <td>74.2 days</td>
+          <td>0.035</td>
+          <td>Ref 39</td>
+        </tr>
+        <tr>
+          <td>Duration of antibiotic therapy</td>
+          <td><strong>4.1 months</strong></td>
+          <td>5.6 months</td>
+          <td>0.017</td>
+          <td>Ref 39</td>
+        </tr>
+        <tr>
+          <td>Length of hospital stay</td>
+          <td>45.2 days</td>
+          <td>34.9 days</td>
+          <td>0.061 (NS)</td>
+          <td>Ref 39</td>
+        </tr>
+        <tr>
+          <td>NPWT treatment duration</td>
+          <td colspan="3">Mean 17.45 days (95% CI: 11.63–23.28)</td>
+          <td>Ref 14</td>
+        </tr>
+        <tr>
+          <td>Number of dressing changes</td>
+          <td colspan="3">Mean 2.57 (95% CI: 1.53–3.60)</td>
+          <td>Ref 14</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <strong>Note on Hospital Stay Data:</strong> A 2023 meta-analysis reported NPWT significantly shortened LOS, but this meta-analysis has since been <strong>retracted</strong>.<span class="evidence-badge ev-ns">Retracted</span> The non-retracted comparative study showed no significant difference in LOS (p=0.061). Institutional and systemic factors unrelated to wound healing likely confound this metric.
+    </div>
+
+    <h3>5.3 Inflammatory Marker Normalization</h3>
+    <p>The significantly shorter time to ESR and CRP normalization in the NPWT group provides objective laboratory evidence of superior <strong>source control</strong>. Traditional methods like open packing appear less efficient at removing purulent material and inflammatory exudate. NPWT's continuous, active removal of the septic focus breaks the inflammatory cycle more effectively, allowing systemic antibiotics and the immune response to work more efficiently.<span class="evidence-badge ev-iii">Level III</span></p>
+  </section>
+
+  <!-- Section 6: Complex Scenarios -->
+  <section class="card" id="complex">
+    <h2>6. NPWT in Complex Clinical Scenarios</h2>
+
+    <h3>6.1 Large Soft-Tissue Defects</h3>
+    <p>A 2023 study compared two foam implantation techniques for large post-debridement spinal wounds:<span class="evidence-badge ev-iii">Level III</span></p>
+    <ul>
+      <li><strong>Centripetal Reduction:</strong> Traditional — single large foam piece filling the entire cavity</li>
+      <li><strong>Segmental Reduction:</strong> Novel — multiple smaller segmented foam pieces</li>
+    </ul>
+    <p>The <strong>segmental method was superior</strong>, yielding significantly shorter NPWT treatment times and hospital stays (p=0.027), with faster healing, better scar quality, less local depression, and improved tissue thickness.</p>
+
+    <h3>6.2 Dural Exposure &amp; CSF Leak Management</h3>
+    <p>Multiple studies demonstrate that NPWT can be applied safely and effectively over exposed or repaired dura without increased CSF-related complications, using <strong>pressure reduction to −50 to −75 mmHg</strong>.<span class="evidence-badge ev-iii">Level III</span> This expands the therapeutic window for some of the most challenging spinal wound complications.</p>
+
+    <h3>6.3 Immunocompromised &amp; High-Risk Populations</h3>
+    <p>NPWT has shown efficacy in high-risk cohorts including patients with diabetes (28% in one cohort), with comorbidities having no negative effect on treatment outcomes.<span class="evidence-badge ev-iii">Level III</span> When preferentially used in higher-risk posterior fusion patients (more revisions, tumors, longer fusions), it maintained wound complication rates equivalent to lower-risk non-NPWT groups.<span class="evidence-badge ev-iv">Level IV</span></p>
+  </section>
+
+  <!-- Section 7: Complications -->
+  <section class="card" id="complications">
+    <h2>7. Complications, Limitations &amp; Risk Mitigation</h2>
+
+    <table>
+      <caption>Documented Complications of NPWT in Spinal Wound Management</caption>
+      <thead>
+        <tr><th>Complication</th><th>Description &amp; Clinical Considerations</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Pain</strong></td>
+          <td>During therapy or dressing changes; may require pressure adjustments or pre-medication</td>
+        </tr>
+        <tr>
+          <td><strong>Bleeding</strong></td>
+          <td>Minor oozing to severe hemorrhage if vessel eroded by foam/suction; contraindicated with exposed vasculature</td>
+        </tr>
+        <tr>
+          <td><strong>Retained Sponge Fragments</strong></td>
+          <td>Foam pieces can tear off and remain in wound, acting as foreign body and infection nidus. Deep placement associated with 71% reoperation rate vs. 16% for suprafascial placement (p=0.02)<span class="evidence-badge ev-iii">Level III</span></td>
+        </tr>
+        <tr>
+          <td><strong>Wound Infection</strong></td>
+          <td>New or worsening infection if seal is lost or necrotic tissue remains untreated</td>
+        </tr>
+        <tr>
+          <td><strong>Allergic Reaction</strong></td>
+          <td>Contact dermatitis from adhesive drape</td>
+        </tr>
+        <tr>
+          <td><strong>Device Failure</strong></td>
+          <td>Low battery, blocked tube, or loss of seal compromising therapy</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Evidence Base Limitations</h3>
+    <div class="callout warning">
+      <strong>Critical Gap:</strong> The existing literature is overwhelmingly dominated by retrospective cohort studies, case series, and meta-analyses of lower-quality studies. There is a <strong>conspicuous absence of large, prospective, randomized controlled trials (RCTs)</strong> specifically comparing NPWT to optimized conventional protocols for <em>established deep spinal SSIs</em>.<span class="evidence-badge ev-iii">Level III</span>
+    </div>
+    <p>No specific clinical practice guidelines from major societies (AANS, CNS, AAOS) exist for this particular indication.<span class="evidence-badge ev-ns">No guideline</span> This creates an <strong>evidence-practice gap</strong>: NPWT is widely adopted as de facto standard of care based on compelling retrospective data, yet lacks Level I evidence and societal endorsement. The strong perception of superiority makes many clinicians ethically hesitant to randomize patients to a conventional arm, impeding the very RCTs needed to close this gap.</p>
+  </section>
+
+  <!-- Section 8: Treatment Algorithm -->
+  <section class="card" id="algorithm">
+    <h2>8. Proposed Treatment Algorithm</h2>
+
+    <div class="algorithm-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Initial Suspicion &amp; Diagnosis</strong><br>
+        Clinical signs (fever, pain, erythema, swelling, wound drainage) ± elevated WBC, ESR, CRP. Confirm with <strong>MRI</strong> (modality of choice) to assess deep tissue/epidural involvement.<span class="evidence-badge ev-iii">Level III</span>
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>Surgical Debridement &amp; Cultures</strong><br>
+        Prompt OR return for aggressive debridement of all non-viable tissue. Obtain multiple deep tissue and fluid samples for aerobic, anaerobic, and fungal cultures <strong>before</strong> administering new antibiotics.<span class="evidence-badge ev-iii">Level III</span>
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Candidate Selection for NPWT</strong><br>
+        Assess absolute contraindications (malignancy, untreated osteomyelitis, eschar, exposed vasculature, active CSF leak). Assess relative contraindications (repaired dural tear, anticoagulation). If dural exposure present → use modified protocol (lower pressure).
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>NPWT Application</strong><br>
+        Standard: <strong>−125 mmHg continuous</strong>. Modified for dural exposure: <strong>−50 to −75 mmHg</strong>. Use black PU foam for most defects; white PVA interface over delicate structures. Ensure foam fills all dead space. For large defects, consider segmental sponge placement. Airtight seal essential.
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>Ongoing Management &amp; Closure</strong><br>
+        Serial dressing changes every 48–72 h in OR with repeat debridement as needed. Monitor drainage volume (&lt;20 mL/day suggests good infection control). Continue until healthy granulation tissue completely covers exposed bone/hardware. Then proceed to definitive closure (delayed primary, skin graft, or soft tissue flap).
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 9: Evidence Synthesis -->
+  <section class="card" id="synthesis">
+    <h2>9. Evidence Synthesis &amp; Clinical Recommendations</h2>
+
+    <h3>When to Consider NPWT for Deep Spinal SSIs</h3>
+    <p>NPWT, when used as an adjunct to timely surgical debridement and appropriate antibiotic therapy, is <strong>superior to conventional wound care</strong> across multiple critical domains:<span class="evidence-badge ev-iii">Level III</span></p>
+    <ul>
+      <li>Higher rates of infection cure</li>
+      <li>Lower rates of infection recurrence (0% vs. 20.8% at 12 months)</li>
+      <li>Exceptionally high implant salvage rates (~96%)</li>
+      <li>Accelerated systemic inflammatory marker normalization</li>
+      <li>Reduced duration of antibiotic therapy</li>
+      <li>Faster granulation tissue formation</li>
+    </ul>
+    <p><strong>NPWT should be strongly considered</strong> as a primary component of the treatment strategy for any patient with an established deep SSI after spinal surgery, particularly in cases involving instrumentation, large tissue defects, or significant comorbidities.</p>
+
+    <h3>Future Research Imperative</h3>
+    <p>A large-scale, multicenter, prospective <strong>Randomized Controlled Trial</strong> comparing NPWT to a standardized "best-case" conventional protocol is urgently needed. Primary endpoints should include infection eradication, recurrence rates, and patient-reported outcome measures (PROMs). Secondary endpoints: time to healing, antibiotic duration, LOS, and formal health economic analysis.<span class="evidence-badge ev-ns">Expert opinion</span></p>
+  </section>
+
+  <!-- Landmark Studies Summary -->
+  <section class="card" id="studies">
+    <h2>10. Summary of Key Studies</h2>
+    <p><em>Note: The source document is a narrative review synthesizing available evidence. No individual landmark RCTs were identified; evidence is derived primarily from meta-analyses of single-arm studies and retrospective comparative studies.</em></p>
+
+    <table>
+      <caption>Key Studies Referenced in Source Document</caption>
+      <thead>
+        <tr><th>#</th><th>Study</th><th>Design</th><th>Key Finding</th><th>Evidence Level</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Meta-analysis of 19 single-arm studies (Ref 14)</td>
+          <td>Meta-analysis</td>
+          <td>2% infection recurrence; 4% reoperation rate; ~96% implant salvage</td>
+          <td><span class="evidence-badge ev-iii">III</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>NPWT vs. CVSG comparison (Ref 39)</td>
+          <td>Retrospective comparative</td>
+          <td>0% vs. 20.8% recurrence; faster ESR/CRP normalization; shorter antibiotic course</td>
+          <td><span class="evidence-badge ev-iii">III</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Sponge placement depth study (Ref 17/48)</td>
+          <td>Retrospective comparative</td>
+          <td>Suprafascial placement: 16% vs. 71% reoperation rate (p=0.02)</td>
+          <td><span class="evidence-badge ev-iii">III</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Segmental vs. centripetal sponge method (Ref 44)</td>
+          <td>Comparative</td>
+          <td>Segmental method superior: shorter NPWT duration, hospital stay, better scar quality</td>
+          <td><span class="evidence-badge ev-iii">III</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Stoma reversal wound NPWT RCTs (Ref 41)</td>
+          <td>Meta-analysis of RCTs</td>
+          <td>NPWT reduced time to healing by 3.78 days (p=0.003) — different surgical context</td>
+          <td><span class="evidence-badge ev-ii">II</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <strong>Evidence Gap:</strong> No large, prospective RCTs specifically comparing NPWT to optimized conventional therapy for <em>established deep spinal SSIs</em> were identified in the source document. The evidence base consists primarily of Level III–IV studies. A definitive Level I trial remains the highest research priority.
+    </div>
+  </section>
+
+  <!-- References -->
+  <section class="card" id="references">
+    <h2>References</h2>
+    <ol class="ref-section">
+      <li>CDC. Surgical Site Infection Basics. <em>cdc.gov</em>. Accessed July 28, 2025.</li>
+      <li>Johns Hopkins Medicine. Surgical Site Infections: CDC Classification of 3 Types.</li>
+      <li>Johns Hopkins Medicine. Surgical Site Infections.</li>
+      <li>Texas Infectious Disease Institute. Understanding the Three Types of SSI.</li>
+      <li>Frontiers in Medicine. SSI Following Spine Surgery: Eliminating Controversies in Diagnosis. <em>Front Med</em>. 2014.</li>
+      <li>CDC NHSN. FAQs: Surgical Site Infections (SSI) Events.</li>
+      <li>Systematic Review: NPWT for Spinal Wounds. <em>ResearchGate</em>.</li>
+      <li>Application of NPWT in Pyoinflammatory Complications After Spinal Surgery. <em>spinesurgery.ru</em>.</li>
+      <li>Ousey K. Topical Negative Pressure for Spinal Wounds: A Clinical Review. University of Huddersfield.</li>
+      <li>Efficacy of Intrawound Treatments to Prevent SSI After Spine Surgery. <em>Pain Physician</em>.</li>
+      <li>Current Strategies in Prevention of Postoperative Infections in Spine Surgery. Jefferson Digital Commons.</li>
+      <li>NPWT in Infected Wound Following Spinal Surgery. <em>PMC</em>. 2014.</li>
+      <li>Management of Late-Onset Deep SSI After Instrumented Spinal Surgery. 2020.</li>
+      <li>Effectiveness of NPWT in Treating Deep SSIs After Spine Surgery: Meta-Analysis of Single-Arm Studies. <em>PMC</em>. 2024.</li>
+      <li>CDC/APIC. SSI Event Definitions. 2014.</li>
+      <li>Management of Deep SSIs of the Spine: Canadian Nationwide Survey. <em>PMC</em>. 2023.</li>
+      <li>Management of Spine SSI Wound Infections: NPWT Outcomes. <em>Int J Spine Surg</em>. 2021.</li>
+      <li>Strategies of Management of Deep Spinal Infection. <em>Ann Transl Med</em>.</li>
+      <li>Effects of NPWT on Wound Dehiscence and SSI Following Instrumented Spinal Fusion. <em>Bohrium</em>.</li>
+      <li>Evidence Based Review of NPWT. <em>World J Gastrointest Surg</em>.</li>
+      <li>NPWT: Mechanism of Action and Clinical Applications. <em>PMC</em>. 2021.</li>
+      <li>NPWT. <em>StatPearls / NCBI Bookshelf</em>.</li>
+      <li>Johns Hopkins Medicine. Vacuum-Assisted Closure of a Wound.</li>
+      <li>3M V.A.C. Therapy System Mechanism of Action. <em>YouTube</em>.</li>
+      <li>University of Huddersfield Repository. NPWT manuscript.</li>
+      <li>Effective Management of Challenges Associated with NPWT. <em>WoundSource</em>.</li>
+      <li>PlastSurgeon. NPWT Indications and Contraindications.</li>
+      <li>NPWT Indications and Contraindications. SWR Wound Care Program.</li>
+      <li>NPWT for Spinal Wounds: Systematic Review. Research Explorer, University of Manchester.</li>
+      <li>NPWT for Spinal Wounds: Systematic Review. <em>CORE</em>.</li>
+      <li>Safety and Efficacy of NPWT for Deep Spinal Wound Infections Following Dural Exposure. <em>ResearchGate</em>.</li>
+      <li>NPWT. Washington State L&I.</li>
+      <li>NPWT for Spinal Wounds: Systematic Review. University of Huddersfield.</li>
+      <li>NPWT Policy. UnitedHealthcare.</li>
+      <li>NPWT in Spinal Surgery. <em>Bohrium</em>.</li>
+      <li>Vacuum Sealing Drainage with External Fixation: Case Report. <em>ResearchGate</em>.</li>
+      <li>Effectiveness of NPWT for Deep SSIs After Spine Surgery. <em>PubMed</em>. 2024.</li>
+      <li>Impact of NPWT on SSI, Hospital Stay and Complications After Spinal Surgery: Meta-Analysis. <em>PMC</em>. 2023. <strong>[RETRACTED]</strong></li>
+      <li>Comparison of NPWT and Conventional Therapy in Spine Infections. <em>MDPI J Pers Med</em>. 2023.</li>
+      <li>Same as ref 39. <em>PMC</em>. 2023.</li>
+      <li>Comparison of NPWT vs. Conventional Dressing After Stoma Reversal: Meta-Analysis of RCTs. <em>MDPI J Clin Med</em>. 2025.</li>
+      <li>NPWT vs. Traditional Dressing in Posterior Spinal Surgery: 10-Year Retrospective. <em>ResearchGate</em>. 2024.</li>
+      <li>Revisionary Soft Tissue Reconstruction of Posterior Midline Defects. <em>J Spine Surg</em>.</li>
+      <li>Effects of Different Sponge Implantation Methods of NPWT. <em>PLoS One</em>. 2023.</li>
+      <li>SSI Prevention and Management. <em>PMC</em>. 2021.</li>
+      <li>VSD vs. Traditional NP Drainage in Posterior Cervical Fixation. <em>PMC</em>. 2024.</li>
+      <li>NPWT Complications. Cleveland Clinic.</li>
+      <li>Outcomes of NPWT in Spine SSI Wound Management. <em>Int J Spine Surg</em>. 2021.</li>
+      <li>NPWT in Spinal Surgery. <em>PMC</em>. 2022.</li>
+      <li>NPWT as Management of SSI in Spinal Fusion. Universitas Indonesia.</li>
+      <li>ClinicalTrials.gov: SUpPress SSI — NPWT to Reduce SSI. NCT03816293.</li>
+      <li>ClinicalTrials.gov: SSI Rate After Intra-Abdominal Surgery Using NPWT. NCT01924884.</li>
+      <li>ClinicalTrials.gov: Incisional NPWT. NCT01759381.</li>
+      <li>AANS/CNS Position Statement: Cervical Spine Guidelines. 2024.</li>
+      <li>AAOS Clinical Practice Guidelines.</li>
+      <li>AAOS: Prevention of SSI After Major Extremity Trauma.</li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ===================== SIDEBAR ===================== -->
+<aside>
+  <div class="sidebar-card">
+    <h3>⚙️ Interactive Clinical Parameters</h3>
+
+    <div class="slider-group">
+      <label>
+        NPWT Pressure Setting
+        <span class="current-val" id="val-pressure">-125 mmHg</span>
+      </label>
+      <input type="range" id="slider-pressure" min="-50" max="-150" value="-125" step="-5" aria-label="NPWT Pressure in mmHg">
+      <div class="range-labels"><span>-50</span><span>-100</span><span>-150</span></div>
+      <div class="slider-note">Standard: −125 mmHg. Dural exposure: −50 to −75 mmHg (source-derived).</div>
+    </div>
+
+    <div class="slider-group">
+      <label>
+        Wound Drainage Volume
+        <span class="current-val" id="val-drainage">50 mL/day</span>
+      </label>
+      <input type="range" id="slider-drainage" min="0" max="200" value="50" step="5" aria-label="Daily wound drainage in mL">
+      <div class="range-labels"><span>0 mL</span><span>100 mL</span><span>200 mL</span></div>
+      <div class="slider-note">Threshold &lt;20 mL/day suggests good infection control (source-derived).</div>
+    </div>
+
+    <div class="slider-group">
+      <label>
+        NPWT Treatment Duration
+        <span class="current-val" id="val-duration">17 days</span>
+      </label>
+      <input type="range" id="slider-duration" min="0" max="60" value="17" step="1" aria-label="NPWT treatment duration in days">
+      <div class="range-labels"><span>0 d</span><span>30 d</span><span>60 d</span></div>
+      <div class="slider-note">Mean duration: 17.45 days (source meta-analysis, Ref 14).</div>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>📋 Real-Time Clinical Assessment</h3>
+    <div class="recommendation-box" id="recommendation-box">
+      <h4 id="rec-icon">✅ Recommendation</h4>
+      <div id="rec-text">Adjust parameters to generate an evidence-based clinical recommendation.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-reset" onclick="resetSliders()" aria-label="Reset all sliders to defaults">↺ Reset</button>
+      <button class="btn btn-export" onclick="exportSummary()" aria-label="Copy clinical summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>📊 Current Parameter Summary</h3>
+    <div id="param-summary" style="font-size:0.82rem; line-height:1.8;">
+      <div><strong>Pressure:</strong> <span id="sum-pressure">-125 mmHg</span></div>
+      <div><strong>Drainage:</strong> <span id="sum-drainage">50 mL/day</span></div>
+      <div><strong>Duration:</strong> <span id="sum-duration">17 days</span></div>
+      <div style="margin-top:0.5rem; font-size:0.72rem; color:var(--text-muted);" id="timestamp"></div>
+    </div>
+  </div>
+</aside>
+
+</div><!-- .layout -->
+
+<div class="copy-toast" id="copy-toast">✓ Clinical summary copied to clipboard</div>
+
+<script>
+(function() {
+  const sliderPressure = document.getElementById('slider-pressure');
+  const sliderDrainage = document.getElementById('slider-drainage');
+  const sliderDuration = document.getElementById('slider-duration');
+
+  const valPressure = document.getElementById('val-pressure');
+  const valDrainage = document.getElementById('val-drainage');
+  const valDuration = document.getElementById('val-duration');
+
+  const sumPressure = document.getElementById('sum-pressure');
+  const sumDrainage = document.getElementById('sum-drainage');
+  const sumDuration = document.getElementById('sum-duration');
+
+  const recBox = document.getElementById('recommendation-box');
+  const recIcon = document.getElementById('rec-icon');
+  const recText = document.getElementById('rec-text');
+  const timestampEl = document.getElementById('timestamp');
+
+  function update() {
+    const pressure = parseInt(sliderPressure.value);
+    const drainage = parseInt(sliderDrainage.value);
+    const duration = parseInt(sliderDuration.value);
+
+    valPressure.textContent = pressure + ' mmHg';
+    valDrainage.textContent = drainage + ' mL/day';
+    valDuration.textContent = duration + ' days';
+
+    sumPressure.textContent = pressure + ' mmHg';
+    sumDrainage.textContent = drainage + ' mL/day';
+    sumDuration.textContent = duration + ' days';
+
+    timestampEl.textContent = 'Updated: ' + new Date().toLocaleString();
+
+    // Generate recommendation
+    let alerts = [];
+    let severity = 'ok'; // ok, warn, danger
+
+    // Pressure assessment
+    if (pressure > -80) {
+      alerts.push('⚠️ <strong>Pressure (' + pressure + ' mmHg)</strong> is appropriate for wounds with dural exposure or repaired CSF leak (source: −50 to −75 mmHg range). Ensure close neurological monitoring.');
+    } else if (pressure >= -130 && pressure <= -120) {
+      alerts.push('✅ <strong>Pressure (' + pressure + ' mmHg)</strong> is at the standard recommended setting for deep spinal wounds without dural involvement (source: −125 mmHg continuous).');
+    } else if (pressure < -130) {
+      alerts.push('⚠️ <strong>Pressure (' + pressure + ' mmHg)</strong> exceeds the standard setting. Higher pressures may increase risk of bleeding and tissue damage. Source documents recommend −125 mmHg as standard. Use with caution and close monitoring.');
+      severity = 'warn';
+    } else {
+      alerts.push('ℹ️ <strong>Pressure (' + pressure + ' mmHg)</strong> is in the intermediate range. This may be suitable for wounds requiring gentle suction. Source-derived standard is −125 mmHg; modified range for dural exposure is −50 to −75 mmHg.');
+    }
+
+    // Drainage assessment
+    if (drainage < 20) {
+      alerts.push('✅ <strong>Drainage (' + drainage + ' mL/day)</strong> is below the 20 mL/day threshold, suggesting good infection control and readiness for wound closure assessment (source-derived threshold).');
+    } else if (drainage < 80) {
+      alerts.push('ℹ️ <strong>Drainage (' + drainage + ' mL/day)</strong> is moderate. Continue NPWT and serial dressing changes. Monitor for decreasing trend.');
+    } else {
+      alerts.push('⚠️ <strong>Drainage (' + drainage + ' mL/day)</strong> is high, suggesting ongoing active infection or exudate. Continue NPWT, consider repeat surgical debridement if trend does not improve, and ensure adequate antibiotic coverage per culture sensitivities.');
+      if (drainage > 120) severity = 'warn';
+    }
+
+    // Duration assessment
+    if (duration < 5) {
+      alerts.push('ℹ️ <strong>Duration (' + duration + ' days)</strong> is early in treatment course. Mean NPWT duration in the source meta-analysis was 17.45 days (95% CI: 11.63–23.28). Continue therapy with regular 48–72 hour dressing changes.');
+    } else if (duration <= 25) {
+      alerts.push('✅ <strong>Duration (' + duration + ' days)</strong> is within the expected treatment range. The source meta-analysis reported a mean of 17.45 days over ~2.57 dressing changes. Continue until healthy granulation tissue covers exposed structures.');
+    } else if (duration <= 40) {
+      alerts.push('⚠️ <strong>Duration (' + duration + ' days)</strong> exceeds the mean treatment duration. Consider reassessment: evaluate for retained sponge fragments, ongoing biofilm, need for repeat debridement, or possible implant removal if salvage is failing.');
+      severity = 'warn';
+    } else {
+      alerts.push('🔴 <strong>Duration (' + duration + ' days)</strong> is well beyond the expected treatment window. Reassess the entire treatment strategy. Consider: additional surgical debridement, infectious disease consultation, implant removal if not already assessed, and alternative wound management strategies.');
+      severity = 'danger';
+    }
+
+    // Composite assessment
+    if (drainage < 20 && duration >= 10 && duration <= 30 && pressure <= -100) {
+      alerts.push('<br><strong>🟢 Overall:</strong> Parameters suggest a favorable treatment trajectory. The wound is demonstrating reduced output within a reasonable treatment timeframe. Continue current regimen and plan for definitive wound closure.');
+    } else if (severity === 'danger' || (drainage > 120 && duration > 40)) {
+      // keep danger
+    } else if (drainage > 80 && duration > 25) {
+      severity = 'warn';
+    }
+
+    recBox.className = 'recommendation-box' + (severity === 'ok' ? '' : ' ' + severity);
+    recIcon.innerHTML = severity === 'ok' ? '✅ Recommendation' : severity === 'warn' ? '⚠️ Caution' : '🔴 Alert';
+    recText.innerHTML = alerts.join('<br><br>');
+  }
+
+  sliderPressure.addEventListener('input', update);
+  sliderDrainage.addEventListener('input', update);
+  sliderDuration.addEventListener('input', update);
+
+  // Initial update
+  update();
+
+  // Reset
+  window.resetSliders = function() {
+    sliderPressure.value = -125;
+    sliderDrainage.value = 50;
+    sliderDuration.value = 17;
+    update();
+  };
+
+  // Export
+  window.exportSummary = function() {
+    const pressure = sliderPressure.value;
+    const drainage = sliderDrainage.value;
+    const duration = sliderDuration.value;
+    const now = new Date().toLocaleString();
+
+    let text = 'NPWT CLINICAL PARAMETER SUMMARY\n';
+    text += '================================\n';
+    text += 'Generated: ' + now + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  NPWT Pressure: ' + pressure + ' mmHg\n';
+    text += '  Wound Drainage: ' + drainage + ' mL/day\n';
+    text += '  Treatment Duration: ' + duration + ' days\n\n';
+    text += 'ASSESSMENT:\n';
+    text += recText.textContent.trim() + '\n\n';
+    text += 'EVIDENCE BASIS:\n';
+    text += '  - Meta-analysis of 19 single-arm studies: 2% recurrence, 4% reoperation (Ref 14)\n';
+    text += '  - Retrospective comparative study: 0% vs 20.8% recurrence at 12 months (Ref 39)\n';
+    text += '  - Standard pressure: -125 mmHg; Modified for dural exposure: -50 to -75 mmHg\n';
+    text += '  - Drainage threshold <20 mL/day suggests infection control\n';
+    text += '  - Mean NPWT duration: 17.45 days (95% CI: 11.63-23.28)\n\n';
+    text += 'Source: Comprehensive Clinical Review on NPWT for Deep Spinal SSIs\n';
+
+    navigator.clipboard.writeText(text).then(function() {
+      const toast = document.getElementById('copy-toast');
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const toast = document.getElementById('copy-toast');
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  };
+})();
+</script>
+
+</body>
+</html>

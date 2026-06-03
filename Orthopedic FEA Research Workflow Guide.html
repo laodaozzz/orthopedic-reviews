@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computational Biomechanics in Orthopedic Surgery – FEA Workflow, Validation &amp; Software Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fc;--surface:#ffffff;--surface-alt:#f1f3f8;--border:#e2e6ef;
+  --text:#1a1d2e;--text-muted:#5c6378;--text-light:#8b91a5;
+  --primary:#3366ff;--primary-light:#e8eeff;--primary-dark:#1a3fcc;
+  --accent:#00c9a7;--accent-light:#e0faf4;
+  --warning:#ff9f43;--warning-light:#fff5e8;
+  --danger:#ff5370;--danger-light:#ffe8ec;
+  --info:#6c63ff;--info-light:#eeecff;
+  --success:#00c853;--success-light:#e0faee;
+  --radius:10px;--radius-sm:6px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 10px 40px rgba(0,0,0,.1);
+  --font:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* Layout */
+.page-wrapper{max-width:1400px;margin:0 auto;padding:0 24px}
+.content-grid{display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+@media(max-width:1024px){.content-grid{grid-template-columns:1fr}}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1a1d2e 0%,#2d3561 50%,#3366ff 100%);color:#fff;padding:48px 0 56px;position:relative;overflow:hidden}
+.site-header::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(51,102,255,.3) 0%,transparent 70%);pointer-events:none}
+.site-header::after{content:'';position:absolute;bottom:-30%;left:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,201,167,.15) 0%,transparent 70%);pointer-events:none}
+.header-inner{position:relative;z-index:1}
+.site-header h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:12px}
+.site-header .subtitle{font-size:clamp(.95rem,1.5vw,1.15rem);color:rgba(255,255,255,.75);font-weight:400;max-width:800px}
+.header-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px}
+.meta-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:500;backdrop-filter:blur(8px)}
+.meta-tag svg{width:14px;height:14px;opacity:.8}
+
+/* Sticky sidebar */
+.sidebar-wrapper{position:sticky;top:20px}
+.sidebar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-md)}
+.sidebar h3{font-size:1rem;font-weight:700;margin-bottom:6px;color:var(--primary)}
+.sidebar .sidebar-sub{font-size:.78rem;color:var(--text-muted);margin-bottom:20px;line-height:1.5}
+
+/* Slider groups */
+.slider-group{margin-bottom:22px}
+.slider-group:last-of-type{margin-bottom:0}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.slider-label span:first-child{font-size:.82rem;font-weight:600;color:var(--text)}
+.slider-value{font-family:var(--mono);font-size:.82rem;font-weight:500;color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:4px}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;background:linear-gradient(to right,var(--primary) 0%,var(--primary) var(--pct,#50%),var(--border) var(--pct,#50%),var(--border) 100%);border-radius:3px;outline:none;cursor:pointer;margin:4px 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(51,102,255,.35);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(51,102,255,.35);cursor:pointer}
+.slider-range{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-light);margin-top:2px}
+.slider-tip{font-size:.72rem;color:var(--text-muted);line-height:1.45;margin-top:5px;padding-left:10px;border-left:2px solid var(--border)}
+
+/* Recommendation box */
+.recommendation-box{margin-top:20px;padding:16px;border-radius:var(--radius-sm);border-left:4px solid var(--accent);background:var(--accent-light);transition:all .3s}
+.recommendation-box.warn{border-left-color:var(--warning);background:var(--warning-light)}
+.recommendation-box.danger{border-left-color:var(--danger);background:var(--danger-light)}
+.recommendation-box h4{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.recommendation-box.warn h4{color:var(--warning)}
+.recommendation-box.danger h4{color:var(--danger)}
+.recommendation-box p{font-size:.78rem;line-height:1.55;color:var(--text)}
+
+/* Buttons */
+.sidebar-btns{display:flex;gap:8px;margin-top:18px}
+.btn{flex:1;padding:9px 12px;border-radius:var(--radius-sm);font-size:.78rem;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;font-family:var(--font)}
+.btn-reset{background:var(--surface-alt);color:var(--text-muted);border:1px solid var(--border)}
+.btn-reset:hover{background:var(--border);color:var(--text)}
+.btn-export{background:var(--primary);color:#fff}
+.btn-export:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1d2e;color:#fff;padding:12px 24px;border-radius:var(--radius);font-size:.82rem;font-weight:500;box-shadow:var(--shadow-lg);opacity:0;transition:all .35s ease;pointer-events:none;z-index:9999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Main content */
+.main-content{min-width:0}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:24px;box-shadow:var(--shadow)}
+.section-card h2{font-size:1.35rem;font-weight:800;color:var(--text);margin-bottom:4px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.section-card h2 .section-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:var(--primary);color:#fff;font-size:.78rem;font-weight:700;flex-shrink:0}
+.section-card h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:24px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.section-card h4{font-size:.9rem;font-weight:600;color:var(--text);margin:16px 0 8px}
+.section-card p{font-size:.9rem;line-height:1.75;color:var(--text-muted);margin-bottom:12px}
+.section-card p strong{color:var(--text)}
+.section-card ul,.section-card ol{margin:0 0 14px 20px;font-size:.9rem;line-height:1.75;color:var(--text-muted)}
+.section-card li{margin-bottom:4px}
+.section-card li strong{color:var(--text)}
+
+/* Evidence badge */
+.ev{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle;margin-left:6px;white-space:nowrap}
+.ev-1,.ev-2{background:#e0faee;color:#00a86b}
+.ev-3{background:#fff5e8;color:#e68900}
+.ev-4,.ev-5{background:#ffe8ec;color:#e04860}
+.ev-na{background:#f1f3f8;color:#8b91a5}
+.ev-s{background:var(--info-light);color:var(--info)}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:16px 0 20px;border-radius:var(--radius-sm);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead{background:var(--surface-alt)}
+th{padding:12px 14px;text-align:left;font-weight:700;color:var(--text);border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text-muted);vertical-align:top}
+tbody tr:hover{background:var(--primary-light)}
+.table-caption{font-size:.78rem;color:var(--text-light);font-style:italic;margin-bottom:8px}
+
+/* Callout boxes */
+.callout{padding:16px 20px;border-radius:var(--radius-sm);margin:16px 0;font-size:.85rem;line-height:1.6}
+.callout-info{background:var(--info-light);border-left:4px solid var(--info)}
+.callout-warn{background:var(--warning-light);border-left:4px solid var(--warning)}
+.callout-danger{background:var(--danger-light);border-left:4px solid var(--danger)}
+.callout-success{background:var(--success-light);border-left:4px solid var(--success)}
+.callout strong{color:var(--text)}
+
+/* Code / equation blocks */
+.code-block{background:#1e2233;color:#e2e8f0;padding:16px 20px;border-radius:var(--radius-sm);font-family:var(--mono);font-size:.8rem;line-height:1.7;overflow-x:auto;margin:12px 0}
+.eq{font-family:var(--mono);font-size:.88rem;background:var(--surface-alt);padding:4px 10px;border-radius:4px;display:inline-block;margin:4px 2px}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;font-size:.72rem;font-weight:700;margin-right:8px;flex-shrink:0}
+
+/* Comparison grid */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+@media(max-width:600px){.compare-grid{grid-template-columns:1fr}}
+.compare-card{padding:18px;border-radius:var(--radius-sm);border:1px solid var(--border)}
+.compare-card h4{font-size:.85rem;margin-bottom:8px}
+.compare-card.pros{border-top:3px solid var(--success)}
+.compare-card.cons{border-top:3px solid var(--danger)}
+
+/* References */
+.ref-list{counter-reset:ref;list-style:none;margin:0;padding:0}
+.ref-list li{counter-increment:ref;padding:8px 0 8px 40px;position:relative;font-size:.82rem;color:var(--text-muted);border-bottom:1px solid var(--surface-alt)}
+.ref-list li::before{content:counter(ref);position:absolute;left:0;top:8px;width:28px;height:28px;border-radius:50%;background:var(--surface-alt);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text)}
+
+/* Utility */
+.mb-0{margin-bottom:0}.mt-4{margin-top:24px}
+.text-mono{font-family:var(--mono)}
+.tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.7rem;font-weight:600;margin:2px 4px 2px 0}
+.tag-blue{background:var(--primary-light);color:var(--primary)}
+.tag-green{background:var(--accent-light);color:#00a86b}
+.tag-orange{background:var(--warning-light);color:#e68900}
+.limitation-box{background:var(--warning-light);border:1px solid var(--warning);border-radius:var(--radius-sm);padding:14px 18px;margin:16px 0;font-size:.82rem;color:var(--text)}
+.limitation-box strong{color:var(--warning)}
+
+/* Print */
+@media print{.sidebar-wrapper,.site-header,.sidebar-btns,.toast{display:none!important}.content-grid{grid-template-columns:1fr!important}.section-card{break-inside:avoid;box-shadow:none;border:1px solid #ccc}}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <div class="page-wrapper header-inner">
+    <h1>Computational Biomechanics in Orthopedic Surgery</h1>
+    <p class="subtitle">A Comprehensive Guide to Finite Element Analysis Workflow, Validation &amp; Software Architecture — Interactive Educational Summary</p>
+    <div class="header-meta">
+      <span class="meta-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        FEA Workflow
+      </span>
+      <span class="meta-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        ~20 min read
+      </span>
+      <span class="meta-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        Evidence-Based
+      </span>
+      <span class="meta-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Source Document Synthesis
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="page-wrapper" style="padding-top:32px;padding-bottom:60px">
+<div class="content-grid">
+
+<!-- ============================== MAIN CONTENT ============================== -->
+<main class="main-content" role="main">
+
+<!-- Section 1: Introduction -->
+<div class="section-card">
+  <h2><span class="section-num">1</span> The Paradigm Shift to In Silico Orthopedics</h2>
+  <p>Orthopedic research is undergoing a fundamental transformation driven by the integration of computational engineering into the surgical domain. Historically, the evaluation of implant stability, fracture risk, and osteotomy planning relied heavily on cadaveric testing and animal models — approaches constrained by biological variability, ethical and financial limitations, and the inability to non-destructively test specimens under multiple loading scenarios. <span class="ev ev-1">Review</span></p>
+
+  <p><strong>Finite Element Analysis (FEA)</strong>, a numerical method originally developed for aerospace structural mechanics in the 1950s, has emerged as the definitive solution to these challenges, enabling <em>in silico</em> medicine — the simulation of biological systems using computational models.</p>
+
+  <div class="callout callout-info">
+    <strong>Key Capability:</strong> FEA allows quantification of stress and strain distributions within trabecular bone architectures that are impossible to measure with physical strain gauges. It facilitates virtual implantation of novel prostheses, enabling rapid iteration of design parameters before a prototype is ever machined. Regulatory bodies such as the <strong>FDA</strong> now recognize computational modeling as valid evidence for medical device safety and efficacy under standards like <strong>ASME V&amp;V 40</strong>. <span class="ev ev-s">Standard</span>
+  </div>
+
+  <p>The workflow requires a synthesis of disparate disciplines: <strong>radiology</strong> for image acquisition, <strong>computational geometry</strong> for anatomical reconstruction, and <strong>continuum mechanics</strong> for stress analysis. The heterogeneity of biological tissue — unlike the isotropic uniformity of engineering steel — introduces profound complexities. A femur is not merely a structural column; it is a composite material with density gradients, anisotropy, and fluid-solid interactions.</p>
+
+  <div class="callout callout-danger">
+    <strong>Critical Warning — "Garbage In, Garbage Out":</strong> A model derived from a low-resolution scan, or one that applies simplified boundary conditions without accounting for muscle forces, may yield results that are numerically precise but physiologically meaningless. <span class="ev ev-1">Review</span>
+  </div>
+</div>
+
+<!-- Section 2: Image Acquisition -->
+<div class="section-card">
+  <h2><span class="section-num">2</span> Image Acquisition &amp; Pre-Processing</h2>
+  <p>The fidelity of any finite element model is strictly bounded by the quality of the source imaging. In orthopedics, <strong>Computed Tomography (CT)</strong> is the gold standard modality due to its ability to capture volumetric Bone Mineral Density (BMD) through X-ray attenuation.</p>
+
+  <h3>2.1 Physics of Acquisition &amp; Protocol Optimization</h3>
+  <p>The discrete unit of information in a CT scan is the <strong>voxel</strong> (volumetric pixel), and its grayscale value, measured in <strong>Hounsfield Units (HU)</strong>, correlates to the electron density of the tissue. The spatial resolution of these voxels determines the accuracy of geometric reconstruction, particularly for thin structures like the subchondral bone plate or anterior cortex of a vertebral body.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Recommended Range</th><th>Clinical Context</th><th>Consequence of Non-compliance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Slice Thickness</strong></td><td>0.625 – 1.25 mm</td><td>Mandatory for accurate 3D reconstruction <span class="ev ev-3">Cadaveric Study</span></td><td>"Stair-step" artifacts → artificial stress concentrations</td></tr>
+        <tr><td><strong>In-Plane Resolution</strong></td><td>0.3 – 0.8 mm</td><td>Resolves cortical–trabecular boundary <span class="ev ev-3">Cadaveric Study</span></td><td>Loss of cortical shell definition</td></tr>
+        <tr><td><strong>Standard Clinical Scan</strong></td><td>2.0 – 3.0 mm</td><td>Reduced radiation dose</td><td><strong>Unacceptable for FEA</strong> — geometric artifacts propagate</td></tr>
+        <tr><td><strong>Micro-CT (µCT)</strong></td><td>&lt; 0.05 mm</td><td>Individual trabecular strut modeling</td><td>Computationally prohibitive for whole-organ FEA</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-caption">Table: CT acquisition parameters and their impact on FEA model fidelity.</p>
+
+  <h3>2.2 Quantitative CT (QCT) Calibration</h3>
+  <p>A frequent error in orthopedic modeling is assuming that Hounsfield Units are absolute. In reality, HU values are subject to drift and variation based on <strong>scanner manufacturer</strong>, <strong>X-ray tube voltage (kVp)</strong>, and <strong>reconstruction kernels</strong>. <span class="ev ev-3">Cadaveric/Phantom Study</span></p>
+
+  <p>QCT calibration involves scanning the patient or specimen alongside a <strong>calibration phantom</strong> containing rods of known Calcium Hydroxyapatite (CaHA) concentrations (typically 0, 50, 200, 400, and 800 mg/cc). The resulting regression equations are scanner-specific:</p>
+
+  <div class="code-block">
+Conventional CT (Siemens):   CaHA = −29.58 + 0.98 × ROI_mean   <span style="color:#6c63ff">[Source Ref 14]</span>
+Standing CT (Equina):        CaHA = −54.53 + 0.95 × ROI_mean   <span style="color:#6c63ff">[Source Ref 14]</span>
+  </div>
+
+  <div class="callout callout-warn">
+    <strong>Without calibration, the material mapping step is fundamentally flawed,</strong> leading to errors in stiffness estimation that propagate linearly into displacement and strain results. <span class="ev ev-3">Phantom Study</span>
+  </div>
+
+  <h3>2.3 Segmentation: Delineating Anatomy</h3>
+  <p>Segmentation is the algorithmic process of classifying voxels as "bone" or "background." While <strong>thresholding</strong> (selecting all pixels above ~200 HU) is the primary method, it is rarely sufficient due to <strong>partial volume effects</strong>. <span class="ev ev-3">Validation Study</span></p>
+
+  <p>Comparative studies show that open-source <strong>3D Slicer</strong> produces models with geometric accuracy comparable to <strong>Mimics</strong> (Materialise):</p>
+  <ul>
+    <li><strong>3D Slicer:</strong> mean dimensional deviation &lt; 1.0% (~0.65 mm) relative to laser-scanned ground truths <span class="ev ev-3">Validation</span></li>
+    <li><strong>Mimics:</strong> marginally better precision (~0.55 mm) but at annual license costs exceeding $10,000 <span class="ev ev-3">Validation</span></li>
+  </ul>
+
+  <h4>Segmentation Workflow in 3D Slicer</h4>
+  <ol>
+    <li><span class="step-num">1</span> <strong>Data Import:</strong> Load the DICOM series. Verify voxel isotropy; if non-uniform, consider resampling (introduces interpolation errors). <span class="ev ev-s">Expert Consensus</span></li>
+    <li><span class="step-num">2</span> <strong>Thresholding:</strong> Range of <strong>200–3000 HU</strong> typically captures cortical bone. Cancellous bone in osteoporotic patients may require lower thresholds. <span class="ev ev-3">Validation</span></li>
+    <li><span class="step-num">3</span> <strong>Island Removal:</strong> "Keep Largest Island" to remove noise artifacts (patient table, calcifications). <span class="ev ev-s">Expert Consensus</span></li>
+    <li><span class="step-num">4</span> <strong>Manual Separation:</strong> In joints, subchondral plates often appear fused. Paint/Erase tools define joint space <em>slice-by-slice</em>. If fused, FEA treats the joint as ankylosed. <span class="ev ev-s">Expert Consensus</span></li>
+    <li><span class="step-num">5</span> <strong>Gap Closing:</strong> "Wrap Solidify" or morphological closing fills internal voids, ensuring solid continuum behavior. <span class="ev ev-s">Expert Consensus</span></li>
+  </ol>
+
+  <h3>2.4 Surface Generation &amp; The Smoothing Dilemma</h3>
+  <p>Raw segmentation masks produce "blocky" voxelated surfaces. <strong>Laplacian smoothing</strong> can artificially thin the cortical shell, reducing the calculated Moment of Inertia and stiffness. <strong>"Windowed Sinc" smoothing</strong> is recommended — it filters high-frequency noise while preserving anatomical shape and minimizing volume loss. <span class="ev ev-s">Expert Consensus / Validation</span></p>
+
+  <div class="callout callout-info">
+    <strong>Quality Check:</strong> Always visually overlay the smoothed mesh on the original DICOM slices to verify that cortical boundaries have not been eroded.
+  </div>
+</div>
+
+<!-- Section 3: Volumetric Meshing -->
+<div class="section-card">
+  <h2><span class="section-num">3</span> Volumetric Meshing: From Surface to Solid</h2>
+  <p>The surface mesh (STL) is a hollow shell composed of 2D triangles. To simulate internal stresses, the enclosed volume must be discretized into 3D solid elements — a process that determines both computational cost and numerical accuracy.</p>
+
+  <h3>3.1 Element Topology: The Tet10 Standard</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Element Type</th><th>Nodes</th><th>Key Properties</th><th>Suitability for Bone FEA</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tet4 (Linear)</strong></td>
+          <td>4</td>
+          <td>Suffers from "shear locking" — becomes infinitely stiff in bending</td>
+          <td style="color:var(--danger);font-weight:700">❌ NEVER use for structural bone analysis <span class="ev ev-s">Expert Consensus</span></td>
+        </tr>
+        <tr>
+          <td><strong>Tet10 (Quadratic)</strong></td>
+          <td>10</td>
+          <td>Mid-side nodes allow curved edges; eliminates shear locking</td>
+          <td style="color:var(--success);font-weight:700">✅ MANDATORY standard for orthopedic FEA <span class="ev ev-s">Expert Consensus</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hex8 / Hex20</strong></td>
+          <td>8 / 20</td>
+          <td>Computationally efficient for simple geometries</td>
+          <td>⚠️ Voxel meshing creates "Lego-like" surfaces with stress singularities <span class="ev ev-s">Expert Consensus</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.2 Automated Meshing Workflow</h3>
+  <p>For the open-source stack, the <strong>Segment Mesher</strong> extension in 3D Slicer facilitates the transition from segmentation to volumetric mesh using <strong>Cleaver2</strong> or <strong>TetGen</strong> libraries. Cleaver is particularly adept at multi-material meshing, allowing distinct labels (cortical bone, cancellous bone, cartilage) to be meshed simultaneously with shared nodes. <span class="ev ev-s">Software Documentation</span></p>
+
+  <div class="callout callout-warn">
+    <strong>Export Pitfall:</strong> To use generated meshes in FEBio, export as legacy VTK unstructured grid. <strong>Uncheck the "Compress" option</strong> — compressed VTK files often fail to load element connectivity, appearing as "0 elements." Python libraries like <code>meshio</code> can convert to Abaqus (.inp) or Ansys formats. <span class="ev ev-s">Community Report</span>
+  </div>
+
+  <h3>3.3 Mesh Convergence: The Verification Step</h3>
+  <p>No FEA model is credible without a <strong>mesh convergence study</strong>. Run the same simulation with progressively finer meshes (e.g., 4 mm → 2 mm → 1 mm → 0.5 mm) and plot the primary outcome (e.g., Peak Von Mises Stress) against the number of elements. The solution is considered <strong>"converged"</strong> when the change between refinements drops below <strong>5%</strong>. <span class="ev ev-s">Expert Consensus / Best Practice</span></p>
+
+  <div class="callout callout-danger">
+    <strong>Manuscript Rejection Alert:</strong> Neglecting mesh convergence is one of the most common reasons for rejection in biomechanical journals. <span class="ev ev-s">Expert Consensus</span>
+  </div>
+</div>
+
+<!-- Section 4: Material Mapping -->
+<div class="section-card">
+  <h2><span class="section-num">4</span> Material Mapping: The Physics of Heterogeneity</h2>
+  <p>Standard engineering simulations assign a single Young's Modulus to a part. However, bone is a <strong>functionally graded material</strong>; its stiffness varies continuously from the dense cortical shaft to the porous trabecular metaphysis. FEA allows <strong>"inhomogeneous" material assignment</strong>, where every element receives a unique modulus based on the underlying CT data.</p>
+
+  <h3>4.1 The Density–Modulus Pipeline</h3>
+  <p>The mapping follows a two-step mathematical transformation:</p>
+  <ol>
+    <li><strong>HU → Density (ρ):</strong> <span class="eq">ρ = A × HU + B</span> (using phantom calibration)</li>
+    <li><strong>Density → Modulus (E):</strong> <span class="eq">E = a × ρ<sup>b</sup></span> (non-linear power law)</li>
+  </ol>
+
+  <h3>4.2 Validated Density–Modulus Relationships</h3>
+  <p>The choice of power law equation is the <strong>single most sensitive variable</strong> in orthopedic FEA. Using an inappropriate equation can alter stiffness predictions by over 50%. <span class="ev ev-3">Cadaveric Studies</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Source</th><th>Anatomic Site</th><th>Equation (E in MPa, ρ in g/cm³)</th><th>Density Type</th><th>Application Insight</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Carter &amp; Hayes (1977) <span class="ev ev-3">Cadaveric</span></td>
+          <td>Pooled (General)</td>
+          <td><span class="eq">E = 3790 · ε<sup>0.06</sup> · ρ<sub>app</sub><sup>3</sup></span></td>
+          <td>Apparent</td>
+          <td>Classic reference. Includes strain rate. Good for general approximations.</td>
+        </tr>
+        <tr>
+          <td>Keller (1994) <span class="ev ev-3">Cadaveric</span></td>
+          <td>Femur / Spine</td>
+          <td><span class="eq">E = 10500 · ρ<sub>ash</sub><sup>2.29</sup></span></td>
+          <td>Ash</td>
+          <td>Widely used for femoral cortical and trabecular bone.</td>
+        </tr>
+        <tr>
+          <td>Morgan &amp; Keaveny (2003) <span class="ev ev-2">Cadaveric (Multi-site)</span></td>
+          <td><strong>Vertebra</strong></td>
+          <td><span class="eq">E = 4730 · ρ<sub>app</sub><sup>1.56</sup></span></td>
+          <td>Apparent</td>
+          <td><strong>Gold Standard for Spine.</strong> Vertebral bone is less stiff than tibial bone at the same density.</td>
+        </tr>
+        <tr>
+          <td>Morgan &amp; Keaveny (2003) <span class="ev ev-2">Cadaveric (Multi-site)</span></td>
+          <td><strong>Tibia (Proximal)</strong></td>
+          <td><span class="eq">E = 15520 · ρ<sub>app</sub><sup>1.93</sup></span></td>
+          <td>Apparent</td>
+          <td>Specific to tibial plateau/metaphysis. Essential for TKA subsidence studies.</td>
+        </tr>
+        <tr>
+          <td>Morgan &amp; Keaveny (2003) <span class="ev ev-2">Cadaveric (Multi-site)</span></td>
+          <td><strong>Femoral Neck</strong></td>
+          <td><span class="eq">E = 6850 · ρ<sub>app</sub><sup>1.49</sup></span></td>
+          <td>Apparent</td>
+          <td>Specific to the proximal femur.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-caption">Table 1: Critical Density–Modulus Relationships for Orthopedic FEA. Adapted from source document references [26, 28, 30].</p>
+
+  <div class="callout callout-info">
+    <strong>Site-Specificity is Critical:</strong> Morgan &amp; Keaveny (2003) proved that at an identical density, trabecular bone from the tibia is stiffer than that from the vertebra due to differences in micro-architectural orientation (anisotropy). Applying a generic "bone" equation to a spinal model will yield significant errors. <span class="ev ev-2">Cadaveric Multi-site Study</span>
+  </div>
+
+  <h3>4.3 Computational Implementation</h3>
+  <p>In <strong>Mimics</strong>, this mapping is handled via a material property table. In open-source workflows (Slicer → FEBio), a custom Python/MATLAB script iterates through every element, queries the original CT volume for average HU, converts to density, calculates modulus, and writes the material card. The academic tool <strong>Bonemat</strong> bridges this gap. <span class="ev ev-s">Software Documentation</span></p>
+</div>
+
+<!-- Section 5: Boundary Conditions -->
+<div class="section-card">
+  <h2><span class="section-num">5</span> Boundary Conditions &amp; Loading: Simulating Physiology</h2>
+  <p>Defining how the model is constrained and loaded is where the "biology" enters the simulation. Physiological loads are rarely static or vertical; they are dynamic, vector-driven, and mitigated by muscle forces.</p>
+
+  <h3>5.1 Hip Joint Loads: The Bergmann Standards</h3>
+  <p>For Total Hip Arthroplasty (THA) or proximal femur research, the <strong>Bergmann/Orthoload</strong> dataset, derived from instrumented telemetric implants in living patients, provides the definitive loading vectors. <span class="ev ev-2">In Vivo Telemetry</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Activity</th><th>Average Resultant Force (% BW)</th><th>Biomechanical Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Walking (4 km/h)</strong></td>
+          <td><strong>238% BW</strong></td>
+          <td>Resultant vector acts medial-to-lateral, not vertically</td>
+        </tr>
+        <tr>
+          <td><strong>Stair Climbing</strong></td>
+          <td><strong>251–260% BW</strong></td>
+          <td>Torsional moment is <strong>23% higher</strong> than walking — critical load case for implant rotational stability</td>
+        </tr>
+        <tr>
+          <td><strong>Stumbling</strong></td>
+          <td><strong>870% BW</strong></td>
+          <td>"Worst-case" scenario. Used for testing ultimate yield strength (implant fracture risk)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-caption">Table 2: Standard Hip Contact Forces. Data from Bergmann et al. / Orthoload database [Ref 6].</p>
+
+  <div class="callout callout-warn">
+    <strong>Critical Modeling Note:</strong> Apply loads as components (F<sub>x</sub>, F<sub>y</sub>, F<sub>z</sub>) aligned with the femoral coordinate system. Neglecting the torsional component of stair climbing will lead to underestimation of stem loosening risk. <span class="ev ev-2">In Vivo Telemetry</span>
+  </div>
+
+  <h3>5.2 Knee Joint Loading</h3>
+  <p>For Total Knee Arthroplasty (TKA), loading conditions are often dictated by <strong>ISO 14243</strong>, involving a standardized gait cycle with varying axial force (peaking at ~2600 N), anterior-posterior force, and internal-external rotation torque. <span class="ev ev-s">Standard</span></p>
+  <p>A debate exists between <strong>"Force-Controlled"</strong> and <strong>"Displacement-Controlled"</strong> inputs. Recent evidence suggests older ISO force-controlled standards may underestimate anterior tibial translation and subsequent polyethylene wear compared to newer telemetry-derived boundary conditions. <span class="ev ev-3">Computational/Experimental</span></p>
+
+  <h3>5.3 Spine Loading: ASTM F1717</h3>
+  <p>The standard validation model for spinal implant research is <strong>ASTM F1717</strong> — a "vertebrectomy" model where the entire anterior column is removed, forcing the posterior implant to bear 100% of the load. <span class="ev ev-s">Standard</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Specification</th><th>Modeling Insight</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Geometry</strong></td><td>Two UHMWPE blocks</td><td>Standard gap length often 76 mm</td></tr>
+        <tr><td><strong>Block Material</strong></td><td>UHMWPE (Polyethylene)</td><td>Isotropic. E ≈ 700–900 MPa. ν = 0.46</td></tr>
+        <tr><td><strong>Implant Material</strong></td><td>Ti-6Al-4V (Grade 23)</td><td>E ≈ 108–110 GPa. ν = 0.34</td></tr>
+        <tr><td><strong>Loading Modes</strong></td><td>Compression, Torsion, Fatigue</td><td>Compression: disp. control (25 mm/min). Fatigue: 5M cycles at 5 Hz</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-caption">Table 3: ASTM F1717 Finite Element Model Parameters [Ref 2, 7, 36, 37].</p>
+
+  <div class="callout callout-danger">
+    <strong>Modeling Tip:</strong> A critical error in simulating ASTM F1717 is modeling UHMWPE blocks as rigid bodies. In screw pull-out or toggle tests, the deformation of the polyethylene block contributes significantly to the failure mode. Accurate elastic-plastic material properties for UHMWPE (often derived from ASTM D638 tensile tests) must be used. <span class="ev ev-3">Computational Validation</span>
+  </div>
+</div>
+
+<!-- Section 6: Hardware Modeling -->
+<div class="section-card">
+  <h2><span class="section-num">6</span> Modeling Hardware: Screws, Threads &amp; Interfaces</h2>
+
+  <h3>6.1 The Thread Dilemma: Geometry vs. Efficiency</h3>
+  <ul>
+    <li><strong>Fully Threaded Models:</strong> Explicitly modeling helical geometry requires exceptionally fine mesh (millions of elements). <strong>Mandatory</strong> for simulations investigating pull-out strength, thread stripping, or localized bone damage. <span class="ev ev-3">Computational Study</span></li>
+    <li><strong>Simplified Cylindrical Models:</strong> For macroscopic construct stiffness or rod fatigue, modeling the screw as a smooth cylinder (pitch diameter) is acceptable. Reduces element count by an order of magnitude. <span class="ev ev-3">Computational Study</span></li>
+  </ul>
+
+  <h3>6.2 Contact Mechanics</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Contact Type</th><th>Description</th><th>Clinical Interpretation</th><th>Appropriate Use</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tie Constraint (Bonded)</strong></td>
+          <td>Locks screw nodes to bone nodes</td>
+          <td>Simulates <em>perfect osseointegration</em></td>
+          <td>Long-term follow-up; not suitable for immediate post-op <span class="ev ev-s">Expert Consensus</span></td>
+        </tr>
+        <tr>
+          <td><strong>Frictional Contact (μ ≈ 0.3–0.5)</strong></td>
+          <td>Allows separation/sliding above friction threshold</td>
+          <td>Simulates <em>screw loosening, toggle, subsidence</em></td>
+          <td>Immediate post-op; pull-out studies <span class="ev ev-s">Expert Consensus</span></td>
+        </tr>
+        <tr>
+          <td><strong>Pre-Tension (Bolt Load)</strong></td>
+          <td>Explicit compressive force on screw shaft before external loads</td>
+          <td>Simulates <em>lag screw mechanics</em></td>
+          <td>Fracture fixation models — ignoring it invalidates mechanics <span class="ev ev-3">Computational Study</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 7: Software Ecosystem -->
+<div class="section-card">
+  <h2><span class="section-num">7</span> The Software Ecosystem: A Comparative Analysis</h2>
+
+  <div class="compare-grid">
+    <div class="compare-card pros">
+      <h4 style="color:var(--primary)">Commercial Stack (Mimics → 3-matic → Abaqus/Ansys)</h4>
+      <p class="mb-0" style="font-size:.82rem"><strong>Pros:</strong> FDA-cleared workflows, massive technical support, advanced automated tools (e.g., "Split Mask"), robust non-linear contact solvers. <span class="ev ev-s">Expert Consensus</span></p>
+      <p class="mb-0" style="font-size:.82rem;color:var(--danger)"><strong>Cons:</strong> Prohibitive cost ($20k+ annually).</p>
+      <p style="font-size:.78rem;color:var(--text-light)"><strong>Best For:</strong> Industry-sponsored research, regulatory submissions, hospitals with dedicated engineering budgets.</p>
+    </div>
+    <div class="compare-card pros" style="border-top-color:var(--accent)">
+      <h4 style="color:var(--accent)">Open-Source Stack (3D Slicer → Segment Mesher → FEBio)</h4>
+      <p class="mb-0" style="font-size:.82rem"><strong>Pros:</strong> Free, open-science transparency, developed specifically for biomechanics (biphasic cartilage/fluid interactions natively). Validated against Mimics. <span class="ev ev-3">Validation Study</span></p>
+      <p class="mb-0" style="font-size:.82rem;color:var(--danger)"><strong>Cons:</strong> Steeper learning curve, requires Python scripting for material mapping, less automation.</p>
+      <p style="font-size:.78rem;color:var(--text-light)"><strong>Best For:</strong> Academic labs, grant-funded research, beginners learning fundamentals without license costs.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>Emerging Tool — PolyFEM:</strong> An open-source tool that excels in complex contact problems where traditional solvers struggle with convergence, though less established in clinical literature than FEBio. <span class="ev ev-s">Technical Report</span>
+  </div>
+</div>
+
+<!-- Section 8: Common Mistakes -->
+<div class="section-card">
+  <h2><span class="section-num">8</span> Common Mistakes &amp; Mitigation Strategies</h2>
+
+  <h3>8.1 The Cortical Shell Problem</h3>
+  <p>The cortex of a vertebral body or osteoporotic long bone can be <strong>&lt; 1 mm thick</strong>. If the FEA mesh uses 2 mm elements, the averaging process "erases" this stiff shell, assigning it trabecular properties.</p>
+  <div class="callout callout-danger">
+    <strong>Consequence:</strong> Massive underestimation of bone strength (up to <strong>60% error</strong>). <span class="ev ev-s">Expert Consensus</span><br>
+    <strong>Solution:</strong> Use <strong>local mesh refinement</strong> at the surface to ensure at least 2 elements span the cortical thickness. Alternatively, explicitly model the cortex as a separate "shell" part with a defined thickness parameter.
+  </div>
+
+  <h3>8.2 Over-Constraining Boundary Conditions</h3>
+  <p>Fixing the distal end of a long bone rigidly in all degrees of freedom creates an artificial "wall" of infinite stiffness that reflects stress waves and prevents natural bending.</p>
+  <div class="callout callout-warn">
+    <strong>Solution:</strong> Use "remote displacement" points or allow rotation and translation in non-load-bearing axes. For a femur in stance, constrain vertical motion at the knee but permit varus/valgus rotation. <span class="ev ev-3">Computational Study</span>
+  </div>
+
+  <h3>8.3 Neglecting Muscle Forces</h3>
+  <p>Modeling a femur loaded only by body weight on the femoral head ignores the massive counter-balancing forces of the abductor muscles (gluteus medius).</p>
+  <div class="callout callout-danger">
+    <strong>Consequence:</strong> Calculates tensile stresses on the lateral cortex that are physically impossible — the "tension band" effect of muscles actually converts this to compression. <span class="ev ev-1">Review</span><br>
+    <strong>Solution:</strong> Always include major muscle vectors (abductors, vastus lateralis) as point loads or continuum actuators, referencing validated musculoskeletal datasets (e.g., Bergmann, Heller). <span class="ev ev-2">In Vivo Data</span>
+  </div>
+</div>
+
+<!-- Section 9: Conclusion -->
+<div class="section-card">
+  <h2><span class="section-num">9</span> Conclusion: The Path to Clinical Relevance</h2>
+  <p>Computational modeling in orthopedics has matured from a theoretical curiosity to a clinical necessity. By mastering the workflow of image processing, rigorous meshing, and physiological boundary definition, the surgeon-scientist can unlock insights invisible to the naked eye or the mechanical testing rig.</p>
+
+  <div class="callout callout-success">
+    <strong>Recommended Pathway for Beginners:</strong> The <strong>Open-Source Stack (Slicer + FEBio)</strong> enforces a deeper understanding of the underlying mechanics while removing financial barriers. However, the tool is only as powerful as the user's adherence to validation protocols. Adopting the density–modulus relationships of <strong>Morgan &amp; Keaveny</strong>, the loading data of <strong>Bergmann</strong>, and the geometric standards of <strong>ASTM F1717</strong> is not optional — it is the baseline requirement for producing research that withstands peer review and ultimately improves patient care. <span class="ev ev-1">Expert Consensus / Review</span>
+  </div>
+
+  <div class="limitation-box">
+    <strong>Source Document Limitation Note:</strong> This educational summary is derived exclusively from the provided document. The source document is a narrative technical guide rather than a systematic review with formal evidence grading. Evidence level badges above are inferred from study designs referenced within the document (cadaveric studies → Level III–IV; in vivo telemetry → Level II–III; expert consensus/standards → Level V). Formal Level I RCT evidence is not available for most FEA methodological choices, which represents a known evidence gap in computational biomechanics.
+  </div>
+</div>
+
+<!-- References -->
+<div class="section-card">
+  <h2><span class="section-num" style="background:var(--text-muted)">R</span> References (from Source Document)</h2>
+  <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:16px">The following references are cited in the provided source document. Numbering follows the original document's reference list.</p>
+  <ol class="ref-list">
+    <li>Finite element analysis and its application in Orthopaedics: A narrative review. <em>PMC/NIH.</em> [Ref 1]</li>
+    <li>Simulation and validation of spinal construct testing based on ASTM F1717. <em>PMC/NIH.</em> [Ref 2]</li>
+    <li>Ten Common Mistakes in Finite Element Analysis. <em>Scribd.</em> [Ref 3]</li>
+    <li>Comparison of different 3D reconstruction software tools in preoperative modeling for cranio-maxillofacial surgery. <em>OAE Publishing.</em> [Ref 4]</li>
+    <li>A Systematic Comparison Between FEBio and PolyFEM for Biomechanical Systems. <em>NYU/CIMS.</em> [Ref 5]</li>
+    <li>Bergmann et al. Hip contact forces and gait patterns from routine activities. <em>Orthoload.</em> [Ref 6]</li>
+    <li>Verification, validation, and uncertainty quantification of FEA results for pedicle screw assemblies under ASTM F1717. <em>Frontiers in Bioengineering.</em> [Ref 7]</li>
+    <li>Step-by-step workflow for converting DICOM images into a 3D model. <em>ResearchGate.</em> [Ref 8]</li>
+    <li>Comparison of 3D printed anatomical model qualities in acetabular fracture representation. <em>AME Groups.</em> [Ref 9]</li>
+    <li>A graphical guide for constructing a finite element model of the cervical spine. <em>PMC/NIH.</em> [Ref 10]</li>
+    <li>Comparison of Three 3D Segmentation Software Tools for Hip. <em>PMC/NIH.</em> [Ref 11]</li>
+    <li>Method for CT voxel-based finite element modeling. <em>PMC/NIH.</em> [Ref 12]</li>
+    <li>QCT Protocols Affect Material Mapping and QCT-Based FEA Predicted Stiffness. <em>PMC/NIH.</em> [Ref 13]</li>
+    <li>Quantification of the difference in Hounsfield units of an electron density phantom. <em>PMC/NIH.</em> [Ref 14]</li>
+    <li>Carter &amp; Hayes (1977). The compressive behavior of bone as a two-phase porous structure. <em>PubMed.</em> [Ref 26]</li>
+    <li>Keller (1994). Young's Modulus to density relationship. <em>Biomch-L.</em> [Ref 28]</li>
+    <li>Morgan &amp; Keaveny (2003). Trabecular bone modulus–density relationships depend on anatomic site. <em>PubMed/NIH.</em> [Ref 30]</li>
+    <li>Heller et al. Musculoskeletal loading datasets. [Referenced in source as Ref 1 context]</li>
+    <li>Bergmann/Orthoload. Standard Loads Hip Joint. <em>OrthoLoad.</em> [Ref 32]</li>
+    <li>ISO 14243 — Standardized Loads Acting in Knee Implants. <em>PLOS One.</em> [Ref 33]</li>
+    <li>ASTM F1717-15 Standard. <em>Scribd/ASTM.</em> [Ref 44]</li>
+  </ol>
+</div>
+
+</main>
+
+<!-- ============================== SIDEBAR ============================== -->
+<aside class="sidebar-wrapper" role="complementary" aria-label="Interactive Parameter Controls">
+  <div class="sidebar">
+    <h3>⚙️ Interactive Parameter Controls</h3>
+    <p class="sidebar-sub">Adjust key FEA parameters to see real-time recommendations based on source document thresholds and best practices.</p>
+
+    <!-- Slider 1: CT Slice Thickness -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>CT Slice Thickness</span>
+        <span class="slider-value" id="val-slice">1.00 mm</span>
+      </div>
+      <input type="range" id="slider-slice" min="0.25" max="3.0" step="0.05" value="1.0" aria-label="CT Slice Thickness in millimeters">
+      <div class="slider-range"><span>0.25 mm</span><span>3.0 mm</span></div>
+      <div class="slider-tip" id="tip-slice">Within recommended range (0.625–1.25 mm) for accurate reconstruction.</div>
+    </div>
+
+    <!-- Slider 2: Apparent Density -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Apparent Density (ρ<sub>app</sub>)</span>
+        <span class="slider-value" id="val-density">0.50 g/cm³</span>
+      </div>
+      <input type="range" id="slider-density" min="0.01" max="2.0" step="0.01" value="0.50" aria-label="Apparent bone density in grams per cubic centimeter">
+      <div class="slider-range"><span>0.01 g/cm³</span><span>2.0 g/cm³</span></div>
+      <div class="slider-tip" id="tip-density">Moderate density — typical for trabecular bone.</div>
+    </div>
+
+    <!-- Slider 3: Coefficient of Friction -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Interface Friction (μ)</span>
+        <span class="slider-value" id="val-friction">0.30</span>
+      </div>
+      <input type="range" id="slider-friction" min="0.0" max="0.8" step="0.05" value="0.30" aria-label="Coefficient of friction at bone-implant interface">
+      <div class="slider-range"><span>0.0 (frictionless)</span><span>0.8</span></div>
+      <div class="slider-tip" id="tip-friction">Within physiological range (0.3–0.5) for bone-implant contact.</div>
+    </div>
+
+    <!-- Computed Moduli Display -->
+    <div style="margin-top:18px;padding:14px;background:var(--surface-alt);border-radius:var(--radius-sm);font-size:.78rem">
+      <div style="font-weight:700;color:var(--text);margin-bottom:8px;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em">Calculated Elastic Moduli (E) at Current Density</div>
+      <div id="moduli-display" style="font-family:var(--mono);font-size:.75rem;line-height:1.8;color:var(--text-muted)"></div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation-box" id="rec-box">
+      <h4 id="rec-title">✅ Recommendations</h4>
+      <p id="rec-text">Loading recommendations based on current parameters…</p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="sidebar-btns">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders to default values">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+        Reset
+      </button>
+      <button class="btn btn-export" id="btn-export" aria-label="Export current parameter values and recommendation to clipboard">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Export
+      </button>
+    </div>
+  </div>
+</aside>
+
+</div><!-- .content-grid -->
+</div><!-- .page-wrapper -->
+
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  // DOM Elements
+  const sliderSlice = document.getElementById('slider-slice');
+  const sliderDensity = document.getElementById('slider-density');
+  const sliderFriction = document.getElementById('slider-friction');
+  const valSlice = document.getElementById('val-slice');
+  const valDensity = document.getElementById('val-density');
+  const valFriction = document.getElementById('val-friction');
+  const tipSlice = document.getElementById('tip-slice');
+  const tipDensity = document.getElementById('tip-density');
+  const tipFriction = document.getElementById('tip-friction');
+  const moduliDisplay = document.getElementById('moduli-display');
+  const recBox = document.getElementById('rec-box');
+  const recTitle = document.getElementById('rec-title');
+  const recText = document.getElementById('rec-text');
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  // Density-Modulus equations from source document [Ref 26, 28, 30]
+  const equations = [
+    { name: 'Carter & Hayes (General)', eq: d => 3790 * Math.pow(d, 3), ref: 'Ref 26', note: 'General approximation' },
+    { name: 'Keller (Femur/Spine)', eq: d => 10500 * Math.pow(d, 2.29), ref: 'Ref 28', note: 'Femoral cortical/trabecular' },
+    { name: 'Morgan & Keaveny (Vertebra)', eq: d => 4730 * Math.pow(d, 1.56), ref: 'Ref 30', note: 'Gold standard for spine' },
+    { name: 'Morgan & Keaveny (Tibia)', eq: d => 15520 * Math.pow(d, 1.93), ref: 'Ref 30', note: 'Tibial plateau/metaphysis' },
+    { name: 'Morgan & Keaveny (Femoral Neck)', eq: d => 6850 * Math.pow(d, 1.49), ref: 'Ref 30', note: 'Proximal femur' }
+  ];
+
+  function updateSliderTrack(slider) {
+    const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+    slider.style.setProperty('--pct', pct + '%');
+  }
+
+  function formatE(val) {
+    if (val >= 1000) return (val / 1000).toFixed(1) + ' GPa';
+    return val.toFixed(0) + ' MPa';
+  }
+
+  function getDensityLabel(d) {
+    if (d < 0.1) return 'Very low — severe osteoporosis';
+    if (d < 0.3) return 'Low — osteoporotic trabecular bone';
+    if (d < 0.6) return 'Moderate — typical trabecular bone';
+    if (d < 1.0) return 'High — dense trabecular / cortical';
+    if (d < 1.5) return 'Very high — cortical bone';
+    return 'Extreme — dense cortical bone';
+  }
+
+  function getSliceLabel(s) {
+    if (s <= 1.25) return '✅ Within recommended range (0.625–1.25 mm) for accurate reconstruction. [Source Ref 4]';
+    if (s <= 2.0) return '⚠️ Suboptimal resolution. May introduce minor stair-step artifacts. Consider rescanning at thinner slices.';
+    return '❌ CRITICAL: Slice thickness ≥2.0 mm will produce significant stair-step artifacts and artificial stress concentrations. Not recommended for FEA. [Source Ref 10]';
+  }
+
+  function getFrictionLabel(mu) {
+    if (mu < 0.1) return '⚠️ Frictionless/near-frictionless — represents an idealized interface. Not physiologically realistic. [Source: General knowledge — not specified in source for this exact range]';
+    if (mu <= 0.5) return '✅ Within physiological range (0.3–0.5) for bone-implant contact. [Source Ref context from Section 6.2]';
+    return '⚠️ High friction coefficient — above typical physiological range. May overestimate implant stability. [Source: General knowledge — not specified in source for values >0.5]';
+  }
+
+  function update() {
+    const slice = parseFloat(sliderSlice.value);
+    const density = parseFloat(sliderDensity.value);
+    const friction = parseFloat(sliderFriction.value);
+
+    // Update displayed values
+    valSlice.textContent = slice.toFixed(2) + ' mm';
+    valDensity.textContent = density.toFixed(2) + ' g/cm³';
+    valFriction.textContent = friction.toFixed(2);
+
+    // Update track fills
+    updateSliderTrack(sliderSlice);
+    updateSliderTrack(sliderDensity);
+    updateSliderTrack(sliderFriction);
+
+    // Update tips
+    tipSlice.textContent = getSliceLabel(slice);
+    tipDensity.textContent = getDensityLabel(density);
+    tipFriction.textContent = getFrictionLabel(friction);
+
+    // Compute and display moduli
+    let moduliHTML = '';
+    equations.forEach(e => {
+      const E = e.eq(density);
+      moduliHTML += `<div style="margin-bottom:4px"><strong>${e.name}:</strong> ${formatE(E)} <span style="opacity:.6">(${e.ref})</span></div>`;
+    });
+    moduliDisplay.innerHTML = moduliHTML;
+
+    // Build recommendation
+    let issues = [];
+    let warnings = [];
+    let good = [];
+
+    // Slice thickness assessment
+    if (slice > 2.0) {
+      issues.push(`CT slice thickness (${slice.toFixed(2)} mm) exceeds 2.0 mm — will produce stair-step artifacts and artificial stress concentrations. Rescan at ≤1.25 mm recommended. [Source Ref 10]`);
+    } else if (slice > 1.25) {
+      warnings.push(`CT slice thickness (${slice.toFixed(2)} mm) is above the ideal 0.625–1.25 mm range. Minor geometric artifacts possible. [Source Ref 4]`);
+    } else {
+      good.push(`CT slice thickness is within the recommended 0.625–1.25 mm range for accurate 3D reconstruction. [Source Ref 4]`);
+    }
+
+    // Density assessment
+    if (density < 0.1) {
+      warnings.push(`Apparent density (${density.toFixed(2)} g/cm³) is extremely low — consistent with severe osteoporosis. Cortical shell may be &lt;1 mm; ensure local mesh refinement with ≥2 elements spanning cortical thickness to avoid up to 60% strength underestimation. [Source Ref Section 8.1]`);
+    } else if (density < 0.3) {
+      warnings.push(`Low apparent density. In osteoporotic bone, cancellous density may overlap with soft tissue on CT. Consider lowering segmentation threshold below 200 HU. [Source Ref 11]`);
+    } else {
+      good.push(`Apparent density (${density.toFixed(2)} g/cm³) is within typical trabecular range. Use site-specific density–modulus equation from Table 1 in source. [Source Ref 30]`);
+    }
+
+    // Friction assessment
+    if (friction < 0.2) {
+      warnings.push(`Low coefficient of friction (${friction.toFixed(2)}) — will simulate near-frictionless interface. Acceptable for theoretical sensitivity analyses but may overestimate loosening/subsidence for immediate post-op simulations. [Source Ref Section 6.2]`);
+    } else if (friction <= 0.5) {
+      good.push(`Coefficient of friction (${friction.toFixed(2)}) is within the physiological range for bone-implant contact. Suitable for modeling screw loosening and toggle. [Source Ref Section 6.2]`);
+    } else {
+      warnings.push(`Coefficient of friction (${friction.toFixed(2)}) exceeds typical physiological range (0.3–0.5). May overestimate implant rotational stability. [Source: General clinical knowledge — not specified in source for μ > 0.5]`);
+    }
+
+    // Always add standard recommendations
+    good.push('Use Tet10 (quadratic) elements exclusively — Tet4 elements suffer from shear locking and must never be used. [Source Ref 3]');
+    good.push('Perform mesh convergence study (target <5% change between refinements) before reporting results. [Source Ref 3]');
+    good.push('Include major muscle forces (abductors, vastus lateralis) as point loads — do not rely on body-weight-only loading. [Source Ref 1]');
+
+    // Render recommendation box
+    let boxClass = 'recommendation-box';
+    let titleText = '✅ Recommendations';
+    let recHTML = '';
+
+    if (issues.length > 0) {
+      boxClass += ' danger';
+      titleText = '❌ Critical Issues';
+      issues.forEach(i => { recHTML += '<div style="margin-bottom:8px">• ' + i + '</div>'; });
+    }
+    if (warnings.length > 0) {
+      if (!issues.length) boxClass += ' warn';
+      titleText = issues.length ? titleText : '⚠️ Warnings';
+      warnings.forEach(w => { recHTML += '<div style="margin-bottom:8px">• ' + w + '</div>'; });
+    }
+    good.forEach(g => { recHTML += '<div style="margin-bottom:8px">• ' + g + '</div>'; });
+
+    recBox.className = boxClass;
+    recTitle.textContent = titleText;
+    recText.innerHTML = recHTML || 'Adjust parameters above to see recommendations.';
+  }
+
+  // Event listeners
+  [sliderSlice, sliderDensity, sliderFriction].forEach(s => {
+    s.addEventListener('input', update);
+  });
+
+  // Reset
+  btnReset.addEventListener('click', function() {
+    sliderSlice.value = 1.0;
+    sliderDensity.value = 0.50;
+    sliderFriction.value = 0.30;
+    update();
+    showToast('Parameters reset to defaults');
+  });
+
+  // Export
+  btnExport.addEventListener('click', function() {
+    const slice = parseFloat(sliderSlice.value);
+    const density = parseFloat(sliderDensity.value);
+    const friction = parseFloat(sliderFriction.value);
+    const now = new Date().toISOString();
+
+    let moduliText = '';
+    equations.forEach(e => {
+      moduliText += '  ' + e.name + ': ' + formatE(e.eq(density)) + ' (' + e.ref + ')\n';
+    });
+
+    const text = [
+      '═══════════════════════════════════════════',
+      'FEA Parameter Export — Computational Biomechanics in Orthopedics',
+      'Source: Provided Document (Finite Element Analysis Workflow Guide)',
+      '═══════════════════════════════════════════',
+      '',
+      'Timestamp: ' + now,
+      '',
+      '── PARAMETER VALUES ──',
+      'CT Slice Thickness:     ' + slice.toFixed(2) + ' mm',
+      'Apparent Density (ρ):   ' + density.toFixed(2) + ' g/cm³',
+      'Coefficient of Friction: ' + friction.toFixed(2),
+      '',
+      '── CALCULATED ELASTIC MODULI ──',
+      moduliText,
+      '── CLINICAL RECOMMENDATIONS ──',
+      recText.textContent,
+      '',
+      '── EVIDENCE NOTE ──',
+      'Evidence levels inferred from study designs referenced in source document.',
+      'Density-modulus equations from Morgan & Keaveny (2003) [Ref 30],',
+      'Carter & Hayes (1977) [Ref 26], Keller (1994) [Ref 28].',
+      'Loading data from Bergmann/Orthoload [Ref 6].',
+      '═══════════════════════════════════════════'
+    ].join('\n');
+
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('✅ Summary copied to clipboard');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✅ Summary copied to clipboard');
+    });
+  });
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); }, 2500);
+  }
+
+  // Initialize
+  update();
+})();
+</script>
+
+</body>
+</html>

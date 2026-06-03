@@ -1,0 +1,682 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UKA vs. TKA: Evidence-Based Clinical Decision Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fa;--surface:#ffffff;--text:#1a1a2e;--muted:#6c757d;
+  --primary:#1b4f72;--primary-light:#2e86c1;--accent:#148f77;--accent-light:#1abc9c;
+  --danger:#c0392b;--warning:#d4ac0d;--border:#dee2e6;
+  --shadow:0 2px 12px rgba(0,0,0,.08);--radius:10px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.72}
+
+/* Layout */
+.page-wrap{max-width:1400px;margin:0 auto;padding:0 1rem}
+.header{background:linear-gradient(135deg,var(--primary) 0%,#1a5276 50%,var(--primary-light) 100%);color:#fff;padding:2.5rem 1rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.header h1{font-family:'Merriweather',serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:700;line-height:1.3}
+.header p{font-size:.92rem;opacity:.85;margin-top:.5rem}
+.main-grid{display:grid;grid-template-columns:1fr 340px;gap:2rem;padding:2rem 1rem;max-width:1400px;margin:0 auto;align-items:start}
+@media(max-width:1024px){.main-grid{grid-template-columns:1fr;padding-bottom:16rem}}
+
+/* Content area */
+.content{min-width:0}
+.content h2{font-family:'Merriweather',serif;font-size:1.55rem;color:var(--primary);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:3px solid var(--accent-light)}
+.content h3{font-size:1.2rem;color:var(--primary-light);margin:1.8rem 0 .8rem}
+.content h4{font-size:1.05rem;color:var(--text);margin:1.2rem 0 .5rem;font-weight:600}
+.content p{margin-bottom:1rem;text-align:justify}
+.content ul,.content ol{margin:.5rem 0 1.2rem 1.5rem}
+.content li{margin-bottom:.45rem}
+
+/* Evidence badges */
+.ev{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:4px;vertical-align:middle;margin-left:4px;letter-spacing:.5px}
+.ev-1{background:#1e8449;color:#fff}
+.ev-2{background:#27ae60;color:#fff}
+.ev-3{background:#f39c12;color:#fff}
+.ev-4{background:#e67e22;color:#fff}
+.ev-5{background:#e74c3c;color:#fff}
+.ev-na{background:#95a5a6;color:#fff}
+
+/* Callout boxes */
+.callout{border-left:4px solid var(--accent);background:#eafaf1;padding:1rem 1.2rem;margin:1.2rem 0;border-radius:0 var(--radius) var(--radius) 0}
+.callout-warning{border-left-color:var(--warning);background:#fef9e7}
+.callout-danger{border-left-color:var(--danger);background:#fdedec}
+.callout strong{color:var(--primary)}
+.callout-title{font-weight:700;font-size:.95rem;margin-bottom:.3rem;color:var(--primary)}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--surface)}
+caption{font-weight:700;font-size:1rem;padding:1rem;text-align:left;background:var(--primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0}
+th{background:var(--primary);color:#fff;padding:.7rem .8rem;text-align:left;font-weight:600;font-size:.82rem;white-space:nowrap}
+td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:nth-child(even){background:#f4f6f9}
+tr:hover{background:#e8f0fe}
+td:first-child{font-weight:600;min-width:160px}
+
+/* Sidebar */
+.sidebar{position:sticky;top:130px;align-self:start}
+@media(max-width:1024px){.sidebar{position:fixed;bottom:0;left:0;right:0;z-index:90;background:var(--surface);box-shadow:0 -4px 20px rgba(0,0,0,.15);padding:1rem;border-radius:var(--radius) var(--radius) 0 0;max-height:55vh;overflow-y:auto}}
+.sidebar-inner{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border:2px solid var(--primary-light)}
+.sidebar h3{font-size:1.1rem;color:var(--primary);margin-bottom:1rem;text-align:center;border-bottom:2px solid var(--accent-light);padding-bottom:.5rem}
+.slider-group{margin-bottom:1.3rem}
+.slider-group label{display:block;font-weight:600;font-size:.85rem;color:var(--primary);margin-bottom:.3rem}
+.slider-group .val-display{float:right;font-weight:700;color:var(--accent);font-size:.9rem}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:linear-gradient(to right,var(--accent),var(--primary));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:pointer}
+.slider-group .range-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-top:2px}
+.slider-group .threshold-note{font-size:.73rem;color:var(--muted);font-style:italic;margin-top:2px}
+
+/* Recommendation box */
+.reco-box{background:linear-gradient(135deg,#eaf2f8,#eafaf1);border:2px solid var(--accent);border-radius:var(--radius);padding:1rem;margin-top:1rem;font-size:.85rem}
+.reco-box .reco-title{font-weight:700;color:var(--primary);font-size:.95rem;margin-bottom:.4rem}
+.reco-box ul{margin:.5rem 0 0 1rem}
+.reco-box li{margin-bottom:.3rem}
+.reco-verdict{font-size:1.05rem;font-weight:700;padding:.6rem;border-radius:6px;margin-top:.8rem;text-align:center}
+.uka-verdict{background:var(--accent);color:#fff}
+.tka-verdict{background:var(--primary);color:#fff}
+.both-verdict{background:var(--warning);color:var(--text)}
+
+/* Buttons */
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{flex:1;padding:.55rem .8rem;border:none;border-radius:6px;font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s;text-align:center}
+.btn-reset{background:#ecf0f1;color:var(--text);border:1px solid var(--border)}
+.btn-reset:hover{background:#d5dbdb}
+.btn-copy{background:var(--primary-light);color:#fff}
+.btn-copy:hover{background:var(--primary)}
+.btn-export{background:var(--accent);color:#fff}
+.btn-export:hover{background:#0e6655}
+
+/* Citation */
+.cite-ref{font-size:.78rem;color:var(--muted);vertical-align:super;cursor:help}
+
+/* References section */
+.references{background:var(--surface);padding:1.5rem;border-radius:var(--radius);margin-top:2rem;box-shadow:var(--shadow)}
+.references h3{color:var(--primary);margin-bottom:1rem}
+.references ol{font-size:.82rem;line-height:1.8;color:#444}
+.references li{margin-bottom:.3rem}
+
+/* Smooth fade-in */
+.fade-in{opacity:0;transform:translateY(20px);animation:fadeUp .6s ease forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* Print */
+@media print{.sidebar,.btn-row,.header{display:none!important}.main-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>Evidence-Based Indications &amp; Modern Patient Selection for UKA vs. TKA</h1>
+  <p>A Comprehensive Interactive Clinical Decision Guide · Based on Peer-Reviewed Literature</p>
+</header>
+
+<div class="main-grid">
+<!-- ==================== MAIN CONTENT ==================== -->
+<main class="content fade-in" style="animation-delay:.1s">
+
+<h2>Part 1 — Foundational Principles of Knee Arthroplasty</h2>
+
+<h3>1.1 Defining the Procedures: TKA vs. UKA</h3>
+
+<p><strong>Total Knee Arthroplasty (TKA)</strong> is a <em>tricompartmental resurfacing procedure</em> — the established standard of care for end-stage, diffuse arthritis of the knee. It replaces the articular surfaces of all three compartments: medial tibiofemoral, lateral tibiofemoral, and patellofemoral, and typically sacrifices the anterior and posterior cruciate ligaments.<sup class="cite-ref">[1]</sup></p>
+
+<p><strong>Unicompartmental Knee Arthroplasty (UKA)</strong> is a <em>"bone- and tissue-sparing procedure"</em> designed to replace only the single, diseased compartment. The most common indication is isolated medial compartment disease (≈90% of UKAs), followed by isolated lateral (≈10%) and isolated patellofemoral disease.<sup class="cite-ref">[1,2]</sup></p>
+
+<div class="callout">
+  <div class="callout-title">🔑 Key Philosophical Distinction</div>
+  <p>TKA is a <strong>"replacement" strategy</strong> — it addresses the problem by removing the entire joint environment to treat all current and potential future arthritic development. UKA is a <strong>"preservation" strategy</strong> — it addresses only the focal, end-stage pathology while preserving native bone stock, cruciate ligaments, and the non-diseased compartments.<sup class="cite-ref">[1]</sup></p>
+</div>
+
+<h4>Reframing "Failure" — The Stepwise Treatment Concept</h4>
+
+<p>A critical third-order implication exists in how failure is defined. UKA is associated with a higher long-term revision rate compared to TKA.<sup class="cite-ref">[7]</sup> However, the nature of revision is fundamentally different. Revision of a failed UKA to a TKA is <em>"generally a simpler procedure than revision of TKA to TKA"</em> and can typically be accomplished with primary TKA components because bone stock and soft tissues of un-operated compartments remain pristine.<sup class="cite-ref">[2]</sup></p>
+
+<p>Data from a private practice registry study supports this: the <strong>5-year re-revision rate of UKA-to-TKA conversion (4.1%) was similar to primary TKA (3.2%) and much lower than aseptic TKA-to-TKA revision (12.6%)</strong>.<sup class="cite-ref">[2]</sup> This reframes UKA as a "stepwise" treatment: a patient receives UKA, achieves 10–15 years of high-level function, and if the implant fails, the fallback primary TKA yields outcomes nearly equivalent to a planned primary TKA. This is a fundamentally different risk profile than a failed primary TKA requiring complex, bone-losing revision.<sup class="cite-ref">[8]</sup></p>
+
+<h3>1.2 General Indications for Total Knee Arthroplasty</h3>
+
+<p>Per AAOS guidelines, TKA is indicated only after failure of non-operative management (activity modification, physical therapy, NSAIDs, injections).<sup class="cite-ref">[12]</sup> Primary indications include:<sup class="cite-ref">[12]</sup></p>
+
+<ul>
+  <li>Severe daily pain and stiffness limiting everyday activities (walking, stair climbing, rising from a chair)</li>
+  <li>Moderate or severe pain at rest, day or night</li>
+  <li>Chronic knee inflammation, swelling, and deformity not resolving with rest or medication</li>
+</ul>
+
+<p>While osteoarthritis (OA) is the most common diagnosis, TKA is also the definitive indication for end-stage inflammatory arthritis such as Rheumatoid Arthritis (RA).<sup class="cite-ref">[15]</sup> This distinction is critical: <strong>inflammatory arthritis is a systemic contraindication to UKA</strong>.<sup class="cite-ref">[1]</sup> RA attacks the synovium of the entire joint, not a single compartment. Performing UKA in RA patients is clinically illogical, as the inflammatory disease will inevitably destroy preserved compartments, leading to rapid failure. A diagnosis of systemic inflammatory arthritis automatically directs the patient to the TKA pathway.</p>
+
+<div class="callout callout-warning">
+  <div class="callout-title">⚠️ Outcome Confounding Variable</div>
+  <p>Prospective cohort data shows OA patients have significantly better postoperative KSS scores at 6 and 12 months compared to RA patients.<sup class="cite-ref">[17]</sup> The inclusion of the RA population (≈3.4% of TKA patients<sup class="cite-ref">[20]</sup>) — which has systemically worse functional outcomes — may depress the "average" functional outcome reported for TKA in large registry studies. This could marginally inflate the apparent functional superiority of UKA (performed almost exclusively for OA) in comparative analyses.</p>
+</div>
+
+<h2>Part 2 — Patient Selection for UKA: An Evolving Paradigm</h2>
+
+<h3>2.1 The Classic Framework: Kozinn &amp; Scott Criteria (1989)</h3>
+
+<p>In response to high failure rates of first-generation implants, Kozinn and Scott consolidated recommendations in 1989 that became the "gold standard" for patient selection.<sup class="cite-ref">[22]</sup> These criteria were <em>surprisingly specific</em><sup class="cite-ref">[5]</sup> and highly restrictive:</p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 1 — Classic Kozinn &amp; Scott Criteria for UKA</caption>
+<thead><tr><th>Criterion</th><th>Threshold</th></tr></thead>
+<tbody>
+<tr><td>Diagnosis</td><td>Isolated medial DJD or osteonecrosis</td></tr>
+<tr><td>Age</td><td>&gt; 60 years</td></tr>
+<tr><td>Weight</td><td>&lt; 82 kg (181 lbs)</td></tr>
+<tr><td>Activity Level</td><td>"Low-demand" patient</td></tr>
+<tr><td>ACL Status</td><td>Intact anterior cruciate ligament</td></tr>
+<tr><td>Etiology</td><td>Non-inflammatory arthropathy</td></tr>
+<tr><td>Range of Motion</td><td>&gt; 90°</td></tr>
+<tr><td>Flexion Contracture</td><td>&lt; 5°</td></tr>
+<tr><td>Varus Deformity</td><td>&lt; 5° (correctable)</td></tr>
+<tr><td>Patellofemoral Arthritis</td><td>Only mild PFA on merchant view</td></tr>
+<tr><td>Lateral Joint Line Tenderness</td><td>Absent</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>These criteria were not based on high-level evidence but on <strong>expert opinion</strong> designed to mitigate failures of outdated technology.<sup class="cite-ref">[5]</sup> A 1993 study by Insall et al. found that strictly applying these criteria rendered <strong>only 6% of patients suitable candidates</strong>, cementing UKA's status as a "niche option."<sup class="cite-ref">[24,26]</sup></p>
+
+<h4>The Surgeon Volume Confounder</h4>
+<p>Because UKA was relegated to a niche procedure, <strong>only 10% of orthopaedic surgeons perform unicompartmental replacements</strong>.<sup class="cite-ref">[26]</sup> National registries (capturing all surgeons) consistently show high revision rates, while case series from high-volume centres report excellent 10- and 15-year survival rates (&gt;90–95%).<sup class="cite-ref">[6]</sup> The 2019 BASK/EKS consensus explicitly recommends that <em>"surgeons should avoid low-volume use of UKA to optimise outcomes."</em><sup class="cite-ref">[11]</sup></p>
+
+<h3>2.2 The Modern Expansion</h3>
+
+<p>A landmark prospective study of <strong>1000 consecutive medial UKAs</strong><sup class="cite-ref">[28]</sup> intentionally did not apply classic contraindications. <strong>68% (678 knees) would have been considered contraindicated</strong> by Kozinn &amp; Scott criteria, yet these patients <em>"did as well as, or even better than, those without contraindications."</em><sup class="cite-ref">[6]</sup></p>
+
+<p>A survey of experienced UKA surgeons confirmed that routine practice was not in line with classical criteria. With modern evidence-based indications, UKA candidacy could increase from the historical 6–12% to <strong>as high as 50%</strong> of knee arthroplasty patients.<sup class="cite-ref">[30]</sup></p>
+
+<div class="callout">
+  <div class="callout-title">🔧 Technological Drivers of Expansion</div>
+  <p>The Kozinn &amp; Scott criteria were a <em>behavioral</em> solution (restrict the patient population) to a <em>technological</em> problem. Now that technology has largely solved those problems, the behavioral restrictions are obsolete:</p>
+  <ul>
+    <li><strong>Highly cross-linked polyethylene (HXLPE)</strong> — significantly enhanced wear resistance<sup class="cite-ref">[31]</sup></li>
+    <li><strong>Robotic-assisted techniques &amp; new instrumentation</strong> — improved alignment accuracy<sup class="cite-ref">[3,19,32]</sup></li>
+  </ul>
+</div>
+
+<h3>2.3 Modern Absolute Contraindications for UKA</h3>
+
+<p>The modern absolute contraindications are concise and logically focused:</p>
+
+<ol>
+  <li><strong>Inflammatory Arthritis</strong> (e.g., RA, Psoriatic Arthritis)<sup class="cite-ref">[4,18,19]</sup></li>
+  <li><strong>Diffuse, Multicompartmental OA</strong> — clear radiographic and/or symptomatic evidence of significant, end-stage arthritis in &gt;1 compartment<sup class="cite-ref">[18]</sup></li>
+  <li><strong>Gross Ligamentous Instability</strong> — significant functional instability (excluding isolated, correctable ACL deficiency)</li>
+  <li><strong>Severe, Fixed Deformity</strong> — frontal plane deformity &gt;15° that is <em>not</em> passively correctable to neutral<sup class="cite-ref">[33]</sup></li>
+</ol>
+
+<h2>Part 3 — Deep-Dive: Controversial UKA Selection Criteria</h2>
+
+<h3>3.1 The Anterior Cruciate Ligament (ACL)</h3>
+
+<p><strong>Traditional Contraindication:</strong> ACL deficiency was absolute.<sup class="cite-ref">[1]</sup> The biomechanical rationale was that an incompetent ACL creates instability, predisposing to accelerated polyethylene wear and aseptic loosening.</p>
+
+<p><strong>Modern Evidence:</strong> A 2021 systematic review and meta-analysis<sup class="cite-ref">[34]</sup> found <strong>"no significant differences"</strong> in revision rates or functional outcomes between ACL-deficient and ACL-intact UKA patients. <span class="ev ev-1">Level I</span></p>
+
+<div class="callout callout-danger">
+  <div class="callout-title">🎯 Critical Clinical Distinction</div>
+  <p>The key insight is differentiating <strong>ACL "deficiency"</strong> (an anatomic state, often degenerative tear on MRI in elderly OA patients) from <strong>ACL "instability"</strong> (a functional, symptomatic state). The critical selection question is not "Is the ACL intact on MRI?" but rather <strong>"Is the knee functionally stable on physical examination?"</strong> (e.g., negative Lachman/anterior drawer tests and by patient report).<sup class="cite-ref">[31]</sup></p>
+</div>
+
+<p><strong>The "À La Carte" Solution (UKA + ACLR):</strong> For young, active patients<sup class="cite-ref">[37]</sup> with symptomatic instability from chronic ACL tear <em>and</em> concomitant isolated medial OA, a combined procedure has emerged. A 2022 systematic review<sup class="cite-ref">[38]</sup> concluded that combined UKA + ACLR is a <em>"viable option"</em> with implant survival <strong>comparable to ACL-intact UKA patients</strong> and <em>higher</em> than ACL-deficient UKA alone. <span class="ev ev-1">Level I</span></p>
+
+<h3>3.2 The Patellofemoral (PF) Joint</h3>
+
+<p><strong>Traditional Contraindication:</strong> Any PFA was a contraindication.<sup class="cite-ref">[1]</sup></p>
+
+<p><strong>Modern Evidence:</strong> A 2020 meta-analysis<sup class="cite-ref">[42]</sup> demonstrated that pre-operative anterior knee pain and mild-to-moderate PFA do <strong>not</strong> affect functional outcomes or survivorship. <span class="ev ev-1">Level I</span></p>
+
+<div class="callout">
+  <div class="callout-title">📐 The Location-Specific Rule</div>
+  <p>The contraindication is not "PFA" in general, but <strong>specifically severe wear of the lateral facet with bone loss and grooving</strong>.<sup class="cite-ref">[6]</sup> Conversely, <em>"damage to the medial side, however severe, do not compromise… so should not be considered contraindications."</em><sup class="cite-ref">[19]</sup> This is biomechanically logical: a medial UKA corrects varus deformity, which <em>unloads</em> the medial patellar facet and central trochlea, but does not reliably unload the lateral facet.</p>
+</div>
+
+<h3>3.3 Patient Demographics: Age, BMI, and Activity Level</h3>
+
+<h4>Age</h4>
+<p>Kozinn &amp; Scott specified &gt;60 years. Modern evidence states age is <strong>not a contraindication</strong>.<sup class="cite-ref">[6]</sup> UKA has emerged as ideal for patients at both extremes of the age spectrum:</p>
+<ul>
+  <li><strong>Young Patients (&lt;60):</strong> Now considered "ideal candidates."<sup class="cite-ref">[19]</sup> While some registry studies note higher revision risk<sup class="cite-ref">[1,10]</sup>, 10-year survival remains &gt;90%.<sup class="cite-ref">[44]</sup> This cohort has low satisfaction with TKA<sup class="cite-ref">[19]</sup> and values faster return to sport and more "natural" knee function.</li>
+  <li><strong>Older Patients (&gt;75):</strong> UKA offers lower perioperative complication rates, shorter hospital stays, and faster recovery than TKA.<sup class="cite-ref">[44]</sup> It is a <em>safer</em> option for this group.</li>
+</ul>
+
+<h4>BMI</h4>
+<p>Kozinn &amp; Scott specified &lt;82 kg. Modern meta-analyses find that high BMI (obesity) is <strong>not a contraindication</strong>.<sup class="cite-ref">[1]</sup> AAOS guidelines for TKA carry a "strong recommendation" warning of increased infection risk for BMI &gt;40.<sup class="cite-ref">[13]</sup> For a morbidly obese patient with isolated OA, the less invasive UKA — with shorter operative time and lower complication profile — may represent a <strong>safer surgical option specifically to mitigate the high-risk TKA profile</strong>.<sup class="cite-ref">[8,9,13]</sup></p>
+
+<h3>3.4 Coronal Deformity and Flexion Contracture</h3>
+
+<p><strong>Coronal Deformity:</strong> Classic indication allowed &lt;5° correctable varus.<sup class="cite-ref">[5]</sup> Modern indications have expanded to <strong>&lt;15° passively correctable</strong> frontal deformity.<sup class="cite-ref">[19,33]</sup> The critical factor remains <em>reducibility</em>: a 14° varus deformity that is passively correctable to neutral implies functional collateral ligaments and is valid.</p>
+
+<p><strong>Flexion Contracture:</strong> Classic indication was &lt;5°.<sup class="cite-ref">[5]</sup> Modern indications have expanded to <strong>&lt;15°</strong>.<sup class="cite-ref">[19]</sup> A 2021 study<sup class="cite-ref">[49]</sup> matched patients with severe (≥15°) flexion contractures to controls (&lt;5°) and found <strong>"no difference in PROMs, satisfaction rates, and mid-term survivorship"</strong> — 10-year survivorship of 97% in the severe group vs. 94% in controls. <span class="ev ev-2">Level II</span></p>
+
+<h2>Part 4 — Comparative Effectiveness &amp; Patient-Reported Outcomes</h2>
+
+<h3>4.1 The Central Trade-Off: Revision Rate vs. Functional Recovery</h3>
+
+<h4>Survivorship: The TKA Advantage</h4>
+<p>Multiple systematic reviews<sup class="cite-ref">[8]</sup> and large-scale registry studies<sup class="cite-ref">[7]</sup> consistently demonstrate a lower long-term revision rate for TKA:</p>
+<ul>
+  <li><strong>15-year revision rate:</strong> 18.2% for UKA vs. 6.2% for TKA<sup class="cite-ref">[9]</sup></li>
+  <li>Main UKA failure reasons: aseptic loosening, polyethylene wear, and progression of OA in unreplaced compartments<sup class="cite-ref">[4,10]</sup></li>
+  <li>TKA mechanically eliminates the failure mode of disease progression</li>
+</ul>
+
+<h4>Recovery &amp; Complications: The UKA Advantage</h4>
+<ul>
+  <li><strong>Shorter hospital stay:</strong> UKA patients discharged 1.2–1.73 days sooner<sup class="cite-ref">[8]</sup></li>
+  <li><strong>Fewer complications:</strong> Significantly lower rates of major cardiac events and VTE<sup class="cite-ref">[8,9]</sup></li>
+  <li><strong>Faster rehabilitation:</strong> Better functional scores (OKS, KOOS) at 2, 6, and 12 months<sup class="cite-ref">[56]</sup></li>
+  <li><strong>Return to sport:</strong> 5.24 weeks faster<sup class="cite-ref">[8]</sup></li>
+  <li><strong>Return to work:</strong> 3–6 weeks (UKA) vs. 3 months (TKA)<sup class="cite-ref">[45]</sup></li>
+</ul>
+
+<h3>4.2 Functional Outcomes and Patient Satisfaction</h3>
+
+<p>UKA consistently demonstrates superiority in functional quality and patient satisfaction:</p>
+<ul>
+  <li><strong>Knee Function:</strong> Superior KSS Function Scores and significantly greater postoperative ROM<sup class="cite-ref">[8,52]</sup></li>
+  <li><strong>Stair Climbing &amp; Walking:</strong> Better ability and higher likelihood of unlimited walking distance<sup class="cite-ref">[58]</sup></li>
+  <li><strong>Patient Satisfaction:</strong> 75.2% "very satisfied" (UKA) vs. 62.1% (TKA)<sup class="cite-ref">[59]</sup></li>
+  <li><strong>"Forgotten Joint Score":</strong> Significantly better (higher) FJS — patients are less aware of their implant in daily life<sup class="cite-ref">[46,59]</sup></li>
+</ul>
+
+<div class="callout callout-warning">
+  <div class="callout-title">📊 The MCID Paradox</div>
+  <p>Multiple meta-analyses<sup class="cite-ref">[54]</sup> report that while functional scores (OKS, KSS, WOMAC) are <em>statistically</em> superior for UKA, the mean difference often <strong>fails to meet the Minimal Clinically Important Difference (MCID)</strong>. For crude pain relief and basic function, TKA and UKA may be equally good.</p>
+  <p>However, the difference in <strong>Quality of Life (EQ-5D VAS)</strong> is both statistically and clinically significant, favoring UKA.<sup class="cite-ref">[59]</sup> The superiority of UKA lies in metrics active patients value most: a "normal" feeling knee (FJS), better high-level kinematics, faster return to work/sport, and higher overall quality of life.</p>
+</div>
+
+<h2>Part 5 — Comparative Summary &amp; Clinical Recommendations</h2>
+
+<h3>5.1 Comprehensive Comparative Table</h3>
+
+<div class="table-wrap">
+<table>
+<caption>Table 2 — UKA vs. TKA: Patient Selection, Outcomes &amp; Trade-offs</caption>
+<thead>
+<tr><th>Feature</th><th>UKA</th><th>TKA</th></tr>
+</thead>
+<tbody>
+<tr><td>Procedure</td><td>Replaces 1 compartment; bone- & ligament-sparing<sup>[2,4]</sup></td><td>Replaces all 3 compartments; typically sacrifices ACL<sup>[1]</sup></td></tr>
+<tr><td>Primary Indication</td><td>End-stage <em>isolated</em> unicompartmental OA<sup>[3,4,6]</sup></td><td>End-stage <em>multicompartmental</em> OA<sup>[12]</sup></td></tr>
+<tr><td>Systemic Contraindication</td><td>Inflammatory arthritis (RA, PsA)<sup>[4,18,19]</sup></td><td>General surgical contraindications</td></tr>
+<tr><td>ACL Status</td><td>Modern: Acceptable if functionally stable<sup>[34]</sup>; UKA+ACLR option<sup>[38]</sup></td><td>Not relevant (ACL resected/substituted)</td></tr>
+<tr><td>PFA Status</td><td>Modern: Mild–moderate or medial/central OK<sup>[19,42]</sup>; severe <em>lateral</em> PFA = contraindicated<sup>[6]</sup></td><td>Not relevant (PF compartment replaced)</td></tr>
+<tr><td>Age</td><td>No contraindication<sup>[44]</sup>; ideal for &lt;60 and &gt;75<sup>[19]</sup></td><td>All ages; lower satisfaction in &lt;55<sup>[19]</sup></td></tr>
+<tr><td>BMI</td><td>Not a contraindication<sup>[1]</sup>; may be safer for BMI &gt;40<sup>[13]</sup></td><td>BMI &gt;40 carries high infection risk<sup>[13]</sup></td></tr>
+<tr><td>Deformity Threshold</td><td>&lt;15° passively correctable<sup>[19,33]</sup></td><td>Can correct larger, fixed deformities</td></tr>
+<tr><td>Flexion Contracture</td><td>Modern: &lt;15° (evidence for ≥15° acceptable)<sup>[49]</sup></td><td>Can address larger contractures</td></tr>
+<tr><td>Hospital Stay</td><td><strong>Shorter</strong> (by 1.2–1.7 days)<sup>[8]</sup></td><td>Longer<sup>[8]</sup></td></tr>
+<tr><td>Short-Term Complications</td><td><strong>Lower</strong> (VTE, cardiac)<sup>[8]</sup></td><td>Higher<sup>[8]</sup></td></tr>
+<tr><td>Recovery</td><td><strong>Faster</strong>; better function at 2, 6, 12 months<sup>[56]</sup></td><td>Slower; "tougher early on"<sup>[60]</sup></td></tr>
+<tr><td>ROM / KSS Function</td><td><strong>Superior</strong><sup>[52,58]</sup></td><td>Good but generally less<sup>[52,58]</sup></td></tr>
+<tr><td>Patient Satisfaction</td><td><strong>Higher</strong> (75% "very satisfied")<sup>[59]</sup></td><td>Lower (62% "very satisfied")<sup>[59]</sup></td></tr>
+<tr><td>"Forgotten Joint" (FJS)</td><td><strong>Superior</strong> — more "natural" feel<sup>[46,59]</sup></td><td>Inferior — "doesn't quite feel the same"<sup>[60]</sup></td></tr>
+<tr><td>15-Year Revision Rate</td><td><strong>Higher</strong> (~18.2%)<sup>[9]</sup></td><td><strong>Lower</strong> (~6.2%)<sup>[9]</sup></td></tr>
+<tr><td>Revision Outcome</td><td>Revision to TKA simpler; outcomes ≈ primary TKA<sup>[2]</sup></td><td>Revision is complex; higher re-revision rates<sup>[2]</sup></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>5.2 Classic vs. Modern UKA Indication Thresholds</h3>
+
+<div class="table-wrap">
+<table>
+<caption>Table 3 — Evolution of UKA Selection Criteria: Classic vs. Modern Evidence</caption>
+<thead><tr><th>Parameter</th><th>Classic (Kozinn &amp; Scott, 1989)<sup>[5,22]</sup></th><th>Modern Evidence-Based<sup>[19,28,30,33]</sup></th></tr></thead>
+<tbody>
+<tr><td>Age</td><td>&gt; 60 years</td><td>No age limit</td></tr>
+<tr><td>Weight / BMI</td><td>&lt; 82 kg</td><td>No BMI contraindication</td></tr>
+<tr><td>Activity Level</td><td>Low-demand only</td><td>All activity levels; young active patients ideal</td></tr>
+<tr><td>ACL Status</td><td>Intact (absolute)</td><td>Functional stability required, not structural integrity</td></tr>
+<tr><td>Varus Deformity</td><td>&lt; 5° correctable</td><td>&lt; 15° passively correctable</td></tr>
+<tr><td>Flexion Contracture</td><td>&lt; 5°</td><td>&lt; 15° (evidence supports even ≥15°)</td></tr>
+<tr><td>Patellofemoral Arthritis</td><td>Mild only</td><td>Mild–moderate acceptable; avoid severe lateral facet disease</td></tr>
+<tr><td>Evidence Basis</td><td>Expert opinion</td><td>Meta-analyses, prospective cohorts, registry studies</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>5.3 Ideal Patient Profiles</h3>
+
+<h4>UKA — Profile 1: The Young &amp; Active Patient (&lt;65)</h4>
+<ul>
+  <li>High functional demands, seeks return to sport<sup class="cite-ref">[8]</sup></li>
+  <li>End-stage OA truly isolated to medial or lateral compartment (often post-traumatic/post-meniscectomy)</li>
+  <li>No inflammatory arthritis; ligaments functionally intact (or candidate for combined UKA+ACLR)<sup class="cite-ref">[38]</sup></li>
+  <li>PFA absent or mild/medial-central<sup class="cite-ref">[19]</sup></li>
+  <li>Patient prioritizes <strong>functional quality over implant longevity</strong>; accepts higher revision risk for 10–20 years of high-level function<sup class="cite-ref">[8]</sup></li>
+</ul>
+
+<h4>UKA — Profile 2: The Elderly &amp; Frail Patient (&gt;75)</h4>
+<ul>
+  <li>Isolated unicompartmental OA with significant medical comorbidities<sup class="cite-ref">[43]</sup></li>
+  <li>Patient prioritizes <strong>minimizing perioperative risk</strong> over long-term longevity</li>
+  <li>UKA offers shorter, less complicated hospital stay and lower systemic complication risk<sup class="cite-ref">[8,44]</sup></li>
+  <li>The "15-year revision rate" is secondary and often irrelevant</li>
+</ul>
+
+<h4>TKA — Ideal Candidates</h4>
+<ol>
+  <li>Patients with <strong>systemic inflammatory arthritis</strong> (RA, psoriatic)<sup class="cite-ref">[15]</sup></li>
+  <li>Patients with <strong>multicompartmental OA</strong>, especially severe lateral PFA with bone loss<sup class="cite-ref">[6]</sup></li>
+  <li>Patients with <strong>severe, fixed deformity &gt;15°</strong> or gross multi-planar ligamentous instability<sup class="cite-ref">[33]</sup></li>
+  <li>The <strong>"one-and-done" prioritizer</strong> — patient whose priority is the lowest possible revision risk, accepting longer recovery and less natural-feeling knee<sup class="cite-ref">[8]</sup></li>
+</ol>
+
+<h3>5.4 Conclusion: The Role of Shared Decision-Making</h3>
+
+<p>The decision between UKA and TKA for isolated unicompartmental disease is a classic <strong>"preference-sensitive" decision</strong>. Both are "viable options."<sup class="cite-ref">[8,11]</sup> The evidence does not show one is universally "better"; it shows a clear trade-off.</p>
+
+<div class="callout">
+  <div class="callout-title">🩺 The Surgeon's Twofold Role</div>
+  <ol>
+    <li><strong>Accurate Diagnosis:</strong> Rigorously confirm isolated disease and rule out all modern absolute contraindications.</li>
+    <li><strong>Patient Counseling:</strong> Present the evidence-based trade-off clearly — UKA offers faster, safer recovery and higher-quality, more "natural" function, in exchange for a definitively higher risk of requiring revision in the long term.</li>
+  </ol>
+  <p>The final decision must be shared,<sup class="cite-ref">[8]</sup> aligning the patient's priorities (peak performance, perioperative safety, or long-term durability) with the surgical option that best delivers that outcome.</p>
+</div>
+
+<h3>References</h3>
+<div class="references">
+<ol>
+  <li id="ref1">Arthroplasty Knee Unicompartmental — StatPearls (NCBI Bookshelf)</li>
+  <li id="ref2">Revision of Unicompartmental Knee Arthroplasty to Total Knee Arthroplasty: Is It as Good as a Primary Result? — Orthobullets</li>
+  <li id="ref3">Modern Perspectives on Unicompartmental Knee Arthroplasty: An Editorial Review — PMC</li>
+  <li id="ref4">Unicompartmental Knee Replacement — Recon (Orthobullets)</li>
+  <li id="ref5">UKA — Unicompartmental Arthroplasty — Hip &amp; Knee Book</li>
+  <li id="ref6">Unicompartmental knee arthroplasty: Current indications, technical issues and results — PMC</li>
+  <li id="ref7">Unicompartmental Versus Total Knee Arthroplasty Database Analysis — PMC</li>
+  <li id="ref8">Patient relevant outcomes of unicompartmental versus total knee replacement — BMJ</li>
+  <li id="ref9">Unicompartmental knee arthroplasty has higher revisions than total — PMC</li>
+  <li id="ref10">Modes of Failure and Conversion to Total Knee Arthroplasty — Orthobullets</li>
+  <li id="ref11">Consensus statement on unicompartmental knee replacement: BASK and EKS — ResearchGate</li>
+  <li id="ref12">Total Knee Replacement — OrthoInfo (AAOS)</li>
+  <li id="ref13">AAOS Updates Clinical Practice Guideline for Surgical Management of Osteoarthritis of the Knee</li>
+  <li id="ref14">Total Knee Arthroplasty Techniques — StatPearls (NCBI)</li>
+  <li id="ref15">Total Knee Arthroplasty in Rheumatoid Arthritis — PMC</li>
+  <li id="ref16">Total Knee Arthroplasty Considerations in Rheumatoid Arthritis — PMC</li>
+  <li id="ref17">Comparison of Postoperative Pain and Clinical Outcomes of TKA Among RA and OA Patients — PMC</li>
+  <li id="ref18">Combined procedures with unicompartmental knee arthroplasty — SICOT-J</li>
+  <li id="ref19">Update on unicompartmental knee arthroplasty: Current indications — PMC</li>
+  <li id="ref20">Rheumatoid Arthritis vs Osteoarthritis in Patients Receiving TKA: Perioperative Outcomes — PMC</li>
+  <li id="ref21">Key issues of patient selection for UKA — ResearchGate</li>
+  <li id="ref22">Unicondylar knee arthroplasty — PubMed (Kozinn &amp; Scott)</li>
+  <li id="ref23">Convincing Evidence to Rethink Indications for UKA — JBJS</li>
+  <li id="ref24">Unicondylar knee arthroplasty: An evaluation of selection criteria — PubMed (Insall et al.)</li>
+  <li id="ref25">Revision of unicompartmental knee arthroplasty: a systematic review — PMC</li>
+  <li id="ref26">Unicompartmental knee replacement — Orthobullets</li>
+  <li id="ref27">Modern Indications, Results, and Global Trends in Use of UKA and HTO — The Hospitalist</li>
+  <li id="ref28">Evidence-Based Indications for Mobile-Bearing UKA in a Consecutive Cohort of 1000 Knees — PubMed</li>
+  <li id="ref29">Unicompartmental knee arthroplasty: Current indications, technical issues and results — EOR</li>
+  <li id="ref30">Trends in unicompartmental knee arthroplasty among 138… — PMC</li>
+  <li id="ref31">The impact of ACL deficiency severity on outcomes of fixed-bearing UKA — PMC</li>
+  <li id="ref32">Modern Perspectives on Unicompartmental Knee Arthroplasty — PubMed</li>
+  <li id="ref33">Study Details NCT01407042 — ClinicalTrials.gov</li>
+  <li id="ref34">Anterior cruciate ligament deficiency versus intactness for outcomes — PMC</li>
+  <li id="ref35">Criteria for UKA: Are There Exclusion Criteria? — Musculoskeletal Key</li>
+  <li id="ref36">Is ACL deficiency always a contraindication for medial UKA? — PubMed</li>
+  <li id="ref37">Combined procedures with UKA: High risk of stiffness — SICOT-J</li>
+  <li id="ref38">Combined UKA and ACL reconstruction: a systematic review — Joints Journal</li>
+  <li id="ref39">Indications for lateral UKA — A systematic review — PubMed</li>
+  <li id="ref40">The impact of patellofemoral arthritis on UKA — Orthobullets</li>
+  <li id="ref41">Does Medial PFA Influence Outcome Scores After UKA? — NIH</li>
+  <li id="ref42">Are relative contraindications for UKA really contraindications? — PMC</li>
+  <li id="ref43">Indications for addition of PFJ arthroplasty following UKA — NIH</li>
+  <li id="ref44">The Unicompartmental Knee Arthroplasty Manual — ESSKA</li>
+  <li id="ref45">Are Current PROMs Fit for Purpose to Evaluate UKA? — MDPI</li>
+  <li id="ref46">UKA Offers More Natural Feeling Joints Compared with TKA: Systematic Review — NIH</li>
+  <li id="ref47">Patient relevant outcomes of UKA versus TKA: systematic review — PMC</li>
+  <li id="ref48">What effect does preoperative flexion contracture have on component angles in UKA? — Kobe University</li>
+  <li id="ref49">Preoperative Flexion Contracture Does Not Compromise UKA — PubMed</li>
+  <li id="ref50">What effect does preoperative flexion contracture have? — ResearchGate</li>
+  <li id="ref51">Is UKA superior to TKA? Systematic review of RCTs — PubMed</li>
+  <li id="ref52">Comparative long-term outcomes of UKA and TKA — Frontiers in Surgery</li>
+  <li id="ref53">Comparative long-term outcomes of UKA and TKA — NIH</li>
+  <li id="ref54">Is UKA a better choice than TKA for unicompartmental OA? Meta-analysis of RCTs — PubMed</li>
+  <li id="ref55">Is UKA a better choice than TKA? Meta-analysis of RCTs — MedNexus</li>
+  <li id="ref56">Functional results of TKA versus medial UKA: two-year results — BMJ Open</li>
+  <li id="ref57">Comparison of Functional Recovery Between UKA and TKA: A RCT — PubMed</li>
+  <li id="ref58">Better short-term function after UKA compared to TKA — NIH</li>
+  <li id="ref59">Partial versus total knee arthroplasty for isolated antero-medial OA — SICOT-J</li>
+  <li id="ref60">Full vs. Partial Knee Replacement: What's the difference? — AAHKS</li>
+</ol>
+</div>
+
+</main>
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="sidebar fade-in" style="animation-delay:.3s" aria-label="Interactive Clinical Decision Tool">
+<div class="sidebar-inner">
+  <h3>🎯 Patient Selection Tool</h3>
+  <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:1rem">Adjust parameters to see real-time eligibility guidance</p>
+
+  <!-- Slider 1: Coronal Deformity -->
+  <div class="slider-group">
+    <label>Coronal Deformity (Varus/Valgus)
+      <span class="val-display" id="deformVal">8°</span>
+    </label>
+    <input type="range" id="deformSlider" min="0" max="30" value="8" step="1" aria-label="Coronal deformity angle">
+    <div class="range-labels"><span>0°</span><span>15° (UKA limit)</span><span>30°</span></div>
+    <div class="threshold-note">Modern UKA threshold: &lt;15° passively correctable<sup>[19,33]</sup></div>
+  </div>
+
+  <!-- Slider 2: Flexion Contracture -->
+  <div class="slider-group">
+    <label>Flexion Contracture
+      <span class="val-display" id="flexVal">5°</span>
+    </label>
+    <input type="range" id="flexSlider" min="0" max="30" value="5" step="1" aria-label="Flexion contracture angle">
+    <div class="range-labels"><span>0°</span><span>15° (UKA limit)</span><span>30°</span></div>
+    <div class="threshold-note">Modern UKA threshold: &lt;15°<sup>[19]</sup></div>
+  </div>
+
+  <!-- Slider 3: BMI -->
+  <div class="slider-group">
+    <label>Body Mass Index (BMI)
+      <span class="val-display" id="bmiVal">28</span>
+    </label>
+    <input type="range" id="bmiSlider" min="18" max="50" value="28" step="1" aria-label="Body mass index">
+    <div class="range-labels"><span>18</span><span>40 (TKA high-risk)</span><span>50</span></div>
+    <div class="threshold-note">BMI ≥40: TKA carries high infection risk<sup>[13]</sup></div>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div class="reco-box" id="recoBox">
+    <div class="reco-title">📋 Recommendation</div>
+    <div id="recoContent">
+      <p>Adjust the sliders above to generate a personalized recommendation based on current evidence thresholds.</p>
+    </div>
+    <div class="reco-verdict both-verdict" id="recoVerdict" style="display:none"></div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-reset" onclick="resetSliders()" aria-label="Reset sliders to defaults">↺ Reset</button>
+    <button class="btn btn-copy" onclick="copyReport()" aria-label="Copy current assessment to clipboard">📋 Copy</button>
+    <button class="btn btn-export" onclick="exportReport()" aria-label="Export full report as text">↓ Export</button>
+  </div>
+  <div id="copyStatus" style="font-size:.75rem;color:var(--accent);text-align:center;margin-top:.5rem;min-height:1.2em"></div>
+</div>
+</aside>
+</div>
+
+<script>
+const deformSlider = document.getElementById('deformSlider');
+const flexSlider = document.getElementById('flexSlider');
+const bmiSlider = document.getElementById('bmiSlider');
+const deformVal = document.getElementById('deformVal');
+const flexVal = document.getElementById('flexVal');
+const bmiVal = document.getElementById('bmiVal');
+const recoContent = document.getElementById('recoContent');
+const recoVerdict = document.getElementById('recoVerdict');
+const copyStatus = document.getElementById('copyStatus');
+
+function updateRecommendation() {
+  const deform = parseInt(deformSlider.value);
+  const flex = parseInt(flexSlider.value);
+  const bmi = parseInt(bmiSlider.value);
+
+  deformVal.textContent = deform + '°';
+  flexVal.textContent = flex + '°';
+  bmiVal.textContent = bmi;
+
+  let ukaPoints = 0;
+  let tkaPoints = 0;
+  let warnings = [];
+  let notes = [];
+
+  // Coronal Deformity
+  if (deform < 15) {
+    ukaPoints++;
+    notes.push('✓ Coronal deformity (' + deform + '°) within modern UKA threshold (&lt;15° passively correctable) <sup>[19,33]</sup>');
+  } else if (deform >= 15) {
+    tkaPoints++;
+    warnings.push('✗ Coronal deformity (' + deform + '°) exceeds modern UKA threshold of 15°. If deformity is NOT passively correctable to neutral, this is an <strong>absolute contraindication to UKA</strong> <sup>[33]</sup>. If correctable, borderline — careful clinical assessment required.');
+  }
+
+  // Flexion Contracture
+  if (flex < 15) {
+    ukaPoints++;
+    notes.push('✓ Flexion contracture (' + flex + '°) within modern UKA threshold (&lt;15°) <sup>[19]</sup>');
+  } else if (flex >= 15) {
+    // Evidence shows ≥15° may still be acceptable
+    notes.push('⚠ Flexion contracture (' + flex + '°) at or above 15° — <strong>classic contraindication</strong> <sup>[5]</sup>, but modern evidence (2021 study) shows no difference in survivorship or PROMs for contractures ≥15° with 10-year survivorship of 97% <sup>[49]</sup>. Proceed with caution; not an absolute contraindication.');
+  }
+
+  // BMI
+  if (bmi < 40) {
+    ukaPoints++;
+    notes.push('✓ BMI (' + bmi + ') below 40 — obesity is <strong>not a contraindication for UKA</strong> <sup>[1]</sup>');
+  } else {
+    // BMI ≥ 40 — TKA carries high risk, UKA may be safer
+    ukaPoints++;
+    tkaPoints++;
+    warnings.push('⚠ BMI ≥ 40 (<strong>' + bmi + '</strong>) — AAOS guidelines warn of increased infection risk for TKA in morbidly obese patients <sup>[13]</sup>. UKA may represent a <em>safer</em> surgical option due to shorter operative time and lower complication profile <sup>[8,9]</sup>. This is a preference-sensitive decision requiring shared decision-making.');
+  }
+
+  let html = '<ul style="margin:0;padding-left:1.1rem">';
+  notes.forEach(function(n) { html += '<li style="margin-bottom:.4rem;font-size:.82rem">' + n + '</li>'; });
+  warnings.forEach(function(w) { html += '<li style="margin-bottom:.4rem;font-size:.82rem;color:#c0392b">' + w + '</li>'; });
+  html += '</ul>';
+  html += '<p style="font-size:.75rem;color:var(--muted);margin-top:.6rem;font-style:italic">Note: This tool addresses 3 of many clinical parameters. Final decision requires complete clinical evaluation including diagnosis (unicompartmental vs. multicompartmental), inflammatory status, ligament integrity, PFA status, and patient preferences. <sup>[8,11]</sup></p>';
+
+  recoContent.innerHTML = html;
+
+  // Verdict
+  recoVerdict.style.display = 'block';
+  if (deform >= 15) {
+    recoVerdict.className = 'reco-verdict tka-verdict';
+    recoVerdict.innerHTML = '⛔ Deformity exceeds UKA threshold — TKA likely preferred (confirm passively correctable status)';
+  } else if (deform < 15 && flex < 15) {
+    recoVerdict.className = 'reco-verdict uka-verdict';
+    recoVerdict.innerHTML = '✅ All measured parameters within modern UKA eligibility criteria';
+  } else {
+    recoVerdict.className = 'reco-verdict both-verdict';
+    recoVerdict.innerHTML = '⚠️ Borderline parameter(s) — Both UKA &amp; TKA remain viable with clinical judgment';
+  }
+}
+
+function resetSliders() {
+  deformSlider.value = 8;
+  flexSlider.value = 5;
+  bmiSlider.value = 28;
+  updateRecommendation();
+  copyStatus.textContent = '';
+}
+
+function getTimestamp() {
+  return new Date().toISOString().replace('T', ' ').substring(0, 19);
+}
+
+function generateReport() {
+  const deform = deformSlider.value;
+  const flex = flexSlider.value;
+  const bmi = bmiSlider.value;
+  const verdict = recoVerdict.textContent || 'Not generated';
+  const timestamp = getTimestamp();
+
+  let report = '';
+  report += '=== UKA vs. TKA Patient Selection Assessment ===\n';
+  report += 'Generated: ' + timestamp + '\n\n';
+  report += 'CLINICAL PARAMETERS:\n';
+  report += '  Coronal Deformity: ' + deform + '° (UKA threshold: <15° passively correctable)\n';
+  report += '  Flexion Contracture: ' + flex + '° (UKA threshold: <15°)\n';
+  report += '  BMI: ' + bmi + ' (TKA high-risk threshold: ≥40)\n\n';
+  report += 'ASSESSMENT:\n';
+
+  if (parseInt(deform) >= 15) {
+    report += '  ⛔ Deformity exceeds UKA threshold. TKA likely preferred.\n';
+  } else if (parseInt(deform) < 15 && parseInt(flex) < 15) {
+    report += '  ✅ All measured parameters within modern UKA eligibility.\n';
+  } else {
+    report += '  ⚠️ Borderline parameter(s) — both options viable.\n';
+  }
+
+  if (parseInt(bmi) >= 40) {
+    report += '  ⚠️ BMI ≥40: TKA carries increased infection risk. UKA may be safer option.\n';
+  }
+
+  report += '\nVERDICT: ' + verdict + '\n';
+  report += '\nRATIONALE: Based on modern evidence-based UKA selection criteria. Classic Kozinn & Scott\n';
+  report += 'criteria have been substantially expanded. Key modern thresholds from source document:\n';
+  report += '  - Coronal deformity: <15° passively correctable [Ref 19, 33]\n';
+  report += '  - Flexion contracture: <15° (evidence supports ≥15° with good outcomes) [Ref 19, 49]\n';
+  report += '  - BMI: No contraindication; morbidly obese patients may benefit from UKA\'s lower risk profile [Ref 1, 13]\n';
+  report += '\nIMPORTANT: This tool addresses only 3 clinical parameters. Full clinical evaluation required.\n';
+  report += 'Sources: Peer-reviewed literature as cited in the clinical review document (60 references).\n';
+
+  return report;
+}
+
+function copyReport() {
+  const report = generateReport();
+  navigator.clipboard.writeText(report).then(function() {
+    copyStatus.textContent = '✓ Copied to clipboard!';
+    setTimeout(function() { copyStatus.textContent = ''; }, 3000);
+  }).catch(function() {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = report;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    copyStatus.textContent = '✓ Copied to clipboard!';
+    setTimeout(function() { copyStatus.textContent = ''; }, 3000);
+  });
+}
+
+function exportReport() {
+  const report = generateReport();
+  const blob = new Blob([report], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'UKA_vs_TKA_Assessment_' + new Date().toISOString().substring(0, 10) + '.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  copyStatus.textContent = '✓ Report exported!';
+  setTimeout(function() { copyStatus.textContent = ''; }, 3000);
+}
+
+// Event listeners
+deformSlider.addEventListener('input', updateRecommendation);
+flexSlider.addEventListener('input', updateRecommendation);
+bmiSlider.addEventListener('input', updateRecommendation);
+
+// Initial call
+updateRecommendation();
+</script>
+</body>
+</html>

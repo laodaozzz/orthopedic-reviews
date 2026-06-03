@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perioperative Glycemic Management in Orthopedic Trauma</title>
+<style>
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2b6cb0;
+    --accent: #e53e3e;
+    --accent-warm: #dd6b20;
+    --success: #276749;
+    --success-bg: #c6f6d5;
+    --warning: #c05621;
+    --warning-bg: #fefcbf;
+    --danger: #c53030;
+    --danger-bg: #fed7d7;
+    --info: #2b6cb0;
+    --info-bg: #bee3f8;
+    --bg: #f7fafc;
+    --surface: #ffffff;
+    --text: #1a202c;
+    --text-muted: #4a5568;
+    --border: #e2e8f0;
+    --sidebar-width: 340px;
+    --header-height: 56px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding-top: var(--header-height);
+  }
+  /* Header */
+  .site-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--primary);
+    color: #fff;
+    height: var(--header-height);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    padding: 0 1rem;
+  }
+  .site-header h1 {
+    font-size: 1.1rem; font-weight: 700; letter-spacing: .02em; text-align: center;
+  }
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr var(--sidebar-width);
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  /* Main */
+  main { min-width: 0; }
+  /* Sidebar */
+  aside.sidebar {
+    position: relative;
+  }
+  .sidebar-inner {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  }
+  .sidebar-inner h2 {
+    font-size: 1.05rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: .5rem;
+  }
+  /* Sections */
+  section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,.04);
+  }
+  section h2 {
+    font-size: 1.35rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: .5rem;
+  }
+  section h3 {
+    font-size: 1.1rem;
+    color: var(--primary-light);
+    margin: 1.4rem 0 .6rem;
+  }
+  section h4 {
+    font-size: 1rem;
+    color: var(--text);
+    margin: 1rem 0 .4rem;
+  }
+  p { margin-bottom: .85rem; }
+  ul, ol { margin: .6rem 0 1rem 1.5rem; }
+  li { margin-bottom: .35rem; }
+  strong { color: var(--primary); }
+  /* Evidence badges */
+  .badge {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    vertical-align: middle;
+    margin-left: 4px;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .badge-I   { background: #c6f6d5; color: #22543d; }
+  .badge-II  { background: #bee3f8; color: #1a365d; }
+  .badge-III { background: #fefcbf; color: #744210; }
+  .badge-IV  { background: #fed7d7; color: #742a2a; }
+  .badge-V   { background: #e9d8fd; color: #44337a; }
+  .badge-NA  { background: #e2e8f0; color: #4a5568; }
+  /* Callout boxes */
+  .callout {
+    border-left: 4px solid;
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: .95rem;
+  }
+  .callout-danger  { border-color: var(--danger); background: var(--danger-bg); }
+  .callout-warning { border-color: var(--warning); background: var(--warning-bg); }
+  .callout-info    { border-color: var(--info); background: var(--info-bg); }
+  .callout-success { border-color: var(--success); background: var(--success-bg); }
+  .callout strong  { color: inherit; }
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 8px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88rem;
+    line-height: 1.5;
+  }
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: .4rem;
+    font-size: .95rem;
+  }
+  th, td {
+    padding: .55rem .75rem;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tr:nth-child(even) td { background: #f7fafc; }
+  td.highlight { background: #fefcbf; font-weight: 600; }
+  /* Slider controls */
+  .slider-group { margin-bottom: 1.2rem; }
+  .slider-group label {
+    display: block;
+    font-weight: 600;
+    font-size: .88rem;
+    color: var(--text);
+    margin-bottom: .25rem;
+  }
+  .slider-group .sublabel {
+    font-size: .78rem;
+    color: var(--text-muted);
+    margin-bottom: .35rem;
+  }
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--primary-light);
+    cursor: pointer;
+  }
+  .slider-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+    margin: .2rem 0 .35rem;
+  }
+  /* Toggle */
+  .toggle-group {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 1.2rem;
+  }
+  .toggle-group label { font-weight: 600; font-size: .88rem; cursor: pointer; }
+  .toggle-switch {
+    position: relative; width: 48px; height: 26px; flex-shrink: 0;
+  }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0; background: #cbd5e0; border-radius: 999px;
+    transition: .25s; cursor: pointer;
+  }
+  .toggle-slider::before {
+    content: ''; position: absolute; width: 20px; height: 20px;
+    left: 3px; bottom: 3px; background: #fff; border-radius: 50%;
+    transition: .25s;
+  }
+  .toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+  .toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
+  /* Recommendation box */
+  #recommendation-box {
+    background: var(--info-bg);
+    border: 1px solid var(--info);
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: .88rem;
+    line-height: 1.6;
+    min-height: 120px;
+    transition: background .3s, border-color .3s;
+  }
+  #recommendation-box.emergency {
+    background: var(--danger-bg);
+    border-color: var(--danger);
+  }
+  #recommendation-box.caution {
+    background: var(--warning-bg);
+    border-color: var(--warning);
+  }
+  #recommendation-box.normal {
+    background: var(--success-bg);
+    border-color: var(--success);
+  }
+  #recommendation-box h3 {
+    font-size: .95rem; margin-bottom: .4rem;
+  }
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+    padding: .5rem 1rem;
+    border: none; border-radius: 8px;
+    font-size: .85rem; font-weight: 600;
+    cursor: pointer; transition: .2s;
+    color: #fff;
+  }
+  .btn-primary { background: var(--primary-light); }
+  .btn-primary:hover { background: var(--primary); }
+  .btn-danger { background: var(--accent); }
+  .btn-danger:hover { background: #c53030; }
+  .btn-sm { padding: .35rem .75rem; font-size: .8rem; }
+  .btn-group { display: flex; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
+  /* Algorithm flowchart */
+  .algo-box {
+    border: 2px solid var(--primary-light);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: .75rem 0;
+    background: #ebf8ff;
+    font-size: .9rem;
+  }
+  .algo-decision {
+    background: #fefcbf; border: 2px solid #d69e2e;
+    border-radius: 10px; padding: .75rem 1rem;
+    margin: .5rem 0; font-weight: 600; text-align: center;
+    transform: rotate(0deg);
+  }
+  .algo-arrow {
+    text-align: center; font-size: 1.4rem; color: var(--primary-light); margin: .25rem 0;
+  }
+  /* Citations */
+  .ref-list {
+    font-size: .82rem;
+    color: var(--text-muted);
+    column-count: 2;
+    column-gap: 2rem;
+    line-height: 1.5;
+  }
+  .ref-list li { margin-bottom: .25rem; break-inside: avoid; }
+  sup.ref {
+    font-size: .7rem;
+    color: var(--primary-light);
+    cursor: help;
+  }
+  /* Metrics display in sidebar */
+  .metrics-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: .5rem; margin: 1rem 0;
+  }
+  .metric-card {
+    background: #f7fafc; border: 1px solid var(--border);
+    border-radius: 8px; padding: .5rem; text-align: center;
+  }
+  .metric-card .metric-val {
+    font-size: 1.15rem; font-weight: 700;
+  }
+  .metric-card .metric-label {
+    font-size: .7rem; color: var(--text-muted); margin-top: .1rem;
+  }
+  .metric-card.danger .metric-val { color: var(--danger); }
+  .metric-card.warning .metric-val { color: var(--warning); }
+  .metric-card.success .metric-val { color: var(--success); }
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.sidebar { order: -1; }
+    .sidebar-inner { position: static; }
+    .ref-list { column-count: 1; }
+  }
+  @media (max-width: 640px) {
+    section { padding: 1.2rem; }
+    .layout { padding: 1rem; }
+    .site-header h1 { font-size: .92rem; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Perioperative Glycemic Management in Orthopedic Trauma &amp; Ketoacidotic State Differentiation</h1>
+</header>
+
+<div class="layout">
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main role="main" aria-label="Clinical Summary">
+
+<!-- INTRODUCTION -->
+<section id="introduction">
+  <h2>1. Introduction: The Metabolic Crisis in Orthopedic Trauma</h2>
+  <p>The management of orthopedic trauma patients presents a critical intersection of acute physiological stress and complex metabolic derangement.<sup class="ref">[1]</sup> In this high-risk population, hyperglycemia is not merely a common comorbidity but an <strong>active catalyst for poor outcomes</strong>, fundamentally compromising the pillars of surgical success: wound healing and bone integrity.<sup class="ref">[2]</sup></p>
+  <p>This clinical challenge is defined by a <strong>dual threat</strong>:</p>
+  <ol>
+    <li><strong>Stress Hyperglycemia:</strong> The profound stress of traumatic injury, compounded by surgical intervention, unleashes counter-regulatory hormones—catecholamines, glucagon, and cortisol—that drive severe insulin resistance and hyperglycemia.<sup class="ref">[4]</sup> This "stress hyperglycemia" is an independent predictor of complications, most notably surgical site infections (SSIs).<sup class="ref">[7]</sup> <span class="badge badge-I">Level I–II</span></li>
+    <li><strong>Perioperative Ketogenesis:</strong> Standard nil per os (NPO) protocols create a starvation state that promotes ketogenesis.<sup class="ref">[9]</sup> This is dangerously amplified by sodium-glucose cotransporter 2 (SGLT-2) inhibitors, which can precipitate <strong>euglycemic diabetic ketoacidosis (eDKA)</strong>—a life-threatening metabolic emergency with normal blood glucose.<sup class="ref">[10,13]</sup></li>
+  </ol>
+  <div class="callout callout-danger">
+    <strong>⚠ Critical Diagnostic Dilemma:</strong> The perioperative team must rapidly and accurately differentiate benign <em>starvation ketosis</em> (SK) from life-threatening <em>diabetic ketoacidosis</em> (DKA) and the increasingly prevalent <em>euglycemic DKA</em> (eDKA)—a distinction perilously blurred by SGLT-2 inhibitor use.<sup class="ref">[9,13]</sup>
+  </div>
+</section>
+
+<!-- PATHOPHYSIOLOGY -->
+<section id="pathophysiology">
+  <h2>2. Pathophysiology: How Hyperglycemia Sabotages Orthopedic Outcomes</h2>
+  <p>Hyperglycemia is not a passive bystander; it is an <strong>independent, active mediator of tissue damage</strong>.<sup class="ref">[2]</sup> Uncontrolled glucose levels systemically compromise recovery by attacking the two foundational elements of healing: immune integrity and bone regeneration.</p>
+
+  <h3>2.1 Surgical Site Infections (SSIs): Immune Dysfunction Cascade</h3>
+  <p>The association between perioperative hyperglycemia and SSI is robustly established:<sup class="ref">[16]</sup> <span class="badge badge-I">Level I</span></p>
+  <ul>
+    <li>Admission glucose ≥ 200 mg/dL is an independent risk factor for deep 90-day SSIs.<sup class="ref">[19]</sup></li>
+    <li>Optimal postoperative glucose cutoff for predicting periprosthetic joint infection: as low as <strong>137 mg/dL</strong>.<sup class="ref">[19]</sup></li>
+    <li>AAOS Clinical Practice Guideline: poor glycemic control increases infection risk (high-quality evidence); postoperative glucose > 125 mg/dL increases risk (low-quality evidence).<sup class="ref">[21]</sup></li>
+  </ul>
+  <div class="callout callout-info">
+    <strong>Causal Mechanisms:</strong> Hyperglycemia cripples host immune response through abnormal immune function, impaired white blood-cell phagocytic function, and reduced oxidative burst capacity.<sup class="ref">[4]</sup> Metabolic control is as fundamental to infection prevention as sterile technique and perioperative antibiotics.<sup class="ref">[22]</sup>
+  </div>
+
+  <h3>2.2 Impaired Fracture Healing: Cellular Sabotage of Bone</h3>
+  <p>Poor glycemic control is directly linked to pseudarthrosis (non-union), hardware failure, and impaired wound healing through three major mechanisms:<sup class="ref">[2,3,23]</sup> <span class="badge badge-II">Level II–III</span></p>
+  <ol>
+    <li><strong>Advanced Glycation End Products (AGEs):</strong> Chronic hyperglycemia leads to non-enzymatic glycation of proteins, forming AGEs that accumulate in the bone collagen matrix, reducing its material quality and toughness.<sup class="ref">[23]</sup></li>
+    <li><strong>Impaired Angiogenesis:</strong> Hyperglycemia suppresses Vascular Endothelial Growth Factor (VEGF), resulting in deficient microvascular invasion of the callus, elevated chondrocyte apoptosis, and compromised cartilage-to-bone transition.<sup class="ref">[3,23]</sup></li>
+    <li><strong>The "Adipogenic Switch":</strong> The diabetic microenvironment causes osteoprogenitor cells to switch differentiation from bone-forming osteoblasts toward fat-forming adipocytes, producing a biomechanically weak callus infiltrated with fat tissue.<sup class="ref">[23]</sup></li>
+  </ol>
+  <div class="callout callout-warning">
+    <strong>Key Concept:</strong> Hardware failure in hyperglycemic patients often represents not surgical technique failure but <em>biological substrate failure</em>—the patient's body builds fat instead of bone around the implant.<sup class="ref">[23]</sup>
+  </div>
+
+  <h3>2.3 Stress-Induced Hyperglycemia (SIH) in Non-Diabetic Patients</h3>
+  <p>SIH is defined as acute hyperglycemia (typically > 140 mg/dL) in patients with no prior diabetes history. It occurs in <strong>20–40%</strong> of trauma and surgical patients.<sup class="ref">[6]</sup> <span class="badge badge-II">Level II</span></p>
+  <ul>
+    <li>This is <em>not</em> latent pre-diabetes—it is an acute, massive neuro-hormonal response: cortisol surge (hepatic glucose production), catecholamines (impaired insulin release), and inflammatory cytokines (TNF-α, IL-6).<sup class="ref">[4]</sup></li>
+    <li>SIH patients have <strong>significantly higher odds of mortality</strong> than both non-diabetic patients with normal glucose <em>and</em> patients with known diabetic hyperglycemia.<sup class="ref">[29]</sup></li>
+    <li>SIH is independently associated with SSIs in non-diabetic orthopedic trauma patients.<sup class="ref">[3]</sup></li>
+  </ul>
+  <p>The level of SIH is a direct, real-time reflection of the <strong>magnitude of systemic stress response</strong>. A non-diabetic trauma patient with glucose 220 mg/dL is in a more severe, catabolic state than a chronic poorly-controlled diabetic with the same glucose.<sup class="ref">[27]</sup></p>
+</section>
+
+<!-- GLYCEMIC MANAGEMENT -->
+<section id="management">
+  <h2>3. Consensus Standards for Perioperative Glycemic Management</h2>
+
+  <h3>3.1 Preoperative Risk Stratification</h3>
+  <p>For <strong>elective</strong> procedures, strong consensus exists to optimize glycemic control before scheduling: HbA1c target below 8–9% (68–75 mmol/mol).<sup class="ref">[16]</sup> <span class="badge badge-I">Level I</span></p>
+  <p>In <strong>trauma</strong>, this optimization is a luxury not afforded.<sup class="ref">[1]</sup> HbA1c and Fructosamine serve as <em>risk stratification tools</em>, not barriers to surgery.<sup class="ref">[40]</sup></p>
+  <div class="callout callout-warning">
+    <strong>High-Risk Thresholds (Source-Based):</strong><br>
+    • Admission HbA1c > 7.85%<sup class="ref">[41]</sup><br>
+    • Admission blood glucose ≥ 180–200 mg/dL<sup class="ref">[19]</sup><br>
+    • Day-of-surgery point-of-care glucose independently correlates with complications regardless of chronic HbA1c.<sup class="ref">[19]</sup>
+  </div>
+
+  <h3>3.2 Perioperative Glycemic Targets</h3>
+  <p>Early enthusiasm for "tight" control (< 120 mg/dL) was tempered by increased hypoglycemia risk and associated mortality.<sup class="ref">[4]</sup> The modern consensus targets <strong>"safe control"</strong>:<sup class="ref">[16]</sup> <span class="badge badge-I">Level I</span></p>
+  <div class="callout callout-success">
+    <strong>Unified Target Range: 100–180 mg/dL (5.6–10.0 mmol/L)</strong><br>
+    Hypoglycemia defined as blood glucose < 70 mg/dL.<sup class="ref">[3]</sup>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1. Major Consensus Glycemic Targets for Hospitalized Patients</caption>
+      <thead>
+        <tr><th>Organization</th><th>Setting</th><th>Target Range</th><th>Ref.</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Endocrine Society</td><td>Non-ICU</td><td>Pre-meal &lt; 140 mg/dL; Random &lt; 180 mg/dL</td><td>[16]</td></tr>
+        <tr><td>ADA</td><td>Non-ICU</td><td>100–180 mg/dL</td><td>[47]</td></tr>
+        <tr><td>Joint British Diabetes Societies (JBDS)</td><td>Hospitalized</td><td>6–10 mmol/L (108–180 mg/dL); Acceptable: 4–12 mmol/L (72–216 mg/dL)</td><td>[16]</td></tr>
+        <tr><td>ADA / Endocrine Society</td><td>ICU / Intraoperative</td><td>100–180 mg/dL (continuous IV insulin preferred)</td><td>[46]</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.3 Inpatient Insulin Protocols: Basal-Bolus Therapy vs. Sliding Scale</h3>
+  <h4>The Failure of Sliding Scale Insulin (SSI)</h4>
+  <p>SSI is a <em>reactive</em>, <em>physiologically flawed</em> strategy that treats hyperglycemia only after it occurs, failing to suppress hepatic gluconeogenesis.<sup class="ref">[50]</sup> It leads to wide glycemic variability associated with poor outcomes.<sup class="ref">[51]</sup> The ADA, Endocrine Society, and other bodies explicitly <strong>discourage</strong> SSI as the sole regimen.<sup class="ref">[40]</sup> <span class="badge badge-I">Level I</span></p>
+
+  <h4>The Standard of Care: Basal-Bolus Insulin (BBI)</h4>
+  <p>BBI is the <strong>proactive, physiologic</strong> approach recommended by national guidelines:<sup class="ref">[40]</sup></p>
+  <ol>
+    <li><strong>Basal Insulin:</strong> Long-acting (glargine, detemir) once/twice daily to suppress excessive hepatic gluconeogenesis—the primary driver of fasting-state hyperglycemia.<sup class="ref">[16]</sup></li>
+    <li><strong>Bolus (Prandial) Insulin:</strong> Rapid-acting (lispro, aspart, glulisine) before meals to cover carbohydrate intake.<sup class="ref">[55]</sup></li>
+    <li><strong>Correctional Insulin:</strong> Small rapid-acting dose added to prandial dose to correct readings above target.</li>
+  </ol>
+
+  <div class="callout callout-info">
+    <strong>Key Evidence:</strong> The landmark <strong>RABBIT-2 trial</strong> demonstrated BBI significantly reduced postoperative complications vs. SSI alone.<sup class="ref">[22]</sup> In orthopedic surgery specifically, nurse-managed BBI protocols showed lower average blood glucose, reduced glycemic variability, and significant reduction in adverse events, infections, and hospital length of stay.<sup class="ref">[51]</sup> <span class="badge badge-I">Level I</span>
+  </div>
+
+  <div class="callout callout-danger">
+    <strong>⚠ Critical NPO Management Error:</strong> Holding <em>all</em> insulin for NPO patients is a common and dangerous error. While prandial insulin must be held, <strong>basal insulin is crucial and must be continued</strong>—typically at 75–80% of the patient's normal home dose.<sup class="ref">[48]</sup>
+  </div>
+
+  <h3>3.4 Common Confounders</h3>
+  <ul>
+    <li><strong>Glucocorticoid Therapy:</strong> Steroids are a known, predictable driver of hyperglycemia. Patients receiving steroids must be monitored closely and met with proactive insulin regimens.<sup class="ref">[40]</sup></li>
+    <li><strong>Anesthesia Type:</strong> General anesthesia has a more significant impact on blood glucose than epidural or combined general-epidural anesthesia.<sup class="ref">[40]</sup></li>
+  </ul>
+</section>
+
+<!-- KETOACIDOSIS -->
+<section id="ketoacidosis">
+  <h2>4. The Ketoacidosis Dilemma: A Primer for the Surgical Team</h2>
+
+  <h3>4.1 Foundational Pathophysiology</h3>
+  <p>The body's switch between glucose utilization and fat breakdown (ketogenesis) is governed by the <strong>glucagon-to-insulin ratio</strong>—the "master switch."<sup class="ref">[11]</sup></p>
+  <ul>
+    <li><strong>Insulin (Anabolic):</strong> Suppresses lipolysis and ketogenesis.</li>
+    <li><strong>Glucagon (Catabolic):</strong> Promotes lipolysis and ketogenesis.</li>
+  </ul>
+  <p>When insulin is low and glucagon high, hormone-sensitive lipase breaks triglycerides into free fatty acids (FFAs). FFAs are transported to the liver and converted via β-oxidation into ketone bodies: acetoacetate and β-hydroxybutyrate.<sup class="ref">[11]</sup></p>
+  <p>The fundamental difference between physiologic ketosis and pathologic ketoacidosis is <strong>not the presence of ketones</strong>, but the failure of the regulatory "brake" on this process.</p>
+
+  <h3>4.2 Profile: Diabetic Ketoacidosis (DKA)</h3>
+  <ul>
+    <li><strong>Hormonal State:</strong> Absolute or profound relative insulin deficiency—the "brake" is completely gone.<sup class="ref">[11]</sup></li>
+    <li><strong>Pathophysiology:</strong> Without insulin, glucagon is unopposed → runaway lipolysis and ketogenesis. Simultaneously, impaired glucose uptake causes severe hyperglycemia, osmotic diuresis, and dehydration.<sup class="ref">[11,63]</sup></li>
+    <li><strong>Result:</strong> Ketone production (e.g., > 20–25 mM) overwhelms bicarbonate buffering, causing severe high-anion-gap metabolic acidosis.<sup class="ref">[11,63]</sup></li>
+  </ul>
+
+  <h3>4.3 Profile: Starvation Ketosis (SK)</h3>
+  <ul>
+    <li><strong>Hormonal State:</strong> Low insulin, but <em>intact</em> β-cell function—the "brake" remains functional.<sup class="ref">[9]</sup></li>
+    <li><strong>Pathophysiology:</strong> Fasting lowers insulin, permitting glucagon to rise and initiate ketogenesis. As ketone levels rise (to ~3–5 mmol/L), the ketones themselves stimulate a small, regulatory insulin release from the healthy pancreas.<sup class="ref">[67]</sup></li>
+    <li><strong>Result:</strong> Mild, non-progressive ketosis that does <em>not</em> overwhelm the bicarbonate buffer.<sup class="ref">[9]</sup></li>
+  </ul>
+</section>
+
+<!-- DIAGNOSTIC DIFFERENTIATION TABLE -->
+<section id="differentiation">
+  <h2>5. Diagnostic Differentiation of Ketoacidotic States</h2>
+
+  <h3>5.1 Clinical Presentation</h3>
+  <p><strong>DKA:</strong> Acute medical emergency. Rapid onset (hours to a day).<sup class="ref">[65]</sup> Symptoms include polyuria, polydipsia, Kussmaul respirations, "fruity" acetone breath odor, abdominal pain, altered mental status.<sup class="ref">[11]</sup></p>
+  <p><strong>SK:</strong> Develops slowly over several days. Signs of chronic malnutrition may be present. Does <em>not</em> present with profound acidosis-driven symptoms.<sup class="ref">[67]</sup></p>
+
+  <h3>5.2 Laboratory Triad: The Definitive Diagnosis</h3>
+  <div class="callout callout-info">
+    <strong>Diagnostic Pitfall:</strong> Urine ketone (nitroprusside) tests are semi-quantitative and primarily measure acetoacetate, not β-hydroxybutyrate. Definitive diagnosis requires <strong>serum bicarbonate</strong> and <strong>quantitative serum β-hydroxybutyrate</strong>.<sup class="ref">[11,64]</sup>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2. Diagnostic and Pathophysiological Differentiation of Ketoacidotic States</caption>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Diabetic Ketoacidosis (DKA)</th>
+          <th>Starvation Ketosis (SK)</th>
+          <th>Euglycemic DKA (eDKA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Primary Pathophysiology</strong></td>
+          <td>Absolute/profound insulin deficiency; Unopposed glucagon<sup class="ref">[63]</sup></td>
+          <td>Physiologic low insulin from fasting; <em>Intact insulin "brake"</em><sup class="ref">[9]</sup></td>
+          <td>Insulin deficiency/high glucagon state; Glucose masked by glycosuria (SGLT-2i) or low glycogen<sup class="ref">[13]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Hormonal State</strong></td>
+          <td class="highlight">UNREGULATED<sup class="ref">[11]</sup></td>
+          <td>REGULATED<sup class="ref">[9]</sup></td>
+          <td class="highlight">UNREGULATED<sup class="ref">[13]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Serum Glucose</strong></td>
+          <td class="highlight">High (> 250 mg/dL)<sup class="ref">[12]</sup></td>
+          <td>Normal or Low<sup class="ref">[12]</sup></td>
+          <td>Normal (< 250 mg/dL)<sup class="ref">[13]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Serum Bicarbonate</strong></td>
+          <td class="highlight">Low (< 18 mEq/L)<sup class="ref">[12]</sup></td>
+          <td>Mildly Low (Rarely < 18 mEq/L)<sup class="ref">[12]</sup></td>
+          <td class="highlight">Low (< 18 mEq/L)<sup class="ref">[13]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Arterial pH</strong></td>
+          <td class="highlight">Low (< 7.30)<sup class="ref">[12]</sup></td>
+          <td>Near Normal (> 7.30)<sup class="ref">[11]</sup></td>
+          <td class="highlight">Low (< 7.30)<sup class="ref">[13]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Anion Gap</strong></td>
+          <td class="highlight">High (> 12 mEq/L)<sup class="ref">[12]</sup></td>
+          <td>Normal or Mildly High<sup class="ref">[79]</sup></td>
+          <td class="highlight">High (> 12 mEq/L)<sup class="ref">[13]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Serum Ketones (β-OHB)</strong></td>
+          <td class="highlight">Very High (> 3 mmol/L)<sup class="ref">[14]</sup></td>
+          <td>Mild-Moderate (≤ 3–5 mmol/L)<sup class="ref">[67]</sup></td>
+          <td class="highlight">Very High (> 3 mmol/L)<sup class="ref">[14]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Clinical Status</strong></td>
+          <td class="highlight">Medical Emergency<sup class="ref">[11]</sup></td>
+          <td>Physiologic Adaptation<sup class="ref">[82]</sup></td>
+          <td class="highlight">Medical Emergency (Hidden)<sup class="ref">[13]</sup></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- eDKA -->
+<section id="edka">
+  <h2>6. The Modern Confounder: Euglycemic DKA (eDKA)</h2>
+
+  <h3>6.1 The SGLT-2 Inhibitor Paradigm Shift</h3>
+  <p>SGLT-2 inhibitors (empagliflozin, canagliflozin, dapagliflozin) introduce significant perioperative risk:<sup class="ref">[83]</sup> <span class="badge badge-II">Level II–III</span></p>
+  <ol>
+    <li>SGLT-2i blocks glucose reabsorption in the proximal tubule → massive glycosuria.<sup class="ref">[13]</sup></li>
+    <li>Lowered blood glucose → decreased insulin secretion + increased glucagon secretion.<sup class="ref">[63]</sup></li>
+    <li>High glucagon:insulin ratio → <strong>runaway ketogenesis</strong>.<sup class="ref">[13]</sup></li>
+  </ol>
+  <p>The result: a patient in a DKA-like hormonal state who appears euglycemic because excess glucose is being excreted in the urine.<sup class="ref">[13]</sup></p>
+
+  <h3>6.2 The "Perfect Storm" in Orthopedic Trauma</h3>
+  <div class="callout callout-danger">
+    <strong>Three converging triggers for eDKA in the trauma setting:</strong><sup class="ref">[13]</sup><br>
+    1. <strong>SGLT-2 Inhibitor Use</strong> — the underlying pharmacological driver<br>
+    2. <strong>Surgical Stress / Trauma</strong> — counter-regulatory hormones exacerbate the high-glucagon state<sup class="ref">[10]</sup><br>
+    3. <strong>Fasting / NPO Status</strong> — depletes hepatic glycogen and promotes fat metabolism<sup class="ref">[10]</sup>
+  </div>
+
+  <h3>6.3 Case Analysis: A Stark Warning</h3>
+  <p>A documented case: a man in his 60s with type 2 diabetes on Empagliflozin was admitted for hip fracture, NPO for several days. Capillary blood glucose remained <em>normal</em> (72–198 mg/dL).<sup class="ref">[14]</sup> Standard protocols—which only triggered ketone checks for hyperglycemia (> 252 mg/dL)—<strong>completely missed the developing crisis</strong>.<sup class="ref">[14]</sup></p>
+  <p>Intraoperatively, the patient was found to have: <strong>pH 6.96</strong>, <strong>serum bicarbonate 9.2 mEq/L</strong>, <strong>serum ketones 4.9 mmol/L</strong>—life-threatening euglycemic DKA.<sup class="ref">[14]</sup></p>
+
+  <div class="callout callout-danger">
+    <strong>⚠ New Diagnostic Paradigm for SGLT-2i Users:</strong><br>
+    <strong>Serum glucose is an unreliable and dangerous marker for DKA.</strong><br>
+    The diagnostic workup must shift from <em>(Glucose + Ketones)</em> to <strong>(Anion Gap + Bicarbonate + Serum Ketones)</strong>.<br>
+    Any NPO trauma patient on an SGLT-2i with an unexplained anion gap or bicarbonate &lt; 18 mEq/L must be presumed to have eDKA until proven otherwise.<sup class="ref">[14]</sup>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section id="recommendations">
+  <h2>7. Integrated Clinical Recommendations &amp; Protocols</h2>
+
+  <h3>7.1 Perioperative Antidiabetic Medication Management</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3. Perioperative Management of Antidiabetic Medications</caption>
+      <thead>
+        <tr><th>Medication Class</th><th>Elective Surgery</th><th>Trauma (Emergency)</th><th>Ref.</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>SGLT-2 Inhibitors</strong></td>
+          <td>Stop <strong>3 days</strong> before (4 days for ertugliflozin)<sup class="ref">[48]</sup></td>
+          <td>Hold immediately on admission. Flag as "High Risk for eDKA." Initiate serial serum ketone monitoring (q4–6h) regardless of glucose.<sup class="ref">[10,91]</sup></td>
+          <td>[48,91]</td>
+        </tr>
+        <tr>
+          <td>Metformin, GLP-1 Agonists, DPP-4 Inhibitors</td>
+          <td colspan="2">Generally held on the day of surgery<sup class="ref">[48]</sup></td>
+          <td>[48]</td>
+        </tr>
+        <tr>
+          <td><strong>Sulfonylureas</strong></td>
+          <td colspan="2">Held on day of surgery due to high hypoglycemia risk during NPO<sup class="ref">[89]</sup></td>
+          <td>[89]</td>
+        </tr>
+        <tr>
+          <td><strong>Insulin — Basal</strong></td>
+          <td colspan="2">Continue at <strong>75–80%</strong> of home dose during NPO<sup class="ref">[48]</sup></td>
+          <td>[48]</td>
+        </tr>
+        <tr>
+          <td><strong>Insulin — Prandial/Bolus</strong></td>
+          <td colspan="2">Hold during NPO (no food to cover)<sup class="ref">[48]</sup></td>
+          <td>[48]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>7.2 Algorithm for Assessing Ketosis in the Perioperative Trauma Patient</h3>
+
+  <div class="algo-box">
+    <strong>Step 1 — Initial Assessment (All Trauma Patients):</strong><br>
+    On admission: blood glucose, serum electrolytes (anion gap), and quantitative serum β-hydroxybutyrate.<sup class="ref">[1]</sup>
+  </div>
+  <div class="algo-arrow">▼</div>
+  <div class="algo-decision">
+    Step 2 — Is the anion gap elevated (> 12 mEq/L) <strong>AND/OR</strong> serum bicarbonate low (< 18 mEq/L)?
+  </div>
+  <div class="algo-arrow">▼</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+    <div class="algo-box">
+      <strong>If NO →</strong><br>
+      Not in significant ketoacidosis. Proceed with standard glycemic management (target 100–180 mg/dL).<sup class="ref">[16]</sup>
+    </div>
+    <div class="algo-box">
+      <strong>If YES →</strong><br>
+      Patient is in ketoacidosis. Proceed to differentiation.
+    </div>
+  </div>
+  <div class="algo-arrow">▼</div>
+  <div class="algo-decision">
+    Step 3 — Check Serum Glucose <strong>AND</strong> SGLT-2 Inhibitor Status
+  </div>
+  <div class="algo-arrow">▼</div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+    <div class="algo-box" style="border-color:var(--danger);">
+      <strong>A) Glucose > 250 mg/dL</strong><br>
+      <strong>Diagnosis: DKA</strong><sup class="ref">[12]</sup><br>
+      <em>Management:</em> Medical emergency → IV fluids + continuous <strong>IV insulin infusion</strong>.
+    </div>
+    <div class="algo-box" style="border-color:var(--warning);">
+      <strong>B) Glucose &lt; 250 mg/dL</strong><br>
+      → <strong>Check SGLT-2i Status</strong>
+    </div>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:.75rem;">
+    <div class="algo-box" style="border-color:var(--danger); background:#fed7d7;">
+      <strong>B.i) On SGLT-2i → Presume eDKA</strong><sup class="ref">[14]</sup><br>
+      <em>Management:</em> Emergency → <strong>IV insulin infusion + IV dextrose</strong> (D5/D10) simultaneously.<sup class="ref">[10]</sup>
+    </div>
+    <div class="algo-box" style="border-color:var(--success); background:#c6f6d5;">
+      <strong>B.ii) NOT on SGLT-2i → Most likely Starvation Ketosis</strong><sup class="ref">[12]</sup><br>
+      <em>Management:</em> Administer <strong>IV dextrose</strong> to stimulate endogenous insulin and "turn off" ketogenesis.<sup class="ref">[9]</sup> <strong>Do NOT start insulin drip.</strong>
+    </div>
+  </div>
+
+  <div class="callout callout-danger" style="margin-top:1rem;">
+    <strong>⚠ The "Treatment Paradox":</strong> The euglycemic eDKA patient needs <em>both</em> insulin (to stop ketosis) <em>and</em> dextrose (to prevent hypoglycemia), whereas the euglycemic SK patient needs <em>only</em> dextrose. The SGLT-2i history is the critical data point.<sup class="ref">[10,14]</sup>
+  </div>
+
+  <h3>7.3 Consolidated Perioperative Glycemic Management Pathway</h3>
+  <ol>
+    <li><strong>On Admission:</strong> All patients → blood glucose, HbA1c, electrolytes (anion gap), quantitative serum ketones. Identify and flag SGLT-2i users.<sup class="ref">[1]</sup></li>
+    <li><strong>Risk Stratification:</strong> BG > 180 mg/dL, SIH, or high HbA1c → flag as high-risk for SSI/complications.<sup class="ref">[19]</sup></li>
+    <li><strong>Pre-op/NPO Management:</strong> Subcutaneous BBI protocol. NPO: 75–80% basal dose; hold prandial. <em>Avoid SSI-only regimens.</em><sup class="ref">[40,48,52]</sup></li>
+    <li><strong>Ketoacidosis Check:</strong> Implement diagnostic algorithm (§7.2). If eDKA suspected → urgent endocrine/medical consultation.</li>
+    <li><strong>Intraoperative:</strong> Continuous IV insulin infusion, target 100–180 mg/dL.<sup class="ref">[46]</sup></li>
+    <li><strong>Postoperative (Non-ICU):</strong> Transition from IV to scheduled subcutaneous BBI. <em>Do not</em> use SSI as sole therapy.<sup class="ref">[40]</sup></li>
+    <li><strong>SGLT-2i Users (Postoperative):</strong> Continue to hold. Do not restart until stable, stress resolving, ketones negative, tolerating oral diet.<sup class="ref">[91]</sup></li>
+  </ol>
+</section>
+
+<!-- KEY STUDIES -->
+<section id="studies">
+  <h2>8. Key Studies and Evidence Summary</h2>
+  <p>The following table summarizes landmark studies referenced in the source document. Note: The source is a narrative review synthesizing guidelines and literature rather than presenting five individual RCTs; all referenced studies are derived from the document's reference list.</p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 4. Key Referenced Studies and Evidence Sources</caption>
+      <thead>
+        <tr><th>Study / Guideline</th><th>Key Finding</th><th>Design / Evidence Level</th><th>Ref.</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RABBIT-2 Trial</td>
+          <td>BBI significantly reduced postoperative complications compared to SSI alone</td>
+          <td>Randomized Controlled Trial <span class="badge badge-I">Level I</span></td>
+          <td>[22]</td>
+        </tr>
+        <tr>
+          <td>Nurse-Managed BBI vs. SSI in Orthopedic Surgery</td>
+          <td>Lower average BG, reduced glycemic variability, reduced adverse events, infections, and LOS</td>
+          <td>Prospective, propensity-score matched <span class="badge badge-II">Level II</span></td>
+          <td>[51]</td>
+        </tr>
+        <tr>
+          <td>AAOS CPG: Prevention of SSI After Major Extremity Trauma</td>
+          <td>High-quality evidence: poor glycemic control increases infection risk; Low-quality evidence: postop glucose > 125 mg/dL increases risk</td>
+          <td>Clinical Practice Guideline <span class="badge badge-I">Level I</span></td>
+          <td>[21]</td>
+        </tr>
+        <tr>
+          <td>Admission Hyperglycemia & Deep 90-day SSIs</td>
+          <td>Admission glucose ≥ 200 mg/dL is an independent risk factor for deep SSI</td>
+          <td>Cohort study <span class="badge badge-II">Level II</span></td>
+          <td>[19,20]</td>
+        </tr>
+        <tr>
+          <td>SGLT-2i-Associated eDKA in Hip Fracture Patient</td>
+          <td>NPO patient on empagliflozin with normal BG developed pH 6.96, HCO₃ 9.2, ketones 4.9 mmol/L intraoperatively</td>
+          <td>Case report <span class="badge badge-IV">Level IV</span></td>
+          <td>[14,15]</td>
+        </tr>
+        <tr>
+          <td>SIH vs. DH Mortality in Trauma ICU</td>
+          <td>SIH patients had significantly higher mortality than both normal-glucose non-diabetics and known diabetic hyperglycemics</td>
+          <td>Cross-sectional analysis, propensity-matched <span class="badge badge-II">Level II</span></td>
+          <td>[29]</td>
+        </tr>
+        <tr>
+          <td>ADA Standards of Care — Inpatient (2025)</td>
+          <td>Target 100–180 mg/dL; Discourages SSI-only regimens; Recommends BBI for non-critically ill</td>
+          <td>Consensus Guideline <span class="badge badge-I">Level I</span></td>
+          <td>[52]</td>
+        </tr>
+        <tr>
+          <td>Endocrine Society Inpatient Hyperglycemia Guideline</td>
+          <td>Pre-meal < 140 mg/dL, random < 180 mg/dL for non-ICU; IV insulin for ICU</td>
+          <td>Clinical Practice Guideline <span class="badge badge-I">Level I</span></td>
+          <td>[46]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.85rem; color:var(--text-muted);"><em>Note: The source document is a narrative review. Evidence levels are inferred from study design descriptions within the document. No additional landmark RCTs beyond those referenced are available in the source material.</em></p>
+</section>
+
+<!-- REFERENCES -->
+<section id="references">
+  <h2>9. References (from Source Document)</h2>
+  <ol class="ref-list">
+    <li>[1] ACS TQIP: Best practices in the management of orthopaedic trauma. <em>Am Coll Surg</em>.</li>
+    <li>[2] Diabetes and its negative impact on outcomes in orthopaedic surgery. <em>World J Orthop</em>.</li>
+    <li>[3] Diabetes and its negative impact on outcomes in orthopaedic surgery. <em>PMC/NIH</em>.</li>
+    <li>[4] Blood Glucose Control in the Trauma Patient. <em>PMC/NIH</em>.</li>
+    <li>[5] Hyperglycemia and Perioperative Glucose Management. <em>PMC/NIH</em>.</li>
+    <li>[6] Hyperglycemia in the Perioperative Period. <em>PMC/NIH</em>.</li>
+    <li>[7] Stress Hyperglycemia and Complications Following Traumatic Injuries. <em>NIH</em>.</li>
+    <li>[8] Relationship of Hyperglycemia and SSI in Orthopaedic Surgery. <em>NIH</em>.</li>
+    <li>[9] Diabetic, alcoholic and starvation ketoacidosis. <em>Deranged Physiology</em>.</li>
+    <li>[10] Perioperative fasting and ketone production in SGLT2i patients. <em>PMC/PubMed Central</em>.</li>
+    <li>[11] Ketoacidosis. <em>StatPearls/NCBI Bookshelf</em>.</li>
+    <li>[12] Hyperglycemic Crises in Adult Patients With Diabetes. <em>Diabetes Care</em>.</li>
+    <li>[13] Euglycemic Diabetic Ketoacidosis. <em>StatPearls/NCBI Bookshelf</em>.</li>
+    <li>[14–15] SGLT-2 inhibitor associated euglycaemic DKA in orthopaedic trauma patient. <em>PMC/PubMed</em>.</li>
+    <li>[16] Management of Hyperglycemia and Diabetes in Orthopedic Surgery. <em>PMC/NIH</em>.</li>
+    <li>[17–18] Diabetes and Risk of SSI: Systematic review and meta-analysis. <em>PMC/Cambridge Core</em>.</li>
+    <li>[19–20] Preoperative glucose levels and risk of complications in orthopaedic surgery. <em>ResearchGate/JHU</em>.</li>
+    <li>[21] Prevention of SSI After Major Extremity Trauma. <em>AAOS CPG</em>.</li>
+    <li>[22] Postoperative Hyperglycemia: Subcutaneous Insulin Protocol. <em>PubMed Central</em>.</li>
+    <li>[23–24] Impact of Type 2 Diabetes on Bone Fracture Healing. <em>PMC/NIH</em>.</li>
+    <li>[29] Stress-Induced and Diabetic Hyperglycemia and Mortality in Trauma ICU. <em>MDPI</em>.</li>
+    <li>[40] Managing Patients Undergoing Orthopedic Surgery. <em>PMC/NIH</em>.</li>
+    <li>[41] Correlation between BG/HbA1c and SSI in Lower Limb Fracture. <em>MDPI</em>.</li>
+    <li>[46] Inpatient Hyperglycemia Guideline. <em>Endocrine Society</em>.</li>
+    <li>[47] Management of Diabetes and Hyperglycemia in Hospitalized Patients. <em>Endotext/NCBI</em>.</li>
+    <li>[48] Current practice in perioperative management of patients with DM. <em>PMC/NIH</em>.</li>
+    <li>[50] Inpatient Glycemic Control With Sliding Scale Insulin. <em>PMC/NIH</em>.</li>
+    <li>[51] Nurse-managed BBI vs. SSI in orthopedic surgery. <em>PubMed</em>.</li>
+    <li>[52] ADA Standards of Care — Diabetes Care in the Hospital 2025. <em>Diabetes Care</em>.</li>
+    <li>[63] Classic DKA and the euglycemic variant. <em>CCJM</em>.</li>
+    <li>[67] Ketoacidosis. <em>LITFL</em>.</li>
+    <li>[79] Anion Gap and Non-Anion Gap Metabolic Acidosis. <em>StatPearls</em>.</li>
+    <li>[83] Ketoacidosis in the emergency department. <em>UQ eSpace</em>.</li>
+    <li>[89] Managing noninsulin glucose-lowering medications before surgery. <em>CCJM</em>.</li>
+    <li>[91] Euglycemic DKA and Its Prevention in Surgical Patients Taking SGLT2i. <em>PMC/NIH</em>.</li>
+  </ol>
+  <p style="font-size:.82rem; color:var(--text-muted); margin-top:.5rem;"><em>[Full 94-citation reference list available in the source document. Citations above represent the most frequently referenced sources. Numbers in brackets correspond to the source document's reference numbering.]</em></p>
+</section>
+
+</main>
+
+<!-- ===================== SIDEBAR ===================== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Support">
+<div class="sidebar-inner">
+
+  <h2>🔬 Interactive Decision Support</h2>
+
+  <p style="font-size:.82rem; color:var(--text-muted); margin-bottom:1rem;">Adjust parameters below. Recommendations update in real time based on source document thresholds.</p>
+
+  <!-- Blood Glucose Slider -->
+  <div class="slider-group">
+    <label for="slider-glucose">Blood Glucose</label>
+    <div class="sublabel">Target: 100–180 mg/dL <span class="badge badge-I" style="font-size:.6rem;">Source</span></div>
+    <div class="slider-value" id="val-glucose">140 mg/dL</div>
+    <input type="range" id="slider-glucose" min="40" max="450" value="140" step="1" aria-label="Blood Glucose in mg/dL">
+    <div style="display:flex; justify-content:space-between; font-size:.7rem; color:var(--text-muted);">
+      <span>40</span><span>100</span><span>180</span><span>250</span><span>450</span>
+    </div>
+  </div>
+
+  <!-- Serum Bicarbonate Slider -->
+  <div class="slider-group">
+    <label for="slider-bicarb">Serum Bicarbonate</label>
+    <div class="sublabel">Normal: 22–28 mEq/L; Acidosis: &lt; 18 mEq/L <span class="badge badge-I" style="font-size:.6rem;">Source</span></div>
+    <div class="slider-value" id="val-bicarb">24 mEq/L</div>
+    <input type="range" id="slider-bicarb" min="4" max="35" value="24" step="0.5" aria-label="Serum Bicarbonate in mEq/L">
+    <div style="display:flex; justify-content:space-between; font-size:.7rem; color:var(--text-muted);">
+      <span>4</span><span>10</span><span>18</span><span>28</span><span>35</span>
+    </div>
+  </div>
+
+  <!-- Serum Ketones Slider -->
+  <div class="slider-group">
+    <label for="slider-ketones">Serum β-Hydroxybutyrate</label>
+    <div class="sublabel">SK: &lt; 3–5 mmol/L; DKA/eDKA: &gt; 3 mmol/L <span class="badge badge-I" style="font-size:.6rem;">Source</span></div>
+    <div class="slider-value" id="val-ketones">0.5 mmol/L</div>
+    <input type="range" id="slider-ketones" min="0" max="25" value="0.5" step="0.1" aria-label="Serum β-hydroxybutyrate in mmol/L">
+    <div style="display:flex; justify-content:space-between; font-size:.7rem; color:var(--text-muted);">
+      <span>0</span><span>3</span><span>5</span><span>10</span><span>25</span>
+    </div>
+  </div>
+
+  <!-- SGLT-2i Toggle -->
+  <div class="toggle-group">
+    <label class="toggle-switch" aria-label="SGLT-2 Inhibitor Use Toggle">
+      <input type="checkbox" id="toggle-sglt2" aria-label="Patient on SGLT-2 Inhibitor">
+      <span class="toggle-slider"></span>
+    </label>
+    <label for="toggle-sglt2">Patient on SGLT-2 Inhibitor</label>
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics-grid" id="metrics-grid">
+    <div class="metric-card success" id="mc-glucose">
+      <div class="metric-val" id="mc-glucose-val">140</div>
+      <div class="metric-label">Glucose (mg/dL)</div>
+    </div>
+    <div class="metric-card success" id="mc-bicarb">
+      <div class="metric-val" id="mc-bicarb-val">24</div>
+      <div class="metric-label">HCO₃ (mEq/L)</div>
+    </div>
+    <div class="metric-card success" id="mc-ketones">
+      <div class="metric-val" id="mc-ketones-val">0.5</div>
+      <div class="metric-label">β-OHB (mmol/L)</div>
+    </div>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div id="recommendation-box">
+    <h3 id="rec-title">Clinical Recommendation</h3>
+    <p id="rec-text">Adjust the sliders above to see real-time clinical recommendations based on the source document's evidence-based thresholds.</p>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-group">
+    <button class="btn btn-danger btn-sm" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+    <button class="btn btn-primary btn-sm" id="btn-copy" aria-label="Copy recommendation to clipboard">📋 Copy / Export</button>
+  </div>
+
+</div>
+</aside>
+
+</div><!-- /.layout -->
+
+<script>
+(function() {
+  'use strict';
+
+  // Elements
+  const sliderGlucose = document.getElementById('slider-glucose');
+  const sliderBicarb  = document.getElementById('slider-bicarb');
+  const sliderKetones = document.getElementById('slider-ketones');
+  const toggleSGLT2   = document.getElementById('toggle-sglt2');
+
+  const valGlucose = document.getElementById('val-glucose');
+  const valBicarb  = document.getElementById('val-bicarb');
+  const valKetones = document.getElementById('val-ketones');
+
+  const mcGlucose = document.getElementById('mc-glucose');
+  const mcBicarb  = document.getElementById('mc-bicarb');
+  const mcKetones = document.getElementById('mc-ketones');
+  const mcGlucoseVal = document.getElementById('mc-glucose-val');
+  const mcBicarbVal  = document.getElementById('mc-bicarb-val');
+  const mcKetonesVal = document.getElementById('mc-ketones-val');
+
+  const recBox   = document.getElementById('recommendation-box');
+  const recTitle = document.getElementById('rec-title');
+  const recText  = document.getElementById('rec-text');
+
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy  = document.getElementById('btn-copy');
+
+  function getVal(id) {
+    return parseFloat(document.getElementById(id).value);
+  }
+
+  function classify(val, low, high) {
+    if (val < low) return 'danger';
+    if (val > high) return 'danger';
+    return 'success';
+  }
+
+  function update() {
+    const g = getVal('slider-glucose');
+    const b = getVal('slider-bicarb');
+    const k = getVal('slider-ketones');
+    const onSGLT2 = toggleSGLT2.checked;
+
+    // Update display values
+    valGlucose.textContent = g + ' mg/dL';
+    valBicarb.textContent  = b + ' mEq/L';
+    valKetones.textContent = k.toFixed(1) + ' mmol/L';
+
+    // Update metric cards
+    mcGlucoseVal.textContent = g;
+    mcBicarbVal.textContent  = b;
+    mcKetonesVal.textContent = k.toFixed(1);
+
+    // Glucose card color
+    let gClass = 'success';
+    if (g < 70) gClass = 'danger';
+    else if (g > 250) gClass = 'danger';
+    else if (g > 180) gClass = 'warning';
+    else if (g < 100) gClass = 'warning';
+    mcGlucose.className = 'metric-card ' + gClass;
+
+    // Bicarb card color
+    let bClass = 'success';
+    if (b < 10) bClass = 'danger';
+    else if (b < 18) bClass = 'danger';
+    else if (b < 22) bClass = 'warning';
+    mcBicarb.className = 'metric-card ' + bClass;
+
+    // Ketones card color
+    let kClass = 'success';
+    if (k > 5) kClass = 'danger';
+    else if (k > 3) kClass = 'danger';
+    else if (k > 1.5) kClass = 'warning';
+    mcKetones.className = 'metric-card ' + kClass;
+
+    // Clinical logic
+    const acidosis = (b < 18) || (k > 3);
+    const elevatedAG = (b < 18); // proxy: low bicarb implies high AG in this context
+
+    let title = '';
+    let text = '';
+    let boxClass = 'normal';
+
+    if (g < 70) {
+      boxClass = 'caution';
+      title = '⚠ Hypoglycemia Alert';
+      text = '<strong>Blood glucose < 70 mg/dL</strong> constitutes iatrogenic hypoglycemia — an independent risk factor for adverse outcomes.<sup>[3]</sup><br><br>';
+      text += '<strong>Action:</strong> Administer IV dextrose (D50) immediately. Reassess insulin regimen. If on BBI, reduce basal dose. If on IV insulin infusion, decrease rate and recheck in 15–30 minutes.';
+    }
+    else if (acidosis && g > 250) {
+      boxClass = 'emergency';
+      title = '🚨 DKA — Medical Emergency';
+      text = '<strong>Diagnosis:</strong> Diabetic Ketoacidosis (DKA). Glucose > 250 mg/dL with severe acidosis (HCO₃ < 18 mEq/L and/or ketones > 3 mmol/L).<sup>[12]</sup><br><br>';
+      text += '<strong>Pathophysiology:</strong> Absolute/profound insulin deficiency → unopposed glucagon → runaway ketogenesis.<sup>[11]</sup><br><br>';
+      text += '<strong>Immediate Management:</strong><br>';
+      text += '• <strong>IV Fluid Resuscitation</strong> (0.9% NaCl bolus)<br>';
+      text += '• <strong>Continuous IV Insulin Infusion</strong> (0.1–0.14 U/kg/hr)<br>';
+      text += '• Serial glucose q1h, electrolytes q2–4h<br>';
+      text += '• Monitor potassium closely; replace K⁺ if < 5.3 mEq/L<br>';
+      text += '• Transition to subcutaneous BBI when: pH > 7.30, HCO₃ > 15–18, anion gap closed, patient tolerating PO';
+    }
+    else if (acidosis && g <= 250 && onSGLT2) {
+      boxClass = 'emergency';
+      title = '🚨 Presumed Euglycemic DKA — Emergency';
+      text = '<strong>Diagnosis:</strong> Euglycemic DKA (eDKA). Patient on SGLT-2 inhibitor with normal glucose but severe acidosis.<sup>[13,14]</sup><br><br>';
+      text += '<strong>Critical Recognition:</strong> In SGLT-2i users, <em>serum glucose is unreliable</em> for DKA screening. The diagnosis is confirmed by HCO₃ < 18 mEq/L, high anion gap, and elevated serum ketones.<sup>[14]</sup><br><br>';
+      text += '<strong>Immediate Management — THE TREATMENT PARADOX:</strong><br>';
+      text += '• <strong>Continuous IV Insulin Infusion</strong> — to stop unregulated ketogenesis<br>';
+      text += '• <strong>SIMULTANEOUS IV Dextrose</strong> (D5 or D10) — to prevent iatrogenic hypoglycemia<br>';
+      text += '• <strong>Hold all subsequent SGLT-2i doses</strong><sup>[91]</sup><br>';
+      text += '• Obtain <strong>urgent endocrine/medical consultation</strong><br>';
+      text += '• Serial quantitative serum β-hydroxybutyrate q4–6h<br>';
+      text += '• Do NOT restart SGLT-2i until fully stable, eating, and ketone-negative<sup>[91]</sup>';
+    }
+    else if (acidosis && g <= 250 && !onSGLT2) {
+      if (k > 3) {
+        boxClass = 'caution';
+        title = '⚠ Elevated Ketosis — Evaluate Further';
+        text = '<strong>Assessment:</strong> Normal glucose with significant ketonemia (β-OHB > 3 mmol/L) and low bicarbonate. Without SGLT-2i use, this likely represents <strong>starvation ketosis</strong>, but the degree of acidosis warrants careful evaluation.<sup>[12]</sup><br><br>';
+        text += '<strong>Key Differentiator:</strong> Starvation ketosis rarely produces HCO₃ < 18 mEq/L.<sup>[12]</sup> If bicarbonate is markedly low, consider:<br>';
+        text += '• Lactic acidosis (check lactate)<br>';
+        text += '• Other causes of high-anion-gap metabolic acidosis<br>';
+        text += '• Undiagnosed diabetes (check HbA1c)<br><br>';
+        text += '<strong>Management if confirmed SK:</strong><br>';
+        text += '• Administer <strong>IV Dextrose</strong> (carbohydrates) to stimulate endogenous insulin release and physiologically "turn off" ketogenesis<sup>[9]</sup><br>';
+        text += '• <strong>Do NOT start insulin drip</strong> — will cause severe hypoglycemia in a patient with intact β-cell function<br>';
+      } else {
+        boxClass = 'caution';
+        title = '⚠ Mild Acidosis — Starvation Ketosis Likely';
+        text = '<strong>Assessment:</strong> Low bicarbonate with mildly elevated ketones and normal glucose. Most consistent with <strong>starvation ketosis (SK)</strong> — a physiologic adaptation to fasting/NPO status.<sup>[9,67]</sup><br><br>';
+        text += '<strong>Pathophysiology:</strong> Low insulin from fasting permits glucagon-driven ketogenesis. The intact insulin "brake" (functional β-cells) prevents runaway ketone production.<sup>[9]</sup><br><br>';
+        text += '<strong>Management:</strong><br>';
+        text += '• Administer <strong>IV Dextrose</strong> to provide carbohydrate substrate<br>';
+        text += '• This will stimulate endogenous insulin release and shut down ketogenesis<sup>[9]</sup><br>';
+        text += '• Continue basal insulin (75–80% of home dose) if diabetic<sup>[48]</sup><br>';
+        text += '• Recheck ketones and bicarbonate in 2–4 hours';
+      }
+    }
+    else if (g >= 100 && g <= 180 && b >= 18 && k < 1.5 && !onSGLT2) {
+      boxClass = 'normal';
+      title = '✅ Within Target Range';
+      text = '<strong>Status:</strong> Glycemic control is within the consensus target of 100–180 mg/dL.<sup>[16,46,47]</sup> No significant ketosis or acidosis detected.<br><br>';
+      text += '<strong>Ongoing Management:</strong><br>';
+      text += '• Continue current perioperative glycemic regimen<br>';
+      text += '• Basal-Bolus Insulin (BBI) is preferred over sliding-scale insulin<sup>[40]</sup><br>';
+      text += '• Monitor glucose at minimum q6h; before meals if eating<br>';
+      text += '• Reassess if clinical status changes (new NPO, steroid administration, infection)';
+    }
+    else if (g > 180 && g <= 250 && !acidosis) {
+      boxClass = 'caution';
+      title = '⚠ Hyperglycemia — Action Required';
+      text = '<strong>Alert:</strong> Blood glucose ' + g + ' mg/dL exceeds the consensus target of 100–180 mg/dL.<sup>[16]</sup> ';
+      if (g > 200) {
+        text += 'Admission glucose ≥ 200 mg/dL is an independent risk factor for deep SSI.<sup>[19]</sup> ';
+      }
+      text += '<br><br>';
+      text += '<strong>Management:</strong><br>';
+      text += '• If on SSI alone: <strong>Transition to Basal-Bolus Insulin</strong> — SSI is physiologically flawed and explicitly discouraged as sole regimen<sup>[40,52]</sup><br>';
+      text += '• If on BBI: Increase basal dose by 10–20% and/or adjust correction factor<br>';
+      text += '• If preoperative glucose > 200 mg/dL: collaborate with anesthesia; consider rapid-acting insulin<sup>[40]</sup><br>';
+      text += '• If on glucocorticoids: anticipate further hyperglycemia; proactively increase insulin<sup>[40]</sup><br>';
+      text += '• Recheck in 2–4 hours to assess response';
+    }
+    else if (g > 250 && !acidosis) {
+      boxClass = 'caution';
+      title = '⚠ Significant Hyperglycemia';
+      text = '<strong>Alert:</strong> Blood glucose ' + g + ' mg/dL with currently normal bicarbonate/ketones.<sup>[12]</sup><br><br>';
+      text += '<strong>Management:</strong><br>';
+      text += '• Initiate or intensify <strong>Basal-Bolus Insulin</strong> regimen<sup>[40]</sup><br>';
+      text += '• Check serum ketones and electrolytes to rule out evolving DKA<br>';
+      text += '• Consider continuous IV insulin infusion if critically ill or intraoperative<sup>[3]</sup><br>';
+      text += '• Monitor for osmotic diuresis and dehydration<br>';
+      text += '• Reassess underlying causes (infection, steroid effect, missed insulin doses)';
+    }
+    else if (onSGLT2 && g <= 250 && !acidosis) {
+      boxClass = 'caution';
+      title = '⚠ SGLT-2i User — Enhanced Monitoring Required';
+      text = '<strong>Status:</strong> Parameters currently within acceptable range, but patient is on an SGLT-2 inhibitor.<sup>[83]</sup><br><br>';
+      text += '<strong>Critical Protocol (from source):</strong><br>';
+      text += '• <strong>Hold all subsequent SGLT-2i doses immediately</strong><sup>[91]</sup><br>';
+      text += '• Flag patient as "High Risk for Euglycemic DKA"<br>';
+      text += '• Initiate <strong>serial serum ketone monitoring</strong> (quantitative β-hydroxybutyrate) every 4–6 hours <em>regardless of blood glucose levels</em><sup>[10]</sup><br>';
+      text += '• Do NOT rely on glucose alone to rule out DKA — glucose is an unreliable marker in SGLT-2i users<sup>[14]</sup><br>';
+      text += '• Monitor bicarbonate and anion gap closely<br>';
+      text += '• Consider elective surgery delayed by 3 days if applicable<sup>[48]</sup>';
+    }
+    else {
+      boxClass = 'normal';
+      title = '📋 Clinical Assessment';
+      text = '<strong>Parameters:</strong> Glucose ' + g + ' mg/dL | HCO₃ ' + b + ' mEq/L | β-OHB ' + k.toFixed(1) + ' mmol/L | SGLT-2i: ' + (onSGLT2 ? 'Yes' : 'No') + '<br><br>';
+      text += 'Continue standard perioperative glycemic management per consensus guidelines (target 100–180 mg/dL).<sup>[16]</sup> ';
+      text += 'Basal-Bolus Insulin is the preferred regimen for non-critically ill hospitalized patients.<sup>[40]</sup> ';
+      text += 'Avoid sliding-scale insulin as sole therapy.<sup>[52]</sup>';
+    }
+
+    recBox.className = boxClass;
+    recTitle.innerHTML = title;
+    recText.innerHTML = text;
+  }
+
+  // Event listeners
+  sliderGlucose.addEventListener('input', update);
+  sliderBicarb.addEventListener('input', update);
+  sliderKetones.addEventListener('input', update);
+  toggleSGLT2.addEventListener('change', update);
+
+  // Reset
+  btnReset.addEventListener('click', function() {
+    sliderGlucose.value = 140;
+    sliderBicarb.value  = 24;
+    sliderKetones.value = 0.5;
+    toggleSGLT2.checked = false;
+    update();
+  });
+
+  // Copy / Export
+  btnCopy.addEventListener('click', function() {
+    const g = getVal('slider-glucose');
+    const b = getVal('slider-bicarb');
+    const k = getVal('slider-ketones');
+    const onSGLT2 = toggleSGLT2.checked;
+
+    const now = new Date();
+    const ts = now.toISOString().replace('T', ' ').split('.')[0] + ' UTC';
+
+    let exportText = '=== PERIOPERATIVE GLYCEMIC ASSESSMENT ===\n';
+    exportText += 'Timestamp: ' + ts + '\n\n';
+    exportText += '--- PARAMETER VALUES ---\n';
+    exportText += 'Blood Glucose:          ' + g + ' mg/dL\n';
+    exportText += 'Serum Bicarbonate:      ' + b + ' mEq/L\n';
+    exportText += 'Serum β-Hydroxybutyrate: ' + k.toFixed(1) + ' mmol/L\n';
+    exportText += 'SGLT-2 Inhibitor Use:   ' + (onSGLT2 ? 'YES' : 'NO') + '\n\n';
+    exportText += '--- CLINICAL RECOMMENDATION ---\n';
+    // Extract text content from recommendation
+    const recEl = document.getElementById('rec-text');
+    exportText += recEl.textContent.replace(/\s+/g, ' ').trim() + '\n\n';
+    exportText += '--- SOURCE ---\n';
+    exportText += 'Perioperative Glycemic Management in Orthopedic Trauma\n';
+    exportText += 'and the Diagnostic Differentiation of Ketoacidotic States\n';
+    exportText += 'Evidence-based thresholds from source document (refs 1-94).\n';
+    exportText += 'Target range: 100-180 mg/dL (ADA, Endocrine Society, JBDS).\n';
+    exportText += 'Generated by Interactive Clinical Decision Support Tool.\n';
+
+    navigator.clipboard.writeText(exportText).then(function() {
+      btnCopy.textContent = '✅ Copied!';
+      setTimeout(function() { btnCopy.textContent = '📋 Copy / Export'; }, 2000);
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = exportText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btnCopy.textContent = '✅ Copied!';
+      setTimeout(function() { btnCopy.textContent = '📋 Copy / Export'; }, 2000);
+    });
+  });
+
+  // Initial update
+  update();
+})();
+</script>
+
+</body>
+</html>

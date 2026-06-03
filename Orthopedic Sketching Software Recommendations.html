@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Preoperative Planning & Medical Illustration in Orthopedic Surgery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --primary-lighter: #d4e6f1;
+  --accent: #e74c3c;
+  --accent-soft: #fadbd8;
+  --success: #27ae60;
+  --success-soft: #d5f5e3;
+  --warning: #f39c12;
+  --warning-soft: #fef9e7;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-muted: #7f8c8d;
+  --border: #dee2e6;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  background: linear-gradient(135deg, #1a3c5e 0%, #2980b9 50%, #1a5276 100%);
+  color: white;
+  padding: 48px 24px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+header h1 {
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  position: relative;
+}
+header .subtitle {
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  opacity: 0.85;
+  font-weight: 400;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+header .meta {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  align-items: start;
+}
+
+main {
+  min-width: 0;
+}
+
+aside.sidebar {
+  position: sticky;
+  top: 20px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+aside.sidebar::-webkit-scrollbar { width: 4px; }
+aside.sidebar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+.sidebar-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  padding: 20px 20px 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sidebar-header svg { flex-shrink: 0; }
+
+.sidebar-body { padding: 20px; }
+
+.slider-group {
+  margin-bottom: 22px;
+}
+.slider-group:last-of-type { margin-bottom: 10px; }
+.slider-label {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.slider-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--primary-light);
+  background: var(--primary-lighter);
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.slider-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--primary-lighter), var(--primary-light));
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  cursor: grab;
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.2); }
+input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--primary); border: none; cursor: grab;
+}
+
+.recommendation-box {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+  border: 1.5px solid #b8d4e8;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-top: 16px;
+  transition: all 0.3s ease;
+}
+.recommendation-box h4 {
+  font-size: 0.82rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rec-tool {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-left: 3px solid var(--primary-light);
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.rec-tool:last-child { margin-bottom: 0; }
+.rec-tool strong { color: var(--primary); }
+.rec-tool .rec-reason {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  margin-top: 2px;
+}
+.rec-note {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.sidebar-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.btn {
+  flex: 1;
+  padding: 9px 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.btn-reset {
+  background: #ecf0f1;
+  color: var(--text);
+}
+.btn-reset:hover { background: #d5dbdb; }
+.btn-export {
+  background: var(--primary);
+  color: white;
+}
+.btn-export:hover { background: var(--primary-light); }
+.btn-export.copied {
+  background: var(--success);
+}
+
+/* Main content styles */
+.section {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+.section h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary-lighter);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section h2 .sec-num {
+  background: var(--primary);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.section h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 24px 0 10px;
+}
+.section h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 18px 0 8px;
+}
+.section p { margin-bottom: 12px; }
+.section ul, .section ol {
+  margin: 8px 0 16px 20px;
+}
+.section li { margin-bottom: 6px; }
+.section li strong { color: var(--primary); }
+
+.evidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+.ev-narrative { background: #eaf2f8; color: #21618c; }
+.ev-case { background: #fef9e7; color: #7d6608; }
+.ev-comparative { background: #eafaf1; color: #1e8449; }
+.ev-review { background: #f4ecf7; color: #6c3483; }
+.ev-expert { background: #fdedec; color: #922b21; }
+.ev-practice { background: #fdf2e9; color: #a04000; }
+
+.callout {
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin: 16px 0;
+  font-size: 0.88rem;
+  border-left: 4px solid;
+}
+.callout-info {
+  background: #eaf2f8;
+  border-color: #2980b9;
+}
+.callout-warning {
+  background: #fef9e7;
+  border-color: #f39c12;
+}
+.callout-success {
+  background: #eafaf1;
+  border-color: #27ae60;
+}
+.callout strong { display: block; margin-bottom: 4px; font-size: 0.82rem; }
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  margin: 16px 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+table caption {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--primary);
+  padding: 10px 14px;
+  text-align: left;
+  background: var(--primary-lighter);
+  border-bottom: 1px solid var(--border);
+}
+table th {
+  background: #f4f6f7;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border);
+  color: var(--primary);
+  white-space: nowrap;
+}
+table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+}
+table tr:last-child td { border-bottom: none; }
+table tr:hover td { background: #fafbfc; }
+.cost-free { color: var(--success); font-weight: 600; }
+.cost-low { color: #d4ac0d; font-weight: 600; }
+.cost-mid { color: #e67e22; font-weight: 600; }
+.cost-high { color: var(--accent); font-weight: 600; }
+
+.tool-card {
+  background: #f8f9fa;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin: 12px 0;
+}
+.tool-card h4 {
+  margin: 0 0 6px;
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+.tool-card .tool-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 4px;
+  margin-bottom: 6px;
+}
+.tag-web { background: #d4efdf; color: #1e8449; }
+.tag-tablet { background: #fdebd0; color: #a04000; }
+.tag-desktop { background: #d6eaf8; color: #21618c; }
+.tag-free { background: #d5f5e3; color: #196f3d; }
+.tag-paid { background: #fadbd8; color: #922b21; }
+
+.workflow-step {
+  display: flex;
+  gap: 14px;
+  margin: 10px 0;
+  align-items: flex-start;
+}
+.workflow-step .step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.workflow-step .step-content { flex: 1; }
+.workflow-step .step-content strong { color: var(--primary); }
+
+.ref-section {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.ref-section ol { margin-left: 18px; }
+.ref-section li { margin-bottom: 4px; }
+
+.limitation-note {
+  background: #fdf2e9;
+  border: 1px dashed #e67e22;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 0.82rem;
+  color: #7d5e00;
+  margin: 12px 0;
+}
+.limitation-note strong { color: #a04000; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #2c3e50;
+  color: white;
+  padding: 14px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 20px 14px 40px;
+  }
+  aside.sidebar {
+    position: relative;
+    top: 0;
+    max-height: none;
+    order: -1;
+  }
+  .section { padding: 20px 18px; }
+  header { padding: 32px 16px; }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section { animation: fadeInUp 0.4s ease forwards; }
+
+/* Print */
+@media print {
+  aside.sidebar, .sidebar-actions, .toast { display: none !important; }
+  .layout { grid-template-columns: 1fr !important; }
+  .section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Digital Preoperative Planning &amp; Medical Illustration in Orthopedic Surgery</h1>
+  <p class="subtitle">A Comprehensive Interactive Analysis of Software Tools, Workflows, and Best Practices for Schematic Creation and Surgical Planning</p>
+  <p class="meta">Source: Technology Review &amp; Workflow Analysis — January 2026 &nbsp;|&nbsp; Senior Health Technology Consultant &amp; Orthopedic Informatics Specialist</p>
+</header>
+
+<div class="layout">
+<main>
+
+  <!-- Section 1: Introduction -->
+  <div class="section">
+    <h2><span class="sec-num">1</span> The Visual Imperative in Orthopedic Surgery</h2>
+    <p>Orthopedic surgery is a discipline uniquely rooted in <strong>geometry, mechanics, and visualization</strong>. Unlike medical specialties that rely heavily on systemic pharmacotherapy, the daily practice of an orthopedic surgeon revolves around the physical reconstruction of biological structures. Whether calculating the center of rotation for a total hip arthroplasty, determining the correction angle for a distal femoral osteotomy, or explaining a rotator cuff repair to a patient, the ability to visualize and represent anatomy is fundamental to clinical success. <span class="evidence-badge ev-narrative">Narrative Review</span></p>
+
+    <p>The transition from analog to digital tools represents not merely a technological upgrade, but a <strong>shift in the cognitive framework of surgical preparation</strong>. Historically, preoperative planning was a tactile, analog process involving light boxes, acetate templates, and wax pencils. This method suffered from inherent limitations: physical degradation of films, logistical challenges of managing template libraries, and lack of portability.</p>
+
+    <div class="callout callout-info">
+      <strong>Dual Purpose of Digital Tools</strong>
+      The source document identifies two distinct use cases: (1) <em>Surgical planning</em> — a quantitative, geometric prediction requiring calibrated measurements and specific implant data; and (2) <em>Medical schematics</em> — simplified visual representations for education, documentation, or patient consent. While some platforms bridge this divide, surgeons often employ distinct toolsets for each task.
+    </div>
+
+    <p>This report provides an exhaustive analysis of the current ecosystem, categorizing solutions into three technological environments: <strong>Web-based platforms</strong>, <strong>iPad &amp; Tablet applications</strong>, and <strong>Desktop software</strong>. Special emphasis is placed on free and low-cost options, recognizing that independent practitioners, residents, and surgeons in resource-constrained settings require powerful tools without prohibitive costs. <span class="evidence-badge ev-review">Comprehensive Review</span></p>
+  </div>
+
+  <!-- Section 2: Web-Based Tools -->
+  <div class="section">
+    <h2><span class="sec-num">2</span> Web-Based Tools: Cloud-Centric Planning</h2>
+    <p>The proliferation of high-speed internet and secure cloud computing has fostered a generation of <strong>"zero-footprint"</strong> medical tools requiring no local installation, accessible from any browser-enabled device. <span class="evidence-badge ev-narrative">Narrative</span></p>
+
+    <h3>2.1 Specialized Orthopedic Planning Platforms</h3>
+
+    <div class="tool-card">
+      <h4>VPOP PRO — The Cross-Platform Hybrid</h4>
+      <span class="tool-tag tag-web">Web</span><span class="tool-tag tag-tablet">Mobile</span><span class="tool-tag tag-paid">~$20/mo</span>
+      <p>VPOP PRO (Virtual Preoperative Orthopaedic Planning) exemplifies the modern web-based planning tool with significant traction in veterinary orthopedics and wide applicability in human orthopedics for osteotomy planning and fracture fixation. <span class="evidence-badge ev-case">Case Series / Platform Analysis</span></p>
+      <ul>
+        <li><strong>Hybrid Architecture:</strong> Synchronizes data across Web, iOS, and Android — a plan started on desktop can be reviewed on iPad in the OR without file transfers.</li>
+        <li><strong>Intuitive Calibration:</strong> Allows calibration in seconds using a known marker size, mitigating magnification errors inherent in digital radiography.</li>
+        <li><strong>Osteotomy Simulation:</strong> Provides specific "virtual osteotomy" functionality — surgeons can cut a bone digitally, rotate fragments, and visualize reduction.</li>
+        <li><strong>Auto-Updated Library:</strong> Cloud-based implant library automatically updated, eliminating the need for manual patching or physical acetate replacement.</li>
+        <li><strong>Pricing:</strong> 30-day free trial, then ~£15/month (~$20 USD). "Mobile Pro" version available for tablet-primary users at reduced cost.</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h4>TraumaCad Web — Automation &amp; Enterprise Connectivity</h4>
+      <span class="tool-tag tag-web">Web</span><span class="tool-tag tag-desktop">Desktop</span><span class="tool-tag tag-paid">Enterprise License</span>
+      <p>Developed by Brainlab, TraumaCad is a titan in orthopedic planning. The web platform brings robust features to the browser. <span class="evidence-badge ev-review">Industry Standard / Regulatory Cleared</span></p>
+      <ul>
+        <li><strong>Automated Landmark Detection:</strong> "Auto Knee" and "Auto Hip" algorithms detect anatomical landmarks and propose resection lines and implant sizes automatically.</li>
+        <li><strong>Quentry Cloud Integration:</strong> Secure cloud storage for medical images — upload DICOM files and share with colleagues or device representatives.</li>
+        <li><strong>Specialty Coverage:</strong> Covers joint replacement, pediatrics, deformity correction, upper limb, and spine.</li>
+        <li><strong>Access:</strong> Typically institutional purchase, often bundled with hospital IT contracts. Individual licenses available at higher price point.</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h4>OrthoNext — Targeted Limb Reconstruction</h4>
+      <span class="tool-tag tag-web">Web</span><span class="tool-tag tag-free">Free w/ Product</span>
+      <p>By Orthofix — a web-based solution tailored to external fixation and complex osteotomies. <span class="evidence-badge ev-case">Manufacturer Platform</span></p>
+      <ul>
+        <li><strong>Deformity Analysis:</strong> Simulates osteotomy positioning based on scientific literature for limb alignment correction using hexapod or ring fixators.</li>
+        <li><strong>Hardware Selection:</strong> Overlay of specific Orthofix product templates (limited to one manufacturer's implants).</li>
+        <li><strong>Cost:</strong> Provided at no cost to users of Orthofix products.</li>
+      </ul>
+    </div>
+
+    <h3>2.2 Medical Illustration &amp; Schematic Creation Tools</h3>
+    <p>For communicative diagrams — schematics for articles, presentations, or patient brochures — general scientific illustration platforms offer superior aesthetics and ease of use. <span class="evidence-badge ev-narrative">Narrative Review</span></p>
+
+    <div class="tool-card">
+      <h4>BioRender — The "Adobe for Science"</h4>
+      <span class="tool-tag tag-web">Web</span><span class="tool-tag tag-paid">Freemium / ~$35/mo Pro</span>
+      <p>Provides a drag-and-drop interface with thousands of pre-drawn, scientifically accurate icons including orthopedic instruments, bone anatomy, and pathology representations.</p>
+      <ul>
+        <li>Surgeons can create "Steps of ACL Reconstruction" diagrams without drawing from scratch — drag icons, overlay instruments, add annotations.</li>
+        <li><strong>Free Plan:</strong> Educational use with watermarks. <strong>Individual Plan (~$35/mo):</strong> High-res exports and publication rights.</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h4>Mind the Graph — The Affordable Alternative</h4>
+      <span class="tool-tag tag-web">Web</span><span class="tool-tag tag-paid">Freemium / ~$15/mo</span>
+      <p>Direct competitor to BioRender at lower price point. Excels at "Visual Abstracts" and infographics with 75,000+ icons across 80+ scientific fields. The "Researcher" plan allows custom illustration requests.</p>
+    </div>
+
+    <div class="tool-card">
+      <h4>Canva — Patient Communication Powerhouse</h4>
+      <span class="tool-tag tag-web">Web</span><span class="tool-tag tag-free">Robust Free Tier</span>
+      <p>Ubiquitous utility for patient-facing materials. Features templates for "Medical Posters," "Anatomy Charts," and "Healthcare Brochures." Softer, more approachable visual style ideal for reducing patient anxiety. Zero training required.</p>
+    </div>
+
+    <h3>2.3 Comparative Analysis of Web-Based Tools</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1. Comparative Overview of Web-Based Orthopedic Visualization Tools</caption>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Primary Function</th>
+            <th>Ideal User</th>
+            <th>Cost Model</th>
+            <th>Key Advantage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>VPOP PRO</strong></td>
+            <td>Surgical Templating</td>
+            <td>Individual Surgeons, Vets</td>
+            <td class="cost-low">~$20/mo</td>
+            <td>Cross-platform sync; virtual osteotomies</td>
+          </tr>
+          <tr>
+            <td><strong>TraumaCad Web</strong></td>
+            <td>Implant Templating</td>
+            <td>Institutional Surgeons</td>
+            <td class="cost-high">Enterprise License</td>
+            <td>Automated landmark detection; PACS integration</td>
+          </tr>
+          <tr>
+            <td><strong>OrthoNext</strong></td>
+            <td>Deformity Planning</td>
+            <td>Trauma / Limb Reconstruction</td>
+            <td class="cost-free">Free (w/ product)</td>
+            <td>Hexapod/ring fixator planning</td>
+          </tr>
+          <tr>
+            <td><strong>BioRender</strong></td>
+            <td>Scientific Illustration</td>
+            <td>Academic Surgeons</td>
+            <td class="cost-mid">~$35/mo Pro</td>
+            <td>Massive pre-drawn icon library</td>
+          </tr>
+          <tr>
+            <td><strong>Mind the Graph</strong></td>
+            <td>Scientific Illustration</td>
+            <td>Residents, Fellows</td>
+            <td class="cost-low">~$15/mo Pro</td>
+            <td>Affordable; custom illustration requests</td>
+          </tr>
+          <tr>
+            <td><strong>Canva</strong></td>
+            <td>Patient Education</td>
+            <td>Private Practice, Clinic Staff</td>
+            <td class="cost-free">Free</td>
+            <td>Extremely easy; approachable visual style</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <strong>Connectivity Consideration</strong>
+      Web-based tools' reliance on internet connectivity remains a potential vulnerability. Surgeons in areas with poor connectivity must evaluate whether their chosen tool offers offline caching capabilities. <span class="evidence-badge ev-expert">Expert Commentary</span>
+    </div>
+  </div>
+
+  <!-- Section 3: iPad/Tablet Apps -->
+  <div class="section">
+    <h2><span class="sec-num">3</span> iPad &amp; Tablet Apps: Tactile Planning Renaissance</h2>
+    <p>The iPad — particularly models supporting the <strong>Apple Pencil</strong> — has sparked a renaissance in orthopedic planning. The tactile act of tracing bone and feeling the curve of deformity is a cognitive rehearsal of surgery itself. Tablet apps restore this intuition, combining the "feel" of drawing with digital precision. <span class="evidence-badge ev-narrative">Narrative</span></p>
+
+    <h3>3.1 Dedicated Orthopedic Templating Apps</h3>
+
+    <div class="tool-card">
+      <h4>Bone Ninja Sensei — The Educator's Tool</h4>
+      <span class="tool-tag tag-tablet">iPad</span><span class="tool-tag tag-paid">~$15/yr</span>
+      <p>Developed by Dr. Shawn Standard and Dr. John Herzenberg at the International Center for Limb Lengthening, built specifically to teach deformity correction geometry. <span class="evidence-badge ev-case">Educational Platform</span></p>
+      <ul>
+        <li><strong>Deformity Analysis:</strong> Measures Mechanical Axis Deviation (MAD), calculates Center of Rotation of Angulation (CORA), determines correction magnitude.</li>
+        <li><strong>"Cut" Tool:</strong> Digital osteotomy on iPad screen — manipulate distal fragment to simulate reduction with immediate visual feedback.</li>
+        <li>Pre-loaded instructional cases serve as both reference library and planning tool.</li>
+        <li>Transitioned from one-time purchase (~$50) to subscription (~$14.99/year).</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <h4>TraumaCad Mobile — Enterprise Power on Tablet</h4>
+      <span class="tool-tag tag-tablet">iPad</span><span class="tool-tag tag-paid">Enterprise/Subscription</span>
+      <p>Brings Brainlab desktop features to iPad with touch-optimized interface. Features automatic hip landmark detection, real-time leg length discrepancy and offset calculations, and seamless Quentry/PACS connectivity. <span class="evidence-badge ev-review">Enterprise Platform</span></p>
+    </div>
+
+    <div class="tool-card">
+      <h4>iTemplating — The AR Innovator</h4>
+      <span class="tool-tag tag-tablet">iPad</span><span class="tool-tag tag-paid">Subscription</span>
+      <p>Represents the cutting edge with Augmented Reality integration. Marketed for speed — accurate templating "in seconds" with a large library of major hip and knee implants. Users describe it as a "game changer" for residents. <span class="evidence-badge ev-case">User Report</span></p>
+    </div>
+
+    <h3>3.2 The "Procreate" Workflow: Adapting Artistic Tools for Surgery</h3>
+
+    <div class="callout callout-success">
+      <strong>Key Innovation from Source Document</strong>
+      A 2024 study explicitly compared digital templating using Procreate against traditional acetate methods for fracture fixation, validating an unconventional but powerful workflow. <span class="evidence-badge ev-comparative">Comparative Study</span> [Source Ref 23]
+    </div>
+
+    <p>The validated workflow:</p>
+    <div class="workflow-step">
+      <span class="step-num">1</span>
+      <div class="step-content"><strong>Import:</strong> Screenshot or photo of radiograph imported into Procreate.</div>
+    </div>
+    <div class="workflow-step">
+      <span class="step-num">2</span>
+      <div class="step-content"><strong>Calibrate:</strong> Draw a reference line of known length (e.g., 100mm ruler marker).</div>
+    </div>
+    <div class="workflow-step">
+      <span class="step-num">3</span>
+      <div class="step-content"><strong>Segment:</strong> Use "Selection" (lasso) to outline fracture fragments.</div>
+    </div>
+    <div class="workflow-step">
+      <span class="step-num">4</span>
+      <div class="step-content"><strong>Virtual Reduction:</strong> "Lift" selections into new layers; use "Transform" to drag fragments into reduced position.</div>
+    </div>
+    <div class="workflow-step">
+      <span class="step-num">5</span>
+      <div class="step-content"><strong>Template:</strong> Import e-templates (digital PNG files of plates/nails) as new layers; superimpose for fit and screw trajectory verification.</div>
+    </div>
+
+    <p><strong>Why surgeons love it:</strong> Layer management allows toggling between "Injury," "Planned Reduction," and "Fixation" views. Apple Pencil interface has zero lag. One-time purchase of ~$12.99 USD with no subscriptions. Also capable of producing publication-quality schematics. <span class="evidence-badge ev-comparative">Validated Workflow</span></p>
+
+    <h3>3.3 Note-Taking &amp; Annotation Apps</h3>
+    <p><strong>GoodNotes</strong> and <strong>Notability</strong> are staples for residents — import X-rays, annotate fracture patterns, classify, and save to searchable notebooks. GoodNotes' handwriting recognition allows searching for terms like "distal radius" across all handwritten notes. <strong>HIPAA consideration:</strong> surgeons must de-identify images before importing into consumer apps. Cost: ~$10–15/year. <span class="evidence-badge ev-case">User Reports</span></p>
+
+    <h3>3.4 Tablet Tool Summary</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2. Summary of iPad &amp; Tablet Applications for Orthopedic Planning</caption>
+        <thead>
+          <tr>
+            <th>App</th>
+            <th>Best For</th>
+            <th>Cost</th>
+            <th>Key Feature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Bone Ninja Sensei</strong></td>
+            <td>Deformity/Osteotomy Planning</td>
+            <td class="cost-low">~$15/yr</td>
+            <td>Specialized osteotomy tools; educational focus</td>
+          </tr>
+          <tr>
+            <td><strong>TraumaCad Mobile</strong></td>
+            <td>Joint Replacement Templating</td>
+            <td class="cost-high">Enterprise</td>
+            <td>Automated measurements; PACS connectivity</td>
+          </tr>
+          <tr>
+            <td><strong>Procreate</strong></td>
+            <td>Complex Trauma "Virtual Reduction"</td>
+            <td class="cost-free">~$13 (one-time)</td>
+            <td>Layers for fragment manipulation; artistic quality</td>
+          </tr>
+          <tr>
+            <td><strong>GoodNotes</strong></td>
+            <td>Quick Sketches / Case Logging</td>
+            <td class="cost-low">~$10/yr</td>
+            <td>Handwriting search; notebook organization</td>
+          </tr>
+          <tr>
+            <td><strong>iTemplating</strong></td>
+            <td>Rapid Arthroplasty Planning</td>
+            <td class="cost-mid">Subscription</td>
+            <td>Augmented Reality integration for speed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 4: Desktop Software -->
+  <div class="section">
+    <h2><span class="sec-num">4</span> Desktop Software: Precision &amp; Computational Power</h2>
+    <p>Desktop workstations remain the hub for heavy-duty image processing: full DICOM fidelity, windowing/leveling, 3D reconstruction, and multi-planar reconstruction (MPR). <span class="evidence-badge ev-narrative">Narrative</span></p>
+
+    <h3>4.1 Free &amp; Open-Source DICOM Viewers</h3>
+
+    <div class="tool-card">
+      <h4>Horos (macOS) — The Mac Champion</h4>
+      <span class="tool-tag tag-desktop">macOS</span><span class="tool-tag tag-free">Free / Open Source</span>
+      <p>A fork of the OsiriX project. Full-featured workstation supporting 2D/3D visualization, MIP reconstructions, MRI sequences, geometric tools (Cobb angles, ROIs, lengths, angles), and 3D volume rendering for schematic creation. Supported by community and Purview, compatible with Apple Silicon. <span class="evidence-badge ev-practice">Open Source / Community Supported</span></p>
+    </div>
+
+    <div class="tool-card">
+      <h4>MicroDicom (Windows) — The Portable Champion</h4>
+      <span class="tool-tag tag-desktop">Windows</span><span class="tool-tag tag-free">Free (Non-commercial)</span>
+      <p>Can run directly from CD or USB drive without installation — critical for surgeons moving between locked-down hospital computers. Complete annotation suite: distance, freehand, rectangle, ellipse, angle, Cobb angle, with calibration. Professional license ~$99. <span class="evidence-badge ev-practice">Practical Application</span></p>
+    </div>
+
+    <div class="tool-card">
+      <h4>RadiAnt DICOM Viewer (Windows) — Speed Champion</h4>
+      <span class="tool-tag tag-desktop">Windows</span><span class="tool-tag tag-paid">~€5/mo</span>
+      <p>Praised for blazing speed with large datasets (thin-slice poly-trauma CTs). Supports MPR, image fusion (PET on CT), and a "Pen" tool for freehand planning sketches directly on DICOM. Low-cost subscription bridges the gap between free viewers and enterprise software. <span class="evidence-badge ev-practice">Practical Application</span></p>
+    </div>
+
+    <h3>4.2 Specialized Desktop Planning Software</h3>
+
+    <div class="tool-card">
+      <h4>Surgimap (Windows/Mac) — Spine Specialist</h4>
+      <span class="tool-tag tag-desktop">Win/Mac</span><span class="tool-tag tag-free">Free</span>
+      <p>High-end specialized planning tool offered free. Excels at sagittal balance parameters (Pelvic Incidence, Lumbar Lordosis) and spinal osteotomy simulation (PSOs, VCRs). Includes "image stitching" for long-leg/full-spine panoramic images. Business model relies on manufacturer partnerships. <span class="evidence-badge ev-practice">Industry Standard</span></p>
+    </div>
+
+    <div class="tool-card">
+      <h4>TraumaCad (Desktop) — The Heavy Artillery</h4>
+      <span class="tool-tag tag-desktop">Win/Mac</span><span class="tool-tag tag-paid">Enterprise</span>
+      <p><strong>FDA-cleared Class II medical device</strong> — regulatory status provides medicolegal assurance regarding measurement accuracy. Hosts the industry's most extensive digital template library (4,000+ families). Designed for deep PACS integration with seamless save-back to patient's legal medical record. <span class="evidence-badge ev-review">Regulatory Cleared / Industry Standard</span></p>
+    </div>
+
+    <h3>4.3 General Diagramming Tools</h3>
+    <p><strong>SmartDraw</strong> includes engineering and medical symbols for structured "clean" diagrams with deep Microsoft Office integration. <strong>Microsoft PowerPoint</strong>, despite being a general tool, is the de facto standard for surgical schematics — with vector-based shapes, layer management, image manipulation, and universal availability. <span class="evidence-badge ev-practice">Practical Application</span></p>
+
+    <h3>4.4 Desktop Tool Summary</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3. Summary of Desktop Software for Orthopedic Planning &amp; Illustration</caption>
+        <thead>
+          <tr>
+            <th>Software</th>
+            <th>Primary OS</th>
+            <th>Cost</th>
+            <th>Key Strength</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Horos</strong></td>
+            <td>macOS</td>
+            <td class="cost-free">Free</td>
+            <td>Professional DICOM workstation; 3D/MPR</td>
+          </tr>
+          <tr>
+            <td><strong>MicroDicom</strong></td>
+            <td>Windows</td>
+            <td class="cost-free">Free (non-commercial)</td>
+            <td>Portable USB run; full annotation suite</td>
+          </tr>
+          <tr>
+            <td><strong>RadiAnt</strong></td>
+            <td>Windows</td>
+            <td class="cost-low">~€5/mo</td>
+            <td>Blazing speed; fluid MPR; user-friendly</td>
+          </tr>
+          <tr>
+            <td><strong>Surgimap</strong></td>
+            <td>Win/Mac</td>
+            <td class="cost-free">Free</td>
+            <td>Spine specialization; image stitching</td>
+          </tr>
+          <tr>
+            <td><strong>TraumaCad</strong></td>
+            <td>Win/Mac</td>
+            <td class="cost-high">Enterprise</td>
+            <td>FDA-cleared; massive implant library</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 5: Educational Platforms -->
+  <div class="section">
+    <h2><span class="sec-num">5</span> Educational &amp; Simulation Platforms</h2>
+    <p>Surgical planning involves constructing a <strong>mental model</strong> of the procedure. Simulation and reference apps play a critical role in this cognitive planning phase. <span class="evidence-badge ev-narrative">Narrative</span></p>
+
+    <div class="tool-card">
+      <h4>Touch Surgery (Mobile/Web)</h4>
+      <span class="tool-tag tag-tablet">Mobile</span><span class="tool-tag tag-web">Web</span><span class="tool-tag tag-free">Free</span>
+      <p>Interactive simulation platform (now part of Medtronic). Users drag and drop instruments and make decisions at critical procedure steps. Multiple studies validate its utility for "cognitive task analysis" — residents who practice simulations perform better in the real OR. Library of 200+ simulations, completely free. <span class="evidence-badge ev-comparative">Validated by Multiple Studies</span> [Source Ref 41]</p>
+    </div>
+
+    <div class="tool-card">
+      <h4>AO Surgery Reference</h4>
+      <span class="tool-tag tag-tablet">Mobile</span><span class="tool-tag tag-web">Web</span><span class="tool-tag tag-free">Free</span>
+      <p>The global standard for fracture management. Offers step-by-step guides from "Preparation" to "Aftercare" with a library of 30,000+ surgical illustrations. Surgeons frequently screenshot AO illustrations and import them into Procreate or Keynote as base layers for custom schematics. <span class="evidence-badge ev-review">Global Standard Reference</span> [Source Ref 28]</p>
+    </div>
+  </div>
+
+  <!-- Section 6: Economic Analysis -->
+  <div class="section">
+    <h2><span class="sec-num">6</span> Economic Analysis &amp; Accessibility</h2>
+    <p>The market is bifurcated between enterprise tools (sold to hospitals) and accessible tools (available to individuals). The source document identifies the following tiers: <span class="evidence-badge ev-narrative">Economic Analysis</span></p>
+
+    <h3>The "Free" Tier (Zero Cost)</h3>
+    <ul>
+      <li><strong>Surgimap:</strong> Unmatched for desktop spine/alignment planning — truly free.</li>
+      <li><strong>Horos / MicroDicom:</strong> Best options for DICOM viewing and measurement on personal computers.</li>
+      <li><strong>Canva:</strong> Best for patient-facing, non-clinical schematics and brochures.</li>
+      <li><strong>Touch Surgery / AO Reference:</strong> Essential free resources for cognitive planning and reference.</li>
+    </ul>
+
+    <h3>The "Low-Cost" Tier (&lt;$100/year)</h3>
+    <ul>
+      <li><strong>Bone Ninja Sensei (~$15/yr):</strong> Highest value-for-money for deformity/trauma work.</li>
+      <li><strong>Procreate (~$13 one-time):</strong> Best value for creative flexibility — virtual surgery workflow for the price of lunch.</li>
+      <li><strong>VPOP PRO (~$250/yr):</strong> Professional "sweet spot" for independent surgeons needing implant libraries at a fraction of TraumaCad costs.</li>
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 4. Comprehensive Tool Comparison — All Categories by Cost &amp; Function</caption>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Tool</th>
+            <th>Platform</th>
+            <th>Cost</th>
+            <th>Best Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td rowspan="3">Web Planning</td><td><strong>VPOP PRO</strong></td><td>Web/Mobile</td><td class="cost-low">~$20/mo</td><td>Osteotomy simulation; fracture fixation</td></tr>
+          <tr><td><strong>TraumaCad Web</strong></td><td>Web</td><td class="cost-high">Enterprise</td><td>Automated arthroplasty templating</td></tr>
+          <tr><td><strong>OrthoNext</strong></td><td>Web</td><td class="cost-free">Free (w/ product)</td><td>Hexapod/ring fixator deformity</td></tr>
+          <tr><td rowspan="3">Web Illustration</td><td><strong>BioRender</strong></td><td>Web</td><td class="cost-mid">~$35/mo</td><td>Publication-quality scientific diagrams</td></tr>
+          <tr><td><strong>Mind the Graph</strong></td><td>Web</td><td class="cost-low">~$15/mo</td><td>Visual abstracts; infographics</td></tr>
+          <tr><td><strong>Canva</strong></td><td>Web</td><td class="cost-free">Free</td><td>Patient education materials</td></tr>
+          <tr><td rowspan="3">Tablet</td><td><strong>Bone Ninja</strong></td><td>iPad</td><td class="cost-low">~$15/yr</td><td>Deformity analysis; CORA planning</td></tr>
+          <tr><td><strong>Procreate</strong></td><td>iPad</td><td class="cost-free">~$13 (once)</td><td>Virtual reduction; artistic schematics</td></tr>
+          <tr><td><strong>TraumaCad Mobile</strong></td><td>iPad</td><td class="cost-high">Enterprise</td><td>Automated hip/knee templating</td></tr>
+          <tr><td rowspan="3">Desktop</td><td><strong>Horos</strong></td><td>macOS</td><td class="cost-free">Free</td><td>DICOM viewing; 3D reconstruction</td></tr>
+          <tr><td><strong>Surgimap</strong></td><td>Win/Mac</td><td class="cost-free">Free</td><td>Spine planning; sagittal balance</td></tr>
+          <tr><td><strong>TraumaCad</strong></td><td>Win/Mac</td><td class="cost-high">Enterprise</td><td>FDA-cleared implant templating</td></tr>
+          <tr><td>Educational</td><td><strong>Touch Surgery</strong></td><td>Mobile/Web</td><td class="cost-free">Free</td><td>Cognitive simulation; resident training</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 7: Workflow Integration -->
+  <div class="section">
+    <h2><span class="sec-num">7</span> Workflow Integration Strategies</h2>
+    <p>"User-friendly" in surgery translates to <strong>efficiency</strong> and <strong>integration</strong>. The source document recommends a hybrid approach: <span class="evidence-badge ev-expert">Expert Recommendation</span></p>
+
+    <h3>The Recommended "Hybrid" Workflow</h3>
+    <div class="workflow-step">
+      <span class="step-num">1</span>
+      <div class="step-content"><strong>Desktop (Horos/RadiAnt):</strong> Review full CT/MRI dataset, perform 3D reconstructions, gain deep understanding of pathology.</div>
+    </div>
+    <div class="workflow-step">
+      <span class="step-num">2</span>
+      <div class="step-content"><strong>Tablet (Bone Ninja/Procreate):</strong> Capture key image (e.g., AP pelvis), use Apple Pencil to draw specific plan — entry point, osteotomy angle, screw trajectory.</div>
+    </div>
+    <div class="workflow-step">
+      <span class="step-num">3</span>
+      <div class="step-content"><strong>Cloud (VPOP/Dropbox):</strong> Save annotated schematic (de-identified) to secure cloud folder for OR screen access during case.</div>
+    </div>
+
+    <h3>The "Virtual Reduction" Technique (Procreate)</h3>
+    <div class="callout callout-success">
+      <strong>Validated Workflow</strong>
+      Import X-ray → Lasso isolate proximal/distal fragments → Move fragments to "reduce" fracture on screen → Draw plate on new layer → Result: visual proof-of-concept that chosen implant fits reduced bone. Validated by comparative research (2024). <span class="evidence-badge ev-comparative">Comparative Study</span> [Source Ref 23]
+    </div>
+  </div>
+
+  <!-- Section 8: Future Directions -->
+  <div class="section">
+    <h2><span class="sec-num">8</span> Future Directions</h2>
+    <p>The source document identifies three transformative trends: <span class="evidence-badge ev-narrative">Prospective Analysis</span></p>
+
+    <h4>AI Segmentation</h4>
+    <p>Tools like TraumaCad are already incorporating AI to auto-segment bone. Future iterations of apps like Bone Ninja or VPOP will likely feature "Auto-Plan" capabilities for osteotomies, reducing manual effort while maintaining surgeon oversight.</p>
+
+    <h4>Generative AI for Schematics</h4>
+    <p>Text-to-image AI tools (referenced: Glass Health, Heidi) may soon allow surgeons to prompt: <em>"Draw a schematic of a comminuted distal radius fracture with a volar locking plate"</em> — generating instant images for patient consent. While currently text-based, multimodal expansion is anticipated.</p>
+
+    <h4>AR/VR Integration</h4>
+    <p>Apps like iTemplating and Touch Surgery are vanguards of Augmented Reality. The "schematic" of the future may be a <strong>3D hologram projected onto the patient's limb in the OR</strong>, replacing 2D drawings entirely.</p>
+  </div>
+
+  <!-- Section 9: Conclusion -->
+  <div class="section">
+    <h2><span class="sec-num">9</span> Conclusion &amp; Clinical Recommendations</h2>
+    <p>The toolbox for orthopedic surgeons seeking to create medical schematics and surgical plans has never been richer. The optimal choice depends on the specific clinical goal:</p>
+    <ul>
+      <li><strong>Geometric Precision &amp; Implant Templating:</strong> VPOP PRO (Web/Mobile) and TraumaCad (Enterprise) remain gold standards with calibration enforcement and vast implant libraries.</li>
+      <li><strong>Complex Trauma &amp; "Virtual Surgery":</strong> Procreate (iPad) offers uniquely powerful, low-cost creative freedom replicating tactile surgical intuition.</li>
+      <li><strong>Deformity Analysis:</strong> Bone Ninja Sensei (iPad) is best-in-class for education and planning at minimal cost.</li>
+      <li><strong>Desktop DICOM Management:</strong> Horos (Mac) and MicroDicom (PC) provide robust free environments for deep image analysis.</li>
+      <li><strong>Patient Communication:</strong> Canva (Web) demystifies medical graphics for clear, empathetic visual aids.</li>
+    </ul>
+    <div class="callout callout-info">
+      <strong>Strategic Takeaway</strong>
+      By combining computational desktop power for analysis with tactile tablet interfaces for planning, surgeons can achieve a level of preoperative precision and communicative clarity that significantly enhances patient care.
+    </div>
+  </div>
+
+  <!-- Limitations -->
+  <div class="section">
+    <h2><span class="sec-num">10</span> Source Limitations &amp; Evidence Gaps</h2>
+    <div class="limitation-note">
+      <strong>Transparency Note:</strong> This analysis is based exclusively on the provided source document, which is a technology review and workflow analysis rather than a clinical trial or systematic review. Key limitations include:
+      <ul style="margin-top:8px;">
+        <li>No randomized controlled trials (RCTs) comparing planning tools head-to-head were identified in the source.</li>
+        <li>Evidence for tool superiority is based on platform features, user reports, and manufacturer specifications rather than controlled comparative studies.</li>
+        <li>The Procreate workflow comparison (Source Ref 23) represents the highest level of comparative evidence found — a single study comparing digital vs. acetate templating.</li>
+        <li>Cost data reflects January 2026 pricing and may change. No independent cost-effectiveness analysis was provided in the source.</li>
+        <li>Clinical outcomes data (e.g., improved accuracy, reduced operative time) from tool use were not systematically reported in the source document.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- References -->
+  <div class="section">
+    <h2><span class="sec-num">R</span> References</h2>
+    <div class="ref-section">
+      <ol>
+        <li>VPOP PRO | Virtual Preoperative Orthopaedic Planning. vpop-pro.com. Accessed Jan 7, 2026.</li>
+        <li>Pricing &amp; Subscriptions – VPOP PRO. vpop-pro.com/pricing-and-subscriptions. Accessed Jan 7, 2026.</li>
+        <li>Pricing – VPOP PRO. vpop-pro.com/pricing. Accessed Jan 7, 2026.</li>
+        <li>TraumaCad: Orthopedic Templating Software – Brainlab. brainlab.com. Accessed Jan 7, 2026.</li>
+        <li>TraumaCad Mobile – App Store. apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>OrthoNext – Orthofix. orthofix.com. Accessed Jan 7, 2026.</li>
+        <li>Free Orthopedic drill Icons – BioRender.com. Accessed Jan 7, 2026.</li>
+        <li>BioRender Alternatives: Scientific Illustration Software Comparison. simplifiedsciencepublishing.com. Accessed Jan 7, 2026.</li>
+        <li>Affordable Pricing for Scientists – BioRender.com/pricing. Accessed Jan 7, 2026.</li>
+        <li>5 Affordable BioRender Alternatives – illustrae.co/blog. Accessed Jan 7, 2026.</li>
+        <li>Mind the Graph vs BioRender. mindthegraph.com/blog. Accessed Jan 7, 2026.</li>
+        <li>Mind the Graph Vs. BioRender. mindthegraph.com/blog. Accessed Jan 7, 2026.</li>
+        <li>Free editable anatomy poster templates – Canva.com. Accessed Jan 7, 2026.</li>
+        <li>Free printable medical poster templates – Canva.com. Accessed Jan 7, 2026.</li>
+        <li>Free professional medical brochure templates – Canva.com. Accessed Jan 7, 2026.</li>
+        <li>Free medical infographic templates – Canva.com. Accessed Jan 7, 2026.</li>
+        <li>Bone Ninja Sensei – App Store. apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>Bone Ninja – App Store. apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>TraumaCad Mobile – App Store (DE). apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>TraumaCad Mobile – App Store (US). apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>iTemplating – App Store. apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>Biomet Orthosize Templating – App Store. apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>Shifting to an app-based method of preoperative templating in orthopaedic surgery. NIH/PMC. pmc.ncbi.nlm.nih.gov/articles/PMC11191017. 2024.</li>
+        <li>ProCreate workflow experiment. r/ProCreate – Reddit. reddit.com. Accessed Jan 7, 2026.</li>
+        <li>iPad Pro and Notability for medical school notes. zhighley.com. Accessed Jan 7, 2026.</li>
+        <li>HIPAA compliance discussion for GoodNotes. r/therapists – Reddit. reddit.com. Accessed Jan 7, 2026.</li>
+        <li>Digital annotation and search for First Aid. r/medicalschool – Reddit. reddit.com. Accessed Jan 7, 2026.</li>
+        <li>The AO Surgery Reference. aofoundation.org. Accessed Jan 7, 2026.</li>
+        <li>AO Surgery Reference – Google Play. play.google.com. Accessed Jan 7, 2026.</li>
+        <li>Horos Project: Home Page. horosproject.org. Accessed Jan 7, 2026.</li>
+        <li>22 Best Online DICOM Viewers. blog.medicai.io. Accessed Jan 7, 2026.</li>
+        <li>MicroDicom – Free DICOM viewer. microdicom.com. Accessed Jan 7, 2026.</li>
+        <li>Features – MicroDicom. microdicom.com. Accessed Jan 7, 2026.</li>
+        <li>10 Best DICOM Viewers (2024). v7labs.com/blog. Accessed Jan 7, 2026.</li>
+        <li>RadiAnt DICOM Viewer. radiantviewer.com. Accessed Jan 7, 2026.</li>
+        <li>Store | Pricing – RadiAnt DICOM Viewer. radiantviewer.com/store. Accessed Jan 7, 2026.</li>
+        <li>Download Surgimap. surgimap.com. Accessed Jan 7, 2026.</li>
+        <li>FAQs &amp; Video Tutorials – Surgimap. surgimap.com/support. Accessed Jan 7, 2026.</li>
+        <li>Surgimap.com Official Site. Accessed Jan 7, 2026.</li>
+        <li>Schematic diagram software – SmartDraw. smartdraw.com. Accessed Jan 7, 2026.</li>
+        <li>Explore the Touch Surgery™ Ecosystem – Medtronic. medtronic.com. Accessed Jan 7, 2026.</li>
+        <li>Touch Surgery™ Simulations | Medtronic. medtronic.com. Accessed Jan 7, 2026.</li>
+        <li>Touch Surgery: Surgical Videos – App Store. apps.apple.com. Accessed Jan 7, 2026.</li>
+        <li>Heidi | AI Medical Scribe. heidihealth.com. Accessed Jan 7, 2026.</li>
+        <li>Glass | AI Diagnosis &amp; Clinical Decision Support. glass.health. Accessed Jan 7, 2026.</li>
+      </ol>
+    </div>
+  </div>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Tool Selector">
+  <div class="sidebar-header">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+    Interactive Tool Selector
+  </div>
+  <div class="sidebar-body">
+    <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:16px;">
+      Adjust parameters to receive personalized tool recommendations based on the source document's analysis.
+    </p>
+
+    <!-- Slider 1: Budget -->
+    <div class="slider-group">
+      <div class="slider-label">
+        Monthly Budget
+        <span class="slider-value" id="val-budget">$0</span>
+      </div>
+      <div class="slider-hint">Maximum monthly spend on tools (USD)</div>
+      <input type="range" id="slider-budget" min="0" max="250" value="0" step="5" aria-label="Monthly budget in US dollars">
+    </div>
+
+    <!-- Slider 2: Complexity -->
+    <div class="slider-group">
+      <div class="slider-label">
+        Planning Complexity
+        <span class="slider-value" id="val-complexity">5</span>
+      </div>
+      <div class="slider-hint">1 = Simple annotation · 10 = Complex 3D reconstruction</div>
+      <input type="range" id="slider-complexity" min="1" max="10" value="5" step="1" aria-label="Planning complexity level from 1 to 10">
+    </div>
+
+    <!-- Slider 3: Mobility -->
+    <div class="slider-group">
+      <div class="slider-label">
+        Mobility Need
+        <span class="slider-value" id="val-mobility">5</span>
+      </div>
+      <div class="slider-hint">1 = Stationary workstation · 10 = Fully mobile / OR use</div>
+      <input type="range" id="slider-mobility" min="1" max="10" value="5" step="1" aria-label="Mobility requirement from 1 to 10">
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation-box" id="rec-box">
+      <h4>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Recommended Tools
+      </h4>
+      <div id="rec-content"></div>
+      <div class="rec-note" id="rec-note"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="sidebar-actions">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders to default values">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        Reset
+      </button>
+      <button class="btn btn-export" id="btn-export" aria-label="Copy recommendation and parameters to clipboard">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
+    </div>
+  </div>
+</aside>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  const budgetSlider = document.getElementById('slider-budget');
+  const complexitySlider = document.getElementById('slider-complexity');
+  const mobilitySlider = document.getElementById('slider-mobility');
+  const valBudget = document.getElementById('val-budget');
+  const valComplexity = document.getElementById('val-complexity');
+  const valMobility = document.getElementById('val-mobility');
+  const recContent = document.getElementById('rec-content');
+  const recNote = document.getElementById('rec-note');
+  const recBox = document.getElementById('rec-box');
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function updateRecommendations() {
+    const budget = parseInt(budgetSlider.value);
+    const complexity = parseInt(complexitySlider.value);
+    const mobility = parseInt(mobilitySlider.value);
+
+    valBudget.textContent = '$' + budget;
+    valComplexity.textContent = complexity;
+    valMobility.textContent = mobility;
+
+    let tools = [];
+    let notes = [];
+
+    // === LOGIC BASED ON SOURCE DOCUMENT ===
+
+    // Budget tiers
+    const isFree = budget === 0;
+    const isLowCost = budget > 0 && budget <= 20;
+    const isMidCost = budget > 20 && budget <= 50;
+    const isHighBudget = budget > 50;
+
+    // Complexity tiers
+    const isSimple = complexity <= 3;
+    const isModerate = complexity >= 4 && complexity <= 6;
+    const isComplex = complexity >= 7;
+
+    // Mobility tiers
+    const isStationary = mobility <= 3;
+    const isHybrid = mobility >= 4 && mobility <= 6;
+    const isMobile = mobility >= 7;
+
+    // === TOOL RECOMMENDATION LOGIC ===
+
+    // Simple annotation / schematics
+    if (isSimple) {
+      if (isFree) {
+        if (isMobile) {
+          tools.push({ name: 'GoodNotes / Notability', reason: 'Free tier for quick sketches and case logging on iPad — handwriting search capability' });
+          tools.push({ name: 'AO Surgery Reference (App)', reason: 'Free reference illustrations that can be imported as base layers for schematics' });
+          notes.push('For simple annotation on mobile, free note-taking apps are sufficient per source analysis.');
+        } else {
+          tools.push({ name: 'Canva', reason: 'Robust free tier for patient-facing schematics with zero learning curve and approachable visual style' });
+          tools.push({ name: 'PowerPoint / Keynote', reason: 'Already owned; vector shapes and layers adequate for simple surgical diagrams' });
+          notes.push('Source identifies Canva and PowerPoint as effective free tools for simple schematic creation.');
+        }
+      } else if (isLowCost || isMidCost) {
+        if (isMobile) {
+          tools.push({ name: 'Procreate (~$13 once)', reason: 'One-time purchase for artistic-quality schematics; zero-lag Apple Pencil interface' });
+          tools.push({ name: 'GoodNotes (~$10/yr)', reason: 'Handwriting search creates a personal planning database' });
+        } else {
+          tools.push({ name: 'Canva (Free + optional Pro)', reason: 'Easy diagram creation; consider Pro for branding features' });
+          tools.push({ name: 'Mind the Graph (~$15/mo)', reason: '75,000+ scientific icons; Visual Abstract creation for journals' });
+        }
+      } else {
+        tools.push({ name: 'BioRender (~$35/mo)', reason: 'Premium scientific illustration with publication rights and massive icon library' });
+        tools.push({ name: 'Procreate (~$13 once)', reason: 'Complement with artistic flexibility for custom schematics' });
+      }
+    }
+
+    // Moderate complexity (planning + schematics)
+    if (isModerate) {
+      if (isFree) {
+        if (isMobile) {
+          tools.push({ name: 'Procreate (~$13 once)', reason: 'Validated workflow for virtual reduction; layer-based fragment manipulation [Ref 23]' });
+          tools.push({ name: 'AO Surgery Reference', reason: 'Free step-by-step surgical guides with 30,000+ illustrations' });
+          notes.push('Procreate\'s virtual reduction workflow is validated by comparative research (2024) despite low cost.');
+        } else if (isStationary) {
+          tools.push({ name: 'Horos (Mac) / MicroDicom (PC)', reason: 'Free DICOM viewers with 3D/MPR and measurement tools for clinical planning' });
+          tools.push({ name: 'Surgimap', reason: 'Free specialized planning, especially for spine and alignment (if applicable)' });
+          notes.push('Free desktop viewers provide professional-grade DICOM analysis per source; no implant library included.');
+        } else {
+          tools.push({ name: 'Horos + Procreate (Hybrid)', reason: 'Desktop DICOM analysis + iPad sketching — source\'s recommended hybrid workflow' });
+          notes.push('Source recommends hybrid workflow: desktop for analysis, tablet for planning sketch.');
+        }
+      } else {
+        if (isMobile) {
+          tools.push({ name: 'Bone Ninja Sensei (~$15/yr)', reason: 'Best-in-class for deformity analysis: CORA, MAD, virtual osteotomy with "Cut" tool' });
+          tools.push({ name: 'Procreate (~$13 once)', reason: 'Complex trauma virtual reduction with layer management' });
+          notes.push('Bone Ninja is identified in source as "undisputed best-in-class" for deformity planning at minimal cost.');
+        } else {
+          tools.push({ name: 'VPOP PRO (~$20/mo)', reason: 'Cross-platform hybrid with calibration, virtual osteotomies, and auto-updated implant library' });
+          tools.push({ name: 'RadiAnt DICOM Viewer (~€5/mo)', reason: 'Fast DICOM viewing with MPR fusion for pre-planning analysis' });
+        }
+      }
+    }
+
+    // Complex 3D planning
+    if (isComplex) {
+      if (budget < 20) {
+        tools.push({ name: 'Horos (Mac) / MicroDicom (PC)', reason: 'Free 3D volume rendering and MPR for complex case analysis' });
+        tools.push({ name: 'Procreate (~$13 once)', reason: 'Layer-based virtual surgery workflow for complex fracture reduction' });
+        tools.push({ name: 'Surgimap (Free)', reason: 'Complex spine planning with sagittal balance analysis and osteotomy simulation' });
+        notes.push('Source notes enterprise tools (TraumaCad) offer superior automation but at significantly higher cost. Free tools require more manual effort for complex cases.');
+      } else if (budget < 50) {
+        if (isMobile) {
+          tools.push({ name: 'VPOP PRO (~$20/mo)', reason: 'Virtual osteotomy simulation with cross-platform sync — accessible in OR' });
+          tools.push({ name: 'Bone Ninja Sensei (~$15/yr)', reason: 'Specialized deformity geometry analysis' });
+        } else {
+          tools.push({ name: 'VPOP PRO (~$20/mo)', reason: 'Cross-platform planning with calibration and implant library' });
+          tools.push({ name: 'RadiAnt DICOM Viewer (~€5/mo)', reason: 'Blazing speed for large CT datasets with MPR and fusion' });
+        }
+      } else {
+        tools.push({ name: 'TraumaCad (Web/Desktop/Mobile)', reason: 'FDA-cleared Class II device; automated landmark detection; 4,000+ implant templates; PACS integration' });
+        tools.push({ name: 'VPOP PRO (~$20/mo)', reason: 'Complementary cross-platform access for mobile review' });
+        notes.push('TraumaCad is identified as the "gold standard" for complex templating with FDA clearance providing medicolegal assurance. Typically requires institutional licensing.');
+        if (isMobile) {
+          tools.push({ name: 'iTemplating (Subscription)', reason: 'AR-integrated rapid templating for OR use — described as "game changer" by users' });
+        }
+      }
+    }
+
+    // Mobility override for OR use
+    if (isMobile && complexity > 3) {
+      const hasBoneNinja = tools.some(t => t.name.includes('Bone Ninja'));
+      const hasProcreate = tools.some(t => t.name.includes('Procreate'));
+      const hasVpop = tools.some(t => t.name.includes('VPOP'));
+      if (!hasBoneNinja && !hasProcreate && !hasVpop && budget > 0) {
+        tools.push({ name: 'Procreate (~$13 once)', reason: 'Mobile-first tool for OR-ready annotated schematics via Apple Pencil' });
+      }
+    }
+
+    // Deduplicate
+    const seen = new Set();
+    tools = tools.filter(t => {
+      if (seen.has(t.name)) return false;
+      seen.add(t.name);
+      return true;
+    });
+
+    // Render
+    if (tools.length === 0) {
+      recContent.innerHTML = '<div class="rec-tool"><strong>No matching tools</strong><div class="rec-reason">Adjust parameters to see recommendations based on source document analysis.</div></div>';
+      recNote.textContent = '';
+    } else {
+      recContent.innerHTML = tools.map(t =>
+        `<div class="rec-tool"><strong>${t.name}</strong><div class="rec-reason">${t.reason}</div></div>`
+      ).join('');
+      if (notes.length > 0) {
+        recNote.textContent = notes[0];
+      } else {
+        recNote.textContent = 'Recommendations derived from source document analysis (January 2026). Cost thresholds annotated as general knowledge where source data was limited.';
+      }
+    }
+
+    // Dynamic box color
+    if (isFree && isSimple) {
+      recBox.style.background = 'linear-gradient(135deg, #eafaf1 0%, #d5f5e3 100%)';
+      recBox.style.borderColor = '#82e0aa';
+    } else if (isComplex && budget >= 50) {
+      recBox.style.background = 'linear-gradient(135deg, #eaf2f8 0%, #d4e6f1 100%)';
+      recBox.style.borderColor = '#85c1e9';
+    } else {
+      recBox.style.background = 'linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%)';
+      recBox.style.borderColor = '#b8d4e8';
+    }
+  }
+
+  budgetSlider.addEventListener('input', updateRecommendations);
+  complexitySlider.addEventListener('input', updateRecommendations);
+  mobilitySlider.addEventListener('input', updateRecommendations);
+
+  btnReset.addEventListener('click', function() {
+    budgetSlider.value = 0;
+    complexitySlider.value = 5;
+    mobilitySlider.value = 5;
+    updateRecommendations();
+    showToast('All parameters reset to defaults.');
+  });
+
+  btnExport.addEventListener('click', function() {
+    const budget = budgetSlider.value;
+    const complexity = complexitySlider.value;
+    const mobility = mobilitySlider.value;
+    const timestamp = new Date().toLocaleString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    const tools = [];
+    document.querySelectorAll('#rec-content .rec-tool strong').forEach(el => tools.push(el.textContent));
+    const reasons = [];
+    document.querySelectorAll('#rec-content .rec-tool .rec-reason').forEach(el => reasons.push(el.textContent));
+
+    let text = 'DIGITAL PREOPERATIVE PLANNING — TOOL SELECTION REPORT\n';
+    text += '='.repeat(55) + '\n';
+    text += 'Generated: ' + timestamp + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Monthly Budget: $' + budget + '\n';
+    text += '  Planning Complexity: ' + complexity + '/10\n';
+    text += '  Mobility Need: ' + mobility + '/10\n\n';
+    text += 'RECOMMENDED TOOLS:\n';
+    tools.forEach((t, i) => {
+      text += '  ' + (i+1) + '. ' + t + '\n';
+      if (reasons[i]) text += '     → ' + reasons[i] + '\n';
+    });
+    text += '\nRATIONALE:\n';
+    text += '  All recommendations based on source document:\n';
+    text += '  "Digital Preoperative Planning and Medical Illustration\n';
+    text += '   in Orthopedic Surgery" (January 2026).\n';
+    text += '  Note: Budget thresholds are estimates based on source\n';
+    text += '  document pricing data. Complexity and mobility ratings\n';
+    text += '  are user-selected parameters.\n';
+    text += '\n' + '='.repeat(55) + '\n';
+
+    navigator.clipboard.writeText(text).then(() => {
+      btnExport.classList.add('copied');
+      btnExport.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+      showToast('Report copied to clipboard successfully.');
+      setTimeout(() => {
+        btnExport.classList.remove('copied');
+        btnExport.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+      }, 2500);
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Report copied (fallback method).');
+    });
+  });
+
+  // Initial render
+  updateRecommendations();
+})();
+</script>
+
+</body>
+</html>

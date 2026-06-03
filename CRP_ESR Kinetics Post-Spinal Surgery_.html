@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postoperative Inflammatory Markers in Spinal Surgery: CRP & ESR Kinetics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --accent-dark: #1d4ed8;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --success: #16a34a;
+            --success-light: #dcfce7;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+            --radius: 10px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            line-height: 1.3;
+        }
+        /* Header */
+        .site-header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            color: #fff;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+        .site-header h1 {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .site-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            font-weight: 300;
+        }
+        /* Layout */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        @media (max-width: 1024px) {
+            .layout { grid-template-columns: 1fr; }
+        }
+        /* Main content */
+        .main-content {
+            min-width: 0;
+        }
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.45rem;
+            color: var(--accent-dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-light);
+        }
+        .card h3 {
+            font-size: 1.15rem;
+            color: var(--text);
+            margin: 1.3rem 0 0.6rem;
+        }
+        .card h4 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 1rem 0 0.5rem;
+            font-style: italic;
+        }
+        .card p { margin-bottom: 0.8rem; color: var(--text-secondary); }
+        .card ul { margin: 0.5rem 0 1rem 1.5rem; }
+        .card li { margin-bottom: 0.4rem; color: var(--text-secondary); }
+        strong { color: var(--text); }
+        /* Evidence badges */
+        .evidence-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 4px;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+        }
+        .ev-1 { background: #dcfce7; color: #166534; }
+        .ev-2 { background: #dbeafe; color: #1e40af; }
+        .ev-3 { background: #fef3c7; color: #92400e; }
+        .ev-4 { background: #fee2e2; color: #991b1b; }
+        .ev-na { background: #f1f5f9; color: #64748b; font-size: 0.65rem; }
+        /* Callout boxes */
+        .callout {
+            border-left: 4px solid var(--accent);
+            background: var(--accent-light);
+            padding: 1rem 1.2rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1.2rem 0;
+        }
+        .callout-danger {
+            border-left-color: var(--danger);
+            background: var(--danger-light);
+        }
+        .callout-warning {
+            border-left-color: var(--warning);
+            background: var(--warning-light);
+        }
+        .callout-success {
+            border-left-color: var(--success);
+            background: var(--success-light);
+        }
+        .callout p { margin: 0; font-size: 0.9rem; }
+        .callout strong { display: block; margin-bottom: 0.3rem; }
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        caption {
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.8rem 1rem;
+            background: var(--accent-light);
+            color: var(--accent-dark);
+            border-bottom: 2px solid var(--accent);
+        }
+        thead th {
+            background: #f1f5f9;
+            font-weight: 600;
+            text-align: left;
+            padding: 0.7rem 0.8rem;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+            color: var(--text);
+        }
+        tbody td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        tbody tr:hover { background: #f8fafc; }
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 110px;
+            height: fit-content;
+            max-height: calc(100vh - 130px);
+            overflow-y: auto;
+        }
+        @media (max-width: 1024px) {
+            .sidebar { position: static; max-height: none; }
+        }
+        .sidebar .card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        }
+        .sidebar .card h2 {
+            font-size: 1.1rem;
+            border-bottom-color: var(--accent);
+        }
+        .slider-group {
+            margin-bottom: 1.2rem;
+        }
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+        .slider-value {
+            font-family: 'Inter', monospace;
+            background: var(--accent-light);
+            color: var(--accent-dark);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            min-width: 70px;
+            text-align: center;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--border);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 2px 6px rgba(37,99,235,0.4);
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 2px 6px rgba(37,99,235,0.4);
+            cursor: pointer;
+            border: none;
+        }
+        .recommendation-box {
+            margin-top: 1.2rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+        .recommendation-box.risk-low { border-color: var(--success); background: var(--success-light); }
+        .recommendation-box.risk-moderate { border-color: var(--warning); background: var(--warning-light); }
+        .recommendation-box.risk-high { border-color: var(--danger); background: var(--danger-light); }
+        .recommendation-box h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .risk-low h4 { color: var(--success); }
+        .risk-moderate h4 { color: #92400e; }
+        .risk-high h4 { color: var(--danger); }
+        .recommendation-box p {
+            font-size: 0.82rem;
+            margin: 0;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .btn-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 0.55rem 0.8rem;
+            border: none;
+            border-radius: 7px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-reset {
+            background: var(--border);
+            color: var(--text-secondary);
+        }
+        .btn-reset:hover { background: #cbd5e1; }
+        .btn-export {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-export:hover { background: var(--accent-dark); }
+        .btn:active { transform: scale(0.97); }
+        /* Kinetic curve visual */
+        .kinetic-visual {
+            position: relative;
+            height: 160px;
+            margin: 1rem 0;
+            background: #f8fafc;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .kinetic-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent-dark);
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            z-index: 200;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* References */
+        .ref-list {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            list-style: none;
+            padding: 0;
+        }
+        .ref-list li {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .ref-list li span.ref-num {
+            display: inline-block;
+            width: 28px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        /* Red flag list */
+        .red-flag {
+            background: var(--danger-light);
+            border-radius: var(--radius);
+            padding: 1rem 1.2rem;
+            margin: 0.8rem 0;
+        }
+        .red-flag li { color: #991b1b; }
+        /* Step indicator */
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            align-items: flex-start;
+        }
+        .step-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .step-content { flex: 1; }
+        .step-content p { margin: 0; }
+        /* Limitation note */
+        .limitation-note {
+            background: #fffbeb;
+            border: 1px dashed #f59e0b;
+            border-radius: var(--radius);
+            padding: 0.8rem 1rem;
+            font-size: 0.82rem;
+            color: #92400e;
+            margin: 1rem 0;
+        }
+        .limitation-note strong { color: #92400e; }
+        /* Separator */
+        .sep {
+            height: 1px;
+            background: var(--border);
+            margin: 1.5rem 0;
+        }
+        /* Surgery type selector */
+        .surgery-select {
+            width: 100%;
+            padding: 0.45rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: var(--text);
+            cursor: pointer;
+            margin-bottom: 0.4rem;
+        }
+        .surgery-hint {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+        }
+        /* Key points highlight */
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin: 0.6rem 0;
+            padding: 0.6rem 0.8rem;
+            background: #f8fafc;
+            border-radius: 7px;
+            font-size: 0.88rem;
+        }
+        .key-point .icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        /* Two-column highlights */
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        @media (max-width: 600px) {
+            .highlight-grid { grid-template-columns: 1fr; }
+        }
+        .highlight-item {
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .highlight-item h4 {
+            font-size: 0.85rem;
+            margin: 0 0 0.4rem;
+            font-style: normal;
+        }
+        .highlight-item p {
+            font-size: 0.82rem;
+            margin: 0;
+        }
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        .timeline-item .day {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--accent-dark);
+        }
+        .timeline-item p {
+            font-size: 0.85rem;
+            margin: 0.2rem 0 0;
+        }
+        @media (max-width: 480px) {
+            .layout { padding: 1rem; }
+            .card { padding: 1.2rem; }
+            .site-header { padding: 1.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>Postoperative Inflammatory Markers in Spinal Surgery</h1>
+    <p>A Clinical Investigation of CRP and ESR Kinetics for the Diagnosis of Infection</p>
+</header>
+
+<div class="layout">
+    <!-- MAIN CONTENT -->
+    <main class="main-content" role="main">
+
+        <!-- Section 1: Physiological Inflammatory Cascade -->
+        <section class="card" aria-labelledby="sec-cascade">
+            <h2 id="sec-cascade">1. The Physiological Inflammatory Cascade After Spinal Surgery</h2>
+            <p>The interpretation of postoperative laboratory markers requires a comprehensive understanding of their expected behavior in an <strong>uncomplicated clinical course</strong>. Following any surgical intervention, the body initiates a predictable systemic inflammatory response — a physiological process of tissue repair biochemically reflected in the rise of acute-phase reactants.
+            <span class="evidence-badge ev-1">Level I–II</span></p>
+            <p>Among these, <strong>C-reactive protein (CRP)</strong> and <strong>erythrocyte sedimentation rate (ESR)</strong> are the most commonly utilized biomarkers in surveillance after spinal surgery. <sup>[1]</sup> However, their clinical utility is <strong>not equivalent</strong>. The distinct biological properties of CRP and ESR result in fundamentally different kinetic profiles — a difference critical to appreciating their respective roles in postoperative monitoring.
+            <span class="evidence-badge ev-1">Level I</span></p>
+
+            <div class="callout">
+                <p><strong>Core Principle</strong><br>
+                A thorough characterization of the normal inflammatory "noise" is the essential prerequisite for accurately identifying the pathological "signal" of a surgical site infection (SSI).</p>
+            </div>
+        </section>
+
+        <!-- Section 2: CRP Kinetics -->
+        <section class="card" aria-labelledby="sec-crp">
+            <h2 id="sec-crp">2. Kinetics of C-Reactive Protein (CRP) in Uncomplicated Cases</h2>
+            <p>CRP is an acute-phase protein synthesized by hepatocytes in direct response to pro-inflammatory cytokines, primarily <strong>interleukin-6 (IL-6)</strong>, released during tissue injury or infection. <sup>[3]</sup> Its behavior following spinal surgery is characterized by a remarkable degree of predictability, making it an invaluable tool for early postoperative surveillance.
+            <span class="evidence-badge ev-1">Level I–II</span></p>
+
+            <h3>2.1 Initial Response and Peak</h3>
+            <p>Following surgical trauma, CRP levels begin to rise rapidly, typically <strong>within 4 to 6 hours</strong> of the initial tissue insult. <sup>[6]</sup> This rapid response leads to a consistent and well-defined peak in serum concentration. Across a broad spectrum of spinal surgeries — from minimally invasive discectomies to extensive multi-level fusions — the literature consistently reports that <strong>this peak occurs on postoperative day (POD) 2 or 3</strong>. <sup>[1]</sup></p>
+            <p>A seminal study noted the presence of a discernible postoperative peak in <strong>78% of cases</strong>, a necessary precondition for applying kinetic analysis. <sup>[1]</sup> The magnitude of this peak is highly dependent on the extent of the surgical procedure:</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <caption>Table A: Mean Peak CRP Values by Procedure Type</caption>
+                    <thead>
+                        <tr>
+                            <th>Procedure Type</th>
+                            <th>Mean Peak CRP (mg/L)</th>
+                            <th>Source</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Microdiscectomy</td><td>46</td><td>[7]</td></tr>
+                        <tr><td>Endoscopic Discectomy</td><td>75</td><td>[5]</td></tr>
+                        <tr><td>Conventional Discectomy</td><td>92</td><td>[7]</td></tr>
+                        <tr><td>Posterior Lumbar Interbody Fusion (PLIF)</td><td>127</td><td>[5]</td></tr>
+                        <tr><td>Posterolateral Interbody Fusion with Fixation</td><td>173</td><td>[7]</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>2.2 Decline and Normalization</h3>
+            <p>The true diagnostic power of CRP lies in its predictable behavior <em>after</em> the peak. Governed by a short biological half-life of approximately <strong>19 hours</strong> (effective elimination half-life post-surgery: <strong>2.6 days</strong>), CRP levels exhibit a <strong>rapid and exponential decrease</strong> once the inflammatory stimulus subsides. <sup>[1]</sup></p>
+
+            <div class="callout-success callout">
+                <p><strong>Key Kinetic Rule</strong><br>
+                In uncomplicated recovery, serum CRP concentration should <strong>roughly halve every 2.5 to 3 days</strong> following its peak on POD 2 or 3. <sup>[1]</sup></p>
+            </div>
+
+            <p>The timeline for complete normalization (return to baseline below 5–10 mg/L) varies with the scale of the operation:</p>
+            <ul>
+                <li><strong>Less invasive procedures:</strong> CRP may approach normal levels within 14 days <sup>[5]</sup></li>
+                <li><strong>Multi-level instrumented fusions:</strong> 80% of patients achieve normal CRP within 4 weeks (28 days) <sup>[9]</sup></li>
+            </ul>
+            <p><span class="evidence-badge ev-1">Level II</span> The critical takeaway is that the postoperative course of CRP is not defined by a single value but by a dynamic <strong>trajectory</strong>. The absolute magnitude of the peak is of secondary importance to the subsequent, predictable rate of decline.</p>
+
+            <div class="kinetic-visual" aria-label="CRP kinetic curve visualization">
+                <canvas id="crpCanvas" class="kinetic-canvas"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 3: ESR Kinetics -->
+        <section class="card" aria-labelledby="sec-esr">
+            <h2 id="sec-esr">3. Kinetics of Erythrocyte Sedimentation Rate (ESR) in Uncomplicated Cases</h2>
+            <p>ESR is an indirect and non-specific measure of inflammation that quantifies the rate at which red blood cells settle in a vertical tube over one hour. This rate is influenced by the concentration of various plasma proteins, particularly <strong>fibrinogen</strong>. <sup>[11]</sup> This indirect mechanism results in a kinetic profile markedly different from CRP.
+            <span class="evidence-badge ev-2">Level II</span></p>
+
+            <h3>3.1 Initial Response and Peak</h3>
+            <p>In stark contrast to CRP, the ESR rises sluggishly following spinal surgery:</p>
+            <ul>
+                <li>Peak typically occurs between <strong>POD 3 and POD 7</strong>, with many reporting a peak around POD 5 <sup>[7]</sup></li>
+                <li>Some analyses observed a continuous increase extending to at least POD 7, making a clear peak challenging to identify <sup>[13]</sup></li>
+                <li>While CRP peaks were identifiable in 78% of patients, <strong>ESR peaks were identifiable in only 48%</strong> of the same cohort <sup>[1]</sup></li>
+            </ul>
+
+            <h3>3.2 Decline and Normalization</h3>
+            <p>The decline of ESR is slow, irregular, and protracted. <sup>[7]</sup> Because ESR depends on the clearance of long-half-life proteins like fibrinogen, its levels lag significantly behind the actual resolution of inflammation.</p>
+
+            <div class="callout-warning callout">
+                <p><strong>Critical Limitation</strong><br>
+                One prospective study found that <strong>ESR levels remained abnormally high in all surgical groups at 42 days postoperatively</strong>, long after acute surgical inflammation would have resolved. <sup>[9]</sup></p>
+            </div>
+        </section>
+
+        <!-- Section 4: Comparative Analysis -->
+        <section class="card" aria-labelledby="sec-compare">
+            <h2 id="sec-compare">4. Comparative Analysis: CRP vs. ESR</h2>
+            <p>The cumulative evidence establishes a clear consensus: <strong>CRP is a more applicable, predictable, responsive, and reliable biomarker than ESR</strong> for surveillance and early detection of infectious complications following spinal surgery. <sup>[1]</sup>
+            <span class="evidence-badge ev-1">Level I–II</span></p>
+
+            <div class="table-wrapper">
+                <table>
+                    <caption>Table B: Head-to-Head Comparison of CRP and ESR as Postoperative Biomarkers</caption>
+                    <thead>
+                        <tr>
+                            <th>Characteristic</th>
+                            <th>CRP</th>
+                            <th>ESR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Biological Mechanism</strong></td><td>Direct reactant (synthesized by hepatocytes in response to IL-6)</td><td>Indirect measure (depends on plasma protein changes, e.g., fibrinogen)</td></tr>
+                        <tr><td><strong>Time to Peak</strong></td><td>POD 2–3 (consistent)</td><td>POD 3–7 (variable, often ~POD 5)</td></tr>
+                        <tr><td><strong>Peak Identifiable</strong></td><td>78% of patients <sup>[1]</sup></td><td>48% of patients <sup>[1]</sup></td></tr>
+                        <tr><td><strong>Effective Half-Life</strong></td><td>~2.6 days</td><td>Days to weeks (prolonged)</td></tr>
+                        <tr><td><strong>Rate of Decline</strong></td><td>Rapid, exponential (halves every 2.5–3 days)</td><td>Slow, irregular, protracted</td></tr>
+                        <tr><td><strong>Normalization Timeline</strong></td><td>14–28 days (procedure-dependent)</td><td>Frequently &gt;42 days post-op <sup>[9]</sup></td></tr>
+                        <tr><td><strong>Kinetic Analysis Feasibility</strong></td><td>High — reliable trend analysis</td><td>Low — unpredictable trajectory</td></tr>
+                        <tr><td><strong>Early Infection Detection (POD 1–14)</strong></td><td><strong>Superior</strong> — high sensitivity, high NPV</td><td>Limited — uninterpretable due to surgical noise</td></tr>
+                        <tr><td><strong>Late/Chronic Infection Detection</strong></td><td>Good</td><td>May be superior (ESR &gt;20–30 mm/h) <sup>[15]</sup></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-grid">
+                <div class="highlight-item" style="background:var(--success-light);border-color:var(--success);">
+                    <h4 style="color:var(--success);">🔬 CRP — The "Snapshot"</h4>
+                    <p>CRP provides a near <strong>real-time biochemical snapshot</strong> of the body's acute inflammatory state. Its concentration is almost entirely a function of its current rate of production, directly tied to the inflammatory stimulus. <sup>[6]</sup></p>
+                </div>
+                <div class="highlight-item" style="background:var(--warning-light);border-color:var(--warning);">
+                    <h4 style="color:#92400e;">📷 ESR — The "Time-Lapse"</h4>
+                    <p>ESR reflects an integrated, <strong>time-averaged measure of inflammation</strong> over a longer period. This inherent lag makes it poorly suited for detecting acute events that demand high temporal resolution. <sup>[11]</sup></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Signs of Infection -->
+        <section class="card" aria-labelledby="sec-infection">
+            <h2 id="sec-infection">5. Pathophysiological Deviation: Identifying the Signature of Infection</h2>
+            <p>The development of a surgical site infection (SSI) introduces a new, pathological inflammatory stimulus that disrupts the expected kinetic pattern. The key to diagnosis lies in recognizing the <strong>deviation from the established baseline</strong> of uncomplicated recovery.
+            <span class="evidence-badge ev-1">Level I–II</span></p>
+
+            <h3>5.1 Cardinal Signs of Infection: Aberrant CRP Kinetics</h3>
+
+            <div class="red-flag">
+                <strong style="color:#991b1b;">🚩 Red Flag Patterns for SSI:</strong>
+                <ul>
+                    <li><strong>Failure to Decrease:</strong> CRP fails to begin its expected decline after peak. A noticeable drop should be evident by POD 4–5. If levels plateau or remain elevated during POD 4–7, investigation for infectious source is mandatory. <sup>[1]</sup></li>
+                    <li><strong>The Secondary Rise:</strong> Initial appropriate peak and decline followed by a second, unexpected increase. This "second bump" has sensitivity of 82% and NPV of 86% for infectious complications. <sup>[1]</sup></li>
+                    <li><strong>Delayed Peak:</strong> A maximal CRP peak occurring significantly later than POD 2–3 (e.g., POD 7). A peak on POD 7 with value &gt;22.5 mg/dL may be predictive of SSI. <sup>[1]</sup></li>
+                </ul>
+            </div>
+
+            <p>Of eight cases of deep wound infection identified in one study, <strong>seven exhibited substantial deviation</strong> from the expected CRP curve. <sup>[1]</sup></p>
+
+            <h3>5.2 Quantitative CRP Thresholds for SSI Diagnosis</h3>
+            <p>While kinetic trend is the most crucial diagnostic element, several studies have established specific quantitative cutoff values. <strong>Diagnostic power is highly dependent on the postoperative day of measurement.</strong></p>
+
+            <div class="table-wrapper">
+                <table>
+                    <caption>Table C: Diagnostic Accuracy of CRP Cutoff Values for Postoperative Spinal Infection (SSI)</caption>
+                    <thead>
+                        <tr>
+                            <th>Postoperative Day</th>
+                            <th>CRP Cutoff (mg/L)</th>
+                            <th>Sensitivity</th>
+                            <th>Specificity</th>
+                            <th>NPV</th>
+                            <th>Source</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>POD 3</td>
+                            <td><strong>&gt; 230</strong></td>
+                            <td>Good (AUC 0.819)</td>
+                            <td>Good (AUC 0.819)</td>
+                            <td>N/A</td>
+                            <td>[16]</td>
+                            <td>High threshold from hip fracture surgery; for predicting later infection. Applicability to elective spine may vary.</td>
+                        </tr>
+                        <tr>
+                            <td>POD 5</td>
+                            <td><strong>&lt; 4.0 (negative)</strong></td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>High</td>
+                            <td>[15]</td>
+                            <td>A normal CRP on POD 5 can rule out infection in less extensive surgeries (e.g., short-segment decompression).</td>
+                        </tr>
+                        <tr>
+                            <td>POD 7</td>
+                            <td><strong>&gt; 25.4</strong></td>
+                            <td>100%</td>
+                            <td>83.3%</td>
+                            <td>100%</td>
+                            <td>[17]</td>
+                            <td>Highly sensitive. CRP <em>below</em> 25.4 mg/L at 1 week makes SSI extremely unlikely. Low PPV (26.7%) = many false positives.</td>
+                        </tr>
+                        <tr>
+                            <td>POD 14</td>
+                            <td><strong>&gt; 12.05</strong></td>
+                            <td>100%</td>
+                            <td>96.7%</td>
+                            <td>100%</td>
+                            <td>[17]</td>
+                            <td>Exceptionally strong. Above 12.05 mg/L is highly suspicious; below effectively rules out SSI.</td>
+                        </tr>
+                        <tr>
+                            <td>General (Implants)</td>
+                            <td><strong>&gt; 4.6</strong></td>
+                            <td>79%</td>
+                            <td>68%</td>
+                            <td>N/A</td>
+                            <td>[18]</td>
+                            <td>For chronic or late-presenting implant-associated infections with indolent inflammatory response.</td>
+                        </tr>
+                        <tr>
+                            <td>General (Implants)</td>
+                            <td><strong>&gt; 10</strong></td>
+                            <td>57%</td>
+                            <td>85%</td>
+                            <td>85%</td>
+                            <td>[18]</td>
+                            <td>Moderate sensitivity but good specificity; a positive result is more likely a true positive.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout-success callout">
+                <p><strong>Clinical Strength: The "Rule-Out" Power of CRP</strong><br>
+                The consistent finding of high sensitivity and high NPV means serial CRP monitoring is an <strong>exceptional screening and "rule-out" tool</strong>. A normally declining CRP trajectory provides powerful, objective evidence that deep SSI is unlikely, even with ambiguous symptoms. As one study concludes: <em>"A negative test is reassuring that infection is unlikely."</em> <sup>[1]</sup></p>
+            </div>
+
+            <h3>5.3 The Limited Role of ESR in Early Infection Diagnosis</h3>
+            <p>ESR has very limited, if any, role in the <strong>early</strong> diagnosis of postoperative spinal infection. <sup>[1]</sup> Its peak often occurs around the same time infection becomes clinically apparent (POD 5–7), making it impossible to distinguish infection from normal response. <sup>[12]</sup></p>
+            <p>However, for <strong>chronic vertebral osteomyelitis</strong>, ESR &gt;20–30 mm/h has been reported to be a superior diagnostic marker to CRP. <sup>[15]</sup></p>
+        </section>
+
+        <!-- Section 6: Modulating Factors -->
+        <section class="card" aria-labelledby="sec-factors">
+            <h2 id="sec-factors">6. Modulating Factors and Confounding Variables</h2>
+            <p>The "normal" inflammatory response is a dynamic spectrum influenced by surgical and patient factors. Failure to account for these can lead to diagnostic errors.
+            <span class="evidence-badge ev-2">Level II–III</span></p>
+
+            <h3>6.1 Impact of Surgical Magnitude and Technique</h3>
+            <p>The most significant determinant of peak postoperative CRP is the <strong>magnitude of surgical trauma</strong>. A clear "dose-response" relationship exists: more extensive surgery elicits a higher peak CRP. <sup>[6]</sup></p>
+
+            <div class="table-wrapper">
+                <table>
+                    <caption>Table D: Surgical Factors Influencing Postoperative CRP Levels</caption>
+                    <thead>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Effect on CRP</th>
+                            <th>Evidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MIS vs. Open Surgery</strong></td>
+                            <td>MIS: significantly lower peak (e.g., 13.5 mg/dL vs. 21.3 mg/dL for open single-level fusion)</td>
+                            <td>[6]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Decompression vs. Fusion</strong></td>
+                            <td>Fusion induces significantly higher CRP peak than decompression alone</td>
+                            <td>[5, 7]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multi-level vs. Single-level</strong></td>
+                            <td>Number of levels is an independent predictor of greater peak CRP; however, the <em>pattern</em> of decline remains similar</td>
+                            <td>[1, 9]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Operative Time</strong></td>
+                            <td>Longer operative time = higher peak CRP (surrogate for tissue trauma)</td>
+                            <td>[2]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intraoperative Blood Loss</strong></td>
+                            <td>Greater blood loss = higher peak CRP</td>
+                            <td>[2]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="limitation-note">
+                <strong>⚠️ Important Implication:</strong> The concept of a "normal" postoperative CRP response is <strong>not universal but procedure-specific</strong>. A CRP of 80 mg/L on POD 3 may be normal for an open discectomy but concerningly low for a three-level instrumented fusion. This reality points toward a future of <strong>procedure-specific nomograms</strong> or predictive algorithms. [Noted as future direction in source]
+            </div>
+
+            <h3>6.2 Patient-Specific and Comorbid Factors</h3>
+            <ul>
+                <li><strong>Preoperative CRP:</strong> A significant predictor of postoperative peak CRP. High baseline suggests a pre-existing inflammatory state amplified by surgery. <sup>[1]</sup></li>
+                <li><strong>Body Mass Index (BMI):</strong> Obesity (BMI &gt;25 kg/m²) associated with higher peak CRP due to chronic low-grade inflammatory state of adipose tissue. <sup>[5]</sup></li>
+                <li><strong>Diabetes Mellitus:</strong> Contributes to a pro-inflammatory state AND is an independent risk factor for SSI, creating a significant "signal-to-noise" problem. <sup>[23]</sup></li>
+                <li><strong>Chronic Conditions:</strong> Heart disease, chronic renal failure linked to higher preoperative CRP levels. <sup>[22]</sup></li>
+                <li><strong>Chronic Pain Syndromes:</strong> May elevate baseline ESR and CRP independently of acute processes. <sup>[11]</sup></li>
+            </ul>
+
+            <div class="callout-warning callout">
+                <p><strong>The High-Risk Patient Dilemma</strong><br>
+                In diabetic, obese patients undergoing extensive surgery, a very high CRP peak could be attributable to comorbidities OR signal infection. In these populations, adherence to analyzing the kinetic <strong>trend</strong> is even more critical than focusing on the absolute peak value. A predictable decline, even from a very high peak, is reassuring.</p>
+            </div>
+
+            <h3>6.3 Other Biomarkers</h3>
+            <div class="table-wrapper">
+                <table>
+                    <caption>Table E: Role of Adjunctive Biomarkers in Postoperative Surveillance</caption>
+                    <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Utility</th>
+                            <th>Key Thresholds</th>
+                            <th>Source</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>WBC Count</strong></td>
+                            <td>Unspecific and generally uninterpretable in early postoperative period; not reliable for distinguishing normal response from infection</td>
+                            <td>—</td>
+                            <td>[1, 2]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Procalcitonin (PCT)</strong></td>
+                            <td>Emerging as potentially superior to CRP for diagnosing postoperative infection; does not rise significantly with sterile surgical inflammation, making it more specific for bacterial infection</td>
+                            <td>&gt;0.5 ng/mL: initiate workup<br>&lt;0.1 ng/mL: strongly suggests absence of infection</td>
+                            <td>[15]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>6.4 Effect of Prophylactic Antibiotics</h3>
+            <p>A clinically important finding: <strong>the duration of prophylactic antibiotic administration does not significantly alter the fundamental kinetic pattern of CRP.</strong> Studies comparing 24-hour vs. 5-day courses found similar CRP trajectories. <sup>[2, 25]</sup> Adherence to modern shorter-duration guidelines does not compromise the diagnostic utility of serial CRP monitoring.</p>
+        </section>
+
+        <!-- Section 7: Clinical Practice Guideline -->
+        <section class="card" aria-labelledby="sec-guideline">
+            <h2 id="sec-guideline">7. Synthesized Clinical Practice Guideline for Surveillance and Diagnosis</h2>
+
+            <div class="limitation-note">
+                <strong>📝 Note:</strong> While strongly supported by primary research, this protocol represents a <strong>synthesis of best practices</strong> rather than a formal guideline issued by a major societal body (e.g., NASS or IDSA). The available literature indicates a gap in formal published consensus guidelines for postoperative spinal infection surveillance. <sup>[12]</sup>
+            </div>
+
+            <h3>7.1 Postoperative Biomarker Surveillance Protocol</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="day">Preoperative</span>
+                    <p><strong>Baseline CRP and ESR</strong> for all patients. Particularly critical for those with comorbidities (diabetes, obesity, chronic inflammatory conditions, heart or renal disease). <sup>[5]</sup></p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">POD 2–3</span>
+                    <p><strong>First CRP measurement.</strong> Purpose: establish the peak of the expected, normal inflammatory response for that specific patient and procedure. <sup>[1]</sup></p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">POD 4–7</span>
+                    <p><strong>Second CRP measurement</strong> (most critical step). Purpose: confirm expected downward trend. If marked decline and patient is clinically stable → likelihood of early SSI is very low; further routine testing may be unnecessary. <sup>[5]</sup></p>
+                </div>
+                <div class="timeline-item">
+                    <span class="day">As-Needed (PRN)</span>
+                    <p>Immediate CRP measurement if patient develops concerning signs: significant increase in rest pain, new neurological deficits, persistent fever, or wound erythema/drainage. <sup>[27]</sup></p>
+                </div>
+            </div>
+
+            <h3>7.2 Integrated Diagnostic Algorithm</h3>
+
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <p><strong>Assess CRP Kinetic Trend</strong> — Is CRP declining exponentially from its peak on POD 2–3? If <strong>YES</strong> and patient is clinically stable → early deep SSI is highly unlikely (high NPV). Continue clinical observation. <sup>[1]</sup></p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <p><strong>Identify Aberrant Kinetics</strong> — If CRP fails to decline, plateaus, or demonstrates a secondary rise → <strong>major red flag</strong>. This mandates an immediate and active response.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <p><strong>Tiered Diagnostic Workup:</strong></p>
+                    <ul>
+                        <li><strong>Clinical Re-evaluation:</strong> Meticulous neurological exam and wound inspection for erythema, swelling, tenderness, drainage, dehiscence.</li>
+                        <li><strong>Advanced Imaging:</strong> MRI with gadolinium contrast is the modality of choice. Note: interpretation in early postoperative period can be challenging (normal changes may mimic infection). <sup>[23]</sup></li>
+                        <li><strong>Microbiological Confirmation:</strong> Gold standard is isolation of pathogen from deep wound specimen. <sup>[28]</sup> Blood cultures in febrile patients. CT-guided aspiration or surgical debridement for definitive samples.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout-danger callout">
+                <p><strong>⚠️ Critical Principle</strong><br>
+                In a clinically stable patient, <strong>empiric antibiotic therapy should be withheld until deep cultures have been obtained</strong>. Premature antibiotics can sterilize cultures, obscuring microbiological diagnosis and hindering tailored therapy. <sup>[29]</sup></p>
+            </div>
+        </section>
+
+        <!-- Section 8: Future Directions -->
+        <section class="card" aria-labelledby="sec-future">
+            <h2 id="sec-future">8. Concluding Remarks and Future Directions</h2>
+            <p>The judicious use of serial CRP measurements is a predictable, reliable, and economical screening tool central to modern surveillance for early infectious complications after spinal surgery. <sup>[1]</sup></p>
+            <ul>
+                <li><strong>Procedure-specific nomograms</strong> could predict an expected CRP curve for an individual patient based on surgery type, levels, operative time, and blood loss. Deviation from a personalized predicted curve would be more powerful than deviation from a generic population average.</li>
+                <li><strong>Procalcitonin (PCT)</strong> warrants further prospective investigation, particularly in high-risk patients where CRP signal-to-noise ratio is problematic. <sup>[15]</sup></li>
+                <li><strong>Formalization</strong> of these evidence-based practices into consensus guidelines from major societies would standardize care and improve outcomes.</li>
+            </ul>
+        </section>
+
+        <!-- References -->
+        <section class="card" aria-labelledby="sec-refs">
+            <h2 id="sec-refs">References (from source document)</h2>
+            <ol class="ref-list">
+                <li><span class="ref-num">[1]</span> Use of C-Reactive Protein After Spinal Surgery: Comparison With Erythrocyte Sedimentation Rate as Predictor of Early Postoperative Infectious Complications. <em>Spine</em>.</li>
+                <li><span class="ref-num">[2]</span> Comparison of Inflammatory Markers Changes in Patients Who Used Postoperative Prophylactic Antibiotics within 24 Hours after Spine Surgery and 5 Days after Spine Surgery. <em>J Korean Neurosurg Soc</em>.</li>
+                <li><span class="ref-num">[3]</span> Postoperative C-reactive protein levels correlate with reduced spinal column mobility after median sternotomy. <em>J Thorac Dis</em>.</li>
+                <li><span class="ref-num">[5]</span> CRP and leukocyte-count after lumbar spine surgery: fusion vs. decompression. <em>J Neurosurg Spine</em>.</li>
+                <li><span class="ref-num">[6]</span> Comparison of postoperative values for C-reactive protein in minimally invasive and open lumbar spinal fusion surgery. <em>Surg Neurol Int</em>.</li>
+                <li><span class="ref-num">[7]</span> Quantitation of C-reactive protein levels and erythrocyte sedimentation rate after spinal surgery. <em>Spine</em>.</li>
+                <li><span class="ref-num">[9]</span> Postoperative Kinetics of C-Reactive Protein and Erythrocyte Sediment Rate in One-, Two-, and Multilevel Posterior Spinal Decompressions and Instrumentations. <em>Spine</em>.</li>
+                <li><span class="ref-num">[11]</span> Erythrocyte Sedimentation Rate and C-Reactive Protein: Old But Useful Biomarkers for Pain Treatment. <em>MedCentral</em>.</li>
+                <li><span class="ref-num">[12]</span> Postoperative Spine Infections. <em>Surg Neurol Int</em>.</li>
+                <li><span class="ref-num">[13]</span> Sequential Changes of Plasma C-Reactive Protein, Erythrocyte Sedimentation Rate and White Blood Cell Count in Spine Surgery. <em>J Korean Neurosurg Soc</em>.</li>
+                <li><span class="ref-num">[15]</span> Erythrocyte Sedimentation Rate, C-Reactive Protein and Procalcitonin in Infections of the Spine and Infections in Spinal Cord Injury Patients. <em>Spine</em>.</li>
+                <li><span class="ref-num">[16]</span> Diagnostic accuracy of C-reactive protein to rule out infectious complications following hip fracture surgery. <em>PLoS One</em>.</li>
+                <li><span class="ref-num">[17]</span> Surgical Site Infection Following Spine Surgery: Diagnostic Potential of CRP, ESR and WBC in Predicting Infection. <em>J Pharma Negative Results</em>.</li>
+                <li><span class="ref-num">[18]</span> C-Reactive Protein, Erythrocyte Sedimentation Rate and Orthopedic Implant Infection. <em>PLoS One</em>.</li>
+                <li><span class="ref-num">[22]</span> Trend of Perioperative CRP Levels in Non-Infected Total Knee Arthroplasty. <em>Orthop Rev</em>.</li>
+                <li><span class="ref-num">[23]</span> Management of Postoperative Spinal Infection Causes and Prevention. <em>Al-Azhar Int Med J</em>.</li>
+                <li><span class="ref-num">[25]</span> Comparison of Inflammatory Markers Changes — 24h vs. 5d Prophylactic Antibiotics. <em>J Korean Neurosurg Soc</em>.</li>
+                <li><span class="ref-num">[27]</span> Clinical presentation and diagnosis of acute postoperative spinal implant infection. <em>J Spine Surg</em>.</li>
+                <li><span class="ref-num">[28]</span> Spinal Infection Stabilisation. Garces MD.</li>
+                <li><span class="ref-num">[29]</span> 2015 IDSA Clinical Practice Guidelines for the Diagnosis and Treatment of Native Vertebral Osteomyelitis in Adults. <em>Clin Infect Dis</em>.</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tool">
+        <div class="card">
+            <h2>🎛️ Interactive Clinical Decision Tool</h2>
+            <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;">Adjust parameters below to receive real-time clinical interpretation based on source document thresholds.</p>
+
+            <!-- Surgery Type -->
+            <div class="slider-group">
+                <label for="surgeryType">Procedure Type</label>
+                <select id="surgeryType" class="surgery-select" aria-label="Select procedure type">
+                    <option value="micro">Microdiscectomy (~46 mg/L peak)</option>
+                    <option value="endo">Endoscopic Discectomy (~75 mg/L peak)</option>
+                    <option value="conv">Conventional Discectomy (~92 mg/L peak)</option>
+                    <option value="plif">PLIF (~127 mg/L peak)</option>
+                    <option value="fix" selected>Posterolateral Fusion + Fixation (~173 mg/L peak)</option>
+                </select>
+                <div class="surgery-hint">Expected peak CRP adjusts based on selection <sup>[7]</sup></div>
+            </div>
+
+            <!-- CRP Slider -->
+            <div class="slider-group">
+                <label>
+                    <span>CRP Level</span>
+                    <span id="crpDisplay" class="slider-value">85.0 mg/L</span>
+                </label>
+                <input type="range" id="crpSlider" min="0" max="300" step="0.5" value="85" aria-label="CRP level in mg/L">
+            </div>
+
+            <!-- POD Slider -->
+            <div class="slider-group">
+                <label>
+                    <span>Postoperative Day</span>
+                    <span id="podDisplay" class="slider-value">Day 3</span>
+                </label>
+                <input type="range" id="podSlider" min="0" max="42" step="1" value="3" aria-label="Postoperative day">
+            </div>
+
+            <!-- ESR Slider -->
+            <div class="slider-group">
+                <label>
+                    <span>ESR Level</span>
+                    <span id="esrDisplay" class="slider-value">45 mm/h</span>
+                </label>
+                <input type="range" id="esrSlider" min="0" max="120" step="1" value="45" aria-label="ESR level in mm/h">
+            </div>
+
+            <!-- Kinetic Trend Toggle -->
+            <div class="slider-group">
+                <label>
+                    <span>CRP Trend Assessment</span>
+                </label>
+                <select id="trendSelect" class="surgery-select" aria-label="CRP trend assessment">
+                    <option value="declining">Declining as expected ✓</option>
+                    <option value="plateau">Plateaued (no decline)</option>
+                    <option value="rising">Secondary rise detected ⚠</option>
+                    <option value="unknown">Unknown / First measurement</option>
+                </select>
+            </div>
+
+            <div class="sep"></div>
+
+            <!-- Recommendation Box -->
+            <div id="recommendationBox" class="recommendation-box risk-low" aria-live="polite">
+                <h4 id="recTitle">🟢 LOW CONCERN</h4>
+                <p id="recText">Based on current parameters, the CRP level appears consistent with an expected physiological inflammatory response. Continue routine monitoring.</p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-row">
+                <button class="btn btn-reset" id="resetBtn" aria-label="Reset all parameters">↺ Reset</button>
+                <button class="btn btn-export" id="exportBtn" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast" role="status" aria-live="polite">Copied to clipboard!</div>
+
+<script>
+(function() {
+    // Elements
+    const crpSlider = document.getElementById('crpSlider');
+    const podSlider = document.getElementById('podSlider');
+    const esrSlider = document.getElementById('esrSlider');
+    const crpDisplay = document.getElementById('crpDisplay');
+    const podDisplay = document.getElementById('podDisplay');
+    const esrDisplay = document.getElementById('esrDisplay');
+    const surgeryType = document.getElementById('surgeryType');
+    const trendSelect = document.getElementById('trendSelect');
+    const recBox = document.getElementById('recommendationBox');
+    const recTitle = document.getElementById('recTitle');
+    const recText = document.getElementById('recText');
+    const resetBtn = document.getElementById('resetBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const toast = document.getElementById('toast');
+
+    // Expected peaks by surgery type (from source [7])
+    const peaks = {
+        micro: { peak: 46, label: 'Microdiscectomy' },
+        endo: { peak: 75, label: 'Endoscopic Discectomy' },
+        conv: { peak: 92, label: 'Conventional Discectomy' },
+        plif: { peak: 127, label: 'PLIF' },
+        fix: { peak: 173, label: 'Posterolateral Fusion + Fixation' }
+    };
+
+    function update() {
+        const crp = parseFloat(crpSlider.value);
+        const pod = parseInt(podSlider.value);
+        const esr = parseInt(esrSlider.value);
+        const trend = trendSelect.value;
+        const surgery = surgeryType.value;
+        const expectedPeak = peaks[surgery].peak;
+
+        crpDisplay.textContent = crp.toFixed(1) + ' mg/L';
+        podDisplay.textContent = 'Day ' + pod;
+        esrDisplay.textContent = esr + ' mm/h';
+
+        // Color code CRP display
+        if (crp > expectedPeak * 1.3) {
+            crpDisplay.style.background = '#fee2e2'; crpDisplay.style.color = '#991b1b';
+        } else if (crp > expectedPeak * 0.8) {
+            crpDisplay.style.background = '#fef3c7'; crpDisplay.style.color = '#92400e';
+        } else {
+            crpDisplay.style.background = '#dcfce7'; crpDisplay.style.color = '#166534';
+        }
+
+        // Color code ESR display
+        if (esr > 60) {
+            esrDisplay.style.background = '#fee2e2'; esrDisplay.style.color = '#991b1b';
+        } else if (esr > 20) {
+            esrDisplay.style.background = '#fef3c7'; esrDisplay.style.color = '#92400e';
+        } else {
+            esrDisplay.style.background = '#dcfce7'; esrDisplay.style.color = '#166534';
+        }
+
+        // Decision logic based on source document thresholds
+        let risk = 'low';
+        let title = '';
+        let text = '';
+        let rationale = [];
+
+        // Trend assessment overrides
+        if (trend === 'rising') {
+            risk = 'high';
+            title = '🔴 HIGH CONCERN — Secondary CRP Rise Detected';
+            text = 'A secondary rise in CRP after initial decline is the most classic and specific kinetic sign of developing SSI. Sensitivity 82%, NPV 86% for infectious complications [1]. Immediate clinical re-evaluation and advanced imaging recommended.';
+            rationale.push('Secondary CRP rise = hallmark of SSI [1]');
+        } else if (trend === 'plateau') {
+            risk = 'moderate';
+            title = '🟡 MODERATE CONCERN — CRP Plateau';
+            text = 'Failure of CRP to decrease after POD 4–5 is a major red flag. Investigation for infectious source is mandatory [1]. However, consider surgical magnitude and patient comorbidities before escalating.';
+            rationale.push('CRP plateau (no decline) after expected peak window [1]');
+        } else {
+            // Threshold-based logic
+            // POD-specific thresholds from Table C
+            let thresholdConcern = false;
+            let thresholdNote = '';
+
+            if (pod <= 3) {
+                // Early period: high CRP is expected
+                if (crp > 230) {
+                    thresholdConcern = true;
+                    thresholdNote = 'CRP >230 mg/L on POD 3 is above the threshold for predicting later infection (AUC 0.819) [16]. Note: this threshold was derived from hip fracture surgery.';
+                } else if (crp > expectedPeak * 1.3) {
+                    thresholdConcern = true;
+                    thresholdNote = 'CRP exceeds expected peak for ' + peaks[surgery].label + ' (~' + expectedPeak + ' mg/L) by >30% [7]. Consider procedure-specific expectations.';
+                }
+            } else if (pod >= 4 && pod <= 5) {
+                if (pod === 5 && crp < 4.0) {
+                    thresholdNote = 'CRP <4.0 mg/L on POD 5 is negative — sufficient to rule out infection in less extensive surgeries [15].';
+                } else if (crp > 25.4 && pod <= 5) {
+                    thresholdConcern = true;
+                    thresholdNote = 'CRP approaching POD 7 threshold (>25.4 mg/L) earlier than expected [17].';
+                }
+            } else if (pod >= 6 && pod <= 7) {
+                if (crp > 25.4) {
+                    thresholdConcern = true;
+                    thresholdNote = 'CRP >25.4 mg/L on POD 7: 100% sensitivity, 83.3% specificity, 100% NPV for SSI [17]. A value below 25.4 would be reassuring. The low PPV (26.7%) means not all elevated values represent infection.';
+                }
+            } else if (pod >= 8 && pod <= 13) {
+                if (crp > 12.05) {
+                    thresholdConcern = true;
+                    thresholdNote = 'CRP >12.05 mg/L by this time point is concerning. At POD 14, this cutoff has 100% sensitivity, 96.7% specificity [17].';
+                }
+            } else if (pod >= 14) {
+                if (crp > 12.05) {
+                    thresholdConcern = true;
+                    thresholdNote = 'CRP >12.05 mg/L on POD 14: 100% sensitivity, 96.7% specificity, 100% NPV, 66.7% PPV for SSI [17]. Highly suspicious — recommend urgent workup.';
+                } else {
+                    thresholdNote = 'CRP ≤12.05 mg/L on POD 14 effectively rules out SSI (100% NPV) [17].';
+                }
+            }
+
+            // Implant thresholds
+            if (crp > 10 && pod > 7) {
+                rationale.push('CRP >10 mg/L in implant setting: 57% sensitivity, 85% specificity for implant-associated infection [18]');
+            }
+
+            // ESR interpretation
+            if (pod <= 14 && esr > 40) {
+                rationale.push('ESR is elevated but has limited diagnostic value in early postoperative period due to slow kinetics [1, 12]');
+            }
+            if (pod > 21 && esr > 30) {
+                rationale.push('ESR >30 mm/h in late postoperative period may suggest chronic infection [15]');
+            }
+
+            // Build recommendation
+            if (thresholdConcern) {
+                risk = 'high';
+                title = '🔴 HIGH CONCERN';
+                text = thresholdNote + ' Combined with ' + (trend === 'unknown' ? 'unavailable trend data' : 'current trend assessment') + ', further diagnostic workup is recommended.';
+            } else if (pod <= 3 && crp > expectedPeak * 0.5) {
+                risk = 'low';
+                title = '🟢 LOW CONCERN — Expected Early Response';
+                text = 'On POD ' + pod + ', a CRP of ' + crp.toFixed(1) + ' mg/L is within the expected range for ' + peaks[surgery].label + ' (expected peak ~' + expectedPeak + ' mg/L on POD 2–3) [7]. The primary purpose of this measurement is to establish the peak. Continue monitoring for expected decline on POD 4–7.';
+            } else if (pod >= 4 && pod <= 7 && crp < 25.4 && trend === 'declining') {
+                risk = 'low';
+                title = '🟢 LOW CONCERN — Normal Declining Pattern';
+                text = 'CRP is declining as expected. The high NPV of a normal CRP trajectory provides strong reassurance against early deep SSI [1]. Further routine biomarker testing may be unnecessary, reducing costs [5].';
+                rationale.push('Declining CRP trajectory = high NPV for SSI [1]');
+            } else if (pod > 14 && crp <= 12.05) {
+                risk = 'low';
+                title = '🟢 LOW CONCERN — SSI Ruled Out';
+                text = 'CRP ≤12.05 mg/L on POD ' + pod + ' effectively rules out SSI with 100% NPV [17]. The inflammatory response has substantially subsided.';
+            } else if (pod > 14 && crp > 12.05) {
+                risk = 'high';
+                title = '🔴 HIGH CONCERN — Persistent Elevation';
+                text = 'CRP remains elevated (' + crp.toFixed(1) + ' mg/L) at POD ' + pod + '. At this stage, the normal physiological inflammation should have substantially subsided. This is highly suspicious for a pathological process [17]. Recommend urgent imaging (MRI with gadolinium) and microbiological evaluation.';
+            } else if (pod >= 4 && pod <= 7 && crp >= 25.4) {
+                risk = 'moderate';
+                title = '🟡 MODERATE CONCERN — Elevated for Timepoint';
+                text = 'CRP of ' + crp.toFixed(1) + ' mg/L exceeds the POD 7 cutoff of 25.4 mg/L (100% sensitivity, 83.3% specificity [17]). However, the low PPV (26.7%) means many elevated values represent false positives. Correlate with clinical status. If clinically well with declining trend, continue observation. If concerning symptoms, initiate workup.';
+            } else {
+                risk = 'moderate';
+                title = '🟡 MODERATE CONCERN — Monitor Closely';
+                text = 'CRP of ' + crp.toFixed(1) + ' mg/L on POD ' + pod + ' warrants attention. ';
+                if (trend === 'unknown') {
+                    text += 'Trend is unknown — serial measurements are essential for kinetic analysis. A single value cannot distinguish normal postoperative response from infection [1].';
+                } else {
+                    text += 'Continue monitoring with serial measurements. Adhere to the kinetic analysis approach: the trajectory matters more than any single value [1].';
+                }
+            }
+        }
+
+        // Add comorbidity caveat for high-risk scenarios
+        if (risk !== 'low') {
+            rationale.push('Consider patient comorbidities (diabetes, obesity, renal disease) which can elevate baseline CRP independently [5, 22, 23]');
+            rationale.push('Duration of prophylactic antibiotics does not significantly alter CRP kinetic pattern [2, 25]');
+        }
+
+        if (pod > 14 && esr > 30) {
+            rationale.push('ESR >20–30 mm/h in chronic/late setting may be superior to CRP for chronic vertebral osteomyelitis [15]');
+        }
+
+        // Update recommendation box
+        recBox.className = 'recommendation-box risk-' + risk;
+        recTitle.textContent = title;
+        let fullText = text;
+        if (rationale.length > 0) {
+            fullText += '\n\nKey evidence notes:\n• ' + rationale.join('\n• ');
+        }
+        recText.innerHTML = fullText.replace(/\n/g, '<br>').replace(/\n• /g, '<br>• ');
+
+        // Update kinetic canvas
+        drawKineticCurve(crp, pod, expectedPeak, trend);
+    }
+
+    function drawKineticCurve(currentCRP, currentPOD, expectedPeak, trend) {
+        const canvas = document.getElementById('crpCanvas');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        const w = rect.width;
+        const h = rect.height;
+        const pad = { top: 20, right: 20, bottom: 30, left: 50 };
+        const plotW = w - pad.left - pad.right;
+        const plotH = h - pad.top - pad.bottom;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Y axis: 0 to maxPeak*1.5
+        const yMax = Math.max(expectedPeak * 1.5, currentCRP * 1.2, 100);
+        const xMax = 28;
+
+        function toX(pod) { return pad.left + (pod / xMax) * plotW; }
+        function toY(val) { return pad.top + plotH - (val / yMax) * plotH; }
+
+        // Grid lines
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= 4; i++) {
+            const y = pad.top + (plotH / 4) * i;
+            ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+        }
+
+        // Y axis labels
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 4; i++) {
+            const val = Math.round(yMax - (yMax / 4) * i);
+            const y = pad.top + (plotH / 4) * i;
+            ctx.fillText(val, pad.left - 5, y + 3);
+        }
+
+        // X axis labels
+        ctx.textAlign = 'center';
+        for (let d = 0; d <= 28; d += 7) {
+            ctx.fillText('D' + d, toX(d), h - 5);
+        }
+
+        // Expected CRP curve (uncomplicated): peak at POD 2, half-life ~2.6 days
+        ctx.strokeStyle = '#93c5fd';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        for (let d = 0; d <= 28; d += 0.5) {
+            let val;
+            if (d <= 2) {
+                val = expectedPeak * (d / 2);
+            } else {
+                val = expectedPeak * Math.pow(0.5, (d - 2) / 2.6);
+            }
+            const x = toX(d);
+            const y = toY(val);
+            if (d === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Label expected curve
+        ctx.fillStyle = '#93c5fd';
+        ctx.font = '9px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Expected (uncomplicated)', toX(10), toY(expectedPeak * Math.pow(0.5, 8 / 2.6)) - 8);
+
+        // Patient actual point
+        const px = toX(Math.min(currentPOD, 28));
+        const py = toY(Math.min(currentCRP, yMax));
+
+        // Draw dot with glow
+        ctx.beginPath();
+        ctx.arc(px, py, 6, 0, Math.PI * 2);
+        if (currentCRP > expectedPeak * 1.2 || currentPOD > 7 && currentCRP > 25.4) {
+            ctx.fillStyle = '#dc2626';
+        } else if (currentCRP > expectedPeak * 0.7) {
+            ctx.fillStyle = '#f59e0b';
+        } else {
+            ctx.fillStyle = '#16a34a';
+        }
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Label
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 10px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(currentCRP.toFixed(0) + ' mg/L', px + 10, py - 5);
+
+        // Axes
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, h - pad.bottom);
+        ctx.lineTo(w - pad.right, h - pad.bottom);
+        ctx.stroke();
+
+        // Y axis label
+        ctx.save();
+        ctx.translate(12, h / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '9px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('CRP (mg/L)', 0, 0);
+        ctx.restore();
+    }
+
+    // Event listeners
+    crpSlider.addEventListener('input', update);
+    podSlider.addEventListener('input', update);
+    esrSlider.addEventListener('input', update);
+    surgeryType.addEventListener('change', update);
+    trendSelect.addEventListener('change', update);
+
+    // Reset
+    resetBtn.addEventListener('click', function() {
+        crpSlider.value = 85;
+        podSlider.value = 3;
+        esrSlider.value = 45;
+        surgeryType.value = 'fix';
+        trendSelect.value = 'unknown';
+        update();
+    });
+
+    // Export
+    exportBtn.addEventListener('click', function() {
+        const crp = parseFloat(crpSlider.value).toFixed(1);
+        const pod = podSlider.value;
+        const esr = esrSlider.value;
+        const surgery = peaks[surgeryType.value].label;
+        const trend = trendSelect.options[trendSelect.selectedIndex].text;
+        const rec = recText.innerText;
+        const timestamp = new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' });
+
+        const summary = [
+            '=== CLINICAL DECISION TOOL SUMMARY ===',
+            'Generated: ' + timestamp,
+            '',
+            '--- Parameters ---',
+            'Procedure: ' + surgery,
+            'Postoperative Day: ' + pod,
+            'CRP Level: ' + crp + ' mg/L',
+            'ESR Level: ' + esr + ' mm/h',
+            'CRP Trend: ' + trend,
+            '',
+            '--- Clinical Interpretation ---',
+            recTitle.innerText,
+            '',
+            rec,
+            '',
+            '--- Evidence Basis ---',
+            'Data derived from: "Postoperative Inflammatory Markers in Spinal Surgery: A Clinical Investigation of CRP and ESR Kinetics for the Diagnosis of Infection"',
+            'Thresholds sourced from references [1, 7, 15, 16, 17, 18] as cited in the source document.',
+            '',
+            'IMPORTANT: This tool is for educational purposes. Clinical decisions must integrate full patient assessment.'
+        ].join('\n');
+
+        navigator.clipboard.writeText(summary).then(function() {
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 2500);
+        }).catch(function() {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = summary;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 2500);
+        });
+    });
+
+    // Responsive canvas redraw
+    window.addEventListener('resize', update);
+
+    // Initial draw
+    update();
+})();
+</script>
+</body>
+</html>

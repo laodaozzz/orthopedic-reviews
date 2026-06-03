@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced MRI Assessment in Anterior Shoulder Instability</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-light: #e8effd;
+    --primary-dark: #0f3a8e;
+    --accent: #059669;
+    --accent-light: #d1fae5;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Header */
+  .site-header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: var(--white);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50%;
+  }
+  .site-header h1 {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .site-header p {
+    font-size: 1rem;
+    opacity: 0.85;
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Layout */
+  .page-wrapper {
+    max-width: 1360px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  @media (max-width: 1024px) {
+    .page-wrapper { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .page-wrapper { padding: 1rem; gap: 1rem; }
+  }
+
+  /* Main Content */
+  .main-content {
+    min-width: 0;
+  }
+  .content-section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-200);
+  }
+  .content-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light);
+    letter-spacing: -0.02em;
+  }
+  .content-section h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin: 1.5rem 0 0.75rem;
+  }
+  .content-section p {
+    margin-bottom: 1rem;
+    color: var(--gray-700);
+  }
+  .content-section ul, .content-section ol {
+    margin: 0.75rem 0 1rem 1.5rem;
+    color: var(--gray-700);
+  }
+  .content-section li { margin-bottom: 0.5rem; }
+  .content-section strong { color: var(--gray-900); }
+
+  /* Evidence Badge */
+  .evidence-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .ev-1 { background: #065f46; color: #ecfdf5; }
+  .ev-2 { background: #1d4ed8; color: #eff6ff; }
+  .ev-3 { background: #7c3aed; color: #f5f3ff; }
+  .ev-4 { background: #b45309; color: #fffbeb; }
+  .ev-5 { background: #6b7280; color: #f9fafb; }
+  .ev-na { background: #e5e7eb; color: #374151; }
+
+  /* Callout Box */
+  .callout {
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout-info {
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
+  }
+  .callout-warning {
+    background: var(--warning-light);
+    border-left: 4px solid var(--warning);
+  }
+  .callout-danger {
+    background: var(--danger-light);
+    border-left: 4px solid var(--danger);
+  }
+  .callout-success {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+  }
+  .callout-title {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  table caption {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    background: var(--primary-dark);
+    color: var(--white);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  thead th {
+    background: var(--gray-100);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.65rem 0.75rem;
+    border-bottom: 2px solid var(--gray-300);
+    color: var(--gray-900);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-700);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--gray-50); }
+
+  /* Sidebar */
+  .sidebar {
+    position: relative;
+  }
+  @media (min-width: 1025px) {
+    .sidebar { position: sticky; top: 1rem; align-self: start; }
+  }
+  .sidebar-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-card-header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: var(--white);
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .sidebar-card-body {
+    padding: 1.25rem;
+  }
+
+  /* Slider Controls */
+  .slider-group {
+    margin-bottom: 1.25rem;
+  }
+  .slider-group:last-of-type { margin-bottom: 0; }
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+  }
+  .slider-label-text {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--gray-900);
+  }
+  .slider-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary);
+    min-width: 60px;
+    text-align: right;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--gray-200);
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(26,86,219,0.3);
+    transition: transform 0.15s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(26,86,219,0.3);
+  }
+  .slider-hint {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+    margin-top: 0.2rem;
+  }
+
+  /* Recommendation Box */
+  .recommendation-box {
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 2px solid;
+    transition: all 0.3s ease;
+  }
+  .rec-bankart {
+    background: var(--accent-light);
+    border-color: var(--accent);
+  }
+  .rec-latarjet {
+    background: var(--danger-light);
+    border-color: var(--danger);
+  }
+  .rec-caution {
+    background: var(--warning-light);
+    border-color: var(--warning);
+  }
+  .rec-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .rec-text {
+    font-size: 0.83rem;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+  .rec-params {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    font-size: 0.78rem;
+    color: var(--gray-500);
+  }
+
+  /* Buttons */
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    flex: 1;
+    padding: 0.6rem 0.75rem;
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: 1px solid var(--gray-300);
+  }
+  .btn-secondary:hover { background: var(--gray-200); }
+
+  /* Track Status Badge */
+  .track-badge {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-top: 0.3rem;
+  }
+  .track-on {
+    background: var(--accent-light);
+    color: #065f46;
+  }
+  .track-off {
+    background: var(--danger-light);
+    color: var(--danger);
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--gray-900);
+    color: var(--white);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Reference List */
+  .references ol {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    line-height: 1.8;
+    padding-left: 1.25rem;
+  }
+  .references li { margin-bottom: 0.15rem; }
+
+  /* Formula Box */
+  .formula-box {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    text-align: center;
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* Algorithm Step */
+  .step-list {
+    counter-reset: step;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  .step-list li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .step-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    background: var(--primary);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  /* Print */
+  @media print {
+    .sidebar { display: none; }
+    .page-wrapper { grid-template-columns: 1fr; }
+    .site-header { background: var(--primary-dark); print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Advanced MRI Assessment in Anterior Shoulder Instability</h1>
+  <p>A Radiologist's Evidence-Based Guide to Predicting Bankart Repair Failure &amp; Informing the Bankart-versus-Latarjet Decision</p>
+</header>
+
+<div class="page-wrapper">
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content" role="main">
+
+    <!-- Section 1: Introduction -->
+    <section class="content-section" id="intro">
+      <h2>The Unstable Shoulder: An Imaging-Centric View of Pathoanatomy</h2>
+      <p>The glenohumeral joint affords the human body its greatest range of motion—a functional advantage that comes at the cost of inherent instability. Its architecture, often likened to a <strong>golf ball on a tee</strong>, features a large, spherical humeral head articulating with a significantly smaller and shallower glenoid fossa.<span class="evidence-badge ev-na">Ref 1</span> This mismatch necessitates a complex interplay of static and dynamic stabilizers to maintain joint congruity.</p>
+
+      <h3>Static &amp; Dynamic Stabilizers</h3>
+      <p>Stability is maintained by two synergistic systems:<span class="evidence-badge ev-na">Ref 2</span></p>
+      <ul>
+        <li><strong>Static stabilizers:</strong> Bony geometry, negative intra-articular pressure, and—most critically—the <strong>capsulolabral complex</strong>. The glenoid labrum deepens the socket by approximately <strong>50%</strong>, increasing contact surface area and acting as a crucial "bumper" against humeral head translation.<span class="evidence-badge ev-na">Ref 3</span></li>
+        <li><strong>Dynamic stabilizers:</strong> The rotator cuff muscles provide compressive force centering the humeral head, complemented by the long head of the biceps tendon and periscapular muscles.<span class="evidence-badge ev-na">Ref 2</span></li>
+      </ul>
+      <p>Arthroscopic Bankart repair restores the integrity of the static capsulolabral structures, but its success is fundamentally predicated on the adequacy of the underlying bony architecture. The procedure <strong>cannot compensate for significant osseous deficiencies</strong>—a reality that underscores the critical importance of preoperative imaging.</p>
+
+      <h3>The Spectrum of Injury: From Soft-Tissue to Bipolar Bone Loss</h3>
+      <p>Traumatic anterior shoulder dislocation initiates a cascade of injuries:<span class="evidence-badge ev-na">Ref 2,3,11</span></p>
+      <ul>
+        <li><strong>Bankart lesion:</strong> Avulsion of the anteroinferior labrum from the glenoid rim with the anterior band of the IGHL—the "essential lesion" found in up to 90% of traumatic anterior dislocations.<span class="evidence-badge ev-na">Ref 2</span></li>
+        <li><strong>Bony Bankart / Glenoid Bone Loss (GBL):</strong> Fracture of the anteroinferior glenoid rim, or chronic attritional erosion from recurrent dislocations.<span class="evidence-badge ev-na">Ref 4,11</span></li>
+        <li><strong>Hill-Sachs lesion:</strong> Compression fracture of the posterosuperior-lateral humeral head from impact against the anterior glenoid. Prevalence is 40–90% initially and approaches <strong>100%</strong> in recurrent instability.<span class="evidence-badge ev-na">Ref 14</span></li>
+        <li><strong>Bipolar bone lesion:</strong> Simultaneous GBL + Hill-Sachs lesion—recognized as a single, interacting biomechanical unit.<span class="evidence-badge ev-na">Ref 17</span></li>
+      </ul>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">⚠ Critical Insight</div>
+        <p>The primary cause of failure after arthroscopic Bankart repair is <strong>not a re-tear of the soft-tissue repair</strong> but rather the inability of that repair to overcome the instability created by <strong>unaddressed bipolar bone loss</strong>.<span class="evidence-badge ev-na">Ref 2</span></p>
+      </div>
+
+      <h3>Why Bone Loss Matters: The Biomechanical Cascade</h3>
+      <p>Glenoid bone loss directly reduces the anteroposterior diameter of the glenoid, effectively shortening the articular arc and diminishing the contact surface area.<span class="evidence-badge ev-na">Ref 21</span> As GBL progresses, the normal pear shape can become an <strong>"inverted pear,"</strong> significantly compromising the glenoid's buttress function.<span class="evidence-badge ev-na">Ref 23</span></p>
+      <p>On the humeral side, a Hill-Sachs lesion can <strong>"engage"</strong> the anterior glenoid rim during abduction and external rotation, acting as a fulcrum to lever the humeral head out of the socket.<span class="evidence-badge ev-na">Ref 14,16</span> This creates a self-propagating vicious cycle: instability causes bone loss, which causes more instability, leading to further bone loss with each episode.<span class="evidence-badge ev-na">Ref 22</span></p>
+    </section>
+
+    <!-- Section 2: GBL Quantification -->
+    <section class="content-section" id="gbl">
+      <h2>Quantifying Glenoid Bone Loss (GBL): Methodologies &amp; Evolving Thresholds</h2>
+      <p>The percentage of GBL is the <strong>primary predictor of failure</strong> for arthroscopic Bankart repair and the key determinant for bony augmentation.<span class="evidence-badge ev-na">Ref 27</span> Understanding of what constitutes "critical" bone loss has evolved significantly over the past two decades.</p>
+
+      <h3>Evidence-Based Thresholds</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 1. Evidence-Based GBL Thresholds for Surgical Decision-Making</caption>
+          <thead>
+            <tr>
+              <th>GBL Threshold</th>
+              <th>Associated Outcome / Definition of Failure</th>
+              <th>Population</th>
+              <th>Ref</th>
+              <th>Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>&gt;20–25%</strong></td>
+              <td>High rate of recurrent dislocation (67% failure vs 4% without bone loss)</td>
+              <td>General / Athletes</td>
+              <td>21</td>
+              <td><span class="evidence-badge ev-2">Level II</span></td>
+            </tr>
+            <tr>
+              <td><strong>17.3%</strong></td>
+              <td>Optimal cutoff predicting surgical failure (75% sensitivity, 86.6% specificity)</td>
+              <td>General</td>
+              <td>21</td>
+              <td><span class="evidence-badge ev-3">Level III</span></td>
+            </tr>
+            <tr>
+              <td><strong>≥16.0%</strong></td>
+              <td>Predictive of recurrent dislocation or subluxation (n=528 systematic review)</td>
+              <td>Pooled Cohort</td>
+              <td>29</td>
+              <td><span class="evidence-badge ev-1">Level I</span></td>
+            </tr>
+            <tr>
+              <td><strong>&gt;13.5%</strong></td>
+              <td>"Subcritical" bone loss → clinically significant decrease in WOSI/SANE functional scores</td>
+              <td>High-Demand (Military)</td>
+              <td>31</td>
+              <td><span class="evidence-badge ev-2">Level II</span></td>
+            </tr>
+            <tr>
+              <td><strong>&gt;7%</strong></td>
+              <td>Impaired functional scores on long-term (&gt;17 year) follow-up</td>
+              <td>General</td>
+              <td>28</td>
+              <td><span class="evidence-badge ev-3">Level III</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-title">💡 Evolving Paradigm</div>
+        <p>The decision is no longer based on a simple anatomical cutoff for preventing catastrophic failure (redislocation) but on a <strong>patient-centered assessment of risk</strong> that incorporates functional expectations. A 15% GBL may be "subcritical" for a sedentary individual but functionally "critical" for a competitive overhead athlete.</p>
+      </div>
+
+      <h3>Step-by-Step MRI Measurement: The Best-Fit Circle Method</h3>
+      <p>The most widely used and validated method for quantifying GBL on MRI is the <strong>best-fit circle method</strong>, leveraging the consistent circular shape of the inferior two-thirds of the glenoid.<span class="evidence-badge ev-na">Ref 22</span></p>
+      <ol class="step-list">
+        <li><strong>Image Selection:</strong> Obtain a true <em>en face</em> view of the glenoid on sagittal oblique MRI, planned parallel to the glenoid face.<span class="evidence-badge ev-na">Ref 22</span> 3D MRI reconstructions can also produce an ideal view.<span class="evidence-badge ev-na">Ref 31</span></li>
+        <li><strong>Drawing the Best-Fit Circle:</strong> Position a circle to perfectly match the intact posterior and inferior glenoid margins.<span class="evidence-badge ev-na">Ref 17</span></li>
+        <li><strong>Measuring Intact Glenoid Diameter (D):</strong> Draw a line through the circle center perpendicular to the long glenoid axis.<span class="evidence-badge ev-na">Ref 17</span></li>
+        <li><strong>Measuring Bone Loss Width (d):</strong> Measure the distance from the blunted anterior glenoid rim to the anterior edge of the best-fit circle.<span class="evidence-badge ev-na">Ref 17</span></li>
+        <li><strong>Calculating GBL:</strong></li>
+      </ol>
+      <div class="formula-box">%GBL = (d ÷ D) × 100</div>
+
+      <h3>Diagnostic Performance: MRI vs CT</h3>
+      <p>Historically, 3D-CT was considered the gold standard. However, substantial recent evidence demonstrates that MRI is a <strong>highly accurate and reliable alternative</strong>:<span class="evidence-badge ev-na">Ref 34,39,40</span></p>
+      <ul>
+        <li>Correlation coefficient <strong>r = 0.95</strong> between CT and MRI for glenoid width measurement</li>
+        <li>Correlation <strong>r = 0.84</strong> between MRI and the reference standard of arthroscopy</li>
+        <li>A 2024 systematic review of 11 studies: <strong>no significant difference</strong> between MRI and CT measurements</li>
+        <li>Good-to-excellent inter- and intra-observer reliability with standardized protocols</li>
+      </ul>
+      <div class="callout callout-success">
+        <div class="callout-title">✅ Clinical Implication</div>
+        <p>A well-performed MRI can serve as a <strong>"one-stop-shop"</strong> evaluation—providing all necessary information on both soft-tissue and osseous pathology, eliminating the need for additional CT scans.<span class="evidence-badge ev-na">Ref 34</span></p>
+      </div>
+    </section>
+
+    <!-- Section 3: Hill-Sachs -->
+    <section class="content-section" id="hillsachs">
+      <h2>Characterizing the Humeral Head Defect: The Hill-Sachs Lesion</h2>
+
+      <h3>Clinically Relevant Parameters</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 2. Hill-Sachs Lesion Characterization: Key Parameters</caption>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Categories / Details</th>
+              <th>Clinical Significance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Size</strong></td>
+              <td>Minor (&lt;20%), Moderate (20–45%), Severe (&gt;45%) of humeral head surface</td>
+              <td>Lesions &gt;250 mm³ significantly associated with recurrence<span class="evidence-badge ev-na">Ref 42</span></td>
+            </tr>
+            <tr>
+              <td><strong>Location</strong></td>
+              <td>Medial vs. lateral; superior vs. inferior position</td>
+              <td>More medial = engage with less ER; inferior position = independent risk factor for failure<span class="evidence-badge ev-na">Ref 24,43</span></td>
+            </tr>
+            <tr>
+              <td><strong>Orientation</strong></td>
+              <td>Long axis relative to glenoid rim at 90° abd + max ER</td>
+              <td>"Engaging" lesion: long axis parallel to glenoid rim → locks onto glenoid<span class="evidence-badge ev-na">Ref 16</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The Hill-Sachs Interval (HSI)</h3>
+      <p>The most critical measurement for modern surgical planning is the <strong>Hill-Sachs Interval (HSI)</strong>—the key humeral-sided input for the glenoid track calculation.<span class="evidence-badge ev-na">Ref 17</span></p>
+      <p>The HSI is defined as the width of the Hill-Sachs lesion <strong>plus</strong> the width of the intact "bone bridge" between the lateral margin of the lesion and the rotator cuff (infraspinatus tendon) insertion. It is measured on the axial MRI slice demonstrating the greatest medial extent of the lesion.<span class="evidence-badge ev-na">Ref 36</span></p>
+      <p>This shifts the radiological report from being purely descriptive to being <strong>actively prescriptive</strong> in guiding the surgical algorithm.</p>
+    </section>
+
+    <!-- Section 4: Glenoid Track -->
+    <section class="content-section" id="glenoidtrack">
+      <h2>The Glenoid Track Concept: A Unifying Framework</h2>
+      <p>The glenoid track concept represents a paradigm shift from separate, static assessment of glenoid and humeral defects toward a <strong>unified, dynamic model</strong> that evaluates their interaction.<span class="evidence-badge ev-na">Ref 17</span></p>
+
+      <h3>Core Principles</h3>
+      <p>The glenoid track is the zone of contact between the glenoid and humeral head as the arm moves into the high-risk position of abduction and external rotation. Biomechanical studies have determined that this contact zone is approximately <strong>83%</strong> of the total glenoid diameter.<span class="evidence-badge ev-na">Ref 17</span></p>
+
+      <div class="callout callout-info">
+        <div class="callout-title">📐 The Glenoid Track Decision Rule</div>
+        <p><strong>On-Track (HSI &lt; GT):</strong> The humeral defect remains on the glenoid articular surface throughout ROM → <em>low risk of engagement</em>.<br>
+        <strong>Off-Track (HSI &gt; GT):</strong> The medial margin of the defect extends beyond the glenoid track → <em>engagement, levering, recurrent instability</em>.</p>
+      </div>
+
+      <h3>Step-by-Step Calculation on MRI</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 3. Glenoid Track Calculation Parameters</caption>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Imaging Plane</th>
+              <th>Measurement / Calculation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="3" style="background:var(--gray-100);font-weight:600;">Part A: Glenoid Measurement</td></tr>
+            <tr>
+              <td>Intact Glenoid Diameter (D)</td>
+              <td>Sagittal Oblique (<em>en face</em>)</td>
+              <td>Diameter of best-fit circle on inferior glenoid</td>
+            </tr>
+            <tr>
+              <td>Glenoid Bone Loss (d)</td>
+              <td>Sagittal Oblique (<em>en face</em>)</td>
+              <td>Width of defect from anterior rim to best-fit circle</td>
+            </tr>
+            <tr>
+              <td><strong>Glenoid Track (GT)</strong></td>
+              <td>—</td>
+              <td><strong>GT = (0.83 × D) − d</strong></td>
+            </tr>
+            <tr><td colspan="3" style="background:var(--gray-100);font-weight:600;">Part B: Humeral Measurement</td></tr>
+            <tr>
+              <td><strong>Hill-Sachs Interval (HSI)</strong></td>
+              <td>Axial</td>
+              <td>Width from medial margin of HSL to rotator cuff insertion</td>
+            </tr>
+            <tr><td colspan="3" style="background:var(--gray-100);font-weight:600;">Part C: Final Determination</td></tr>
+            <tr>
+              <td><strong>Lesion Status</strong></td>
+              <td>—</td>
+              <td>ON-TRACK if HSI &lt; GT &nbsp;|&nbsp; OFF-TRACK if HSI &gt; GT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Diagnostic Performance &amp; Reliability</h3>
+      <p>MRI demonstrates <strong>84% overall accuracy</strong> for correctly classifying lesions as on-track or off-track when compared to intraoperative arthroscopic findings.<span class="evidence-badge ev-na">Ref 23</span></p>
+      <p>However, reliability is experience-dependent: inter- and intra-observer reliability is <strong>good among fellowship-trained surgeons</strong> but only <strong>moderate to poor among residents</strong>. The HSI measurement has lower reliability than glenoid-sided measurements.<span class="evidence-badge ev-na">Ref 49</span></p>
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠ Evidence Gap</div>
+        <p>These findings highlight the critical importance of <strong>standardized measurement protocols</strong>, adequate training, and collaboration between experienced musculoskeletal radiologists and orthopedic surgeons.</p>
+      </div>
+    </section>
+
+    <!-- Section 5: Surgical Algorithm -->
+    <section class="content-section" id="algorithm">
+      <h2>Translating Imaging Findings into a Surgical Algorithm</h2>
+
+      <h3>MRI Predictors of Bankart Repair Failure</h3>
+      <ul>
+        <li><strong>Primary predictor — Off-track lesion (HSI &gt; GT):</strong> The single strongest MRI-based predictor of soft-tissue repair failure.<span class="evidence-badge ev-na">Ref 17</span></li>
+        <li><strong>Secondary predictor — GBL degree:</strong> GBL &gt;17–20% markedly increases risk; "subcritical" GBL &gt;13.5% predicts poor functional outcomes in high-demand patients.<span class="evidence-badge ev-na">Ref 19,28</span></li>
+        <li><strong>Other risk factors:</strong>
+          <ul>
+            <li>Large Hill-Sachs lesion (&gt;25–40% of humeral head), especially medial/inferior location<span class="evidence-badge ev-na">Ref 33</span></li>
+            <li>Larger Bankart tear size<span class="evidence-badge ev-na">Ref 19</span></li>
+            <li>GLAD lesion (superficial labral tear + adjacent cartilage damage)<span class="evidence-badge ev-na">Ref 13,55</span></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>The Latarjet Procedure: Indications</h3>
+      <p>The Latarjet provides a <strong>"triple effect"</strong> of stability:<span class="evidence-badge ev-na">Ref 26</span></p>
+      <ol>
+        <li><strong>Bony effect:</strong> Restores glenoid bone stock</li>
+        <li><strong>Ligament effect:</strong> Reinforces the anterior capsule</li>
+        <li><strong>Sling effect:</strong> Dynamic muscular sling from the conjoined tendon</li>
+      </ol>
+      <p><strong>Primary MRI indication:</strong> Off-track bipolar bone lesion.<br>
+      <strong>Secondary MRI indication:</strong> GBL &gt;20% (strong); lowered to &gt;17% or &gt;13.5% in high-risk patients.<span class="evidence-badge ev-na">Ref 8,28</span></p>
+
+      <h3>Surgical Decision Matrix</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 4. MRI-Based Surgical Decision Matrix: Bankart vs. Latarjet</caption>
+          <thead>
+            <tr>
+              <th>Glenoid Track Status</th>
+              <th>GBL &lt; 13.5%</th>
+              <th>GBL 13.5%–20%</th>
+              <th>GBL &gt; 20%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>On-Track (HSI &lt; GT)</strong></td>
+              <td style="background:var(--accent-light);">Arthroscopic Bankart Repair</td>
+              <td style="background:var(--warning-light);">Bankart Repair. <strong>Consider Latarjet in high-risk patients (High ISIS).</strong></td>
+              <td style="background:var(--danger-light);">Strongly consider Latarjet</td>
+            </tr>
+            <tr>
+              <td><strong>Off-Track (HSI &gt; GT)</strong></td>
+              <td style="background:var(--warning-light);">Consider Latarjet or Bankart + Remplissage</td>
+              <td style="background:var(--danger-light);">Latarjet Procedure</td>
+              <td style="background:var(--danger-light);">Latarjet Procedure</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Integrating Clinical Data: The Instability Severity Index Score (ISIS)</h3>
+      <p>The ISIS combines clinical and radiographic risk factors to predict recurrence risk:<span class="evidence-badge ev-na">Ref 57</span></p>
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 5. Instability Severity Index Score (ISIS) Components</caption>
+          <thead>
+            <tr><th>Variable</th><th>Condition</th><th>Points</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Age at surgery</td><td>≤ 20 years</td><td>2</td></tr>
+            <tr><td>Sports participation</td><td>Competitive level</td><td>2</td></tr>
+            <tr><td>Type of sport</td><td>Contact or forced overhead</td><td>2</td></tr>
+            <tr><td>Shoulder hyperlaxity</td><td>Anteroinferior hyperlaxity present</td><td>1</td></tr>
+            <tr><td>Hill-Sachs on radiograph</td><td>Visible on ER view</td><td>2</td></tr>
+            <tr><td>Glenoid contour loss</td><td>Visible loss of contour</td><td>2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Score ≤ 6:</strong> Acceptable recurrence rate (~10%) with arthroscopic repair.<br>
+      <strong>Score &gt; 6:</strong> Prohibitively high recurrence risk (~70%) → primary open bony procedure (Latarjet) recommended.<span class="evidence-badge ev-na">Ref 57</span></p>
+    </section>
+
+    <!-- Section 6: Advanced Imaging & Reporting -->
+    <section class="content-section" id="reporting">
+      <h2>Advanced Imaging Horizons &amp; Reporting Recommendations</h2>
+
+      <h3>The Role of 3D MRI</h3>
+      <p>Isotropic 3D MRI sequences (e.g., <strong>FRACTURE</strong>—Fast Field Echo Resembling a CT Using Restricted Echo-spacing) generate images with CT-like bone contrast without ionizing radiation.<span class="evidence-badge ev-na">Ref 38</span> These can be reformatted to create perfect <em>en face</em> views and 3D reconstructions, potentially improving inter-observer reliability.<span class="evidence-badge ev-na">Ref 31,41</span></p>
+
+      <h3>Essential Elements of a Clinically Actionable MRI Report</h3>
+      <div class="callout callout-success">
+        <div class="callout-title">📋 Required Quantitative Data</div>
+        <p>
+          <strong>1.</strong> Glenoid Bone Loss (GBL): Percentage via best-fit circle method<br>
+          <strong>2.</strong> Glenoid Track (GT) Width: In millimeters<br>
+          <strong>3.</strong> Hill-Sachs Interval (HSI): In millimeters<br>
+          <strong>4.</strong> On-Track / Off-Track Status: Clear concluding statement
+        </p>
+      </div>
+      <p><strong>Required Qualitative Data:</strong> Detailed capsulolabral injury description (Bankart, ALPSA, GLAD variants), rotator cuff integrity, biceps tendon assessment, and articular cartilage evaluation.</p>
+
+      <div class="callout callout-info">
+        <div class="callout-title">📝 Exemplary Impression</div>
+        <p><em>"1. Bipolar bone lesion: estimated 18% anterior GBL with large Hill-Sachs lesion.<br>
+        2. HSI (19 mm) &gt; calculated GT (16.5 mm) → <strong>off-track lesion</strong>.<br>
+        3. Anteroinferior labral tear consistent with Bankart lesion.<br>
+        4. These findings are associated with a <strong>high risk of recurrent instability</strong> following isolated arthroscopic Bankart repair."</em></p>
+      </div>
+    </section>
+
+    <!-- Section 7: Conclusions -->
+    <section class="content-section" id="conclusions">
+      <h2>Synthesized Recommendations for the Clinical Team</h2>
+      <ol>
+        <li><strong>Adopt a Quantitative Approach:</strong> All preoperative MRI examinations should include routine, quantitative assessment of osseous defects. Descriptive reports are insufficient.<span class="evidence-badge ev-2">Level II</span></li>
+        <li><strong>Embrace the Glenoid Track Concept:</strong> The on-track vs. off-track determination should be a primary goal, as an off-track finding is the strongest predictor of Bankart repair failure.<span class="evidence-badge ev-na">Ref 17</span></li>
+        <li><strong>Recognize Evolving GBL Thresholds:</strong> "Critical" GBL is a spectrum. While &gt;20% remains strong indication for augmentation, thresholds of 16–17% predict recurrence, and "subcritical" &gt;13.5% predicts poor functional outcomes.<span class="evidence-badge ev-1">Level I</span></li>
+        <li><strong>Standardize MRI Reporting:</strong> Include %GBL, GT width, HSI, and on/off-track determination in every report.</li>
+        <li><strong>Integrate with Clinical Risk Factors:</strong> Use tools like the ISIS to contextualize imaging data and ensure surgical procedures align with patient age, activity level, and overall risk profile.<span class="evidence-badge ev-na">Ref 57</span></li>
+      </ol>
+    </section>
+
+    <!-- References -->
+    <section class="content-section references" id="references">
+      <h2>References</h2>
+      <ol>
+        <li>Anterior Shoulder Instability – Physiopedia</li>
+        <li>Anterior shoulder instability: a review of pathoanatomy, diagnosis and treatment – PMC (PMC3261242)</li>
+        <li>Anterior Shoulder Instability Davie – Dr Akere Atte</li>
+        <li>Anterior Shoulder Instability – StatPearls – NCBI Bookshelf</li>
+        <li>Shoulder Instability – Physiopedia</li>
+        <li>Arthroscopic Bankart Repair Houston, TX – John Conway MD</li>
+        <li>Bankart lesion – VisualDx</li>
+        <li>Arthroscopic Bankart Repair With Suture Anchors – Orthopaedic Foundation</li>
+        <li>Arthroscopic Capsulolabral Repair (Bankart Procedure) – Dr Matthieu Meyer</li>
+        <li>Arthroscopic Bankart Repair: Indications and Outcomes – PMC (PMC5685957)</li>
+        <li>Bankart Lesion – Cleveland Clinic</li>
+        <li>Bankart lesion – Physiopedia</li>
+        <li>Bankart lesion | Radiology Reference Article – Radiopaedia.org</li>
+        <li>Hill Sachs Lesion – Physiopedia</li>
+        <li>Hill-Sachs defect | Radiology Reference Article – Radiopaedia.org</li>
+        <li>The Hill-Sachs Lesion: Diagnosis, Classification, and Management – Orthobullets</li>
+        <li>On-track and off-track shoulder lesions – Radiopaedia.org</li>
+        <li>Reliability and Accuracy of 3D CT in Predicting On/Off-Track Lesions – Archives of Trauma Research</li>
+        <li>Anatomic risk factors for arthroscopic Bankart repair failure – PMC (PMC10285502)</li>
+        <li>Evaluation and Management of Failed Shoulder Instability Surgery – Open Orthopaedics Journal</li>
+        <li>Critical Value of Anterior Glenoid Bone Loss – Shin et al. / Burkhart &amp; De Beer (AJSM)</li>
+        <li>Measuring glenoid and humeral bone loss in shoulder dislocation – QIMS</li>
+        <li>Applying the Glenoid Track Concept – Dr. Amit Momaya</li>
+        <li>Management of Humeral Defects in Anterior Shoulder Instability – Open Orthopaedics Journal</li>
+        <li>Shoulder Instability – Johns Hopkins Medicine</li>
+        <li>Open stabilisation (Latarjet procedure) – Windsor Upper Limb</li>
+        <li>Patients in Whom Arthroscopic Bankart Repair is Not Enough – ResearchGate</li>
+        <li>Reconsidering "Critical" Bone Loss: 17-Year Follow-Up – Lau et al. (PMC10849799)</li>
+        <li>Glenoid Bone Loss in Recurrent Shoulder Instability – Dekker et al. (Systematic Review)</li>
+        <li>Reconsidering "Critical" Bone Loss – PMC (PMC10849799)</li>
+        <li>Comparative Analysis of 3D MRI and CT – PMC (PMC12290255)</li>
+        <li>Redefining "Critical" Bone Loss – Shaha et al. (ResearchGate)</li>
+        <li>The Radiologic Evaluation and Clinical Significance – MDPI (JCM 13/24/7708)</li>
+        <li>MRI Allows Accurate Measurement of Glenoid Bone Loss – PMC (PMC9384911)</li>
+        <li>Diagnostic Accuracy of MRI in GBL Measurement – AJR</li>
+        <li>Off-track Shoulder Lesions – Radsource</li>
+        <li>MRI vs 3D CT Scan for GBL Assessment – TIMEPortal</li>
+        <li>Editorial Commentary: 3D MRI &amp; CT – PubMed (38467170)</li>
+        <li>Glenoid Bone Loss: Assessment with MR Imaging – Radiology (RSNA)</li>
+        <li>MRI vs CT for glenoid bone loss: systematic review &amp; meta-analysis – Springer Medicine</li>
+        <li>3D MRI Quantification of GBL Equivalent to 3D CT – Brian Cole MD</li>
+        <li>Measurement of Adult Hill-Sachs Lesions on MRA – UPOJ</li>
+        <li>Inferiorly positioned Hill-Sachs lesions – Boston Shoulder Surgery</li>
+        <li>How to measure a Hill-Sachs lesion: systematic review – PMC (PMC6491948)</li>
+        <li>Engaging Hill-Sachs Lesion: MRI Association – AJR</li>
+        <li>MRI Evaluation of Bipolar Bone Loss Using On/Off-Track – AJR</li>
+        <li>Glenoid Track Assessment: Rationale and Step-by-Step Guide – RadioGraphics (RSNA)</li>
+        <li>Glenoid Track Assessment – PubMed (37410625)</li>
+        <li>Intra/Interobserver Reliability in Glenoid Track Measurement – AAOS 2024</li>
+        <li>Reliability in 2D On/Off-track Measurements – PubMed</li>
+        <li>Poster 156: Intra/Interobserver Reliability – PMC (PMC11465393)</li>
+        <li>Risk factors for recurrence after arthroscopic Bankart repair – Orthobullets</li>
+        <li>Shoulder Instability Bellevue – Grant Garcia MD</li>
+        <li>Long-term results of arthroscopic Bankart repair with remplissage – PMC (PMC9446230)</li>
+        <li>GLAD lesion as risk factor for failure – Peter Millett MD</li>
+        <li>Latarjet – French Technique – Shoulderdoc</li>
+        <li>Instability Severity Index Score (ISIS) – Brisbane Knee and Shoulder Clinic</li>
+        <li>Dynamic 3D Diagnosis for Unstable Shoulders – Newswise</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive Decision Support">
+
+    <!-- Interactive Tool -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">🔬 Interactive Decision Tool</div>
+      <div class="sidebar-card-body">
+
+        <!-- Slider 1: GBL -->
+        <div class="slider-group">
+          <div class="slider-label">
+            <span class="slider-label-text">Glenoid Bone Loss</span>
+            <span class="slider-value" id="gbl-value">15%</span>
+          </div>
+          <input type="range" id="gbl-slider" min="0" max="40" step="0.5" value="15" aria-label="Glenoid Bone Loss percentage">
+          <div class="slider-hint">Best-fit circle method %GBL (Ref 21, 29, 31)</div>
+        </div>
+
+        <!-- Slider 2: HSI -->
+        <div class="slider-group">
+          <div class="slider-label">
+            <span class="slider-label-text">Hill-Sachs Interval</span>
+            <span class="slider-value" id="hsi-value">18 mm</span>
+          </div>
+          <input type="range" id="hsi-slider" min="0" max="45" step="0.5" value="18" aria-label="Hill-Sachs Interval in mm">
+          <div class="slider-hint">Medial HSL margin → rotator cuff insertion (Ref 17, 36)</div>
+        </div>
+
+        <!-- Slider 3: ISIS Score -->
+        <div class="slider-group">
+          <div class="slider-label">
+            <span class="slider-label-text">ISIS Score</span>
+            <span class="slider-value" id="isis-value">4 / 10</span>
+          </div>
+          <input type="range" id="isis-slider" min="0" max="10" step="1" value="4" aria-label="Instability Severity Index Score">
+          <div class="slider-hint">Instability Severity Index Score (Ref 57)</div>
+        </div>
+
+        <!-- Calculated Fields -->
+        <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid var(--gray-200);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem;">
+            <span style="font-size:0.82rem; color:var(--gray-500);">Glenoid Diameter (D)*</span>
+            <input type="number" id="diameter-input" value="28" min="15" max="40" step="0.5"
+                   style="width:60px; text-align:right; border:1px solid var(--gray-300); border-radius:4px; padding:2px 4px; font-size:0.82rem; font-weight:600;"
+                   aria-label="Estimated intact glenoid diameter in mm">
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.2rem;">
+            <span style="font-size:0.82rem; color:var(--gray-500);">Calculated GT</span>
+            <span style="font-size:0.88rem; font-weight:700; color:var(--primary);" id="gt-calc">—</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.2rem;">
+            <span style="font-size:0.82rem; color:var(--gray-500);">Track Status</span>
+            <span class="track-badge track-on" id="track-status">ON-TRACK</span>
+          </div>
+          <div style="font-size:0.72rem; color:var(--gray-500); margin-top:0.3rem;">
+            *D assumed at 28 mm if not measured. Adjust from MRI. Ref 17.
+          </div>
+        </div>
+
+        <!-- Recommendation -->
+        <div id="recommendation" class="recommendation-box rec-bankart">
+          <div class="rec-title" id="rec-title">✅ Recommended: Arthroscopic Bankart Repair</div>
+          <div class="rec-text" id="rec-text">
+            Based on current parameters, the lesion appears on-track with acceptable bone loss for soft-tissue repair.
+          </div>
+          <div class="rec-params" id="rec-params"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-group">
+          <button class="btn btn-secondary" id="reset-btn" aria-label="Reset all parameters">↺ Reset</button>
+          <button class="btn btn-primary" id="copy-btn" aria-label="Copy assessment to clipboard">📋 Copy Report</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Quick Reference -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">📊 Quick Reference Thresholds</div>
+      <div class="sidebar-card-body" style="font-size:0.82rem;">
+        <table style="font-size:0.78rem;">
+          <thead>
+            <tr><th>GBL %</th><th>Clinical Significance</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>&gt;7%</strong></td><td>Impaired long-term function (Ref 28)</td></tr>
+            <tr><td><strong>&gt;13.5%</strong></td><td>Subcritical: poor functional outcomes (Ref 31)</td></tr>
+            <tr><td><strong>≥16%</strong></td><td>Predicts recurrent instability (Ref 29)</td></tr>
+            <tr><td><strong>≥17.3%</strong></td><td>Optimal cutoff for surgical failure (Ref 21)</td></tr>
+            <tr><td><strong>&gt;20–25%</strong></td><td>Catastrophic failure rate 67% (Ref 21)</td></tr>
+          </tbody>
+        </table>
+        <hr style="border:none; border-top:1px solid var(--gray-200); margin:0.75rem 0;">
+        <div style="font-size:0.78rem; color:var(--gray-500);">
+          <strong>On-Track:</strong> HSI &lt; GT → Low engagement risk<br>
+          <strong>Off-Track:</strong> HSI &gt; GT → High failure risk with Bankart<br>
+          <strong>ISIS &gt; 6:</strong> ~70% recurrence → Latarjet (Ref 57)
+        </div>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  // DOM Elements
+  const gblSlider = document.getElementById('gbl-slider');
+  const hsiSlider = document.getElementById('hsi-slider');
+  const isisSlider = document.getElementById('isis-slider');
+  const gblValue = document.getElementById('gbl-value');
+  const hsiValue = document.getElementById('hsi-value');
+  const isisValue = document.getElementById('isis-value');
+  const diameterInput = document.getElementById('diameter-input');
+  const gtCalc = document.getElementById('gt-calc');
+  const trackStatus = document.getElementById('track-status');
+  const recommendation = document.getElementById('recommendation');
+  const recTitle = document.getElementById('rec-title');
+  const recText = document.getElementById('rec-text');
+  const recParams = document.getElementById('rec-params');
+  const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-btn');
+  const toast = document.getElementById('toast');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function updateAll() {
+    const gbl = parseFloat(gblSlider.value);
+    const hsi = parseFloat(hsiSlider.value);
+    const isis = parseInt(isisSlider.value);
+    const D = parseFloat(diameterInput.value);
+
+    // Update displayed values
+    gblValue.textContent = gbl + '%';
+    hsiValue.textContent = hsi + ' mm';
+    isisValue.textContent = isis + ' / 10';
+
+    // Calculate Glenoid Track
+    const gt = (0.83 * D) - (D * gbl / 100);
+    const gtRounded = Math.round(gt * 10) / 10;
+    gtCalc.textContent = gtRounded + ' mm';
+
+    // Determine track status
+    const isOnTrack = hsi < gtRounded;
+
+    // Update track badge
+    if (isOnTrack) {
+      trackStatus.textContent = 'ON-TRACK';
+      trackStatus.className = 'track-badge track-on';
+    } else {
+      trackStatus.textContent = 'OFF-TRACK';
+      trackStatus.className = 'track-badge track-off';
+    }
+
+    // Update recommendation
+    let titleText = '';
+    let recMsg = '';
+    let recClass = '';
+
+    // Decision logic following source document
+    if (gtRounded <= 0) {
+      // Extreme bone loss - GT calculation invalid
+      recClass = 'rec-latarjet';
+      titleText = '🔴 Latarjet Procedure Strongly Recommended';
+      recMsg = 'Calculated glenoid track is ≤0 mm, indicating virtually complete loss of the anterior glenoid. This level of bone loss makes any soft-tissue repair biomechanically futile. A bony augmentation procedure (Latarjet) is essential to restore any semblance of glenoid arc.';
+    } else if (!isOnTrack) {
+      // Off-track → Latarjet
+      if (gbl > 20) {
+        recClass = 'rec-latarjet';
+        titleText = '🔴 Latarjet Procedure Recommended';
+        recMsg = 'This is an <strong>off-track lesion</strong> with substantial glenoid bone loss (>20%). Per Burkhart & De Beer (Ref 21), the failure rate of arthroscopic Bankart in this setting is 67%. The Latarjet procedure is indicated to restore the glenoid track via its triple effect (bony, ligament, sling).';
+      } else if (gbl > 13.5) {
+        recClass = 'rec-latarjet';
+        titleText = '🔴 Latarjet Procedure Recommended';
+        recMsg = 'This is an <strong>off-track lesion</strong> with "subcritical" to critical bone loss (13.5–20%). Off-track status is the single strongest predictor of Bankart failure (Ref 17). A Latarjet procedure is indicated to widen the glenoid track and prevent engagement.';
+      } else {
+        recClass = 'rec-latarjet';
+        titleText = '🔴 Latarjet or Bankart + Remplissage';
+        recMsg = 'This is an <strong>off-track lesion</strong> despite low GBL (<13.5%). The Hill-Sachs interval exceeds the available glenoid track. Options include: (1) Latarjet procedure for definitive stabilization, or (2) arthroscopic Bankart repair with concomitant remplissage (infraspinatus tenodesis into the Hill-Sachs defect).';
+      }
+    } else {
+      // On-track
+      if (gbl > 20) {
+        recClass = 'rec-caution';
+        titleText = '⚠ Consider Latarjet (High Bone Loss)';
+        recMsg = 'Although technically on-track, GBL exceeds 20%—associated with a 67% failure rate for Bankart repair (Ref 21). In high-demand patients or those with ISIS >6, a Latarjet procedure is strongly recommended despite on-track status. For lower-demand patients with ISIS ≤6, Bankart repair may be considered with close monitoring.';
+      } else if (gbl > 13.5) {
+        if (isis > 6) {
+          recClass = 'rec-latarjet';
+          titleText = '🔴 Latarjet Recommended (High ISIS)';
+          recMsg = 'On-track lesion but with "subcritical" bone loss (>13.5%) <strong>and</strong> high ISIS score (>6). Shaha et al. demonstrated poor functional outcomes with GBL >13.5% (Ref 31), and ISIS >6 confers ~70% recurrence risk (Ref 57). The combination strongly favors a Latarjet procedure.';
+        } else {
+          recClass = 'rec-caution';
+          titleText = '⚠ Bankart Repair — Proceed with Caution';
+          recMsg = 'On-track lesion with "subcritical" bone loss (13.5–20%). While redislocation risk may be acceptable with ISIS ≤6, Shaha et al. showed that functional outcomes (WOSI, SANE scores) may still be impaired (Ref 31). Discuss patient expectations carefully; consider Latarjet if return to high-demand sport is required.';
+        }
+      } else if (gbl > 7) {
+        if (isis > 6) {
+          recClass = 'rec-caution';
+          titleText = '⚠ Bankart Repair — Elevated Risk';
+          recMsg = 'On-track with mild bone loss (7–13.5%) but high ISIS score (>6). Long-term studies show impaired functional scores even at >7% GBL (Ref 28), and ISIS >6 predicts high recurrence. Arthroscopic Bankart is reasonable but the patient should be counseled on elevated risk. Close post-operative follow-up recommended.';
+        } else {
+          recClass = 'rec-bankart';
+          titleText = '✅ Arthroscopic Bankart Repair';
+          recMsg = 'On-track lesion with mild bone loss (7–13.5%) and low ISIS score (≤6). This represents a favorable scenario for arthroscopic Bankart repair with an acceptable recurrence rate of approximately 10% (Ref 57). Note: long-term studies suggest any GBL >7% may impair functional outcomes over time (Ref 28).';
+        }
+      } else {
+        recClass = 'rec-bankart';
+        titleText = '✅ Arthroscopic Bankart Repair';
+        recMsg = 'On-track lesion with minimal bone loss (<7%) and ISIS score of ' + isis + '/10' + (isis <= 6 ? ' (≤6)' : ' (>6—monitor closely)').replace(/\s\(>6—monitor closely\)/, isis <= 6 ? '' : '. <strong>Note:</strong> Although ISIS >6, the minimal bone loss and on-track status are favorable. Arthroscopic Bankart repair remains the standard of care.').replace('..', '.');
+        if (isis <= 6) {
+          recMsg = 'On-track lesion with minimal bone loss (<7%) and low ISIS (' + isis + '/10). This is the ideal scenario for arthroscopic Bankart repair with excellent expected outcomes.';
+        } else {
+          recMsg = 'On-track lesion with minimal bone loss (<7%) but <strong>elevated ISIS score (' + isis + '/10, >6)</strong>. While osseous anatomy is favorable, clinical risk factors predict ~70% recurrence. Consider whether patient-specific factors (young age, contact sport) warrant a more definitive stabilization. Bankart repair is still an option with informed consent.';
+        }
+      }
+    }
+
+    recommendation.className = 'recommendation-box ' + recClass;
+    recTitle.innerHTML = titleText;
+    recText.innerHTML = recMsg;
+    recParams.innerHTML = 'GBL: ' + gbl + '% | D: ' + D + ' mm | GT: ' + gtRounded + ' mm | HSI: ' + hsi + ' mm | ' +
+      (isOnTrack ? 'On-Track' : 'Off-Track') + ' | ISIS: ' + isis + '/10 | ' +
+      new Date().toLocaleString();
+  }
+
+  // Event listeners
+  gblSlider.addEventListener('input', updateAll);
+  hsiSlider.addEventListener('input', updateAll);
+  isisSlider.addEventListener('input', updateAll);
+  diameterInput.addEventListener('input', updateAll);
+
+  // Reset
+  resetBtn.addEventListener('click', function() {
+    gblSlider.value = 15;
+    hsiSlider.value = 18;
+    isisSlider.value = 4;
+    diameterInput.value = 28;
+    updateAll();
+    showToast('Parameters reset to defaults');
+  });
+
+  // Copy Report
+  copyBtn.addEventListener('click', function() {
+    const gbl = parseFloat(gblSlider.value);
+    const hsi = parseFloat(hsiSlider.value);
+    const isis = parseInt(isisSlider.value);
+    const D = parseFloat(diameterInput.value);
+    const gt = Math.round(((0.83 * D) - (D * gbl / 100)) * 10) / 10;
+    const status = hsi < gt ? 'ON-TRACK' : 'OFF-TRACK';
+    const timestamp = new Date().toLocaleString();
+
+    const report = [
+      '═══════════════════════════════════════════',
+      'SHOULDER INSTABILITY MRI ASSESSMENT REPORT',
+      '═══════════════════════════════════════════',
+      '',
+      'Generated: ' + timestamp,
+      '',
+      '── MEASURED PARAMETERS ──',
+      'Glenoid Bone Loss (GBL): ' + gbl + '%',
+      'Estimated Intact Glenoid Diameter (D): ' + D + ' mm',
+      'Calculated Glenoid Track Width (GT): ' + gt + ' mm',
+      'Hill-Sachs Interval (HSI): ' + hsi + ' mm',
+      'Instability Severity Index Score (ISIS): ' + isis + ' / 10',
+      '',
+      '── GLENOID TRACK DETERMINATION ──',
+      'GT = (0.83 × ' + D + ') − (' + D + ' × ' + gbl + '%) = ' + gt + ' mm',
+      'HSI (' + hsi + ' mm) ' + (hsi < gt ? '<' : '>') + ' GT (' + gt + ' mm)',
+      'Status: ' + status,
+      '',
+      '── CLINICAL RECOMMENDATION ──',
+      recTitle.textContent.replace(/[✅🔴⚠🟢]\s?/, ''),
+      '',
+      '── EVIDENCE BASIS ──',
+      'GBL Thresholds: Burkhart & De Beer (AJSM, >20-25%), Shin et al. (17.3%),',
+      'Dekker et al. (≥16%), Shaha et al. (>13.5% subcritical), Lau et al. (>7%)',
+      'Glenoid Track: Itoi et al., Gyftopoulos et al. (84% accuracy vs arthroscopy)',
+      'ISIS: Bahk et al. (ISIS >6 → 70% recurrence)',
+      '',
+      '── REPORT NOTES ──',
+      'Method: Best-fit circle on sagittal oblique MRI (en face view)',
+      'HSI: Measured on axial slice at greatest medial extent of Hill-Sachs lesion',
+      'Assessment should be integrated with clinical examination findings',
+      '',
+      '═══════════════════════════════════════════',
+      'Source: Advanced MRI Assessment in Anterior Shoulder Instability',
+      '═══════════════════════════════════════════'
+    ].join('\n');
+
+    navigator.clipboard.writeText(report).then(function() {
+      showToast('✓ Assessment report copied to clipboard');
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = report;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Assessment report copied to clipboard');
+    });
+  });
+
+  // Initialize
+  updateAll();
+})();
+</script>
+
+</body>
+</html>

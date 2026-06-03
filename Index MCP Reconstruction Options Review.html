@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biological Reconstruction of the Post-Septic Index MCP Joint</title>
+<style>
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2a4a7f;
+    --accent: #e53e3e;
+    --accent-light: #feb2b2;
+    --success: #38a169;
+    --warning: #d69e2e;
+    --info: #3182ce;
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --text: #2d3748;
+    --text-light: #718096;
+    --border: #e2e8f0;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    --radius: 8px;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* Sticky Header */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 14px 24px;
+    box-shadow: var(--shadow-lg);
+  }
+  .site-header h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .site-header .subtitle {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { order: -1; position: relative !important; top: auto !important; }
+  }
+
+  /* Main Content */
+  .main-content { min-width: 0; }
+
+  .main-content h2 {
+    font-size: 1.6rem;
+    color: var(--primary);
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .main-content h2:first-child { margin-top: 0; }
+
+  .main-content h3 {
+    font-size: 1.2rem;
+    color: var(--primary-light);
+    margin: 28px 0 12px;
+  }
+
+  .main-content h4 {
+    font-size: 1.05rem;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+
+  .main-content p {
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+
+  .main-content ul, .main-content ol {
+    margin: 0 0 16px 24px;
+  }
+  .main-content li { margin-bottom: 6px; }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  /* Evidence Badge */
+  .evidence-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+  .ev-i { background: #c6f6d5; color: #22543d; }
+  .ev-ii { background: #bee3f8; color: #2a4365; }
+  .ev-iii { background: #fefcbf; color: #744210; }
+  .ev-iv { background: #fed7d7; color: #9b2c2c; }
+  .ev-v { background: #e9d8fd; color: #553c9a; }
+  .ev-na { background: #e2e8f0; color: #4a5568; }
+
+  /* Callout Boxes */
+  .callout {
+    border-left: 4px solid;
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.95rem;
+  }
+  .callout-info { border-color: var(--info); background: #ebf8ff; }
+  .callout-warning { border-color: var(--warning); background: #fffff0; }
+  .callout-danger { border-color: var(--accent); background: #fff5f5; }
+  .callout-success { border-color: var(--success); background: #f0fff4; }
+
+  .callout strong { display: block; margin-bottom: 4px; }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background: white;
+  }
+  thead { background: var(--primary); color: white; }
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody tr:hover { background: #edf2f7; }
+  caption {
+    caption-side: bottom;
+    padding: 8px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-style: italic;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 80px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+  .sidebar-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .sidebar-card h3 {
+    font-size: 1rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  /* Sliders */
+  .slider-group { margin-bottom: 20px; }
+  .slider-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .slider-group .range-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .slider-group input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+  }
+  .slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .slider-group .value-display {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 48px;
+    text-align: right;
+  }
+  .slider-group .slider-note {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  /* Recommendation Box */
+  .recommendation-box {
+    background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+    border: 2px solid var(--info);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+  .recommendation-box h4 {
+    color: var(--info);
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  .recommendation-box.risk-high {
+    background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+    border-color: var(--accent);
+  }
+  .recommendation-box.risk-high h4 { color: var(--accent); }
+  .recommendation-box.risk-low {
+    background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+    border-color: var(--success);
+  }
+  .recommendation-box.risk-low h4 { color: var(--success); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--primary-light); }
+  .btn-secondary {
+    background: var(--border);
+    color: var(--text);
+  }
+  .btn-secondary:hover { background: #cbd5e0; }
+  .btn-accent {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-accent:hover { background: #c53030; }
+  .btn-group { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+  /* Toggle */
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding: 8px 0;
+  }
+  .toggle-group label { font-size: 0.85rem; font-weight: 600; }
+  .toggle {
+    position: relative;
+    width: 48px;
+    height: 26px;
+  }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #cbd5e0;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 20px; width: 20px;
+    left: 3px; bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .toggle input:checked + .toggle-slider { background: var(--success); }
+  .toggle input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+  /* Algorithm */
+  .algorithm-step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: var(--radius);
+    background: #f7fafc;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .algorithm-step.active {
+    background: #ebf8ff;
+    border-color: var(--info);
+    box-shadow: 0 0 0 2px rgba(49,130,206,0.2);
+  }
+  .algorithm-step .step-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .algorithm-step.active .step-num { background: var(--info); }
+  .algorithm-step .step-text { font-size: 0.85rem; line-height: 1.5; }
+  .algorithm-step .step-text strong { color: var(--primary); }
+
+  /* Citations */
+  .citation {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    vertical-align: super;
+    cursor: help;
+  }
+
+  .references {
+    font-size: 0.85rem;
+    color: var(--text-light);
+  }
+  .references li { margin-bottom: 4px; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* Annotations */
+  .annotation {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--warning);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* Section numbering */
+  .section-num {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  /* Fixation option cards */
+  .option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .option-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    border-top: 4px solid var(--info);
+  }
+  .option-card h4 {
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .option-card .pros { color: var(--success); }
+  .option-card .cons { color: var(--accent); }
+
+  /* Limitation notice */
+  .limitation-notice {
+    background: #fffff0;
+    border: 1px dashed var(--warning);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+    color: #744210;
+  }
+  .limitation-notice strong { color: #975a16; }
+
+  /* Print styles */
+  @media print {
+    .sidebar { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    .site-header { position: relative; }
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* TOC */
+  .toc {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .toc h3 { margin: 0 0 10px; font-size: 0.95rem; color: var(--primary); }
+  .toc ol { margin: 0; padding-left: 20px; }
+  .toc li { margin-bottom: 4px; font-size: 0.85rem; }
+  .toc a { color: var(--info); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Biological Reconstruction of the Post-Septic Index MCP Joint</h1>
+  <p class="subtitle">Arthrodesis · Interposition Arthroplasty · Vascularized Joint Transfer — A Comprehensive Evidence-Based Analysis</p>
+</header>
+
+<div class="layout">
+  <!-- MAIN CONTENT -->
+  <main class="main-content" role="main">
+
+    <!-- Table of Contents -->
+    <nav class="toc" aria-label="Table of Contents">
+      <h3>📋 Table of Contents</h3>
+      <ol>
+        <li><a href="#s1">Introduction & Clinical Problem</a></li>
+        <li><a href="#s2">Pathophysiology & the Post-Septic Environment</a></li>
+        <li><a href="#s3">Surgical Anatomy & Biomechanics</a></li>
+        <li><a href="#s4">Option I: Arthrodesis</a></li>
+        <li><a href="#s5">Option II: Soft Tissue Interposition Arthroplasty</a></li>
+        <li><a href="#s6">Option III: Vascularized Joint Transfer</a></li>
+        <li><a href="#s7">Concomitant Extensor Tendon Reconstruction</a></li>
+        <li><a href="#s8">Comparative Analysis & Decision Algorithm</a></li>
+        <li><a href="#s9">Conclusion</a></li>
+        <li><a href="#s10">References</a></li>
+      </ol>
+    </nav>
+
+    <!-- Section 1 -->
+    <h2 id="s1"><span class="section-num">1</span> Introduction & Clinical Problem</h2>
+
+    <div class="card">
+      <p>Reconstruction of the index finger metacarpophalangeal (MCP) joint following septic arthritis represents one of the most formidable challenges in reconstructive hand surgery. Unlike degenerative osteoarthritis or inflammatory arthropathies, the post-septic digit presents a <strong>"hostile environment"</strong> characterized by scarring, stiffness, compromised vascularity, and varying degrees of osteomyelitis.<span class="citation">[1]</span></p>
+
+      <p>The destructive sequelae of septic arthritis—cartilage lysis, subchondral bone collapse, and capsuloligamentous fibrosis—functionally amputate the digit's utility while leaving its physical form intact.</p>
+
+      <div class="callout callout-info">
+        <strong>🔑 Biomechanical Uniqueness of the Index MCP</strong>
+        The index finger MCP joint serves as the primary <em>"post"</em> against which the thumb exerts force during tripod pinch, key (lateral) pinch, and power grip.<span class="citation">[3]</span> This functional demand imposes significant shear and valgus stress on the joint, requiring stability far exceeding that of the ulnar digits.<span class="citation">[5]</span>
+      </div>
+
+      <p>In the specific context of post-septic reconstruction, <strong>prosthetic arthroplasty</strong> (silicone or pyrolytic carbon implants) is frequently contraindicated due to:<span class="citation">[6]</span></p>
+      <ul>
+        <li>Risk of recurrent infection from biofilm persistence on foreign materials</li>
+        <li>Poor osseointegration in compromised bone stock</li>
+        <li>Insufficient soft tissue envelope to cover bulky implants</li>
+      </ul>
+
+      <p>This necessitates reliance on three <strong>biological reconstruction options</strong>:</p>
+      <ol>
+        <li><strong>Arthrodesis</strong> — stability at the expense of motion</li>
+        <li><strong>Soft Tissue Interposition Arthroplasty</strong> — motion with limited stability</li>
+        <li><strong>Vascularized Joint Transfer (VJT)</strong> — biological "like-with-like" reconstruction</li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <strong>⚠️ The Central Dilemma</strong>
+        Each modality offers a distinct trade-off between stability, mobility, and surgical morbidity. For the index finger, <strong>motion without lateral stability renders the digit functionally useless for key pinch</strong>.
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <h2 id="s2"><span class="section-num">2</span> Pathophysiology & the Post-Septic Environment</h2>
+
+    <h3>2.1 Mechanisms of Joint Destruction</h3>
+    <div class="card">
+      <p>Joint destruction in septic arthritis is mediated by a <strong>"double hit" phenomenon</strong>: direct bacterial toxicity combined with the host's inflammatory response.<span class="citation">[8]</span></p>
+
+      <ol>
+        <li>
+          <strong>Enzymatic Cartilage Lysis:</strong> Synovial cells and infiltrating polymorphonuclear leukocytes (PMNs) release proteolytic enzymes including metalloproteinases and elastase.<span class="citation">[2]</span> Significant glycosaminoglycan loss occurs within <strong>8 hours</strong> of infection onset, with irreversible chondrocyte death shortly thereafter.<span class="citation">[8]</span>
+        </li>
+        <li>
+          <strong>Increased Intra-articular Pressure:</strong> Purulent effusion accumulates, tamponading the synovial capillary bed and inducing ischemia in cartilage and epiphyseal bone, potentially causing avascular necrosis of the metacarpal head.<span class="citation">[2]</span>
+        </li>
+        <li>
+          <strong>Osteomyelitis and Bone Loss:</strong> Delayed presentations allow infection to breach the subchondral plate, establishing osteomyelitis. Surgical debridement often necessitates significant bone stock resection, creating skeletal defects.<span class="citation">[9]</span>
+        </li>
+      </ol>
+    </div>
+
+    <h3>2.2 The "Septic Gap" and Soft Tissue Contracture</h3>
+    <div class="card">
+      <p>The aftermath is rarely a simple joint deficiency—it is a <strong>composite tissue loss</strong>. The "septic gap" refers to the void after debridement. As healing progresses, surrounding tissues undergo fibrotic contracture:<span class="citation">[10]</span></p>
+      <ul>
+        <li><strong>Collateral Ligament Fibrosis:</strong> Shortened and fibrotic ligaments lock the joint in extension or facilitate subluxation.<span class="citation">[3]</span></li>
+        <li><strong>Extensor Mechanism Adhesion:</strong> The extensor tendon adheres to the dorsal metacarpal or ruptures from ischemic necrosis.<span class="citation">[11]</span></li>
+      </ul>
+    </div>
+
+    <h3>2.3 Staged Reconstruction: The Masquelet Technique</h3>
+    <div class="card">
+      <p>Given the high risk of latent infection, single-stage reconstruction is often imprudent. The <strong>induced membrane technique (Masquelet)</strong> has revolutionized management of septic bone defects in the hand:<span class="citation">[9]</span></p>
+
+      <div class="callout callout-success">
+        <strong>🦴 Masquelet Technique — Two Stages</strong>
+        <strong>Stage 1:</strong> Radical debridement of all infected bone/soft tissue. A PMMA cement spacer loaded with heat-stable antibiotics (vancomycin, tobramycin) is placed. The spacer elutes high local antibiotic concentrations and maintains soft tissue volume.<br>
+        <strong>Induced Membrane (4–8 weeks):</strong> A foreign body reaction creates a vascularized, bioactive membrane secreting VEGF, TGF-beta, and containing mesenchymal stem cells.<span class="citation">[13]</span><br>
+        <strong>Stage 2:</strong> Spacer removal; reconstruction (bone graft or VJT) is performed inside this "biological chamber."
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <h2 id="s3"><span class="section-num">3</span> Surgical Anatomy & Biomechanics</h2>
+
+    <h3>3.1 Osseous and Ligamentous Anatomy</h3>
+    <div class="card">
+      <p>The metacarpal head is <strong>cam-shaped</strong>, wider volarly than dorsally, which tightens collateral ligaments in flexion to maximize stability during grip.<span class="citation">[3]</span></p>
+      <ul>
+        <li><strong>Proper Collateral Ligaments (PCL):</strong> Resist valgus/varus stress in flexion<span class="citation">[14]</span></li>
+        <li><strong>Accessory Collateral Ligaments (ACL):</strong> Tighten in extension</li>
+        <li><strong>Volar Plate:</strong> Thick fibrocartilaginous structure preventing hyperextension; often preserved longer than the dorsal capsule in sepsis<span class="citation">[15]</span></li>
+        <li><strong>Sagittal Bands:</strong> Stabilize the EDC tendon centrally; destruction causes ulnar subluxation<span class="citation">[12]</span></li>
+      </ul>
+    </div>
+
+    <h3>3.2 Kinematics of Pinch</h3>
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <caption>Pinch Types and Biomechanical Demands on Index MCP (Source document data)</caption>
+          <thead>
+            <tr>
+              <th>Pinch Type</th>
+              <th>Description</th>
+              <th>MCP Position Required</th>
+              <th>Primary Stress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pulp-to-Pulp</strong> (Precision)</td>
+              <td>Index opposes thumb</td>
+              <td>~45° flexion, 5–10° pronation<span class="citation">[14]</span></td>
+              <td>Compressive + rotational</td>
+            </tr>
+            <tr>
+              <td><strong>Key (Lateral) Pinch</strong></td>
+              <td>Thumb on radial middle phalanx</td>
+              <td>Flexion with valgus load</td>
+              <td>Massive valgus moment<span class="citation">[5]</span></td>
+            </tr>
+            <tr>
+              <td><strong>Tripod Pinch</strong></td>
+              <td>Thumb + index + middle</td>
+              <td>~30° flexion</td>
+              <td>Compressive + lateral</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <span class="annotation">⚠️ Threshold data from source document as indicated.</span>
+    </div>
+
+    <!-- Section 4 -->
+    <h2 id="s4"><span class="section-num">4</span> Option I: Arthrodesis (The Stabilizer)</h2>
+
+    <h3>4.1 Overview and Indications</h3>
+    <div class="card">
+      <p>Arthrodesis creates a rigid, stable post by fusing the metacarpal head to the proximal phalanx base. It is widely considered the <strong>gold standard</strong> for the majority of post-septic index MCP reconstructions.<span class="citation">[7,14]</span></p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Indications and Contraindications for Index MCP Arthrodesis</caption>
+          <thead>
+            <tr><th>Indications</th><th>Contraindications</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Manual laborers requiring high power grip</td>
+              <td>Patients requiring fine independent flexion (e.g., pianists)</td>
+            </tr>
+            <tr>
+              <td>Severe bone loss (resection would leave digit unstable)</td>
+              <td>Concomitant PIP stiffness — stiff MCP + stiff PIP = fixed stick<span class="citation">[18]</span></td>
+            </tr>
+            <tr>
+              <td>Chronic infection history (eliminates joint space nidus)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Soft tissue compromise (requires less excursion)</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>4.2 Surgical Fixation Techniques</h3>
+    <div class="option-grid">
+      <div class="option-card">
+        <h4>Dorsal Compression Plating</h4>
+        <p>2.0mm or 2.4mm locking plates applied dorsally with compression.<span class="citation">[19]</span></p>
+        <p class="pros"><strong>✓ Pros:</strong> Absolute stability, immediate ROM of PIP/wrist, union rates up to 100%<span class="citation">[18]</span></p>
+        <p class="cons"><strong>✗ Cons:</strong> Bulky hardware under thin dorsal skin; 23% hardware removal rate in post-septic cases<span class="citation">[19]</span>; theoretical biofilm risk</p>
+      </div>
+      <div class="option-card">
+        <h4>Tension Band Wiring (TBW)</h4>
+        <p>K-wires with figure-of-eight stainless steel wire.<span class="citation">[20]</span></p>
+        <p class="pros"><strong>✓ Pros:</strong> Low profile, inexpensive; less soft tissue stripping; converts distraction to compression</p>
+        <p class="cons"><strong>✗ Cons:</strong> Technically demanding; K-wire back-out; pin tract infection risk</p>
+      </div>
+      <div class="option-card">
+        <h4>Intramedullary Screw</h4>
+        <p>Headless compression screw (Herbert/Acutrak).<span class="citation">[21]</span></p>
+        <p class="pros"><strong>✓ Pros:</strong> <strong>Zero profile</strong> — no dorsal hardware; ideal for subsequent tendon grafting</p>
+        <p class="cons"><strong>✗ Cons:</strong> Requires adequate medullary bone stock; canals may be obliterated by sclerosis; difficult angle adjustment<span class="citation">[14]</span></p>
+      </div>
+    </div>
+
+    <h3>4.3 Critical Position of Fusion</h3>
+    <div class="card">
+      <div class="callout callout-danger">
+        <strong>🎯 Fusion Position Is Permanent — Errors Are Life-Long</strong>
+        An error of 10° can mean the difference between a useful finger and one that obstructs the entire hand.
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Recommended Fusion Positions for Index MCP Joint (Source consensus)</caption>
+          <thead>
+            <tr><th>Parameter</th><th>Recommended Value</th><th>Rationale</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Flexion Angle</strong></td>
+              <td>20°–25°<span class="citation">[14]</span></td>
+              <td>Allows pulp-to-pulp pinch while clearing objects during hand opening; excessive flexion creates a "hook"<span class="citation">[20]</span></td>
+            </tr>
+            <tr>
+              <td><strong>Pronation</strong></td>
+              <td>5°–15°<span class="citation">[14]</span></td>
+              <td>Orients index pulp toward thumb for precision pinch; neutral/supination causes side-to-side contact<span class="citation">[17]</span></td>
+            </tr>
+            <tr>
+              <td><strong>Abduction</strong></td>
+              <td>Neutral to slight radial deviation<span class="citation">[17]</span></td>
+              <td>Ulnar deviation causes scissoring with middle finger during flexion</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <span class="annotation">Source: Woodworth et al. demonstrated increased flexion angles restrict maximal pinch aperture (same principle applies to MCP)<span class="citation">[23]</span></span>
+    </div>
+
+    <h3>4.4 Outcomes</h3>
+    <div class="card">
+      <ul>
+        <li><strong>Stability:</strong> Absolute — zero valgus deflection under key pinch loading<span class="citation">[18]</span></li>
+        <li><strong>Pinch Strength:</strong> Preserved or improved; comparative data from thumb CMC/PIP studies show fusion groups generating 20–30% higher pinch forces than arthroplasty groups<span class="citation">[24]</span></li>
+        <li><strong>Nonunion Rate:</strong> Up to 16% in septic revisions (vs. &lt;5% in osteoarthritis)<span class="citation">[18]</span></li>
+        <li><strong>Quadriga Effect:</strong> If index FDP is tethered or digit significantly shortened, global grip strength may weaken<span class="citation">[20]</span></li>
+      </ul>
+    </div>
+
+    <!-- Section 5 -->
+    <h2 id="s5"><span class="section-num">5</span> Option II: Soft Tissue Interposition Arthroplasty</h2>
+
+    <h3>5.1 Concept</h3>
+    <div class="card">
+      <p>Interposition arthroplasty involves resecting destroyed joint surfaces and placing a biological barrier between bone ends to create a <strong>"fibrous pseudoarthrosis"</strong> allowing motion while preventing pain.<span class="citation">[27]</span></p>
+
+      <p><strong>Indications:</strong> Elderly or low-demand patients; salvage of failed arthroplasty with preserved bone stock; patients prioritizing any motion over strength who refuse fusion.<span class="citation">[28]</span></p>
+    </div>
+
+    <h3>5.2 Techniques</h3>
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <caption>Interposition Arthroplasty Techniques Compared (Source document)</caption>
+          <thead>
+            <tr><th>Technique</th><th>Material</th><th>Key Advantage</th><th>Key Limitation in Sepsis</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Dorsal Capsule Interposition (DCI)</strong><span class="citation">[27]</span></td>
+              <td>Distally-based dorsal capsular flap</td>
+              <td>Vascularized, locally available; preserves collateral ligaments</td>
+              <td>Capsule may be hypertrophic/scarred</td>
+            </tr>
+            <tr>
+              <td><strong>Volar Plate Arthroplasty</strong><span class="citation">[28]</span></td>
+              <td>Advanced volar plate</td>
+              <td>Thick, fibrocartilaginous, wear-resistant</td>
+              <td>Often contracted/necrotic in sepsis; risks neurovascular injury; requires collateral ligament sectioning</td>
+            </tr>
+            <tr>
+              <td><strong>Autograft Interposition</strong><span class="citation">[30]</span></td>
+              <td>Palmaris longus, retinaculum, periosteum</td>
+              <td>Readily available</td>
+              <td>Acts as spacer; undergoes resorption/fibrosis with loss of joint space</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>5.3 The Index Finger Stability Problem</h3>
+    <div class="card">
+      <div class="callout callout-danger">
+        <strong>🚨 Fundamental Flaw for the Index Finger</strong>
+        Without bony congruity, the joint relies entirely on soft tissue tension. Key pinch generates a lateral force that pushes the finger ulnarly, leading to <strong>radial instability and ulnar deviation</strong>.<span class="citation">[5]</span>
+      </div>
+      <p><strong>Mitigation strategies:</strong></p>
+      <ol>
+        <li>Prolonged K-wire fixation (4–6 weeks) to allow soft tissue scarring<span class="citation">[31]</span></li>
+        <li>Collateral ligament reconstruction with tendon graft at time of arthroplasty</li>
+      </ol>
+      <p><strong>Conclusion:</strong> Interposition arthroplasty is <strong>suboptimal</strong> for the index finger unless the patient is extremely low demand.</p>
+    </div>
+
+    <!-- Section 6 -->
+    <h2 id="s6"><span class="section-num">6</span> Option III: Vascularized Joint Transfer (VJT)</h2>
+
+    <h3>6.1 The Biological "Gold Standard" for Motion</h3>
+    <div class="card">
+      <p>VJT restores a functional, gliding, hyaline-cartilage joint with biological remodeling potential. It adheres to the principle of <strong>"like-with-like" reconstruction</strong>.<span class="citation">[33]</span></p>
+      <p><strong>Indications:</strong> Young, active patients; multiple digit involvement; composite defects (skin + bone + joint).<span class="citation">[33]</span></p>
+    </div>
+
+    <h3>6.2 Donor Site: PIP vs. MTP</h3>
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <caption>Second Toe Joint Donor Options for VJT (Source document)</caption>
+          <thead>
+            <tr><th>Parameter</th><th>Second Toe PIP</th><th>Second Toe MTP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Morphology</strong></td><td>Ginglymus (hinge)<span class="citation">[36]</span></td><td>Condyloid (homologous to MCP)<span class="citation">[36]</span></td></tr>
+            <tr><td><strong>ROM</strong></td><td>Flexion/extension only</td><td>Circumduction possible</td></tr>
+            <tr><td><strong>Size</strong></td><td>Smaller than finger MCP</td><td>More closely matched</td></tr>
+            <tr><td><strong>Technical Note</strong></td><td>ROM arc matches MCP requirement</td><td>Often implanted "upside down" to convert extension to flexion arc<span class="citation">[36]</span></td></tr>
+            <tr><td><strong>Donor Morbidity</strong></td><td>Toe fusion</td><td>Higher (altered gait mechanics)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>6.3 Outcomes</h3>
+    <div class="card">
+      <div class="callout callout-warning">
+        <strong>📊 The Extensor Lag Dilemma</strong>
+        Systematic reviews reveal a discrepancy between biological success and functional success of VJT.<span class="citation">[37]</span>
+      </div>
+      <ul>
+        <li><strong>Flap Survival:</strong> 95–100% in experienced centers<span class="citation">[37]</span></li>
+        <li><strong>Average Active ROM:</strong> 30°–40° (vs. 90° normal)<span class="citation">[37]</span></li>
+        <li><strong>Extensor Lag:</strong> 29°–40° — the most common complication<span class="citation">[37]</span>
+          <ul>
+            <li><em>Cause:</em> Weaker toe extensor mechanism with less excursion</li>
+            <li><em>Impact:</em> Perpetually bent finger, interfering with hand opening</li>
+          </ul>
+        </li>
+        <li><strong>Lateral Stability:</strong> Good — collateral ligaments transfer intact (superior to interposition)<span class="citation">[34]</span></li>
+      </ul>
+
+      <div class="limitation-notice">
+        <strong>📌 Source Limitation:</strong> The source document provides outcome data primarily from systematic reviews and case series. No direct RCTs comparing VJT to arthrodesis for index MCP were identified.
+      </div>
+    </div>
+
+    <!-- Section 7 -->
+    <h2 id="s7"><span class="section-num">7</span> Concomitant Extensor Tendon Reconstruction</h2>
+
+    <div class="card">
+      <div class="callout callout-danger">
+        <strong>⚠️ Mandatory Principle</strong>
+        No joint reconstruction—whether fusion or VJT—will function without a reconstructed extensor mechanism. Even in fusion, the extensor tendon must be centralized to prevent soft tissue imbalance.
+      </div>
+
+      <h4>Centralization Techniques</h4>
+      <ol>
+        <li><strong>Direct Repair/Imbrication:</strong> Reefing the radial sagittal band if local tissue is scarred but present<span class="citation">[6]</span></li>
+        <li><strong>Suture Anchor Reconstruction:</strong> Anchor in radial metacarpal head to tether EDC centrally<span class="citation">[12]</span></li>
+        <li><strong>Slip Reconstruction (Kilgore/Carroll):</strong> EDC slip passed deep to intermetacarpal ligament creating a dynamic radial sling<span class="citation">[40]</span></li>
+        <li><strong>Synthetic Suture Tape:</strong> Loop of suture tape acting as neo-pulley when no local tissue available<span class="citation">[41]</span></li>
+      </ol>
+
+      <h4>Tendon Grafting vs. Transfer</h4>
+      <div class="table-wrapper">
+        <table>
+          <caption>Extensor Reconstruction Options for Segmental EDC Loss</caption>
+          <thead>
+            <tr><th>Method</th><th>Indication</th><th>Advantage</th><th>Outcome</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>EIP Transfer</strong><span class="citation">[42]</span></td>
+              <td>Index extensor loss (workhorse)</td>
+              <td>Vascularized muscle unit in scarred bed; less adhesion risk</td>
+              <td>Extension lag ~8–13°</td>
+            </tr>
+            <tr>
+              <td><strong>Free Graft (Palmaris)</strong><span class="citation">[44]</span></td>
+              <td>EIP unavailable</td>
+              <td>Readily available</td>
+              <td>Often adheres; may need barrier flap (synovial/synthetic wrap)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 8 -->
+    <h2 id="s8"><span class="section-num">8</span> Comparative Analysis & Decision Algorithm</h2>
+
+    <div class="card">
+      <div class="table-wrapper">
+        <table>
+          <caption>Comprehensive Comparison: Three Reconstruction Options for Index MCP (Source document synthesis)</caption>
+          <thead>
+            <tr>
+              <th>Outcome Parameter</th>
+              <th>Arthrodesis</th>
+              <th>Soft Tissue Interposition</th>
+              <th>Vascularized Joint Transfer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Lateral Stability</strong></td><td>Excellent (Rigid)</td><td>Poor (Depends on scar)</td><td>Good (Intact ligaments)</td></tr>
+            <tr><td><strong>Pinch Strength</strong></td><td>High (Rigid lever)</td><td>Limited by instability</td><td>Moderate</td></tr>
+            <tr><td><strong>Active ROM</strong></td><td>0°</td><td>~30–50° (often painful)</td><td>~30–40° (painless)</td></tr>
+            <tr><td><strong>Surgical Complexity</strong></td><td>Low/Moderate</td><td>Moderate</td><td>High (Microsurgery)</td></tr>
+            <tr><td><strong>Recovery Time</strong></td><td>6–8 weeks (union)</td><td>3–4 months</td><td>6–12 months</td></tr>
+            <tr><td><strong>Risk in Sepsis</strong></td><td>Low (if hardware managed)</td><td>Low (autologous)</td><td>Moderate (vascular risk)</td></tr>
+            <tr><td><strong>Extensor Lag</strong></td><td>N/A (Fixed)</td><td>High</td><td>High (~30–40°)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3>Decision Algorithm</h3>
+    <div class="card" id="algorithmContainer">
+      <p><strong>Select the patient profile matching your clinical scenario:</strong></p>
+      <div class="algorithm-step" id="algo1">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>"The Working Hand"</strong> — Manual laborer or patient prioritizing strength<br>
+          → <strong style="color: #38a169;">Arthrodesis (20–25° flexion, 5–15° pronation)</strong> is the only reliable option. Interposition failure risk is too high.
+        </div>
+      </div>
+      <div class="algorithm-step" id="algo2">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>"The Social Hand"</strong> — Elderly/low-demand, values aesthetics/motion<br>
+          → <strong style="color: #d69e2e;">Soft Tissue Interposition</strong> (Dorsal Capsule Interposition preferred) — reasonable, low-morbidity salvage
+        </div>
+      </div>
+      <div class="algorithm-step" id="algo3">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>"The High-Demand Mobile Hand"</strong> — Young patient who refuses fusion, accepts microsurgery risks<br>
+          → <strong style="color: #3182ce;">Vascularized Joint Transfer</strong> — best chance of mobile, stable joint. Counsel: "normal" motion unlikely; toe donor is permanent loss.
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 9 -->
+    <h2 id="s9"><span class="section-num">9</span> Conclusion</h2>
+
+    <div class="card">
+      <p>The reconstruction of the post-septic index MCP joint is a salvage endeavor where restoration of a "normal" joint is functionally impossible. The choice is a compromise between stability and mobility.</p>
+
+      <p>Evidence supports <strong>Arthrodesis (20–25° flexion, 5–15° pronation)</strong> as the most predictable and functional solution for the majority of patients. It restores the index finger's primary function—stable opposition—and allows powerful key pinch without deviation.</p>
+
+      <p><strong>Soft Tissue Interposition</strong> is useful for low-demand patients but biomechanically ill-suited for the index finger's stability requirements. <strong>VJT</strong> represents the pinnacle of biological reconstruction but should be reserved for select cases where 30–40° of motion outweighs complexity and donor morbidity.</p>
+
+      <div class="callout callout-success">
+        <strong>✅ Mandatory Principle Regardless of Technique</strong>
+        Concomitant extensor reconstruction—preferably via EIP transfer or sagittal band centralization—is <strong>mandatory</strong>. A stable joint with no active extension is a functional failure. Successful management addresses infection (Masquelet staging), bone stability (fusion/transfer), and dynamic function (tendon reconstruction) in unison.
+      </div>
+    </div>
+
+    <!-- Section 10: References -->
+    <h2 id="s10"><span class="section-num">10</span> References</h2>
+    <div class="card references">
+      <ol>
+        <li>[1] Patient-Specific 3D Printed MCP Joint Prosthesis for Post-Septic Arthritis. <em>Acta Scientific.</em></li>
+        <li>[2] SEPTIC ARTHRITIS. <em>Hand Surgery Resource.</em></li>
+        <li>[3] Design Considerations for Metacarpophalangeal Joint Arthroplasty. <em>ResearchGate.</em></li>
+        <li>[5] Ligament Reconstruction and Tendon Interposition for Thumb Basal Arthritis. <em>PMC – NIH.</em></li>
+        <li>[6] SR MCP System. <em>Stryker MedEd.</em></li>
+        <li>[7] Arthrodesis as Salvage for Failed MCP Arthroplasty. <em>PMC – NIH.</em></li>
+        <li>[8] Septic Arthritis – Adult. <em>Orthobullets.</em></li>
+        <li>[9] The Masquelet technique for septic arthritis of the small joint in the hands. <em>ResearchGate.</em></li>
+        <li>[10] Septic Arthritis: What Is It, Symptoms, Treatment & Causes. <em>Cleveland Clinic.</em></li>
+        <li>[11] Extensor tendon repair and reconstruction. <em>Musculoskeletal Key.</em></li>
+        <li>[12] Chronic Traumatic Sagittal Band Injury with Extensor Tendon Dislocation. <em>PMC – NIH.</em></li>
+        <li>[13] Infection. <em>AO Surgery Reference.</em></li>
+        <li>[14] MCP Joint Arthritis. <em>Orthobullets.</em></li>
+        <li>[15] Anatomy, Shoulder and Upper Limb, MCP Joints. <em>StatPearls – NCBI.</em></li>
+        <li>[17] MP Joint Arthroplasty. <em>Wheeless' Textbook of Orthopaedics.</em></li>
+        <li>[18] Primary Arthrodesis of Non-thumb MCP Joints. <em>PMC – NIH.</em></li>
+        <li>[19] Index Finger MCP Joint Arthrodesis with Dorsal Locking Plate. <em>AAHS.</em></li>
+        <li>[20] Arthrodesis of the MP joint and Finger Joints. <em>Wheeless' Textbook.</em></li>
+        <li>[21] Arthrodesis of the MCP Joint of the Thumb Using a Herbert Screw. <em>ResearchGate.</em></li>
+        <li>[23] Influence of Index Finger PIP Joint Arthrodesis on Precision Pinch Kinematics. <em>PMC – NIH.</em></li>
+        <li>[24] Comparison of arthrodesis and arthroplasty of thumb CMC osteoarthritis. <em>ResearchGate.</em></li>
+        <li>[27] Dorsal Capsule Interpositional Arthroplasty of the MCP Joint. <em>PMC – NIH.</em></li>
+        <li>[28] The Nottingham Palmar Plate Arthroplasty for MCP Joint. <em>SOGACOT.</em></li>
+        <li>[30] Soft tissue interpositional arthroplasty for PIP joint arthritis. <em>PMC – NIH.</em></li>
+        <li>[31] Long-term Results of PIP Joint Arthroplasty of the Osteoarthritic Index Finger. <em>PMC – NIH.</em></li>
+        <li>[33] Vascularized Toe Joint Transfers for PIP and MCP Reconstruction. <em>Thieme.</em></li>
+        <li>[34] Vascularized toe joint transfers to the hand. <em>PubMed.</em></li>
+        <li>[36] Vascularized Joint Flap. <em>Microsurgeon.Org.</em></li>
+        <li>[37] Toe-to-Finger Vascularized Joint Transfers. <em>PMC – NIH.</em></li>
+        <li>[40] Sagittal Band Rupture. <em>Orthobullets.</em></li>
+        <li>[41] Extensor Tendon Centralization Using Synthetic Suture Tape. <em>PubMed.</em></li>
+        <li>[42] Tendon transfer or tendon graft for ruptured finger extensor tendons. <em>ResearchGate.</em></li>
+        <li>[44] Neglected Zone VII Extensor Tendons Reconstruction. <em>MDPI.</em></li>
+      </ol>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive Clinical Parameters">
+    <div class="sidebar-card">
+      <h3>🎛️ Clinical Parameter Explorer</h3>
+      <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:16px;">Adjust parameters to explore real-time clinical implications based on source document thresholds.</p>
+
+      <div class="slider-group">
+        <label for="flexionSlider">MCP Fusion Flexion Angle</label>
+        <div class="range-row">
+          <input type="range" id="flexionSlider" min="0" max="50" value="25" step="1">
+          <span class="value-display" id="flexionValue">25°</span>
+        </div>
+        <div class="slider-note">Recommended: 20–25° <span class="citation">[14]</span></div>
+      </div>
+
+      <div class="slider-group">
+        <label for="pronationSlider">Pronation Angle</label>
+        <div class="range-row">
+          <input type="range" id="pronationSlider" min="-15" max="30" value="10" step="1">
+          <span class="value-display" id="pronationValue">10°</span>
+        </div>
+        <div class="slider-note">Recommended: 5–15° pronation <span class="citation">[14]</span></div>
+      </div>
+
+      <div class="slider-group">
+        <label for="boneLossSlider">Bone Loss Severity (after debridement)</label>
+        <div class="range-row">
+          <input type="range" id="boneLossSlider" min="0" max="100" value="40" step="5">
+          <span class="value-display" id="boneLossValue">40%</span>
+        </div>
+        <div class="slider-note">Estimate of metacarpal head / phalanx base resected <span class="annotation">Assumed scale — not from source</span></div>
+      </div>
+
+      <div class="toggle-group">
+        <label for="infectionToggle">Active/Latent Infection Present?</label>
+        <label class="toggle">
+          <input type="checkbox" id="infectionToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-group">
+        <label for="laborerToggle">Manual Laborer (High Demand)?</label>
+        <label class="toggle">
+          <input type="checkbox" id="laborerToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-group">
+        <label for="youngToggle">Young Patient (&lt;40 years)?</label>
+        <label class="toggle">
+          <input type="checkbox" id="youngToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div id="recommendationBox" class="recommendation-box">
+        <h4>📋 Clinical Recommendation</h4>
+        <div id="recommendationText">Adjust parameters to see recommendations.</div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" id="resetBtn" aria-label="Reset all parameters">↺ Reset</button>
+        <button class="btn btn-accent" id="copyBtn" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+      </div>
+    </div>
+
+    <!-- Algorithm highlight -->
+    <div class="sidebar-card">
+      <h3>🧭 Quick Decision Guide</h3>
+      <div id="quickGuide">
+        <div class="algorithm-step active" id="qg1">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Working Hand</strong> → Arthrodesis</div>
+        </div>
+        <div class="algorithm-step" id="qg2">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Social Hand</strong> → Interposition</div>
+        </div>
+        <div class="algorithm-step" id="qg3">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Mobile Hand</strong> → VJT</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Evidence Summary -->
+    <div class="sidebar-card">
+      <h3>📈 Evidence Summary</h3>
+      <p style="font-size:0.82rem; margin-bottom:8px;"><strong>Arthrodesis:</strong></p>
+      <ul style="font-size:0.82rem; margin-bottom:12px;">
+        <li>Union: up to 100% <span class="evidence-badge ev-iii">III</span></li>
+        <li>Nonunion in sepsis: ~16% <span class="evidence-badge ev-iii">III</span></li>
+        <li>Hardware removal: 23% <span class="evidence-badge ev-iv">IV</span></li>
+      </ul>
+      <p style="font-size:0.82rem; margin-bottom:8px;"><strong>Interposition:</strong></p>
+      <ul style="font-size:0.82rem; margin-bottom:12px;">
+        <li>DCI: ROM ~40–50°, VAS 8→2 <span class="evidence-badge ev-iv">IV</span></li>
+        <li>Lateral instability in index finger <span class="evidence-badge ev-v">V</span></li>
+      </ul>
+      <p style="font-size:0.82rem; margin-bottom:8px;"><strong>VJT:</strong></p>
+      <ul style="font-size:0.82rem; margin-bottom:12px;">
+        <li>Flap survival: 95–100% <span class="evidence-badge ev-iii">III</span></li>
+        <li>ROM: 30–40° <span class="evidence-badge ev-iii">III</span></li>
+        <li>Extensor lag: 29–40° <span class="evidence-badge ev-iii">III</span></li>
+      </ul>
+      <div class="limitation-notice">
+        <strong>📌 Note:</strong> Evidence levels inferred from study designs described in source. No direct RCTs comparing the three modalities for index MCP were identified.
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function() {
+  // Element references
+  const flexionSlider = document.getElementById('flexionSlider');
+  const pronationSlider = document.getElementById('pronationSlider');
+  const boneLossSlider = document.getElementById('boneLossSlider');
+  const infectionToggle = document.getElementById('infectionToggle');
+  const laborerToggle = document.getElementById('laborerToggle');
+  const youngToggle = document.getElementById('youngToggle');
+
+  const flexionValue = document.getElementById('flexionValue');
+  const pronationValue = document.getElementById('pronationValue');
+  const boneLossValue = document.getElementById('boneLossValue');
+
+  const recommendationBox = document.getElementById('recommendationBox');
+  const recommendationText = document.getElementById('recommendationText');
+
+  const qg1 = document.getElementById('qg1');
+  const qg2 = document.getElementById('qg2');
+  const qg3 = document.getElementById('qg3');
+
+  const resetBtn = document.getElementById('resetBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const toast = document.getElementById('toast');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function updateRecommendation() {
+    const flexion = parseInt(flexionSlider.value);
+    const pronation = parseInt(pronationSlider.value);
+    const boneLoss = parseInt(boneLossSlider.value);
+    const infected = infectionToggle.checked;
+    const laborer = laborerToggle.checked;
+    const young = youngToggle.checked;
+
+    flexionValue.textContent = flexion + '°';
+    pronationValue.textContent = pronation + '°';
+    boneLossValue.textContent = boneLoss + '%';
+
+    let rec = '';
+    let riskClass = '';
+    let recommendedProcedure = '';
+
+    // Algorithm logic
+    if (infected) {
+      rec = `<strong>⚠️ Active/Latent Infection Detected</strong><br>
+        A staged Masquelet approach is <strong>mandatory</strong> before any definitive reconstruction.<br>
+        <em>Stage 1:</em> Radical debridement + antibiotic PMMA spacer (4–8 weeks).<br>
+        <em>Stage 2:</em> Definitive reconstruction inside the induced membrane.<br><br>`;
+      riskClass = 'risk-high';
+    }
+
+    if (laborer && !infected) {
+      recommendedProcedure = 'Arthrodesis';
+      rec += `<strong>Recommended: Arthrodesis</strong> (High-demand / manual laborer)<br>`;
+      rec += `The index finger functions as a rigid "post" for key pinch. Stability is paramount.<br>`;
+      riskClass = riskClass || 'risk-low';
+
+      // Check fusion position
+      if (flexion < 15 || flexion > 30) {
+        rec += `<br>⚠️ <strong>Flexion ${flexion}° is outside recommended range (20–25°).</strong> `;
+        if (flexion < 15) rec += 'Too little flexion limits pulp-to-pulp pinch aperture.';
+        if (flexion > 30) rec += 'Excessive flexion creates a "hook" that catches on objects and prevents wide span grasp.';
+      } else {
+        rec += `<br>✅ Flexion angle ${flexion}° is within recommended range (20–25°).`;
+      }
+
+      if (pronation < 0) {
+        rec += `<br>⚠️ <strong>Supination (${pronation}°) is not recommended.</strong> The thumb pulp will contact the side of the index finger rather than the pulp.`;
+      } else if (pronation > 0 && pronation < 5) {
+        rec += `<br>⚠️ Pronation ${pronation}° is below recommended minimum (5°). Consider 5–15° for optimal pulp orientation.`;
+      } else if (pronation >= 5 && pronation <= 15) {
+        rec += `<br>✅ Pronation ${pronation}° is optimal for precision pinch orientation.`;
+      } else if (pronation > 15) {
+        rec += `<br>⚠️ Pronation ${pronation}° exceeds recommended maximum (15°). May impair midline finger function.`;
+      }
+
+      if (boneLoss > 60) {
+        rec += `<br><br>🦴 <strong>Significant bone loss (${boneLoss}%).</strong> Consider structural bone graft within Masquelet membrane or intramedullary screw (if canal intact).`;
+      } else if (boneLoss > 30) {
+        rec += `<br><br>🦴 Moderate bone loss (${boneLoss}%). All fixation options remain viable. Tension band wiring or intramedullary screw preferred in compromised soft tissue.`;
+      } else {
+        rec += `<br><br>🦴 Minimal bone loss (${boneLoss}%). Standard arthrodesis techniques apply.`;
+      }
+
+    } else if (young && !infected && !laborer) {
+      recommendedProcedure = 'VJT or Arthrodesis';
+      rec += `<strong>Young, non-laborer patient — Consider VJT</strong><br>`;
+      rec += `Vascularized Joint Transfer offers biological reconstruction with 30–40° of motion. However:<br>`;
+      rec += `• Extensor lag of 29–40° is expected<br>`;
+      rec += `• Toe donor site is a permanent loss<br>`;
+      rec += `• 6–12 month recovery<br>`;
+      rec += `<br><em>Alternative:</em> If patient accepts zero motion for guaranteed stability, arthrodesis remains the most predictable option.`;
+      riskClass = riskClass || '';
+
+    } else if (!infected) {
+      recommendedProcedure = 'Arthrodesis or Interposition';
+      rec += `<strong>Low-demand / Social hand</strong><br>`;
+      if (boneLoss < 40) {
+        rec += `Soft tissue interposition (Dorsal Capsule Interposition) is an option for pain relief and modest ROM (~40–50°).<br>`;
+        rec += `⚠️ <strong>Beware:</strong> Interposition in the index finger has poor lateral stability — prone to ulnar deviation during key pinch.`;
+        recommendedProcedure = 'Interposition Arthroplasty (with caution)';
+      } else {
+        rec += `With ${boneLoss}% bone loss, interposition arthroplasty is less reliable. Arthrodesis is recommended even for low-demand patients.`;
+        recommendedProcedure = 'Arthrodesis';
+      }
+      riskClass = riskClass || '';
+    }
+
+    recommendationText.innerHTML = rec;
+    recommendationBox.className = 'recommendation-box ' + riskClass;
+
+    // Update quick guide highlight
+    qg1.classList.toggle('active', recommendedProcedure.includes('Arthrodesis'));
+    qg2.classList.toggle('active', recommendedProcedure.includes('Interposition'));
+    qg3.classList.toggle('active', recommendedProcedure.includes('VJT'));
+
+    // Highlight algorithm in main content
+    const algo1 = document.getElementById('algo1');
+    const algo2 = document.getElementById('algo2');
+    const algo3 = document.getElementById('algo3');
+    if (algo1) algo1.classList.toggle('active', recommendedProcedure.includes('Arthrodesis') && laborer);
+    if (algo2) algo2.classList.toggle('active', recommendedProcedure.includes('Interposition'));
+    if (algo3) algo3.classList.toggle('active', recommendedProcedure.includes('VJT'));
+  }
+
+  // Event listeners
+  [flexionSlider, pronationSlider, boneLossSlider].forEach(s => s.addEventListener('input', updateRecommendation));
+  [infectionToggle, laborerToggle, youngToggle].forEach(t => t.addEventListener('change', updateRecommendation));
+
+  // Reset
+  resetBtn.addEventListener('click', function() {
+    flexionSlider.value = 25;
+    pronationSlider.value = 10;
+    boneLossSlider.value = 40;
+    infectionToggle.checked = false;
+    laborerToggle.checked = true;
+    youngToggle.checked = false;
+    updateRecommendation();
+    showToast('Parameters reset to defaults');
+  });
+
+  // Copy
+  copyBtn.addEventListener('click', function() {
+    const flexion = flexionSlider.value;
+    const pronation = pronationSlider.value;
+    const boneLoss = boneLossSlider.value;
+    const infected = infectionToggle.checked ? 'Yes' : 'No';
+    const laborer = laborerToggle.checked ? 'Yes' : 'No';
+    const young = youngToggle.checked ? 'Yes' : 'No';
+
+    const text = `BIOLOGICAL RECONSTRUCTION OF POST-SEPTIC INDEX MCP JOINT
+=====================================================
+Clinical Parameter Assessment
+Generated: ${new Date().toISOString()}
+
+PARAMETERS:
+- MCP Fusion Flexion Angle: ${flexion}°
+- Pronation Angle: ${pronation}°
+- Bone Loss Severity: ${boneLoss}%
+- Active/Latent Infection: ${infected}
+- Manual Laborer (High Demand): ${laborer}
+- Young Patient (<40 years): ${young}
+
+CLINICAL RECOMMENDATION:
+${recommendationText.textContent}
+
+RATIONALE:
+- Index MCP biomechanically unique: primary "post" for tripod & key pinch
+- Motion without lateral stability = functional failure for index finger
+- Arthrodesis: gold standard for stability; 20-25° flexion, 5-15° pronation
+- Interposition: suboptimal for index due to lateral instability
+- VJT: biological gold standard for motion; 30-40° ROM expected
+- Masquelet staging mandatory if infection present
+- Extensor reconstruction mandatory regardless of joint procedure
+
+EVIDENCE LEVELS (from source document):
+- Arthrodesis union rates: Level III-IV evidence
+- VJT survival/ROM: Level III evidence (systematic reviews)
+- Interposition outcomes: Level IV-V evidence (case series)
+- No direct RCTs comparing modalities for index MCP identified
+
+Source: "Biological Reconstruction of the Post-Septic Index MCP Joint: A Comprehensive Systematic Analysis"`;
+
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('✓ Summary copied to clipboard');
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Summary copied to clipboard');
+    });
+  });
+
+  // Initial call
+  updateRecommendation();
+})();
+</script>
+
+</body>
+</html>

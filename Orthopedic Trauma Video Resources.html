@@ -1,0 +1,608 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Review: The Digital Operating Theater</title>
+    <style>
+        :root {
+            --primary: #005A9C;
+            --primary-light: #e7f1ff;
+            --secondary: #00796B;
+            --accent: #FF6F00;
+            --bg-light: #f8f9fa;
+            --text-dark: #212529;
+            --text-light: #6c757d;
+            --border: #dee2e6;
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: var(--font-main);
+            color: var(--text-dark);
+            background: var(--bg-light);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        main {
+            min-width: 0;
+        }
+        aside {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+        p, li {
+            margin-bottom: 0.75rem;
+        }
+        ul {
+            padding-left: 1.5rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.25rem;
+            vertical-align: middle;
+        }
+        .badge-evidence {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid #b8d4fe;
+        }
+        .badge-type {
+            background: #f0f7f4;
+            color: var(--secondary);
+            border: 1px solid #c3e6cb;
+        }
+        .callout {
+            background: #fff3e0;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .sidebar-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .slider-value {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--border);
+            border-radius: 4px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .recommendation {
+            background: var(--primary-light);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #b8d4fe;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #004a87;
+        }
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+            margin-top: 0.75rem;
+        }
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        .timestamp {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+            text-align: center;
+        }
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            aside {
+                position: static;
+                max-height: none;
+            }
+        }
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            header h1 {
+                font-size: 1.2rem;
+            }
+            section {
+                padding: 1.5rem;
+            }
+        }
+        .note {
+            background: #f8f9fa;
+            border: 1px dashed var(--border);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Educational Review: The Digital Operating Theater - Orthopedic Trauma Platforms</h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <section id="introduction">
+                <h2>1. Introduction: The Visual Turn in Surgical Education</h2>
+                <p>The transmission of surgical knowledge has evolved from the traditional "see one, do one, teach one" apprenticeship model. The complexity of modern fracture management, driven by an explosion in implant technology, minimally invasive techniques, and a demographic shift toward high-energy geriatric trauma, has necessitated more dynamic instructional media. Video-based education has transitioned from a supplementary novelty to a primary vehicle for surgical skill acquisition and maintenance of certification.</p>
+                <p>This report provides an exhaustive analysis of specialized digital education platforms for orthopedic trauma, categorizing them into four distinct pillars: Professional Medical Societies, Peer-Reviewed Video Journals, Institutional Repositories, and Specialized Niche Platforms.</p>
+            </section>
+
+            <section id="societies">
+                <h2>2. Professional Medical Society Platforms: The Standard Bearers</h2>
+                <p>Medical society platforms are characterized by strict adherence to accreditation standards (e.g., CME), integration with scientific meetings, and a direct link to the evolving "standard of care."</p>
+                
+                <h3>2.1 Orthopaedic Trauma Association (OTA) <span class="badge badge-evidence">Level I-V Evidence (Curated)</span></h3>
+                <p><strong>OTA Online</strong> is the premier resource for orthopedic trauma education in North America. Its architecture allows filtering by anatomical region (e.g., Acetabulum, Tibia) or injury classification <sup>[1,2]</sup>.</p>
+                <ul>
+                    <li><strong>Video CME:</strong> Select videos are paired with assessment modules for Maintenance of Certification credit <sup>[1]</sup>.</li>
+                    <li><strong>Fracture Night:</strong> Synchronous, interactive case-based discussions held virtually, replicating the Socratic method of fracture conferences <sup>[1]</sup>.</li>
+                    <li><strong>Advanced Content:</strong> Focuses on complex procedures often overlooked elsewhere, such as "Delayed Arthrodesis for a Sanders IV Calcaneus Fracture with Distraction Bone Block Arthrodesis" and "Dual Plate Mini-Fragment Fixation of Clavicle Fractures" <sup>[3]</sup>.</li>
+                    <li><strong>Access Model:</strong> Tiered model. 2024 Annual Meeting On-Demand: Member ~$500, Non-Member ~$650, Resident/Fellow ~$400 <sup>[5]</sup>.</li>
+                </ul>
+
+                <h3>2.2 American Academy of Orthopaedic Surgeons (AAOS) <span class="badge badge-evidence">Level I-V Evidence (Peer-Reviewed)</span></h3>
+                <p>The <strong>Orthopaedic Video Theater (OVT)</strong> is a massive repository of nearly 1,700 videos <sup>[6]</sup>, structured into channels:</p>
+                <ul>
+                    <li><strong>OVT Plus:</strong> Gold standard. Videos undergo rigorous, blinded peer-review. Acceptance is prestigious and formally citable <sup>[6]</sup>.</li>
+                    <li><strong>OVT Now:</strong> Offers an expedited review pathway for the rapid dissemination of emerging techniques and "user-submitted" content <sup>[6,9]</sup>.</li>
+                    <li><strong>OrthoDome:</strong> An immersive 4K video theater experience featuring live narration by experts (e.g., Dr. Lisa K. Cannada), now available on OVT <sup>[10]</sup>.</li>
+                    <li><strong>Trauma Collections:</strong> Dedicated sections for "Polytrauma," "Malunion and Nonunion," "Periprosthetic Fractures," and crucial "Soft-Tissue Injury and Coverage" <sup>[11]</sup>.</li>
+                    <li><strong>Access Model:</strong> Free for AAOS members. Non-member annual subscription ~$349 <sup>[9,12]</sup>.</li>
+                </ul>
+
+                <h3>2.3 European Federation (EFORT) & ESTES <span class="badge badge-evidence">Level IV-V Evidence (Lecture-based)</span></h3>
+                <ul>
+                    <li><strong>EFORT e-Science:</strong> A mega-repository with >33,350 documents, including >19,680 webcasts from congresses. Heavily weighted toward scientific sessions and lectures, emphasizing the "evidence" behind trauma management <sup>[14]</sup>. Strong focus on geriatric trauma and the Rommens classification for pelvic fragility fractures <sup>[16]</sup>.</li>
+                    <li><strong>ESTES:</strong> Bridges visceral and skeletal trauma. Key offering: the Emergency Surgery Course (ESC) in collaboration with AAST, providing "state-of-the-art videos" and decision-making skills for the polytrauma patient <sup>[17]</sup>.</li>
+                </ul>
+            </section>
+
+            <section id="journals">
+                <h2>3. Peer-Reviewed Video Journals: Validating the Craft</h2>
+                <p>These platforms combine academic rigor with visual instruction, ensuring techniques are backed by evidence and expert consensus.</p>
+
+                <h3>3.1 JBJS Essential Surgical Techniques (EST) <span class="badge badge-evidence">Level I Evidence (Standard of Care)</span></h3>
+                <p>Represents the gold standard. The procedure demonstrated must be thoroughly vetted in published peer-reviewed studies <sup>[21]</sup>. Categories include Key Procedures (KP), Subspecialty Procedures (SP), and Pearls and Principles (PP). Authors submit a "storyboard" for peer review before filming to ensure an unbiased, educational narrative <sup>[21]</sup>. Example: "Helical Blade Versus Lag Screw Fixation in Cephalomedullary Nailing" <sup>[24]</sup>.</p>
+
+                <h3>3.2 Journal of Orthopaedic Trauma (JOT) <span class="badge badge-evidence">Level I-III Evidence (Supplementary)</span></h3>
+                <p>The annual <strong>OTA/JOT Video Supplement</strong> is a curated collection of 9-10 high-quality, narrated videos indexed in PubMed <sup>[25]</sup>. Content focuses on complex salvage and complication avoidance, e.g., "Endosteal Autograft Fibula for Osteoporotic Varus 3 Part Proximal Humerus Fracture" <sup>[26]</sup>.</p>
+
+                <h3>3.3 Journal of Medical Insight (JoMI) <span class="badge badge-evidence">Level I-V Evidence (Unedited)</span></h3>
+                <p>Adopts the "virtual operating theater" philosophy, publishing long-form videos documenting the <strong>entire procedure from incision to closure</strong> <sup>[27]</sup>. Filmed at top institutions (MGH, Duke). The unedited moments (dissection, retraction, hemostasis) are critical for deep learning <sup>[29]</sup>. Example: "Less Invasive Stabilization System (LISS) for Distal Femur Fracture Repair" <sup>[28]</sup>.</p>
+                <div class="callout">
+                    <strong>Access Model:</strong> Individual subscription. Student/Resident: $250/yr. Attending: $350/yr <sup>[28]</sup>.
+                </div>
+            </section>
+
+            <section id="niche">
+                <h2>4. Specialized Niche Platforms</h2>
+                
+                <h3>4.1 OrthoMedia (UK) <span class="badge badge-type">FRCS Exam Prep</span></h3>
+                <p>Aligned with the FRCS curriculum. Valuable series include "The Friday Afternoon Trauma Review" (unvarnished panel discussions on "Plan B Planning") and "21st Century Nailing" (expert debates on entry points and positioning) <sup>[33]</sup>. Also hosts unique content on battlefield trauma and the diabetic foot <sup>[34,35]</sup>.</p>
+
+                <h3>4.2 Global HELP <span class="badge badge-type">Pediatric & Humanitarian</span></h3>
+                <p>The premier open-access resource for pediatric orthopedic trauma, especially in resource-limited settings. Features the Kaye Wilkins Library (18 videos on pediatric fractures) and Dr. Vince Mosca's series on biomechanics of the pediatric foot, emphasizing physical exam and principles over expensive implants <sup>[36]</sup>.</p>
+
+                <h3>4.3 ICJR <span class="badge badge-type">Periprosthetic & Geriatric</span></h3>
+                <p>Critical for the blurring line between trauma and reconstruction. Hosts extensive content on fractures around hip and knee replacements, featuring renowned arthroplasty surgeons <sup>[37]</sup>.</p>
+
+                <h3>4.4 Touch Surgery (Medtronic) <span class="badge badge-type">Cognitive Simulation</span></h3>
+                <p>Shifts from passive watching to <strong>Cognitive Task Simulation</strong>. App-based simulations (e.g., "Intramedullary Femoral Nailing") improve "cognitive rehearsal"—mental practice of surgery—before entering the OR <sup>[44]</sup>.</p>
+            </section>
+
+            <section id="comparison">
+                <h2>5. Comparative Analysis</h2>
+                <p>Table 1 synthesizes the key characteristics of the major platforms. <em>Note: Data sourced directly from the provided document.</em></p>
+                <table aria-label="Comparison of Orthopedic Trauma Video Platforms">
+                    <caption><strong>Table 1: Comparative Matrix of Orthopedic Trauma Video Platforms</strong></caption>
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Primary Content Type</th>
+                            <th>Access Model & Cost (Approx.)</th>
+                            <th>Best Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>OTA Online</strong></td>
+                            <td>Procedures, Techniques, CME</td>
+                            <td>Member: ~$500 / Non-Member: ~$650 (Meeting On-Demand)</td>
+                            <td>Comprehensive Curriculum: Definitive resource for N. American trauma standards and CME.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AAOS OVT</strong></td>
+                            <td>Peer-Reviewed Surgical Video</td>
+                            <td>Member: Free / Non-Member: ~$349/yr</td>
+                            <td>Gold Standard Reference: Best for broad, verified technique guides (OVT Plus).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JBJS EST</strong></td>
+                            <td>Peer-Reviewed Video Article</td>
+                            <td>Journal Subscription</td>
+                            <td>Evidence-Based Technique: For the "standard of care" procedure backed by published data.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JoMI</strong></td>
+                            <td>Long-form "Incision-to-Closure"</td>
+                            <td>Resident: $250/yr / Attending: $350/yr</td>
+                            <td>Deep Dive Prep: Best for seeing the unedited flow of surgery.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OrthoMedia (UK)</strong></td>
+                            <td>Lectures, Reviews, Conferences</td>
+                            <td>Free / Registration</td>
+                            <td>Exam Prep & Decision Making: Best for FRCS prep and "Plan B" discussions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Global HELP</strong></td>
+                            <td>Lectures, Exams, Techniques</td>
+                            <td>Free (Open Access)</td>
+                            <td>Pediatric & Humanitarian: Go-to for pediatric fracture principles.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Touch Surgery</strong></td>
+                            <td>Interactive Simulation</td>
+                            <td>Free App</td>
+                            <td>Cognitive Rehearsal: Best for residents learning procedural steps.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Evidence Note:</strong> The levels of evidence listed for each platform category (e.g., "Level I-V Evidence (Curated)") are inferred from the source document's descriptions of their review processes (e.g., peer-review, CME integration). The document does not assign formal evidence grades to each platform.</p>
+            </section>
+
+            <section id="conclusion">
+                <h2>6. Conclusion & Strategic Recommendations</h2>
+                <p>The landscape of orthopedic trauma education has specialized. No single platform is universal.</p>
+                <ul>
+                    <li><strong>For the Resident:</strong> Prioritize <strong>Global HELP</strong> for pediatric principles, <strong>Touch Surgery</strong> for cognitive rehearsal, and <strong>AAOS OVT</strong> (free with membership) for standard techniques.</li>
+                    <li><strong>For the Trauma Fellow:</strong> <strong>OTA Online</strong> and <strong>JOT Video Supplements</strong> are mandatory. <strong>JoMI</strong> is invaluable for unfamiliar complex approaches.</li>
+                    <li><strong>For the General Orthopedist:</strong> <strong>JBJS EST</strong> provides the safest, evidence-based guides. <strong>ICJR</strong> is critical for periprosthetic fractures.</li>
+                </ul>
+                <p>The modern surgeon must curate a portfolio of these resources to maintain a practice that is both technically skilled and evidence-based.</p>
+            </section>
+
+            <section id="references">
+                <h2>References</h2>
+                <p><em>All references are derived from the provided source document.</em></p>
+                <ol>
+                    <li>Orthopaedic Trauma Association: Watch, accessed December 21, 2025, <a href="https://education.ota.org/watch" target="_blank" rel="noopener">https://education.ota.org/watch</a></li>
+                    <li>Video CME - Orthopaedic Trauma Association, accessed December 21, 2025, <a href="https://education.ota.org/video-cme" target="_blank" rel="noopener">https://education.ota.org/video-cme</a></li>
+                    <li>New Procedures & Techniques Videos - Orthopaedic Trauma Association (OTA), accessed December 21, 2025, <a href="https://ota.org/education/video-library/newvideos" target="_blank" rel="noopener">https://ota.org/education/video-library/newvideos</a></li>
+                    <li>Videos | Orthopaedic Trauma Association (OTA), accessed December 21, 2025, <a href="https://ota.org/node/4694" target="_blank" rel="noopener">https://ota.org/node/4694</a></li>
+                    <li>2024 OTA Annual Meeting On-Demand - Orthopaedic Trauma Association, accessed December 21, 2025, <a href="https://education.ota.org/products/2024-ota-annual-meeting-on-demand" target="_blank" rel="noopener">https://education.ota.org/products/2024-ota-annual-meeting-on-demand</a></li>
+                    <li>Peruse the Orthopaedic Video Theater's Extensive Library... - AAOS, accessed December 21, 2025, <a href="https://www.aaos.org/aaosnow/2025/wednesday/development/development03/" target="_blank" rel="noopener">https://www.aaos.org/aaosnow/2025/wednesday/development/development03/</a></li>
+                    <li>Orthopaedic Video Theater - AAOS, accessed December 21, 2025, <a href="https://www.aaos.org/education/orthopaedic-video-theater/" target="_blank" rel="noopener">https://www.aaos.org/education/orthopaedic-video-theater/</a></li>
+                    <li>Trauma Education Resources - AAOS, accessed December 21, 2025, <a href="https://www.aaos.org/education/specialty-resources/trauma/" target="_blank" rel="noopener">https://www.aaos.org/education/specialty-resources/trauma/</a></li>
+                    <li>Orthopaedic Video Theater - AAOS, accessed December 21, 2025, <a href="https://www.aaos.org/education/about-aaos-products/ovt/" target="_blank" rel="noopener">https://www.aaos.org/education/about-aaos-products/ovt/</a></li>
+                    <li>AAOS OrthoDome | Immersive 4K Orthopaedic Video Theater Experience, accessed December 21, 2025, <a href="https://www.aaos.org/annual/explore-the-program/browse-education/orthodome/" target="_blank" rel="noopener">https://www.aaos.org/annual/explore-the-program/browse-education/orthodome/</a></li>
+                    <li>OVT Plus - AAOS, accessed December 21, 2025, <a href="https://www.aaos.org/videos/ovt-plus/" target="_blank" rel="noopener">https://www.aaos.org/videos/ovt-plus/</a></li>
+                    <li>Orthopaedic Video Theater (OVT) - AAOS Member Portal, accessed December 21, 2025, <a href="https://ams.aaos.org/Online-Store/Subscription-Detail?id=22A4E599-1719-EF11-9F8A-000D3A3536ED" target="_blank" rel="noopener">https://ams.aaos.org/Online-Store/Subscription-Detail?id=...</a></li>
+                    <li>Online Store - AAOS Member Portal, accessed December 21, 2025, [Link provided in source]</li>
+                    <li>THE EFORT e-LIBRARY, accessed December 21, 2025, <a href="https://www.efort.org/education-and-courses/e-library/" target="_blank" rel="noopener">https://www.efort.org/education-and-courses/e-library/</a></li>
+                    <li>EFORT e-SCIENCE, accessed December 21, 2025, <a href="https://www.efort.org/education-and-courses/e-science/" target="_blank" rel="noopener">https://www.efort.org/education-and-courses/e-science/</a></li>
+                    <li>EFORT e-Science focus - Healio, accessed December 21, 2025, <a href="https://www.healio.com/news/orthopedics/20160331/efort-escience-focus" target="_blank" rel="noopener">https://www.healio.com/news/orthopedics/20160331/efort-escience-focus</a></li>
+                    <li>Emergency Surgery Couse, accessed December 21, 2025, <a href="https://www.aast.org/education/emergency-surgery-couse.html" target="_blank" rel="noopener">https://www.aast.org/education/emergency-surgery-couse.html</a></li>
+                    <li>ESTES/AAST – ESC - European Society for Trauma & Emergency Surgery, accessed December 21, 2025, <a href="https://www.estesonline.org/education/postgraduate-courses/estes-aast-esc/" target="_blank" rel="noopener">https://www.estesonline.org/education/postgraduate-courses/estes-aast-esc/</a></li>
+                    <li>Emergency Surgery Course ESTES / AAST, accessed December 21, 2025, <a href="https://www.estesonline.org/event/emergency-surgery-course-estes-aast/" target="_blank" rel="noopener">https://www.estesonline.org/event/emergency-surgery-course-estes-aast/</a></li>
+                    <li>Webinars – ESTES ONLINE, accessed December 21, 2025, <a href="https://www.estesonline.org/education/webinars/" target="_blank" rel="noopener">https://www.estesonline.org/education/webinars/</a></li>
+                    <li>JBJS Essential Surgical Techniques Instructions for Authors, accessed December 21, 2025, <a href="https://www.jbjs.org/est-ifa.php" target="_blank" rel="noopener">https://www.jbjs.org/est-ifa.php</a></li>
+                    <li>About JBJS Essential Surgical Techniques, accessed December 21, 2025, <a href="https://www.jbjs.org/about-jbjs-est.php" target="_blank" rel="noopener">https://www.jbjs.org/about-jbjs-est.php</a></li>
+                    <li>JBJS Essential Surgical Techniques Current Issue, accessed December 21, 2025, <a href="https://www.jbjs.org/issue.php?j=est" target="_blank" rel="noopener">https://www.jbjs.org/issue.php?j=est</a></li>
+                    <li>Trauma related subspecialty content - JBJS, accessed December 21, 2025, <a href="https://www.jbjs.org/subspecialty.php?topic=trauma" target="_blank" rel="noopener">https://www.jbjs.org/subspecialty.php?topic=trauma</a></li>
+                    <li>Introduction - Ovid, accessed December 21, 2025, <a href="https://www.ovid.com/jnls/jorthotrauma/pdf/10.1097/bot.0000000000002991~introduction" target="_blank" rel="noopener">https://www.ovid.com/jnls/jorthotrauma/pdf/...</a></li>
+                    <li>Trauma - AAOS, accessed December 21, 2025, <a href="https://www.aaos.org/videos/areas-of-interest/trauma/" target="_blank" rel="noopener">https://www.aaos.org/videos/areas-of-interest/trauma/</a></li>
+                    <li>Journal of Medical Insight - ScienceOpen, accessed December 21, 2025, <a href="https://www.scienceopen.com/collection/95bb5acd-657e-410b-b879-3556d2584253" target="_blank" rel="noopener">https://www.scienceopen.com/collection/...</a></li>
+                    <li>Journal of Medical Insight | Peer-Reviewed Surgical Videos..., accessed December 21, 2025, <a href="https://jomi.com/" target="_blank" rel="noopener">https://jomi.com/</a></li>
+                    <li>Journal of Medical Insights - PMC - NIH, accessed December 21, 2025, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4722656/" target="_blank" rel="noopener">https://pmc.ncbi.nlm.nih.gov/articles/PMC4722656/</a></li>
+                    <li>Trauma Archives - Video Journal of Orthopaedics, accessed December 21, 2025, <a href="https://www.vjortho.com/category/trauma/" target="_blank" rel="noopener">https://www.vjortho.com/category/trauma/</a></li>
+                    <li>Video Journal of Orthopaedics, accessed December 21, 2025, [Link provided in source]</li>
+                    <li>Purchase | Video Journal of Orthopaedics, accessed December 21, 2025, <a href="https://www.vjortho.com/purchasing-options/" target="_blank" rel="noopener">https://www.vjortho.com/purchasing-options/</a></li>
+                    <li>Trauma - OrthoMedia, accessed December 21, 2025, <a href="https://www.orthomedia.org.uk/Specialty/Trauma/25b73f0a-c6b4-4376-ba5a-ce46ca69e77e" target="_blank" rel="noopener">https://www.orthomedia.org.uk/Specialty/Trauma/...</a></li>
+                    <li>Implants and Late Reconstruction - OrthoMedia, accessed December 21, 2025, <a href="https://www.orthomedia.org.uk/Media/Implants_and_Late_Reconstruction/0a708fa7-3053-4f12-8075-c7aa519c4031" target="_blank" rel="noopener">https://www.orthomedia.org.uk/Media/Implants_and_Late_Reconstruction/...</a></li>
+                    <li>Browse Media - OrthoMedia, accessed December 21, 2025, <a href="https://www.orthomedia.org.uk/BrowseMedia" target="_blank" rel="noopener">https://www.orthomedia.org.uk/BrowseMedia</a></li>
+                    <li>Videos - Global HELP, accessed December 21, 2025, <a href="https://global-help.org/videos-classic/" target="_blank" rel="noopener">https://global-help.org/videos-classic/</a></li>
+                    <li>FOCAL Recordings - AAHKS, accessed December 21, 2025, <a href="https://www.aahks.org/focal/focal-recordings/" target="_blank" rel="noopener">https://www.aahks.org/focal/focal-recordings/</a></li>
+                    <li>Introduction to the Orthopaedic OR | Free Video Training - HSS eAcademy, accessed December 21, 2025, <a href="https://www.eacademy.hss.edu/pages/introduction-to-the-orthopaedic-or" target="_blank" rel="noopener">https://www.eacademy.hss.edu/pages/introduction-to-the-orthopaedic-or</a></li>
+                    <li>INTRODUCING: The Orthopaedic Trauma Institute (OTI) Functional Limb Service Tutorial Video Series. - UCSF, accessed December 21, 2025, <a href="https://orthosurgery.ucsf.edu/about/news-media/introducing-the-orthopaedic-trauma-institute-oti-functional-limb-service-tutorial-video-series" target="_blank" rel="noopener">https://orthosurgery.ucsf.edu/about/news-media/...</a></li>
+                    <li>Explore the Touch Surgery™ Ecosystem - Medtronic, accessed December 21, 2025, <a href="https://www.medtronic.com/en-us/healthcare-professionals/specialties/touch-surgery/ecosystem.html" target="_blank" rel="noopener">https://www.medtronic.com/en-us/healthcare-professionals/specialties/touch-surgery/ecosystem.html</a></li>
+                    <li>Touch Surgery: Surgical Videos - Apps on Google Play, accessed December 21, 2025, <a href="https://play.google.com/store/apps/details?id=com.touchsurgery" target="_blank" rel="noopener">https://play.google.com/store/apps/details?id=com.touchsurgery</a></li>
+                    <li>Touch Surgery™ Video - Medtronic, accessed December 21, 2025, <a href="https://www.medtronic.com/en-us/healthcare-professionals/specialties/touch-surgery/video.html" target="_blank" rel="noopener">https://www.medtronic.com/en-us/healthcare-professionals/specialties/touch-surgery/video.html</a></li>
+                </ol>
+            </section>
+        </main>
+
+        <aside aria-label="Interactive Recommendation Sidebar">
+            <div class="sidebar-panel">
+                <h3>Platform Selector Tool</h3>
+                <p>Adjust parameters to find platforms matching your needs.</p>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span for="budget">Annual Budget (USD)</span>
+                        <span class="slider-value" id="budgetValue">$500</span>
+                    </div>
+                    <input type="range" id="budget" min="0" max="1000" step="10" value="500" aria-label="Set your annual budget">
+                    <div class="note">Based on platform pricing in source: $0 (free) to $650+.</div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span for="depth">Content Depth Preference</span>
+                        <span class="slider-value" id="depthValue">Comprehensive</span>
+                    </div>
+                    <input type="range" id="depth" min="1" max="3" step="1" value="3" aria-label="Set content depth preference">
+                    <div class="note" style="font-size:0.8rem;">1: Quick Tips, 2: Standard Techniques, 3: Comprehensive/Incision-to-Closure</div>
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span for="role">Your Primary Role</span>
+                        <span class="slider-value" id="roleValue">Trauma Fellow</span>
+                    </div>
+                    <input type="range" id="role" min="1" max="4" step="1" value="3" aria-label="Select your primary role">
+                    <div class="note" style="font-size:0.8rem;">1: Resident, 2: General Orthopedist, 3: Trauma Fellow, 4: International Surgeon</div>
+                </div>
+
+                <div class="recommendation" id="recommendationBox" aria-live="polite">
+                    <h4>Recommended Platforms</h4>
+                    <p id="recommendationText">Based on your settings: <strong>OTA Online, AAOS OVT, JoMI, JOT, Global HELP, Touch Surgery</strong>. These provide a balance of CME, peer-reviewed evidence, and deep learning suitable for a Trauma Fellow with a moderate budget.</p>
+                </div>
+                <button class="btn btn-primary" id="copyBtn" aria-label="Copy recommendations to clipboard">Export Summary</button>
+                <button class="btn btn-secondary" id="resetBtn" aria-label="Reset all sliders to default">Reset</button>
+                <div class="timestamp" id="timestamp"></div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // DOM Elements
+        const budgetSlider = document.getElementById('budget');
+        const depthSlider = document.getElementById('depth');
+        const roleSlider = document.getElementById('role');
+        const budgetValue = document.getElementById('budgetValue');
+        const depthValue = document.getElementById('depthValue');
+        const roleValue = document.getElementById('roleValue');
+        const recommendationText = document.getElementById('recommendationText');
+        const copyBtn = document.getElementById('copyBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const timestampDiv = document.getElementById('timestamp');
+
+        // Platform data derived from the document
+        const platforms = [
+            { name: "OTA Online", cost: 500, depth: 3, roles: [3,4], note: "Comprehensive trauma curriculum, CME" },
+            { name: "AAOS OVT", cost: 349, depth: 2, roles: [1,2,3,4], note: "Gold-standard peer-reviewed videos, free for members" },
+            { name: "JBJS EST", cost: 200, depth: 2, roles: [2], note: "Evidence-based standard techniques (via journal subscription)" },
+            { name: "JOT Video Supplements", cost: 200, depth: 3, roles: [3], note: "Advanced techniques, complication avoidance" },
+            { name: "JoMI", cost: 350, depth: 3, roles: [3], note: "Full "incision-to-closure" unedited procedures" },
+            { name: "OrthoMedia (UK)", cost: 0, depth: 2, roles: [1,4], note: "FRCS exam prep, "Plan B" decision making" },
+            { name: "Global HELP", cost: 0, depth: 2, roles: [1,2], note: "Pediatric trauma principles, open access" },
+            { name: "Touch Surgery", cost: 0, depth: 1, roles: [1], note: "Interactive cognitive simulation app" },
+            { name: "ICJR", cost: 0, depth: 2, roles: [2,3], note: "Periprosthetic & geriatric fracture focus" }
+        ];
+
+        function updateRecommendation() {
+            const budget = parseInt(budgetSlider.value);
+            const depth = parseInt(depthSlider.value);
+            const role = parseInt(roleSlider.value);
+            const roleNames = ["Resident", "General Orthopedist", "Trauma Fellow", "International Surgeon"];
+            const depthNames = ["Quick Tips", "Standard Techniques", "Comprehensive/Incision-to-Closure"];
+
+            // Update displayed values
+            budgetValue.textContent = `$${budget}`;
+            depthValue.textContent = depthNames[depth - 1];
+            roleValue.textContent = roleNames[role - 1];
+
+            // Filter platforms based on sliders
+            let filtered = platforms.filter(p => {
+                const costOk = p.cost <= budget;
+                const depthOk = p.depth >= (depth - 1); // Allow some flexibility
+                const roleOk = p.roles.includes(role);
+                return costOk && depthOk && roleOk;
+            });
+
+            // Sort by relevance (role match first, then depth, then cost)
+            filtered.sort((a, b) => {
+                const roleMatchA = a.roles.includes(role) ? 0 : 1;
+                const roleMatchB = b.roles.includes(role) ? 0 : 1;
+                if (roleMatchA !== roleMatchB) return roleMatchA - roleMatchB;
+                const depthDiff = Math.abs(b.depth - depth) - Math.abs(a.depth - depth);
+                if (depthDiff !== 0) return depthDiff;
+                return a.cost - b.cost;
+            });
+
+            // Build recommendation string
+            if (filtered.length === 0) {
+                recommendationText.innerHTML = `No platforms found matching all criteria. Try adjusting your budget or role.`;
+            } else {
+                const names = filtered.slice(0, 4).map(p => p.name); // Show top 4
+                const notes = filtered.slice(0, 4).map(p => `<li><strong>${p.name}:</strong> ${p.note}</li>`).join('');
+                recommendationText.innerHTML = `Based on your settings (Role: ${roleNames[role-1]}, Budget: $${budget}, Depth: ${depthNames[depth-1]}), top recommendations are:<ul>${notes}</ul>`;
+            }
+            updateTimestamp();
+        }
+
+        function updateTimestamp() {
+            const now = new Date();
+            timestampDiv.textContent = `Recommendation generated: ${now.toLocaleString()}`;
+        }
+
+        // Event Listeners
+        budgetSlider.addEventListener('input', updateRecommendation);
+        depthSlider.addEventListener('input', updateRecommendation);
+        roleSlider.addEventListener('input', updateRecommendation);
+
+        resetBtn.addEventListener('click', function() {
+            budgetSlider.value = 500;
+            depthSlider.value = 3;
+            roleSlider.value = 3;
+            updateRecommendation();
+        });
+
+        copyBtn.addEventListener('click', function() {
+            const summary = `Orthopedic Trauma Platform Recommendation\n` +
+                `========================================\n` +
+                `Role: ${roleValue.textContent}\n` +
+                `Budget: ${budgetValue.textContent}\n` +
+                `Content Depth: ${depthValue.textContent}\n` +
+                `----------------------------------------\n` +
+                `Recommendation:\n${recommendationText.innerText}\n` +
+                `----------------------------------------\n` +
+                `Source Document: "The Digital Operating Theater: A Comprehensive Evaluation..."\n` +
+                `Generated: ${timestampDiv.textContent}`;
+
+            navigator.clipboard.writeText(summary).then(() => {
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Export Summary';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = summary;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Export Summary';
+                }, 2000);
+            });
+        });
+
+        // Initial calculation
+        updateRecommendation();
+    </script>
+</body>
+</html>

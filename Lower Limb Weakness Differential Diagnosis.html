@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Pathological Analysis: Chronic Painless Unilateral Lower Limb Weakness with Edema</title>
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        :root{
+            --primary:#1a365d;--primary-light:#2b6cb0;--accent:#e53e3e;--accent-light:#fc8181;
+            --bg:#f7fafc;--card:#ffffff;--text:#2d3748;--text-light:#718096;
+            --border:#e2e8f0;--success:#38a169;--warning:#d69e2e;--info:#3182ce;
+            --sidebar-w:340px;--header-h:64px;
+            --badge-i:#2f855a;--badge-ii:#2b6cb0;--badge-iii:#d69e2e;--badge-iv:#c05621;--badge-v:#718096;
+            --font-sans:'Segoe UI',system-ui,-apple-system,sans-serif;
+            --font-mono:'Consolas','Monaco',monospace;
+        }
+        html{scroll-behavior:smooth;font-size:16px}
+        body{font-family:var(--font-sans);color:var(--text);background:var(--bg);line-height:1.7;min-height:100vh}
+
+        /* HEADER */
+        .site-header{
+            position:sticky;top:0;z-index:100;height:var(--header-h);
+            background:linear-gradient(135deg,var(--primary),var(--primary-light));
+            color:#fff;display:flex;align-items:center;padding:0 1.5rem;
+            box-shadow:0 2px 8px rgba(0,0,0,.15);
+        }
+        .site-header h1{font-size:1.15rem;font-weight:700;letter-spacing:.02em}
+        .site-header .subtitle{font-size:.8rem;opacity:.8;margin-left:1rem;font-weight:400}
+
+        /* LAYOUT */
+        .layout{display:grid;grid-template-columns:1fr var(--sidebar-w);gap:2rem;max-width:1440px;margin:0 auto;padding:2rem 1.5rem}
+        @media(max-width:1024px){.layout{grid-template-columns:1fr;padding:1rem}.sidebar{position:static!important;width:100%!important}}
+
+        /* MAIN */
+        main{min-width:0}
+        main h2{font-size:1.55rem;color:var(--primary);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:3px solid var(--primary-light)}
+        main h3{font-size:1.2rem;color:var(--primary-light);margin:1.8rem 0 .6rem}
+        main h4{font-size:1.05rem;color:var(--text);margin:1.2rem 0 .4rem;font-weight:700}
+        main p{margin-bottom:1rem;text-align:justify}
+        main ul,main ol{margin:0 0 1rem 1.5rem}
+        main li{margin-bottom:.35rem}
+
+        /* BADGES */
+        .badge{display:inline-block;padding:1px 7px;border-radius:4px;font-size:.7rem;font-weight:700;color:#fff;vertical-align:middle;margin-left:4px;white-space:nowrap}
+        .badge-I{background:var(--badge-i)}.badge-II{background:var(--badge-ii)}.badge-III{background:var(--badge-iii)}.badge-IV{background:var(--badge-iv)}.badge-V{background:var(--badge-v)}
+        .badge-ns{background:#a0aec0;font-size:.65rem}
+
+        /* CALLOUTS */
+        .callout{border-left:4px solid;padding:1rem 1.2rem;margin:1.5rem 0;border-radius:0 8px 8px 0;font-size:.95rem}
+        .callout-info{border-color:var(--info);background:#ebf8ff}
+        .callout-warning{border-color:var(--warning);background:#fffbeb}
+        .callout-danger{border-color:var(--accent);background:#fff5f5}
+        .callout-success{border-color:var(--success);background:#f0fff4}
+        .callout strong{display:block;margin-bottom:.25rem}
+
+        /* TABLES */
+        .table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+        table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card)}
+        table caption{padding:.8rem 1rem;text-align:left;font-weight:700;font-size:1rem;color:var(--primary);background:#edf2f7;border-bottom:2px solid var(--border)}
+        th{background:#edf2f7;color:var(--primary);font-weight:700;text-align:left;padding:.6rem .8rem;border-bottom:2px solid var(--border);white-space:nowrap}
+        td{padding:.6rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+        tr:last-child td{border-bottom:none}
+        tr:hover td{background:#f7fafc}
+        td:first-child{font-weight:600;color:var(--primary);white-space:nowrap}
+
+        /* SIDEBAR */
+        .sidebar{position:sticky;top:calc(var(--header-h) + 2rem);height:fit-content;max-height:calc(100vh - var(--header-h) - 4rem);overflow-y:auto}
+        .sidebar-card{background:var(--card);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:1.2rem;margin-bottom:1.2rem}
+        .sidebar-card h3{font-size:1rem;color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem}
+        .sidebar-card h3::before{content:'';width:4px;height:1rem;background:var(--accent);border-radius:2px;flex-shrink:0}
+
+        /* SLIDERS */
+        .param-group{margin-bottom:1.2rem}
+        .param-label{display:flex;justify-content:space-between;align-items:baseline;font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+        .param-value{font-family:var(--font-mono);color:var(--accent);font-weight:700}
+        input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:#e2e8f0;outline:none;transition:background .2s}
+        input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary-light);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+        input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--primary-light);cursor:pointer;border:none}
+        .param-note{font-size:.75rem;color:var(--text-light);margin-top:.2rem;font-style:italic}
+
+        /* TOGGLE */
+        .toggle-wrap{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;font-size:.85rem;font-weight:600}
+        .toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+        .toggle input{opacity:0;width:0;height:0}
+        .toggle .slider{position:absolute;inset:0;background:#cbd5e0;border-radius:12px;cursor:pointer;transition:.3s}
+        .toggle .slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+        .toggle input:checked+.slider{background:var(--primary-light)}
+        .toggle input:checked+.slider::before{transform:translateX(20px)}
+
+        /* RECOMMENDATION BOX */
+        .reco-box{background:linear-gradient(135deg,#ebf8ff,#f0fff4);border:2px solid var(--primary-light);border-radius:10px;padding:1rem;font-size:.88rem;line-height:1.6}
+        .reco-box h4{color:var(--primary);margin-bottom:.5rem;font-size:.95rem}
+        .reco-box .reco-line{padding:.3rem 0;border-bottom:1px dashed #e2e8f0}
+        .reco-box .reco-line:last-child{border-bottom:none}
+        .reco-label{font-weight:700;color:var(--primary)}
+        .reco-risk{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:700;color:#fff;margin-left:4px}
+        .risk-high{background:var(--accent)}.risk-mod{background:var(--warning)}.risk-low{background:var(--success)}
+
+        /* BUTTONS */
+        .btn-row{display:flex;gap:.6rem;margin-top:1rem}
+        .btn{flex:1;padding:.55rem .8rem;border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.3rem}
+        .btn-reset{background:#edf2f7;color:var(--text)}.btn-reset:hover{background:#e2e8f0}
+        .btn-copy{background:var(--primary);color:#fff}.btn-copy:hover{background:var(--primary-light)}
+        .btn-copy.copied{background:var(--success)}
+        .toast{position:fixed;bottom:2rem;right:2rem;background:var(--success);color:#fff;padding:.6rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;opacity:0;transform:translateY(20px);transition:all .3s;z-index:999;pointer-events:none}
+        .toast.show{opacity:1;transform:translateY(0)}
+
+        /* CITATIONS */
+        .ref-section{margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+        .ref-section h2{margin-top:0}
+        .ref-list{list-style:none;margin:0;padding:0;counter-reset:ref}
+        .ref-list li{counter-increment:ref;padding:.4rem 0 .4rem 2.2rem;position:relative;font-size:.85rem;color:var(--text-light);border-bottom:1px solid #f0f0f0}
+        .ref-list li::before{content:counter(ref);position:absolute;left:0;width:1.8rem;height:1.8rem;background:#edf2f7;color:var(--primary);border-radius:50%;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+        sup a{text-decoration:none;color:var(--info);font-weight:600}
+        sup a:hover{text-decoration:underline}
+
+        /* LIMITATIONS BOX */
+        .limitation-box{background:#fffbeb;border:1px solid #f6e05e;border-radius:8px;padding:1rem 1.2rem;margin:1.5rem 0;font-size:.9rem}
+        .limitation-box strong{color:#975a16}
+
+        /* SCROLLBAR */
+        .sidebar::-webkit-scrollbar{width:5px}
+        .sidebar::-webkit-scrollbar-track{background:transparent}
+        .sidebar::-webkit-scrollbar-thumb{background:#cbd5e0;border-radius:3px}
+
+        /* ANIMATIONS */
+        @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        main>*{animation:fadeUp .4s ease both}
+
+        /* PRINT */
+        @media print{.sidebar,.site-header{display:none}.layout{grid-template-columns:1fr;padding:0}}
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>Diagnostic Analysis: Chronic Painless Unilateral Lower Limb Weakness with Edema</h1>
+    <span class="subtitle">Evidence-Based Clinical Pathological Review</span>
+</header>
+
+<div class="layout">
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main role="main" aria-label="Clinical analysis content">
+
+        <!-- I. EXECUTIVE INTRODUCTION -->
+        <h2>I. Executive Introduction</h2>
+        <p>
+            The clinical presentation of a 61-year-old female patient exhibiting <strong>chronic, unilateral lower limb weakness</strong>, profound <strong>proximal muscle atrophy</strong> involving the gluteal and quadriceps musculature, and associated <strong>lower leg edema</strong>—in the conspicuous absence of pain, sensory deficits, or structural pathology on whole spine magnetic resonance imaging (MRI)—constitutes a formidable diagnostic challenge.<sup><a href="#ref1">[1]</a></sup> This specific constellation of symptoms represents a deviation from the most common neuro-anatomical paradigms, where unilateral weakness is frequently attributable to compressive radiculopathy or common mononeuropathies.
+        </p>
+        <p>
+            The negativity of the spinal imaging effectively excludes central canal stenosis, foraminal stenosis, and gross cauda equina compression, thereby shifting the locus of pathology to the <strong>peripheral nervous system</strong>, specifically the lumbosacral plexus, or the anterior horn cells of the spinal cord.<sup><a href="#ref1">[1]</a></sup>
+        </p>
+
+        <div class="callout callout-info">
+            <strong>🔬 Diagnostic Pivot</strong>
+            The diagnostic exercise requires parsing three distinct pathophysiological categories: (1) neurodegenerative disorders (localized variants of Motor Neuron Disease), (2) occult neoplastic processes involving the retroperitoneum or pelvis, and (3) atypical presentations of inflammatory plexopathies.<sup><a href="#ref2">[2]</a></sup>
+        </div>
+
+        <p>
+            The presence of significant proximal atrophy involving both the lumbar plexus (femoral nerve-innervated quadriceps) and the sacral plexus (gluteal nerve-innervated glutei) necessitates a lesion localization that spans <strong>multiple myotomes (L2 through S1)</strong>—a distribution difficult to reconcile with a single mononeuropathy or a limited radiculopathy.<sup><a href="#ref2">[2]</a></sup> Furthermore, the characteristic <strong>absence of pain and sensory loss</strong> serves as a powerful discriminatory filter, deprioritizing classic inflammatory etiologies such as typical idiopathic lumbosacral plexitis or vasculitic neuropathies, which are almost definitionally painful.<sup><a href="#ref5">[5]</a></sup>
+        </p>
+
+        <!-- II. ANATOMICAL LOCALIZATION -->
+        <h2>II. Anatomical Localization and Clinical Phenotyping</h2>
+        <p>
+            To establish a coherent differential diagnosis, one must perform a granular analysis of the clinical phenotype against the known anatomy of the lumbosacral region. Localization is informed not merely by the deficits present but equally by the functions that remain preserved.
+        </p>
+
+        <h3>2.1 The Myotomal Distribution: Proximal Atrophy</h3>
+        <p>
+            The concurrent involvement of the <strong>quadriceps</strong> (Lumbar Plexus, L2–L4) and the <strong>gluteal muscles</strong> (Sacral Plexus, L4–S2) implies a widespread pathological process affecting the entire lumbosacral plexus or a multi-segmental spinal cord disorder involving the anterior horn cells from L2 to S1.<sup><a href="#ref2">[2]</a></sup>
+        </p>
+        <ul>
+            <li><strong>Quadriceps femoris:</strong> Innervated by the Femoral nerve (L2, L3, L4). Damage results in weakness of knee extension and anterior thigh atrophy.<sup><a href="#ref4">[4]</a></sup></li>
+            <li><strong>Gluteus Medius/Minimus:</strong> Innervated by the Superior Gluteal nerve (L4, L5, S1).</li>
+            <li><strong>Gluteus Maximus:</strong> Innervated by the Inferior Gluteal nerve (L5, S1, S2).<sup><a href="#ref4">[4]</a></sup></li>
+        </ul>
+
+        <div class="callout callout-warning">
+            <strong>⚠ Key Localizing Principle</strong>
+            A lesion restricted to the femoral nerve would spare the gluteals. Conversely, a lesion restricted to the sciatic nerve would spare the quadriceps. The convergence of atrophy in these two distinct muscle groups strongly argues for a <strong>pan-plexopathy or diffuse motor neuron disorder</strong>.<sup><a href="#ref2">[2]</a></sup>
+        </div>
+
+        <p>
+            The sheer volume of muscle loss described as "significant atrophy" suggests a chronic, slow-burning process where reinnervation has failed to keep pace with denervation, or where the primary insult is <strong>axonal destruction</strong> rather than demyelination.<sup><a href="#ref7">[7]</a></sup>
+        </p>
+
+        <h3>2.2 The "Painless" Determinant</h3>
+        <p>
+            The absence of pain is the single most differentiating feature in this case. The vast majority of lumbosacral plexopathies are painful:<sup><a href="#ref9">[9]</a></sup>
+        </p>
+        <ul>
+            <li><strong>Diabetic Lumbosacral Radiculoplexus Neuropathy (Diabetic Amyotrophy):</strong> Classically associated with excruciating, deep, aching pain in the hip and thigh, often preceding weakness.<sup><a href="#ref9">[9]</a></sup></li>
+            <li><strong>Idiopathic Lumbosacral Plexitis (LRPN):</strong> Defined by acute onset of severe, lancinating or burning pain.<sup><a href="#ref5">[5]</a></sup></li>
+            <li><strong>Malignant Plexopathy:</strong> Painful in approximately 95% of cases due to infiltration of the epineurium and activation of nociceptors.<sup><a href="#ref11">[11]</a></sup></li>
+        </ul>
+        <p>
+            Therefore, the absence of pain strongly militates against acute inflammatory, vasculitic, or aggressively invasive malignant etiologies. It shifts the probability curve toward conditions that <strong>destroy motor fibers silently</strong>—including degenerative MND, and certain indolent, encapsulated tumors (Schwannomas, Neurofibromas).<sup><a href="#ref13">[13]</a></sup>
+        </p>
+
+        <h3>2.3 The "Sensory-Sparing" Determinant</h3>
+        <p>
+            The lumbosacral plexus is a mixed sensorimotor structure. A structural lesion large enough to cause profound atrophy of both the quadriceps and gluteals would almost invariably compress the sensory fibers traversing these same trunks.<sup><a href="#ref2">[2]</a></sup>
+        </p>
+        <p>
+            The <strong>preservation of normal sensation is the hallmark of Anterior Horn Cell disease</strong>. In Motor Neuron Disease, the pathology is restricted to the motor neurons in the spinal cord and brainstem; the dorsal root ganglia and sensory tracts are spared.<sup><a href="#ref17">[17]</a></sup> While rare "pure motor" plexopathies exist, they are anatomically improbable given the intermingling of fibers in the retroperitoneum. Thus, normal sensation is a <strong>potent predictor for MND</strong> in this clinical context.<sup><a href="#ref19">[19]</a></sup>
+        </p>
+
+        <h3>2.4 Pathophysiology of "Denervation Edema"</h3>
+        <p>
+            The presence of lower leg edema in a patient with significant weakness is a frequent but often misinterpreted sign. In the context of chronic unilateral weakness, edema is rarely due to systemic causes.<sup><a href="#ref20">[20]</a></sup>
+        </p>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 1: Mechanisms of Edema in Painless Unilateral Weakness</caption>
+                <thead>
+                    <tr><th>Mechanism</th><th>Pathophysiology</th><th>Clinical Features</th><th>Suggested Etiology</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Muscle Pump Failure</td>
+                        <td>Weak/paralyzed gastrocnemius and soleus fail to propel venous/lymphatic return during gait, leading to fluid pooling.<sup><a href="#ref22">[22]</a></sup></td>
+                        <td>Dependent pitting edema, worse at end of day, improves with elevation</td>
+                        <td>MND (Flail Leg Syndrome)</td>
+                    </tr>
+                    <tr>
+                        <td>Vasomotor Instability</td>
+                        <td>Degeneration of intermediolateral cell column (autonomic neurons) → loss of sympathetic vasoconstrictor tone → vasodilation → increased hydrostatic capillary pressure → fluid extravasation.<sup><a href="#ref17">[17]</a></sup></td>
+                        <td>Cold, blue, swollen limb with preserved pulses; mimics CRPS or DVT</td>
+                        <td>MND (Flail Leg Syndrome)</td>
+                    </tr>
+                    <tr>
+                        <td>Extrinsic Venous/Lymphatic Obstruction</td>
+                        <td>Pelvic mass compresses external iliac vein or lymphatic chains → obstructive lymphedema.<sup><a href="#ref20">[20]</a></sup></td>
+                        <td>Brawny, non-pitting edema; distended superficial collateral veins; does not resolve with elevation</td>
+                        <td>Neoplastic Plexopathy</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout callout-success">
+            <strong>✅ Diagnostic Pivot: Edema Character</strong>
+            If edema is <strong>pitting and resolves with elevation</strong> → supports MND (Flail Leg) hypothesis (pump failure + vasomotor).<br>
+            If edema is <strong>brawny, non-pitting, with distended superficial veins</strong> → supports Neoplastic (compressive) hypothesis.<sup><a href="#ref20">[20]</a></sup> <a href="#ref22">[22]</a></sup>
+        </div>
+
+        <!-- III. MOTOR NEURON DISEASE -->
+        <h2>III. Motor Neuron Disease: Flail Leg and PMA Variants</h2>
+        <p>
+            Given the triad of painless onset, pure motor involvement, and proximal atrophy, a <strong>lower motor neuron (LMN) variant of ALS</strong> emerges as a leading diagnostic consideration.<sup><a href="#ref17">[17]</a></sup>
+        </p>
+
+        <h3>3.1 Flail Leg Syndrome (FLS)</h3>
+        <p>
+            Flail Leg Syndrome (Pseudopolyneuritic variant of ALS) is a distinct clinical phenotype characterized by progressive, predominantly distal weakness and wasting restricted to the lower limbs for at least 12 months.<sup><a href="#ref17">[17]</a></sup> Although typically described with distal onset, <strong>proximal variants</strong> (the "pseudomyopathic" form) are well-recognized and can present with gluteal and quadriceps wasting.<sup><a href="#ref28">[28]</a></sup>
+        </p>
+
+        <div class="callout callout-info">
+            <strong>📋 Clinical Concordance with FLS</strong>
+            <ul style="margin-top:.5rem">
+                <li><strong>Asymmetry:</strong> FLS often begins unilaterally and can remain asymmetric for a significant duration.<sup><a href="#ref17">[17]</a></sup></li>
+                <li><strong>Absence of Pain and Sensory Loss:</strong> FLS is a pure motor neuropathy, definitionally painless and sensory-sparing.<sup><a href="#ref18">[18]</a></sup></li>
+                <li><strong>Edema and Vasomotor Changes:</strong> FLS is strongly associated with dependent edema, cyanosis, and coldness in the paretic limb. This feature is so prominent that patients are often misdiagnosed with vascular insufficiency.<sup><a href="#ref17">[17]</a></sup></li>
+                <li><strong>Prognosis:</strong> FLS is generally associated with slower progression and longer survival compared to classic ALS. Restriction to lower limbs for &gt;12 months is a positive prognostic indicator.<sup><a href="#ref17">[17]</a></sup></li>
+            </ul>
+        </div>
+
+        <p>
+            <strong>Demographic considerations:</strong> FLS and the related Flail Arm Syndrome are statistically more common in males. However, familial cases and sporadic cases in females are documented. A case study of a family with the L144S SOD1 mutation described a female member with FLS, highlighting that genetic factors can influence this phenotype.<sup><a href="#ref28">[28]</a></sup>
+        </p>
+
+        <h3>3.2 Progressive Muscular Atrophy (PMA)</h3>
+        <p>
+            Progressive Muscular Atrophy is defined by the selective degeneration of anterior horn cells (LMNs) <strong>without clinical evidence of UMN involvement</strong> (no spasticity, no hyperreflexia, no Babinski sign).<sup><a href="#ref18">[18]</a></sup>
+        </p>
+        <ul>
+            <li><strong>Relevance:</strong> The patient's "significant atrophy" suggests a flaccid, LMN-pattern weakness—the hallmark of PMA.</li>
+            <li><strong>Diagnosis of Exclusion:</strong> PMA requires exclusion of structural spinal cord compression (myelopathy) and polyradiculopathy—fulfilled by the negative spine MRI.<sup><a href="#ref18">[18]</a></sup></li>
+            <li><strong>Progression:</strong> PMA can remain restricted to one limb or region before spreading. The "Mills variant" describes progressive hemiplegia with LMN atrophy ascending from leg to arm on the same side.<sup><a href="#ref18">[18]</a></sup></li>
+        </ul>
+
+        <h3>3.3 The "Negative MRI" and MND</h3>
+        <p>
+            In the context of MND, a negative spine MRI is an expected finding. However, advanced imaging may reveal subtle changes: muscle MRI in MND shows characteristic patterns of <strong>denervation edema (T2 hyperintensity)</strong> and <strong>fatty replacement (T1 hyperintensity)</strong> following myotomal distributions.<sup><a href="#ref7">[7]</a></sup> The "negative whole spine MRI" refers to the absence of compressive lesions—it does not exclude MND; rather, it supports it by removing the most common structural mimics.<sup><a href="#ref8">[8]</a></sup>
+        </p>
+
+        <!-- IV. NEOPLASTIC SPECTRUM -->
+        <h2>IV. The Neoplastic Spectrum: Occult Malignancy and Plexopathy</h2>
+        <p>
+            While the "painless" nature of the presentation argues against classic malignant infiltration, it does not entirely exclude neoplasm. The lumbar spine MRI has <strong>significant limitations</strong> in visualizing the retroperitoneum and pelvic sidewalls—a "blind spot" where tumors can grow undetected.<sup><a href="#ref2">[2]</a></sup>
+        </p>
+
+        <h3>4.1 Limitations of Spinal Imaging</h3>
+        <p>
+            A standard "Whole Spine MRI" typically focuses on the spinal canal, neural foramina, and immediate paravertebral soft tissues. It often does not extend laterally enough to visualize the lumbosacral plexus as it traverses the psoas muscle, passes over the pelvic brim, and descends into the true pelvis.<sup><a href="#ref2">[2]</a></sup> A tumor in the presacral space, iliac fossa, or deep psoas can easily be missed.<sup><a href="#ref3">[3]</a></sup>
+        </p>
+
+        <div class="callout callout-danger">
+            <strong>🚨 Critical Imaging Gap</strong>
+            A "negative spine MRI" <strong>does not rule out lumbosacral plexopathy</strong>. Dedicated MR Neurography or CT abdomen/pelvis is required to visualize the retroperitoneal plexus.<sup><a href="#ref3">[3]</a></sup>
+        </div>
+
+        <h3>4.2 Neurolymphomatosis (NL)</h3>
+        <p>
+            Neurolymphomatosis is a rare condition defined by the direct infiltration of peripheral nerves, nerve roots, or plexuses by neurotropic lymphoma cells (typically Non-Hodgkin Lymphoma, Diffuse Large B-Cell Lymphoma).<sup><a href="#ref15">[15]</a></sup>
+        </p>
+        <ul>
+            <li><strong>The "Painless" Variant:</strong> While 95% of solid tumor invasions are painful, NL can present as a <strong>painless, progressive sensorimotor or pure motor neuropathy in up to 28% of cases</strong>.<sup><a href="#ref16">[16]</a></sup> This is a critical "do not miss" diagnosis.</li>
+            <li><strong>Diagnostic Gap:</strong> NL is often invisible on standard MRI and requires <strong>FDG-PET/CT</strong> (showing hypermetabolic activity along the nerve trajectory) or <strong>MR Neurography</strong> (showing nerve enlargement and enhancement) for detection.<sup><a href="#ref15">[15]</a></sup></li>
+        </ul>
+
+        <h3>4.3 Indolent Nerve Sheath Tumors</h3>
+        <p>
+            Benign peripheral nerve sheath tumors (BPNSTs)—Schwannomas and Neurofibromas—can arise from the nerve roots or plexus in the retroperitoneum.<sup><a href="#ref13">[13]</a></sup>
+        </p>
+        <ul>
+            <li><strong>Growth Pattern:</strong> Encapsulated and slow-growing. Can reach massive sizes ("Giant Schwannomas") within the spacious retroperitoneum before causing symptoms.</li>
+            <li><strong>Painless Compression:</strong> Unlike malignant tumors that invade and destroy nerve fibers, Schwannomas displace and compress fibers gradually, leading to severe atrophy and weakness <strong>without</strong> triggering acute, high-intensity pain.<sup><a href="#ref13">[13]</a></sup></li>
+            <li><strong>Detection:</strong> Frequently missed on spine MRIs. Require dedicated pelvic imaging for visualization.<sup><a href="#ref39">[39]</a></sup></li>
+        </ul>
+
+        <h3>4.4 Radiation-Induced vs. Malignant Plexopathy</h3>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 2: Radiation vs. Malignant Plexopathy Comparison</caption>
+                <thead>
+                    <tr><th>Feature</th><th>Malignant Plexopathy</th><th>Radiation Plexopathy</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Pain</td><td>Usually painful (95%)<sup><a href="#ref11">[11]</a></sup></td><td>Painless in ~50% of cases</td></tr>
+                    <tr><td>Laterality</td><td>Unilateral</td><td>Often bilateral (can be unilateral)</td></tr>
+                    <tr><td>Progression</td><td>Rapid</td><td>Slow, over years</td></tr>
+                    <tr><td>EMG Hallmark</td><td>Active denervation</td><td><strong>Myokymia</strong> (spontaneous muscle rippling)<sup><a href="#ref2">[2]</a></sup></td></tr>
+                    <tr><td>Edema</td><td>Lymphedema from obstruction</td><td>Late, from tissue fibrosis</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- V. INFLAMMATORY ETIOLOGIES -->
+        <h2>V. Inflammatory and Vascular Etiologies</h2>
+
+        <h3>5.1 Idiopathic Lumbosacral Plexitis (LRPN)</h3>
+        <p>
+            Idiopathic Lumbosacral Radiculoplexus Neuropathy is an immune-mediated microvasculitis causing ischemic nerve damage.<sup><a href="#ref5">[5]</a></sup>
+        </p>
+        <ul>
+            <li><strong>The Pain Paradigm:</strong> The cardinal feature is the acute or subacute onset of severe, unremitting pain, often preceding weakness.<sup><a href="#ref10">[10]</a></sup></li>
+            <li><strong>The Painless Exception:</strong> Rare variants of painless LRPN have been reported. A case study documented painless, unilateral lower limb weakness responsive to IVIG.<sup><a href="#ref40">[40]</a></sup></li>
+            <li><strong>Probability Assessment:</strong> Despite these case reports, painless LRPN remains a <strong>statistical outlier</strong>. The "normal sensation" in this patient also argues against LRPN, which typically involves patchy sensory loss in dermatomal distributions.<sup><a href="#ref5">[5]</a></sup></li>
+        </ul>
+
+        <h3>5.2 Vascular Etiologies</h3>
+        <ul>
+            <li><strong>DVT / Post-thrombotic Syndrome:</strong> Causes chronic unilateral edema but does <strong>not</strong> cause muscle atrophy or weakness.<sup><a href="#ref20">[20]</a></sup></li>
+            <li><strong>Peripheral Artery Disease (PAD):</strong> Causes claudication and tissue loss but not proximal gluteal atrophy. The "coldness" in PAD is due to ischemia (absent pulses), whereas in MND it is due to vasomotor instability (preserved pulses).<sup><a href="#ref41">[41]</a></sup></li>
+        </ul>
+
+        <!-- VI. COMPARATIVE ANALYSIS -->
+        <h2>VI. Comparative Analysis: The "Painless Atrophy" Triad</h2>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 3: Comprehensive Differential Diagnosis Comparison</caption>
+                <thead>
+                    <tr><th>Feature</th><th>Flail Leg Syndrome / PMA (MND)</th><th>Neoplastic Plexopathy (Lymphoma / Schwannoma)</th><th>Idiopathic Lumbosacral Plexitis (Painless Variant)</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pain Profile</td>
+                        <td><strong>Painless.</strong> Occasional cramping, no neuropathic pain.<span class="badge badge-V">V</span></td>
+                        <td><strong>Variable.</strong> Malignant invasion usually painful; Lymphoma/Schwannoma can be painless/indolent.<span class="badge badge-V">V</span></td>
+                        <td><strong>Typically Severe Pain.</strong> Painless variants extremely rare (&lt;5%).<span class="badge badge-V">V</span></td>
+                    </tr>
+                    <tr>
+                        <td>Sensory Loss</td>
+                        <td><strong>Absent.</strong> Pure motor syndrome. Sensation remains normal.</td>
+                        <td><strong>Present.</strong> Usually involves sensory loss (L4–S1 dermatomes).</td>
+                        <td><strong>Present.</strong> Patchy sensory loss is typical.</td>
+                    </tr>
+                    <tr>
+                        <td>Onset &amp; Course</td>
+                        <td>Insidious, slow progression (months/years).</td>
+                        <td>Insidious to subacute. Depends on tumor growth rate.</td>
+                        <td>Acute/subacute. Monophasic course.</td>
+                    </tr>
+                    <tr>
+                        <td>Edema Mechanism</td>
+                        <td>Dependent/vasomotor. Loss of muscle pump + autonomic dysfunction.<sup><a href="#ref22">[22]</a></sup></td>
+                        <td>Compressive/obstructive. Mass effect on iliac veins/lymphatics + pump failure.<sup><a href="#ref20">[20]</a></sup></td>
+                        <td>Rare. Usually not a primary feature.</td>
+                    </tr>
+                    <tr>
+                        <td>Atrophy Pattern</td>
+                        <td>Severe. Can be proximal or distal. Fasciculations often present.</td>
+                        <td>Severe. Follows nerve distribution (Femoral/Gluteal).</td>
+                        <td>Severe. Multifocal patchiness.</td>
+                    </tr>
+                    <tr>
+                        <td>Spine MRI</td>
+                        <td><strong>Negative.</strong> No structural cause found.</td>
+                        <td><strong>Negative</strong> if lesion is extra-foraminal/retroperitoneal.</td>
+                        <td><strong>Negative</strong> or nerve root enhancement with contrast.</td>
+                    </tr>
+                    <tr>
+                        <td>Pelvic/Plexus MRI</td>
+                        <td>Normal or atrophy/fatty replacement of muscles.</td>
+                        <td><strong>Positive.</strong> Mass lesion, infiltration, or nerve thickening.</td>
+                        <td><strong>Positive.</strong> T2 hyperintensity/enhancement of plexus nerves.</td>
+                    </tr>
+                    <tr>
+                        <td>EMG Findings</td>
+                        <td>Active denervation in <strong>multiple</strong> segments. Paraspinals often <strong>normal</strong>.<sup><a href="#ref4">[4]</a></sup></td>
+                        <td>Active denervation restricted to plexus distribution. Myokymia possible.</td>
+                        <td>Multifocal denervation.</td>
+                    </tr>
+                    <tr>
+                        <td>SNAPs (Sensory NCS)</td>
+                        <td><strong>Preserved (normal).</strong> Pre-ganglionic lesion.<sup><a href="#ref18">[18]</a></sup></td>
+                        <td><strong>Absent/reduced.</strong> Post-ganglionic lesion.</td>
+                        <td><strong>Absent/reduced.</strong> Post-ganglionic lesion.</td>
+                    </tr>
+                    <tr>
+                        <td>Level of Evidence</td>
+                        <td>Level IV–V (case series, expert opinion)<span class="badge badge-V">V</span></td>
+                        <td>Level IV–V (case reports, retrospective series)<span class="badge badge-V">V</span></td>
+                        <td>Level V (case reports only)<span class="badge badge-V">V</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="limitation-box">
+            <strong>⚠ Evidence Limitation:</strong> This comparative analysis is derived from case reports, expert reviews, and retrospective case series. No randomized controlled trials exist for this specific clinical scenario. All evidence levels assigned are IV–V per the Oxford Centre for Evidence-Based Medicine classification. The source document did not provide formal evidence grading for each statement.
+        </div>
+
+        <!-- VII. DIAGNOSTIC STRATEGY -->
+        <h2>VII. Diagnostic Strategy and Next Steps</h2>
+        <p>
+            The patient has undergone a "Whole Spine MRI," which is an appropriate screening test but insufficient for the final diagnosis. The diagnostic algorithm must now pivot from "Central" (Cord/Roots) to "Peripheral" (Plexus/Nerve) and "Functional" (EMG).
+        </p>
+
+        <h3>7.1 Advanced Imaging: Visualizing the Blind Spot</h3>
+        <ul>
+            <li><strong>MR Neurography (Lumbosacral Plexus):</strong> The gold standard imaging modality. Uses high-resolution, fat-suppressed T2-weighted sequences (STIR or DIXON) and contrast-enhanced T1 sequences to image the peripheral nerves directly. Objectives: detect nerve enlargement, increased T2 signal, or mass lesions.<sup><a href="#ref5">[5]</a></sup></li>
+            <li><strong>CT Abdomen/Pelvis (Contrast-Enhanced):</strong> If MR Neurography is unavailable, a contrast CT is essential to rule out gross retroperitoneal adenopathy, pelvic masses, or sarcomas.<sup><a href="#ref20">[20]</a></sup></li>
+            <li><strong>FDG-PET/CT:</strong> Indicated if Neurolymphomatosis is suspected (equivocal MRI or lymphoma history). Highly sensitive for detecting hypermetabolic malignant nerve infiltration.<sup><a href="#ref15">[15]</a></sup></li>
+        </ul>
+
+        <h3>7.2 Electrodiagnostic Testing (EMG/NCS)</h3>
+        <p>
+            EMG and NCS are non-negotiable in this workup. They provide the functional localization that imaging cannot.
+        </p>
+
+        <div class="callout callout-success">
+            <strong>🔑 Critical EMG Discriminators</strong>
+            <ul style="margin:.5rem 0 0">
+                <li><strong>Sensory Nerve Action Potentials (SNAPs):</strong> In post-ganglionic lesions (Plexopathy), SNAPs are <strong>absent or reduced</strong>. In pre-ganglionic/Anterior Horn Cell lesions (MND), SNAPs are <strong>preserved (normal)</strong>. Finding normal SNAPs in a wasted leg strongly points to MND.<sup><a href="#ref18">[18]</a></sup></li>
+                <li><strong>Lumbar Paraspinal Muscles:</strong> Denervation in paraspinals indicates root-level or anterior horn cell disease. Normal paraspinals point to a plexus lesion distal to the root.<sup><a href="#ref4">[4]</a></sup></li>
+                <li><strong>Fasciculations:</strong> Detection in the <em>contralateral</em> (unaffected) leg or upper limbs is <strong>pathognomonic for generalized MND (ALS)</strong>.<sup><a href="#ref1">[1]</a></sup></li>
+            </ul>
+        </div>
+
+        <h3>7.3 Laboratory and Systemic Workup</h3>
+        <ul>
+            <li><strong>Creatine Kinase (CK):</strong> Mild elevations common in MND. Extremely high levels suggest myositis.<sup><a href="#ref45">[45]</a></sup></li>
+            <li><strong>GM1 Antibodies:</strong> Rule out Multifocal Motor Neuropathy (MMN), a treatable immune-mediated mimic of MND.<sup><a href="#ref46">[46]</a></sup></li>
+            <li><strong>Paraneoplastic Panel:</strong> Given the age (61) and unexplained neuropathy, screen for paraneoplastic antibodies (Anti-Hu, Anti-Yo).<sup><a href="#ref1">[1]</a></sup></li>
+        </ul>
+
+        <!-- VIII. CONCLUSION -->
+        <h2>VIII. Conclusion</h2>
+        <p>
+            The clinical phenotype of the 61-year-old female patient—chronic, painless, unilateral gluteal and quadriceps atrophy with lower leg edema and a negative spine MRI—represents a complex diagnostic intersection between <strong>neurodegenerative</strong> and <strong>occult neoplastic</strong> pathology.
+        </p>
+        <p>
+            The analysis strongly suggests that <strong>Idiopathic Lumbosacral Plexitis</strong> is an unlikely diagnosis due to the conspicuous absence of pain. The differential effectively bifurcates into two high-probability pathways:
+        </p>
+
+        <div class="callout callout-info">
+            <strong>Pathway 1: Motor Neuron Disease (Flail Leg Syndrome / PMA)</strong>
+            Supported by the painless nature of weakness, preservation of sensation, and vasomotor edema ("blue leg") associated with pump failure and autonomic dysfunction. The negative spine MRI is consistent. The unilateral onset and proximal atrophy are recognized features of the Flail Leg variant.<span class="badge badge-V">Evidence Level V</span>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>Pathway 2: Occult Neoplastic Plexopathy (Neurolymphomatosis / Schwannoma)</strong>
+            Supported by the potential for these specific tumors to present indolently and painlessly. The "negative spine MRI" is a false negative, as it fails to image the relevant retroperitoneal anatomy. Edema in this scenario would be obstructive.<span class="badge badge-V">Evidence Level V</span>
+        </div>
+
+        <div class="callout callout-danger">
+            <strong>🏥 Final Recommendation</strong>
+            The patient requires <strong>immediate MR Neurography of the Lumbosacral Plexus</strong> to visualize the retroperitoneum and a <strong>comprehensive EMG/NCS</strong> to assess sensory nerve integrity and paraspinal involvement. These two investigations will decisively distinguish between a structural pelvic lesion (requiring biopsy/resection) and a motor neuron disease (requiring neurological management and supportive care).<sup><a href="#ref5">[5]</a></sup><sup><a href="#ref4">[4]</a></sup>
+        </div>
+
+        <!-- REFERENCES -->
+        <section class="ref-section" aria-label="References">
+            <h2>References</h2>
+            <p style="font-size:.85rem;color:var(--text-light);margin-bottom:1rem"><em>References are numbered as cited in the source document. Evidence levels are inferred from study design as the source document did not formally grade evidence.</em></p>
+            <ol class="ref-list" id="refList">
+                <li id="ref1">What is the differential diagnosis and workup for unilateral lower extremity weakness? DrOracle. <a href="https://droracle.ai/articles/30423/" target="_blank" rel="noopener">droracle.ai</a></li>
+                <li id="ref2">Lumbosacral Plexopathy – StatPearls – NCBI Bookshelf. <a href="https://www.ncbi.nlm.nih.gov/books/NBK556030/" target="_blank" rel="noopener">ncbi.nlm.nih.gov</a></li>
+                <li id="ref3">Differential diagnosis of motor weakness in the right lower limb. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9580052/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></li>
+                <li id="ref4">Electrodiagnostic Testing in Lumbosacral Plexopathies. University of Washington. <a href="https://depts.washington.edu/neurolog/images/emg-resources/Lumbosacral_Plexopathies.pdf" target="_blank" rel="noopener">depts.washington.edu</a></li>
+                <li id="ref5">Idiopathic lumbosacral plexitis – PMC – NIH. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3991040/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></li>
+                <li id="ref6">Immunotherapy for idiopathic lumbosacral plexopathy – van Eijk J, 2013. Cochrane Library. <a href="https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD009722.pub2/abstract" target="_blank" rel="noopener">cochranelibrary.com</a></li>
+                <li id="ref7">Muscle Edema – AJR Online. <a href="https://ajronline.org/doi/10.2214/AJR.10.4247" target="_blank" rel="noopener">ajronline.org</a></li>
+                <li id="ref8">Muscle MRI in muscular dystrophies – PMC – NIH. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4859076/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></li>
+                <li id="ref9">Lumbosacral Plexopathy and Sciatic Neuropathy: Differential Diagnosis and Treatment. AAPMR. <a href="https://now.aapmr.org/lumbosacral-plexopathy-and-sciatic-neuropathy-differential-diagnosis-and-treatment/" target="_blank" rel="noopener">now.aapmr.org</a></li>
+                <li id="ref10">Nondiabetic Lumbosacral Radiculoplexus Neuropathy with Abnormal MR Neurography Findings. J Neurosonology. <a href="https://www.j-nn.org/journal/view.php?number=106" target="_blank" rel="noopener">j-nn.org</a></li>
+                <li id="ref11">Pelvic radiculopathies, lumbosacral plexopathies, and neuropathies in oncologic disease. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3893894/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></li>
+                <li id="ref12">Differential diagnosis between radiation and tumor plexopathy of the pelvis. PubMed. <a href="https://pubmed.ncbi.nlm.nih.gov/2981416/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></li>
+                <li id="ref13">Schwannoma: What It Is, Causes, Symptoms & Treatment. Cleveland Clinic. <a href="https://my.clevelandclinic.org/health/diseases/17877-schwannoma" target="_blank" rel="noopener">clevelandclinic.org</a></li>
+                <li id="ref14">Malignant Schwannoma: Comprehensive Guide. OncoDaily. <a href="https://oncodaily.com/oncolibrary/cancer-types/malignant-schwannoma" target="_blank" rel="noopener">oncodaily.com</a></li>
+                <li id="ref15">Lumbosacral plexopathy due to neurolymphomatosis. ACN. <a href="https://www.e-acn.org/journal/view.php?number=639" target="_blank" rel="noopener">e-acn.org</a></li>
+                <li id="ref16">Neurolymphomatosis – ResearchGate. <a href="https://www.researchgate.net/publication/10825439_Neurolymphomatosis" target="_blank" rel="noopener">researchgate.net</a></li>
+                <li id="ref17">Clinical features and outcomes of the flail arm and flail leg and pure LMN MND variants. ResearchGate. <a href="https://www.researchgate.net/publication/342860646" target="_blank" rel="noopener">researchgate.net</a></li>
+                <li id="ref18">Unilateral progressive muscular atrophy with fast symptoms progression. Via Medica Journals. <a href="https://journals.viamedica.pl/neurologia_neurochirurgia_polska/article/download/61112/46308" target="_blank" rel="noopener">viamedica.pl</a></li>
+                <li id="ref19">Mimics and chameleons in motor neurone disease. Practical Neurology. <a href="https://pn.bmj.com/content/13/3/153" target="_blank" rel="noopener">bmj.com</a></li>
+                <li id="ref20">Unilateral lower extremity swelling as a rare presentation of non-Hodgkin's lymphoma. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3902765/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></li>
+                <li id="ref22">Why all the Swelling with ALS? Amyandpals. <a href="https://amyandpals.com/why-all-the-swelling/" target="_blank" rel="noopener">amyandpals.com</a></li>
+                <li id="ref28">Case report: Flail leg syndrome in familial ALS with L144S SOD1 mutation. Frontiers. <a href="https://www.frontiersin.org/journals/neurology/articles/10.3389/fneur.2023.1138668/full" target="_blank" rel="noopener">frontiersin.org</a></li>
+                <li id="ref39">Massage of a giant retroperitoneal neurofibroma. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2117475/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></li>
+                <li id="ref40">Painless nondiabetic lumbosacral radiculoplexus neuropathy with complete recovery. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10662534/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></li>
+                <li id="ref41">Leg Swelling: Treatment and Diagnosis. Gefaessmedizin. <a href="https://gefaessmedizin.de/en/diseases/leg-swelling/" target="_blank" rel="noopener">gefaessmedizin.de</a></li>
+                <li id="ref45">Myositis and Its Mimics. AJR. <a href="https://ajronline.org/doi/10.2214/AJR.24.31359" target="_blank" rel="noopener">ajronline.org</a></li>
+                <li id="ref46">ALS Mimics. Thieme Connect. <a href="https://www.thieme-connect.com/products/ejournals/pdf/10.1055/s-0043-119960.pdf" target="_blank" rel="noopener">thieme-connect.com</a></li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside class="sidebar" role="complementary" aria-label="Interactive clinical decision support">
+
+        <!-- Parameter Sliders -->
+        <div class="sidebar-card">
+            <h3>⚙ Clinical Parameters</h3>
+
+            <div class="param-group">
+                <div class="param-label">
+                    <span>Symptom Duration</span>
+                    <span class="param-value" id="durVal">12 months</span>
+                </div>
+                <input type="range" id="duration" min="1" max="60" value="12" step="1" aria-label="Symptom duration in months">
+                <div class="param-note">FLS requires &gt;12 months restriction to lower limbs for formal diagnosis.<sup>[17]</sup></div>
+            </div>
+
+            <div class="param-group">
+                <div class="param-label">
+                    <span>Proximal Strength (MRC Scale)</span>
+                    <span class="param-value" id="mrcVal">2/5</span>
+                </div>
+                <input type="range" id="mrc" min="0" max="5" value="2" step="1" aria-label="Medical Research Council scale for proximal muscle strength">
+                <div class="param-note">0=No contraction; 3=Against gravity; 5=Normal. <em>Assumed clinical grading — not from source.</em></div>
+            </div>
+
+            <div class="param-group">
+                <div class="param-label">
+                    <span>Pitting Edema Grade</span>
+                    <span class="param-value" id="edemaVal">2+</span>
+                </div>
+                <input type="range" id="edema" min="0" max="4" value="2" step="1" aria-label="Pitting edema grade from 0 to 4">
+                <div class="param-note">0=None; 1=Trace; 2+=2mm; 3+=4mm; 4+=6mm depth. <em>Standard clinical grading — not from source.</em></div>
+            </div>
+
+            <div class="toggle-wrap">
+                <div class="toggle">
+                    <input type="checkbox" id="sensory" checked aria-label="Sensory function preserved">
+                    <span class="slider" for="sensory"></span>
+                </div>
+                <span id="sensoryLabel">Sensory Function: Preserved</span>
+            </div>
+
+            <div class="toggle-wrap">
+                <div class="toggle">
+                    <input type="checkbox" id="fascic" aria-label="Fasciculations present in unaffected limbs">
+                    <span class="slider" for="fascic"></span>
+                </div>
+                <span id="fascicLabel">Fasciculations (Unaffected Limbs): Absent</span>
+            </div>
+        </div>
+
+        <!-- Real-Time Recommendation -->
+        <div class="sidebar-card">
+            <h3>📋 Clinical Recommendation</h3>
+            <div class="reco-box" id="recoBox">
+                <h4 id="recoTitle">Assessment Summary</h4>
+                <div id="recoContent"></div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="sidebar-card">
+            <div class="btn-row">
+                <button class="btn btn-reset" id="resetBtn" aria-label="Reset all parameters to defaults">↺ Reset</button>
+                <button class="btn btn-copy" id="copyBtn" aria-label="Copy current assessment to clipboard">📋 Copy Report</button>
+            </div>
+        </div>
+
+        <!-- Evidence Note -->
+        <div class="sidebar-card" style="background:#f7fafc;font-size:.78rem;color:var(--text-light)">
+            <strong style="color:var(--text)">Evidence Basis:</strong> All thresholds and diagnostic criteria are derived from the source document unless explicitly annotated as "Assumed" or "Not from source." No RCTs exist for this clinical scenario; evidence is Level IV–V (case reports, expert reviews).<sup>[1–46]</sup>
+        </div>
+
+    </aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<script>
+(function(){
+    'use strict';
+
+    // ELEMENTS
+    const durSlider = document.getElementById('duration');
+    const mrcSlider = document.getElementById('mrc');
+    const edemaSlider = document.getElementById('edema');
+    const sensoryToggle = document.getElementById('sensory');
+    const fascicToggle = document.getElementById('fascic');
+
+    const durVal = document.getElementById('durVal');
+    const mrcVal = document.getElementById('mrcVal');
+    const edemaVal = document.getElementById('edemaVal');
+    const sensoryLabel = document.getElementById('sensoryLabel');
+    const fascicLabel = document.getElementById('fascicLabel');
+
+    const recoTitle = document.getElementById('recoTitle');
+    const recoContent = document.getElementById('recoContent');
+    const recoBox = document.getElementById('recoBox');
+
+    const resetBtn = document.getElementById('resetBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const toast = document.getElementById('toast');
+
+    // DEFAULTS
+    const defaults = { dur:12, mrc:2, edema:2, sensory:true, fascic:false };
+
+    // EDGRADE LABELS
+    const edLabels = ['None (0)','Trace (1+)', '2+ (2mm)', '3+ (4mm)', '4+ (6mm)'];
+
+    function updateLabels(){
+        durVal.textContent = durSlider.value + ' months';
+        mrcVal.textContent = mrcSlider.value + '/5';
+        edemaVal.textContent = edLabels[edemaSlider.value];
+        sensoryLabel.textContent = 'Sensory Function: ' + (sensoryToggle.checked ? 'Preserved' : 'Impaired');
+        fascicLabel.textContent = 'Fasciculations (Unaffected Limbs): ' + (fascicToggle.checked ? 'Present' : 'Absent');
+    }
+
+    function getRiskClass(label){
+        if(label.includes('High')) return 'risk-high';
+        if(label.includes('Moderate')) return 'risk-mod';
+        return 'risk-low';
+    }
+
+    function updateRecommendation(){
+        const dur = parseInt(durSlider.value);
+        const mrc = parseInt(mrcSlider.value);
+        const edema = parseInt(edemaSlider.value);
+        const sensory = sensoryToggle.checked;
+        const fascic = fascicToggle.checked;
+
+        // Scoring logic based on source document criteria
+        let mndScore = 0;
+        let neoScore = 0;
+        let inflamScore = 0;
+
+        // Duration: longer → favors MND; shorter → favors neoplastic/inflammatory
+        if(dur >= 12) { mndScore += 3; } 
+        else if(dur >= 6) { mndScore += 1; neoScore += 1; }
+        else { neoScore += 2; inflamScore += 1; }
+
+        // MRC: lower strength → both MND and neoplastic possible
+        if(mrc <= 1) { mndScore += 2; neoScore += 2; }
+        else if(mrc <= 3) { mndScore += 1; neoScore += 1; }
+        else { mndScore -= 1; }
+
+        // Edema: pitting → MND (pump failure/vasomotor); non-pitting → neoplastic (obstructive)
+        if(edema >= 2) { mndScore += 2; neoScore += 1; }
+        else if(edema === 1) { mndScore += 1; }
+        // High edema could also be neoplastic obstruction
+
+        // Sensory: preserved → strong MND signal per source [17][19]
+        if(sensory) { mndScore += 4; neoScore -= 3; inflamScore -= 3; }
+        else { neoScore += 3; inflamScore += 2; mndScore -= 2; }
+
+        // Fasciculations in unaffected limbs: pathognomonic for generalized MND [1]
+        if(fascic) { mndScore += 4; }
+
+        // Determine top diagnosis
+        let diag = '';
+        let diagRisk = '';
+        let diagClass = '';
+        let actionLines = [];
+
+        const maxScore = Math.max(mndScore, neoScore, inflamScore);
+
+        if(mndScore >= neoScore && mndScore >= inflamScore){
+            diag = 'Motor Neuron Disease (Flail Leg Syndrome / PMA)';
+            diagRisk = mndScore >= 8 ? 'High Probability' : 'Moderate Probability';
+            diagClass = mndScore >= 8 ? 'risk-high' : 'risk-mod';
+            actionLines.push('<strong>Priority 1:</strong> Comprehensive EMG/NCS — assess SNAP preservation and paraspinal denervation patterns.<sup>[4][18]</sup>');
+            actionLines.push('<strong>Priority 2:</strong> MR Neurography of lumbosacral plexus to exclude occult mass lesion despite high MND suspicion.<sup>[5]</sup>');
+            actionLines.push('<strong>Priority 3:</strong> CK level (expect mild elevation), GM1 antibodies (exclude MMN).<sup>[45][46]</sup>');
+            if(dur < 12) actionLines.push('<strong>Note:</strong> Symptom duration &lt;12 months — FLS diagnosis requires ≥12 months per source criteria. Monitor for progression.<sup>[17]</sup>');
+        } else if(neoScore >= mndScore && neoScore >= inflamScore){
+            diag = 'Occult Neoplastic Plexopathy (Neurolymphomatosis / Schwannoma)';
+            diagRisk = neoScore >= 6 ? 'High Probability' : 'Moderate Probability';
+            diagClass = neoScore >= 6 ? 'risk-high' : 'risk-mod';
+            actionLines.push('<strong>Priority 1:</strong> MR Neurography of lumbosacral plexus — essential to visualize retroperitoneal "blind spot."<sup>[3][5]</sup>');
+            actionLines.push('<strong>Priority 2:</strong> FDG-PET/CT if Neurolymphomatosis suspected (NL painless in up to 28% of cases).<sup>[15][16]</sup>');
+            actionLines.push('<strong>Priority 3:</strong> CT abdomen/pelvis with contrast if MR Neurography unavailable.<sup>[20]</sup>');
+            if(!sensory) actionLines.push('<strong>Note:</strong> Impaired sensory function supports post-ganglionic (plexus) lesion. SNAPs expected to be reduced/absent.<sup>[2]</sup>');
+        } else {
+            diag = 'Idiopathic Lumbosacral Plexitis (Painless Variant)';
+            diagRisk = 'Low Probability';
+            diagClass = 'risk-low';
+            actionLines.push('<strong>Note:</strong> Painless LRPN is extremely rare (&lt;5% of cases). This diagnosis should only be considered after rigorous exclusion of MND and occult neoplasm.<sup>[5][40]</sup>');
+            actionLines.push('<strong>Priority 1:</strong> MR Neurography — look for nerve root enhancement and T2 hyperintensity.<sup>[5]</sup>');
+            actionLines.push('<strong>Priority 2:</strong> Comprehensive EMG/NCS.<sup>[4]</sup>');
+            actionLines.push('<strong>Priority 3:</strong> If suspected, therapeutic trial of IVIG may be considered (case-level evidence only).<sup>[6][40]</sup>');
+        }
+
+        // Build recommendation HTML
+        recoTitle.innerHTML = 'Diagnostic Assessment';
+        let html = '';
+        html += '<div class="reco-line"><span class="reco-label">Leading Diagnosis:</span> ' + diag + ' <span class="reco-risk ' + diagClass + '">' + diagRisk + '</span></div>';
+        html += '<div class="reco-line"><span class="reco-label">Duration:</span> ' + dur + ' months ' + (dur >= 12 ? '✓ Meets FLS criterion' : '⚠ Below FLS 12-month threshold') + '</div>';
+        html += '<div class="reco-line"><span class="reco-label">Strength:</span> MRC ' + mrc + '/5 ' + (mrc <= 1 ? '(Severe)' : mrc <= 3 ? '(Moderate)' : '(Mild)') + '</div>';
+        html += '<div class="reco-line"><span class="reco-label">Edema:</span> ' + edLabels[edemaSlider.value] + ' — ' + (edema >= 2 ? 'Consistent with pump failure or obstruction' : edema === 1 ? 'Mild, may be early vasomotor' : 'Absent') + '</div>';
+        html += '<div class="reco-line"><span class="reco-label">Sensory:</span> ' + (sensory ? 'Preserved → Strongly favors MND (pre-ganglionic)<sup>[17][19]</sup>' : 'Impaired → Favors plexopathy (post-ganglionic)<sup>[2]</sup>') + '</div>';
+        if(fascic) html += '<div class="reco-line"><span class="reco-label">Fasciculations:</span> Present in unaffected limbs → Pathognomonic for generalized MND<sup>[1]</sup></div>';
+        html += '<hr style="border:none;border-top:1px dashed #e2e8f0;margin:.6rem 0">';
+        html += '<div style="font-size:.85rem"><strong>Recommended Actions:</strong><ul style="margin:.3rem 0 0 1rem">';
+        actionLines.forEach(l => html += '<li style="margin-bottom:.3rem">' + l + '</li>');
+        html += '</ul></div>';
+
+        recoContent.innerHTML = html;
+    }
+
+    // EVENT LISTENERS
+    [durSlider, mrcSlider, edemaSlider].forEach(el => {
+        el.addEventListener('input', function(){ updateLabels(); updateRecommendation(); });
+    });
+    [sensoryToggle, fascicToggle].forEach(el => {
+        el.addEventListener('change', function(){ updateLabels(); updateRecommendation(); });
+    });
+
+    // RESET
+    resetBtn.addEventListener('click', function(){
+        durSlider.value = defaults.dur;
+        mrcSlider.value = defaults.mrc;
+        edemaSlider.value = defaults.edema;
+        sensoryToggle.checked = defaults.sensory;
+        fascicToggle.checked = defaults.fascic;
+        updateLabels();
+        updateRecommendation();
+    });
+
+    // COPY
+    copyBtn.addEventListener('click', function(){
+        const now = new Date();
+        const ts = now.toLocaleString('en-US', { dateStyle:'full', timeStyle:'short' });
+
+        // Get text version of recommendation
+        const dur = durSlider.value;
+        const mrc = mrcSlider.value;
+        const edema = edemaSlider.value;
+        const sensory = sensoryToggle.checked ? 'Preserved' : 'Impaired';
+        const fascic = fascicToggle.checked ? 'Present' : 'Absent';
+
+        let text = 'CLINICAL ASSESSMENT REPORT\n';
+        text += '==========================\n';
+        text += 'Topic: Chronic Painless Unilateral Lower Limb Weakness with Edema\n';
+        text += 'Generated: ' + ts + '\n\n';
+        text += 'PARAMETERS:\n';
+        text += '  Symptom Duration: ' + dur + ' months\n';
+        text += '  Proximal Strength (MRC): ' + mrc + '/5\n';
+        text += '  Pitting Edema Grade: ' + edLabels[edema] + '\n';
+        text += '  Sensory Function: ' + sensory + '\n';
+        text += '  Fasciculations (Unaffected Limbs): ' + fascic + '\n\n';
+
+        // Strip HTML for text version
+        const recoText = recoContent.innerText || recoContent.textContent;
+        text += 'ASSESSMENT:\n' + recoText + '\n\n';
+        text += 'RATIONALE: Based on source document analysis of clinical phenotype (anatomical localization, pain/sensory profile, edema mechanism) against three primary differential diagnoses: Motor Neuron Disease (FLS/PMA), Neoplastic Plexopathy, and Idiopathic Lumbosacral Plexitis.\n\n';
+        text += 'EVIDENCE LEVEL: IV-V (case reports, expert reviews, retrospective series). No RCTs available for this clinical scenario.\n\n';
+        text += 'NOTE: This assessment is derived exclusively from the provided source document. Thresholds annotated as "Assumed" use common clinical grading systems not explicitly stated in the source.\n';
+
+        navigator.clipboard.writeText(text).then(function(){
+            copyBtn.classList.add('copied');
+            copyBtn.textContent = '✓ Copied!';
+            toast.classList.add('show');
+            setTimeout(function(){
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '📋 Copy Report';
+                toast.classList.remove('show');
+            }, 2000);
+        }).catch(function(){
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyBtn.classList.add('copied');
+            copyBtn.textContent = '✓ Copied!';
+            setTimeout(function(){
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '📋 Copy Report';
+            }, 2000);
+        });
+    });
+
+    // INITIAL
+    updateLabels();
+    updateRecommendation();
+
+})();
+</script>
+
+</body>
+</html>

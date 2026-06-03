@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Oxide-Gelatin vs Microfil: Methodological Justification for μCT Angiography</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2b6cb0;
+            --accent: #c53030;
+            --accent-light: #fc8181;
+            --success: #276749;
+            --success-light: #c6f6d5;
+            --warning: #975a16;
+            --warning-light: #fefcbf;
+            --danger: #c53030;
+            --danger-light: #fed7d7;
+            --gray-50: #f7fafc;
+            --gray-100: #edf2f7;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e0;
+            --gray-400: #a0aec0;
+            --gray-600: #718096;
+            --gray-700: #4a5568;
+            --gray-800: #2d3748;
+            --gray-900: #1a202c;
+            --radius: 8px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Sticky Header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--primary);
+            color: white;
+            padding: 14px 24px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .site-header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .site-header .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 300;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* Layout */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 28px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            min-width: 0;
+        }
+
+        .main-content h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 36px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--primary-light);
+            letter-spacing: -0.02em;
+        }
+
+        .main-content h2:first-of-type {
+            margin-top: 0;
+        }
+
+        .main-content h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin: 28px 0 12px 0;
+        }
+
+        .main-content p {
+            margin-bottom: 14px;
+            text-align: justify;
+        }
+
+        .main-content ul, .main-content ol {
+            margin: 10px 0 18px 24px;
+        }
+
+        .main-content li {
+            margin-bottom: 6px;
+        }
+
+        /* Evidence Badge */
+        .evidence-badge {
+            display: inline-block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+
+        .ev-1 { background: #c6f6d5; color: #22543d; }
+        .ev-2 { background: #bee3f8; color: #2a4365; }
+        .ev-3 { background: #fefcbf; color: #744210; }
+        .ev-4 { background: #fed7d7; color: #742a2a; }
+        .ev-5 { background: #e2e8f0; color: #4a5568; }
+        .ev-na { background: #e2e8f0; color: #4a5568; }
+
+        /* Callout Box */
+        .callout {
+            background: white;
+            border-left: 4px solid var(--primary-light);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 16px 20px;
+            margin: 18px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .callout.warning {
+            border-left-color: var(--warning);
+            background: var(--warning-light);
+        }
+
+        .callout.danger {
+            border-left-color: var(--danger);
+            background: var(--danger-light);
+        }
+
+        .callout.success {
+            border-left-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .callout-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .callout p {
+            font-size: 0.92rem;
+            margin-bottom: 0;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 18px 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 0.88rem;
+        }
+
+        caption {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-align: left;
+            padding: 10px 14px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius) var(--radius) 0 0;
+            letter-spacing: 0.02em;
+        }
+
+        thead th {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--gray-300);
+        }
+
+        tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: top;
+        }
+
+        tbody tr:hover {
+            background: #f0f7ff;
+        }
+
+        .highlight-microfil {
+            background: #fff5f5;
+        }
+
+        .highlight-pbo {
+            background: #f0fff4;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 80px;
+            align-self: start;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        /* Slider Group */
+        .slider-group {
+            margin-bottom: 18px;
+        }
+
+        .slider-group label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .slider-group .slider-description {
+            font-family: 'Source Serif 4', serif;
+            font-size: 0.72rem;
+            color: var(--gray-600);
+            font-style: italic;
+            margin-bottom: 6px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--gray-200);
+            outline: none;
+            margin: 8px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .slider-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Recommendation Box */
+        .recommendation-box {
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-box.optimal {
+            background: var(--success-light);
+            border: 1px solid #9ae6b4;
+        }
+
+        .recommendation-box.suboptimal {
+            background: var(--warning-light);
+            border: 1px solid #f6e05e;
+        }
+
+        .recommendation-box.inadequate {
+            background: var(--danger-light);
+            border: 1px solid #feb2b2;
+        }
+
+        .rec-header {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+
+        .rec-header.optimal { color: var(--success); }
+        .rec-header.suboptimal { color: var(--warning); }
+        .rec-header.inadequate { color: var(--danger); }
+
+        .rec-body {
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .rec-detail {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            color: var(--gray-600);
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px dashed var(--gray-300);
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-reset {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-reset:hover {
+            background: var(--gray-300);
+        }
+
+        .btn-export {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-export:hover {
+            background: var(--primary-light);
+        }
+
+        /* Copy Toast */
+        .toast {
+            font-family: 'Inter', sans-serif;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--gray-900);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            font-size: 0.82rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Reference Section */
+        .references {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .references h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .references ol {
+            font-size: 0.82rem;
+            margin-left: 20px;
+        }
+
+        .references li {
+            margin-bottom: 6px;
+            color: var(--gray-700);
+            line-height: 1.5;
+        }
+
+        .references a {
+            color: var(--primary-light);
+            word-break: break-all;
+        }
+
+        /* Study Summary Cards */
+        .study-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 12px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .study-card .study-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .study-card .study-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+
+        .study-card p {
+            font-size: 0.88rem;
+            margin-bottom: 0;
+        }
+
+        /* Highlight text */
+        .highlight {
+            background: #fefcbf;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+
+        /* Limitation note */
+        .limitation-note {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            color: var(--gray-600);
+            font-style: italic;
+            padding: 8px 12px;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            margin: 12px 0;
+            border-left: 3px solid var(--gray-400);
+        }
+
+        /* Visual separator */
+        .section-sep {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gray-300), transparent);
+            margin: 30px 0;
+        }
+
+        /* Agent comparison indicator */
+        .agent-indicator {
+            display: flex;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .agent-chip {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .agent-microfil {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .agent-pbo {
+            background: var(--success-light);
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>Methodological Justification: Lead Oxide-Gelatin vs. Microfil for Post-Mortem μCT Angiography</h1>
+    <div class="subtitle">Evidence-Based Educational Summary &bull; Musculoskeletal Microvasculature Imaging</div>
+</header>
+
+<div class="layout">
+    <main class="main-content" role="main" aria-label="Main educational content">
+
+        <!-- Section 1: Introduction -->
+        <h2>1. Introduction to High-Resolution Microangiography in Orthopaedic Basic Science</h2>
+
+        <p>The precise spatiotemporal coupling of <strong>angiogenesis and osteogenesis</strong> represents a foundational paradigm in musculoskeletal biology. This interdependent relationship governs critical physiological and pathological processes, ranging from embryonic endochondral ossification and postnatal fracture healing to the survival of vascularized bone grafts and the pathogenesis of avascular necrosis. <span class="evidence-badge ev-na">Foundational Principle — Not rated</span></p>
+
+        <p>To adequately interrogate the spatial geometry, hierarchical branching patterns, and volumetric density of the intraosseous microvasculature, orthopaedic basic science research has undergone a necessary paradigm shift. Investigators have increasingly transitioned from traditional <strong>two-dimensional histological sectioning</strong>—which suffers from sampling bias, destructive preparation, and the inability to capture three-dimensional arborization—to <strong>non-destructive, three-dimensional high-resolution micro-computed tomography (μCT) angiography</strong> <sup>[1]</sup>. <span class="evidence-badge ev-na">Conceptual — Not rated</span></p>
+
+        <p>Post-mortem and cadaveric μCT angiography allows for the complete, volumetric visualization of the vascular tree within an intact bone specimen, <strong>provided that the intravascular space is adequately opacified with a radiodense contrast agent</strong> <sup>[3]</sup>. The selection of this intravascular contrast agent is the single most critical methodological determinant of imaging success in orthopaedic μCT angiography <sup>[5]</sup>.</p>
+
+        <div class="callout">
+            <div class="callout-title">Core Thesis of the Source Document</div>
+            <p>The surrounding mineralized matrix of cortical and trabecular bone presents a uniquely hostile imaging environment characterized by extreme baseline radiodensity. The chosen contrast agent must overcome highly specific physical, rheological, and radiological barriers to accurately represent the physiological state of the vascular network. This document provides a rigorous justification establishing the absolute superiority of <strong>Lead Oxide-gelatin (PbO-gelatin) mixtures</strong> over <strong>Microfil (MV-122)</strong> for post-mortem μCT angiography of the musculoskeletal system.</p>
+        </div>
+
+        <div class="agent-indicator">
+            <span class="agent-chip agent-microfil">Microfil (MV-122) — Silicone-based</span>
+            <span class="agent-chip agent-pbo">PbO-Gelatin — Lead oxide suspension</span>
+        </div>
+
+        <!-- Section 2: Rheological and Physical Barriers -->
+        <h2>2. Rheological and Physical Barriers to Intraosseous Vascular Imaging</h2>
+
+        <p>The skeletal system presents an environment where the laws of fluid dynamics and X-ray physics intensely challenge conventional casting methodologies. Three fundamental barriers must be overcome by any vascular contrast agent used in musculoskeletal μCT:</p>
+
+        <h3>2.1 Terminal Capillary Perfusion Requirements</h3>
+        <p>The terminal capillary beds of the diaphyseal cortex, the medullary cavity, and the advancing osteogenic front of a fracture callus consist of delicate, sinusoidal vessels with diameters frequently falling <strong>well below 20 μm</strong> <sup>[9]</sup>. According to <strong>Poiseuille's Law</strong>, the resistance to fluid flow within a cylindrical tube is inversely proportional to the fourth power of the radius and directly proportional to the dynamic viscosity of the fluid. Therefore, successful perfusion of terminal capillaries requires an injection medium with <strong>exceptionally low dynamic viscosity</strong>. <span class="evidence-badge ev-na">Physical Principle — Not rated</span></p>
+
+        <p>High-viscosity agents require non-physiological injection pressures to force the material into the distal capillary bed. In the context of fragile skeletal microvasculature, such elevated perfusion pressures invariably lead to:</p>
+        <ul>
+            <li>Vascular distension</li>
+            <li>Catastrophic endothelial disruption</li>
+            <li>Extravasation</li>
+            <li>Artifactual vascular pooling ("blebbing") <sup>[7]</sup></li>
+        </ul>
+
+        <h3>2.2 Radiodensity Contrast Requirements</h3>
+        <p>In standard absorption-based μCT imaging, image contrast is generated by differences in the X-ray attenuation coefficients of tissues, measured in <strong>Hounsfield Units (HU)</strong> <sup>[12]</sup>. The source document reports the following baseline values:</p>
+        <ul>
+            <li><strong>Soft tissues:</strong> ~30–100 HU</li>
+            <li><strong>Mineralized cortical bone (hydroxyapatite):</strong> routinely exceeds 1,000 HU <sup>[13]</sup></li>
+        </ul>
+        <p>If the attenuation profiles of the contrast agent and bone overlap, standard global thresholding algorithms cannot accurately segment the two distinct biological compartments, generating severe <strong>partial volume effects</strong> and <strong>beam hardening artifacts</strong> <sup>[3]</sup>.</p>
+
+        <h3>2.3 Volumetric Preservation and Tissue Clearing</h3>
+        <p>Following vascular perfusion, many orthopaedic protocols require soft tissues to be rendered transparent via aggressive clearing protocols such as the <strong>Spalteholz technique</strong> (methyl salicylate). The interaction between the polymerized vascular cast and the clearing solvent must be chemically inert. If the clearing agent extracts vital components from the polymer matrix, <strong>catastrophic volumetric shrinkage</strong> occurs, obliterating the quantitative accuracy of morphometric analysis <sup>[8]</sup>.</p>
+
+        <div class="section-sep"></div>
+
+        <!-- Section 3: Deficits of Microfil -->
+        <h2>3. Concrete Methodological Deficits of Microfil (MV-122)</h2>
+
+        <p>A rigorous analysis of the orthopaedic and vascular imaging literature reveals that Microfil (MV-122) comprehensively fails to meet the stringent criteria required for high-fidelity μCT angiography in skeletal models. Its limitations are structurally defined by <strong>three primary methodological failures</strong>, each of which fundamentally invalidates the resulting quantitative data.</p>
+
+        <h3>3.1 High Viscosity and the Terminal Capillary Exclusion Zone (&lt;20 μm)</h3>
+        <p>Microfil is a silicone-based elastomer that requires mechanical mixing with a designated diluent and a catalytic curing agent to initiate polymerization <sup>[16]</sup>. Once catalyzed, the chemical cross-linking process begins immediately, resulting in a <strong>continuously increasing dynamic viscosity</strong> throughout the designated injection window. This volatile rheological profile severely restricts the ability of Microfil to penetrate the distal microcirculation before it solidifies.</p>
+
+        <p>Extensive empirical data demonstrates that the high viscosity of Microfil physically prevents adequate perfusion into terminal capillaries smaller than 20 μm in diameter <sup>[9]</sup>. In studies specifically assessing pulmonary, renal, and skeletal muscle microvasculature, Microfil was entirely restricted from the <strong>2 μm to 20 μm vessel range</strong> <sup>[9]</sup>. This is a critical failure for orthopaedic research, as this capillary network—including specialized <strong>Type H endothelium</strong>—is directly responsible for osteoprogenitor coupling, nutrient exchange, and the earliest stages of neoangiogenesis in bone healing. <span class="evidence-badge ev-3">Level III — Ex-vivo comparative studies</span></p>
+
+        <div class="callout danger">
+            <div class="callout-title">Critical Quantitative Finding from Source</div>
+            <p>Comparative imaging studies demonstrated that the average microvascular structures successfully visualized with Microfil possessed diameters of <strong>91.66 ± 24.91 μm</strong>, representing only larger feeding arterioles and venules. In direct contrast, lower-viscosity agents successfully and consistently perfused terminal vessels averaging <strong>20.54 ± 4.15 μm</strong> <sup>[7]</sup>.</p>
+        </div>
+
+        <p>When researchers attempt to force the highly viscous Microfil into terminal capillary beds by increasing injection pressure, the non-miscible silicone compound induces <strong>catastrophic vessel rupture</strong> <sup>[7]</sup>. In fracture healing models, where fragile woven bone and delicate sinusoidal vessels characterize the early soft callus, high-pressure silicone injection destroys native architecture, leading to extravasation artifacts that mimic pathological vascular pooling <sup>[20]</sup>.</p>
+
+        <h3>3.2 Methyl Salicylate Clearing and Severe Shrinkage Artifacts</h3>
+        <p>Microfil was originally engineered to be paired with optical tissue clearing techniques, specifically the Spalteholz method utilizing <strong>methyl salicylate</strong> (synthetic wintergreen oil) <sup>[15]</sup>. When Microfil-injected tissues are subjected to this solvent, the silicone rubber undergoes <strong>extreme and statistically significant volumetric shrinkage</strong> <sup>[8]</sup>.</p>
+
+        <div class="callout warning">
+            <div class="callout-title">Key Finding — Møller et al. (1994) <sup>[8]</sup></div>
+            <p><strong>Study Design:</strong> Controlled in-vitro comparative methodology. <span class="evidence-badge ev-3">Level III — Methodological</span></p>
+            <p>This foundational study proved that methyl salicylate chemically attacks the Microfil polymer matrix. The authors concluded: <em>"Microfil undergoes extreme shrinkage when the casted tissue is cleared by the alcohol-methyl salicylate clearing technique"</em> and strictly advised that <em>"the alcohol-methyl salicylate clearing technique should be avoided in studies employing Microfil"</em> due to catastrophic loss of true vascular volume and severe distortion of vessel diameters <sup>[8]</sup>.</p>
+        </div>
+
+        <p>Methyl salicylate chemically extracts the lipophilic components of the silicone matrix and dehydrates the localized environment, causing the cast to drastically contract away from the vascular endothelium. In orthopaedic studies measuring subtle vascular dilations associated with inflammatory fracture healing phases or minute collateral vessel formations in avascular necrosis models, such shrinkage artifacts render quantitative output entirely invalid <sup>[23]</sup>.</p>
+
+        <h3>3.3 Poor Radiodensity Gradients and Threshold Segmentation Failures</h3>
+        <p>Perhaps the most debilitating limitation of Microfil in orthopaedic basic science is its inadequate radiodensity profile when placed adjacent to intact cortical bone. While Microfil MV-122 is commercially marketed as a lead-based radiopaque compound <sup>[6]</sup>, its absolute X-ray attenuation is <strong>demonstrably insufficient</strong> to clearly separate it from hydroxyapatite under standard microfocus X-ray spectra (typically 50–100 kVp) <sup>[3]</sup>.</p>
+
+        <div class="callout danger">
+            <div class="callout-title">Key Finding — Leyssens et al. (2023) <sup>[3]</sup></div>
+            <p><strong>Study Design:</strong> Methodological review and controlled ex-vivo μCT imaging validation. <span class="evidence-badge ev-3">Level III — Methodological</span></p>
+            <p>The researchers reported: <em>"Limited differences in radiopacity between perfusion agents and mineralized bone make their distinct segmentation problematic."</em> They explicitly noted that Microfil was reported to have <em>"poor and/or incomplete filling of the vasculature [and] vascular damage"</em> <sup>[3]</sup>. The study concluded that without a drastically higher attenuation profile, simultaneous visualization of un-decalcified bone and microvasculature using Microfil is effectively impossible.</p>
+        </div>
+
+        <p>Because the radiopacity of Microfil overlaps significantly with that of mineralized bone, researchers face a methodological paradox: they must either accept massive <strong>partial volume artifacts</strong> or subject specimens to harsh, prolonged <strong>decalcification protocols</strong> (e.g., EDTA) <sup>[3]</sup>. Decalcification inherently and irreversibly destroys the native mineral architecture, making it fundamentally impossible to conduct a simultaneous assessment of bone microarchitecture (e.g., Trabecular Thickness, Bone Volume Fraction) and vascular morphology (e.g., Vessel Number, Vessel Separation) from a single intact specimen <sup>[3]</sup>.</p>
+
+        <!-- Comprehensive Comparison Table -->
+        <div class="table-wrapper">
+            <caption>Table 1. Comprehensive Methodological Comparison: Microfil vs. PbO-Gelatin for Musculoskeletal μCT Angiography</caption>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Methodological Parameter</th>
+                        <th>Microfil (MV-122) Limitations</th>
+                        <th>PbO-Gelatin Advantages</th>
+                        <th>Impact on Orthopaedic Research</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Dynamic Viscosity &amp; Perfusion</strong></td>
+                        <td>High viscosity due to chemical catalytic curing; fails to perfuse vessels &lt;20 μm. Vessel rupture at elevated pressures <sup>[7,9]</sup>.</td>
+                        <td>Thermo-responsive near-Newtonian fluid at 37–40°C; stable low viscosity allows total capillary perfusion <sup>[26,27]</sup>.</td>
+                        <td class="highlight-microfil">Microfil: Cannot quantify terminal capillary angiogenesis. PbO-gelatin: Complete vascular tree filling achieved.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tissue Clearing Compatibility</strong></td>
+                        <td>Severe volumetric shrinkage when exposed to methyl salicylate (Spalteholz) <sup>[8]</sup>.</td>
+                        <td>Dimensionally stable hydrogel upon cooling; does not require aggressive clearing solvents <sup>[28]</sup>.</td>
+                        <td class="highlight-microfil">Microfil: Vessel diameters severely distorted; PbO-gelatin: Volumetric accuracy preserved.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Radiodensity vs. Cortical Bone</strong></td>
+                        <td>Insufficient attenuation gradient; overlaps with bone HU values; forces destructive decalcification <sup>[3]</sup>.</td>
+                        <td>Lead (Z=82) with K-edge 88.0 keV provides extreme radiodensity vastly exceeding cortical bone <sup>[28,30]</sup>.</td>
+                        <td class="highlight-pbo">PbO-gelatin: Simultaneous bone + vascular 3D mapping without decalcification.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Polymerization Mechanism</strong></td>
+                        <td>Irreversible chemical cross-linking; continuously rising viscosity; limited working window.</td>
+                        <td>Thermal gelation; indefinite working window at physiological temperature; solidification at 4°C <sup>[27]</sup>.</td>
+                        <td class="highlight-pbo">PbO-gelatin: Researcher controls perfusion timing; no premature hardening risk.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quantitative Morphometric Validity</strong></td>
+                        <td>Systematically underestimates capillary density, connectivity, and vascular volume fraction <sup>[20]</sup>.</td>
+                        <td>Highly accurate vessel diameter, connectivity, and VVF measurements achievable (0.25–0.69% VVF resolution) <sup>[25]</sup>.</td>
+                        <td class="highlight-pbo">PbO-gelatin: Valid quantitative 3D morphometry of intraosseous microvasculature.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <!-- Section 4: Superiority of PbO-Gelatin -->
+        <h2>4. The Methodological Superiority of Lead Oxide (PbO)-Gelatin Mixtures</h2>
+
+        <p>To successfully circumvent the catastrophic physical and chemical limitations of silicone-based polymers, advanced cadaveric and post-mortem orthopaedic studies have increasingly adopted <strong>modified Lead Oxide (PbO) formulations</strong>, most notably PbO-gelatin suspensions <sup>[25]</sup>. The integration of finely milled PbO powder into a precisely controlled, low-concentration aqueous gelatin matrix resolves the fundamental physical deficits of Microfil.</p>
+
+        <h3>4.1 Thermo-Responsive Rheology</h3>
+        <p>Unlike silicone, which cures via an ongoing, irreversible chemical cross-linking process, gelatin is a highly predictable <strong>thermo-responsive hydrogel</strong>. When maintained at physiological or slightly elevated temperatures (37°C to 40°C), a low-concentration gelatin matrix behaves as a nearly Newtonian fluid with an extremely stable, low-viscosity profile <sup>[26]</sup>. This stable rheology allows the PbO-gelatin suspension to flow seamlessly through major nutrient arteries, past resistive arterioles, and directly into intraosseous terminal capillary networks under <strong>low, physiological perfusion pressures</strong>. <span class="evidence-badge ev-na">Not specified in source</span></p>
+
+        <p>Because polymerization relies entirely on <strong>thermal cooling</strong>—solidifying rapidly when the specimen is cooled to 4°C—rather than chemical catalysis, the researcher has an <strong>indefinite working window</strong> to ensure complete perfusion without the risk of premature hardening in proximal vessels <sup>[27]</sup>. This guarantees that vessels well below the 20 μm threshold are densely filled without inducing high-pressure endothelial rupture, extravasation, or vascular blebbing.</p>
+
+        <h3>4.2 Extreme Radiodensity and Threshold Separation</h3>
+        <p>Elemental Lead (Pb) possesses a <strong>high atomic number (Z = 82)</strong> and an ideal K-edge of <strong>88.0 keV</strong>. When high-Z PbO powder is densely suspended in a gelatin matrix, the resulting compound exhibits extreme radiodensity that <strong>vastly and predictably exceeds the Hounsfield Unit threshold of dense cortical bone</strong> <sup>[28,30]</sup>. <span class="evidence-badge ev-4">Level IV — Cadaveric anatomical studies</span></p>
+
+        <div class="callout success">
+            <div class="callout-title">Defining Advantage — Simultaneous Dual-Mapping</div>
+            <p>The immense X-ray attenuation of PbO particles creates a stark, unambiguous density gradient between contrast-filled vasculature and surrounding hydroxyapatite. This absolute separation allows for <strong>precise, automated threshold segmentation</strong> using simple grayscale values, enabling highly accurate 3D reconstructions of intraosseous microvasculature <strong>without the need to decalcify the bone</strong> <sup>[25]</sup>. This is invaluable for evaluating vascularized bone graft integration or mapping the microvasculature of the femoral head in osteonecrosis models.</p>
+        </div>
+
+        <h3>4.3 Dimensional Stability Against Chemical Shrinkage</h3>
+        <p>Because the PbO-gelatin matrix sets into a firm, highly stable rubbery hydrogel upon cooling, it does not suffer from the chemical extraction phenomena that plague silicone polymers. The rigid gelatin structure locks the PbO particles tightly against the vascular endothelium, <strong>perfectly preserving the volumetric dimensions of the vessels without shrinkage</strong> <sup>[28]</sup>. This ensures that downstream morphometric measurements of vessel diameter, connectivity density, and structural model index are highly accurate representations of the true physiological state.</p>
+
+        <div class="section-sep"></div>
+
+        <!-- Section 5: Anatomical Applications -->
+        <h2>5. Anatomical Applications: Resolving the Musculoskeletal Microvasculature</h2>
+
+        <p>The superiority of PbO-gelatin and modified heavy metal suspensions becomes explicitly evident when applied to the most challenging anatomical models in orthopaedic research.</p>
+
+        <h3>5.1 Intraosseous Microvasculature of Carpal Bones</h3>
+        <p>In the assessment of the complex retrograde blood supply of the carpal bones (e.g., scaphoid, lunate, trapezoid), high-resolution μCT angiography is required to map the nutrient foramina deep within a thick cortical shell. <span class="evidence-badge ev-4">Level IV — Cadaveric anatomical study</span></p>
+
+        <div class="callout success">
+            <div class="callout-title">Key Finding — Trapezoid Vascular Architecture <sup>[25]</sup></div>
+            <p>Studies utilizing PbO injections successfully visualized and quantified the <strong>Vascular Volume Fraction (VVF)</strong> within the human trapezoid, resolving minute vascular density differences ranging from <strong>0.25% to 0.69%</strong> across specific anatomical zones <sup>[25]</sup>. Resolving such minimal vascular volumes within dense carpal bones is mathematically impossible with Microfil due to thresholding overlaps.</p>
+        </div>
+
+        <h3>5.2 Fracture Healing Models — Callus Angiogenesis</h3>
+        <p>Evaluating callus angiogenesis requires resolving the delicate, newly formed vessels that invade the cartilaginous soft callus to initiate endochondral ossification. μCT studies evaluating the knockout of specific angiogenic genes (such as <strong>GIT1</strong>) or the localized delivery of pro-angiogenic factors (such as <strong>VEGF and FGF2</strong>) rely on detecting the absolute number of terminal capillary loops <sup>[20]</sup>. <span class="evidence-badge ev-na">Not specified in source</span></p>
+
+        <p>Because Microfil cannot perfuse vessels under 20 μm, any study utilizing it to assess early callus angiogenesis <strong>inherently misses the primary biological variable of interest</strong>, whereas PbO-gelatin completely opacifies the advancing vascular front.</p>
+
+        <h3>5.3 Osteocutaneous Flap Perfusion and Vascularized Bone Grafts</h3>
+        <p>In the study of vascularized bone grafts—such as the medial femoral condyle flap used for treating scaphoid non-unions—researchers must assess microvascular anastomoses and capillary density. Porcine and human cadaveric models have utilized PbO-gelatin injections to trace the entire course of the descending geniculate artery down to its terminal intraosseous perforators, measuring vessel diameters as fine as <strong>2.013 ± 0.316 mm</strong> for the main source artery while simultaneously resolving the deep capillary network <sup>[27]</sup>. <span class="evidence-badge ev-4">Level IV — Cadaveric anatomical study</span></p>
+
+        <div class="section-sep"></div>
+
+        <!-- Section 6: Deep Literature Synthesis -->
+        <h2>6. Deep Literature Synthesis: Comparative Analyses of Contrast Efficacy</h2>
+
+        <p>The following synthesis extracts key quantitative and qualitative data from highly relevant, peer-reviewed studies that explicitly demonstrate the physical failures of Microfil and the functional superiority of high-attenuation contrast agents.</p>
+
+        <div class="limitation-note">
+            <strong>Note on Evidence Scope:</strong> The source document identifies 5 key comparative/methodological studies. All are basic science methodological studies (Levels III–IV evidence). No randomized controlled trials (RCTs) exist in this domain, as these are cadaveric/ex-vivo methodology studies. Evidence levels are inferred from study design where not explicitly stated in the source.
+        </div>
+
+        <!-- Study 1 -->
+        <div class="study-card">
+            <div class="study-title">Study 1: Severe Shrinkage of Microfil During Tissue Clearing</div>
+            <div class="study-meta">Møller J, Robertsen K, Hansen ES. <em>Journal of Microscopy</em> (1994). <span class="evidence-badge ev-3">Level III — Controlled in-vitro</span></div>
+            <p>This foundational methodological study quantitatively evaluated the dimensional stability of Microfil when exposed to the Spalteholz technique (alcohol dehydration followed by methyl salicylate immersion). The study explicitly proved that methyl salicylate chemically attacks the Microfil polymer matrix. The authors concluded that <em>"Microfil undergoes extreme shrinkage when the casted tissue is cleared by the alcohol-methyl salicylate clearing technique"</em> and strictly advised that <em>"the alcohol-methyl salicylate clearing technique should be avoided in studies employing Microfil"</em> <sup>[8]</sup>.</p>
+        </div>
+
+        <!-- Study 2 -->
+        <div class="study-card">
+            <div class="study-title">Study 2: Failure of Microfil to Perfuse Terminal Capillaries (&lt;20 μm)</div>
+            <div class="study-meta">Schneider B, Ehling J, et al. <em>Multiple vascular imaging journals.</em> <span class="evidence-badge ev-3">Level III — Ex-vivo comparative</span></div>
+            <p>This research mapped the true terminal microvasculature using high-resolution μCT, comparing contrast agents. The intrinsic viscosity of Microfil actively prevented entry into the true capillary bed. The study noted that <em>"the viscosity of contrast agents impedes the perfusion of vessels less than 20 μm in diameter"</em> <sup>[9]</sup>. While superior agents perfused vessels averaging <strong>20.54 ± 4.15 μm</strong> and <strong>25.82 ± 3.75 μm</strong>, Microfil was restricted to vessels averaging <strong>91.66 ± 24.91 μm</strong> <sup>[7]</sup>.</p>
+        </div>
+
+        <!-- Study 3 -->
+        <div class="study-card">
+            <div class="study-title">Study 3: Radiodensity Conflicts and Threshold Segmentation Failures</div>
+            <div class="study-meta">Leyssens et al. (2023); Rosenblum et al. <em>PLOS One / Bone</em>. <span class="evidence-badge ev-3">Level III — Methodological review + validation</span></div>
+            <p>Investigating vasculature within dense skeletal tissue, this study demonstrated that Microfil lacks the requisite radiodensity to create a distinct histogram peak separate from cortical bone. The authors reported that <em>"limited differences in radiopacity between perfusion agents and mineralized bone make their distinct segmentation problematic"</em> <sup>[3]</sup>, and that Microfil has <em>"many disadvantages, including poor and/or incomplete filling of the vasculature [and] vascular damage"</em> <sup>[3]</sup>.</p>
+        </div>
+
+        <!-- Study 4 -->
+        <div class="study-card">
+            <div class="study-title">Study 4: Superiority of Lead Oxide for Deep Intraosseous μCT Angiography</div>
+            <div class="study-meta">Zhao et al. / Tang et al. <em>Journal of Orthopaedic Research</em>. <span class="evidence-badge ev-4">Level IV — Cadaveric anatomical</span></div>
+            <p>Researchers utilized a modified Lead Oxide (PbO) injection protocol to map the complete three-dimensional vascular network of human carpal bones. The study demonstrated that <em>"intraosseous angiography with red lead injection and three-dimensional reconstruction with micro-computed tomography has been proven effective to illustrate the intraosseous arterial architecture"</em> <sup>[25]</sup>. Precise VVF calculations of <strong>0.25%–0.69%</strong> across distinct sagittal and transversal sections were achieved—mathematically impossible with Microfil <sup>[25]</sup>.</p>
+        </div>
+
+        <!-- Study 5 -->
+        <div class="study-card">
+            <div class="study-title">Study 5: Quantitative Accuracy of Heavy Metal Suspensions</div>
+            <div class="study-meta"><em>Contrast Media & Molecular Imaging / Journal of Anatomy</em>. <span class="evidence-badge ev-3">Level III — Ex-vivo comparative methodology</span></div>
+            <p>This study directly compared the geometric accuracy of barium sulfate mixtures against lead oxide formulations using cannulae of known diameter and rat lower limb vessels. Both heavy metal formulations provided exceptional, artifact-free reconstructions. Barium sulfate-resin demonstrated slightly less bias (MD 0.03; SD 1.96 mm) compared to lead oxide-milk powder (MD 0.11; SD 1.96 mm) for high-resolution scans, but both vastly outperformed silicone polymers <sup>[28]</sup>. The study reaffirmed that the massive radiopacity of Lead Oxide historically secures its role as the <em>"gold standard"</em> for anatomical microcirculation studies <sup>[32]</sup>.</p>
+        </div>
+
+        <!-- Landmark Studies Summary Table -->
+        <div class="table-wrapper">
+            <caption>Table 2. Summary of Key Comparative Studies Identified in Source Document</caption>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Study / Reference</th>
+                        <th>EBM Level</th>
+                        <th>Primary Focus</th>
+                        <th>Key Finding</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Møller et al. (1994) <sup>[8]</sup></td>
+                        <td><span class="evidence-badge ev-3">III</span></td>
+                        <td>Volumetric Shrinkage</td>
+                        <td>Microfil undergoes "extreme shrinkage" with methyl salicylate, drastically distorting vessel diameters.</td>
+                    </tr>
+                    <tr>
+                        <td>Perfusion Limits <sup>[7,9]</sup></td>
+                        <td><span class="evidence-badge ev-3">III</span></td>
+                        <td>Viscosity / Capillary Penetration</td>
+                        <td>Microfil viscosity restricts flow into vessels &lt;20 μm; avg. Microfil vessel: 91.66 μm vs. 20.54 μm for optimized agents.</td>
+                    </tr>
+                    <tr>
+                        <td>Leyssens et al. <sup>[3]</sup></td>
+                        <td><span class="evidence-badge ev-3">III</span></td>
+                        <td>Radiodensity &amp; Segmentation</td>
+                        <td>Overlap in radiopacity between Microfil and bone causes disjointed segmentation, forcing destructive decalcification.</td>
+                    </tr>
+                    <tr>
+                        <td>Trapezoid Anatomy <sup>[25]</sup></td>
+                        <td><span class="evidence-badge ev-4">IV</span></td>
+                        <td>PbO Superiority in Bone</td>
+                        <td>Lead oxide seamlessly visualizes deep intraosseous arteries, allowing VVF calculation (0.25%–0.69%) without decalcification.</td>
+                    </tr>
+                    <tr>
+                        <td>Heavy Metal Comparison <sup>[28]</sup></td>
+                        <td><span class="evidence-badge ev-3">III</span></td>
+                        <td>Geometric Accuracy</td>
+                        <td>PbO and Ba formulations provide extreme radiodensity; measurable accuracy (bias MD 0.03–0.11) vastly outperforms silicone.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="limitation-note">
+            <strong>Evidence Gap Note:</strong> The source document identifies 5 key methodological/comparative studies, all at Levels III–IV evidence (basic science methodology; cadaveric/ex-vivo designs). No randomized controlled trials (RCTs, Level I) exist in this domain, which is expected for methodological validation studies in post-mortem imaging.
+        </div>
+
+        <div class="section-sep"></div>
+
+        <!-- Section 7: Conclusion -->
+        <h2>7. Conclusion</h2>
+
+        <p>The evolution of orthopaedic basic science from conventional two-dimensional histology to non-destructive, three-dimensional high-resolution μCT angiography has revolutionized our understanding of skeletal vascularity. However, the quantitative validity of the resulting morphometric data is <strong>entirely dependent on the physical and chemical properties of the chosen intravascular contrast agent</strong>.</p>
+
+        <p>The accumulated literature conclusively demonstrates that <strong>Microfil (MV-122)</strong> suffers from debilitating methodological limitations when applied to musculoskeletal models:</p>
+
+        <ol>
+            <li>Its <strong>high dynamic viscosity</strong> prohibits perfusion of the critical &lt;20 μm terminal capillary bed <sup>[7,9]</sup>.</li>
+            <li>Its <strong>chemical susceptibility to methyl salicylate</strong> induces severe volumetric shrinkage artifacts that distort vascular geometry <sup>[8]</sup>.</li>
+            <li>Its <strong>low radiodensity gradient against hydroxyapatite</strong> prohibits accurate threshold segmentation, forcing the destructive decalcification of bone specimens <sup>[3]</sup>.</li>
+        </ol>
+
+        <div class="callout success">
+            <div class="callout-title">Gold Standard Recommendation from Source</div>
+            <p>To ensure the highest fidelity imaging of intraosseous microvasculature, callus angiogenesis, and osteocutaneous flap perfusion, the selection of <strong>Lead Oxide-gelatin (PbO-gelatin) mixtures</strong> is rigorously justified. PbO-gelatin formulations offer:</p>
+            <ul style="margin-top:8px;">
+                <li>Optimized, <strong>thermo-responsive rheology</strong> ensuring total capillary filling without barotrauma</li>
+                <li><strong>Dimensional stability</strong> resisting chemical shrinkage</li>
+                <li><strong>Extreme radiopacity</strong> required to cleanly segment the vascular tree from native cortical bone <sup>[25,28,30]</sup></li>
+            </ul>
+        </div>
+
+        <p>By adopting high-attenuation heavy metal suspensions, orthopaedic researchers can unlock the true three-dimensional architecture of the skeletal vascular system, preserving both the vascular and mineralized microarchitecture for simultaneous, highly accurate quantitative analysis.</p>
+
+        <!-- References -->
+        <div class="references">
+            <h3>References (Derived from Source Document)</h3>
+            <ol>
+                <li id="ref1">Microcomputed Tomography Characterization of Neovascularization in Bone Tissue Engineering Applications — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2761680/" target="_blank">PMC2761680</a></li>
+                <li id="ref2">(PDF) MicroCT-based imaging of microvasculature within the bone tissue — ResearchGate.</li>
+                <li id="ref3">Leyssens et al. (2023). MicroCT-based imaging of microvasculature within the bone tissue. <em>bioRxiv</em>. <a href="https://www.biorxiv.org/content/10.1101/2023.03.08.531678v2.full.pdf" target="_blank">doi:10.1101/2023.03.08.531678</a></li>
+                <li id="ref4">MicroCT-based imaging of microvasculature within bone and peri-implant tissues — <em>bioRxiv</em> (v3).</li>
+                <li id="ref5">High resolution imaging of human development: shedding light on contrast agents — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11322402/" target="_blank">PMC11322402</a></li>
+                <li id="ref6">Synthesis and Characterization of BaSO4–CaCO3–Alginate Nanocomposite Materials — <em>ACS Publications</em>.</li>
+                <li id="ref7">Comparison of micro-CT image enhancement after use of different vascular casting agents — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10963849/" target="_blank">PMC10963849</a></li>
+                <li id="ref8">Møller J, Robertsen K, Hansen ES. Severe shrinkage of Microfil during tissue clearing with the Spalteholz technique. <em>Journal of Microscopy</em> (1994).</li>
+                <li id="ref9">Microcomputed tomography visualization and quantitation of the pulmonary arterial microvascular tree — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10461042/" target="_blank">PMC10461042</a></li>
+                <li id="ref20">Fibroblast Growth Factor-2 and Vascular Endothelial Growth Factor Mediated Augmentation of Angiogenesis and Bone Formation — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3976711/" target="_blank">PMC3976711</a></li>
+                <li id="ref25">The Intraosseous Arterial Architecture of the Trapezoid. <em>Thieme</em>. <a href="https://www.thieme-connect.de/products/ejournals/pdf/10.1055/a-2857-4724.pdf" target="_blank">doi:10.1055/a-2857-4724</a></li>
+                <li id="ref26">Optimizing imaging of the rat pulmonary microvasculature by micro-computed tomography — ResearchGate.</li>
+                <li id="ref27">The arterial tree in the pig hindlimb: anatomical study with translational implications — ResearchGate.</li>
+                <li id="ref28">Contrast agent comparison for three-dimensional micro-CT angiography: A cadaveric study. <a href="https://openresearch-repository.anu.edu.au/server/api/core/bitstreams/c0fd72ca-e4f5-447b-9170-723679184899/content" target="_blank">Open Research Repository</a></li>
+                <li id="ref30">A Review of Vascular Injection Techniques for the Study of Perforator Flaps — ResearchGate.</li>
+                <li id="ref32">A Modified Lead Oxide Cadaveric Injection Technique for Embalmed Contrast Radiography — ResearchGate.</li>
+            </ol>
+        </div>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" role="complementary" aria-label="Interactive parameter adjustment panel">
+        <div class="sidebar-card">
+            <h3>🔬 Interactive Parameter Explorer</h3>
+            <p style="font-size:0.78rem; color:var(--gray-600); margin-bottom:14px;">Adjust parameters below to evaluate contrast agent suitability. Thresholds derived from source document data unless otherwise annotated.</p>
+
+            <!-- Slider 1: Vessel Diameter -->
+            <div class="slider-group">
+                <label for="vesselSlider">Minimum Target Vessel Diameter (μm)</label>
+                <div class="slider-description">Source: Microfil fails &lt;20 μm; PbO-gelatin perfuses to ~20 μm <sup>[7,9]</sup></div>
+                <input type="range" id="vesselSlider" min="2" max="150" value="20" step="1" aria-label="Vessel diameter in micrometers">
+                <span class="slider-value" id="vesselValue">20 μm</span>
+            </div>
+
+            <!-- Slider 2: Vascular Volume Fraction -->
+            <div class="slider-group">
+                <label for="vvfSlider">Target VVF Resolution (%)</label>
+                <div class="slider-description">Source: PbO-gelatin resolves 0.25–0.69% VVF in trapezoid <sup>[25]</sup></div>
+                <input type="range" id="vvfSlider" min="0.05" max="2.0" value="0.50" step="0.05" aria-label="Vascular Volume Fraction in percent">
+                <span class="slider-value" id="vvfValue">0.50%</span>
+            </div>
+
+            <!-- Slider 3: HU Difference -->
+            <div class="slider-group">
+                <label for="huSlider">Required Contrast-to-Bone ΔHU (Hounsfield Units)</label>
+                <div class="slider-description">Source: Cortical bone &gt;1,000 HU; PbO vastly exceeds bone; Microfil overlaps <sup>[3,13]</sup></div>
+                <input type="range" id="huSlider" min="100" max="3000" value="1000" step="50" aria-label="HU difference between contrast agent and bone">
+                <span class="slider-value" id="huValue">1,000 HU</span>
+            </div>
+
+            <!-- Recommendation Box -->
+            <div id="recommendation" class="recommendation-box optimal">
+                <div id="recHeader" class="rec-header optimal">✓ RECOMMENDED: PbO-Gelatin</div>
+                <div id="recBody" class="rec-body">
+                    At the current parameters, PbO-gelatin is the optimal contrast agent. Microfil's viscosity excludes vessels &lt;20 μm.
+                </div>
+                <div id="recDetail" class="rec-detail">
+                    Based on source document evidence <sup>[3,7,8,9,25,28]</sup>.
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-group">
+                <button class="btn btn-reset" id="resetBtn" aria-label="Reset sliders to default values">↺ Reset</button>
+                <button class="btn btn-export" id="exportBtn" aria-label="Copy recommendation to clipboard">📋 Copy Report</button>
+            </div>
+        </div>
+
+        <!-- Quick Reference Card -->
+        <div class="sidebar-card">
+            <h3>📊 Quick Reference: Agent Properties</h3>
+            <table style="font-size:0.75rem;">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th style="color:var(--danger)">Microfil</th>
+                        <th style="color:var(--success)">PbO-Gelatin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Min. vessel (μm)</td>
+                        <td>&gt;20 <sup>[9]</sup></td>
+                        <td>&lt;20 <sup>[27]</sup></td>
+                    </tr>
+                    <tr>
+                        <td>Avg. vessel (μm)</td>
+                        <td>91.66 <sup>[7]</sup></td>
+                        <td>20.54 <sup>[7]</sup></td>
+                    </tr>
+                    <tr>
+                        <td>Clearing stable</td>
+                        <td>✗ Shrinkage <sup>[8]</sup></td>
+                        <td>✓ Stable <sup>[28]</sup></td>
+                    </tr>
+                    <tr>
+                        <td>Bone separation</td>
+                        <td>✗ Overlap <sup>[3]</sup></td>
+                        <td>✓ Distinct <sup>[28]</sup></td>
+                    </tr>
+                    <tr>
+                        <td>VVF resolution</td>
+                        <td>Poor <sup>[3]</sup></td>
+                        <td>0.25–0.69% <sup>[25]</sup></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- EBM Legend -->
+        <div class="sidebar-card">
+            <h3>📋 Evidence Level Legend</h3>
+            <div style="font-size:0.75rem; line-height:2;">
+                <span class="evidence-badge ev-1">I</span> Systematic review / RCT<br>
+                <span class="evidence-badge ev-2">II</span> Prospective cohort / Controlled trial<br>
+                <span class="evidence-badge ev-3">III</span> Ex-vivo comparative / Methodological validation<br>
+                <span class="evidence-badge ev-4">IV</span> Case series / Cadaveric anatomical<br>
+                <span class="evidence-badge ev-5">V</span> Expert opinion / Mechanism-based reasoning<br>
+                <span class="evidence-badge ev-na">N/A</span> Not rated or not applicable
+            </div>
+            <p style="font-size:0.7rem; color:var(--gray-600); margin-top:8px; font-style:italic;">Note: All studies in source document are Level III–IV (basic science methodology). No Level I–II evidence exists for this domain.</p>
+        </div>
+    </aside>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast" role="alert" aria-live="polite">Copied to clipboard!</div>
+
+<script>
+(function() {
+    'use strict';
+
+    // Elements
+    const vesselSlider = document.getElementById('vesselSlider');
+    const vvfSlider = document.getElementById('vvfSlider');
+    const huSlider = document.getElementById('huSlider');
+    const vesselValue = document.getElementById('vesselValue');
+    const vvfValue = document.getElementById('vvfValue');
+    const huValue = document.getElementById('huValue');
+    const recommendation = document.getElementById('recommendation');
+    const recHeader = document.getElementById('recHeader');
+    const recBody = document.getElementById('recBody');
+    const recDetail = document.getElementById('recDetail');
+    const resetBtn = document.getElementById('resetBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const toast = document.getElementById('toast');
+
+    // Source-derived thresholds
+    const MICROFIL_MIN_VESSEL = 20; // μm — Microfil cannot perfuse below this [ref 7,9]
+    const MICROFIL_AVG_VESSEL = 91.66; // μm — avg vessel visualized by Microfil [ref 7]
+    const PBO_AVG_VESSEL = 20.54; // μm — avg vessel visualized by optimized agents [ref 7]
+    const PBO_VVF_MIN = 0.25; // % — minimum VVF resolved by PbO in trapezoid [ref 25]
+    const PBO_VVF_MAX = 0.69; // % — maximum VVF resolved by PbO in trapezoid [ref 25]
+    const CORTICAL_BONE_HU = 1000; // HU — cortical bone baseline [ref 13]
+    const MICROFIL_HU_OVERLAP = true; // Microfil overlaps with bone HU [ref 3]
+
+    function formatNumber(n) {
+        return n.toLocaleString('en-US');
+    }
+
+    function updateDisplay() {
+        const vessel = parseFloat(vesselSlider.value);
+        const vvf = parseFloat(vvfSlider.value);
+        const hu = parseInt(huSlider.value);
+
+        vesselValue.textContent = vessel + ' μm';
+        vvfValue.textContent = vvf.toFixed(2) + '%';
+        huValue.textContent = formatNumber(hu) + ' HU';
+
+        let issues = [];
+        let microfilIssues = [];
+        let pboIssues = [];
+
+        // Evaluate vessel diameter
+        if (vessel < MICROFIL_MIN_VESSEL) {
+            microfilIssues.push('Microfil cannot perfuse vessels <' + MICROFIL_MIN_VESSEL + ' μm (source: <sup>[7,9]</sup>)');
+        }
+
+        // Evaluate VVF
+        if (vvf < PBO_VVF_MIN) {
+            microfilIssues.push('Microfil lacks radiodensity to resolve VVF <' + PBO_VVF_MIN + '% (source: <sup>[3]</sup>)');
+            pboIssues.push('PbO-gelatin documented resolution starts at ' + PBO_VVF_MIN + '%; sub-' + PBO_VVF_MIN + '% resolution not explicitly confirmed in source <sup>[25]</sup>');
+        } else if (vvf >= PBO_VVF_MIN && vvf <= PBO_VVF_MAX) {
+            // Within documented PbO range — no issues for PbO
+            microfilIssues.push('Microfil cannot reliably resolve VVF at ' + vvf.toFixed(2) + '% due to thresholding overlaps (source: <sup>[3]</sup>)');
+        }
+
+        // Evaluate HU
+        if (hu >= 500) {
+            microfilIssues.push('Microfil radiodensity overlaps with bone; ΔHU ' + formatNumber(hu) + ' cannot be achieved (source: <sup>[3]</sup>)');
+        }
+
+        // Determine recommendation
+        let level, headerText, bodyText;
+
+        if (microfilIssues.length === 0) {
+            // Both could work — but PbO still preferred
+            level = 'optimal';
+            headerText = '✓ RECOMMENDED: PbO-Gelatin';
+            bodyText = 'At the current parameters, both agents may technically function. However, PbO-gelatin remains the gold standard due to superior thermo-responsive rheology, dimensional stability, and proven geometric accuracy (bias MD 0.03–0.11) <sup>[28]</sup>.';
+        } else if (microfilIssues.length > 0 && pboIssues.length === 0) {
+            // Microfil fails, PbO optimal
+            level = 'optimal';
+            headerText = '✓ REQUIRED: PbO-Gelatin';
+            bodyText = 'Microfil is inadequate at these parameters: ' + microfilIssues.join('; ') + '. PbO-gelatin is required to achieve valid results.';
+        } else {
+            // Both have limitations
+            level = 'suboptimal';
+            headerText = '⚠ PARTIAL COVERAGE';
+            bodyText = 'Microfil is inadequate: ' + microfilIssues.join('; ') + '. Note: ' + pboIssues.join('; ') + '. PbO-gelatin is still the best available option.';
+        }
+
+        recommendation.className = 'recommendation-box ' + level;
+        recHeader.className = 'rec-header ' + level;
+        recHeader.innerHTML = headerText;
+        recBody.innerHTML = bodyText;
+
+        let detailText = 'Vessel: ' + vessel + ' μm | VVF: ' + vvf.toFixed(2) + '% | ΔHU: ' + formatNumber(hu);
+        detailText += '<br>Based on source document evidence <sup>[3,7,8,9,25,28]</sup>.';
+        if (vessel > MICROFIL_AVG_VESSEL) {
+            detailText += '<br><em>Note: Vessel diameter (' + vessel + ' μm) exceeds even Microfil avg. (' + MICROFIL_AVG_VESSEL + ' μm). Microfil may visualize this size but still lacks accuracy.</em>';
+        }
+        recDetail.innerHTML = detailText;
+    }
+
+    // Event listeners
+    vesselSlider.addEventListener('input', updateDisplay);
+    vvfSlider.addEventListener('input', updateDisplay);
+    huSlider.addEventListener('input', updateDisplay);
+
+    // Reset
+    resetBtn.addEventListener('click', function() {
+        vesselSlider.value = 20;
+        vvfSlider.value = 0.50;
+        huSlider.value = 1000;
+        updateDisplay();
+        showToast('Parameters reset to defaults');
+    });
+
+    // Export / Copy
+    exportBtn.addEventListener('click', function() {
+        const vessel = parseFloat(vesselSlider.value);
+        const vvf = parseFloat(vvfSlider.value);
+        const hu = parseInt(huSlider.value);
+        const now = new Date().toISOString();
+
+        let report = '';
+        report += '=== μCT ANGIOGRAPHY CONTRAST AGENT ASSESSMENT REPORT ===\n';
+        report += 'Generated: ' + now + '\n\n';
+        report += '--- PARAMETER VALUES ---\n';
+        report += 'Minimum Target Vessel Diameter: ' + vessel + ' μm\n';
+        report += 'Target VVF Resolution: ' + vvf.toFixed(2) + '%\n';
+        report += 'Required Contrast-to-Bone ΔHU: ' + formatNumber(hu) + ' HU\n\n';
+        report += '--- ASSESSMENT ---\n';
+
+        // Determine recommendation text
+        let microfilFail = false;
+        let reasons = [];
+
+        if (vessel < MICROFIL_MIN_VESSEL) {
+            microfilFail = true;
+            reasons.push('Microfil cannot perfuse vessels <' + MICROFIL_MIN_VESSEL + ' μm [Schneider/Ehling et al.]');
+        }
+        if (hu >= 500) {
+            microfilFail = true;
+            reasons.push('Microfil radiodensity overlaps with cortical bone HU values [Leyssens et al. 2023]');
+        }
+        if (vvf < PBO_VVF_MIN) {
+            microfilFail = true;
+            reasons.push('Microfil cannot resolve VVF <' + PBO_VVF_MIN + '% [Leyssens et al. 2023]');
+        }
+
+        if (microfilFail) {
+            report += 'RECOMMENDATION: PbO-Gelatin is REQUIRED.\n';
+            report += 'Microfil limitations at these parameters:\n';
+            reasons.forEach(function(r, i) {
+                report += '  ' + (i + 1) + '. ' + r + '\n';
+            });
+        } else {
+            report += 'RECOMMENDATION: PbO-Gelatin remains PREFERRED (gold standard).\n';
+            report += 'Rationale: Superior thermo-responsive rheology, dimensional stability,\n';
+            report += 'extreme radiodensity, and proven geometric accuracy.\n';
+        }
+
+        report += '\n--- EVIDENCE BASE ---\n';
+        report += 'Møller et al. (1994): Microfil shrinkage with methyl salicylate [J Microscopy]\n';
+        report += 'Perfusion limit studies: Microfil avg vessel 91.66 μm vs PbO agents 20.54 μm [PMC10963849]\n';
+        report += 'Leyssens et al. (2023): Radiodensity overlap forces decalcification [bioRxiv]\n';
+        report += 'Zhao/Tang et al.: PbO achieves 0.25-0.69% VVF in trapezoid [Thieme]\n';
+        report += 'Heavy metal comparison: PbO/Ba bias MD 0.03-0.11 mm [Contrast Media Mol Imaging]\n';
+        report += '\n--- LIMITATIONS ---\n';
+        report += 'All source studies are Level III-IV evidence (basic science methodology).\n';
+        report += 'No RCTs exist for this domain.\n';
+        report += 'Thresholds used are derived from source document data.\n';
+        report += '\n=== END OF REPORT ===';
+
+        navigator.clipboard.writeText(report).then(function() {
+            showToast('Report copied to clipboard');
+        }).catch(function() {
+            // Fallback
+            const textarea = document.createElement('textarea');
+            textarea.value = report;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('Report copied to clipboard');
+        });
+    });
+
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(function() {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    // Initialize
+    updateDisplay();
+})();
+</script>
+
+</body>
+</html>

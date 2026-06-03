@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomechanical Optimization of PFNA Helical Blade Positioning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#fafbfc;--surface:#ffffff;--text:#1a1d23;--text-secondary:#4a5568;
+--accent:#2563eb;--accent-light:#dbeafe;--accent-dark:#1e40af;
+--success:#059669;--success-light:#d1fae5;
+--warning:#d97706;--warning-light:#fef3c7;
+--danger:#dc2626;--danger-light:#fee2e2;
+--border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+--shadow-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);
+--radius:8px;--radius-lg:12px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1e3a5f 0%,#1e40af 100%);color:#fff;padding:1rem 2rem;box-shadow:var(--shadow-lg)}
+.site-header h1{font-size:clamp(1rem,2.2vw,1.5rem);font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.site-header .subtitle{font-size:.82rem;opacity:.85;font-weight:400;margin-top:.25rem}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1400px;margin:0 auto;padding:2rem;align-items:start}
+@media(max-width:1024px){.layout{grid-template-columns:1fr;padding:1rem}}
+
+/* Main content */
+.main-content{min-width:0}
+.main-content h2{font-size:1.5rem;font-weight:700;color:var(--accent-dark);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent-light)}
+.main-content h2:first-child{margin-top:0}
+.main-content h3{font-size:1.15rem;font-weight:600;color:var(--text);margin:1.8rem 0 .6rem}
+.main-content h4{font-size:1rem;font-weight:600;color:var(--text-secondary);margin:1.2rem 0 .4rem}
+.main-content p{margin-bottom:1rem;color:var(--text)}
+.main-content ul,.main-content ol{margin:0 0 1rem 1.5rem}
+.main-content li{margin-bottom:.4rem}
+.main-content strong{color:var(--text)}
+
+/* Evidence Badge */
+.ev{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;padding:0 8px;border-radius:11px;font-size:.7rem;font-weight:700;letter-spacing:.03em;vertical-align:middle;margin-left:4px;white-space:nowrap}
+.ev-i{background:#064e3b;color:#fff}.ev-ii{background:#047857;color:#fff}.ev-iii{background:#d97706;color:#fff}
+.ev-iv{background:#ea580c;color:#fff}.ev-v{background:#9ca3af;color:#fff}.ev-na{background:#6366f1;color:#fff;font-size:.6rem;padding:0 6px}
+
+/* Callout */
+.callout{background:var(--accent-light);border-left:4px solid var(--accent);padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.2rem 0;font-size:.92rem}
+.callout.warn{background:var(--warning-light);border-left-color:var(--warning)}
+.callout.danger{background:var(--danger-light);border-left-color:var(--danger)}
+.callout.success{background:var(--success-light);border-left-color:var(--success)}
+.callout-title{font-weight:700;margin-bottom:.3rem}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius-lg);box-shadow:var(--shadow);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+caption{caption-side:top;text-align:left;padding:.8rem 1rem;font-weight:700;font-size:.95rem;background:var(--accent-dark);color:#fff;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+th{background:#f1f5f9;padding:.7rem 1rem;text-align:left;font-weight:600;border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:.65rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+
+/* Sidebar */
+.sidebar{position:sticky;top:80px;display:flex;flex-direction:column;gap:1.2rem}
+@media(max-width:1024px){.sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:1rem}}
+@media(max-width:640px){.sidebar{grid-template-columns:1fr}}
+.sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.2rem;box-shadow:var(--shadow)}
+.sidebar-card h3{font-size:.95rem;font-weight:700;margin-bottom:.8rem;color:var(--accent-dark);display:flex;align-items:center;gap:.4rem}
+.slider-group{margin-bottom:1rem}
+.slider-group label{display:flex;justify-content:space-between;align-items:baseline;font-size:.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:.3rem}
+.slider-group .val{font-weight:700;color:var(--accent);font-size:.95rem}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--danger) 0%,var(--warning) 40%,var(--success) 70%,var(--accent) 100%);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2);cursor:pointer}
+
+/* Recommendation panel */
+.rec-panel{background:linear-gradient(135deg,#1e3a5f,#1e40af);color:#fff;border-radius:var(--radius-lg);padding:1.2rem;box-shadow:var(--shadow-lg)}
+.rec-panel h3{color:#93c5fd;margin-bottom:.6rem;font-size:.95rem}
+.rec-panel .rec-body{font-size:.85rem;line-height:1.6}
+.rec-panel .rec-body ul{margin:.4rem 0 0 1rem}
+.rec-panel .rec-body li{margin-bottom:.3rem}
+.rec-status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:700;margin-bottom:.5rem}
+.rec-status.optimal{background:#059669}.rec-status.caution{background:#d97706}.rec-status.danger{background:#dc2626}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border:none;border-radius:var(--radius);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-reset{background:#e2e8f0;color:var(--text)}.btn-reset:hover{background:#cbd5e1}
+.btn-export{background:var(--accent);color:#fff}.btn-export:hover{background:var(--accent-dark)}
+.btn-row{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap}
+
+/* Toast */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120%);background:#1a1d23;color:#fff;padding:.7rem 1.5rem;border-radius:var(--radius);font-size:.85rem;font-weight:500;z-index:999;transition:transform .3s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.2rem;margin-bottom:2rem;box-shadow:var(--shadow)}
+.toc h3{font-size:.9rem;font-weight:700;margin-bottom:.6rem;color:var(--accent-dark)}
+.toc ol{margin:0 0 0 1.2rem;font-size:.84rem}
+.toc li{margin-bottom:.25rem}
+.toc a{color:var(--accent);text-decoration:none}.toc a:hover{text-decoration:underline}
+
+/* References */
+.ref-section{counter-reset:ref}
+.ref-section li{counter-increment:ref;font-size:.82rem;color:var(--text-secondary);margin-bottom:.5rem}
+.ref-section li::marker{content:counter(ref) ". ";font-weight:700;color:var(--accent)}
+.ref-section a{color:var(--accent);word-break:break-all}
+
+/* Glossary */
+.glossary dt{font-weight:700;color:var(--accent-dark);margin-top:.6rem}
+.glossary dd{margin:0 0 .3rem 0;color:var(--text-secondary);font-size:.9rem}
+
+/* Limitation note */
+.limitation{background:#fef3c7;border:1px solid #fbbf24;border-radius:var(--radius);padding:.8rem 1rem;margin:1rem 0;font-size:.85rem}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.main-content>*{animation:fadeIn .5s ease both}
+
+/* Print */
+@media print{.sidebar,.site-header,.btn-row{display:none!important}.layout{grid-template-columns:1fr!important}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+<h1>Biomechanical Optimization of PFNA Helical Blade Positioning Relative to Femoral Trabecular Architecture</h1>
+<p class="subtitle">Interactive Evidence-Based Educational Summary — Synthesized from Biomechanical, FEA, and Clinical Literature</p>
+</header>
+
+<div class="layout">
+
+<main class="main-content" role="main">
+
+<!-- TOC -->
+<nav class="toc" aria-label="Table of Contents">
+<h3>📑 Table of Contents</h3>
+<ol>
+<li><a href="#sec1">Introduction</a></li>
+<li><a href="#sec2">Trabecular Architecture of the Proximal Femur</a></li>
+<li><a href="#sec3">Physics of the Helical Blade</a></li>
+<li><a href="#sec4">Geometric Positioning — The Zone C Imperative</a></li>
+<li><a href="#sec5">Finite Element Analysis Perspectives</a></li>
+<li><a href="#sec6">Bone Quality &amp; Cement Augmentation</a></li>
+<li><a href="#sec7">Comparative Biomechanics: Blade vs. Lag Screw</a></li>
+<li><a href="#sec8">Synthesis &amp; Operative Strategy</a></li>
+<li><a href="#sec9">Landmark Studies Summary</a></li>
+<li><a href="#sec10">References</a></li>
+</ol>
+</nav>
+
+<!-- Section 1 -->
+<h2 id="sec1">1. Introduction: The Biomechanical Conundrum of the Osteoporotic Femur</h2>
+
+<p>The surgical management of intertrochanteric fractures in the geriatric population remains one of the most pervasive challenges in contemporary orthopaedic trauma. These fractures, occurring at the junction of the femoral neck and shaft, represent a catastrophic structural failure precipitated by the collision of mechanical overload and biological degradation. As global demographics shift towards an aging population, the incidence rises exponentially, accompanied by a concomitant increase in severe osteoporosis prevalence.</p>
+
+<p>Osteoporosis fundamentally alters the material properties of the proximal femur, transforming it from a composite structure of robust, anisotropic trabeculae into a fragile, porous lattice with diminished load-transmission capacity. In this compromised environment, the fixation device serves not merely as a scaffold for healing but as a <strong>surrogate load-bearing entity</strong>.</p>
+
+<p>The <strong>Proximal Femoral Nail Antirotation (PFNA)</strong> system was introduced as a technological evolution to address failure modes associated with traditional lag screw systems (DHS, standard PFN). Its central innovation — the <strong>helical blade</strong> — engages the femoral head through <strong>volumetric compaction</strong> rather than material removal, preserving and densifying the remaining cancellous bone stock. <span class="ev ev-ii">Level II</span></p>
+
+<div class="callout warn">
+<div class="callout-title">⚠️ Critical Principle</div>
+The efficacy of the helical blade is not an intrinsic property of the implant — it is inextricably linked to its geometric and biomechanical relationship with the internal trabecular architecture of the femoral head. Mechanical failure (cut-out) is rarely implant breakage but rather a failure of the <em>bone-implant interface</em>.
+</div>
+
+<!-- Section 2 -->
+<h2 id="sec2">2. Trabecular Architecture of the Proximal Femur</h2>
+
+<p>The proximal femur is a masterpiece of structural engineering, optimized to transmit eccentric loads with minimal mass through strategic arrangement of cancellous bone into distinct trabecular systems. <span class="ev ev-ii">Level II</span></p>
+
+<h3>2.1 Principal Compressive Trabeculae (PCT)</h3>
+<ul>
+<li><strong>Anatomical trajectory:</strong> Originates from the medial cortex (calcar femorale), ascends vertically through the femoral head, fanning toward the superior articular surface. <span class="ev ev-ii">Ref 1</span></li>
+<li><strong>Biomechanical function:</strong> Perfectly aligned with the body weight vector during stance phase, transmitting compressive loads to the strong medial cortex.</li>
+<li><strong>Stress mapping:</strong> FEA confirms peak compressive stresses localize along this vertical group (−6.036 to −1.917 MPa). <span class="ev ev-ii">Ref 2</span></li>
+<li><strong>Resilience in osteoporosis:</strong> Even in advanced bone loss (Singh ≤ 3), the PCT remains relatively preserved — the last viable anchorage zone linking femoral head to neck. <span class="ev ev-ii">Ref 3</span></li>
+</ul>
+
+<h3>2.2 Principal Tensile Trabeculae (PTT)</h3>
+<ul>
+<li><strong>Anatomical trajectory:</strong> Originates from the lateral cortex inferior to the greater trochanter, curves superiorly and medially to terminate in the inferior femoral head.</li>
+<li><strong>Biomechanical function:</strong> Acts as a biological tension band, resisting distraction forces on the convex side of the femoral bend.</li>
+<li><strong>Vulnerability:</strong> Consists of thinner rods/struts; highly sensitive to aging. In early osteoporosis, the PTT is one of the first systems to degrade — the basis for the Singh Index. <span class="ev ev-ii">Ref 4</span></li>
+</ul>
+
+<h3>2.3 Secondary Systems &amp; Ward's Triangle</h3>
+<p>Between the PCT, PTT, and secondary compressive group lies <strong>Ward's Triangle</strong> — a region of relative radiolucency with the lowest trabecular density in the healthy femur. In osteoporosis, as surrounding bundles thin, Ward's Triangle effectively expands into a central cavity devoid of structural competence. <span class="ev ev-iii">Ref 5</span></p>
+
+<h3>2.4 The Singh Index: A Biomechanical Roadmap</h3>
+
+<div class="table-wrap">
+<table>
+<caption>Table 1. Singh Index Osteoporosis Grading System and Clinical Implications</caption>
+<thead>
+<tr><th>Grade</th><th>Osteoporosis Severity</th><th>Trabecular Visibility</th><th>Implant Anchorage Implication</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>6</strong></td><td>Normal</td><td>All primary &amp; secondary systems dense and visible</td><td>Robust lattice; central placement engages both PCT &amp; PTT</td></tr>
+<tr><td><strong>5</strong></td><td>Mild</td><td>Secondary tensile begins to fade; primary intact</td><td>Good purchase; standard positioning viable</td></tr>
+<tr><td><strong>4</strong></td><td>Mild–Moderate</td><td>Secondary compressive fading; primary visible</td><td>Adequate; inferior placement preferred</td></tr>
+<tr><td><strong>3</strong></td><td>Significant <span class="ev ev-iii">Critical Threshold</span></td><td>PTT continuity broken; PCT preserved</td><td>Only PCT viable; blade <em>must</em> engage Zone C</td></tr>
+<tr><td><strong>2</strong></td><td>Severe</td><td>PTT absent; PCT thinned</td><td>Compaction may be insufficient; consider augmentation</td></tr>
+<tr><td><strong>1</strong></td><td>Very Severe</td><td>Only barely visible PCT</td><td>Cement augmentation strongly indicated</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout danger">
+<div class="callout-title">🔴 Biomechanical Implication</div>
+In a Singh Grade 2 patient, central placement locates the implant in the expanded void of Ward's Triangle with no mechanical purchase. An inferior placement in the same patient engages the surviving PCT. <strong>The optimal blade position is functionally dependent on the patient's trabecular anatomy.</strong>
+</div>
+
+<!-- Section 3 -->
+<h2 id="sec3">3. Physics of the Helical Blade: Compaction &amp; Stability</h2>
+
+<h3>3.1 Volumetric Displacement vs. Material Removal</h3>
+
+<div class="table-wrap">
+<table>
+<caption>Table 2. Comparative Mechanics: Lag Screw vs. Helical Blade Insertion</caption>
+<thead>
+<tr><th>Parameter</th><th>Lag Screw</th><th>Helical Blade (PFNA)</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Insertion method</strong></td><td>Pre-drilled channel; threads cut bone</td><td>Hammered in without pre-drilling; displaces bone radially</td></tr>
+<tr><td><strong>Bone material</strong></td><td>Permanently removed</td><td>Preserved &amp; compacted</td></tr>
+<tr><td><strong>Primary fixation</strong></td><td>Shear strength of inter-thread bone volume</td><td>Interference fit from compacted trabeculae</td></tr>
+<tr><td><strong>Failure in osteoporosis</strong></td><td>Thread stripping during insertion or pull-out</td><td>Insufficient material to compact (rare)</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><span class="ev ev-ii">Level II — Cadaveric &amp; biomechanical testing (Ref 7, 8)</span></p>
+
+<h3>3.2 Spring-Back Effect &amp; Densification</h3>
+<p>During insertion, adjacent trabeculae undergo elastic deformation. Once insertion force is removed, trabeculae attempt to return to their original shape ("spring-back"), exerting continuous normal force against the blade surface. This pre-stress creates a high-friction interface that is <strong>immediate and robust</strong>. <span class="ev ev-ii">Ref 8</span></p>
+
+<div class="callout success">
+<div class="callout-title">✅ Quantitative Densification</div>
+A cylinder of bone approximately <strong>14 mm in diameter</strong> surrounding the blade can show BMD increases of up to <strong>30%</strong> compared to the contralateral healthy femur — effectively creating a "neocortex" or condensed bone mantle significantly stiffer than native osteoporotic bone.
+</div>
+
+<h3>3.3 Rotational Stability &amp; Cut-Out Resistance</h3>
+<ul>
+<li><strong>Torsional resistance:</strong> The blade's non-circular profile and extensive surface area key into compacted bone, providing superior rotational control vs. cylindrical screws. <span class="ev ev-ii">Ref 10</span></li>
+<li><strong>Varus collapse mitigation:</strong> Large surface area distributes load evenly, reducing peak contact stresses that initiate micro-fractures and migration.</li>
+</ul>
+
+<h3>3.4 Limitations of Compaction</h3>
+<div class="callout warn">
+<div class="callout-title">⚠️ Density Threshold</div>
+In extremely dense bone (young patients), compaction forces can fracture the femoral neck. In effectively void bone (large cysts, extreme osteoporosis), there is insufficient material to compact. The blade relies on the presence of <em>some</em> trabecular structure. <span class="ev ev-ii">Ref 12</span>
+</div>
+<p><strong>Cut-through</strong> (central perforation) is a unique blade failure mode: because the blade resists varus collapse so effectively, if the fracture does not impact, the femoral head can be forced axially onto the blade tip, punching through the articular surface. Controlled dynamization is essential. <span class="ev ev-iii">Ref 5</span></p>
+
+<!-- Section 4 -->
+<h2 id="sec4">4. Geometric Positioning — The "Zone C" Imperative</h2>
+
+<p>The consensus in the literature has shifted decisively from the traditional "center-center" placement (advocated for screws) towards an <strong>"inferior-center" placement</strong> for blades. <span class="ev ev-ii">Ref 13, 14</span></p>
+
+<h3>4.1 Zonal Classification</h3>
+<div class="table-wrap">
+<table>
+<caption>Table 3. Femoral Head Zonal Classification for Implant Placement</caption>
+<thead>
+<tr><th>Zone</th><th>Location</th><th>Trabecular Content</th><th>Implant Stability</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>A (Superior)</strong></td><td>Upper femoral head</td><td>PTT region — often void in elderly</td><td>❌ Poor — high cut-out risk</td></tr>
+<tr><td><strong>B (Central)</strong></td><td>Mid-head</td><td>Ward's Triangle — low density</td><td>⚠️ Marginal — limited purchase</td></tr>
+<tr><td><strong>C (Inferior)</strong></td><td>Lower head near calcar</td><td>PCT &amp; calcar — most preserved</td><td>✅ Optimal — maximum engagement</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Cadaveric studies comparing center-center (C-C) vs. inferior-center (I-C) placement found that the I-C group exhibited <strong>significantly less angular and rotational displacement</strong> under cyclic loading. The I-C position effectively "hugs" the calcar, utilizing the medial cortex as a buttress. <span class="ev ev-ii">Ref 13</span></p>
+
+<h3>4.2 Lever Arm Mechanics</h3>
+<p>The bending moment on the fracture site is the product of load and lever arm (distance from implant to calcar fulcrum). <strong>Placing the implant inferiorly minimizes this lever arm</strong>, reducing the deforming forces. A larger trabecular-implant lever arm is an independent predictor of blade migration and varus collapse. <span class="ev ev-ii">Ref 14</span></p>
+
+<h3>4.3 Ventral Angulation: A Critical Error</h3>
+
+<div class="callout danger">
+<div class="callout-title">🔴 Ventral (Anterior) Angulation — Major Risk Factor</div>
+The PCT is located centrally and posteriorly. A ventrally angled blade diverges from this dense column and engages the thinner anterior cortex. FEA shows ventral rotation <strong>increases maximum femoral head displacement by &gt;20%</strong> and <strong>reduces load-to-failure by ~17.32%</strong> compared to parallel alignment. <span class="ev ev-ii">Ref 16</span>
+</div>
+
+<p><strong>Surgical implication:</strong> The blade should be parallel to the neck axis or slightly dorsal (posterior) to engage the robust posterior bone stock. The starting point on the greater trochanter must be correct.</p>
+
+<h3>4.4 Calcar-Referenced Tip-Apex Distance (CalTAD)</h3>
+
+<div class="table-wrap">
+<table>
+<caption>Table 4. TAD vs. CalTAD: Predictive Metrics for Blade Cut-Out</caption>
+<thead>
+<tr><th>Metric</th><th>Measurement Reference</th><th>Predictive Value for Blade</th><th>Threshold</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Standard TAD</strong></td><td>Geometric center of femoral head (AP &amp; Lateral)</td><td>Moderate — developed for screws</td><td>&gt;25 mm = risk</td></tr>
+<tr><td><strong>CalTAD</strong></td><td>Medial cortex/calcar-referenced apex (AP) + geometric center (Lateral)</td><td><strong>Superior</strong> — statistically more significant for blades</td><td><strong>&gt;31.75 mm = strong failure association</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>A low CalTAD implicitly requires inferior placement, making it a proxy for successful PCT engagement (Zone C). <span class="ev ev-ii">Ref 14</span></p>
+
+<!-- Section 5 -->
+<h2 id="sec5">5. Finite Element Analysis Perspectives</h2>
+
+<h3>5.1 Stress Concentrations by Position</h3>
+<ul>
+<li><strong>Superior/Central placement:</strong> FEA reveals high stress concentrations at blade tip because surrounding trabecular bone has low modulus — the stiff metal tip becomes a stress riser. <span class="ev ev-ii">Ref 2</span></li>
+<li><strong>Inferior placement:</strong> Stress distributed more evenly along the blade and transferred to the calcar. Peak tip stress is significantly reduced due to the higher stiffness of surrounding PCT, reducing "stiffness mismatch." <span class="ev ev-ii">Ref 15</span></li>
+</ul>
+
+<h3>5.2 Influence of Bone Density (CT Values / Hounsfield Units)</h3>
+<ul>
+<li>There is a <strong>non-linear inverse relationship</strong> between trabecular CT values and implant stress. As CT values drop from 160 HU (healthy) to 0 HU (severe osteoporosis), peak Von Mises stress at the blade tip <strong>increases exponentially</strong>. <span class="ev ev-ii">Ref 18</span></li>
+<li>Lower CT values correlate with <strong>drastically increased femoral head displacement</strong> under load — the margin for error in osteoporotic bone is practically non-existent. <span class="ev ev-ii">Ref 19</span></li>
+</ul>
+
+<h3>5.3 Cement Augmentation Simulation</h3>
+<p>FEA modeling of cement-augmented PFNA shows the cement mantle acts as a buffer, reducing peak trabecular stresses by distributing load over a larger surface area. Stress in the proximal interdigitated bone shows strong correlation (R²) with bone volume fraction, confirming cement effectively recruits more bone into the load-bearing construct. <span class="ev ev-ii">Ref 20</span></p>
+
+<!-- Section 6 -->
+<h2 id="sec6">6. Bone Quality &amp; Cement Augmentation</h2>
+
+<h3>6.1 Singh Index Correlations with Failure</h3>
+<div class="callout success">
+<div class="callout-title">✅ Pivotal Clinical Evidence</div>
+In patients with Singh Index ≤ 3, PFNA demonstrated a <strong>0% failure rate</strong> compared to <strong>37.5% failure rate</strong> for standard PFN in the same demographic. This stark difference is attributed to the compaction mechanism. <span class="ev ev-ii">Ref 4</span>
+</div>
+
+<h3>6.2 When to Augment?</h3>
+<p>In patients with severe osteoporosis (Singh 1–2) or large cyst formation, even compaction may not provide sufficient hold. <strong>Cement augmentation</strong> (PMMA through the perforated blade tip) is indicated, interlocking with the remaining bone lattice to transform the failure mode from weak "bone shear" to much stronger "cement-bone composite shear." <span class="ev ev-ii">Ref 21</span></p>
+
+<!-- Section 7 -->
+<h2 id="sec7">7. Comparative Biomechanics: Blade vs. Lag Screw</h2>
+
+<div class="table-wrap">
+<table>
+<caption>Table 5. Helical Blade vs. Lag Screw — Comprehensive Comparative Assessment</caption>
+<thead>
+<tr><th>Parameter</th><th>Lag Screw</th><th>Helical Blade (PFNA)</th><th>Preferred in Osteoporosis</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Pull-out strength (normal bone)</strong></td><td>Superior (177–198% higher clamping force in 30 PCF foam)</td><td>Lower</td><td>N/A — bone is healthy</td></tr>
+<tr><td><strong>Pull-out strength (osteoporotic bone)</strong></td><td>Threads strip; rapid loss of purchase</td><td>Compaction maintains stability</td><td>✅ Blade</td></tr>
+<tr><td><strong>Rotational stability</strong></td><td>Poor intrinsic resistance (cylindrical)</td><td>Superior (non-circular profile, compacted mantle)</td><td>✅ Blade</td></tr>
+<tr><td><strong>Energy absorption before failure (0.08 g/cm³)</strong></td><td>Lower</td><td>Significantly greater</td><td>✅ Blade</td></tr>
+<tr><td><strong>Lateral sliding</strong></td><td>~1.80 mm</td><td>~3.99 mm (potential shortening)</td><td>Context-dependent</td></tr>
+<tr><td><strong>Bone preservation</strong></td><td>Removes core of bone (drilling)</td><td>Preserves bone stock</td><td>✅ Blade</td></tr>
+<tr><td><strong>Lateral wall damage</strong></td><td>Greater (larger drill bit)</td><td>Less (smaller blade path)</td><td>✅ Blade</td></tr>
+</tbody>
+</table>
+</div>
+<p><span class="ev ev-ii">Level II — Biomechanical testing &amp; meta-analyses (Ref 7, 10, 23, 25)</span></p>
+
+<!-- Section 8 -->
+<h2 id="sec8">8. Synthesis &amp; Operative Strategy</h2>
+
+<div class="table-wrap">
+<table>
+<caption>Table 6. Evidence-Based Operative Strategy for PFNA in Osteoporotic Femur</caption>
+<thead>
+<tr><th>Variable</th><th>Recommendation</th><th>Rationale</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Implant selection</strong></td><td>PFNA (Blade) for Singh ≤ 3</td><td>Compaction mechanism superior in low-density bone <span class="ev ev-ii">Ref 4</span></td></tr>
+<tr><td><strong>AP position</strong></td><td><strong>Inferior third (Zone C)</strong></td><td>Engages PCT; reduces lever arm; calcar buttress <span class="ev ev-ii">Ref 13</span></td></tr>
+<tr><td><strong>Lateral position</strong></td><td>Center or slightly posterior</td><td>Avoids ventral angulation; aligns with neck axis <span class="ev ev-ii">Ref 16</span></td></tr>
+<tr><td><strong>Axial rotation</strong></td><td>Neutral or dorsal bias</td><td>Prevents divergence into weak anterior cortex</td></tr>
+<tr><td><strong>Reduction</strong></td><td>Neutral or slight valgus</td><td>Realigns compressive trabeculae; reduces shear</td></tr>
+<tr><td><strong>Metric target</strong></td><td><strong>CalTAD &lt; 25 mm</strong></td><td>Ensures inferior placement; superior to standard TAD <span class="ev ev-ii">Ref 14</span></td></tr>
+<tr><td><strong>Augmentation</strong></td><td>Consider for Singh 1–2</td><td>Cement acts as synthetic trabeculae when compaction insufficient <span class="ev ev-ii">Ref 21</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>8.1 The "Anchor in the Arch" Concept</h3>
+<p>Surgeons should visualize fixation not as placing a screw in a circle, but as <strong>anchoring a strut into the "Arch" formed by the Principal Compressive Trabeculae</strong>. The blade must sit <em>on</em> this arch. Placing it above the arch (tensile zone) invites collapse.</p>
+
+<h3>8.2 Intraoperative Feedback</h3>
+<p>Tactile feedback during blade insertion is a valuable diagnostic tool:</p>
+<ul>
+<li><strong>Distinct resistance</strong> → Successful compaction, engagement of PCT ✅</li>
+<li><strong>Lack of resistance ("soft hit")</strong> → Blade is in Ward's Triangle or bone too porotic → <strong>Consider cement augmentation immediately</strong> ⚠️</li>
+</ul>
+
+<!-- Section 9: Landmark Studies -->
+<h2 id="sec9">9. Landmark Studies Summary</h2>
+
+<div class="limitation">
+<strong>Note:</strong> The source document references multiple study types (cadaveric, FEA, clinical, meta-analyses). Below are the key studies identified. Evidence levels are inferred from study design as the source does not explicitly assign them.
+</div>
+
+<div class="table-wrap">
+<table>
+<caption>Table 7. Key Studies Referenced in Source Document</caption>
+<thead>
+<tr><th>#</th><th>Study / Reference</th><th>Design</th><th>Key Finding</th><th>Evidence Level</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Ref 2 — Functional morphology &amp; 3D FEA (PMC11993998)</td><td>FEA / Anatomical</td><td>Peak compressive stresses localize along vertical trabecular groups; −6.036 to −1.917 MPa</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>2</td><td>Ref 4 — PFNA vs PFN clinico-radiological outcomes (PMC5583812)</td><td>Clinical comparative</td><td>PFNA: 0% failure vs PFN: 37.5% in Singh ≤ 3</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>3</td><td>Ref 8 — Bone compaction around helical blade (PMC3670539)</td><td>Cadaveric / Biomechanical</td><td>14 mm densification zone; 30% BMD increase</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>4</td><td>Ref 10 — Blade vs screw in osteoporotic model (PMC8764022)</td><td>Cadaveric / Biomechanical</td><td>Blade: significantly greater energy absorption at 0.08 g/cm³</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>5</td><td>Ref 13 — PFNA blade position cadaveric study (PMC3543878)</td><td>Cadaveric biomechanical</td><td>Inferior-center: significantly less angular/rotational displacement</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>6</td><td>Ref 14 — Compressive trabecular bone-implant relationship (Frontiers)</td><td>FEA / Clinical</td><td>CalTAD &gt; 31.75 mm = strong failure predictor; lever arm analysis</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>7</td><td>Ref 16 — Blade direction &amp; varus (Frontiers)</td><td>FEA / Clinical review</td><td>Ventral angulation: +20% head displacement, −17.32% load-to-failure</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>8</td><td>Ref 18 — CT value &amp; PFNA stress (PMC12317588)</td><td>FEA</td><td>Non-linear inverse CT/stress relationship; exponential tip stress increase</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>9</td><td>Ref 20 — Cement-augmented PFNA FEA (PMC11074102)</td><td>FEA</td><td>Cement reduces peak trabecular stress; recruits more bone into load-bearing</td><td><span class="ev ev-ii">II</span></td></tr>
+<tr><td>10</td><td>Ref 23 — Screw vs helical nail meta-analysis (PMC6611961)</td><td>Meta-analysis</td><td>Comparable reoperation rates overall; blade favored in unstable/osteoporotic</td><td><span class="ev ev-i">I</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- Section 10: References -->
+<h2 id="sec10">10. References</h2>
+<ol class="ref-section">
+<li>Trabecular patterns of the proximal femur. Radiopaedia.org. <a href="https://radiopaedia.org/articles/trabecular-patterns-of-the-proximal-femur" target="_blank" rel="noopener">radiopaedia.org</a></li>
+<li>Functional morphology of trabecular system in human proximal femur: P45 sectional plastination and 3D reconstruction FEA. PMC11993998. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11993998/" target="_blank" rel="noopener">PMC</a></li>
+<li>Quantitative Analysis of Primary Compressive Trabeculae Distribution in the Proximal Femur of the Elderly. PMC11293936. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11293936/" target="_blank" rel="noopener">PMC</a></li>
+<li>A Comparison of the Clinico-Radiological Outcomes with Proximal Femoral Nail Antirotation vs. Proximal Femoral Nail. PMC5583812. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5583812/" target="_blank" rel="noopener">PMC</a></li>
+<li>Intertrochanteric Fractures — Orthobullets. <a href="https://www.orthobullets.com/trauma/1038/intertrochanteric-fractures" target="_blank" rel="noopener">orthobullets.com</a></li>
+<li>Predictive value of the Singh index for InterTAN fixation failure. ResearchGate. <a href="https://www.researchgate.net/publication/362666576" target="_blank" rel="noopener">ResearchGate</a></li>
+<li>Comparative Pull-Out Performances of Cephalomedullary Nail with Screw and Helical Blade. MDPI Applied Sciences. <a href="https://www.mdpi.com/2076-3417/11/2/496" target="_blank" rel="noopener">MDPI</a></li>
+<li>Bone compaction around the helical blade of a proximal femoral nail. PMC3670539. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3670539/" target="_blank" rel="noopener">PMC</a></li>
+<li>Conventional versus helical blade screw insertion — Gamma 3 vs PFNA. PMC8428115. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8428115/" target="_blank" rel="noopener">PMC</a></li>
+<li>Biomechanical comparison of lag screw and non-spiral blade fixation in osteoporotic model. PMC8764022. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8764022/" target="_blank" rel="noopener">PMC</a></li>
+<li>Comparison of Helical Blade Systems for Osteoporotic Intertrochanteric Fractures. PMC9783162. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9783162/" target="_blank" rel="noopener">PMC</a></li>
+<li>Finite element study on micromechanics of cement-augmented PFNA. PMC11074102. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11074102/" target="_blank" rel="noopener">PMC</a></li>
+<li>PFNA helical blade position in femoral head — cadaveric study. PMC3543878. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3543878/" target="_blank" rel="noopener">PMC</a></li>
+<li>Compressive trabecular bone-cephalocervical implant relationship on stability. Frontiers in Bioengineering. <a href="https://www.frontiersin.org/journals/bioengineering-and-biotechnology/articles/10.3389/fbioe.2025.1628529/full" target="_blank" rel="noopener">Frontiers</a></li>
+<li>Compressive trabecular bone-implant relationship — Semantic Scholar. <a href="https://pdfs.semanticscholar.org/0b95/653af850e7b3ddefe0faa43fc6fc4288c914.pdf" target="_blank" rel="noopener">PDF</a></li>
+<li>Impact of blade direction on postoperative femoral head varus in PFNA. Frontiers in Bioengineering. <a href="https://www.frontiersin.org/journals/bioengineering-and-biotechnology/articles/10.3389/fbioe.2024.1381201/full" target="_blank" rel="noopener">Frontiers</a></li>
+<li>New scoring system for predicting cut-out risk in IT fractures with PFNA. PMC10724802. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10724802/" target="_blank" rel="noopener">PMC</a></li>
+<li>Proximal femur CT value influence on PFNA stress distribution — FEA. PMC12317588. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12317588/" target="_blank" rel="noopener">PMC</a></li>
+<li>CT value influence on PFNA stability — ResearchGate. <a href="https://www.researchgate.net/publication/394243479" target="_blank" rel="noopener">ResearchGate</a></li>
+<li>Cement-augmented PFNA micromechanics FEA — ResearchGate. <a href="https://www.researchgate.net/publication/380372278" target="_blank" rel="noopener">ResearchGate</a></li>
+<li>Cement augmentation of PFNA — comparative FEA. SpringerMedizin. <a href="https://www.springermedizin.de/cement-augmentation-of-the-proximal-femoral-nail-antirotation-fo/19924384" target="_blank" rel="noopener">Springer</a></li>
+<li>Cement augmentation of PFNA — PMC. PMC8641168. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8641168/" target="_blank" rel="noopener">PMC</a></li>
+<li>Screw vs helical proximal femoral nail in unstable trochanteric fractures. PMC6611961. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6611961/" target="_blank" rel="noopener">PMC</a></li>
+<li>Helical blade vs lag screw in IT fractures with PFN. Joint Diseases and Related Surgery. <a href="https://jointdrs.org/full-text-pdf/1411" target="_blank" rel="noopener">JDRS</a></li>
+<li>Comparison of Helical Blade Systems — clinical assessments. MDPI Medicina. <a href="https://www.mdpi.com/1648-9144/58/12/1699" target="_blank" rel="noopener">MDPI</a></li>
+</ol>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tools">
+
+<!-- CalTAD Slider -->
+<div class="sidebar-card">
+<h3>📏 CalTAD (Calcar-Referenced TAD)</h3>
+<div class="slider-group">
+<label>Current value <span class="val" id="caltad-val">20 mm</span></label>
+<input type="range" id="caltad-slider" min="5" max="50" value="20" step="0.5" aria-label="CalTAD in millimeters">
+</div>
+<div style="font-size:.75rem;color:var(--text-secondary);margin-top:.3rem">
+Optimal: &lt;25 mm &nbsp;|&nbsp; Failure risk: &gt;31.75 mm <span class="ev ev-na">Source Ref 14</span>
+</div>
+</div>
+
+<!-- Singh Index Slider -->
+<div class="sidebar-card">
+<h3>🦴 Singh Index</h3>
+<div class="slider-group">
+<label>Current grade <span class="val" id="singh-val">Grade 3</span></label>
+<input type="range" id="singh-slider" min="1" max="6" value="3" step="1" aria-label="Singh Index grade 1 to 6">
+</div>
+<div style="font-size:.75rem;color:var(--text-secondary);margin-top:.3rem">
+6 = Normal &nbsp;|&nbsp; 1 = Very severe osteoporosis <span class="ev ev-na">Ref 4</span>
+</div>
+</div>
+
+<!-- CT Value Slider -->
+<div class="sidebar-card">
+<h3>📊 Proximal Femur CT Value (HU)</h3>
+<div class="slider-group">
+<label>Current value <span class="val" id="ct-val">80 HU</span></label>
+<input type="range" id="ct-slider" min="0" max="300" value="80" step="5" aria-label="CT Hounsfield Units">
+</div>
+<div style="font-size:.75rem;color:var(--text-secondary);margin-top:.3rem">
+0 HU = Severe osteoporosis &nbsp;|&nbsp; 160+ HU = Healthy <span class="ev ev-na">Ref 18</span>
+</div>
+</div>
+
+<!-- Recommendation Panel -->
+<div class="rec-panel" aria-live="polite">
+<h3>🎯 Real-Time Clinical Recommendation</h3>
+<div class="rec-body" id="rec-output">
+<div class="rec-status optimal" id="rec-status">LOW RISK</div>
+<ul id="rec-list">
+<li>Standard PFNA blade positioning appropriate.</li>
+<li>Target CalTAD &lt; 25 mm in Zone C.</li>
+</ul>
+</div>
+</div>
+
+<!-- Buttons -->
+<div class="btn-row">
+<button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+<button class="btn btn-export" id="btn-export" aria-label="Copy recommendation to clipboard">📋 Copy / Export</button>
+</div>
+
+<!-- Glossary -->
+<div class="sidebar-card">
+<h3>📖 Quick Glossary</h3>
+<dl class="glossary">
+<dt>CalTAD</dt><dd>Calcar-referenced Tip-Apex Distance; superior predictor for blade cut-out.</dd>
+<dt>Singh Index</dt><dd>Radiographic grading (1–6) of proximal femur osteoporosis based on trabecular visibility.</dd>
+<dt>Zone C</dt><dd>Inferior third of femoral head containing the PCT — optimal blade target.</dd>
+<dt>Cut-out</dt><dd>Varus collapse with superior migration of the implant through the femoral head.</dd>
+<dt>Cut-through</dt><dd>Central perforation of the blade tip through the articular surface.</dd>
+</dl>
+</div>
+
+</aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+(function(){
+'use strict';
+
+// Elements
+const calSlider=document.getElementById('caltad-slider');
+const singhSlider=document.getElementById('singh-slider');
+const ctSlider=document.getElementById('ct-slider');
+const calVal=document.getElementById('caltad-val');
+const singhVal=document.getElementById('singh-val');
+const ctVal=document.getElementById('ct-val');
+const recStatus=document.getElementById('rec-status');
+const recList=document.getElementById('rec-list');
+const btnReset=document.getElementById('btn-reset');
+const btnExport=document.getElementById('btn-export');
+const toast=document.getElementById('toast');
+
+function showToast(msg){
+  toast.textContent=msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2500);
+}
+
+function update(){
+  const cal=parseFloat(calSlider.value);
+  const singh=parseInt(singhSlider.value);
+  const ct=parseInt(ctSlider.value);
+
+  calVal.textContent=cal.toFixed(1)+' mm';
+  singhVal.textContent='Grade '+singh;
+  ctVal.textContent=ct+' HU';
+
+  // Determine risk & recommendations
+  let risk='optimal';let riskLabel='LOW RISK';let recs=[];
+
+  // CalTAD assessment
+  if(cal>31.75){
+    risk='danger';riskLabel='HIGH RISK — FAILURE ZONE';
+    recs.push('CalTAD >31.75 mm: <strong>strong association with cut-out failure</strong>. Reposition blade inferiorly (Zone C).');
+  }else if(cal>25){
+    if(risk!=='danger')risk='caution';
+    riskLabel=(risk==='danger')?riskLabel:'MODERATE RISK';
+    recs.push('CalTAD >25 mm: suboptimal position. Consider repositioning closer to calcar.');
+  }else{
+    recs.push('CalTAD <25 mm: optimal inferior positioning achieved.');
+  }
+
+  // Singh assessment
+  if(singh<=2){
+    if(risk!=='danger')risk='danger';
+    riskLabel='HIGH RISK — SEVERE OSTEOPOROSIS';
+    recs.push('Singh Grade '+singh+': PTT absent, PCT may be thinned. <strong>Cement augmentation strongly recommended</strong>. Compaction alone may be insufficient. (Ref 4, 21)');
+  }else if(singh===3){
+    if(risk!=='danger')risk='caution';
+    riskLabel=(risk==='danger')?riskLabel:'MODERATE RISK';
+    recs.push('Singh Grade 3: PTT continuity broken. Only PCT viable — blade <strong>must</strong> engage Zone C. PFNA preferred over standard PFN (0% vs 37.5% failure). (Ref 4)');
+  }else if(singh<=5){
+    recs.push('Singh Grade '+singh+': Primary trabecular systems preserved. Standard PFNA positioning viable. Ensure inferior placement for optimal PCT engagement.');
+  }else{
+    recs.push('Singh Grade 6 (Normal): Robust trabecular lattice. Both central and inferior placements acceptable. Blade vs screw choice may favor screw in terms of pull-out strength. (Ref 7)');
+  }
+
+  // CT value assessment
+  if(ct<40){
+    if(risk!=='danger')risk='danger';
+    riskLabel='HIGH RISK — CRITICAL BONE DENSITY';
+    recs.push('CT value <'+ct+' HU: extreme osteoporosis. FEA shows exponentially increased blade tip stress. <strong>Augmentation mandatory</strong>. Low insertion resistance expected — "soft hit" likely. (Ref 18)');
+  }else if(ct<100){
+    if(risk==='optimal')risk='caution';
+    riskLabel=(risk==='danger')?riskLabel:'MODERATE RISK';
+    recs.push('CT value '+ct+' HU: osteoporotic range. Compaction mechanism effective if PCT is engaged. Monitor insertion resistance. (Ref 18)');
+  }else if(ct<160){
+    recs.push('CT value '+ct+' HU: low-normal range. Adequate bone stock for blade compaction. Standard technique appropriate.');
+  }else{
+    recs.push('CT value '+ct+' HU: healthy bone density. Caution: excessive compaction force may risk distraction fracture. Consider screw over blade. (Ref 12)');
+  }
+
+  // Additional position advice
+  if(cal<=25 && singh>=4 && ct>=100){
+    recs.push('✅ All parameters favorable. Proceed with standard PFNA technique.');
+  }
+
+  // Augmentation summary
+  if(singh<=2 || ct<40){
+    recs.push('<strong>AUGMENTATION:</strong> PMMA cement through perforated blade tip recommended. Transforms failure mode from bone shear to cement-bone composite shear. (Ref 21)');
+  }
+
+  // Update DOM
+  recStatus.textContent=riskLabel;
+  recStatus.className='rec-status '+risk;
+  recList.innerHTML=recs.map(r=>'<li>'+r+'</li>').join('');
+}
+
+// Event listeners
+[calSlider,singhSlider,ctSlider].forEach(s=>s.addEventListener('input',update));
+
+btnReset.addEventListener('click',function(){
+  calSlider.value=20;singhSlider.value=3;ctSlider.value=80;
+  update();
+  showToast('Parameters reset to defaults');
+});
+
+btnExport.addEventListener('click',function(){
+  const now=new Date().toISOString().replace('T',' ').slice(0,19);
+  const lines=[
+    '=== PFNA Blade Positioning — Clinical Decision Summary ===',
+    'Generated: '+now,
+    '',
+    'PARAMETERS:',
+    '  CalTAD: '+calSlider.value+' mm',
+    '  Singh Index: Grade '+singhSlider.value,
+    '  CT Value (HU): '+ctSlider.value,
+    '',
+    'RISK ASSESSMENT: '+recStatus.textContent,
+    '',
+    'RECOMMENDATIONS:'
+  ];
+  const items=recList.querySelectorAll('li');
+  items.forEach(function(li,i){lines.push('  '+(i+1)+'. '+li.textContent.trim())});
+  lines.push('');
+  lines.push('NOTE: Thresholds derived from source document Ref 4, 14, 18, 21.');
+  lines.push('Source: "Biomechanical Optimization of PFNA Helical Blade Positioning Relative to Femoral Trabecular Architecture"');
+
+  const text=lines.join('\n');
+
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){showToast('✅ Copied to clipboard')}).catch(function(){fallbackCopy(text)});
+  }else{
+    fallbackCopy(text);
+  }
+});
+
+function fallbackCopy(text){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');showToast('✅ Copied to clipboard')}
+  catch(e){showToast('❌ Copy failed — please select and copy manually')}
+  document.body.removeChild(ta);
+}
+
+// Initial render
+update();
+})();
+</script>
+</body>
+</html>

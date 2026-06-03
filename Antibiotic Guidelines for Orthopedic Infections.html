@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence-Based Antibiotics in Orthopedic Practice – Interactive Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f8fc;--card:#fff;--accent:#1a56db;--accent-light:#e8eefb;
+  --green:#059669;--green-light:#d1fae5;--amber:#d97706;--amber-light:#fef3c7;
+  --red:#dc2626;--red-light:#fee2e2;--gray:#6b7280;--dark:#111827;
+  --border:#e5e7eb;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--dark);line-height:1.7}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1e3a8a 0%,#1a56db 50%,#2563eb 100%);color:#fff;padding:2rem 1.5rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-lg)}
+.site-header h1{font-size:clamp(1.3rem,3vw,2rem);font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.site-header p{font-size:.95rem;opacity:.85;margin-top:.4rem;font-weight:400}
+
+/* Layout */
+.container{max-width:1280px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
+@media(max-width:960px){.container{grid-template-columns:1fr}.sidebar{position:static!important;width:100%!important}}
+
+/* Main */
+main{min-width:0}
+main h2{font-size:1.5rem;font-weight:700;color:#1e3a8a;margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:3px solid var(--accent-light)}
+main h2:first-child{margin-top:0}
+main h3{font-size:1.15rem;font-weight:600;color:#374151;margin:1.8rem 0 .6rem}
+main h4{font-size:1.02rem;font-weight:600;color:#4b5563;margin:1.3rem 0 .4rem}
+main p{margin:.7rem 0;font-size:.95rem}
+main ul,main ol{margin:.5rem 0 .5rem 1.5rem;font-size:.95rem}
+main li{margin:.3rem 0}
+.card{background:var(--card);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);margin:1.5rem 0;border:1px solid var(--border)}
+
+/* Evidence badges */
+.ev{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:20px;vertical-align:middle;margin-left:4px;letter-spacing:.03em}
+.ev-i{background:#dcfce7;color:#166534}.ev-ii{background:#dbeafe;color:#1e40af}
+.ev-iii{background:#fef3c7;color:#92400e}.ev-iv{background:#fee2e2;color:#991b1b}
+.ev-v{background:#f3e8ff;color:#6b21a8}
+.ev-na{background:#f3f4f6;color:#6b7280}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:700px}
+caption{font-weight:700;font-size:1rem;text-align:left;padding:.8rem 1rem;background:var(--accent);color:#fff;border-radius:var(--radius) var(--radius) 0 0}
+thead th{background:#f1f5f9;font-weight:600;text-align:left;padding:.7rem .8rem;border-bottom:2px solid var(--border);white-space:nowrap}
+tbody td{padding:.6rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:hover{background:#f9fafb}
+tbody tr:last-child td{border-bottom:none}
+
+/* Callout */
+.callout{border-left:4px solid var(--accent);background:var(--accent-light);padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.2rem 0;font-size:.93rem}
+.callout.warn{border-left-color:var(--amber);background:var(--amber-light)}
+.callout.danger{border-left-color:var(--red);background:var(--red-light)}
+.callout.success{border-left-color:var(--green);background:var(--green-light)}
+.callout strong{display:block;margin-bottom:.2rem;font-size:.95rem}
+
+/* Sidebar */
+.sidebar{position:sticky;top:110px;height:fit-content;max-height:calc(100vh - 130px);overflow-y:auto}
+.sidebar-inner{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-lg);border:1px solid var(--border);padding:1.5rem}
+.sidebar-inner h2{font-size:1.15rem;font-weight:700;color:#1e3a8a;margin:0 0 .3rem;text-align:center}
+.sidebar-inner .subtitle{font-size:.78rem;color:var(--gray);text-align:center;margin-bottom:1.2rem}
+.slider-group{margin-bottom:1.4rem}
+.slider-group label{font-size:.85rem;font-weight:600;color:#374151;display:block;margin-bottom:.3rem}
+.slider-group .val{float:right;font-weight:700;color:var(--accent);font-size:.85rem}
+input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:#e5e7eb;border-radius:5px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);box-shadow:0 2px 6px rgba(26,86,219,.35);cursor:pointer}
+.slider-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--gray);margin-top:2px}
+.btn-group{display:flex;gap:.5rem;margin:1rem 0 .5rem}
+.btn{flex:1;padding:.6rem;border:none;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-reset{background:#f3f4f6;color:#374151}.btn-reset:hover{background:#e5e7eb}
+.btn-copy{background:var(--accent);color:#fff}.btn-copy:hover{background:#1e40af}
+.result-box{background:#f9fafb;border:1px solid var(--border);border-radius:8px;padding:1rem;font-size:.82rem;line-height:1.6;margin-top:.8rem;min-height:80px}
+.result-box strong{color:var(--accent)}
+.tag{display:inline-block;font-size:.7rem;font-weight:600;padding:2px 7px;border-radius:4px;margin:1px}
+.tag-green{background:var(--green-light);color:#065f46}
+.tag-amber{background:var(--amber-light);color:#92400e}
+.tag-red{background:var(--red-light);color:#991b1b}
+
+/* References */
+.ref-section{font-size:.82rem;color:var(--gray);margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--border)}
+.ref-section ol{columns:2;column-gap:2rem}
+@media(max-width:700px){.ref-section ol{columns:1}}
+.ref-section li{margin:.25rem 0;break-inside:avoid}
+
+/* TOC */
+.toc{background:var(--accent-light);border-radius:var(--radius);padding:1.2rem 1.5rem;margin:1.5rem 0}
+.toc h3{margin:0 0 .6rem;font-size:1rem;color:#1e3a8a}
+.toc ol{margin:0;padding-left:1.3rem;font-size:.88rem}
+.toc li{margin:.25rem 0}
+.toc a{color:#1e40af;font-weight:500}
+
+/* Responsive */
+@media(max-width:600px){
+  .site-header{padding:1.2rem 1rem}
+  .container{padding:1rem}
+  main h2{font-size:1.25rem}
+  table{font-size:.78rem}
+  .sidebar-inner{padding:1rem}
+}
+
+/* Print */
+@media print{.sidebar,.site-header{display:none}.container{grid-template-columns:1fr}main h2{break-before:page}}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Evidence-Based Application of Antibiotics in Modern Orthopedic Practice</h1>
+  <p>A Comprehensive Interactive Review of Current Guidelines &amp; Landmark Evidence</p>
+</header>
+
+<div class="container">
+<!-- ====== MAIN CONTENT ====== -->
+<main role="main" aria-label="Main educational content">
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#s1">Antimicrobial Prophylaxis in Orthopedic Surgery</a></li>
+      <li><a href="#s2">Antibiotic Management of Open Fractures</a></li>
+      <li><a href="#s3">Therapeutic Management of Osteomyelitis</a></li>
+      <li><a href="#s4">Integrated Management of Prosthetic Joint Infections</a></li>
+      <li><a href="#s5">Key Antibiotic Classes in Orthopedics</a></li>
+      <li><a href="#s6">Landmark Studies Summary</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </nav>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="card">
+    <h3 style="margin-top:0;color:#1e3a8a">Executive Summary</h3>
+    <p>The application of antimicrobial agents is a cornerstone of modern orthopedic surgery, pivotal in both preventing and treating a spectrum of challenging infections. This interactive review synthesizes current evidence-based guidelines on the use of common antibiotic classes for critical orthopedic conditions: <strong>surgical prophylaxis</strong>, <strong>open fractures</strong>, <strong>osteomyelitis</strong>, and <strong>prosthetic joint infections (PJI)</strong>. The standard of care for surgical prophylaxis is anchored by timely administration of cefazolin within 60 minutes of incision, with prophylaxis rarely extending beyond 24 hours. For open fractures, immediate antibiotic administration—ideally within one hour of injury—is the most critical determinant of outcome, with duration now limited to 24–72 hours based on robust meta-analytic data. The OVIVA trial has revolutionized osteomyelitis management by demonstrating non-inferiority of highly bioavailable oral antibiotics versus prolonged parenteral therapy. For PJI, success requires integrated surgical-medical strategies targeting microbial biofilm. Across all domains, antimicrobial stewardship remains paramount.</p>
+  </div>
+
+  <!-- ============ SECTION 1 ============ -->
+  <h2 id="s1">1. Principles of Antimicrobial Prophylaxis in Orthopedic Surgery</h2>
+
+  <p>Peri-operative antibiotic prophylaxis is a fundamental and highly effective measure for preventing surgical site infections (SSIs) in orthopedic surgery, capable of achieving a <strong>reduction of up to 81% in the relative risk of infection</strong>.<span class="ev ev-i">Level I</span> The rational, safe, and effective use of these agents is governed by strict adherence to guidelines on timing, agent selection, and duration, as outlined by the ASHP, IDSA, SIS, and SHEA.<span class="ev ev-i">Level I</span></p>
+
+  <h3>1.1 Foundational Pillars: Timing, Agent Selection, and Duration</h3>
+
+  <h4>Timing is Critical</h4>
+  <p>The optimal window for administering preoperative antibiotics is <strong>within 60 minutes prior to surgical incision</strong>.<span class="ev ev-i">Level I</span> Evidence suggests that the lowest SSI rates are achieved when the antibiotic is administered within a 30-minute pre-incision window.<span class="ev ev-ii">Level II</span> For vancomycin and fluoroquinolones (which require longer infusion), administration should begin within 120 minutes before incision.<span class="ev ev-i">Level I</span></p>
+
+  <h4>Duration of Prophylaxis</h4>
+  <p>Current guidelines strongly recommend that prophylaxis be <strong>discontinued within 24 hours</strong> of the surgical procedure.<span class="ev ev-i">Level I</span> In many clean orthopedic procedures, a single preoperative dose is sufficient. This practice marks a significant departure from older protocols extending antibiotics for 48–72 hours, now known to provide no additional benefit while increasing adverse events, resistance, and cost.<span class="ev ev-i">Level I</span></p>
+
+  <h4>Intraoperative Redosing</h4>
+  <p>Redosing is necessary when the procedure duration <strong>exceeds two half-lives</strong> of the administered antibiotic or in instances of <strong>excessive blood loss (&gt;1500 mL)</strong>.<span class="ev ev-i">Level I</span> For cefazolin (half-life ~1.8 hours), redosing is typically recommended every 4 hours.</p>
+
+  <div class="callout">
+    <strong>⚠ Weight-Based Dosing – Critical for Efficacy</strong>
+    Sub-therapeutic dosing is a recognized risk factor for prophylactic failure, especially in obese patients. Standard recommendation: <strong>2 g</strong> for patients 60–120 kg; <strong>3 g</strong> for patients &gt;120 kg.<span class="ev ev-i">Level I</span>
+  </div>
+
+  <h3>1.2 The Central Role of Cefazolin as Standard of Care</h3>
+  <p>First-generation cephalosporins, with <strong>cefazolin</strong> as the archetypal agent, are the most widely recommended antibiotics for surgical prophylaxis across orthopedic procedures, including closed fracture fixation and total joint arthroplasty.<span class="ev ev-i">Level I</span> Its spectrum is ideally targeted against the most common SSI organisms—<em>Staphylococcus aureus</em> and <em>Streptococcus</em> species—while having limited activity against gut flora, minimizing collateral damage.<span class="ev ev-ii">Level II</span></p>
+
+  <h3>1.3 Navigating Penicillin Allergies</h3>
+  <p><strong>Clindamycin</strong> (900 mg IV) is the primary alternative for patients with severe, IgE-mediated beta-lactam allergy.<span class="ev ev-ii">Level II</span> <strong>Vancomycin</strong> (15 mg/kg IV) is a secondary alternative, particularly with MRSA concerns, though its routine use is discouraged due to slow infusion requirements and resistance concerns.<span class="ev ev-i">Level I</span></p>
+
+  <div class="callout success">
+    <strong>✅ Key Insight: Cefazolin Safety in Non-Severe Penicillin Allergy</strong>
+    The historical fear of cross-reactivity between penicillins and first-generation cephalosporins is largely overstated. For patients with a <strong>non-anaphylactic allergy</strong> (e.g., delayed maculopapular rash), cefazolin is considered safe and is associated with <strong>lower SSI rates</strong> compared to clindamycin or vancomycin.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <h3>1.4 Contemporary Debates: Dual Prophylaxis &amp; Decolonization</h3>
+
+  <h4>Dual-Antibiotic Prophylaxis for MRSA</h4>
+  <p>In institutions with high MRSA prevalence or for patients with known MRSA colonization, dual-antibiotic prophylaxis combining a cephalosporin with a glycopeptide may be indicated. Vancomycin + cephalosporin is effective when institutional MRSA infection rate is <strong>≥0.25%</strong>.<span class="ev ev-i">Level I</span> <strong>Teicoplanin</strong> has emerged as a favorable alternative to vancomycin, with less nephrotoxicity and faster administration.<span class="ev ev-i">Level I</span></p>
+
+  <h4>Targeted vs. Universal Decolonization</h4>
+  <p><strong>Targeted strategy:</strong> Preoperative screening for <em>S. aureus</em> carriage, followed by 5-day intranasal mupirocin + chlorhexidine body washes for carriers.<span class="ev ev-i">Level I</span> <strong>Universal strategy:</strong> Decolonization for all patients undergoing high-risk procedures regardless of carrier status—more feasible but raises concerns about mupirocin resistance selection.<span class="ev ev-i">Level I</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1: Recommended Antimicrobial Prophylaxis Regimens in Orthopedic Surgery</caption>
+      <thead>
+        <tr>
+          <th>Procedure Type</th>
+          <th>Recommended Agent(s)</th>
+          <th>Standard Adult Dose</th>
+          <th>Alternative (Severe β-Lactam Allergy)</th>
+          <th>Special Considerations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Joint Arthroplasty (Primary &amp; Revision without suspected infection)</td>
+          <td>Cefazolin</td>
+          <td>2 g IV (3 g for &gt;120 kg)</td>
+          <td>Clindamycin 900 mg IV <em>or</em> Vancomycin 15 mg/kg IV</td>
+          <td>Consider adding Vancomycin/Teicoplanin for known MRSA colonization or high-prevalence institutions</td>
+        </tr>
+        <tr>
+          <td>Fixation of Closed Fractures</td>
+          <td>Cefazolin</td>
+          <td>2 g IV (3 g for &gt;120 kg)</td>
+          <td>Clindamycin 900 mg IV <em>or</em> Vancomycin 15 mg/kg IV</td>
+          <td>Continue no more than 24 hours postoperatively</td>
+        </tr>
+        <tr>
+          <td>Spine Surgery (with instrumentation)</td>
+          <td>Cefazolin</td>
+          <td>2 g IV (3 g for &gt;120 kg)</td>
+          <td>Clindamycin 900 mg IV <em>or</em> Vancomycin 15 mg/kg IV</td>
+          <td>Consider Vancomycin combination in high MRSA-rate institutions</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.8rem;color:var(--gray)">All prophylactic antibiotics should complete infusion within 60 min of incision (120 min for vancomycin/fluoroquinolones). Intraoperative redosing of cefazolin every 4 h for prolonged procedures or &gt;1500 mL blood loss. Discontinue within 24 hours.<span class="ev ev-i">Level I</span></p>
+
+  <!-- ============ SECTION 2 ============ -->
+  <h2 id="s2">2. Antibiotic Management of Open Fractures</h2>
+
+  <p>The management of open fractures represents a surgical emergency where timely and appropriate antibiotic administration is a critical intervention to prevent infection, including osteomyelitis and fracture-related infection (FRI).</p>
+
+  <h3>2.1 The Golden Hour: Critical Importance of Timely Administration</h3>
+  <p>Multiple clinical practice guidelines emphasize that IV antibiotics should be administered <strong>as soon as possible</strong>, with an ideal target of <strong>within one hour of injury</strong>.<span class="ev ev-ii">Level II</span></p>
+
+  <div class="callout danger">
+    <strong>🚨 Quantified Risk: Every Minute Matters</strong>
+    One study reported a <strong>six-fold decrease</strong> in infection rates when antibiotics were given within 3 hours of injury.<span class="ev ev-ii">Level II</span> A retrospective analysis demonstrated a <strong>0% infection rate</strong> when antibiotics were administered within 66 minutes of injury, rising to <strong>17%</strong> when delayed beyond this time.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <h3>2.2 Stratified Approach: Gustilo-Anderson Classification</h3>
+
+  <p>Antibiotic selection is stratified based on the Gustilo-Anderson classification, which categorizes open fractures by mechanism, wound size, and degree of soft tissue damage.<span class="ev ev-ii">Level II</span></p>
+
+  <h4>Type I &amp; II Fractures</h4>
+  <p>Low-energy injuries with wounds &lt;10 cm and minimal contamination. <strong>Cefazolin 2 g IV q8h</strong> provides targeted gram-positive coverage.<span class="ev ev-ii">Level II</span></p>
+
+  <h4>Type III (A, B, C) Fractures</h4>
+  <p>High-energy injuries with extensive soft tissue damage, contamination, and often vascular injury. Standard is to <strong>add an aminoglycoside (gentamicin 5–7 mg/kg IV q24h)</strong> to cefazolin for gram-negative coverage.<span class="ev ev-ii">Level II</span> Piperacillin-tazobactam is an alternative single agent providing broad-spectrum coverage.<span class="ev ev-ii">Level II</span></p>
+
+  <h3>2.3 High-Risk Contamination Scenarios</h3>
+
+  <div class="callout warn">
+    <strong>🌾 Farmyard/Fecal Contamination</strong>
+    Add <strong>high-dose penicillin G</strong> (2–4 million units IV q4h) to standard regimen for anaerobic coverage (<em>Clostridium</em> spp.). Update tetanus prophylaxis.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <div class="callout warn">
+    <strong>🌊 Freshwater Contamination</strong>
+    Add <strong>fluoroquinolone</strong> (ciprofloxacin or levofloxacin) for <em>Pseudomonas aeruginosa</em> coverage.<span class="ev ev-ii">Level II</span> <strong>Saltwater:</strong> Add <strong>doxycycline</strong> for <em>Vibrio</em> species.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <h3>2.4 Paradigm Shift: Shorter Durations of Therapy</h3>
+  <p>A <strong>landmark systematic review and meta-analysis</strong> found no demonstrable benefit to prolonging antibiotic treatment beyond 72 hours, regardless of fracture severity.<span class="ev ev-i">Level I</span> Subgroup analysis indicated that even 24–48 hour regimens were equivalent to prolonged courses.<span class="ev ev-i">Level I</span></p>
+
+  <div class="callout success">
+    <strong>✅ Current Recommendation</strong>
+    Antibiotics should be continued for a <strong>minimum of 24 hours</strong> after initial surgical procedure and should <strong>not exceed 72 hours</strong>, even if definitive soft tissue closure is delayed.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <h3>2.5 Local Antibiotic Delivery</h3>
+  <p>For high-risk open fractures (especially Gustilo Type III), local delivery systems allow <strong>extremely high local antibiotic concentrations</strong> unachievable systemically while minimizing toxicity.<span class="ev ev-ii">Level II</span> Modalities include antibiotic-impregnated PMMA beads (tobramycin, vancomycin), gentamicin-coated intramedullary nails, and direct application of vancomycin powder.<span class="ev ev-ii">Level II</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2: Guideline-Based Antibiotic Therapy for Open Fractures</caption>
+      <thead>
+        <tr>
+          <th>Gustilo-Anderson Type</th>
+          <th>Common Pathogens</th>
+          <th>Recommended Regimen</th>
+          <th>Duration</th>
+          <th>Special Considerations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Type I &amp; II</strong></td>
+          <td>Gram-positive cocci</td>
+          <td>Cefazolin 2 g IV q8h</td>
+          <td>24 h post-debridement (≈3 doses)</td>
+          <td>Administer first dose within 1 h of injury</td>
+        </tr>
+        <tr>
+          <td><strong>Type III (A, B, C)</strong></td>
+          <td>Gram-positive + gram-negative</td>
+          <td>Cefazolin 2 g IV q8h + Gentamicin 5–7 mg/kg q24h</td>
+          <td>Until definitive closure or max 72 h</td>
+          <td>Consider local antibiotic delivery (beads)</td>
+        </tr>
+        <tr>
+          <td><strong>Farmyard/Fecal</strong></td>
+          <td>Above + Anaerobes</td>
+          <td>Standard regimen + Penicillin G 2–4 MU q4h</td>
+          <td>As above</td>
+          <td>Tetanus prophylaxis; clindamycin if penicillin allergy</td>
+        </tr>
+        <tr>
+          <td><strong>Freshwater</strong></td>
+          <td>Above + <em>P. aeruginosa</em></td>
+          <td>Standard regimen + Cipro/Levofloxacin</td>
+          <td>As above</td>
+          <td>Fluoroquinolone provides targeted <em>Pseudomonas</em> coverage</td>
+        </tr>
+        <tr>
+          <td><strong>Saltwater</strong></td>
+          <td>Above + <em>Vibrio</em> spp.</td>
+          <td>Standard regimen + Doxycycline</td>
+          <td>As above</td>
+          <td>Doxycycline effective against marine pathogens</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.8rem;color:var(--gray)">For severe β-lactam allergy, clindamycin can substitute for cefazolin. All agents require renal adjustment, particularly aminoglycosides.</p>
+
+  <!-- ============ SECTION 3 ============ -->
+  <h2 id="s3">3. Therapeutic Management of Osteomyelitis</h2>
+
+  <p>Osteomyelitis, an infection of the bone, requires a meticulous diagnostic approach and often prolonged antimicrobial therapy. A central theme in modern treatment is the imperative of <strong>obtaining a microbiological diagnosis</strong> to guide therapy, coupled with a paradigm shift toward highly bioavailable oral antibiotics.</p>
+
+  <h3>3.1 Diagnosis as the Cornerstone of Therapy</h3>
+
+  <div class="callout">
+    <strong>🔬 Withhold Empiric Antibiotics in Stable Patients</strong>
+    In clinically stable patients with suspected osteomyelitis and negative blood cultures, IDSA guidelines <strong>strongly recommend withholding empiric antibiotics</strong> until a definitive microbiological diagnosis is established via bone biopsy.<span class="ev ev-i">Level I</span> Premature antibiotics can sterilize bone cultures, forcing a prolonged, potentially ineffective empiric course.
+  </div>
+
+  <p>An <strong>image-guided percutaneous needle biopsy or open surgical bone biopsy</strong> is the gold standard for diagnosis.<span class="ev ev-i">Level I</span> Samples should be sent for histopathology and culture (aerobic, anaerobic, fungal, and mycobacterial as indicated).<span class="ev ev-i">Level I</span></p>
+
+  <p><strong>Exceptions:</strong> Empiric antibiotics should be initiated immediately in patients who are hemodynamically unstable, septic, or exhibiting severe/progressive neurologic compromise (e.g., spinal cord compression in vertebral osteomyelitis).<span class="ev ev-i">Level I</span></p>
+
+  <h3>3.2 Acute vs. Chronic Osteomyelitis</h3>
+
+  <p><strong>Acute osteomyelitis</strong> (symptoms within ~2 weeks) is characterized by active inflammation without significant necrosis, and may be cured with antibiotics alone.<span class="ev ev-ii">Level II</span> <strong>Chronic osteomyelitis</strong> (≥6 weeks) is defined by the presence of necrotic, avascular bone (sequestrum) and reactive new bone (involucrum). A draining sinus tract is pathognomonic.<span class="ev ev-ii">Level II</span></p>
+
+  <div class="callout danger">
+    <strong>🚨 Chronic Osteomyelitis = Surgical Disease</strong>
+    The avascular sequestrum is impenetrable to both host defenses and systemic antibiotics. <strong>Antibiotic therapy alone in chronic osteomyelitis is destined to fail.</strong> Successful treatment requires aggressive surgical debridement of all non-viable bone followed by prolonged antibiotics.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <h3>3.3 Pathogen-Directed Antibiotic Regimens</h3>
+
+  <h4>Empiric Therapy (When Required)</h4>
+  <p><strong>Vancomycin</strong> is the common first-line empiric choice pending culture data for MRSA coverage.<span class="ev ev-i">Level I</span> For suspected polymicrobial infections (e.g., diabetic foot), broader coverage with <strong>piperacillin-tazobactam</strong> or <strong>vancomycin + third-generation cephalosporin</strong> is necessary.<span class="ev ev-i">Level I</span></p>
+
+  <h4>Definitive Therapy</h4>
+  <ul>
+    <li><strong>MSSA:</strong> Nafcillin, oxacillin, or cefazolin (drugs of choice)<span class="ev ev-i">Level I</span></li>
+    <li><strong>MRSA:</strong> Vancomycin (standard); daptomycin and linezolid as alternatives<span class="ev ev-ii">Level II</span></li>
+    <li><strong>Gram-negative bacilli:</strong> Guided by susceptibilities; fluoroquinolones excellent for Enterobacterales; carbapenems reserved for MDR organisms (e.g., ESBL-producing)<span class="ev ev-i">Level I</span></li>
+  </ul>
+
+  <h3>3.4 The Paradigm Shift to Oral Antibiotics: The OVIVA Trial</h3>
+
+  <div class="callout success">
+    <strong>🏆 Landmark Evidence: The OVIVA Trial</strong>
+    The <strong>Oral Versus Intravenous Antibiotics for Bone and Joint Infection (OVIVA) trial</strong>—a large RCT—demonstrated that switching to oral antibiotic therapy after a short initial IV course (typically ≤7 days) was <strong>non-inferior</strong> to continuing parenteral therapy for the entire duration.<span class="ev ev-i">Level I</span> This allows earlier discharge, reduced costs, and avoids risks of long-term venous catheters (bloodstream infections, VTE).<span class="ev ev-i">Level I</span>
+  </div>
+
+  <p>Suitable oral agents require <strong>high bioavailability</strong>: fluoroquinolones (ciprofloxacin, levofloxacin), linezolid, trimethoprim-sulfamethoxazole, clindamycin, doxycycline, and rifampin (in combination for staphylococcal infections).<span class="ev ev-ii">Level II</span></p>
+
+  <h3>3.5 Duration of Therapy</h3>
+  <p><strong>Standard:</strong> Following adequate surgical debridement, a <strong>4- to 6-week</strong> course is recommended for chronic osteomyelitis.<span class="ev ev-i">Level I</span></p>
+  <ul>
+    <li><strong>Native vertebral osteomyelitis:</strong> 6 weeks total (parenteral or high-bioavailability oral)<span class="ev ev-i">Level I</span></li>
+    <li><strong>Diabetic foot osteomyelitis:</strong> Variable; 6 weeks or longer if bone not resected; 2–5 days if infected bone completely resected<span class="ev ev-i">Level I</span></li>
+  </ul>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3: Pathogen-Specific Antibiotic Regimens for Osteomyelitis</caption>
+      <thead>
+        <tr>
+          <th>Pathogen</th>
+          <th>Preferred IV Regimen</th>
+          <th>Preferred Oral Regimen (High Bioavailability)</th>
+          <th>Key Considerations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>MSSA</strong></td>
+          <td>Nafcillin/Oxacillin 2 g q4h; Cefazolin 2 g q8h</td>
+          <td>Dicloxacillin; Cephalexin; Levofloxacin + Rifampin</td>
+          <td>Cefazolin preferred for OPAT (favorable dosing)</td>
+        </tr>
+        <tr>
+          <td><strong>MRSA</strong></td>
+          <td>Vancomycin 15–20 mg/kg q8–12h; Daptomycin 6 mg/kg q24h</td>
+          <td>Linezolid 600 mg q12h; TMP/SMX + Rifampin; Doxycycline + Rifampin</td>
+          <td>Rifampin always used in combination to prevent resistance</td>
+        </tr>
+        <tr>
+          <td><strong>Streptococcus spp.</strong></td>
+          <td>Penicillin G 2–4 MU q4h; Ceftriaxone 2 g q24h</td>
+          <td>Amoxicillin; Clindamycin</td>
+          <td>Most streptococci highly susceptible to β-lactams</td>
+        </tr>
+        <tr>
+          <td><strong>Enterobacterales (QS)</strong></td>
+          <td>Ceftriaxone 2 g q24h</td>
+          <td>Ciprofloxacin 750 mg q12h; Levofloxacin 750 mg q24h</td>
+          <td>Oral quinolones excellent step-down options</td>
+        </tr>
+        <tr>
+          <td><strong><em>P. aeruginosa</em></strong></td>
+          <td>Cefepime 2 g q8–12h; Pip-Tazo 4.5 g q6h</td>
+          <td>Ciprofloxacin 750 mg q12h</td>
+          <td>Oral options limited; combination therapy may be needed initially</td>
+        </tr>
+        <tr>
+          <td><strong>Anaerobes</strong></td>
+          <td>Pip-Tazo; Clindamycin 600–900 mg q8h</td>
+          <td>Clindamycin 300–450 mg q6h; Metronidazole + agent</td>
+          <td>Important in polymicrobial diabetic foot osteomyelitis</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.8rem;color:var(--gray)">All regimens require renal adjustment. IV-to-oral transition only in clinically stable patients with known susceptible pathogen and ability to tolerate oral medications.<span class="ev ev-i">Level I</span> TMP/SMX = Trimethoprim-sulfamethoxazole. QS = Quinolone-sensitive.</p>
+
+  <!-- ============ SECTION 4 ============ -->
+  <h2 id="s4">4. Integrated Management of Prosthetic Joint Infections (PJI)</h2>
+
+  <p>PJI is one of the most devastating complications in orthopedic surgery, associated with substantial morbidity, multiple surgeries, prolonged antibiotic courses, and immense healthcare costs.<span class="ev ev-i">Level I</span> Management is exceptionally complex due to <strong>microbial biofilm</strong> on the implant surface, which shields organisms from host defenses and systemic antibiotics.<span class="ev ev-ii">Level II</span></p>
+
+  <h3>4.1 The Symbiosis of Surgical and Medical Treatment</h3>
+  <p><strong>Surgery is paramount.</strong> The primary goal is to physically disrupt and remove the biofilm and reduce bacterial burden to levels controllable by host defenses and adjunctive antibiotics.<span class="ev ev-ii">Level II</span> Optimal outcomes require a <strong>multidisciplinary team</strong> of orthopedic surgeons, infectious disease specialists, and plastic surgeons for complex reconstruction.<span class="ev ev-i">Level I</span></p>
+
+  <div class="callout">
+    <strong>🛡 Conceptual Framework: The Battle Against Biofilm</strong>
+    Each surgical and medical intervention is a specific tactic: Two-stage exchange = "scorched earth" (complete implant removal). Antibiotic-loaded cement spacers = localized "chemical warfare." DAIR procedure = "counter-insurgency" relying on anti-biofilm agents like rifampin.
+  </div>
+
+  <h3>4.2 Surgical Strategies and Tailored Antibiotic Protocols</h3>
+
+  <h4>DAIR (Debridement, Antibiotics, and Implant Retention)</h4>
+  <p><strong>Indications:</strong> Early postoperative PJI (within 3–4 weeks of index arthroplasty) or acute hematogenous PJI with stable implant, healthy soft tissues, and short symptom duration (&lt;3 weeks).<span class="ev ev-ii">Level II</span> Causative organism must be known and susceptible to an oral anti-biofilm agent.<span class="ev ev-ii">Level II</span></p>
+  <p><strong>Antibiotic strategy:</strong> 2–6 weeks pathogen-specific IV therapy → long course of oral combination therapy. <strong>Total duration: 3–6 months</strong> for staphylococcal infections.<span class="ev ev-ii">Level II</span> <strong>Rifampin is mandatory</strong> for staphylococcal PJI (must be combined with companion agent to prevent resistance).<span class="ev ev-i">Level I</span></p>
+
+  <h4>Two-Stage Exchange Arthroplasty (Gold Standard)</h4>
+  <p><strong>Indications:</strong> Chronic PJI, resistant organisms (MRSA, <em>P. aeruginosa</em>), significant bone/soft-tissue defects, or draining sinus tract.<span class="ev ev-ii">Level II</span></p>
+  <p><strong>Procedure:</strong> Stage 1: explantation, debridement, antibiotic-loaded PMMA spacer → 4–6 weeks pathogen-directed IV therapy → Stage 2: reimplantation.<span class="ev ev-ii">Level II</span> Recent RCT evidence suggests a 4-week IV course may be as effective as 6 weeks.<span class="ev ev-i">Level I</span></p>
+
+  <h4>One-Stage Exchange (Emerging Alternative)</h4>
+  <p><strong>Indications:</strong> Healthier patients with known, highly susceptible pathogen, minimal bone loss, healthy closable soft tissues. <strong>Contraindicated</strong> with unknown or MDR organisms.<span class="ev ev-ii">Level II</span> Antibiotic regimen similar to DAIR (prolonged postoperative course with rifampin for staphylococcal infections).<span class="ev ev-ii">Level II</span></p>
+
+  <div class="callout success">
+    <strong>✅ One-Stage vs. Two-Stage: A Potential Paradigm Shift</strong>
+    Growing evidence, including interim results from large RCTs, suggests one-stage exchange may offer similar success rates in appropriately selected patients.<span class="ev ev-i">Level I</span> Broader adoption could dramatically reduce surgeries, hospital stays, and costs—though requiring changes in training, protocols, and reimbursement.
+  </div>
+
+  <h3>4.3 Pathogen-Specific Management</h3>
+  <ul>
+    <li><strong>Staphylococcal PJI (most common):</strong> Success of implant retention strategies hinges on <strong>rifampin</strong>—unique ability to penetrate biofilm and kill slow-growing, metabolically inactive staphylococci.<span class="ev ev-i">Level I</span> Always paired with companion drug (fluoroquinolone, fusidic acid, linezolid, or TMP/SMX).<span class="ev ev-ii">Level II</span></li>
+    <li><strong>Gram-negative PJI:</strong> <strong>Fluoroquinolones</strong> are the most important class for implant-retention scenarios due to bone penetration and biofilm activity.<span class="ev ev-ii">Level II</span> Two-stage exchange frequently necessary.</li>
+    <li><strong>Other pathogens:</strong> Enterococci, Streptococci, <em>Cutibacterium acnes</em>—management follows same principles (aggressive debridement + pathogen-directed prolonged antibiotics).<span class="ev ev-ii">Level II</span></li>
+  </ul>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 4: Antibiotic Strategies for Prosthetic Joint Infection</caption>
+      <thead>
+        <tr>
+          <th>Surgical Strategy</th>
+          <th>Pathogen</th>
+          <th>IV Phase</th>
+          <th>Oral Phase</th>
+          <th>Role of Rifampin/Biofilm Agents</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="3"><strong>DAIR / One-Stage</strong></td>
+          <td>MSSA</td>
+          <td>Nafcillin/Cefazolin (2–6 wk)</td>
+          <td>Levo + Rifampin <em>or</em> Fusidic Acid + Rifampin (total 3 mo)</td>
+          <td><span class="tag tag-red">Rifampin mandatory</span> – always in combination</td>
+        </tr>
+        <tr>
+          <td>MRSA</td>
+          <td>Vancomycin/Daptomycin (2–6 wk)</td>
+          <td>Levo + Rifampin <em>or</em> Linezolid + Rifampin <em>or</em> Fusidic Acid + Rifampin (total 3–6 mo)</td>
+          <td><span class="tag tag-red">Rifampin mandatory</span> – always in combination</td>
+        </tr>
+        <tr>
+          <td>Gram-negative (susceptible)</td>
+          <td>Beta-lactam (Ceftriaxone/Cefepime) (4–6 wk)</td>
+          <td>Fluoroquinolone (Ciprofloxacin) (total 3 mo)</td>
+          <td><span class="tag tag-amber">Fluoroquinolones = key oral anti-biofilm agents</span></td>
+        </tr>
+        <tr>
+          <td><strong>Two-Stage Exchange</strong></td>
+          <td>All pathogens</td>
+          <td>Pathogen-directed IV therapy (4–6 wk post-explant)</td>
+          <td>Typically not required unless reimplantation delayed</td>
+          <td>Less critical; high-dose local antibiotics via cement spacer</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.8rem;color:var(--gray)">DAIR = Debridement, Antibiotics, and Implant Retention. All choices confirmed by susceptibility testing. Duration individualized based on clinical response and inflammatory markers. Rifampin dose typically 300–450 mg twice daily.<span class="ev ev-ii">Level II</span></p>
+
+  <!-- ============ SECTION 5 ============ -->
+  <h2 id="s5">5. Key Antibiotic Classes in Orthopedics</h2>
+
+  <h3>5.1 Fluoroquinolones: Efficacy vs. Safety Concerns</h3>
+
+  <h4>Advantages</h4>
+  <ul>
+    <li><strong>High oral bioavailability</strong> (~100%), enabling effective oral step-down therapy<span class="ev ev-ii">Level II</span></li>
+    <li><strong>Excellent bone penetration</strong><span class="ev ev-ii">Level II</span></li>
+    <li><strong>Anti-biofilm activity</strong>—cornerstone for implant-associated infections<span class="ev ev-ii">Level II</span></li>
+    <li>Preferred oral agents for <em>P. aeruginosa</em> PJI (often only oral option)<span class="ev ev-ii">Level II</span></li>
+    <li>Crucial companion drug to rifampin for staphylococcal PJI<span class="ev ev-ii">Level II</span></li>
+  </ul>
+
+  <h4>Safety Profile (Significant Concerns)</h4>
+  <div class="callout danger">
+    <strong>⚠ Regulatory Warnings (FDA, Health Canada, UK MHRA)</strong>
+    <ul style="margin-top:.4rem">
+      <li><strong>Musculoskeletal:</strong> Tendinitis and tendon rupture (esp. Achilles), especially in elderly, renal impairment, concurrent corticosteroids<span class="ev ev-ii">Level II</span></li>
+      <li><strong>Neurological:</strong> CNS effects (confusion, anxiety, hallucinations); peripheral neuropathy (pain, burning, numbness)<span class="ev ev-ii">Level II</span></li>
+      <li><strong>Aortic:</strong> Increased risk of aortic aneurysm and dissection<span class="ev ev-ii">Level II</span></li>
+      <li><strong>Discontinuation rate:</strong> Significantly higher than non-fluoroquinolone regimens<span class="ev ev-ii">Level II</span></li>
+    </ul>
+  </div>
+  <p><strong>Clinical consensus:</strong> For severe, complex orthopedic infections (PJI, <em>Pseudomonas</em> osteomyelitis), benefits frequently outweigh risks, but use mandates careful patient selection, counseling, and monitoring.<span class="ev ev-ii">Level II</span></p>
+
+  <h3>5.2 Carbapenems: Last-Resort Agents</h3>
+  <p>Carbapenems (meropenem, imipenem, ertapenem) possess an exceptionally broad spectrum including ESBL-producing Enterobacterales.<span class="ev ev-ii">Level II</span> Their use is <strong>strictly reserved</strong> for severe, limb- or life-threatening infections caused by confirmed MDR gram-negative pathogens.<span class="ev ev-ii">Level II</span></p>
+
+  <div class="callout warn">
+    <strong>🛡 Stewardship Imperative</strong>
+    Carbapenem-resistant Enterobacterales (CRE) represent a critical public health threat. Resistance genes on mobile plasmids facilitate rapid spread. Use requires pre-authorization from infectious disease specialists to preserve efficacy as last-resort agents.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <h3>5.3 Fusidic Acid: Specialized Anti-Staphylococcal Agent</h3>
+  <p>Fusidic acid has a narrow spectrum highly targeted against staphylococci (MSSA and MRSA).<span class="ev ev-ii">Level II</span> Its primary role is as a component of long-term, all-oral combination regimens for difficult-to-treat staphylococcal infections, frequently paired with rifampin for PJI (DAIR).<span class="ev ev-ii">Level II</span></p>
+  <div class="callout warn">
+    <strong>⚠ Must Use in Combination</strong>
+    Rapid resistance development with monotherapy (single-step mutation). <strong>Always pair with another active anti-staphylococcal agent</strong> (e.g., rifampin).<span class="ev ev-ii">Level II</span> Generally well-tolerated; GI upset with oral formulation; reversible hepatotoxicity possible with high-dose IV; CYP450 drug interactions.<span class="ev ev-ii">Level II</span>
+  </div>
+
+  <!-- ============ SECTION 6 ============ -->
+  <h2 id="s6">6. Landmark Studies Summary</h2>
+
+  <div class="callout">
+    <strong>📋 Evidence Gap Note</strong>
+    The source document references multiple guidelines and systematic reviews. The studies below are those explicitly described as landmark or pivotal in the document. The source does not provide a structured list of 5 specific named RCTs; the key trial named is OVIVA. Other evidence is primarily from guideline documents and meta-analyses.
+  </div>
+
+  <div class="card" style="padding:1rem 1.5rem">
+    <h4 style="margin-top:0;color:#1e3a8a">Key Evidence Sources Identified in the Document</h4>
+    <ol>
+      <li><strong>OVIVA Trial (Oral Versus Intravenous Antibiotics for Bone and Joint Infection)</strong> – Large RCT demonstrating non-inferiority of oral vs. IV antibiotics after initial short IV course for bone/joint infections. <span class="ev ev-i">Level I</span></li>
+      <li><strong>Meta-analysis on antibiotic duration for open fractures</strong> (Messner et al./systematic review) – Found no benefit to antibiotic courses &gt;72 hours for any Gustilo type, including Type III. <span class="ev ev-i">Level I</span></li>
+      <li><strong>ASHP/SIS/SHEA/IDSA Guidelines for Antimicrobial Prophylaxis in Surgery</strong> – Defining timing (within 60 min), duration (&lt;24 h), dosing, and redosing recommendations. <span class="ev ev-i">Level I</span></li>
+      <li><strong>IDSA Clinical Practice Guidelines for Vertebral Osteomyelitis (2015)</strong> – Establishing biopsy-first paradigm and 6-week treatment durations. <span class="ev ev-i">Level I</span></li>
+      <li><strong>IDSA Guidelines for Prosthetic Joint Infection</strong> – Comprehensive framework for PJI management including DAIR, one-stage, and two-stage protocols. <span class="ev ev-i">Level I</span></li>
+      <li><strong>IWGDF/IDSA Guidelines on Diabetic Foot Infections</strong> – Guiding osteomyelitis treatment in the diabetic foot with variable duration based on surgical approach. <span class="ev ev-i">Level I</span></li>
+    </ol>
+  </div>
+
+  <!-- CONCLUSION -->
+  <h2>Conclusion and Future Horizons</h2>
+  <p>The evidence-based application of antibiotics in orthopedics has evolved into a highly sophisticated field, balancing infection prevention/treatment with the global crisis of antimicrobial resistance. Core principles: meticulous prophylactic protocols (precise timing, short duration, cefazolin-based); "front-loaded" strategy for open fractures (immediate, risk-stratified antibiotics, short courses); microbiological diagnosis before therapy in stable osteomyelitis patients; validated oral antibiotics for long-term treatment; and integrated surgical-medical approach for PJI targeting biofilm.</p>
+
+  <p><strong>Antimicrobial stewardship</strong> permeates every recommendation—from a single prophylactic dose to a six-month PJI regimen. The profiles of key classes underscore this: fluoroquinolones limited by toxicity, carbapenems constrained by resistance ecology.</p>
+
+  <p><strong>Future frontiers:</strong></p>
+  <ul>
+    <li><strong>Novel anti-biofilm agents:</strong> Antimicrobial peptides (AMPs), compounds targeting biofilm signaling/structural integrity<span class="ev ev-ii">Level II</span></li>
+    <li><strong>Non-antibiotic therapies:</strong> Bacteriophage therapy, photodynamic therapy (light-activated reactive oxygen species)<span class="ev ev-ii">Level II</span></li>
+    <li><strong>Advanced diagnostics:</strong> Next-generation sequencing of microbial DNA for earlier, more precise pathogen identification<span class="ev ev-ii">Level II</span></li>
+  </ul>
+
+  <p>The continued efficacy of modern orthopedic surgery hinges on innovation, evidence-based practice, and responsible stewardship of antimicrobial resources.</p>
+
+  <!-- REFERENCES -->
+  <div class="ref-section" id="refs">
+    <h3 style="font-size:1.1rem;color:#374151;margin-bottom:1rem">References (Derived from Source Document)</h3>
+    <ol>
+      <li>Antibiotic prophylaxis in orthopaedic surgery: Clinical practice. <em>Enferm Infecc Microbiol Clin.</em> Elsevier. [Ref 1 in source]</li>
+      <li>Antibiotic prophylaxis in orthopaedic surgery. <em>Enferm Infecc Microbiol Clin.</em> Elsevier. [Ref 2 in source]</li>
+      <li>ASHP/SIS/SHEA/IDSA Guidelines for Antimicrobial Prophylaxis in Surgery. <em>IDSA Practice Guidelines.</em> [Ref 3]</li>
+      <li>Clinical Practice Guidelines for Antimicrobial Prophylaxis in Surgery. <em>ASHP.</em> [Ref 4]</li>
+      <li>Orthopedic and Podiatry Perioperative Antibiotics. <em>StatPearls.</em> NCBI Bookshelf. [Ref 5]</li>
+      <li>Antimicrobials in Orthopedic Infections: Overview of Clinical Perspective and Microbial Resistance. <em>Medicina.</em> 2024;60(12):1988. [Ref 6]</li>
+      <li>Guidelines for the prevention of surgical site infection: an update. <em>PMC.</em> [Ref 7]</li>
+      <li>Open Fracture Management. <em>StatPearls.</em> NCBI Bookshelf. [Ref 8]</li>
+      <li>GETAC Trauma Systems Committee Best Practice Guideline – Open Fracture Care. Texas DSHS. 2019. [Ref 9]</li>
+      <li>BOASt - Open Fractures. <em>British Orthopaedic Association.</em> [Ref 10]</li>
+      <li>Open Fractures. <em>British Orthopaedic Association.</em> [Ref 11]</li>
+      <li>Antibiotic Therapy. <em>McGovern Medical School, UTHealth Houston.</em> [Ref 12]</li>
+      <li>AAOS Clinical Practice Guideline Summary: Prevention of Surgical Site Infections. <em>PubMed.</em> 2022. [Ref 13]</li>
+      <li>Duration of Administration of Antibiotic Agents for Open Fractures: Meta-Analysis. <em>J Orthop Trauma.</em> 2017. [Ref 14–15]</li>
+      <li>Open Fractures Management. <em>Orthobullets.</em> [Ref 16]</li>
+      <li>Open fractures: evidence-based best practices. <em>PMC.</em> 2024. [Ref 17]</li>
+      <li>Non-Vertebral Osteomyelitis. <em>IDMP, UCSF.</em> [Ref 18]</li>
+      <li>IDSA 2015 Clinical Practice Guidelines for the Diagnosis and Treatment of Native Vertebral Osteomyelitis. [Ref 19]</li>
+      <li>IWGDF/IDSA Guidelines on the Diagnosis and Treatment of Diabetes-related Foot Infections. [Ref 20]</li>
+      <li>Diagnosis and Management of Osteomyelitis. <em>Am Fam Physician.</em> 2011;84(9):1027. [Ref 21]</li>
+      <li>Chronic osteomyelitis: what the surgeon needs to know. <em>PMC.</em> 2017. [Ref 22]</li>
+      <li>Osteomyelitis: Diagnosis and Treatment. <em>Am Fam Physician.</em> 2021;104(4):395. [Ref 23]</li>
+      <li>Systemic Antimicrobial Treatment of Chronic Osteomyelitis in Adults: A Narrative Review. <em>Antibiotics.</em> 2023;12(6):944. [Ref 24]</li>
+      <li>PIDS/IDSA Guideline on Diagnosis and Management of Acute Hematogenous Osteomyelitis in Pediatrics. [Ref 25]</li>
+      <li>Implementing Oral Antibiotics for Bone and Joint Infections. <em>Open Forum Infect Dis.</em> 2024;11(12). [Ref 26]</li>
+      <li>Antimicrobial treatment of patients with a periprosthetic joint infection: basic principles. <em>PMC.</em> 2023. [Ref 27]</li>
+      <li>Fluoroquinolones in orthopaedic infection: balancing risks and rewards. <em>ResearchGate.</em> 2024. [Ref 28]</li>
+      <li>Antibiotic Therapy for Prosthetic Joint Infections: An Overview. <em>Antibiotics.</em> 2022;11(4):486. [Ref 29]</li>
+      <li>Trends in the treatment of orthopaedic prosthetic infections. <em>J Antimicrob Chemother.</em> 2004;53(2):127. [Ref 30]</li>
+      <li>Combination Antibiotic Therapy for Orthopedic Infections. <em>PMC.</em> [Ref 31]</li>
+      <li>Orthopaedic infections: novel treatment strategies and evolving diagnostics. <em>PMC.</em> 2024. [Ref 32]</li>
+      <li>IDSA Guidelines for the Diagnosis and Management of Prosthetic Joint Infection. [Ref 33–34]</li>
+      <li>Two stage revision: indications, techniques and results. <em>Annals of Joint.</em> [Ref 35]</li>
+      <li>The Role of Rifampin in Prosthetic Joint Infections. <em>Antibiotics.</em> 2023;13(12):1223. [Ref 36–37]</li>
+      <li>Appropriate Duration of Antimicrobial Treatment for Prosthetic Joint Infections. <em>Antibiotics.</em> 2024;13(4):293. [Ref 38, 41]</li>
+      <li>Outcome of DAIR in PJI by MRSA, with Rifampin and Fusidic Acid Combination Therapy. <em>Antimicrob Agents Chemother.</em> 2012. [Ref 39]</li>
+      <li>One-Stage versus Two-Stage Treatment for PJI: A Prospective, Randomized Clinical Trial. <em>AAOS 2024.</em> [Ref 40]</li>
+      <li>Outcome of single-stage versus two-stage exchange for revision arthroplasty. <em>EFORT Open Rev.</em> [Ref 42]</li>
+      <li>Diagnosis and Management of Prosthetic Joint Infection: Clinical Practice Guidelines by IDSA. [Ref 43]</li>
+      <li>Prosthetic joint infections: update in diagnosis and treatment. <em>Swiss Med Wkly.</em> [Ref 44]</li>
+      <li>Fluoroquinolone antibiotics: reminder of the risk of disabling and potentially long-lasting side effects. <em>GOV.UK (MHRA).</em> [Ref 45]</li>
+      <li>Summary Safety Review – Fluoroquinolones. <em>Health Canada.</em> [Ref 46]</li>
+      <li>Safety and Tolerability of Fluoroquinolones in Staphylococcal PJI. <em>Clin Infect Dis.</em> 2021;73(5):850. [Ref 47]</li>
+      <li>Carbapenems in serious infections: A risk-benefit assessment. <em>ResearchGate.</em> [Ref 48–49]</li>
+      <li>A Review of Carbapenem Resistance in Enterobacterales. <em>PMC.</em> 2023. [Ref 50]</li>
+      <li>Literature review of fusidic acid use for MRSA bone and joint infections. <em>ResearchGate.</em> [Ref 51–53]</li>
+      <li>Fusidic Acid Tablet Guide. <em>Medicover Hospitals.</em> [Ref 54]</li>
+      <li>Antimicrobial resistance in orthopedics: microbial insights, clinical challenges. <em>PMC.</em> [Ref 55]</li>
+    </ol>
+  </div>
+
+</main>
+
+<!-- ====== SIDEBAR ====== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical parameter sliders">
+  <div class="sidebar-inner">
+    <h2>🔬 Clinical Parameter Tool</h2>
+    <p class="subtitle">Adjust parameters for real-time recommendations</p>
+
+    <!-- Slider 1: Time to Antibiotics (Open Fractures) -->
+    <div class="slider-group">
+      <label>Time from Injury to Antibiotics
+        <span class="val" id="val-time">60 min</span>
+      </label>
+      <input type="range" id="slider-time" min="0" max="240" value="60" step="5" aria-label="Time from injury to first antibiotic dose in minutes">
+      <div class="slider-labels"><span>0 min</span><span>120 min</span><span>240 min</span></div>
+    </div>
+
+    <!-- Slider 2: Patient Weight -->
+    <div class="slider-group">
+      <label>Patient Body Weight (Prophylactic Dosing)
+        <span class="val" id="val-weight">80 kg</span>
+      </label>
+      <input type="range" id="slider-weight" min="30" max="200" value="80" step="1" aria-label="Patient body weight in kilograms">
+      <div class="slider-labels"><span>30 kg</span><span>120 kg</span><span>200 kg</span></div>
+    </div>
+
+    <!-- Slider 3: Treatment Duration (Osteomyelitis/PJI) -->
+    <div class="slider-group">
+      <label>Antibiotic Treatment Duration (Osteomyelitis/PJI)
+        <span class="val" id="val-duration">6 weeks</span>
+      </label>
+      <input type="range" id="slider-duration" min="1" max="26" value="6" step="1" aria-label="Duration of antibiotic treatment in weeks">
+      <div class="slider-labels"><span>1 wk</span><span>13 wk</span><span>26 wk</span></div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="result-box" id="result-box" aria-live="polite">
+      <strong>Clinical Recommendation:</strong><br>
+      <span id="result-text">Adjust the sliders above to receive tailored, evidence-based guidance.</span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders to default values">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy current recommendations to clipboard">📋 Copy Summary</button>
+    </div>
+
+    <!-- Legend -->
+    <div style="margin-top:1rem;font-size:.75rem;color:var(--gray);line-height:1.5">
+      <strong>Evidence Levels:</strong><br>
+      <span class="ev ev-i">Level I</span> RCTs / Meta-analyses<br>
+      <span class="ev ev-ii">Level II</span> Prospective cohort / Guidelines<br>
+      <span class="ev ev-iii">Level III</span> Retrospective cohort<br>
+      <span class="ev ev-na">Not specified</span> Expert consensus
+    </div>
+  </div>
+</aside>
+
+</div><!-- /container -->
+
+<script>
+(function(){
+  const sliderTime = document.getElementById('slider-time');
+  const sliderWeight = document.getElementById('slider-weight');
+  const sliderDuration = document.getElementById('slider-duration');
+  const valTime = document.getElementById('val-time');
+  const valWeight = document.getElementById('val-weight');
+  const valDuration = document.getElementById('val-duration');
+  const resultText = document.getElementById('result-text');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+
+  function update(){
+    const t = parseInt(sliderTime.value);
+    const w = parseInt(sliderWeight.value);
+    const d = parseInt(sliderDuration.value);
+
+    valTime.textContent = t + ' min';
+    valWeight.textContent = w + ' kg';
+    valDuration.textContent = d + (d === 1 ? ' week' : ' weeks');
+
+    // Cefazolin dose
+    const cefDose = w > 120 ? '3 g IV' : '2 g IV';
+    const cefNote = w > 120
+      ? '⚠ Weight >120 kg: increase cefazolin to <strong>3 g</strong> (Level I evidence).'
+      : 'Standard cefazolin dose: <strong>' + cefDose + '</strong> (Level I).';
+
+    // Time assessment
+    let timeTag, timeMsg;
+    if (t <= 60) {
+      timeTag = '<span class="tag tag-green">✓ Optimal</span>';
+      timeMsg = 'Within the 60-minute golden window — associated with <strong>0% infection rate</strong> in key studies (Level II). Excellent practice.';
+    } else if (t <= 120) {
+      timeTag = '<span class="tag tag-amber">⚠ Acceptable</span>';
+      timeMsg = 'Outside optimal window but within 2 hours. Still beneficial — infection risk begins to rise. Administer ASAP (Level II).';
+    } else if (t <= 180) {
+      timeTag = '<span class="tag tag-amber">⚠ Delayed</span>';
+      timeMsg = 'Significant delay. Studies show a <strong>six-fold increase in infection risk</strong> if antibiotics delayed beyond 3 hours (Level II).';
+    } else {
+      timeTag = '<span class="tag tag-red">✗ Critical Delay</span>';
+      timeMsg = 'Severely delayed — associated with <strong>17% infection rate</strong>. Urgent administration still warranted but harm may already be done (Level II).';
+    }
+
+    // Duration assessment
+    let durTag, durMsg;
+    if (d <= 6) {
+      durTag = '<span class="tag tag-green">✓ Standard</span>';
+      durMsg = d + '-week course aligns with guideline recommendations for chronic osteomyelitis (4–6 weeks) and vertebral osteomyelitis (6 weeks) (Level I).';
+    } else if (d <= 12) {
+      durTag = '<span class="tag tag-amber">⚠ Extended</span>';
+      durMsg = d + '-week course exceeds standard 4–6 weeks. May be appropriate for PJI (DAIR/one-stage: 3–6 months total with oral phase) or complex chronic osteomyelitis (Level II).';
+    } else {
+      durTag = '<span class="tag tag-amber">⚠ Prolonged</span>';
+      durMsg = d + '-week course. Primarily indicated for PJI management (DAIR: 3–6 mo; two-stage: 4–6 wk IV phase). Ensure regular monitoring of inflammatory markers (ESR, CRP) and reassess at intervals (Level II).';
+    }
+
+    let html = '';
+    html += '<strong>1. Open Fracture – Timing:</strong> ' + timeTag + '<br>' + timeMsg + '<br><br>';
+    html += '<strong>2. Prophylactic Dosing:</strong><br>' + cefNote + '<br>';
+    html += 'Redosing interval: every <strong>4 hours</strong> intraoperatively for cefazolin (Level I).<br><br>';
+    html += '<strong>3. Osteomyelitis/PJI Duration:</strong> ' + durTag + '<br>' + durMsg;
+
+    resultText.innerHTML = html;
+  }
+
+  sliderTime.addEventListener('input', update);
+  sliderWeight.addEventListener('input', update);
+  sliderDuration.addEventListener('input', update);
+
+  btnReset.addEventListener('click', function(){
+    sliderTime.value = 60;
+    sliderWeight.value = 80;
+    sliderDuration.value = 6;
+    update();
+  });
+
+  btnCopy.addEventListener('click', function(){
+    const t = sliderTime.value;
+    const w = sliderWeight.value;
+    const d = sliderDuration.value;
+    const ts = new Date().toLocaleString();
+
+    const cefDose = w > 120 ? '3 g IV' : '2 g IV';
+    const cefNote = w > 120 ? 'Increase to 3 g (weight >120 kg)' : 'Standard 2 g IV';
+
+    let timeAssessment;
+    if (t <= 60) timeAssessment = 'OPTIMAL (within golden hour)';
+    else if (t <= 120) timeAssessment = 'ACCEPTABLE (within 2 hours)';
+    else if (t <= 180) timeAssessment = 'DELAYED (2-3 hours)';
+    else timeAssessment = 'CRITICAL DELAY (>3 hours)';
+
+    let durAssessment;
+    if (d <= 6) durAssessment = 'STANDARD (per guidelines)';
+    else if (d <= 12) durAssessment = 'EXTENDED (may be appropriate for PJI/complex cases)';
+    else durAssessment = 'PROLONGED (primarily for PJI; requires monitoring)';
+
+    const txt = [
+      '═══════════════════════════════════════',
+      'CLINICAL PARAMETER SUMMARY',
+      'Evidence-Based Antibiotics in Orthopedic Practice',
+      '═══════════════════════════════════════',
+      '',
+      'Timestamp: ' + ts,
+      '',
+      'PARAMETERS:',
+      '  • Time from injury to antibiotics: ' + t + ' min',
+      '    Assessment: ' + timeAssessment,
+      '  • Patient body weight: ' + w + ' kg',
+      '    Cefazolin dose: ' + cefDose + ' (' + cefNote + ')',
+      '  • Treatment duration: ' + d + ' weeks',
+      '    Assessment: ' + durAssessment,
+      '',
+      'EVIDENCE BASIS:',
+      '  • ASHP/SIS/SHEA/IDSA Guidelines (Level I)',
+      '  • Open fracture meta-analysis: no benefit >72h (Level I)',
+      '  • OVIVA Trial: oral antibiotics non-inferior (Level I)',
+      '  • IDSA Osteomyelitis & PJI Guidelines (Level I)',
+      '',
+      'KEY REFERENCES:',
+      '  1. ASHP Guidelines for Antimicrobial Prophylaxis in Surgery',
+      '  2. Duration of antibiotics for open fractures meta-analysis (2017)',
+      '  3. OVIVA Trial – Oral vs IV antibiotics for bone/joint infection',
+      '  4. IDSA 2015 Guidelines for Vertebral Osteomyelitis',
+      '  5. IDSA Guidelines for Prosthetic Joint Infection',
+      '',
+      'Note: Recommendations are based on the source review document.',
+      'Always confirm with current local guidelines and patient-specific factors.',
+      '═══════════════════════════════════════'
+    ].join('\n');
+
+    navigator.clipboard.writeText(txt).then(function(){
+      btnCopy.textContent = '✓ Copied!';
+      setTimeout(function(){ btnCopy.textContent = '📋 Copy Summary'; }, 2000);
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btnCopy.textContent = '✓ Copied!';
+      setTimeout(function(){ btnCopy.textContent = '📋 Copy Summary'; }, 2000);
+    });
+  });
+
+  // Initialize
+  update();
+})();
+</script>
+
+</body>
+</html>

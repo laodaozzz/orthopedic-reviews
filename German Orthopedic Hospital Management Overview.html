@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>German Orthopedic Hospital Management System – Interactive Educational Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #f8f9fb;
+    --surface: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #555770;
+    --primary: #1b4d8f;
+    --primary-light: #e8f0fe;
+    --accent: #c0392b;
+    --accent-light: #fdecea;
+    --success: #1e7e34;
+    --success-light: #e6f5ea;
+    --warning: #b8860b;
+    --warning-light: #fef9e7;
+    --border: #dde1e8;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --radius: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* Header */
+  .site-header {
+    background: linear-gradient(135deg, #1b2a4a 0%, #1b4d8f 50%, #2980b9 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #c0392b, #e67e22, #f1c40f, #27ae60, #2980b9, #8e44ad);
+  }
+  .site-header h1 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+  }
+  .site-header .subtitle {
+    font-size: 0.95rem;
+    font-weight: 400;
+    opacity: 0.9;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .site-header .meta {
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 3rem;
+    align-items: start;
+  }
+
+  /* Main Content */
+  main {
+    min-width: 0;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .card h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1.4rem 0 0.6rem;
+  }
+
+  .card h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin: 1rem 0 0.4rem;
+  }
+
+  .card p { margin-bottom: 0.8rem; }
+
+  .card ul, .card ol {
+    padding-left: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .card li { margin-bottom: 0.35rem; }
+
+  /* Tables */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.2rem 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead {
+    background: var(--primary);
+    color: #fff;
+  }
+  thead th {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr:nth-child(even) { background: #f6f8fb; }
+  tbody tr:hover { background: var(--primary-light); }
+  .table-caption {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding: 0.5rem 0.8rem;
+    font-style: italic;
+    background: #f6f8fb;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Evidence Badge */
+  .ev-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+    letter-spacing: 0.3px;
+  }
+  .ev-reg { background: #dbeafe; color: #1e40af; }
+  .ev-struct { background: #e0e7ff; color: #3730a3; }
+  .ev-process { background: #fef3c7; color: #92400e; }
+  .ev-economic { background: #fce7f3; color: #9d174d; }
+  .ev-ns { background: #f3f4f6; color: #6b7280; }
+
+  /* Callout Boxes */
+  .callout {
+    border-left: 4px solid;
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+  }
+  .callout strong { display: block; margin-bottom: 0.3rem; }
+  .callout-info { border-color: var(--primary); background: var(--primary-light); }
+  .callout-warn { border-color: var(--warning); background: var(--warning-light); }
+  .callout-danger { border-color: var(--accent); background: var(--accent-light); }
+  .callout-success { border-color: var(--success); background: var(--success-light); }
+
+  /* Formula Display */
+  .formula {
+    background: #1a1a2e;
+    color: #a5d6ff;
+    padding: 1rem 1.4rem;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.92rem;
+    text-align: center;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .formula .var { color: #ffd700; }
+  .formula .op { color: #ff6b6b; }
+
+  /* Citations */
+  .cite {
+    font-size: 0.75rem;
+    color: var(--primary);
+    vertical-align: super;
+    font-weight: 600;
+    cursor: help;
+  }
+
+  /* Sidebar */
+  aside {
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+
+  .sidebar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .sidebar-card h3 .icon { font-size: 1.2rem; }
+
+  .slider-group {
+    margin-bottom: 1.3rem;
+  }
+  .slider-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+  .slider-group label .val {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+  }
+  .slider-group .range-note {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, var(--accent) 0%, var(--warning) 50%, var(--success) 100%);
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  /* Recommendation Box */
+  .rec-box {
+    background: linear-gradient(135deg, #f0f4ff, #e8f0fe);
+    border: 1px solid #c5d5f7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+  .rec-box .rec-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+  .rec-box .rec-detail {
+    margin-bottom: 0.3rem;
+  }
+  .rec-box .rec-status {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.78rem;
+    margin-top: 0.4rem;
+  }
+  .status-green { background: var(--success-light); color: var(--success); }
+  .status-yellow { background: var(--warning-light); color: var(--warning); }
+  .status-red { background: var(--accent-light); color: var(--accent); }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    flex: 1;
+    padding: 0.6rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: #153d73; }
+  .btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+  .btn-outline:hover { background: var(--primary-light); }
+
+  /* Tooltip */
+  .tooltip-container {
+    position: relative;
+    display: inline-block;
+  }
+  .tooltip-container .tooltip-text {
+    visibility: hidden;
+    width: 240px;
+    background: #1a1a2e;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    position: absolute;
+    z-index: 100;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .tooltip-container:hover .tooltip-text { visibility: visible; }
+
+  /* References */
+  .ref-list {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    column-count: 2;
+    column-gap: 2rem;
+  }
+  .ref-list li {
+    margin-bottom: 0.5rem;
+    break-inside: avoid;
+    word-break: break-all;
+  }
+  .ref-list a {
+    color: var(--primary);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .ref-list a:hover { text-decoration: underline; }
+
+  /* Revenue Display */
+  .revenue-display {
+    background: linear-gradient(135deg, #1a1a2e, #1b4d8f);
+    color: #fff;
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .revenue-display .label { font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+  .revenue-display .amount {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0.3rem 0;
+    font-family: 'Courier New', monospace;
+  }
+  .revenue-display .breakdown {
+    font-size: 0.78rem;
+    opacity: 0.75;
+    margin-top: 0.3rem;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--success);
+    color: #fff;
+    padding: 0.8rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 9999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    aside {
+      position: relative;
+      top: 0;
+      max-height: none;
+      order: -1;
+    }
+    .ref-list { column-count: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .layout { padding: 0 0.8rem 2rem; }
+    .card { padding: 1.2rem; }
+    .site-header { padding: 1.5rem 1rem 1.2rem; }
+  }
+
+  /* Print */
+  @media print {
+    aside { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    .site-header { background: #fff; color: #000; }
+    .site-header::after { display: none; }
+    .card { box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>German Orthopedic Hospital Management System</h1>
+  <p class="subtitle">Certification, Reimbursement, and Rehabilitation Integration — An Interactive Educational Summary</p>
+  <p class="meta">Based on regulatory frameworks, EndoCert requirements, G-DRG system documentation, and discharge management guidelines · Generated from source document</p>
+</header>
+
+<div class="layout">
+
+<!-- ============ MAIN CONTENT ============ -->
+<main role="main" aria-label="Main educational content">
+
+  <!-- Section 1 -->
+  <section class="card" aria-labelledby="s1">
+    <h2 id="s1">1. Introduction: The Structural Transformation of German Orthopedics</h2>
+    <p>
+      German orthopedic hospital management operates within one of the most strictly regulated and economically incentivized healthcare systems globally. Over the last two decades, the landscape has shifted from a model dominated by individual eminences (<strong>Chefarzt-System</strong>) to a process-driven, industrialized framework governed by two opposing yet interlocking forces:
+    </p>
+    <ul>
+      <li><strong>Measurable structural quality</strong>, epitomized by the EndoProthetikZentrum (EPZ) certification.<span class="cite">[3]</span></li>
+      <li><strong>Economic efficiency</strong>, dictated by the G-DRG (German Diagnosis Related Groups) system.<span class="cite">[12]</span></li>
+    </ul>
+
+    <div class="callout callout-info">
+      <strong>Historic Consolidation</strong>
+      With the Krankenhausreform (Hospital Reform) looming and the introduction of Hybrid-DRGs in 2025 (§ 115f SGB V), orthopedic departments face immense pressure to justify their inpatient capacities. The era of the generalist orthopedic ward is ending; the market is bifurcating into:
+      <ul>
+        <li>Highly specialized, high-volume centers (<strong>EPZmax</strong>) for complex revision arthroplasty.</li>
+        <li>Lean, ambulatory-focused units for standardized primary interventions.<span class="cite">[1]</span></li>
+      </ul>
+    </div>
+
+    <p>
+      This report provides an exhaustive analysis of this management ecosystem, dissecting the regulatory requirements of the EndoCert initiative, the granular mechanics of the reimbursement system—including specific financial penalties for length-of-stay deviations—and the administrative complexity of post-acute care transition (rehabilitation).
+    </p>
+  </section>
+
+  <!-- Section 2 -->
+  <section class="card" aria-labelledby="s2">
+    <h2 id="s2">2. The Quality Governance Framework: EndoProthetikZentrum (EPZ) Certification</h2>
+    <p>
+      The "EndoCert" initiative represents a paradigm shift in German medical quality assurance. Unlike state-mandated measures, which often focus on minimums, EndoCert was established by the scientific societies—<strong>DGOOC</strong>, <strong>DGOU</strong>, and <strong>BVOU</strong>—to define a "Gold Standard" for joint replacement surgery.<span class="cite">[3]</span> The certification is operationalized by the independent institute <strong>ClarCert</strong>.<span class="cite">[5]</span>
+    </p>
+
+    <h3>2.1 Philosophy: Structure, Process, Outcome <span class="ev-badge ev-struct">Structural Standard</span></h3>
+    <p>
+      Certification is built on the premise that high quality in endoprosthetics is a function of <em>volume, standardization, and interdisciplinary redundancy</em>. It moves beyond the simplistic "volume-outcome" correlation by mandating <em>how</em> volume is achieved. While voluntary, market penetration is so significant that non-certified hospitals face competitive disadvantage and credibility deficits among referring physicians.<span class="cite">[5]</span>
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1: Two-Tier Certification System</caption>
+        <thead>
+          <tr><th>Level</th><th>Scope</th><th>Focus</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>EndoProthetikZentrum (EPZ)</strong></td>
+            <td>Standard level of care</td>
+            <td>Primary hip and knee arthroplasty</td>
+          </tr>
+          <tr>
+            <td><strong>EPZ der Maximalversorgung (EPZmax)</strong></td>
+            <td>Maximum care level</td>
+            <td>Complex revisions, periprosthetic fractures, infection management</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>2.2 Structural Requirements and Personnel Standards <span class="ev-badge ev-struct">Structural Standard</span></h3>
+    <p>
+      The <em>Anforderungskatalog</em> (Catalogue of Requirements), regularly revised (most recently for the 2025/2026 cycle), stipulates precise structural criteria that act as a barrier to entry for low-volume providers.<span class="cite">[3][4]</span>
+    </p>
+
+    <h4>2.2.1 The Hierarchy of Surgeons</h4>
+    <p>
+      Central to the EPZ system is the categorization of surgical personnel. The system rejects the notion that any board-certified orthopedic surgeon is qualified for every procedure, creating a verified elite tier:
+    </p>
+    <ul>
+      <li><strong>Hauptoperateur (HO):</strong> Must be a specialist (Facharzt) in Orthopedics and Trauma Surgery. Must personally perform <strong>≥ 50 major endoprosthetic procedures annually</strong> at the certified center. Procedures performed at other hospitals generally do not count.<span class="cite">[5]</span></li>
+      <li><strong>Senior-Hauptoperateur (SHO) — EPZmax Exclusive:</strong> Must demonstrate <strong>≥ 100 procedures annually</strong>. The EPZmax must employ <strong>at least two</strong> such high-volume surgeons, ensuring expertise is available year-round regardless of vacation or illness.<span class="cite">[5]</span></li>
+    </ul>
+
+    <div class="callout callout-warn">
+      <strong>Management Implication</strong>
+      Loss of a single high-volume surgeon can jeopardize the entire center's certification status. Hospital management must engage in rigorous <strong>succession planning</strong> and <strong>volume monitoring</strong>. If a Hauptoperateur trends toward only 45 surgeries in Q4, the center must strategically reallocate cases to cross the 50-case threshold, often requiring OR schedule and patient assignment adjustments.
+    </div>
+
+    <h4>2.2.2 Minimum Volume Requirements</h4>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2: Minimum Volume Requirements — EPZ vs. EPZmax</caption>
+        <thead>
+          <tr><th>Metric</th><th>EPZ</th><th>EPZmax</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Total Primary Cases (Hip/Knee)</td><td>≥ 100 / year</td><td>≥ 200 / year</td></tr>
+          <tr><td>Revision Surgeries</td><td>No specific minimum</td><td>≥ 50 / year (varying complexity)</td></tr>
+          <tr><td>Surgeon Density</td><td>Min. 2 Hauptoperateure</td><td>Min. 2 Senior-Hauptoperateure</td></tr>
+          <tr><td>Individual Volume</td><td>HO ≥ 50 / year</td><td>SHO ≥ 100 / year</td></tr>
+        </tbody>
+      </table>
+      <div class="table-caption">Source: Anforderungskatalog ClarCert (2025/2026 cycle)<span class="cite">[3][4]</span></div>
+    </div>
+
+    <p>
+      Deviations require detailed justification (e.g., extensive renovation, pandemic-related closures). Chronic failure to meet volumes leads to suspension or withdrawal of the certificate, forcing consolidation—smaller clinics often merge or cooperate to sustain requisite numbers.<span class="cite">[8]</span>
+    </p>
+
+    <h3>2.3 Process Quality: The Audit Ecosystem <span class="ev-badge ev-process">Process Standard</span></h3>
+    <p>
+      Certification is not a one-time event but a continuous cycle of surveillance:<span class="cite">[5][7]</span>
+    </p>
+    <ul>
+      <li><strong>Initial Certification (Erstzertifizierung):</strong> Rigorous two-day on-site audit by two external peer surgeons. Review of patient files, inspection of ICU and sterilization units (ZSVA), and team observation.</li>
+      <li><strong>Surveillance Audits (Überwachungsaudit):</strong> Annual checks ensuring continued compliance, focusing on previously identified non-conformities (<em>Abweichungen</em>).</li>
+      <li><strong>Recertification (Rezertifizierung):</strong> Comprehensive re-evaluation every three years.</li>
+    </ul>
+
+    <div class="callout callout-info">
+      <strong>"System Audit" — Tracer Methodology</strong>
+      Auditors trace the patient journey. A random file is pulled and verified for:
+      <ol>
+        <li>Indication confirmed by a Hauptoperateur (dual-control principle)</li>
+        <li>Pre-operative planning (digital templating) archived</li>
+        <li>Implant sticker matching registry entry</li>
+        <li>Post-op X-ray reviewed and signed off</li>
+      </ol>
+      This thoroughness forces hospitals to maintain pristine documentation, often requiring a dedicated <strong>Zentrumskoordinator</strong>.<span class="cite">[3]</span>
+    </div>
+
+    <h3>2.4 Interdisciplinary Integration <span class="ev-badge ev-struct">Structural Standard</span></h3>
+    <p>
+      A defining feature of EPZ standards is the mandatory availability of supporting disciplines:<span class="cite">[3][9]</span>
+    </p>
+    <ul>
+      <li><strong>Vascular Surgery:</strong> Contract guaranteeing intervention within a specific timeframe (often < 30–45 minutes for EPZmax) for catastrophic vessel injuries.</li>
+      <li><strong>Intensive Care (ICU):</strong>
+        <ul>
+          <li>EPZ: Defined pathways for transferring patients to ICU if needed.</li>
+          <li>EPZmax: <em>On-site</em> ICU capable of complex ventilation (> 24h) and organ replacement therapy (e.g., dialysis). This often disqualifies specialized orthopedic clinics lacking broad internal medicine departments.</li>
+        </ul>
+      </li>
+      <li><strong>Microbiology &amp; Pathology:</strong> Standardized workflows for intraoperative samples (e.g., frozen sections for infection exclusion). Time-to-result is a critical quality indicator.</li>
+    </ul>
+
+    <h3>2.5 Data Quality and the EPRD <span class="ev-badge ev-reg">Registry Standard</span></h3>
+    <p>
+      Participation in the <strong>Endoprothesenregister Deutschland (EPRD)</strong> is compulsory. Centers must upload data on every implant, serving two purposes:<span class="cite">[3][11]</span>
+    </p>
+    <ol>
+      <li><strong>National Surveillance:</strong> Early detection of failing implant designs.</li>
+      <li><strong>Benchmarking:</strong> Participating clinics receive "Status Reports" comparing revision rates against the national average. An EPZ with rates significantly higher than the benchmark will face intense scrutiny and may be required to implement a <em>Maßnahmenplan</em> (Correction Plan).</li>
+    </ol>
+  </section>
+
+  <!-- Section 3 -->
+  <section class="card" aria-labelledby="s3">
+    <h2 id="s3">3. The Economic Engine: The G-DRG Reimbursement System</h2>
+    <p>
+      While EndoCert defines the clinical structure, the G-DRG system dictates financial survival. Introduced in 2004 to replace the per-diem system, DRG pays a flat rate per case, incentivizing efficiency and rapid discharge.<span class="cite">[12]</span>
+    </p>
+
+    <h3>3.1 Mechanics of Orthopedic Reimbursement <span class="ev-badge ev-economic">Economic Framework</span></h3>
+
+    <div class="formula">
+      <span class="var">Total Revenue</span> <span class="op">=</span> (<span class="var">Effective Cost Weight</span> <span class="op">×</span> <span class="var">Base Rate</span>) <span class="op">+</span> <span class="var">Nursing Revenue</span> <span class="op">+</span> <span class="var">Surcharges</span>
+    </div>
+
+    <h4>3.1.1 The Base Rate (Basisfallwert – LBFW)</h4>
+    <p>
+      The Base Rate is a monetary value fixed at the state level (<em>Landesbasisfallwert</em>). For 2025, this value hovers around <strong>€4,500</strong> (e.g., €4,543.85 in some regions), though it varies slightly by Bundesland.<span class="cite">[13]</span> This creates regional disparities.
+    </p>
+
+    <h4>3.1.2 The Cost Weight (Bewertungsrelation)</h4>
+    <p>
+      The InEK assigns a relative weight to every DRG based on average resource consumption.<span class="cite">[13][14]</span>
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3: DRG Reimbursement Examples (2025 Estimates)</caption>
+        <thead>
+          <tr><th>DRG Code</th><th>Description</th><th>Cost Weight</th><th>Base Rate (€)</th><th>Estimated Revenue (€)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>I47C</strong></td>
+            <td>Elective Primary Hip Replacement</td>
+            <td>~1.45</td>
+            <td>4,543.85</td>
+            <td><strong>~6,588</strong></td>
+          </tr>
+          <tr>
+            <td><strong>I05A</strong></td>
+            <td>Complex Revision (PCCL > 4)</td>
+            <td>~4.2</td>
+            <td>4,543.85</td>
+            <td><strong>~19,084</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-caption">Note: Values are approximations from source document<span class="cite">[13]</span>; actual rates vary by region and case complexity.</div>
+    </div>
+
+    <div class="callout callout-danger">
+      <strong>Strategic Implication</strong>
+      The financial gulf between a standard case (I47C: ~€6,588) and a complex revision (I05A: ~€19,084) is massive. Hospitals are economically incentivized to specialize in complex revisions (EPZmax territory), but the risk of cost overruns (expensive antibiotics, prolonged ICU stay) is also significantly higher.<span class="cite">[13]</span>
+    </div>
+
+    <h4>3.1.3 The Nursing Budget (Pflegebudget)</h4>
+    <p>
+      Since the Pflegepersonalstärkungsgesetz (PpSG) of 2020, nursing costs at the bedside have been "carved out" of the DRG flat rate. They are reimbursed based on actual costs via a daily rate (~€180–€230/day).<span class="cite">[15]</span>
+    </p>
+    <p>
+      <strong>Effect:</strong> Reduces the incentive to slash nursing staff. However, it adds administrative complexity, as hospitals must prove nursing funds are used exclusively for nursing personnel.<br>
+      <strong>Example:</strong> A 10-day stay generates 10 × €200 = <strong>€2,000</strong> in nursing revenue on top of the DRG flat rate.
+    </p>
+
+    <h3>3.2 Length of Stay Management: The "UGV" Trap <span class="ev-badge ev-economic">Critical Economic</span></h3>
+    <p>
+      The most critical operational metric in the G-DRG system is the <strong>Length of Stay (LoS)</strong>. The system defines an "average" LoS (e.g., 8–9 days for a hip TEP) and penalizes deviations.<span class="cite">[17]</span>
+    </p>
+
+    <h4>3.2.1 Short-Stay Deduction (Kurzliegerabschlag)</h4>
+    <p>
+      If a patient is discharged below the <strong>Untere Grenzverweildauer (UGV)</strong>, the hospital suffers a massive revenue penalty. The penalty formula involves:
+    </p>
+    <div class="formula">
+      Penalty = (<span class="var">UGV</span> <span class="op">−</span> <span class="var">Actual LoS</span> <span class="op">+</span> <span class="var">1</span>) <span class="op">×</span> <span class="var">Deduction Weight</span> <span class="op">×</span> <span class="var">Base Rate</span>
+    </div>
+
+    <div class="callout callout-danger">
+      <strong>The "Parking" Phenomenon</strong>
+      Even if a patient is clinically fit for discharge on Day 2, the hospital administration often enforces discharge on Day 4 (the first day without deduction) to secure full revenue. This conflict between clinical efficiency (Fast Track) and regulatory economics is known as <strong>"Parken"</strong> (Parking) of patients.<span class="cite">[17]</span>
+    </div>
+
+    <h4>3.2.2 The Upper Limit (Obere Grenzverweildauer)</h4>
+    <p>
+      Keeping a patient beyond the <strong>Obere Grenzverweildauer (OGV)</strong> (e.g., > 14 days) yields only a marginal per-diem surcharge that rarely covers actual bed costs. The "Sweet Spot" for discharge is exactly between the UGV and the average LoS.<span class="cite">[17]</span>
+    </p>
+
+    <h3>3.3 The 2025 Disruption: Hybrid-DRGs <span class="ev-badge ev-reg">Regulatory Change</span></h3>
+    <p>
+      The introduction and expansion of <strong>Hybrid-DRGs</strong> in 2025 (§ 115f SGB V) aims to promote "Ambulantization" by paying the same rate for specific procedures regardless of inpatient or outpatient setting.<span class="cite">[1][2]</span>
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 4: Procedures Affected by 2025 Hybrid-DRG Catalog</caption>
+        <thead>
+          <tr><th>Procedure Category</th><th>Example Codes</th><th>Hybrid Status (2025)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Foot Surgery</td><td>I20N (Hallux Valgus)</td><td>Hybrid-DRG active</td></tr>
+          <tr><td>Material Removal</td><td>Osteosynthesis removal</td><td>Hybrid-DRG active</td></tr>
+          <tr><td>Arthroscopy</td><td>Meniscus repairs</td><td>Hybrid-DRG active</td></tr>
+          <tr><td>Total Hip / Knee Arthroplasty</td><td>I47C, I05A</td><td>Not yet fully shifted</td></tr>
+        </tbody>
+      </table>
+      <div class="table-caption">Source: Hybrid-DRG Leistungskatalog 2025<span class="cite">[1]</span></div>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>Strategic Threat</strong>
+      Hospitals used margins from high-volume, low-complexity "Cash Cow" procedures to cross-subsidize expensive infrastructure (ED, ICU). With Hybrid-DRGs, reimbursement is capped at a lower, sector-neutral rate. Hospitals with high overheads may find it impossible to perform these procedures profitably, potentially losing volume to lean Ambulatory Surgery Centers (ASCs).<span class="cite">[1]</span>
+    </div>
+
+    <h3>3.4 Supplementary Fees (Zusatzentgelte – ZE) <span class="ev-badge ev-economic">Economic Mechanism</span></h3>
+    <p>
+      Standard DRGs cover standard implants. Specialized orthopedics requires expensive technologies that break the flat-rate calculation, handled through <strong>Zusatzentgelte (ZE)</strong>:<span class="cite">[13][18]</span>
+    </p>
+    <ul>
+      <li><strong>ZE2025-25 (Modular Prostheses):</strong> For revision surgeries requiring large modular replacements (e.g., distal femur, proximal tibia replacement), extra billing of approximately <strong>€2,000–€4,000</strong>.</li>
+      <li><strong>Negotiation:</strong> Many ZEs are "hospital-individual," requiring annual negotiation with health insurers to prove costs and establish values. Failure to negotiate effectively can result in reimbursement below actual cost.</li>
+    </ul>
+  </section>
+
+  <!-- Section 4 -->
+  <section class="card" aria-labelledby="s4">
+    <h2 id="s4">4. Clinical Pathways and Standardized Operating Procedures</h2>
+    <p>
+      To survive G-DRG economic pressures while meeting EndoCert quality demands, hospitals employ industrial-style process management. Clinical Pathways are the operational "Source Code" of the hospital.
+    </p>
+
+    <h3>4.1 The Pre-Admission Pathway <span class="ev-badge ev-process">Process Standard</span></h3>
+    <ul>
+      <li><strong>Indication Quality (Zweitmeinungsverfahren):</strong> SOPs mandate a formalized internal "Second Opinion" review. Before scheduling a Total Knee Replacement, the case is reviewed in an Indication Conference. If the X-ray shows only Grade 2 OA and conservative therapy is not exhausted, surgery is cancelled—preventing DRG denials by the Medical Service (MD).<span class="cite">[6]</span></li>
+      <li><strong>Patient Schools (Patientenschule):</strong> Top-tier EPZs run mandatory patient seminars 2–4 weeks pre-op, teaching crutch use, home modifications, and expectations. Proven to reduce LoS and anxiety-related nursing calls.<span class="cite">[20]</span></li>
+    </ul>
+
+    <h3>4.2 Intra-operative Standardization</h3>
+    <ul>
+      <li><strong>Implant Consolidation:</strong> Departments standardize on one primary system for hips and one for knees, maximizing purchasing power and minimizing staff errors, reducing OR time—a critical cost driver.<span class="cite">[3]</span></li>
+      <li><strong>Checklists:</strong> The "Team Time Out" (WHO Checklist) is a mandatory milestone, serving both safety and audit documentation requirements.</li>
+    </ul>
+
+    <h3>4.3 Post-operative "Fast Track" Protocols <span class="ev-badge ev-process">Evidence-Based Process</span></h3>
+    <p>
+      Germany is rapidly adopting <strong>Fast Track (Rapid Recovery)</strong> concepts:<span class="cite">[20][22]</span>
+    </p>
+    <ul>
+      <li><strong>No Drains / No Catheters:</strong> Catheters cause UTIs (Quality Indicator failure); drains tether patients to bed. Modern SOPs eliminate both.</li>
+      <li><strong>Mobilization on Day 0:</strong> Patients must stand and walk within 4–6 hours of surgery, requiring close Anesthesia–Physiotherapy coordination (short-acting spinal anesthesia).</li>
+      <li><strong>Tranexamic Acid (TXA):</strong> Routine administration has nearly eliminated blood transfusion need in primary cases, removing a major cost and complication factor.<span class="cite">[22]</span></li>
+    </ul>
+  </section>
+
+  <!-- Section 5 -->
+  <section class="card" aria-labelledby="s5">
+    <h2 id="s5">5. Integration of Postoperative Rehabilitation (AHB)</h2>
+    <p>
+      The transition from acute hospital to rehabilitation is the "Last Mile" of the orthopedic value chain. In Germany, rehabilitation is distinct from acute care, often occurring in specialized clinics located in health resorts (<em>Kurort</em>).<span class="cite">[23]</span>
+    </p>
+
+    <h3>5.1 Legal Framework: Discharge Management (§ 39a SGB V) <span class="ev-badge ev-reg">Legal Mandate</span></h3>
+    <p>
+      The <strong>Rahmenvertrag Entlassmanagement</strong> places the legal burden of organizing rehabilitation squarely on the acute hospital.<span class="cite">[23][25]</span>
+    </p>
+
+    <h4>The "7-Day Authority"</h4>
+    <p>
+      Hospital physicians are granted authority to prescribe limited services for up to <strong>7 days</strong> post-discharge:<span class="cite">[25]</span>
+    </p>
+    <ul>
+      <li>Painkillers and anticoagulants (thrombosis prophylaxis)</li>
+      <li>Physiotherapy</li>
+      <li>Work incapacity certificates (Arbeitsunfähigkeitsbescheinigung)</li>
+    </ul>
+
+    <h3>5.2 The "Social Service" (Sozialdienst) Workflow <span class="ev-badge ev-process">Administrative Process</span></h3>
+    <ol>
+      <li><strong>Identification:</strong> On Admission Day 1, AHB need is assessed.</li>
+      <li><strong>Consent:</strong> Patient signs "Informed Consent for Discharge Management." <em>Critical:</em> Without this signature, no data can be sent to the insurer.</li>
+      <li><strong>Application Routing:</strong>
+        <ul>
+          <li><strong>DRV (Deutsche Rentenversicherung):</strong> For working-age patients (goal: return to work).</li>
+          <li><strong>GKV (Gesetzliche Krankenversicherung):</strong> For retirees (goal: avoidance of nursing care).</li>
+        </ul>
+      </li>
+      <li><strong>Clinic Selection:</strong> Under § 8 SGB IX, patients have a <em>Wunsch- und Wahlrecht</em> (Right to Choose). Waiting lists of 3+ weeks create "Bed Blocking"—the patient is fit for discharge but cannot leave, and the hospital bears the extended stay cost.<span class="cite">[26]</span></li>
+    </ol>
+
+    <div class="callout callout-warn">
+      <strong>The "Rehab Gap" (Reha-Loch)</strong>
+      Despite legal requirements for seamless transition, structural deficits persist. Rehab clinics often have lower staffing ratios and cannot accept patients requiring significant nursing care. The conflict: acute hospitals want to discharge "quicker and sicker"; rehab clinics want to admit "fitter and independent."<span class="cite">[27]</span>
+      <br><br>
+      For elderly patients (e.g., hip fractures), <strong>Geriatric Early Rehabilitation</strong> (<em>Geriatrische Frührehabilitative Komplexbehandlung</em>, OPS 8-550) within the acute hospital bypasses the external AHB bottleneck.<span class="cite">[28]</span>
+    </div>
+  </section>
+
+  <!-- Section 6 -->
+  <section class="card" aria-labelledby="s6">
+    <h2 id="s6">6. Strategic Analysis: IQTIG vs. EndoCert and Future Outlook</h2>
+
+    <h3>6.1 The Duel of Quality Systems</h3>
+    <p>
+      German hospitals must serve two masters regarding quality:<span class="cite">[29][30]</span>
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 5: Comparison of IQTIG (DeQS) vs. EndoCert (ClarCert)</caption>
+        <thead>
+          <tr><th>Feature</th><th>IQTIG (DeQS)</th><th>EndoCert (ClarCert)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Nature</strong></td><td>Mandatory (Statutory)</td><td>Voluntary (Private/Society)</td></tr>
+          <tr><td><strong>Focus</strong></td><td>Outcome Quality (Data)</td><td>Structure &amp; Process Quality (Audit)</td></tr>
+          <tr><td><strong>Transparency</strong></td><td>Public Quality Reports</td><td>Certificate &amp; Website Listing</td></tr>
+          <tr><td><strong>Consequence</strong></td><td>"Structured Dialogue" (Warning)</td><td>Loss of Certificate (Market Exit)</td></tr>
+          <tr><td><strong>Benchmarking</strong></td><td>Risk-adjusted statistical analysis</td><td>Peer-review and Registry (EPRD)</td></tr>
+        </tbody>
+      </table>
+      <div class="table-caption">Source: Analysis based on regulatory documentation<span class="cite">[29][30]</span></div>
+    </div>
+
+    <h3>6.2 The Future: Ambulantization and Centralization</h3>
+    <ul>
+      <li><strong>The "Low-End" Disruption:</strong> Hybrid-DRGs will force simple procedures out of hospitals. Hospitals must divest or create Medical Care Centers (MVZ) to capture ambulatory revenue.</li>
+      <li><strong>The "High-End" Concentration:</strong> Complex arthroplasty will concentrate in fewer, larger EPZmax centers. The Krankenhausreform proposes "Service Groups" (Leistungsgruppen), and it is likely only EPZ-standard hospitals will be permitted to bill for arthroplasty in the future—turning voluntary certification into a <em>de facto</em> license to operate.<span class="cite">[6][31]</span></li>
+    </ul>
+  </section>
+
+  <!-- Section 7 -->
+  <section class="card" aria-labelledby="s7">
+    <h2 id="s7">7. Conclusion</h2>
+    <p>
+      The management of a German orthopedic hospital is a complex balancing act between clinical excellence and economic survival. The <strong>EndoProthetikZentrum (EPZ)</strong> certification provides the structural blueprint, ensuring high volumes and specialized personnel lead to superior quality. The <strong>G-DRG system</strong>, with its ruthless efficiency incentives and penalties for LoS deviations, dictates the operational tempo, enforcing standardized pathways and rapid mobilization. The <strong>Entlassmanagement</strong> framework mandates seamless integration into rehabilitation, placing significant administrative burden on providers.
+    </p>
+    <p>
+      Success requires a management strategy that fuses these elements: maintaining EPZ volume and personnel standards for market legitimacy, optimizing clinical pathways to navigate the narrow channel of DRG profitability, and streamlining discharge logistics to prevent the economic hemorrhage of bed blocking. As the system moves toward 2025 and beyond, the ability to adapt to Hybrid-DRGs and increasing centralization pressures will define the winners and losers in the German orthopedic market.
+    </p>
+  </section>
+
+  <!-- References -->
+  <section class="card" aria-labelledby="refs">
+    <h2 id="refs">References</h2>
+    <ol class="ref-list">
+      <li id="ref1">[1] Hybrid-DRG Leistungskatalog 2025. <em>Reimbursement Institute</em>. <a href="https://reimbursement.institute/blog/hybrid-drg-leistungskatalog-2025/" target="_blank" rel="noopener">reimbursement.institute</a></li>
+      <li id="ref2">[2] Ambulantisierung – Hybrid-DRG. <em>BVOU Netzwerk</em>. <a href="https://www.bvou.net/dossiers/ambulantisierung/" target="_blank" rel="noopener">bvou.net</a></li>
+      <li id="ref3">[3] Anforderungskatalog für EndoProthetikZentren (EPZmax). <em>ClarCert</em>, 2025. <a href="https://www.clarcert.com" target="_blank" rel="noopener">clarcert.com</a></li>
+      <li id="ref4">[4] Anforderungskatalog für EndoProthetikZentren (EPZ). <em>ClarCert</em>, 2025. <a href="https://www.clarcert.com" target="_blank" rel="noopener">clarcert.com</a></li>
+      <li id="ref5">[5] Zertifizierung als EndoProthetikZentrum (EPZ). <em>Leading Medicine Guide</em>. <a href="https://www.leading-medicine-guide.com" target="_blank" rel="noopener">leading-medicine-guide.com</a></li>
+      <li id="ref6">[6] Endoprothetik: verpflichtende Zertifizierung gefordert. <em>DGOU</em>. <a href="https://dgou.de" target="_blank" rel="noopener">dgou.de</a></li>
+      <li id="ref7">[7] Downloads – EndoProthetikZentrum. <em>ClarCert</em>. <a href="https://www.clarcert.com" target="_blank" rel="noopener">clarcert.com</a></li>
+      <li id="ref8">[8] EndoCert®-Jahresbericht 2020. <a href="https://endocert.de" target="_blank" rel="noopener">endocert.de</a></li>
+      <li id="ref9">[9] Endoprothetikzentrum – KRH Klinikum Siloah. <a href="https://laatzen.krh.de" target="_blank" rel="noopener">krh.de</a></li>
+      <li id="ref10">[10] Wirbelsäulenchirurgie ist wichtig und richtig! <em>BVOU</em>. <a href="https://www.bvou.net" target="_blank" rel="noopener">bvou.net</a></li>
+      <li id="ref11">[11] Endoprothesenregister Deutschland (EPRD). <em>AOK Gesundheitspartner</em>. <a href="https://www.aok.de/gp/qualitaet/stationaere-versorgung/eprd" target="_blank" rel="noopener">aok.de</a></li>
+      <li id="ref12">[12] G-DRG System Documentation. <em>Universität Regensburg</em>. <a href="https://epub.uni-regensburg.de" target="_blank" rel="noopener">epub.uni-regensburg.de</a></li>
+      <li id="ref13">[13] DRG-Entgelttarif 2025. <em>Universitätsklinikum des Saarlandes</em>. <a href="https://www.uks.eu" target="_blank" rel="noopener">uks.eu</a></li>
+      <li id="ref14">[14] Kodierleitfaden für die Endoprothetik 2023. <em>Waldemar Link GmbH</em>. <a href="https://www.link-ortho.com" target="_blank" rel="noopener">link-ortho.com</a></li>
+      <li id="ref15">[15] DRG-Entgelttarif Pflegekosten 2025. <em>Universitätsklinikum Erlangen</em>. <a href="https://www.uk-erlangen.de" target="_blank" rel="noopener">uk-erlangen.de</a></li>
+      <li id="ref16">[16] DRG I47C Erlös und Pflegeentgelt. <em>reimbursement.INFO</em>. <a href="https://app.reimbursement.info" target="_blank" rel="noopener">reimbursement.info</a></li>
+      <li id="ref17">[17] DRG Abschläge – Berechnung und Darstellung. <em>Reimbursement Institute</em>. <a href="https://reimbursement.institute" target="_blank" rel="noopener">reimbursement.institute</a></li>
+      <li id="ref18">[18] DRG-Entgelttarif 2025. <em>RoMed Kliniken</em>. <a href="https://www.romed-kliniken.de" target="_blank" rel="noopener">romed-kliniken.de</a></li>
+      <li id="ref19">[19] DRG-Entgelttarif 2025. <em>Deutsche Krankenhausgesellschaft</em>. <a href="https://www.dkgev.de" target="_blank" rel="noopener">dkgev.de</a></li>
+      <li id="ref20">[20] Fast-Track-Endoprothetik – Hüft-TEP. <em>Springer Medizin</em>. <a href="https://www.springermedizin.de" target="_blank" rel="noopener">springermedizin.de</a></li>
+      <li id="ref21">[21] Hüft-TEP im tagesklinischen Setup. <em>Springer Medizin</em>. <a href="https://www.springermedizin.de" target="_blank" rel="noopener">springermedizin.de</a></li>
+      <li id="ref22">[22] Endoprothetik zwischen Tradition und Innovation. <em>AE Germany</em>. <a href="https://www.ae-germany.com" target="_blank" rel="noopener">ae-germany.com</a></li>
+      <li id="ref23">[23] Umsetzungshinweise Rahmenvertrag Entlassmanagement-Reha. <em>BV Geriatrie</em>. <a href="https://www.bv-geriatrie.de" target="_blank" rel="noopener">bv-geriatrie.de</a></li>
+      <li id="ref24">[24] Rahmenvertrag Entlassmanagement. <em>KBV</em>. <a href="https://www.kbv.de" target="_blank" rel="noopener">kbv.de</a></li>
+      <li id="ref25">[25] Entlassmanagement in der Rehabilitation. <em>GKV-Spitzenverband</em>. <a href="https://www.gkv-spitzenverband.de" target="_blank" rel="noopener">gkv-spitzenverband.de</a></li>
+      <li id="ref26">[26] Rehaantrag. <em>Federseeklinik Bad Buchau</em>. <a href="https://www.federseeklinik.de" target="_blank" rel="noopener">federseeklinik.de</a></li>
+      <li id="ref27">[27] Reha-Bericht 2023. <em>Deutsche Rentenversicherung</em>. <a href="https://www.deutsche-rentenversicherung.de" target="_blank" rel="noopener">deutsche-rentenversicherung.de</a></li>
+      <li id="ref28">[28] Risikoprofil orthogeriatrischer Patienten. <em>Springer Medizin</em>. <a href="https://www.springermedizin.de" target="_blank" rel="noopener">springermedizin.de</a></li>
+      <li id="ref29">[29] Qualitätsmonitor 2018. <em>WIdO</em>. <a href="https://www.wido.de" target="_blank" rel="noopener">wido.de</a></li>
+      <li id="ref30">[30] Kriterien Bewertung Zertifikate und Qualitätssiegel. <em>IQTIG</em>, 2022. <a href="https://iqtig.org" target="_blank" rel="noopener">iqtig.org</a></li>
+      <li id="ref31">[31] Zukunft der Krankenhausversorgung. <em>Klinikverbund Hessen</em>, 2025. <a href="https://www.klinikverbund-hessen.de" target="_blank" rel="noopener">klinikverbund-hessen.de</a></li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside role="complementary" aria-label="Interactive parameter controls and recommendations">
+
+  <!-- DRG Revenue Calculator -->
+  <div class="sidebar-card">
+    <h3><span class="icon">📊</span> DRG Revenue Calculator</h3>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">
+      Adjust parameters to simulate reimbursement scenarios. Thresholds from source document where available; some values annotated as general clinical knowledge.
+    </p>
+
+    <div class="slider-group">
+      <label>
+        Length of Stay (days)
+        <span class="val" id="losVal">9</span>
+      </label>
+      <p class="range-note">UGV: 3 days · Mean: 9 days · OGV: 14 days <span class="cite" style="font-size:0.65rem">[13,17]</span></p>
+      <input type="range" id="losSlider" min="1" max="21" value="9" aria-label="Length of Stay in days">
+    </div>
+
+    <div class="slider-group">
+      <label>
+        Base Rate (€)
+        <span class="val" id="brVal">4,544</span>
+      </label>
+      <p class="range-note">Regional range: €4,200 – €4,800 (2025) <span class="cite" style="font-size:0.65rem">[13]</span></p>
+      <input type="range" id="brSlider" min="4200" max="4800" step="10" value="4544" aria-label="Base Rate in euros">
+    </div>
+
+    <div class="slider-group">
+      <label>
+        DRG Cost Weight
+        <span class="val" id="cwVal">1.45</span>
+      </label>
+      <p class="range-note">I47C: ~1.45 · I05A: ~4.20 <span class="cite" style="font-size:0.65rem">[13]</span></p>
+      <input type="range" id="cwSlider" min="1.0" max="5.0" step="0.05" value="1.45" aria-label="DRG Cost Weight">
+    </div>
+
+    <div class="revenue-display" id="revenueBox">
+      <div class="label">Estimated Total Revenue</div>
+      <div class="amount" id="totalRevenue">€8,581</div>
+      <div class="breakdown" id="revenueBreakdown">DRG: €6,588 · Nursing: €2,000 · Penalty: €0</div>
+    </div>
+
+    <div class="rec-box" id="recBox">
+      <div class="rec-title">📋 Clinical Recommendation</div>
+      <div class="rec-detail" id="recDetail">LoS of 9 days is within the optimal window (UGV–Mean). Standard Fast Track pathway appropriate.</div>
+      <span class="rec-status status-green" id="recStatus">✓ OPTIMAL</span>
+    </div>
+  </div>
+
+  <!-- Surgeon Volume Monitor -->
+  <div class="sidebar-card">
+    <h3><span class="icon">👨‍⚕️</span> Surgeon Volume Monitor</h3>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">
+      Check if individual surgeon volume meets EPZ certification thresholds.<span class="cite">[5]</span>
+    </p>
+
+    <div class="slider-group">
+      <label>
+        Annual Procedures (Surgeon)
+        <span class="val" id="surgeonVal">65</span>
+      </label>
+      <p class="range-note">HO threshold: ≥ 50 · SHO threshold: ≥ 100 <span class="cite" style="font-size:0.65rem">[5]</span></p>
+      <input type="range" id="surgeonSlider" min="0" max="150" value="65" aria-label="Annual procedures per surgeon">
+    </div>
+
+    <div class="rec-box" id="surgeonRec">
+      <div class="rec-title">📋 Certification Status</div>
+      <div class="rec-detail" id="surgeonDetail">This surgeon qualifies as Hauptoperateur (HO ≥ 50) for EPZ certification.</div>
+      <span class="rec-status status-green" id="surgeonStatus">✓ EPZ QUALIFIED</span>
+    </div>
+  </div>
+
+  <!-- Institution Volume Check -->
+  <div class="sidebar-card">
+    <h3><span class="icon">🏥</span> Institution Volume Check</h3>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">
+      Assess whether the institution meets EPZ/EPZmax total volume requirements.<span class="cite">[3,4]</span>
+    </p>
+
+    <div class="slider-group">
+      <label>
+        Annual Primary Cases
+        <span class="val" id="instVal">150</span>
+      </label>
+      <p class="range-note">EPZ: ≥ 100 · EPZmax: ≥ 200 <span class="cite" style="font-size:0.65rem">[3]</span></p>
+      <input type="range" id="instSlider" min="0" max="350" value="150" aria-label="Annual primary cases institution">
+    </div>
+
+    <div class="rec-box" id="instRec">
+      <div class="rec-title">📋 Institutional Status</div>
+      <div class="rec-detail" id="instDetail">Meets EPZ primary volume requirement (≥ 100). Does not meet EPZmax threshold (≥ 200).</div>
+      <span class="rec-status status-green" id="instStatus">✓ EPZ ELIGIBLE</span>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="sidebar-card">
+    <h3><span class="icon">⚙️</span> Actions</h3>
+    <div class="btn-row">
+      <button class="btn btn-outline" id="resetBtn" aria-label="Reset all sliders to defaults">↺ Reset</button>
+      <button class="btn btn-primary" id="copyBtn" aria-label="Copy current summary to clipboard">📋 Export Summary</button>
+    </div>
+  </div>
+
+  <!-- Key Thresholds Quick Reference -->
+  <div class="sidebar-card">
+    <h3><span class="icon">📌</span> Key Thresholds Quick Reference</h3>
+    <div style="font-size:0.82rem;line-height:1.8;">
+      <table style="width:100%;font-size:0.8rem;">
+        <tbody>
+          <tr><td><strong>UGV (Hip TEP)</strong></td><td style="text-align:right">3 days <span class="cite">[13]</span></td></tr>
+          <tr><td><strong>Mean LoS</strong></td><td style="text-align:right">~9 days <span class="cite">[16]</span></td></tr>
+          <tr><td><strong>OGV</strong></td><td style="text-align:right">~14 days <span class="cite">[17]</span></td></tr>
+          <tr><td><strong>HO volume</strong></td><td style="text-align:right">≥ 50/yr <span class="cite">[5]</span></td></tr>
+          <tr><td><strong>SHO volume</strong></td><td style="text-align:right">≥ 100/yr <span class="cite">[5]</span></td></tr>
+          <tr><td><strong>EPZ primaries</strong></td><td style="text-align:right">≥ 100/yr <span class="cite">[3]</span></td></tr>
+          <tr><td><strong>EPZmax primaries</strong></td><td style="text-align:right">≥ 200/yr <span class="cite">[3]</span></td></tr>
+          <tr><td><strong>EPZmax revisions</strong></td><td style="text-align:right">≥ 50/yr <span class="cite">[3]</span></td></tr>
+          <tr><td><strong>Vascular response</strong></td><td style="text-align:right">&lt; 30–45 min <span class="cite">[9]</span></td></tr>
+          <tr><td><strong>7-Day Authority</strong></td><td style="text-align:right">Post-d/c Rx <span class="cite">[25]</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast" role="alert" aria-live="polite">✓ Summary copied to clipboard!</div>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+(function() {
+  'use strict';
+
+  // Elements
+  const losSlider = document.getElementById('losSlider');
+  const brSlider  = document.getElementById('brSlider');
+  const cwSlider  = document.getElementById('cwSlider');
+  const losVal    = document.getElementById('losVal');
+  const brVal     = document.getElementById('brVal');
+  const cwVal     = document.getElementById('cwVal');
+  const totalRev  = document.getElementById('totalRevenue');
+  const breakdown = document.getElementById('revenueBreakdown');
+  const recDetail = document.getElementById('recDetail');
+  const recStatus = document.getElementById('recStatus');
+
+  const surgeonSlider = document.getElementById('surgeonSlider');
+  const surgeonVal    = document.getElementById('surgeonVal');
+  const surgeonDetail = document.getElementById('surgeonDetail');
+  const surgeonStatus = document.getElementById('surgeonStatus');
+
+  const instSlider = document.getElementById('instSlider');
+  const instVal    = document.getElementById('instVal');
+  const instDetail = document.getElementById('instDetail');
+  const instStatus = document.getElementById('instStatus');
+
+  const resetBtn = document.getElementById('resetBtn');
+  const copyBtn  = document.getElementById('copyBtn');
+  const toast    = document.getElementById('toast');
+
+  // Constants from source
+  const UGV = 3;
+  const MEAN_LOS = 9;
+  const OGV = 14;
+  const DAILY_DEDUCTION_WEIGHT = 0.35; // approximate from source [17]
+  const NURSING_DAILY_RATE = 200; // €180-230 range, using mid [15]
+
+  function formatEuro(n) {
+    return '€' + Math.round(n).toLocaleString('de-DE');
+  }
+
+  function calculateRevenue() {
+    const los = parseInt(losSlider.value);
+    const br  = parseInt(brSlider.value);
+    const cw  = parseFloat(cwSlider.value);
+
+    const drgRevenue = cw * br;
+    const nursingRevenue = los * NURSING_DAILY_RATE;
+
+    let penalty = 0;
+    let deductionDays = 0;
+    if (los < UGV) {
+      deductionDays = UGV - los;
+      penalty = deductionDays * DAILY_DEDUCTION_WEIGHT * br;
+    }
+
+    const total = drgRevenue + nursingRevenue - penalty;
+
+    totalRev.textContent = formatEuro(total);
+
+    let breakdownText = 'DRG: ' + formatEuro(drgRevenue) + ' · Nursing: ' + formatEuro(nursingRevenue);
+    if (penalty > 0) {
+      breakdownText += ' · <span style="color:#ff6b6b;font-weight:700;">Penalty: −' + formatEuro(penalty) + '</span>';
+    }
+    breakdown.innerHTML = breakdownText;
+
+    // Recommendation
+    updateLoSRecommendation(los, penalty, deductionDays);
+  }
+
+  function updateLoSRecommendation(los, penalty, deductionDays) {
+    let msg, statusText, statusClass;
+
+    if (los < UGV) {
+      msg = '⚠️ LoS of ' + los + ' day(s) is BELOW the UGV (' + UGV + ' days). ' +
+            'Deduction of ' + deductionDays + ' day(s) applies. Loss: ~' + formatEuro(penalty) + '. ' +
+            'Consider "Parking" strategy: maintain patient until Day ' + UGV + ' to avoid penalty. [Source: [17]]';
+      statusText = '⚠ PENALTY ACTIVE';
+      statusClass = 'status-red';
+    } else if (los <= MEAN_LOS) {
+      msg = '✓ LoS of ' + los + ' days is within the optimal window (UGV ' + UGV + ' – Mean ' + MEAN_LOS + ' days). ' +
+            'No penalty. Standard Fast Track pathway is appropriate. ' +
+            'Ensure mobilization Day 0, TXA protocol, no drains/catheters. [Source: [17,20,22]]';
+      statusText = '✓ OPTIMAL';
+      statusClass = 'status-green';
+    } else if (los <= OGV) {
+      msg = 'LoS of ' + los + ' days is above average but within upper limit (OGV ' + OGV + ' days). ' +
+            'Revenue may not fully cover extended bed costs. Review for discharge barriers: ' +
+            'AHB availability, wound complications, rehab clinic waiting list. [Source: [17,26]]';
+      statusText = '△ REVIEW NEEDED';
+      statusClass = 'status-yellow';
+    } else {
+      msg = '⚠️ LoS of ' + los + ' days EXCEEDS the OGV (' + OGV + ' days). ' +
+            'Only marginal per-diem surcharge applies, likely below actual costs. ' +
+            'Immediate action required: escalate discharge planning, consider geriatric early rehab (OPS 8-550) if applicable. [Source: [17,28]]';
+      statusText = '⚠ EXCESSIVE STAY';
+      statusClass = 'status-red';
+    }
+
+    recDetail.textContent = msg;
+    recStatus.textContent = statusText;
+    recStatus.className = 'rec-status ' + statusClass;
+  }
+
+  function updateSurgeonRec() {
+    const vol = parseInt(surgeonSlider.value);
+    surgeonVal.textContent = vol;
+
+    let msg, statusText, statusClass;
+
+    if (vol >= 100) {
+      msg = 'Surgeon with ' + vol + ' annual procedures qualifies as Senior-Hauptoperateur (SHO ≥ 100) for both EPZ and EPZmax certification. [Source: [5]]';
+      statusText = '✓ SHO QUALIFIED (EPZ + EPZmax)';
+      statusClass = 'status-green';
+    } else if (vol >= 50) {
+      msg = 'Surgeon with ' + vol + ' annual procedures qualifies as Hauptoperateur (HO ≥ 50) for EPZ. Does NOT meet SHO threshold for EPZmax (≥ 100). [Source: [5]]';
+      statusText = '✓ EPZ QUALIFIED (not EPZmax SHO)';
+      statusClass = 'status-green';
+    } else if (vol >= 40) {
+      msg = '⚠️ Surgeon at ' + vol + ' procedures is below the HO threshold (≥ 50). Strategic case reallocation needed in Q4 to ensure compliance. Risk of certification impact. [Source: [5]]';
+      statusText = '△ AT RISK – REALLOCATE CASES';
+      statusClass = 'status-yellow';
+    } else {
+      msg = '❌ Surgeon at ' + vol + ' procedures is significantly below the HO threshold (≥ 50). ' +
+            'This surgeon cannot count toward EPZ Hauptoperateur requirements. Consider whether volume targets are achievable. [Source: [5]]';
+      statusText = '✗ DOES NOT QUALIFY';
+      statusClass = 'status-red';
+    }
+
+    surgeonDetail.textContent = msg;
+    surgeonStatus.textContent = statusText;
+    surgeonStatus.className = 'rec-status ' + statusClass;
+  }
+
+  function updateInstRec() {
+    const vol = parseInt(instSlider.value);
+    instVal.textContent = vol;
+
+    let msg, statusText, statusClass;
+
+    if (vol >= 200) {
+      msg = 'Institution with ' + vol + ' annual primary cases meets EPZmax threshold (≥ 200). Also qualifies for EPZ. ' +
+            'Note: EPZmax also requires ≥ 50 revision surgeries and ≥ 2 Senior-Hauptoperateure. [Source: [3]]';
+      statusText = '✓ EPZmax ELIGIBLE (check revisions & SHOs)';
+      statusClass = 'status-green';
+    } else if (vol >= 100) {
+      msg = 'Institution with ' + vol + ' annual primary cases meets EPZ requirement (≥ 100). Does NOT meet EPZmax threshold (≥ 200). [Source: [3,4]]';
+      statusText = '✓ EPZ ELIGIBLE (not EPZmax)';
+      statusClass = 'status-green';
+    } else if (vol >= 80) {
+      msg = '⚠️ Institution at ' + vol + ' cases is below EPZ threshold (≥ 100). Action required: ' +
+            'merge departments, cooperate with partners, or intensify referral networks. ' +
+            'Chronic failure leads to certificate withdrawal. [Source: [8]]';
+      statusText = '△ AT RISK – BELOW EPZ THRESHOLD';
+      statusClass = 'status-yellow';
+    } else {
+      msg = '❌ Institution at ' + vol + ' primary cases is significantly below minimum requirements. ' +
+            'EPZ certification not achievable. Consider department consolidation or strategic partnerships. [Source: [8]]';
+      statusText = '✗ CERTIFICATION NOT POSSIBLE';
+      statusClass = 'status-red';
+    }
+
+    instDetail.textContent = msg;
+    instStatus.textContent = statusText;
+    instStatus.className = 'rec-status ' + statusClass;
+  }
+
+  // Event listeners
+  losSlider.addEventListener('input', function() {
+    losVal.textContent = this.value;
+    calculateRevenue();
+  });
+
+  brSlider.addEventListener('input', function() {
+    brVal.textContent = parseInt(this.value).toLocaleString('de-DE');
+    calculateRevenue();
+  });
+
+  cwSlider.addEventListener('input', function() {
+    cwVal.textContent = parseFloat(this.value).toFixed(2);
+    calculateRevenue();
+  });
+
+  surgeonSlider.addEventListener('input', updateSurgeonRec);
+  instSlider.addEventListener('input', updateInstRec);
+
+  // Reset
+  resetBtn.addEventListener('click', function() {
+    losSlider.value = 9;   losVal.textContent = '9';
+    brSlider.value = 4544; brVal.textContent = '4,544';
+    cwSlider.value = 1.45; cwVal.textContent = '1.45';
+    surgeonSlider.value = 65; surgeonVal.textContent = '65';
+    instSlider.value = 150;   instVal.textContent = '150';
+    calculateRevenue();
+    updateSurgeonRec();
+    updateInstRec();
+  });
+
+  // Copy/Export
+  copyBtn.addEventListener('click', function() {
+    const los = losSlider.value;
+    const br  = brSlider.value;
+    const cw  = cwSlider.value;
+    const sur = surgeonSlider.value;
+    const inst = instSlider.value;
+    const now = new Date().toLocaleString('en-GB');
+    const drgRev = (parseFloat(cw) * parseInt(br));
+    const nursRev = parseInt(los) * NURSING_DAILY_RATE;
+    let penaltyVal = 0;
+    if (parseInt(los) < UGV) {
+      penaltyVal = (UGV - parseInt(los)) * DAILY_DEDUCTION_WEIGHT * parseInt(br);
+    }
+    const total = drgRev + nursRev - penaltyVal;
+
+    let text = '══════════════════════════════════════════\n';
+    text += 'GERMAN ORTHOPEDIC HOSPITAL MANAGEMENT SYSTEM\n';
+    text += 'DRG Revenue & Certification Assessment\n';
+    text += 'Generated: ' + now + '\n';
+    text += '══════════════════════════════════════════\n\n';
+    text += 'DRG REVENUE CALCULATOR\n';
+    text += '──────────────────────\n';
+    text += 'Length of Stay:        ' + los + ' days\n';
+    text += '  UGV (lower limit):   ' + UGV + ' days\n';
+    text += '  Mean LoS:            ' + MEAN_LOS + ' days\n';
+    text += '  OGV (upper limit):   ' + OGV + ' days\n';
+    text += 'Base Rate:             €' + parseInt(br).toLocaleString('de-DE') + '\n';
+    text += 'DRG Cost Weight:       ' + parseFloat(cw).toFixed(2) + '\n\n';
+    text += 'REVENUE BREAKDOWN\n';
+    text += '  DRG Flat Rate:       €' + Math.round(drgRev).toLocaleString('de-DE') + '\n';
+    text += '  Nursing Revenue:     €' + Math.round(nursRev).toLocaleString('de-DE') + '\n';
+    if (penaltyVal > 0) {
+      text += '  UGV Penalty:        −€' + Math.round(penaltyVal).toLocaleString('de-DE') + '\n';
+    }
+    text += '  ─────────────────────────────\n';
+    text += '  TOTAL REVENUE:       €' + Math.round(total).toLocaleString('de-DE') + '\n\n';
+    text += 'CLINICAL RECOMMENDATION\n';
+    text += '──────────────────────\n';
+    text += recDetail.textContent + '\n\n';
+    text += 'CERTIFICATION ASSESSMENT\n';
+    text += '────────────────────────\n';
+    text += 'Surgeon Volume:        ' + sur + ' procedures/year\n';
+    text += '  → ' + surgeonDetail.textContent + '\n\n';
+    text += 'Institution Volume:    ' + inst + ' primary cases/year\n';
+    text += '  → ' + instDetail.textContent + '\n\n';
+    text += '══════════════════════════════════════════\n';
+    text += 'Sources: EndoCert Anforderungskatalog [3,4], G-DRG Entgelttarif [13],\n';
+    text += 'Reimbursement Institute [1,17], ClarCert [5], PpSG [15]\n';
+    text += '══════════════════════════════════════════\n';
+
+    navigator.clipboard.writeText(text).then(function() {
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  });
+
+  // Initial calculation
+  calculateRevenue();
+  updateSurgeonRec();
+  updateInstRec();
+})();
+</script>
+
+</body>
+</html>

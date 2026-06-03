@@ -1,0 +1,722 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEGF-A &amp; TGF-β1 Dynamics in Tension-Stress Interventions for Ischemic Limb Pathologies</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f8fc;--card:#fff;--text:#1a1a2e;--muted:#6b7280;--accent:#2563eb;--accent-light:#dbeafe;
+  --green:#059669;--green-light:#d1fae5;--amber:#d97706;--amber-light:#fef3c7;
+  --red:#dc2626;--red-light:#fee2e2;--purple:#7c3aed;--purple-light:#ede9fe;
+  --border:#e5e7eb;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.06);
+  --radius:12px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* HEADER */
+.site-header{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);color:#fff;padding:2.5rem 2rem 2rem;position:relative;overflow:hidden}
+.site-header::after{content:'';position:absolute;top:-40%;right:-10%;width:400px;height:400px;background:rgba(255,255,255,.04);border-radius:50%}
+.header-inner{max-width:1320px;margin:0 auto;position:relative;z-index:1}
+.header-inner h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;line-height:1.25;margin-bottom:.5rem}
+.header-inner p.subtitle{font-size:.95rem;opacity:.85;max-width:720px;line-height:1.6}
+
+/* LAYOUT */
+.page-wrap{max-width:1320px;margin:0 auto;padding:2rem 1.5rem;display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
+@media(max-width:960px){.page-wrap{grid-template-columns:1fr}.sidebar{position:relative!important;top:auto!important;width:100%!important}}
+
+/* MAIN */
+main{min-width:0}
+h2{font-size:1.5rem;font-weight:700;margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent-light);color:#1e3a5f}
+h2:first-child{margin-top:0}
+h3{font-size:1.15rem;font-weight:600;margin:1.8rem 0 .6rem;color:#1e3a5f}
+h4{font-size:1rem;font-weight:600;margin:1.4rem 0 .4rem;color:#374151}
+p{margin-bottom:1rem}
+ul,ol{margin:0 0 1rem 1.5rem}
+li{margin-bottom:.35rem}
+strong{color:#1e3a5f}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--radius);padding:1.5rem 1.8rem;box-shadow:var(--shadow);margin-bottom:1.5rem;border:1px solid var(--border)}
+.card.callout-info{border-left:4px solid var(--accent)}
+.card.callout-warn{border-left:4px solid var(--amber)}
+.card.callout-success{border-left:4px solid var(--green)}
+.card.callout-danger{border-left:4px solid var(--red)}
+
+/* EVIDENCE BADGE */
+.ev{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:4px;line-height:1.6}
+.ev-1{background:#d1fae5;color:#065f46}
+.ev-2{background:#dbeafe;color:#1e40af}
+.ev-3{background:#fef3c7;color:#92400e}
+.ev-4{background:#fde68a;color:#78350f}
+.ev-5{background:#fee2e2;color:#991b1b}
+.ev-na{background:#f3f4f6;color:#6b7280}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;margin:1.2rem 0}
+table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card);border-radius:var(--radius-sm);overflow:hidden;box-shadow:var(--shadow)}
+caption{font-weight:700;font-size:.95rem;text-align:left;padding:.8rem 1rem;background:var(--accent-light);color:#1e3a5f}
+th{background:#f1f5f9;font-weight:600;text-align:left;padding:.7rem 1rem;border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:.65rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#f9fafb}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:1.5rem}
+.sidebar .card{padding:1.2rem 1.4rem}
+.slider-group{margin-bottom:1.4rem}
+.slider-group label{display:flex;justify-content:space-between;font-weight:600;font-size:.88rem;margin-bottom:.4rem}
+.slider-group label span.val{color:var(--accent);font-weight:700}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:999px;background:var(--border);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.rec-box{background:linear-gradient(135deg,#eef2ff,#f0fdf4);border:1px solid #c7d2fe;border-radius:var(--radius-sm);padding:1rem 1.2rem;margin-top:.8rem;font-size:.85rem;line-height:1.6}
+.rec-box h4{margin:0 0 .4rem;font-size:.92rem;color:var(--purple)}
+.btn-row{display:flex;gap:.6rem;margin-top:1rem}
+.btn{flex:1;padding:.55rem .8rem;border:none;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-reset{background:#f3f4f6;color:#374151}
+.btn-reset:hover{background:#e5e7eb}
+.btn-copy{background:var(--accent);color:#fff}
+.btn-copy:hover{background:#1d4ed8}
+.btn-copy.copied{background:var(--green)}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:2rem;margin:1.5rem 0}
+.timeline::before{content:'';position:absolute;left:.55rem;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--accent),var(--green));border-radius:999px}
+.tl-item{position:relative;margin-bottom:1.5rem;padding-left:1.2rem}
+.tl-item::before{content:'';position:absolute;left:-1.65rem;top:.35rem;width:14px;height:14px;border-radius:50%;border:3px solid var(--accent);background:#fff;z-index:1}
+.tl-item.phase-active::before{background:var(--accent)}
+.tl-item.phase-consolidation::before{border-color:var(--green);background:var(--green)}
+.tl-item .tl-title{font-weight:700;font-size:.92rem;color:#1e3a5f}
+.tl-item .tl-time{font-size:.78rem;color:var(--muted);font-weight:500}
+
+/* BADGE LIMITATION */
+.limitation-badge{display:inline-flex;align-items:center;gap:.3rem;background:var(--amber-light);color:#92400e;font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:999px;margin:.5rem 0}
+
+/* SCROLL TO TOP */
+.scroll-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow-lg);display:none;z-index:999;transition:opacity .2s}
+.scroll-top:hover{background:#1d4ed8}
+
+/* FOOTER */
+.site-footer{background:#1e3a5f;color:rgba(255,255,255,.7);text-align:center;padding:1.5rem;font-size:.82rem;margin-top:3rem}
+
+/* PRINT */
+@media print{.sidebar,.scroll-top,.btn-row{display:none!important}.page-wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ======== HEADER ======== -->
+<header class="site-header">
+  <div class="header-inner">
+    <h1>Dynamic Modulation of Serum VEGF-A and TGF-β1 in Ischemic Limb Pathologies Undergoing Tension-Stress Interventions</h1>
+    <p class="subtitle">An interactive, evidence-based educational summary of angiogenic and fibrogenic biomarker dynamics during Tibial Cortex Transverse Transport (TTT) and Ilizarov distraction histogenesis for chronic limb-threatening ischemia and recalcitrant diabetic foot ulcers.</p>
+  </div>
+</header>
+
+<!-- ======== PAGE WRAP ======== -->
+<div class="page-wrap">
+
+<!-- ======== MAIN CONTENT ======== -->
+<main id="main-content" role="main">
+
+<!-- Section 1: Overview -->
+<h2 id="overview">1. Clinical Context &amp; Scope</h2>
+<p>Peripheral artery disease (PAD) and its most severe manifestation, <strong>chronic limb-threatening ischemia (CLTI)</strong>, are progressive cardiovascular pathologies characterized by severe macrovascular atherosclerotic occlusion coupled with profound microvascular dysfunction. Without timely revascularization, patients face recalcitrant ischemic ulcerations, gangrene, and major lower limb amputation. The five-year mortality rate for CLTI often approaches <strong>40–50%</strong>, a prognosis grimmer than many prevalent malignancies.<span class="ev ev-2">II</span><sup>[1,2]</sup></p>
+
+<p>Simultaneously, <strong>diabetic foot ulcers (DFUs)</strong> present a uniquely complex intersection of symmetric distal polyneuropathy, multi-level ischemia, and a chronically inflamed, stalled wound environment. These synergistic factors drastically delay re-epithelialization and elevate the risk of osteomyelitis and amputation.<span class="ev ev-3">III</span><sup>[3]</sup></p>
+
+<div class="card callout-info">
+  <strong>Paradox of Standard Revascularization:</strong> A substantial cohort of patients either present with "no-option" diffuse infrapopliteal disease or fail to achieve meaningful limb salvage even after technically successful bypass/endovascular recanalization. This failure is largely attributed to the <em>microvascular architectural collapse</em>—abnormally enlarged, structurally unsound capillaries with decreased RBC transit times and physical detachment from myofibers—rendering tissue incapable of utilizing restored macrovascular inflow.<sup>[2]</sup>
+</div>
+
+<h3>Distraction Histogenesis &amp; the Tension-Stress Effect</h3>
+<p>Originated by Soviet orthopedic surgeon <strong>Gavriil A. Ilizarov</strong>, distraction osteogenesis relies on the "tension-stress effect": continuous, stable, slow mechanical distraction applied to living tissues (following a precise, low-energy corticotomy preserving the periosteum and intramedullary vasculature) stimulates a profound endogenous regenerative response. This induces de novo synthesis of osseous tissue, regeneration of surrounding soft tissues, neural networks, and <em>crucially, dense functional capillary beds</em>.<span class="ev ev-2">II</span><sup>[6]</sup></p>
+
+<h3>Tibial Cortex Transverse Transport (TTT)</h3>
+<p>TTT is a highly specialized iteration of the Ilizarov method tailored for recalcitrant DFUs and CLTI. A rectangular cortical bone window (~5 × 1.5 cm) is created on the anteromedial proximal tibial metaphysis and gradually translated transversely outward, then sequentially compressed back. This induces a localized yet systemically active state of <strong>Microinjury-Induced Remote Repair (MIRR)</strong>, triggering robust systemic release of pro-angiogenic, pro-osteogenic, and immunomodulatory cytokines.<sup>[9,12]</sup></p>
+
+<!-- Section 2: Baseline Pathophysiology -->
+<h2 id="baselines">2. Pathophysiological Baselines: CLTI vs. DFU</h2>
+
+<h3>VEGF-A Baseline: The HIF-1α–Driven Ischemic Drive</h3>
+<p>In advanced CLTI, chronic severe tissue hypoxia inhibits prolyl hydroxylase domain (PHD) enzymes, preventing HIF-1α degradation. Stabilized HIF-1α translocates to the nucleus, dimerizes with HIF-1β, and binds hypoxia-response elements (HREs) in the VEGF-A promoter.<span class="ev ev-2">II</span><sup>[1]</sup></p>
+
+<p>Consequently, <strong>VEGF-A gene transcription and protein expression are significantly elevated</strong> in the ischemic skin, fascia, and skeletal muscle of CLTI patients. Systemic serum VEGF-A levels are driven upward not merely by localized ulcer hypoxia but by the massive cumulative volume of profoundly ischemic skeletal muscle across the entire affected limb.<sup>[1]</sup></p>
+
+<div class="card callout-danger">
+  <strong>The CLTI Paradox:</strong> Despite highly elevated VEGF-A levels, the ischemic limb deteriorates. Contrast-enhanced ultrasound studies demonstrate that chronic, uncoordinated VEGF-A exposure drives a <em>pathological transformation</em> of the microvasculature—generating abnormally enlarged, structurally unsound capillaries with drastically decreased RBC capillary transit times, decreased RBC-vessel wall contacts, and structural detachment from myofibers. This explains why standard revascularization often fails if the microarchitecture remains deranged.<sup>[2]</sup>
+</div>
+
+<p>In <strong>pure neuropathic DFUs</strong> (without severe macrovascular occlusion), the baseline VEGF-A profile diverges. Patients with Wagner grades 4–5 gangrene show a 2–4-fold elevation in circulating VEGF-A relative to healthy controls, but their global ischemic burden remains substantially lower than classic multi-level CLTI. Additional elevation stems from chronic systemic inflammation (IL-6) driving active release of VEGF-A from platelets and PMNs.<sup>[18]</sup></p>
+
+<h3>TGF-β1 Baseline: Fibrotic vs. Proteolytic Paradigms</h3>
+<p>TGF-β1 is a pleiotropic pro-fibrotic cytokine that modulates extracellular matrix (ECM) deposition by stimulating collagen/fibronectin synthesis and inducing tissue inhibitors of metalloproteinases (TIMPs).<sup>[14]</sup></p>
+
+<p>In <strong>PAD/CLTI</strong>, progressive pathological vascular remodeling (intimal hyperplasia, atherosclerotic plaque progression, medial arterial calcification) is heavily mediated by continuously active fibrogenic pathways. Serum TGF-β1 increases sequentially with advancing disease severity and inversely correlates with the ankle-brachial index (ABI), acting as a direct marker of hemodynamic compromise.<span class="ev ev-2">II</span><sup>[21]</sup></p>
+
+<p>In stark contrast, chronic <strong>DFU microenvironments</strong> are characterized by prolonged, unresolving inflammation with pathologically elevated TNF-α, IL-6, and exceptionally high levels of active proteolytic enzymes (MMPs). These MMPs aggressively degrade not only structural ECM but also rapidly catabolize essential growth factors including TGF-β1, before they can bind receptors and exert regenerative effects. Wound exudate and tissue biopsy analyses demonstrate a <strong>marked, significant reduction in functional TGF-β1</strong> compared to healthy controls.<sup>[23,24]</sup></p>
+
+<!-- COMPARATIVE TABLE 1 -->
+<div class="table-wrap">
+<table>
+<caption>Table 1. Baseline Biomarker Profiles: PAD/CLTI vs. Pure Diabetic Foot Ulcers</caption>
+<thead>
+<tr><th>Biomarker</th><th>PAD / CLTI Baseline</th><th>Pure DFU Baseline</th><th>Primary Mechanistic Driver</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>VEGF-A</strong></td>
+  <td>Significantly elevated</td>
+  <td>Moderately elevated (peaks in Wagner 4/5)</td>
+  <td>Global tissue hypoxia stabilizing HIF-1α → abnormal capillary enlargement &amp; detachment <sup>[2]</sup></td>
+</tr>
+<tr>
+  <td><strong>TGF-β1</strong></td>
+  <td>Elevated / highly pro-fibrotic</td>
+  <td>Reduced / functionally degraded</td>
+  <td>Severe MMP-mediated proteolytic degradation (DFU) vs. ischemic, calcific vascular fibrosis (PAD) <sup>[21,23]</sup></td>
+</tr>
+<tr>
+  <td><strong>Clinical Implication</strong></td>
+  <td>Chronically elevated but dysfunctional VEGF-A; pro-fibrotic vascular occlusion</td>
+  <td>Inability to transition from inflammatory → proliferative wound phase</td>
+  <td>Both represent maladaptive states requiring mechanical reprogramming</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Section 3: TTT Procedure -->
+<h2 id="procedure">3. The TTT Procedure: Mechanics &amp; Protocol</h2>
+
+<h3>Surgical Technique</h3>
+<ol>
+  <li><strong>Corticotomy:</strong> Creation of a rectangular cortical bone window (~5 × 1.5 cm) on the anteromedial proximal tibial metaphysis, preserving underlying marrow and periosteal attachments. An external fixator is applied using half-pins.</li>
+  <li><strong>Latency period:</strong> 5–7 days to allow initial inflammatory response to subside, hematoma formation, and early callus organization.<sup>[9]</sup></li>
+  <li><strong>Active distraction phase:</strong> Fragment moved transversely outward at 1 mm/day (divided into increments, e.g., 0.25 mm q6h) for 10–14 days.<sup>[9]</sup></li>
+  <li><strong>Compression phase:</strong> Fragment transported back to original position at 1 mm/day over 10–14 days.</li>
+  <li><strong>Consolidation phase:</strong> External fixator locked; newly formed, highly vascularized tissue matures and mineralizes over weeks before fixator removal.<sup>[9]</sup></li>
+</ol>
+
+<!-- TIMELINE -->
+<h3>Standard TTT Protocol Timeline</h3>
+<div class="timeline" id="timeline-visual">
+  <div class="tl-item">
+    <div class="tl-title">Day 0: Corticotomy &amp; Fixator Application</div>
+    <div class="tl-time">Surgical creation of cortical window</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-title">Days 1–7: Latency Phase</div>
+    <div class="tl-time">No mechanical movement · Inflammatory subsidence · Early callus organization</div>
+  </div>
+  <div class="tl-item phase-active">
+    <div class="tl-title">Days 8–21: Active Distraction Phase</div>
+    <div class="tl-time">1 mm/day outward · VEGF-A peak ~Day 11 · TGF-β1 peak during distraction</div>
+  </div>
+  <div class="tl-item phase-active">
+    <div class="tl-title">Days 22–35: Compression Phase</div>
+    <div class="tl-time">1 mm/day return · Sustained VEGF-A elevation</div>
+  </div>
+  <div class="tl-item phase-consolidation">
+    <div class="tl-title">Days 36+: Consolidation &amp; Remodeling</div>
+    <div class="tl-time">Fixator locked · Biomarker normalization · Microvascular maturation</div>
+  </div>
+</div>
+
+<!-- Section 4: Mechanotransduction -->
+<h2 id="mechanotransduction">4. Mechanotransduction Pathways</h2>
+
+<p>The biological translation of macroscopic external mechanical strain into molecular signals involves multiple converging pathways:<sup>[11]</sup></p>
+
+<ol>
+  <li><strong>Mechanosensitive ion channels</strong> (PIEZO1, PIEZO2) open under stretch, while transmembrane integrins undergo conformational changes.</li>
+  <li>Integrin activation triggers assembly and phosphorylation of <strong>focal adhesion kinases (FAK)</strong> at the cell membrane.</li>
+  <li>Primary membrane sensors activate deep intracellular kinase cascades:
+    <ul>
+      <li><strong>PI3K/AKT pathway</strong></li>
+      <li><strong>mTOR signaling axis</strong></li>
+      <li><strong>MAPK pathways</strong></li>
+    </ul>
+  </li>
+  <li>Continuous mechanical stretching increases phosphorylation of <strong>mTOR and NF-κB p65</strong> within osteoblast-like cells, endothelial progenitor cells, and fibroblasts, promoting nuclear translocation and upregulation of pro-regenerative genes.<sup>[11]</sup></li>
+</ol>
+
+<div class="card callout-success">
+  <strong>Microinjury-Induced Remote Repair (MIRR) Theory:</strong> The daily 1 mm distraction represents a continuous cycle of controlled micro-trauma. The bone and periosteum act as massive endocrine organs, synthesizing and releasing osteokines, angiokines, and chemotactic factors into systemic circulation. This mechanical stress synergizes with pre-existing ischemic signals to produce an explosive, multi-tissue regenerative response with exponential surges in circulating VEGF-A, bFGF, EGF, and PDGF.<sup>[9,12]</sup>
+</div>
+
+<!-- Section 5: VEGF-A Dynamics -->
+<h2 id="vegf">5. Spatiotemporal Dynamics of VEGF-A</h2>
+
+<h3>Latency Phase: Baseline Maintenance</h3>
+<p>During the 5–7-day latency period, serum VEGF-A levels remain relatively stable or show only mild acute-phase elevations from surgical trauma. The tension-stress effect has not yet been applied, so the molecular profile continues to mirror the elevated, ischemic baselines characteristic of the patient's pre-operative CLTI or severe DFU state.<sup>[9]</sup></p>
+
+<h3>Distraction Phase: Explosive VEGF-A Surge</h3>
+<p>Active distraction marks the application of continuous, powerful tensile strain. The mechanical strain acts as a profound biological amplifier through two convergent mechanisms:<span class="ev ev-2">II</span></p>
+
+<ol>
+  <li><strong>Mechanically induced HIF-1α stabilization:</strong> PI3K/AKT and mTOR pathways (activated via mechanosensitive focal adhesions) increase HIF-1α mRNA translation and stabilize the protein against degradation, entirely independently of oxygen tension. This compounds pre-existing, ischemia-driven HIF-1α activity.<sup>[11,16]</sup></li>
+  <li><strong>Hyper-activation of VEGF-A transcription:</strong> The resultant hyper-stabilized HIF-1α drives massive VEGF-A transcription through HRE binding, leading to an acute, sustained peak in protein secretion.</li>
+</ol>
+
+<p>Prospective clinical cohorts using ELISA demonstrate that while early post-operative levels (Days 1–4) show minimal deviation, a <strong>massive, statistically significant surge in circulating VEGF-A occurs precisely around Day 11</strong>. This surge is sustained throughout the mechanical transport phase, documented on post-operative days 11, 18, 28, and 35 (p &lt; 0.05).<sup>[13]</sup></p>
+
+<!-- COMPARATIVE TABLE 2: VEGF-A Changes -->
+<div class="table-wrap">
+<table>
+<caption>Table 2. Serum VEGF-A Dynamics During TTT: Preoperative vs. Postoperative Peak</caption>
+<thead>
+<tr><th>Clinical Study Cohort</th><th>Preoperative Baseline</th><th>Postoperative Peak</th><th>Clinical Context</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>Qin et al., 2023 <sup>[9]</sup></td>
+  <td>[Data partially available — highest baseline cohort]</td>
+  <td>[Nearly two-fold increase]</td>
+  <td>Massive increase; p &lt; 0.05</td>
+</tr>
+<tr>
+  <td>Ou et al., 2022 <sup>[9]</sup></td>
+  <td>[Data partially available]</td>
+  <td>[Rapid increase starting Day 11]</td>
+  <td>Sustained through Day 35; p &lt; 0.05</td>
+</tr>
+<tr>
+  <td>Wen et al., 2024 <sup>[9]</sup></td>
+  <td>[Data partially available]</td>
+  <td>[Two-fold elevation]</td>
+  <td>Consistent postoperative elevation; p &lt; 0.05</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="limitation-badge">⚠ Limitation: Exact numerical pg/mL values for pre/post peaks were represented as non-text figures in the source document. Qualitative trends are accurately preserved.</p>
+
+<p><strong>Companion Factor Kinetics:</strong> The VEGF-A surge does not occur in isolation. VEGF-A and bFGF surge at Day 11; PDGF (critical for pericyte recruitment and capillary stabilization) shows a delayed increase at Day 18; EGF rises significantly at Days 18, 28, and 35 to drive re-epithelialization.<sup>[13]</sup></p>
+
+<h3>Hemodynamic Correlates</h3>
+<p>During active distraction, total local blood flow increases exponentially, peaking at nearly <strong>10× the volume of the contralateral control limb</strong> around the two-week mark, directly mirroring the VEGF-A biochemical peak.<sup>[9]</sup></p>
+
+<h3>Consolidation Phase: Gradual Normalization</h3>
+<p>After cessation of mechanical transport, VEGF-A levels remain elevated (though less aggressively) during early consolidation—biologically essential to sustain survival of newly formed vascular sprouts. Local blood flow remains sustained at approximately <strong>2–3× baseline</strong> of the uninjured control limb.<sup>[9]</sup></p>
+
+<p>As the microvascular network matures (endothelial tubes acquire smooth muscle coverage and pericyte investment via PDGF), functional oxygenated perfusion is permanently restored. The continuous delivery of oxygenated blood removes the primary HIF-1α driver: HIF-1α is once again hydroxylated, ubiquitinated, and proteasomally destroyed. Serum VEGF-A gradually normalizes back to healthy homeostatic values.<sup>[1,16]</sup></p>
+
+<div class="card callout-success">
+  <strong>Key Insight:</strong> The long-term normalization of VEGF-A is <em>not</em> a sign of procedural failure but rather the ultimate biomarker of successful, durable tissue reperfusion, complete ulcer healing, and physiological cessation of the tension-stress response.<sup>[12]</sup>
+</div>
+
+<!-- Section 6: TGF-β1 Dynamics -->
+<h2 id="tgfb">6. Spatiotemporal Dynamics of TGF-β1</h2>
+
+<h3>Force-Dependent Release: Mechanical Unmasking of the Latent Complex</h3>
+<p>Unlike growth factors secreted in an active state, TGF-β1 is exported as a <strong>Large Latent Complex (LLC)</strong>: the mature dimer is non-covalently bound to its Latency-Associated Peptide (LAP), which is covalently cross-linked via disulfide bonds to Latent TGF-β Binding Protein (LTBP). The LLC is anchored firmly to ECM components (fibronectin, collagen, fibrillin).<sup>[19,30]</sup></p>
+
+<p>During active distraction, the continuous physical separation of corticotomy edges generates immense, directional tensile strain. Transmembrane α<sub>v</sub> integrins on myofibroblasts, osteoblasts, and mesenchymal cells bind directly to the RGD sequence on the LAP molecule. As the distraction apparatus pulls the tissue apart, mechanical force is transmitted through the rigid cytoskeleton to the integrins. Because LTBP is anchored to the ECM and the integrin pulls from the cell surface, <strong>the mechanical tension physically distorts and pries open the LAP "straitjacket,"</strong> releasing active TGF-β1 without any need for proteolytic cleavage.<span class="ev ev-2">II</span><sup>[30,31]</sup></p>
+
+<div class="card callout-info">
+  <strong>Elegant Mechanism:</strong> This immediate, direct force-dependent release ensures a massive, localized flooding of active TGF-β1 precisely synchronized with the mechanical transport. Once liberated, active TGF-β1 binds the TGF-β Type II receptor (TβRII), initiating canonical Smad2/3 signaling that drives cellular proliferation, ECM synthesis, and irreversible osteogenic commitment.<sup>[28]</sup>
+</div>
+
+<h3>Peak Expression During Active Distraction</h3>
+<p>During active distraction, the regenerate bone forms primarily via <strong>intramembranous ossification</strong>—mesenchymal stem cells differentiate directly into matrix-secreting osteoblasts, bypassing cartilaginous intermediates. TGF-β1 is heavily expressed at leading edges of the osteotomized host bone, stretched periosteum, and within the hyper-cellular fibrous interzone (FIZ).<sup>[27]</sup></p>
+
+<p>Histological and immunohistochemical analyses confirm that mesenchymal cells within the FIZ exhibit rapid, intense staining for TGF-β1 (and BMP-2, BMP-4). This high expression is rigorously maintained throughout active distraction. Serum TGF-β1 reaches its <strong>maximum concentration strictly during active bone lengthening</strong>, coordinating:<sup>[27]</sup></p>
+<ul>
+  <li>Recruitment of systemic stem cells to the injury site</li>
+  <li>Suppression of localized osteoclast activity</li>
+  <li>Massive synthesis of Type I collagen (the essential structural lattice for mineralization)</li>
+</ul>
+
+<h3>Rapid Downregulation During Consolidation</h3>
+<p>Once the fixator is locked and transport ceases, tensile strain drops immediately. Without continuous mechanical distortion to activate latent TGF-β1 complexes, and with cessation of stretch-activated signaling (mTOR, PI3K), the primary stimulus for de novo TGF-β1 synthesis abruptly fades. Cells in the former FIZ mature into osteoblasts and eventually quiescent osteocytes, drastically reducing growth factor output.<sup>[27]</sup></p>
+
+<div class="card callout-warn">
+  <strong>Clinical Imperative:</strong> This rapid, coordinated downregulation is a biological necessity. Prolonged, unmitigated TGF-β1 overexpression can lead to excessive pathological fibrosis, hypertrophic scarring, impaired bone remodeling, and even paradoxical inhibition of BMP2-mediated regeneration.<sup>[40,42]</sup> The natural mechanobiological dynamic—a massive acute peak synchronized exclusively with active transport, followed by rapid decline—provides the optimal window for regeneration without fibrotic sequelae.
+</div>
+
+<!-- COMPARATIVE TABLE 3: Dual Dynamics -->
+<div class="table-wrap">
+<table>
+<caption>Table 3. Comparative Temporal Dynamics of VEGF-A and TGF-β1 During TTT</caption>
+<thead>
+<tr><th>Phase</th><th>Duration</th><th>VEGF-A Level</th><th>TGF-β1 Level</th><th>Key Biological Events</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Latency</strong></td>
+  <td>Days 1–7</td>
+  <td>Stable / baseline</td>
+  <td>Stable / baseline</td>
+  <td>Inflammatory subsidence; early callus organization</td>
+</tr>
+<tr>
+  <td><strong>Active Distraction</strong></td>
+  <td>Days 8–21</td>
+  <td><strong>Explosive peak ~Day 11</strong> (≈2× baseline)</td>
+  <td><strong>Maximum expression</strong> (integrin-mediated unmasking)</td>
+  <td>Neoangiogenesis; intramembranous ossification; stem cell mobilization</td>
+</tr>
+<tr>
+  <td><strong>Compression</strong></td>
+  <td>Days 22–35</td>
+  <td>Sustained elevation (2–3× baseline)</td>
+  <td>Gradually declining</td>
+  <td>Capillary stabilization via PDGF; continued ECM synthesis</td>
+</tr>
+<tr>
+  <td><strong>Consolidation</strong></td>
+  <td>Days 36+</td>
+  <td>Gradual normalization</td>
+  <td>Sharp decline → normalization</td>
+  <td>Vascular maturation; bone mineralization; fixator removal</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Section 7: Systemic Repercussions -->
+<h2 id="coupling">7. Angiogenic-Osteogenic Coupling &amp; Systemic Effects</h2>
+
+<h3>Reciprocal Molecular Synergy</h3>
+<p>The concurrent, tightly synchronized peaks of VEGF-A and TGF-β1 underscore the requirement for <strong>angiogenic-osteogenic coupling</strong>. TGF-β1 regulates VEGF-A expression by osteoblasts, fibroblasts, and macrophages. Conversely, migrating endothelial cells (responding to VEGF-A gradients) secrete osteogenic factors that further mature osteoblasts. This ensures rapidly forming woven bone is immediately perfused by an equally expanding capillary network.<span class="ev ev-2">II</span><sup>[14]</sup></p>
+
+<h3>Distal Limb Salvage via Systemic Release</h3>
+<p>The transverse transport of the proximal tibial cortex creates a massive biological "sink" for systemic angiogenesis. Because newly formed capillary vessels within the regenerate zone communicate directly with the existing micro-vascular networks of the entire lower limb, the dramatic expansion of this capillary bed drastically lowers total distal vascular resistance. The powerful, sustained systemic VEGF-A release physically forces massive re-arborization of the ischemic distal foot—transforming leaky, enlarged, detached capillaries into a dense, organized, functional microvascular network.<sup>[2,9]</sup></p>
+
+<h3>Progenitor Cell Mobilization</h3>
+<p>The exponential rise in systemic VEGF-A and TGF-β1 (combined with SDF-1 release) acts as a powerful homing beacon signaling the bone marrow. This triggers rapid mobilization and egress of <strong>Endothelial Progenitor Cells (EPCs)</strong> and <strong>Bone Marrow-Derived Mesenchymal Stem Cells (BMSCs)</strong> into peripheral blood. These cells home not only to the proximal corticotomy site but also migrate to distant, distal ischemic ulcers, participating directly in wound healing: rapid re-epithelialization, granulation tissue formation, and localized angiogenesis at the previously stalled wound bed.<sup>[12]</sup></p>
+
+<div class="card callout-success">
+  <strong>Clinical Efficacy:</strong> Multicenter cohort studies evaluating over 1,000 patients demonstrate that this seemingly isolated proximal tibial intervention achieves an astonishing <strong>94.9% complete healing rate</strong> in distal, recalcitrant, Stage 4/5 diabetic foot ulcers within an average of 12.4 weeks, drastically preventing the need for major limb amputation.<span class="ev ev-2">II</span><sup>[10]</span></div>
+</div>
+
+<!-- Section 8: Biomarker Prognostication -->
+<h2 id="prognostication">8. Biomarker-Guided Clinical Prognostication</h2>
+
+<p>Understanding the expected physiological temporal dynamics of VEGF-A and TGF-β1 provides a powerful predictive tool:<sup>[33,37]</sup></p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 4. Biomarker Patterns as Prognostic Indicators During TTT</caption>
+<thead>
+<tr><th>Biomarker Pattern</th><th>Interpretation</th><th>Clinical Action</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Normal:</strong> Acute VEGF-A peak at Day 11–14, gradual decline during consolidation</td>
+  <td>Robust, healthy regenerative response</td>
+  <td>Continue standard protocol</td>
+</tr>
+<tr>
+  <td><strong>Absent/blunted VEGF-A peak</strong></td>
+  <td>Exhausted angiogenic reserve, severe malnutrition, or end-stage endothelial dysfunction</td>
+  <td>High risk of poor regenerate formation; consider nutritional optimization, adjunctive therapy</td>
+</tr>
+<tr>
+  <td><strong>Pathologically elevated TGF-β1 into late consolidation</strong></td>
+  <td>Impending non-union, failed mineralization, or pathological fibrosis at docking site</td>
+  <td>Consider ESWT, PRP, or targeted biological adjuncts to reset healing cascade<sup>[36]</sup></td>
+</tr>
+<tr>
+  <td><strong>Delayed EGF/PDGF rise</strong></td>
+  <td>Impaired re-epithelialization and capillary stabilization</td>
+  <td>Monitor wound bed; consider exogenous growth factor support</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Section 9: Evidence Summary -->
+<h2 id="evidence">9. Evidence Summary &amp; Limitations</h2>
+
+<div class="card callout-warn">
+  <strong>Evidence Gap:</strong> No randomized controlled trials (RCTs) were identified in the source document. The evidence base consists primarily of <strong>prospective cohort studies</strong>, <strong>systematic reviews</strong>, <strong>mechanistic/basic science studies</strong>, and <strong>case series</strong>. Level of evidence ranges from II (systematic reviews of cohort studies) to III–IV (individual cohort and case series data). Future RCTs comparing TTT to standard revascularization with hard endpoints (amputation-free survival, long-term ulcer recurrence) are needed.
+</div>
+
+<h3>Key Studies Referenced in Source Document</h3>
+<ol>
+  <li><strong>Enhanced VEGF Gene Expression in Ischemic Limbs</strong> — Demonstrated that VEGF transcription is significantly elevated in ischemic skin, fascia, and muscle of CLTI patients <sup>[1]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>Arterialized Capillaries in CLTI</strong> — CE-ultrasound with SonoVue microbubbles elucidated pathological microvascular transformation (abnormal capillary enlargement, RBC-vessel wall detachment) <sup>[2]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>Ilizarov's Tension-Stress Effect</strong> — Foundational canine tibial model research proving that continuous, stable, slow distraction stimulates de novo bone and vascular tissue formation <sup>[6]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>Systematic Review of TTT</strong> — Comprehensive analysis of TTT efficacy in CLTI/DFU with quantified serum biomarker data <sup>[9]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>Multicenter TTT Cohort (n &gt; 1,000)</strong> — Prospective study demonstrating 94.9% complete healing rate in Stage 4/5 DFUs within 12.4 weeks <sup>[10]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>Mechanotransduction &amp; MIRR</strong> — Detailed molecular characterization of PIEZO/FAK/PI3K/AKT/mTOR cascades in distraction histogenesis <sup>[11]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>Twenty Years of TTT Development</strong> — Historical and mechanistic review of TTT evolution <sup>[12]</sup> <span class="ev ev-3">III</span></li>
+  <li><strong>Ou et al. / Wen et al. Biomarker Tracking</strong> — Prospective cohorts documenting VEGF-A peak at Day 11, companion factor kinetics (bFGF, PDGF, EGF) <sup>[13]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>TGF-β1 in PAD Vascular Remodeling</strong> — Demonstrated TGF-β1 increase with disease severity, inverse correlation with ABI <sup>[21]</sup> <span class="ev ev-2">II</span></li>
+  <li><strong>MMP-Mediated Growth Factor Degradation in DFU</strong> — Documented proteolytic destruction of TGF-β1 in chronic diabetic wounds <sup>[23]</sup> <span class="ev ev-3">III</span></li>
+</ol>
+
+<p class="limitation-badge">⚠ Evidence limitation: The source document's quantitative tables contained partially non-extractable numerical data (represented as embedded images). Qualitative trends and statistical significance levels (p &lt; 0.05) are preserved as reported.</p>
+
+<!-- Section 10: References -->
+<h2 id="references">10. References (from Source Document)</h2>
+<ol style="font-size:.85rem;color:var(--muted)">
+  <li id="ref1">[1] Enhanced Vascular Endothelial Growth Factor Gene Expression in Ischemic Tissues. PMC3321296.</li>
+  <li id="ref2">[2] A conundrum of arterialized capillaries and vascular dilation in chronic limb-threatening ischaemia. PMC11032205.</li>
+  <li id="ref3">[3] Transverse Tibial Bone Transport in Management of Chronic Diabetic Lower Extremity Wounds. ClinicalTrials.gov NCT07444593.</li>
+  <li id="ref4">[6] Ilizarov GA. The tension-stress effect on the genesis and growth of tissues. Part I. Clin Orthop Relat Res. 1989.</li>
+  <li id="ref5">[9] A Systematic Review on Tibial Cortex Transverse Transport in the Treatment of Diabetic Foot Ulcers. PMC12329156.</li>
+  <li id="ref6">[10] Effect of tibial cortex transverse transport in patients with recalcitrant diabetic foot ulcers: A prospective multicenter cohort study. ResearchGate.</li>
+  <li id="ref7">[11] Mechanotransduction and musculoskeletal regeneration: Molecular mechanisms and interdisciplinary applications. PMC12681786.</li>
+  <li id="ref8">[12] Twenty Years Development of Tibial Cortex Transverse Transport. PMC9163800.</li>
+  <li id="ref9">[13] Ou Y et al. / Wen M et al. Transverse Tibial Bone Transport Enhances Distraction. PMC9483085.</li>
+  <li id="ref10">[14] TGF-β1 modulates VEGF expression by osteoblasts. PubMed 10516092.</li>
+  <li id="ref11">[16] Hypoxia During Consolidation Phase of Distraction Osteogenesis Promotes Bone Regeneration. Frontiers in Physiology.</li>
+  <li id="ref12">[18] VEGF-A and PDGF-BB — angiogenic factors and the stage of diabetic foot syndrome. Endokrynologia Polska.</li>
+  <li id="ref13">[19] Investigating Inflammatory Markers in Wound Healing. ACS Pharmacol Transl Sci.</li>
+  <li id="ref14">[21] TGF-β1 produced by vascular smooth muscle cells predicts fibrosis in PAD. PMC4743093.</li>
+  <li id="ref15">[23] Topical gel-based biomaterials for diabetic foot ulcers. PMC8738150.</li>
+  <li id="ref16">[24] Tissue repair and regeneration: The effects of diabetes on wound healing. Diabetes on the Net.</li>
+  <li id="ref17">[27] Angiogenesis and Mineralization During Distraction Osteogenesis. KoreaMed Synapse.</li>
+  <li id="ref18">[28] Vascular Normalization: A New Window for Cancer Therapies. Frontiers in Oncology.</li>
+  <li id="ref19">[30] VEGF and Connective Tissue Growth Factor under Oxidative Stress. IOVS.</li>
+  <li id="ref20">[31] TGF-β1 as a negative regulator of lymphatic regeneration during wound repair. Am J Physiol.</li>
+  <li id="ref21">[33] Effect of transverse tibial bone transport on serum angiogenesis-related growth factors. PubMed 31939243.</li>
+  <li id="ref22">[36] Transport Distraction Osteogenesis for Maxillomandibular Reconstruction. PMC3428445.</li>
+  <li id="ref23">[37] Elevated TGF-β1 levels in human fracture healing. ResearchGate.</li>
+  <li id="ref24">[40] Treatment of Bone Defects via Novel Delivery Mechanisms, Growth Factors, and Stem Cells. ACS Biomater Sci Eng.</li>
+  <li id="ref25">[42] The Genetic and Biological Basis of Pseudoarthrosis in Fractures. MDPI.</li>
+</ol>
+
+</main>
+
+<!-- ======== SIDEBAR ======== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical parameter controls">
+
+  <div class="card">
+    <h3 style="margin-top:0;font-size:1rem;color:var(--accent)">⚙ Clinical Parameter Explorer</h3>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">Adjust TTT protocol parameters to see predicted biomarker response and clinical implications. <span class="ev ev-na" style="font-size:.65rem">Based on source data &amp; standard protocols</span></p>
+
+    <!-- Slider 1: Distraction Rate -->
+    <div class="slider-group">
+      <label>Distraction Rate <span class="val" id="val-rate">1.0 mm/day</span></label>
+      <input type="range" id="slider-rate" min="0.5" max="2.0" step="0.1" value="1.0" aria-label="Distraction rate in mm per day">
+      <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)"><span>0.5</span><span>2.0</span></div>
+    </div>
+
+    <!-- Slider 2: Active Distraction Duration -->
+    <div class="slider-group">
+      <label>Distraction Duration <span class="val" id="val-duration">12 days</span></label>
+      <input type="range" id="slider-duration" min="7" max="21" step="1" value="12" aria-label="Active distraction duration in days">
+      <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)"><span>7</span><span>21</span></div>
+    </div>
+
+    <!-- Slider 3: Total Transport Distance -->
+    <div class="slider-group">
+      <label>Total Transport Distance <span class="val" id="val-distance">12 mm</span></label>
+      <input type="range" id="slider-distance" min="5" max="25" step="1" value="12" aria-label="Total transport distance in mm">
+      <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)"><span>5 mm</span><span>25 mm</span></div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="rec-box" id="rec-box">
+      <h4>📋 Predicted Response</h4>
+      <div id="rec-content">
+        <p><strong>Protocol:</strong> 1.0 mm/day × 12 days = 12 mm total</p>
+        <p><strong>VEGF-A trajectory:</strong> Baseline → peak at ~Day 11 → sustained elevation through transport → gradual normalization during consolidation</p>
+        <p><strong>TGF-β1 trajectory:</strong> Maximum during active distraction (integrin-mediated unmasking) → sharp decline during consolidation</p>
+        <p><strong>Expected microvascular outcome:</strong> ~10× blood flow increase at 2-week mark; distal capillary re-arborization; 94.9% healing rate in DFU</p>
+        <p><strong>Clinical status:</strong> <span style="color:var(--green);font-weight:700">✓ Standard protocol — optimal regenerative window</span></p>
+      </div>
+    </div>
+
+    <!-- Button Row -->
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <!-- Quick Reference Card -->
+  <div class="card" style="margin-top:1rem">
+    <h4 style="margin-top:0;font-size:.92rem;color:var(--purple)">🔬 Key Biomarker Reference</h4>
+    <ul style="font-size:.82rem;margin-left:1rem">
+      <li><strong>VEGF-A peak:</strong> ~Day 11 (mid-distraction)</li>
+      <li><strong>VEGF-A magnitude:</strong> ≈2× preoperative baseline</li>
+      <li><strong>TGF-β1 peak:</strong> During active distraction</li>
+      <li><strong>PDGF surge:</strong> ~Day 18</li>
+      <li><strong>EGF surge:</strong> Days 18, 28, 35</li>
+      <li><strong>Peak blood flow:</strong> ~10× contralateral at ~2 weeks</li>
+      <li><strong>Sustained flow:</strong> 2–3× baseline during consolidation</li>
+    </ul>
+  </div>
+
+  <!-- Standard Thresholds Card -->
+  <div class="card" style="margin-top:1rem">
+    <h4 style="margin-top:0;font-size:.92rem;color:var(--amber)">⚠ Standard Protocol Thresholds</h4>
+    <ul style="font-size:.82rem;margin-left:1rem">
+      <li><strong>Latency:</strong> 5–7 days</li>
+      <li><strong>Rate:</strong> 1 mm/day (divided increments)</li>
+      <li><strong>Duration:</strong> 10–14 days per phase</li>
+      <li><strong>Standard TTT window:</strong> ~5 × 1.5 cm</li>
+    </ul>
+    <p style="font-size:.72rem;color:var(--muted);margin-top:.5rem">Thresholds sourced from the provided document [9,12]</p>
+  </div>
+
+</aside>
+
+</div><!-- /.page-wrap -->
+
+<!-- ======== FOOTER ======== -->
+<footer class="site-footer">
+  <p>Educational Summary · Source document: "Dynamic Modulation of Serum VEGF-A and TGF-β1 in Ischemic Limb Pathologies Undergoing Tension-Stress Interventions"</p>
+  <p>Generated for academic use only · Not a substitute for clinical judgment</p>
+</footer>
+
+<!-- ======== SCROLL-TO-TOP ======== -->
+<button class="scroll-top" id="scroll-top" aria-label="Scroll to top" title="Back to top">↑</button>
+
+<!-- ======== JAVASCRIPT ======== -->
+<script>
+(function(){
+  'use strict';
+
+  // DOM refs
+  const sliderRate = document.getElementById('slider-rate');
+  const sliderDuration = document.getElementById('slider-duration');
+  const sliderDistance = document.getElementById('slider-distance');
+  const valRate = document.getElementById('val-rate');
+  const valDuration = document.getElementById('val-duration');
+  const valDistance = document.getElementById('val-distance');
+  const recContent = document.getElementById('rec-content');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+  const scrollTopBtn = document.getElementById('scroll-top');
+
+  function update(){
+    const rate = parseFloat(sliderRate.value);
+    const duration = parseInt(sliderDuration.value);
+    const distance = parseInt(sliderDistance.value);
+
+    valRate.textContent = rate.toFixed(1) + ' mm/day';
+    valDuration.textContent = duration + ' days';
+    valDistance.textContent = distance + ' mm';
+
+    // Predicted total days for distraction + compression
+    const computedDays = Math.round(distance / rate);
+    const totalTransportDays = computedDays * 2; // distraction + compression
+    const consolidationStart = 7 + totalTransportDays + 3; // latency + transport + stabilization
+
+    // VEGF-A peak day estimate (typically mid-distraction)
+    const vegfPeakDay = 7 + Math.round(duration / 2);
+
+    // Status classification
+    let statusColor, statusText, statusIcon;
+    if(rate >= 0.8 && rate <= 1.2 && duration >= 10 && duration <= 14 && distance >= 8 && distance <= 18){
+      statusColor = 'var(--green)';
+      statusText = 'Standard protocol — optimal regenerative window';
+      statusIcon = '✓';
+    } else if(rate > 1.5 || duration > 18 || distance > 22){
+      statusColor = 'var(--red)';
+      statusText = 'Exceeds standard parameters — risk of inadequate regenerate vascularization, premature consolidation failure, or excessive microinjury burden';
+      statusIcon = '✗';
+    } else if(rate < 0.8 || duration < 8){
+      statusColor = 'var(--amber)';
+      statusText = 'Sub-optimal parameters — may result in insufficient tension-stress stimulus and blunted biomarker response';
+      statusIcon = '⚠';
+    } else {
+      statusColor = 'var(--amber)';
+      statusText = 'Non-standard parameters — monitor closely for expected VEGF-A/TGF-β1 peak dynamics';
+      statusIcon = '⚠';
+    }
+
+    // Blood flow estimate (qualitative)
+    const flowMultiplier = rate >= 0.8 && rate <= 1.2 ? '~10×' : (rate > 1.2 ? 'Potentially >10× (higher microinjury)' : 'Potentially <10× (sub-threshold)');
+
+    // Compute distance per day for display
+    const computedDistPerDay = (distance / duration).toFixed(1);
+
+    recContent.innerHTML = `
+      <p><strong>Protocol:</strong> ${rate.toFixed(1)} mm/day × ${duration} days ≈ ${computedDistPerDay} mm actual displacement (target: ${distance} mm)</p>
+      <p><strong>Distraction phase:</strong> ~${computedDays} days at ${rate.toFixed(1)} mm/day to achieve ${distance} mm</p>
+      <p><strong>Total transport cycle:</strong> ~${totalTransportDays} days (distraction + compression)</p>
+      <p><strong>VEGF-A trajectory:</strong> Baseline → peak at ~Day ${vegfPeakDay} (≈2× baseline) → sustained elevation → normalization during consolidation (starts ~Day ${consolidationStart})</p>
+      <p><strong>TGF-β1 trajectory:</strong> Maximum during active distraction (integrin-mediated LAP unmasking) → sharp decline upon transport cessation</p>
+      <p><strong>Companion factors:</strong> bFGF peak ~Day ${vegfPeakDay}; PDGF surge ~Day ${7 + duration + 4}; EGF rise Days ${7 + duration + 4}, ${7 + duration + 14}, ${7 + duration + 21}</p>
+      <p><strong>Expected microvascular outcome:</strong> ${flowMultiplier} blood flow increase at ~2-week mark; distal capillary re-arborization</p>
+      <p><strong>Clinical status:</strong> <span style="color:${statusColor};font-weight:700">${statusIcon} ${statusText}</span></p>
+    `;
+  }
+
+  // Event listeners
+  [sliderRate, sliderDuration, sliderDistance].forEach(s => s.addEventListener('input', update));
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    sliderRate.value = 1.0;
+    sliderDuration.value = 12;
+    sliderDistance.value = 12;
+    update();
+  });
+
+  // Copy
+  btnCopy.addEventListener('click', function(){
+    const now = new Date().toISOString();
+    const rate = parseFloat(sliderRate.value);
+    const duration = parseInt(sliderDuration.value);
+    const distance = parseInt(sliderDistance.value);
+    const computedDays = Math.round(distance / rate);
+
+    const text = [
+      '=== TTT Parameter Summary ===',
+      'Source: Dynamic Modulation of Serum VEGF-A and TGF-β1 in Ischemic Limb Pathologies',
+      '',
+      'Distraction Rate: ' + rate.toFixed(1) + ' mm/day',
+      'Active Distraction Duration: ' + duration + ' days',
+      'Total Transport Distance: ' + distance + ' mm',
+      'Computed Distraction Phase: ~' + computedDays + ' days',
+      '',
+      '--- Predicted Biomarker Response ---',
+      'VEGF-A: Baseline → Peak ~Day ' + (7 + Math.round(duration/2)) + ' (≈2× baseline) → Normalization during consolidation',
+      'TGF-β1: Maximum during active distraction → Sharp decline during consolidation',
+      'Peak blood flow: ~10× contralateral at ~2 weeks',
+      '',
+      '--- Recommendation ---',
+      recContent.textContent.replace(/\s+/g,' ').trim(),
+      '',
+      'Timestamp: ' + now,
+      '',
+      'Evidence Level: II (prospective cohort studies, systematic reviews)',
+      'Note: No RCTs identified in source document'
+    ].join('\n');
+
+    navigator.clipboard.writeText(text).then(function(){
+      btnCopy.textContent = '✓ Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(function(){btnCopy.textContent='📋 Copy Summary';btnCopy.classList.remove('copied')},2000);
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btnCopy.textContent = '✓ Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(function(){btnCopy.textContent='📋 Copy Summary';btnCopy.classList.remove('copied')},2000);
+    });
+  });
+
+  // Scroll to top
+  window.addEventListener('scroll', function(){
+    scrollTopBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+  });
+  scrollTopBtn.addEventListener('click', function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // Init
+  update();
+})();
+</script>
+</body>
+</html>

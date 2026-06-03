@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomechanics of Interbody Cage Fusion — Interactive Educational Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#ffffff;--text:#1a1d23;--text-secondary:#4a5068;
+  --accent:#2563eb;--accent-light:#dbeafe;--accent-dark:#1e40af;
+  --success:#059669;--success-light:#d1fae5;
+  --warning:#d97706;--warning-light:#fef3c7;
+  --danger:#dc2626;--danger-light:#fee2e2;
+  --info:#7c3aed;--info-light:#ede9fe;
+  --border:#e2e8f0;--border-light:#f1f5f9;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px rgba(0,0,0,.05),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.08);
+  --radius:12px;--radius-sm:8px;
+  --sidebar-width:340px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+h1,h2,h3,h4{font-family:'Source Serif 4',Georgia,serif;line-height:1.3;color:var(--text)}
+h1{font-size:2.2rem;font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.6rem;font-weight:700;margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--border)}
+h3{font-size:1.2rem;font-weight:600;margin:1.8rem 0 .6rem;color:var(--accent-dark)}
+h4{font-size:1.05rem;font-weight:600;margin:1.2rem 0 .4rem}
+p{margin-bottom:1rem;color:var(--text-secondary)}
+strong{color:var(--text);font-weight:600}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Layout */
+.page-wrapper{display:flex;max-width:1440px;margin:0 auto;gap:2rem;padding:1rem}
+.main-content{flex:1;min-width:0;padding:2rem 0}
+.sidebar{width:var(--sidebar-width);flex-shrink:0}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);color:#fff;padding:2.5rem 2rem;text-align:center}
+.site-header p{color:#94a3b8;max-width:680px;margin:.8rem auto 0;font-size:.95rem}
+.header-meta{display:flex;justify-content:center;gap:2rem;margin-top:1.2rem;font-size:.82rem;color:#64748b}
+.header-meta span{display:flex;align-items:center;gap:.35rem}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 1.8rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.card-highlight{border-left:4px solid var(--accent)}
+.card-warning{border-left:4px solid var(--warning);background:var(--warning-light)}
+.card-danger{border-left:4px solid var(--danger);background:var(--danger-light)}
+.card-success{border-left:4px solid var(--success);background:var(--success-light)}
+.callout{background:var(--accent-light);border:1px solid #93c5fd;border-radius:var(--radius-sm);padding:1rem 1.2rem;margin:1.2rem 0;font-size:.92rem}
+.callout-title{font-weight:700;color:var(--accent-dark);margin-bottom:.3rem}
+
+/* Evidence Badges */
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.15rem .55rem;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;vertical-align:middle;margin-left:.3rem}
+.badge-I{background:#d1fae5;color:#065f46}
+.badge-II{background:#dbeafe;color:#1e40af}
+.badge-III{background:#fef3c7;color:#92400e}
+.badge-IV{background:#fee2e2;color:#991b1b}
+.badge-V{background:#f3f4f6;color:#374151}
+.badge-ns{background:#f1f5f9;color:#64748b}
+
+/* Tables */
+.table-wrapper{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+caption{padding:1rem 1.2rem;background:var(--accent-dark);color:#fff;text-align:left;font-weight:700;font-size:.95rem;letter-spacing:.02em}
+th{background:#f8fafc;padding:.75rem 1rem;text-align:left;font-weight:700;color:var(--text);border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:.7rem 1rem;border-bottom:1px solid var(--border-light);vertical-align:top;color:var(--text-secondary)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.risk-low{color:var(--success);font-weight:700}
+.risk-mod{color:var(--warning);font-weight:700}
+.risk-high{color:var(--danger);font-weight:700}
+
+/* Lists */
+ul,ol{margin:.5rem 0 1rem 1.5rem}
+li{margin-bottom:.4rem;color:var(--text-secondary)}
+li strong{color:var(--text)}
+
+/* Reference list */
+.references{counter-reset:ref}
+.references li{counter-increment:ref;list-style:none;position:relative;padding-left:2.2rem;margin-bottom:.6rem;font-size:.85rem}
+.references li::before{content:counter(ref);position:absolute;left:0;top:0;background:var(--accent-light);color:var(--accent-dark);width:1.6rem;height:1.6rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+
+/* Sidebar */
+.sidebar-inner{position:sticky;top:1rem}
+.slider-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-lg);margin-bottom:1.2rem}
+.slider-panel h3{margin-top:0;font-size:1.1rem;color:var(--accent-dark);display:flex;align-items:center;gap:.5rem}
+.slider-group{margin-bottom:1.4rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem}
+.slider-label span:first-child{font-weight:600;font-size:.85rem;color:var(--text)}
+.slider-value{font-weight:700;font-size:.85rem;color:var(--accent);background:var(--accent-light);padding:.15rem .5rem;border-radius:12px}
+input[type="range"]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--border);outline:none;margin:.4rem 0}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #fff;box-shadow:var(--shadow-md)}
+input[type="range"]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #fff;box-shadow:var(--shadow-md)}
+.slider-hint{font-size:.75rem;color:var(--text-secondary);margin-top:.2rem;font-style:italic}
+.reco-box{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:2px solid var(--accent);border-radius:var(--radius);padding:1.2rem;margin-top:1rem;transition:all .3s}
+.reco-box h4{color:var(--accent-dark);margin:0 0 .5rem;font-size:.95rem}
+.reco-box p{font-size:.85rem;margin-bottom:.4rem}
+.reco-level{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.78rem;font-weight:700;margin-top:.5rem}
+.reco-level.low-risk{background:var(--success-light);color:var(--success)}
+.reco-level.mod-risk{background:var(--warning-light);color:var(--warning)}
+.reco-level.high-risk{background:var(--danger-light);color:var(--danger)}
+
+.btn-group{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border:none;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark)}
+.btn-secondary{background:var(--border-light);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--border)}
+.btn:active{transform:scale(.97)}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:.7rem 1.4rem;border-radius:8px;font-size:.85rem;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding:.6rem .8rem;background:var(--border-light);border-radius:var(--radius-sm)}
+.toggle-row span{font-size:.85rem;font-weight:600}
+.toggle{position:relative;width:44px;height:24px}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .slider{position:absolute;inset:0;background:#cbd5e1;border-radius:12px;cursor:pointer;transition:.3s}
+.toggle .slider::before{content:"";position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.toggle input:checked+.slider{background:var(--accent)}
+.toggle input:checked+.slider::before{transform:translateX(20px)}
+
+/* Flowchart / algorithm */
+.flowchart{display:flex;flex-direction:column;gap:.6rem;margin:1rem 0}
+.flow-step{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.8rem 1rem;font-size:.85rem;position:relative}
+.flow-step::after{content:"↓";position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);color:var(--accent);font-size:1rem;font-weight:700}
+.flow-step:last-child::after{display:none}
+.flow-step .flow-label{font-weight:700;color:var(--accent-dark);display:block;margin-bottom:.2rem}
+
+/* Module list */
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1rem 0}
+.module-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.2rem;transition:box-shadow .2s}
+.module-card:hover{box-shadow:var(--shadow-md)}
+.module-card h4{margin:0 0 .3rem;font-size:.95rem}
+.module-card p{font-size:.83rem;margin:0}
+
+/* Timeline */
+.timeline{position:relative;padding-left:2rem;margin:1.5rem 0}
+.timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:1.5rem}
+.timeline-item::before{content:"";position:absolute;left:-2rem;top:.3rem;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--surface);box-shadow:var(--shadow)}
+.timeline-item .year{font-weight:700;color:var(--accent);font-size:.85rem}
+.timeline-item p{font-size:.85rem;margin:.2rem 0 0}
+
+/* Responsive */
+@media(max-width:1024px){
+  .page-wrapper{flex-direction:column;gap:1rem}
+  .sidebar{width:100%}
+  .sidebar-inner{position:static}
+  h1{font-size:1.7rem}
+}
+@media(max-width:640px){
+  .page-wrapper{padding:.5rem}
+  .main-content{padding:1rem 0}
+  .card{padding:1rem}
+  .header-meta{flex-direction:column;gap:.4rem}
+  .module-grid{grid-template-columns:1fr}
+  .btn-group{flex-direction:column}
+}
+
+/* Print */
+@media print{
+  .sidebar{display:none}
+  .page-wrapper{display:block}
+  .site-header{padding:1rem}
+  .card{break-inside:avoid}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#c1c9d6;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#a0aab8}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card,.module-card,.timeline-item{animation:fadeIn .4s ease both}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" role="banner">
+  <h1>Biomechanics of Interbody Cage Fusion</h1>
+  <p>An Exhaustive Analysis of Load Sharing, Stiffness, and Subsidence Mechanisms — Interactive Evidence-Based Educational Summary</p>
+  <div class="header-meta">
+    <span>📚 Source: Provided Research Document (54 references)</span>
+    <span>🔬 Evidence Synthesis of Landmark Studies</span>
+    <span>📅 Generated: <span id="genDate"></span></span>
+  </div>
+</header>
+
+<!-- ============ MAIN LAYOUT ============ -->
+<div class="page-wrapper">
+
+  <!-- ===== LEFT: MAIN CONTENT ===== -->
+  <main class="main-content" role="main" aria-label="Educational content on interbody cage biomechanics">
+
+    <!-- Section 1: Introduction -->
+    <section id="sec-intro">
+      <h2>1. Introduction: The Biomechanical Imperative</h2>
+      <p>The history of spinal surgery is, in many respects, a history of the battle against mechanical instability. Since the mid-20th century, when <strong>Cloward and Smith-Robinson</strong> introduced anterior approaches for cervical pathology, the fundamental goal of spinal arthrodesis has remained constant: <em>to eliminate painful motion at a pathological segment while restoring anatomical disc height and neural foramina</em>.</p>
+
+      <div class="card card-highlight">
+        <h4>The Stability–Biology Paradox</h4>
+        <p>The interbody cage must serve a <strong>dual role</strong>: immediate structural column bearing immense axial loads, and invisible participant in the biological cascade of bone remodeling. This creates a fundamental engineering tension:</p>
+        <ul>
+          <li><strong>Too rigid → Stress shielding:</strong> Deprives bone graft of mechanical signal for healing (Wolff's Law).<span class="badge badge-II">Evidence Level II</span></li>
+          <li><strong>Too flexible → Excessive micromotion:</strong> Motion &gt; <strong>150 microns</strong> prevents osteoblast bridging → fibrocartilage → pseudarthrosis.<span class="badge badge-II">Evidence Level II</span></li>
+        </ul>
+      </div>
+
+      <p>This report synthesizes decades of seminal research—from the foundational stability concepts of <strong>Panjabi and Goel</strong> to the material science breakthroughs of <strong>Vadapalli</strong> and the topographic endplate mapping of <strong>Grant</strong>—to elucidate the complex interplay between implant design, material stiffness, and the host bone environment.</p>
+    </section>
+
+    <!-- Section 2: Foundational Biomechanics -->
+    <section id="sec-foundation">
+      <h2>2. Foundational Biomechanics of the Functional Spinal Unit</h2>
+
+      <h3>2.1 The Neutral Zone and Instability Hypothesis</h3>
+      <p>The fundamental unit of analysis is the <strong>Functional Spinal Unit (FSU)</strong>: two adjacent vertebrae, the intervertebral disc, and the connecting ligamentous complex. In seminal work, <strong>Panjabi and Goel</strong> introduced the concept of the <strong>"Neutral Zone" (NZ)</strong>.<span class="badge badge-II">Evidence Level II</span></p>
+
+      <div class="callout">
+        <div class="callout-title">Key Concept: Neutral Zone vs. Elastic Zone</div>
+        <p>The <strong>Range of Motion (ROM)</strong> is not linear. The <strong>Neutral Zone</strong> is the initial portion where motion occurs with minimal internal resistance. Beyond it lies the <strong>Elastic Zone</strong>, where stiffness increases as soft tissues stretch. Panjabi's <strong>"Instability Hypothesis"</strong> posits that <em>an increase in the size of the Neutral Zone</em> is a more sensitive indicator of instability and pain than an increase in total ROM.</p>
+      </div>
+
+      <p>The primary biomechanical objective of an interbody cage is to <strong>restore the Neutral Zone to physiological—or ideally, sub-physiological—limits</strong>. By distracting the disc space, the cage tensions the remaining annulus and longitudinal ligaments (ligamentotaxis), artificially stiffening the segment.</p>
+
+      <p>The effectiveness of this stabilization depends on the integrity of the <strong>"Three Columns"</strong> of the spine (Denis concept), supported by biomechanical data from <strong>Cusick, Pintar, and Yoganandan</strong><span class="badge badge-II">Evidence Level II</span> regarding the posterior ligamentous complex. While the anterior column bears the majority of axial load, the <strong>posterior tension band is critical for resisting flexion moments</strong>. Thus, anterior cages often require supplemental posterior fixation, particularly in rotation and extension.<span class="badge badge-II">Evidence Level II</span></p>
+
+      <h3>2.2 Load Transmission and the Rule of Mixtures</h3>
+      <p>In standing posture, the anterior column carries approximately <strong>80%</strong> of compressive load; posterior elements carry <strong>20%</strong>. After discectomy and cage insertion, this distribution is radically altered.</p>
+
+      <div class="card card-warning">
+        <h4>⚠️ The Rule of Mixtures</h4>
+        <p>The load carried by each component in a composite structure is proportional to its <strong>volume fraction</strong> and its <strong>modulus of elasticity</strong>. If the cage material is significantly stiffer than the bone graft (high modulus mismatch), the cage carries the vast majority of load—<strong>creating stress shielding</strong>.</p>
+        <p><strong>Kanayama et al.</strong><span class="badge badge-II">Evidence Level II</span> demonstrated experimentally that rigid constructs significantly reduce <strong>strain energy density</strong> within the graft material, inhibiting the mechanotransduction pathways required for osteoblastogenesis.</p>
+      </div>
+
+      <div class="flowchart" aria-label="Decision flowchart for load sharing">
+        <div class="flow-step">
+          <span class="flow-label">Step 1: Assess Cage Material Modulus</span>
+          Compare implant stiffness (E<sub>cage</sub>) to bone graft stiffness (E<sub>graft</sub>)
+        </div>
+        <div class="flow-step">
+          <span class="flow-label">Step 2: Calculate Modulus Mismatch Ratio</span>
+          If E<sub>cage</sub>/E<sub>graft</sub> &gt;&gt; 1 → High stress shielding risk
+        </div>
+        <div class="flow-step">
+          <span class="flow-label">Step 3: Evaluate Posterior Fixation</span>
+          Rigid posterior rods shift ~67% of load posteriorly (FEA data)<span class="badge badge-II">Evidence Level II</span>
+        </div>
+        <div class="flow-step">
+          <span class="flow-label">Step 4: Optimize Load Sharing</span>
+          Select modulus-matched material + appropriate fixation stiffness to promote Wolff's Law
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Material Science -->
+    <section id="sec-materials">
+      <h2>3. Material Science: Evolution of Stiffness and Compliance</h2>
+
+      <h3>3.1 The Modulus Mismatch Problem</h3>
+      <p>Native vertebral body moduli:<span class="badge badge-II">Evidence Level II</span></p>
+      <ul>
+        <li><strong>Cortical endplate:</strong> E ≈ 12–18 GPa</li>
+        <li><strong>Trabecular cancellous bone:</strong> E ≈ 0.1–4 GPa</li>
+      </ul>
+      <p>Early cages of <strong>stainless steel / cobalt-chrome</strong> (E &gt; 200 GPa) were essentially infinitely rigid, causing profound stress shielding and high subsidence rates.</p>
+
+      <h3>3.2 Material Comparison Table</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 1. Comparative Biomechanical Properties of Interbody Cage Materials</caption>
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Young's Modulus (GPa)</th>
+              <th>vs. Cortical Bone Ratio</th>
+              <th>Stress Shielding Risk</th>
+              <th>Subsidence Risk</th>
+              <th>Biological Fixation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Stainless Steel</strong></td>
+              <td>~200</td>
+              <td>~13× cortical</td>
+              <td class="risk-high">Very High</td>
+              <td class="risk-high">Very High</td>
+              <td>Fibrous encapsulation</td>
+            </tr>
+            <tr>
+              <td><strong>Ti-6Al-4V (Solid)</strong></td>
+              <td>~110</td>
+              <td>~8× cortical</td>
+              <td class="risk-high">High</td>
+              <td class="risk-mod">Moderate–High</td>
+              <td>Osseointegrative</td>
+            </tr>
+            <tr>
+              <td><strong>PEEK</strong></td>
+              <td>3.6–4.0</td>
+              <td>~0.25× cortical</td>
+              <td class="risk-low">Low</td>
+              <td class="risk-low">Low</td>
+              <td>Fibrous (no ongrowth)</td>
+            </tr>
+            <tr>
+              <td><strong>CFR-PEEK</strong></td>
+              <td>~18</td>
+              <td>~1.2× cortical</td>
+              <td class="risk-low">Low</td>
+              <td class="risk-low">Low</td>
+              <td>Fibrous</td>
+            </tr>
+            <tr>
+              <td><strong>3D-Printed Porous Ti</strong></td>
+              <td>3–10 (tunable)</td>
+              <td>~0.3–0.7× cortical</td>
+              <td class="risk-low">Low</td>
+              <td class="risk-low">Low–Moderate</td>
+              <td>Excellent (osseointegration into lattice)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>3.3 Titanium Alloy (Ti-6Al-4V)</h3>
+      <p>Titanium alloy became the standard due to biocompatibility and osseointegrative capacity. However, at ~110 GPa, it is still <strong>~10× stiffer than cortical bone</strong> and <strong>~100× stiffer than cancellous bone</strong>.<span class="badge badge-II">Evidence Level II</span> FEA studies demonstrate that solid titanium cages transmit the bulk of axial load through cage walls, leaving the central graft window mechanically silent—producing the <strong>"sentinel sign"</strong> (radiographic graft resorption).<span class="badge badge-II">Evidence Level II</span></p>
+
+      <h3>3.4 Polyetheretherketone (PEEK)</h3>
+      <div class="card card-success">
+        <h4>✅ Landmark Study: Vadapalli et al. (2006)<span class="badge badge-II">Evidence Level II</span></h4>
+        <p><em>"Biomechanical rationale for using PEEK spacers for lumbar interbody fusion"</em> — This landmark FEA study quantitatively demonstrated that PEEK (E ≈ 3.6–4.0 GPa) closely mimics cortical bone stiffness. Key findings:</p>
+        <ul>
+          <li>Significantly <strong>improved load transfer to bone graft</strong> vs. titanium</li>
+          <li>Reduced endplate peak contact pressures</li>
+          <li>Lower modulus acts as "shock absorber," distributing stress more evenly</li>
+        </ul>
+        <p><strong>Limitation:</strong> PEEK is hydrophobic and chemically inert—<em>does not support direct bone ongrowth</em>, leading to a fibrous tissue layer and radiolucent "halo."<span class="badge badge-II">Evidence Level II</span></p>
+      </div>
+
+      <h3>3.5 Carbon Fiber Reinforced PEEK (CFR-PEEK)</h3>
+      <p>CFR-PEEK tunes the modulus to ~18 GPa, nearly perfectly matching cortical bone.<span class="badge badge-II">Evidence Level II</span> <strong>Kanayama et al.</strong> found CFR-PEEK cages biomechanically favorable: fatigue strength comparable to metals, with modulus that minimizes stress shielding. Additionally, fewer imaging artifacts than titanium.<span class="badge badge-II">Evidence Level II</span></p>
+
+      <h3>3.6 3D-Printed Porous Titanium — Current Frontier</h3>
+      <p>Additive manufacturing creates <strong>"architected materials"</strong> where effective stiffness is determined by lattice topology (Gyroid or Voronoi structures), lowering effective modulus to <strong>3–10 GPa</strong>—matching cancellous bone.<span class="badge badge-II">Evidence Level II</span></p>
+
+      <div class="card card-highlight">
+        <h4>🔬 Key Evidence: 3D-Printed Porous Titanium</h4>
+        <ul>
+          <li>Ovine model studies: <strong>significantly greater bone ingrowth and pull-out strength</strong> compared to PEEK.<span class="badge badge-II">Evidence Level II</span></li>
+          <li>2024 systematic review: <strong>significantly lower subsidence rates</strong> than PEEK in lateral interbody fusion, challenging the dogma that softer materials always yield less subsidence.<span class="badge badge-I">Evidence Level I</span></li>
+          <li>Porous structure increases coefficient of friction at endplate interface → immediate stability</li>
+          <li>Modulus-matched lattice facilitates long-term mechanotransduction per Wolff's Law</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 4: Subsidence -->
+    <section id="sec-subsidence">
+      <h2>4. Subsidence: Mechanics, Risk Factors, and Prevention</h2>
+      <p>Subsidence—the telescoping of the cage into the vertebral body—is fundamentally a failure of the bone-implant interface occurring when <strong>contact stress exceeds compressive yield strength</strong> of the underlying endplate.</p>
+
+      <h3>4.1 Grant's Mapping and Endplate Heterogeneity</h3>
+      <div class="card card-success">
+        <h4>✅ Landmark Study: Grant, Oxland, and Dvorak (2001)<span class="badge badge-II">Evidence Level II</span></h4>
+        <p><em>"Mapping the structural properties of the lumbosacral vertebral endplates"</em> — First detailed topographic map of endplate strength via indentation testing:</p>
+        <ul>
+          <li><strong>Posterolateral region:</strong> Strongest — supported by dense cortical bone of pedicles and apophyseal ring</li>
+          <li><strong>Central region:</strong> Weakest — thin, porous endplate over softer cancellous bone (essential for nutrient diffusion)</li>
+          <li><strong>Anterior region:</strong> Intermediate strength</li>
+        </ul>
+        <p><strong>Clinical implication:</strong> Implants should engage the <strong>peripheral apophyseal ring</strong>, explaining the biomechanical superiority of large-footprint ALIF cages over smaller PLIF/TLIF cages.<span class="badge badge-II">Evidence Level II</span></p>
+      </div>
+
+      <h3>4.2 Failure Loads and Surgical Technique</h3>
+      <p>Lumbar endplate typically fails at axial loads of <strong>2,000–6,000 N</strong>.<span class="badge badge-II">Evidence Level II</span> Critically, surgical technique is a key variable:</p>
+      <div class="card card-danger">
+        <h4>🚨 Endplate Decortication Warning</h4>
+        <p>Removing the endplate (decortication) to expose bleeding bone <strong>reduces failure load by 15–37%</strong>.<span class="badge badge-II">Evidence Level II</span> Aggressive rasping or sharp "box cutters" can breach subchondral bone, drastically lowering the threshold for subsidence.</p>
+        <p><strong>Modern recommendation:</strong> Remove only cartilaginous endplate while <em>preserving the bony endplate</em> to maintain structural integrity.</p>
+      </div>
+
+      <h3>4.3 Footprint and Contact Area</h3>
+      <p>Governed by the fundamental principle: <strong>σ = F / A</strong> (Stress = Force / Area). For constant load, increasing contact area reduces endplate stress.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 2. Patient-Specific vs. Standard Cage Contact Area (Fernandes et al.)<span class="badge badge-II">Evidence Level II</span></caption>
+          <thead>
+            <tr>
+              <th>Cage Type</th>
+              <th>Contact Area (% of Endplate)</th>
+              <th>Failure Force to Subsidence</th>
+              <th>Clinical Implication</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Standard Off-the-Shelf</strong></td>
+              <td>~26%</td>
+              <td>Lower</td>
+              <td>Flat cage vs. concave endplate → point loading</td>
+            </tr>
+            <tr>
+              <td><strong>3D-Printed Patient-Specific</strong></td>
+              <td>~47%</td>
+              <td>Significantly higher</td>
+              <td>Maximized conformity → distributed stress</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Steffen et al. (2000)</strong><span class="badge badge-II">Evidence Level II</span> demonstrated that larger-footprint cages reduce ROM more effectively and significantly disperse axial loads. <strong>Tan et al.</strong><span class="badge badge-II">Evidence Level II</span> showed that wider cages in LLIF span the apophyseal ring, resting on the strongest bone.</p>
+
+      <h3>4.4 Expandable Cages: A Biomechanical Trade-Off</h3>
+      <div class="card card-warning">
+        <h4>⚠️ Expandable Cage Considerations</h4>
+        <p>While surgically attractive (small corridor insertion + expansion), expandable cages carry biomechanical risks:</p>
+        <ul>
+          <li>Expansion mechanism often results in <strong>smaller final footprint</strong> vs. static cages → higher contact stresses</li>
+          <li><em>In situ</em> expansion can act as a "car jack," <strong>fracturing the endplate from within</strong></li>
+          <li>Higher subsidence risk in osteoporotic patients compared to static large-footprint cages<span class="badge badge-II">Evidence Level II</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Section 5: Load Sharing & Instrumentation -->
+    <section id="sec-loadsharing">
+      <h2>5. Load Sharing and Instrumentation Analysis</h2>
+
+      <h3>5.1 The Role of Posterior Fixation</h3>
+      <p>Supplemental posterior fixation (SPF) drastically alters anterior column biomechanics:</p>
+      <ul>
+        <li>Rigid posterior instrumentation transmits approximately <strong>67% of axial compressive load</strong>, bypassing the anterior cage entirely (FEA data).<span class="badge badge-II">Evidence Level II</span></li>
+        <li><strong>Polly et al.</strong><span class="badge badge-II">Evidence Level II</span> confirmed SPF significantly reduces ROM in all planes vs. stand-alone cages.</li>
+        <li>However, this <strong>stress shields the anterior column</strong>, potentially leading to pseudarthrosis if rods are too stiff.</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">Semi-Rigid Fixation Alternative</div>
+        <p>PEEK rods carry approximately <strong>6% less load</strong> than titanium rods, transferring that load back to the anterior cage and potentially enhancing fusion via Wolff's Law.<span class="badge badge-II">Evidence Level II</span></p>
+      </div>
+
+      <h3>5.2 Stand-Alone Biomechanics</h3>
+      <p><strong>Steffen et al.</strong><span class="badge badge-II">Evidence Level II</span> showed that stand-alone ALIF constructs effectively reduce flexion-extension but are less effective in rotation and lateral bending vs. 360° constructs. Stand-alone devices carry higher subsidence risk because the cage must resist the full torso moment without posterior support. <strong>The decision to use stand-alone is fundamentally a calculation of bone quality.</strong></p>
+    </section>
+
+    <!-- Section 6: Landmark Studies -->
+    <section id="sec-landmarks">
+      <h2>6. Seminal Papers and Key Contributors</h2>
+
+      <div class="timeline" aria-label="Timeline of landmark studies">
+        <div class="timeline-item">
+          <span class="year">1992 — Panjabi & Goel</span>
+          <p><strong>"The Stabilizing System of the Spine. Part II. Neutral Zone and Instability Hypothesis"</strong> — Introduced the Neutral Zone concept and instability hypothesis. Testing protocols remain ASTM standard.<span class="badge badge-II">Evidence Level II</span></p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2000 — Steffen et al.</span>
+          <p><strong>"Biomechanical stability of five stand-alone anterior lumbar interbody fusion constructs"</strong> — Defined limits of stand-alone surgery; highlighted importance of cage-endplate friction and annular tension.<span class="badge badge-II">Evidence Level II</span></p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2001 — Grant, Oxland & Dvorak</span>
+          <p><strong>"Mapping the structural properties of the lumbosacral vertebral endplates"</strong> — First topographic map of endplate strength; identified posterolateral rim as the "sweet spot."<span class="badge badge-II">Evidence Level II</span></p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2006 — Vadapalli et al.</span>
+          <p><strong>"Biomechanical rationale for using PEEK spacers for lumbar interbody fusion"</strong> — Landmark FEA study providing scientific justification for PEK's dominance in interbody fusion.<span class="badge badge-II">Evidence Level II</span></p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2000s–2010s — Kanayama et al.</span>
+          <p><strong>Series on stress shielding and construct stability</strong> — Provided critical early warnings about overly stiff constructs; comparative work on CFR-PEEK.<span class="badge badge-II">Evidence Level II</span></p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2024 — Systematic Review</span>
+          <p><strong>"3D-printed porous titanium vs. PEEK cages in LLIF: subsidence meta-analysis"</strong> — Demonstrated significantly lower subsidence with 3D-printed Ti, challenging prior assumptions.<span class="badge badge-I">Evidence Level I</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Comparative Approaches -->
+    <section id="sec-approaches">
+      <h2>7. Comparative Analysis of Fusion Approaches</h2>
+      <p>The choice of surgical approach is not merely anatomical—it is a <strong>biomechanical decision</strong> that dictates cage size, placement, and load-sharing capacity.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 3. Biomechanical Comparison of Interbody Fusion Approaches</caption>
+          <thead>
+            <tr>
+              <th>Approach</th>
+              <th>Cage Characteristics</th>
+              <th>Biomechanical Profile</th>
+              <th>Subsidence Risk</th>
+              <th>Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ALIF (Anterior)</strong></td>
+              <td>Largest footprint; covers apophyseal ring</td>
+              <td>Maximal stability & load distribution (σ = F/A). Preserves posterior tension band.</td>
+              <td class="risk-low">Lowest</td>
+              <td><span class="badge badge-I">I</span> Systematic reviews</td>
+            </tr>
+            <tr>
+              <td><strong>LLIF (Lateral)</strong></td>
+              <td>Wide, rectangular; spans lateral apophyseal rings</td>
+              <td>Excellent distraction & coronal correction. Relies on lateral endplate strength.</td>
+              <td class="risk-mod">Low–Moderate</td>
+              <td><span class="badge badge-II">II</span> In vitro studies</td>
+            </tr>
+            <tr>
+              <td><strong>TLIF (Transforaminal)</strong></td>
+              <td>Medium/small; kidney-bean shaped</td>
+              <td>Unilateral placement → asymmetrical loading. "Bullet" tips can act as stress risers.</td>
+              <td class="risk-mod">Moderate</td>
+              <td><span class="badge badge-II">II</span> FEA studies</td>
+            </tr>
+            <tr>
+              <td><strong>PLIF (Posterior)</strong></td>
+              <td>Small paired cages</td>
+              <td>Bilateral support but very small individual footprints. Retraction limits size.</td>
+              <td class="risk-high">Highest</td>
+              <td><span class="badge badge-II">II</span> FEA & in vitro</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 8: Future Directions -->
+    <section id="sec-future">
+      <h2>8. Future Directions: Topology Optimization and Patient-Specific Design</h2>
+
+      <div class="module-grid">
+        <div class="module-card">
+          <h4>🏗️ Functionally Graded Lattices</h4>
+          <p>Cages with dense, stiff outer shell (resists subsidence at apophyseal ring) and highly porous, compliant core (maximizes graft loading). Mimics vertebral body structure.<span class="badge badge-II">Evidence Level II</span></p>
+        </div>
+        <div class="module-card">
+          <h4>🦴 Patient-Specific Implants (PSI)</h4>
+          <p>Pre-operative CT + 3D printing → cages contoured to patient's endplate topography. Doubles contact area (26% → 47%), significantly increasing failure force threshold.<span class="badge badge-II">Evidence Level II</span></p>
+        </div>
+        <div class="module-card">
+          <h4>🧬 Biomimetic Design Philosophy</h4>
+          <p>Topology optimization via FEA creates implants that replicate the mechanical behavior of the native vertebra, optimizing the stability–biology equilibrium.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 9: Conclusion -->
+    <section id="sec-conclusion">
+      <h2>9. Conclusion</h2>
+      <div class="card card-highlight">
+        <p>The ideal implant must be <strong>stiff enough to stabilize the Neutral Zone and prevent subsidence</strong>, yet <strong>compliant enough to share load with the bone graft and stimulate healing</strong> according to Wolff's Law.</p>
+        <p>The evidence suggests that <strong>Porous Titanium</strong> cages, with their tunable stiffness and osteoconductive surface, represent the current state-of-the-art—offering a superior synthesis of PEEK and solid titanium properties.</p>
+        <p>However, <strong>material science alone is insufficient</strong>. The seminal work of Grant, Steffen, and others confirms that <strong>surgical technique</strong>—specifically endplate preservation and maximizing implant footprint—remains the most critical variable in preventing mechanical failure.</p>
+      </div>
+    </section>
+
+    <!-- References -->
+    <section id="sec-references">
+      <h2>Works Cited (From Source Document)</h2>
+      <ol class="references">
+        <li>Panjabi MM. The Stabilizing System of the Spine. Part II. Neutral Zone and Instability Hypothesis. <em>J Spinal Disord</em>. 1992. [Ref 1]</li>
+        <li>Cusick JF, Pintar FA, Yoganandan N. Whiplash syndrome and cervical spine biomechanics. [Ref 4]</li>
+        <li>Biomechanical comparison of stand-alone lumbar cages vs. 360° constructs. <em>PubMed</em>. 2021. [Ref 6–7]</li>
+        <li>Kanayama M et al. Advances in Spinal Fusion: Molecular Science, Biomechanics, and Clinical Management. [Ref 10]</li>
+        <li>Heary RF. Elastic modulus in the selection of interbody implants. <em>J Spine Surg</em>. [Ref 14–15]</li>
+        <li>Recent advancement in FEA of spinal interbody cages: A review. <em>Front Bioeng Biotechnol</em>. 2023. [Ref 17]</li>
+        <li>Vadapalli S et al. Biomechanical rationale for using PEEK spacers for lumbar interbody fusion: a finite element study. <em>Spine</em>. 2006. [Ref 20]</li>
+        <li>Interbody Spacer Material Properties and Design Conformity for Reducing Subsidence. <em>NIH/PMC</em>. [Ref 21]</li>
+        <li>Biomechanical Optimization of Lumbar Fusion Cages with a Porous Design: FEA. <em>MDPI Appl Sci</em>. 2025. [Ref 25]</li>
+        <li>Bony ingrowth potential of 3D-printed porous titanium alloy: ovine lumbar fusion model. <em>PubMed</em>. 2018. [Ref 26–27]</li>
+        <li>3D-printed porous titanium vs. PEEK cages in LLIF: systematic review and meta-analysis. <em>Front Med</em>. 2024. [Ref 28–29]</li>
+        <li>Grant JP, Oxland TR, Dvorak MF. Mapping the structural properties of the lumbosacral vertebral endplates. <em>Spine</em>. 2001. [Ref 30]</li>
+        <li>Subsidence of Spinal Fusion Cages: A Systematic Review. <em>PMC</em>. 2023. [Ref 32]</li>
+        <li>Endplate weakening during cage bed preparation. <em>PubMed</em>. 2024. [Ref 36]</li>
+        <li>Steffen T et al. Biomechanical stability of five stand-alone anterior lumbar interbody fusion constructs. [Ref 37–38]</li>
+        <li>Tan R et al. Biomechanical comparison of multilevel stand-alone lumbar LLIF with posterior pedicle screws. <em>Neurospine</em>. [Ref 39]</li>
+        <li>Fernandes et al. Biomechanical comparison of subsidence between patient-specific and standard cages. <em>PMC</em>. 2024. [Ref 40]</li>
+        <li>Mantell et al. Biomechanics of expandable lumbar interbody fusion cage. <em>PMC</em>. [Ref 42]</li>
+        <li>Polly DW et al. Stand-alone anterior interbody fusion vs. 360° constructs. [Ref 46]</li>
+        <li>Biomechanical comparison of PEEK rods and titanium alloy rods in TLIF: FEA. <em>PMC</em>. 2024. [Ref 48–49]</li>
+      </ol>
+    </section>
+
+    <p style="text-align:center;color:var(--text-secondary);font-size:.8rem;margin-top:2rem;padding:1rem;border-top:1px solid var(--border)">
+      <em>Evidence Level Classification: I = Systematic review / RCT; II = Prospective cohort / FEA / In vitro biomechanical study; III = Retrospective cohort; IV = Case series; V = Expert opinion. Evidence levels assigned based on study design described in the source document.</em>
+    </p>
+  </main>
+
+  <!-- ===== RIGHT: STICKY SIDEBAR ===== -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive parameter controls and clinical recommendations">
+    <div class="sidebar-inner">
+
+      <!-- Sliders Panel -->
+      <div class="slider-panel">
+        <h3>⚙️ Interactive Biomechanical Parameters</h3>
+        <p style="font-size:.78rem;color:var(--text-secondary);margin-bottom:1rem">Adjust parameters to see real-time clinical recommendations. <em>Thresholds annotated below each slider.</em></p>
+
+        <!-- Slider 1: T-score / BMD -->
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Bone Mineral Density (T-score)</span>
+            <span class="slider-value" id="tscore-val">-1.0</span>
+          </div>
+          <input type="range" id="tscore" min="-4" max="0" step="0.5" value="-1" aria-label="T-score slider">
+          <div class="slider-hint">Normal: &gt; -1.0 · Osteopenia: -1.0 to -2.5 · Osteoporosis: &lt; -2.5 <br><em>[Threshold based on WHO criteria — source documents endplate failure loads 2000–6000 N, which correlate with BMD]</em></div>
+        </div>
+
+        <!-- Slider 2: Cage Contact Area -->
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Cage–Endplate Contact Area (%)</span>
+            <span class="slider-value" id="contact-val">30%</span>
+          </div>
+          <input type="range" id="contact" min="10" max="60" step="5" value="30" aria-label="Contact area slider">
+          <div class="slider-hint">Standard cage: ~26% · PSI cage: ~47% (Fernandes et al., Ref 40) <br><em>[Data from source document]</em></div>
+        </div>
+
+        <!-- Slider 3: Implant Modulus -->
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Implant Modulus (GPa)</span>
+            <span class="slider-value" id="modulus-val">20 GPa</span>
+          </div>
+          <input type="range" id="modulus" min="3" max="200" step="1" value="20" aria-label="Implant modulus slider">
+          <div class="slider-hint">PEEK: ~4 · CFR-PEEK: ~18 · Porous Ti: 3–10 · Solid Ti: ~110 · Steel: ~200 <br><em>[Values from source document, Ref 14–15, 20]</em></div>
+        </div>
+
+        <!-- Toggle: Posterior Fixation -->
+        <div class="toggle-row">
+          <span>Supplemental Posterior Fixation</span>
+          <label class="toggle" aria-label="Toggle posterior fixation">
+            <input type="checkbox" id="posterior-fix" checked>
+            <span class="slider" role="presentation"></span>
+          </label>
+        </div>
+
+        <!-- Recommendation Box -->
+        <div class="reco-box" id="reco-box" aria-live="polite">
+          <h4>📋 Clinical Recommendation</h4>
+          <div id="reco-content">
+            <!-- Dynamically updated -->
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btn-copy" aria-label="Copy recommendation to clipboard">
+            📋 Copy Summary
+          </button>
+          <button class="btn btn-secondary" id="btn-reset" aria-label="Reset all parameters">
+            🔄 Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Reference -->
+      <div class="slider-panel">
+        <h3>📖 Quick Reference</h3>
+        <div style="font-size:.82rem;color:var(--text-secondary)">
+          <p><strong>Micromotion threshold:</strong> &gt;150 μm → pseudarthrosis risk</p>
+          <p><strong>Endplate failure:</strong> 2,000–6,000 N (BMD-dependent)</p>
+          <p><strong>Decortication penalty:</strong> –15% to –37% endplate strength</p>
+          <p><strong>Posterior load shift:</strong> ~67% with rigid rods</p>
+          <p><strong>Posterior fixation (intact):</strong> ~20% load share</p>
+        </div>
+      </div>
+
+      <!-- Decision Algorithm -->
+      <div class="slider-panel">
+        <h3>🧭 Subsidence Risk Assessment</h3>
+        <div id="risk-assessment" style="font-size:.85rem">
+          <!-- Dynamically updated -->
+        </div>
+      </div>
+
+    </div>
+  </aside>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">Copied to clipboard!</div>
+
+<script>
+(function(){
+  // Elements
+  const tscoreEl = document.getElementById('tscore');
+  const contactEl = document.getElementById('contact');
+  const modulusEl = document.getElementById('modulus');
+  const posteriorEl = document.getElementById('posterior-fix');
+  const tscoreVal = document.getElementById('tscore-val');
+  const contactVal = document.getElementById('contact-val');
+  const modulusVal = document.getElementById('modulus-val');
+  const recoContent = document.getElementById('reco-content');
+  const recoBox = document.getElementById('reco-box');
+  const riskAssessment = document.getElementById('risk-assessment');
+  const btnCopy = document.getElementById('btn-copy');
+  const btnReset = document.getElementById('btn-reset');
+  const toast = document.getElementById('toast');
+
+  // Set generation date
+  document.getElementById('genDate').textContent = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+
+  // Material name from modulus
+  function getMaterialName(gpa) {
+    if (gpa <= 6) return 'PEEK / Porous 3D-Printed Titanium';
+    if (gpa <= 12) return 'Porous 3D-Printed Titanium';
+    if (gpa <= 25) return 'CFR-PEEK';
+    if (gpa <= 130) return 'Solid Titanium (Ti-6Al-4V)';
+    return 'Stainless Steel / Cobalt-Chrome';
+  }
+
+  function getBoneModulus(tscore) {
+    // Approximate endplate+cancellous composite modulus based on BMD
+    // Normal (T > -1): ~18 GPa cortical, ~3 GPa cancellous
+    // Osteoporotic (T < -2.5): ~10 GPa cortical, ~0.5 GPa cancellous
+    if (tscore >= -1) return 18;
+    if (tscore >= -2.5) return 12;
+    return 7;
+  }
+
+  function getEndplateStrength(tscore) {
+    // Approximate failure load in N based on T-score
+    // Source: endplate failure 2000-6000 N, correlated with BMD
+    if (tscore >= -1) return 5500;
+    if (tscore >= -1.5) return 4500;
+    if (tscore >= -2.0) return 3500;
+    if (tscore >= -2.5) return 2800;
+    if (tscore >= -3.0) return 2200;
+    return 1800;
+  }
+
+  function calculateStress(contactPct, hasPosterior, tscore) {
+    // Approximate: 4000N standing axial load for lumbar spine
+    // With posterior fixation, 67% bypasses anterior column (source FEA data)
+    const totalLoad = 4000;
+    const anteriorLoad = hasPosterior ? totalLoad * 0.33 : totalLoad;
+    const area = contactPct / 100;
+    // Normalize: at 30% contact and no posterior fix, stress = anteriorLoad / (0.30 * 1000mm²)
+    // Simplified: relative stress indicator
+    const contactArea = area * 1500; // mm², approximate endplate area ~1500mm²
+    const stress = anteriorLoad / contactArea; // MPa
+    return { stress: stress, anteriorLoad: anteriorLoad, contactArea: contactArea };
+  }
+
+  function updateRecommendation() {
+    const tscore = parseFloat(tscoreEl.value);
+    const contact = parseInt(contactEl.value);
+    const modulus = parseInt(modulusEl.value);
+    const hasPosterior = posteriorEl.checked;
+
+    // Update displays
+    tscoreVal.textContent = tscore.toFixed(1);
+    contactVal.textContent = contact + '%';
+    modulusVal.textContent = modulus + ' GPa';
+
+    // Calculate
+    const boneE = getBoneModulus(tscore);
+    const endplateStr = getEndplateStrength(tscore);
+    const modulusRatio = modulus / boneE;
+    const { stress, anteriorLoad, contactArea } = calculateStress(contact, hasPosterior, tscore);
+    const contactForce = stress * contactArea; // Force on endplate
+
+    const material = getMaterialName(modulus);
+
+    // Risk assessment
+    let stressShieldingRisk, subsidenceRisk, overallRisk;
+    let risks = [];
+    let recommendations = [];
+
+    // Stress shielding assessment
+    if (modulusRatio > 10) {
+      stressShieldingRisk = 'high';
+      risks.push('<strong style="color:var(--danger)">⚠ High stress shielding risk</strong> — Modulus ratio ' + modulusRatio.toFixed(1) + '× bone. Consider lower modulus material (PEEK, porous Ti).');
+    } else if (modulusRatio > 3) {
+      stressShieldingRisk = 'moderate';
+      risks.push('<strong style="color:var(--warning)">⚠ Moderate stress shielding risk</strong> — Monitor graft incorporation closely.');
+    } else {
+      stressShieldingRisk = 'low';
+      risks.push('<strong style="color:var(--success)">✓ Good compliance matching</strong> — Modulus ratio ' + modulusRatio.toFixed(1) + '× bone. Favors graft loading per Wolff\'s Law.');
+    }
+
+    // Subsidence assessment
+    if (tscore < -2.5 && contact < 30) {
+      subsidenceRisk = 'high';
+      risks.push('<strong style="color:var(--danger)">🚨 HIGH SUBSIDENCE RISK</strong> — Osteoporotic bone + small contact area. Endplate failure threshold ~' + endplateStr + ' N. Consider PSI cage or large-footprint ALIF approach.');
+    } else if (tscore < -2.5 || contact < 25) {
+      subsidenceRisk = 'moderate';
+      risks.push('<strong style="color:var(--warning)">⚠ Elevated subsidence risk</strong> — Optimize contact area (target &gt;40%) or consider posterior augmentation.');
+    } else {
+      subsidenceRisk = 'low';
+      risks.push('<strong style="color:var(--success)">✓ Acceptable subsidence risk</strong> — Contact area ' + contact + '% with T-score ' + tscore.toFixed(1) + '.');
+    }
+
+    // Posterior fixation note
+    if (hasPosterior) {
+      risks.push('<strong style="color:var(--accent)">🔗 Posterior fixation ON</strong> — ~67% load shifted posteriorly. Reduces anterior stress but may stress-shield graft (Ref: FEA data).');
+      if (stressShieldingRisk === 'high') {
+        recommendations.push('Consider <strong>semi-rigid posterior fixation</strong> (e.g., PEEK rods) to restore anterior load sharing (~6% load transfer benefit).');
+      }
+    } else {
+      risks.push('<strong style="color:var(--accent)">🔓 Stand-alone construct</strong> — Full axial load on anterior column. Ensure adequate bone quality and large cage footprint (Ref: Steffen et al.).');
+      if (tscore < -1.5) {
+        recommendations.push('Stand-alone in suboptimal bone: consider supplemental posterior fixation or integrated fixation cages to prevent catastrophic subsidence.');
+      }
+    }
+
+    // Material-specific recommendations
+    if (modulus >= 100) {
+      recommendations.push('Solid titanium (E=' + modulus + ' GPa): <strong>high modulus mismatch</strong>. Expect stress shielding with graft resorption. Porous lattice design strongly preferred.');
+    } else if (modulus >= 15 && modulus <= 25) {
+      recommendations.push('CFR-PEEK range: excellent cortical bone match. Good balance of load sharing and structural support.');
+    } else if (modulus <= 10) {
+      recommendations.push('Low-modulus implant (E=' + modulus + ' GPa): optimal for graft mechanotransduction. Verify adequate structural support for patient\'s weight/activity level.');
+    }
+
+    // General
+    recommendations.push('Preserve bony endplate during preparation (decortication reduces strength 15–37%).');
+    recommendations.push('Maximize cage footprint to span the apophyseal ring (posterolateral region is strongest per Grant et al.).');
+
+    // Determine overall
+    const riskScores = {low:0,moderate:1,high:2};
+    const shieldingScore = riskScores[stressShieldingRisk];
+    const subsidenceScore = riskScores[subsidenceRisk];
+    const overall = Math.max(shieldingScore, subsidenceScore);
+    overallRisk = overall === 0 ? 'LOW' : overall === 1 ? 'MODERATE' : 'HIGH';
+    const overallClass = overall === 0 ? 'low-risk' : overall === 1 ? 'mod-risk' : 'high-risk';
+
+    // Build recommendation HTML
+    let html = '';
+    html += '<p><strong>Material:</strong> ' + material + '</p>';
+    html += '<p><strong>Modulus Ratio:</strong> ' + modulusRatio.toFixed(1) + '× (implant vs. bone)</p>';
+    html += '<p><strong>Estimated Anterior Load:</strong> ' + anteriorLoad.toFixed(0) + ' N</p>';
+    html += '<p><strong>Endplate Failure Threshold:</strong> ~' + endplateStr + ' N</p>';
+    html += '<hr style="border:none;border-top:1px solid var(--border);margin:.6rem 0">';
+    risks.forEach(r => { html += '<p style="font-size:.82rem">' + r + '</p>'; });
+    html += '<hr style="border:none;border-top:1px solid var(--border);margin:.6rem 0">';
+    html += '<p style="font-size:.8rem"><strong>Recommendations:</strong></p>';
+    recommendations.forEach(r => { html += '<p style="font-size:.8rem">• ' + r + '</p>'; });
+    html += '<div class="reco-level ' + overallClass + '">Overall Risk: ' + overallRisk + '</div>';
+
+    recoContent.innerHTML = html;
+
+    // Risk assessment sidebar box
+    let riskHtml = '';
+    riskHtml += '<div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span>Stress Shielding:</span><strong style="color:' + (stressShieldingRisk==='high'?'var(--danger)':stressShieldingRisk==='moderate'?'var(--warning)':'var(--success)') + '">' + stressShieldingRisk.toUpperCase() + '</strong></div>';
+    riskHtml += '<div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span>Subsidence:</span><strong style="color:' + (subsidenceRisk==='high'?'var(--danger)':subsidenceRisk==='moderate'?'var(--warning)':'var(--success)') + '">' + subsidenceRisk.toUpperCase() + '</strong></div>';
+    riskHtml += '<div style="display:flex;justify-content:space-between;margin-bottom:.6rem"><span>Overall:</span><strong class="' + overallClass + '" style="padding:.1rem .4rem;border-radius:4px">' + overallRisk + '</strong></div>';
+    riskHtml += '<p style="font-size:.75rem;color:var(--text-secondary);margin:0"><em>Risk model based on σ=F/A (stress), Wolff\'s Law compliance, and endplate failure thresholds from source document.</em></p>';
+    riskAssessment.innerHTML = riskHtml;
+  }
+
+  // Event listeners
+  tscoreEl.addEventListener('input', updateRecommendation);
+  contactEl.addEventListener('input', updateRecommendation);
+  modulusEl.addEventListener('input', updateRecommendation);
+  posteriorEl.addEventListener('change', updateRecommendation);
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    tscoreEl.value = -1;
+    contactEl.value = 30;
+    modulusEl.value = 20;
+    posteriorEl.checked = true;
+    updateRecommendation();
+  });
+
+  // Copy
+  btnCopy.addEventListener('click', function(){
+    const tscore = parseFloat(tscoreEl.value);
+    const contact = parseInt(contactEl.value);
+    const modulus = parseInt(modulusEl.value);
+    const hasPosterior = posteriorEl.checked;
+    const material = getMaterialName(modulus);
+    const ratio = (modulus / getBoneModulus(tscore)).toFixed(1);
+    const endplateStr = getEndplateStrength(tscore);
+    const { anteriorLoad } = calculateStress(contact, hasPosterior, tscore);
+
+    let text = '=== BIOMECHANICS OF INTERBODY CAGE FUSION ===\n';
+    text += 'Parameter Assessment Summary\n';
+    text += 'Generated: ' + new Date().toLocaleString() + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Bone Mineral Density (T-score): ' + tscore.toFixed(1) + '\n';
+    text += '  Cage Contact Area: ' + contact + '%\n';
+    text += '  Implant Modulus: ' + modulus + ' GPa (' + material + ')\n';
+    text += '  Posterior Fixation: ' + (hasPosterior ? 'Yes' : 'No') + '\n\n';
+    text += 'CALCULATIONS:\n';
+    text += '  Modulus Ratio (implant/bone): ' + ratio + '×\n';
+    text += '  Estimated Anterior Load: ' + anteriorLoad.toFixed(0) + ' N\n';
+    text += '  Endplate Failure Threshold: ~' + endplateStr + ' N\n\n';
+    text += 'RECOMMENDATIONS:\n';
+    text += recoContent.innerText + '\n\n';
+    text += 'KEY REFERENCES FROM SOURCE:\n';
+    text += '  • Panjabi MM (1992) — Neutral Zone concept [Ref 1]\n';
+    text += '  • Vadapalli S et al. (2006) — PEEK biomechanical rationale [Ref 20]\n';
+    text += '  • Grant JP et al. (2001) — Endplate topographic mapping [Ref 30]\n';
+    text += '  • Steffen T et al. (2000) — Stand-alone ALIF biomechanics [Ref 37]\n';
+    text += '  • Kanayama M et al. — Stress shielding studies [Ref 10]\n';
+    text += '  • 2024 Systematic Review — 3D-printed Ti vs PEEK subsidence [Ref 28]\n\n';
+    text += 'IMPORTANT: Thresholds for T-score and contact area are based on\n';
+    text += 'WHO criteria and published biomechanical data from the source document.\n';
+
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('Summary copied to clipboard!');
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Summary copied to clipboard!');
+    });
+  });
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+  }
+
+  // Initial update
+  updateRecommendation();
+})();
+</script>
+</body>
+</html>

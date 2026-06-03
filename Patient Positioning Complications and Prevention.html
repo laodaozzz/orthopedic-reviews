@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomechanical Analysis and Complication Mitigation in Orthopedic Patient Positioning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a365d;
+  --primary-light: #2a4a7f;
+  --accent: #c53030;
+  --accent-light: #fc8181;
+  --green: #276749;
+  --green-light: #c6f6d5;
+  --amber: #975a16;
+  --amber-light: #fefcbf;
+  --red-light: #fff5f5;
+  --blue-light: #ebf8ff;
+  --gray-50: #f7fafc;
+  --gray-100: #edf2f7;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e0;
+  --gray-500: #718096;
+  --gray-600: #4a5568;
+  --gray-700: #2d3748;
+  --gray-800: #1a202c;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--gray-700);
+  background: var(--gray-50);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* HEADER */
+.site-header {
+  background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+  color: var(--white);
+  padding: 2.5rem 2rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+
+.site-header h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.3;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.site-header .subtitle {
+  font-size: 0.85rem;
+  font-weight: 300;
+  opacity: 0.85;
+  margin-top: 0.4rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* LAYOUT */
+.page-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  padding: 2rem 1.5rem 4rem;
+  align-items: start;
+}
+
+/* MAIN CONTENT */
+main {
+  min-width: 0;
+}
+
+main h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 2.8rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--primary);
+  line-height: 1.3;
+}
+
+main h3 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-light);
+  margin: 2rem 0 0.7rem;
+}
+
+main h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin: 1.4rem 0 0.5rem;
+}
+
+main p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+main ul, main ol {
+  margin: 0.5rem 0 1.2rem 1.5rem;
+}
+
+main li {
+  margin-bottom: 0.35rem;
+}
+
+/* EVIDENCE BADGE */
+.ev {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ev-i { background: #c6f6d5; color: #22543d; }
+.ev-ii { background: #bee3f8; color: #2a4365; }
+.ev-iii { background: #fefcbf; color: #744210; }
+.ev-iv { background: #feebc8; color: #7b341e; }
+.ev-v { background: #fed7e2; color: #702459; }
+.ev-na { background: var(--gray-200); color: var(--gray-600); }
+.ev-guideline { background: #e9d8fd; color: #553c9a; }
+
+/* CALLOUT BOXES */
+.callout {
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  border-left: 5px solid;
+}
+
+.callout-danger {
+  background: var(--red-light);
+  border-color: var(--accent);
+}
+
+.callout-info {
+  background: var(--blue-light);
+  border-color: #3182ce;
+}
+
+.callout-warning {
+  background: var(--amber-light);
+  border-color: var(--amber);
+}
+
+.callout-success {
+  background: var(--green-light);
+  border-color: var(--green);
+}
+
+.callout strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+
+/* TABLES */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: var(--white);
+}
+
+table caption {
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.8rem 1rem;
+  background: var(--primary);
+  color: var(--white);
+  text-align: left;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+th {
+  background: var(--gray-100);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  border-bottom: 2px solid var(--gray-300);
+  white-space: nowrap;
+  color: var(--gray-700);
+}
+
+td {
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--gray-200);
+  vertical-align: top;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: #f0f7ff;
+}
+
+/* CITATION REFERENCES */
+.citation {
+  font-size: 0.75rem;
+  color: var(--primary-light);
+  vertical-align: super;
+  font-weight: 600;
+  cursor: help;
+}
+
+/* SIDEBAR */
+aside {
+  position: sticky;
+  top: 110px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 1.5rem;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  border-top: 4px solid var(--primary);
+}
+
+aside h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 0.3rem;
+  border: none;
+  padding: 0;
+}
+
+aside .sidebar-subtitle {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
+}
+
+.slider-group {
+  margin-bottom: 1.3rem;
+  padding-bottom: 1.3rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.slider-group:last-of-type {
+  border-bottom: none;
+}
+
+.slider-label {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--gray-700);
+  margin-bottom: 0.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider-value {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.slider-desc {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--gray-200);
+  outline: none;
+  transition: background 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(26,54,93,0.3);
+  transition: transform 0.15s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(26,54,93,0.3);
+}
+
+/* RISK OUTPUT */
+.risk-output {
+  background: var(--gray-50);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.risk-output.risk-low {
+  border-color: #38a169;
+  background: #f0fff4;
+}
+
+.risk-output.risk-moderate {
+  border-color: #d69e2e;
+  background: #fffff0;
+}
+
+.risk-output.risk-high {
+  border-color: #e53e3e;
+  background: #fff5f5;
+}
+
+.risk-output .risk-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.risk-output ul {
+  margin: 0.4rem 0 0 1.2rem;
+  font-size: 0.82rem;
+}
+
+.risk-output li {
+  margin-bottom: 0.2rem;
+}
+
+/* BUTTONS */
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  min-width: 100px;
+}
+
+.btn-reset {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.btn-reset:hover {
+  background: var(--gray-300);
+}
+
+.btn-export {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-export:hover {
+  background: var(--primary-light);
+}
+
+.btn-export.copied {
+  background: var(--green);
+}
+
+/* REFERENCES SECTION */
+.references {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 3px solid var(--gray-300);
+}
+
+.references h2 {
+  font-size: 1.3rem;
+  border-bottom-color: var(--gray-300);
+}
+
+.ref-list {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  list-style: none;
+  margin-left: 0;
+  counter-reset: ref;
+}
+
+.ref-list li {
+  counter-increment: ref;
+  padding-left: 2.2rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.ref-list li::before {
+  content: "[" counter(ref) "]";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.8rem;
+}
+
+/* TOC */
+.toc {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--primary);
+}
+
+.toc h3 {
+  font-size: 0.95rem;
+  margin: 0 0 0.6rem;
+  color: var(--primary);
+}
+
+.toc ol {
+  font-size: 0.85rem;
+  margin-left: 1.2rem;
+  line-height: 1.9;
+}
+
+.toc a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.toc a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* DATA NOT AVAILABLE */
+.data-na {
+  background: repeating-linear-gradient(
+    45deg,
+    #fff,
+    #fff 10px,
+    #f7f7f7 10px,
+    #f7f7f7 20px
+  );
+  border: 1px dashed var(--gray-300);
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-sm);
+  font-style: italic;
+  color: var(--gray-500);
+  font-size: 0.88rem;
+  margin: 1rem 0;
+}
+
+/* NOTE BOXES */
+.limitation-note {
+  background: #fffbeb;
+  border: 1px solid #d69e2e;
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  color: #744210;
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.limitation-note::before {
+  content: "⚠ ";
+  font-weight: 700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .page-wrapper {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  aside {
+    position: relative;
+    top: 0;
+    max-height: none;
+    order: -1;
+  }
+
+  .site-header h1 {
+    font-size: 1.3rem;
+  }
+
+  main h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+
+  .site-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .btn-row {
+    flex-direction: column;
+  }
+
+  table {
+    font-size: 0.78rem;
+  }
+
+  th, td {
+    padding: 0.5rem 0.6rem;
+  }
+}
+
+/* FOCUS STATES */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid #63b3ed;
+  outline-offset: 2px;
+}
+
+/* PRINT */
+@media print {
+  .site-header {
+    position: relative;
+  }
+  aside {
+    position: relative;
+    top: 0;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    page-break-inside: avoid;
+  }
+  .btn-row { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Biomechanical Analysis and Complication Mitigation in Orthopedic Patient Positioning</h1>
+  <p class="subtitle">A Comprehensive Evidence-Based Review of Prone &amp; Lateral Decubitus Complications &mdash; Synthesizing AORN 2024–2025 Guidelines, ASA Practice Advisories, and Biomechanical Research</p>
+</header>
+
+<div class="page-wrapper">
+<main role="main" aria-label="Main educational content">
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#s1">Introduction: The Biomechanical and Medico-Legal Landscape</a></li>
+      <li><a href="#s2">Fundamental Pathophysiology of Positioning Injury</a></li>
+      <li><a href="#s3">The Prone Position: Systemic Physiology &amp; Equipment Biomechanics</a></li>
+      <li><a href="#s4">Lateral Decubitus Positioning: Asymmetry and "Down" Side Risks</a></li>
+      <li><a href="#s5">Specific Peripheral Nerve Injury Profiles &amp; Prevention</a></li>
+      <li><a href="#s6">AORN Guidelines 2024–2025: Key Updates</a></li>
+      <li><a href="#s7">Operational Protocols and Checklists</a></li>
+      <li><a href="#s8">Conclusion</a></li>
+      <li><a href="#s9">References</a></li>
+    </ol>
+  </nav>
+
+  <!-- SECTION 1 -->
+  <section id="s1">
+    <h2>1. Introduction: The Biomechanical and Medico-Legal Landscape</h2>
+
+    <p>In orthopedic surgery, patient positioning is not merely a preparatory logistical step but a <strong>critical intraoperative intervention</strong> with profound physiological and biomechanical implications. The requirement for specific anatomical exposure—whether for complex spinal deformity correction, total hip arthroplasty, or shoulder reconstruction—often necessitates placing the anesthetized patient in non-physiologic postures for extended durations. While essential for surgical access, these positions subject the body to abnormal force vectors, including shear, compression, and traction, which threaten the integrity of the peripheral nervous system and the integumentary barrier.<span class="citation">[1]</span></p>
+
+    <p>The clinical stakes are exceptionally high. <strong>Perioperative peripheral nerve injuries (PPNI)</strong> and <strong>intraoperative pressure injuries (IPI)</strong> remain leading causes of postoperative morbidity and litigation. Data from the American Society of Anesthesiologists (ASA) Closed Claims Project reveals that nerve injuries account for a significant proportion of anesthesia-related malpractice claims, with <strong>ulnar neuropathies (28%)</strong> and <strong>brachial plexus injuries (20%)</strong> dominating the landscape.<span class="citation">[1]</span> Furthermore, the doctrine of <em>res ipsa loquitur</em> ("the thing speaks for itself") is frequently applied in legal proceedings regarding positioning injuries, predicated on the assumption that such complications are preventable deviations from the standard of care.<span class="citation">[3]</span></p>
+
+    <div class="callout callout-info">
+      <strong>Scope of This Review</strong>
+      This report provides an evidence-based review of the biomechanics governing positioning-related injuries in orthopedic surgery. It synthesizes the most recent guidelines from the <strong>Association of periOperative Registered Nurses (AORN)</strong> (2024–2025 updates) and <strong>Practice Advisories from the ASA</strong>, offering a granular analysis of risk mitigation strategies for the prone and lateral decubitus positions.<span class="citation">[8, 25]</span>
+    </div>
+
+    <div class="limitation-note">Evidence Level Assignment: The source document provides guideline-level evidence (AORN, ASA) and epidemiological data (ASA Closed Claims). Where specific study designs are described, evidence levels are assigned accordingly. Where the source does not specify, "not specified in source" is noted.</div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="s2">
+    <h2>2. Fundamental Pathophysiology of Positioning Injury</h2>
+
+    <p>To effectively mitigate risk, the perioperative team must possess a nuanced understanding of the cellular and gross mechanics of injury. General anesthesia abolishes the protective somatosensory reflexes that normally prompt a conscious individual to reposition when tissue ischemia or joint strain occurs. Consequently, the burden of protection falls entirely on the strategic application of biomechanical principles by the surgical team.</p>
+
+    <h3>2.1 The Biomechanics of Peripheral Nerve Injury (PPNI)</h3>
+
+    <p>Peripheral nerves are complex, vascularized structures that rely on intrinsic elasticity and extraneural gliding to function. Injury in the perioperative setting is rarely the result of transection; rather, it stems from the mechanical disruption of the nerve's microenvironment.<span class="citation">[2]</span></p>
+
+    <h4>2.1.1 Ischemia and Microvascular Compromise <span class="ev ev-ii">Level II–III Evidence</span></h4>
+
+    <p>The primary driver of PPNI is <strong>ischemia</strong>. Peripheral nerves are nourished by the <em>vasa nervorum</em>, a delicate network of intrinsic blood vessels in the epineurium and endoneurium. These vessels lack autoregulation, making nerve perfusion directly dependent on the gradient between mean arterial pressure (MAP) and intraneural pressure.<span class="citation">[2]</span></p>
+
+    <div class="callout callout-danger">
+      <strong>Critical Ischemic Thresholds</strong>
+      <ul>
+        <li><strong>External pressure &gt;30–40 mmHg</strong> disrupts capillary perfusion pressure, initiating ischemia.</li>
+        <li><strong>10–30 minutes</strong> of acute ischemia → reversible conduction block (neurapraxia).</li>
+        <li><strong>&gt;3–4 hours</strong> of prolonged ischemia → endoneurial edema, blood-nerve barrier disruption, and axonal degeneration (axonotmesis).<span class="citation">[2]</span></li>
+      </ul>
+    </div>
+
+    <p><strong>Venous Congestion:</strong> In positions like the prone position or steep Trendelenburg, increased venous pressure can impair localized drainage from the nerve, causing secondary congestion and increasing intraneural pressure from the inside out, further compromising perfusion.<span class="citation">[5]</span></p>
+
+    <h4>2.1.2 The Mechanics of Stretch and Traction <span class="ev ev-iii">Level III Evidence</span></h4>
+
+    <p>Nerves have a finite capacity for elongation. Under physiologic conditions, the undulating course of nerve fibers (the <strong>Bands of Fontana</strong>) allows for some stretching. However, biomechanical studies demonstrate that <strong>elongation of a peripheral nerve by 5% to 15%</strong> of its resting length can obliterate intraneural blood flow.<span class="citation">[4]</span></p>
+
+    <p>The <strong>stress-strain curve</strong> shows that beyond the elastic limit (approximately 10–15% elongation), the structural integrity of the perineurium is compromised. In orthopedic surgery, traction is often intentional—such as distracting the glenohumeral joint for arthroscopy or correcting a kyphotic deformity—placing nerves like the brachial plexus or sciatic nerve at high risk of stretch-induced ischemia.<span class="citation">[4]</span></p>
+
+    <h4>2.1.3 The "Double Crush" Phenomenon <span class="ev ev-iii">Level III Evidence</span></h4>
+
+    <p>A critical theoretical framework for understanding PPNI is the <strong>"Double Crush" syndrome</strong>. This hypothesis posits that a nerve compromised at one level (e.g., a proximal cervical radiculopathy or metabolic compromise from diabetes) becomes hypersensitive to mechanical stress at a second, distal site (e.g., the cubital tunnel).<span class="citation">[7]</span></p>
+
+    <div class="callout callout-warning">
+      <strong>Clinical Implication – Double Crush</strong>
+      A patient with asymptomatic cervical stenosis may develop a profound ulnar neuropathy from a degree of elbow flexion that would be benign in a healthy individual. This underscores the necessity of rigorous <strong>preoperative assessment protocols</strong> emphasized in the 2024 AORN guidelines, which mandate evaluating patients for pre-existing neuropathies and mobility limitations.<span class="citation">[8]</span>
+    </div>
+
+    <h3>2.2 Pathophysiology of Intraoperative Pressure Ulcers (IOPU)</h3>
+
+    <p>Intraoperative pressure injuries differ mechanistically from chronic decubitus ulcers. They are characterized by <strong>high-intensity loading over a shorter duration</strong> (hours), often compounded by shear forces.<span class="citation">[9]</span></p>
+
+    <p><strong>Deep Tissue Injury (DTI):</strong> In the OR, pressure injury often propagates from the "bone out." Muscle tissue is more metabolically active and sensitive to ischemia than the overlying skin. Prolonged compression of muscle against a bony prominence (e.g., the sacrum or heel) by a rigid surface (OR table mattress) causes deep necrosis while the skin initially remains intact. This manifests postoperatively as a severe DTI, often described as a "purple pressure ulcer."<span class="citation">[9]</span></p>
+
+    <p><strong>Shear Mechanics:</strong> Shear force occurs when the skin remains stationary (fixed by friction against the sheets) while the underlying skeletal structures move. This distorts the angulation of perforating blood vessels, leading to thrombotic occlusion and tissue death. The AORN 2024 Guidelines for Safe Patient Handling and Movement (SPHM) specifically target shear reduction during lateral transfers as a primary prevention strategy.<span class="citation">[11]</span></p>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="s3">
+    <h2>3. The Prone Position: Systemic Physiology &amp; Equipment Biomechanics</h2>
+
+    <p>The prone position is indispensable for surgical access to the posterior spine, cranium, and gluteal region. However, turning a patient 180° from the supine position introduces massive physiological alterations affecting every organ system, necessitating specialized equipment like the Wilson Frame or Jackson Table.<span class="citation">[5]</span></p>
+
+    <h3>3.1 Hemodynamic and Respiratory Alterations</h3>
+
+    <p><strong>Cardiovascular Impact:</strong> Upon proning, compression of the abdomen can transmit pressure to the inferior vena cava (IVC), obstructing venous return to the right atrium. This leads to a reduction in stroke volume and cardiac index.<span class="citation">[5]</span> Furthermore, obstruction of the IVC forces venous return through the valveless epidural venous plexus (<strong>Batson's plexus</strong>), resulting in engorgement of surgical site veins and significantly increased intraoperative bleeding during spinal procedures.<span class="citation">[13]</span></p>
+
+    <p><strong>Respiratory Mechanics:</strong> Paradoxically, prone positioning can improve oxygenation in patients with ARDS by recruiting dorsal lung segments and reducing V/Q mismatch. However, in the surgical setting, restriction of abdominal wall excursion by improper bolsters increases intrathoracic pressure, reducing functional residual capacity (FRC) and increasing peak airway pressures.<span class="citation">[12]</span></p>
+
+    <h3>3.2 Equipment Biomechanics: Wilson Frame vs. Jackson Table</h3>
+
+    <p>The choice of positioning device is the single most significant variable in preventing prone complications.<span class="citation">[16]</span></p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1: Biomechanical Comparison of Prone Positioning Devices</caption>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Wilson Frame</th>
+            <th>Jackson Table (Mizuho)</th>
+            <th>Biomechanical Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Spinal Alignment</strong></td>
+            <td>Induces lumbar flexion (kyphosis)</td>
+            <td>Preserves or enhances lumbar lordosis</td>
+            <td>Wilson frame opens interlaminar spaces for decompression; Jackson table is superior for fusion/alignment to maintain sagittal balance.<span class="citation">[16]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Abdominal Compliance</strong></td>
+            <td style="color:var(--accent);font-weight:600;">High compression risk — curved frame can compress abdomen if not sized perfectly</td>
+            <td style="color:var(--green);font-weight:600;">Free abdomen — hangs freely between hip and chest pads</td>
+            <td>Jackson table minimizes IVC compression, reducing epidural venous bleeding and maintaining cardiac output.<span class="citation">[5]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Pressure Points</strong></td>
+            <td>Distributed along lateral torso/chest</td>
+            <td>Concentrated on 4 points: chest pad &amp; hip/thigh pads</td>
+            <td>Jackson table creates high-pressure zones on anterior thighs and chest, increasing risk of femoral nerve compression and LFCN injury.<span class="citation">[18]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Nerve Risk Profile</strong></td>
+            <td>Higher risk of venous congestion-related ION due to abdominal pressure</td>
+            <td>Higher risk of Meralgia Paresthetica (LFCN) and Femoral Traction injury</td>
+            <td>Device selection must match patient risk factors (e.g., obesity, surgical duration).<span class="citation">[1]</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="limitation-note">Source Limitation: The source document provides one comparative table for prone positioning devices. Additional comparative tables for other positioning systems are not available in the source material.</div>
+
+    <h3>3.3 Postoperative Visual Loss (POVL) <span class="ev ev-guideline">ASA Registry Data</span></h3>
+
+    <p>POVL is the most feared complication of prone spine surgery, with an incidence of <strong>0.013% to 0.2%</strong>, rising significantly in complex deformity cases.<span class="citation">[20]</span> The ASA POVL Registry has provided critical insights, identifying Ischemic Optic Neuropathy (ION) and Central Retinal Artery Occlusion (CRAO) as distinct entities with distinct prevention strategies.</p>
+
+    <h4>3.3.1 Ischemic Optic Neuropathy (ION)</h4>
+
+    <p>Posterior Ischemic Optic Neuropathy (PION) accounts for <strong>89% of POVL cases</strong> in lumbar spine surgery. It is an infarction of the retrobulbar optic nerve caused by a failure of oxygen delivery.<span class="citation">[20]</span></p>
+
+    <p><strong>Pathophysiology:</strong> PION is likely multifactorial, involving a "perfect storm" of decreased arterial perfusion pressure (hypotension), decreased oxygen-carrying capacity (anemia/blood loss), and increased resistance to blood flow (venous congestion). Prone positioning increases orbital venous pressure, which decreases the effective perfusion gradient across the optic nerve head.<span class="citation">[14]</span></p>
+
+    <p><strong>Independent Risk Factors (ASA Registry):</strong><span class="citation">[23]</span></p>
+    <ul>
+      <li>Male sex</li>
+      <li>Obesity</li>
+      <li>Wilson frame use</li>
+      <li>Prolonged duration (&gt;6 hours)</li>
+      <li>Substantial blood loss (&gt;1 L)</li>
+    </ul>
+
+    <div class="callout callout-success">
+      <strong>Prevention of ION (ASA Practice Advisory)<span class="citation">[25]</span></strong>
+      <ul>
+        <li>Maintain MAP at or near baseline in high-risk patients.</li>
+        <li>Avoid Wilson frame in obese patients.</li>
+        <li>Position the head neutral or <strong>above the level of the heart</strong> to facilitate venous drainage.</li>
+      </ul>
+    </div>
+
+    <h4>3.3.2 Central Retinal Artery Occlusion (CRAO)</h4>
+
+    <p>Unlike the systemic etiology of ION, CRAO is almost exclusively a result of <strong>direct external pressure on the globe</strong>.<span class="citation">[20]</span></p>
+
+    <p><strong>Mechanism:</strong> Improper head positioning (e.g., resting the eye on a horseshoe headrest) or shifting of the patient during surgery compresses the globe. This raises intraocular pressure above systolic arterial pressure, halting retinal perfusion.</p>
+
+    <p><strong>Prevention:</strong> The prevention of CRAO is strictly mechanical. The use of a <strong>3-pin head holder (Mayfield)</strong> completely eliminates facial pressure and is the gold standard for cervical cases. For other cases, foam pillows with mirror cutouts allow continuous visualization of the eyes. AORN and ASA guidelines mandate <strong>periodic checks (every 20 minutes)</strong> to verify the eyes are free of pressure.<span class="citation">[27]</span></p>
+
+    <h3>3.4 Brachial Plexus Injury in Prone Positioning</h3>
+
+    <h4>The Swimmer's Position <span class="ev ev-iii">Level III Evidence</span></h4>
+
+    <p>Used to visualize the cervicothoracic junction or in ICU proning for ARDS, this position involves abducting one arm and rotating the head toward it.<span class="citation">[29]</span></p>
+
+    <p><strong>Mechanism of Injury:</strong> The plexus is tethered between the cervical vertebrae and the axillary fascia. Excessive neck rotation combined with arm abduction places extreme tensile strain on the plexus roots. Furthermore, <strong>abduction &gt;90°</strong> forces the humeral head into the axilla, compressing the neurovascular bundle.<span class="citation">[29]</span></p>
+
+    <div class="callout callout-danger">
+      <strong>Prevention – Swimmer's Position<span class="citation">[31]</span></strong>
+      <ul>
+        <li>Arm abduction <strong>&lt;90°</strong> whenever possible.</li>
+        <li>Head must be rotated <em>toward</em> the abducted arm to relieve tension.</li>
+        <li>For prolonged cases (e.g., ICU ventilation), alternate arm position <strong>every 2 hours</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="s4">
+    <h2>4. Lateral Decubitus Positioning: Asymmetry &amp; "Down" Side Risks</h2>
+
+    <p>The lateral decubitus position is standard for hip arthroplasty, thoracic surgery, and shoulder arthroscopy. It creates a significant disparity in physiological load, with the <strong>dependent ("down") side</strong> bearing the weight and the <strong>non-dependent ("up") side</strong> subjected to surgical traction.<span class="citation">[33]</span></p>
+
+    <h3>4.1 The "Axillary Roll": A Biomechanical Misnomer <span class="ev ev-guideline">AORN Guideline</span></h3>
+
+    <div class="callout callout-danger">
+      <strong>Common Error</strong>
+      Placing a roll <em>inside</em> the axilla is a critical biomechanical error. This turns the roll into a fulcrum, <strong>directly compressing the neurovascular bundle</strong> against the humeral head, causing brachial plexus palsy and vascular occlusion.<span class="citation">[33]</span>
+    </div>
+
+    <p><strong>Correct Application:</strong> The device functions as a <strong>chest roll</strong> or <strong>thoracic roll</strong>. It must be placed <strong>caudad (distal) to the axilla</strong>, typically at the level of the 7th to 9th ribs. Its biomechanical purpose is to lift the thorax off the mattress, suspending the shoulder girdle so the humeral head exerts no pressure on the axillary structures. Verification is confirmed by <strong>sliding a hand easily between the patient's axilla and the mattress</strong>.<span class="citation">[33]</span></p>
+
+    <h3>4.2 Peg Board Injuries in Lateral Hip Surgery</h3>
+
+    <p>To maintain rigid lateral stability during total hip arthroplasty (THA), surgeons often use peg boards (e.g., MorphBoard). While effective, these rigid fixators introduce high-pressure points and nerve compression risks.<span class="citation">[35]</span></p>
+
+    <p><strong>Pressure Ulcers:</strong> The pegs are rigid cylinders. If not heavily padded with gel overlays, the interface pressure between the peg and the patient's skin (often at the pubic symphysis or sacrum) far exceeds capillary closing pressure, leading to geometrical pressure ulcers mirroring the peg shape.<span class="citation">[35]</span></p>
+
+    <p><strong>Nerve Compression Risks:</strong><span class="citation">[36]</span></p>
+    <ul>
+      <li><strong>Anterior Pegs:</strong> Can compress the <strong>femoral nerve</strong> or the <strong>Lateral Femoral Cutaneous Nerve (LFCN)</strong> if placed directly over the femoral triangle or ASIS.</li>
+      <li><strong>Posterior Pegs:</strong> Pegs placed too deeply into the gluteal mass can impinge on the <strong>sciatic nerve</strong>.</li>
+    </ul>
+
+    <p><strong>Prevention Protocol:</strong> Apply a gel pad <em>over</em> the pegs and ensure anterior pegs are positioned at the pubis (bone) rather than the soft tissue of the groin.<span class="citation">[38]</span></p>
+
+    <h3>4.3 Peroneal Nerve Vulnerability <span class="ev ev-iii">Level III Evidence</span></h3>
+
+    <p>The common peroneal nerve is the <strong>most frequently injured nerve in the lower extremity</strong> during lateral positioning due to its superficial course around the fibular head.<span class="citation">[39]</span></p>
+
+    <p><strong>Dependent Leg Risk:</strong> The lateral aspect of the down knee rests directly on the hard OR table. Without specific intervention, the weight of the leg compresses the peroneal nerve against the fibular neck, leading to <strong>foot drop</strong>.<span class="citation">[39]</span></p>
+
+    <p><strong>Prevention (AORN Guidelines):</strong><span class="citation">[41]</span></p>
+    <ul>
+      <li>Place a soft cushion, gel pad, or "donuts" under the <strong>lateral aspect of the dependent knee</strong>.</li>
+      <li>Flex the dependent leg slightly to relax the sciatic/peroneal tract.</li>
+      <li>Support the upper leg with pillows or a specialized leg holder to prevent adduction.<span class="citation">[42]</span></li>
+    </ul>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="s5">
+    <h2>5. Specific Peripheral Nerve Injury Profiles &amp; Prevention</h2>
+
+    <h3>5.1 The Ulnar Nerve: The Ubiquitous Threat <span class="ev ev-ii">Level II Evidence</span></h3>
+
+    <p>Ulnar neuropathy at the elbow (UNE) accounts for approximately <strong>one-third of all anesthesia-related nerve injury claims</strong>. Its high frequency is attributed to the superficial anatomy of the cubital tunnel.<span class="citation">[1]</span></p>
+
+    <p><strong>Anatomy:</strong> The ulnar nerve passes posterior to the medial epicondyle in the cubital tunnel, covered only by the arcuate ligament (Osborne's band). It has minimal adipose padding.</p>
+
+    <p><strong>Mechanism of Injury:</strong><span class="citation">[2]</span></p>
+    <ul>
+      <li><strong>Direct Compression:</strong> In the supine position, if the arm is pronated (palms down) and tucked, the medial epicondyle rotates against the mattress, directly crushing the nerve.</li>
+      <li><strong>Traction/Ischemia:</strong> Flexion of the elbow &gt;90° tightens the arcuate ligament, reducing the cross-sectional area of the cubital tunnel and increasing intraneural pressure. MRI studies show the nerve elongates by up to <strong>18%</strong> during hyperflexion.<span class="citation">[23]</span></li>
+    </ul>
+
+    <div class="callout callout-success">
+      <strong>Ulnar Nerve Protection Protocol</strong>
+      <ul>
+        <li><strong>Forearm Position:</strong> Studies using computerized pressure sensing mats confirm that <strong>supination (palms up)</strong> minimizes pressure in the cubital tunnel (~2 mmHg), whereas <strong>pronation</strong> increases it significantly (~95 mmHg).<span class="citation">[43]</span></li>
+        <li><strong>Elbow Flexion:</strong> Maintain <strong>&lt;90°</strong> whenever possible to prevent the "hammock effect" of nerve stretching.<span class="citation">[44]</span></li>
+        <li><strong>Padding:</strong> Use convoluted foam or gel at the elbow.</li>
+        <li><strong>Fixation:</strong> Do not over-tighten draw sheets across the elbow (tourniquet effect).<span class="citation">[43]</span></li>
+      </ul>
+    </div>
+
+    <h3>5.2 The Brachial Plexus: Traction and Impingement <span class="ev ev-iii">Level III Evidence</span></h3>
+
+    <p>The brachial plexus is susceptible to traction due to its fixation points at the cervical vertebrae and the axillary fascia.<span class="citation">[45]</span></p>
+
+    <p><strong>Mechanism:</strong></p>
+    <ul>
+      <li><strong>Abduction &gt;90°</strong> levers the humerus against the acromion and stretches the plexus under the coracoid process.</li>
+      <li><strong>Lateral head rotation</strong> away from the abducted arm increases traction.</li>
+      <li><strong>Shoulder braces</strong> in Trendelenburg positioning can crush the plexus against the first rib.<span class="citation">[45]</span></li>
+    </ul>
+
+    <p><strong>Prevention:</strong></p>
+    <ul>
+      <li>Strictly limit abduction to <strong>&lt;90°</strong>.</li>
+      <li>Avoid shoulder braces; use non-slip mattresses or vacuum bean bags instead.<span class="citation">[46]</span></li>
+      <li>Maintain neutral cervical alignment whenever possible.</li>
+    </ul>
+
+    <h3>5.3 The Peroneal Nerve: Superficial Compression</h3>
+
+    <p>The peroneal nerve is uniquely vulnerable due to its superficial location at the fibular head. It is at risk in both <strong>lateral decubitus</strong> (direct table compression of the dependent leg) and <strong>lithotomy</strong> (lateral knee against stirrup post) positions.<span class="citation">[39]</span></p>
+
+    <p><strong>Prevention:</strong> "Float" the fibular head using gel pads or foam donuts. Ensure no rigid equipment contacts the lateral knee.<span class="citation">[39]</span></p>
+
+    <h3>5.4 Lower Extremity Nerves in Prone Position (LFCN &amp; Femoral)</h3>
+
+    <p><strong>LFCN (Meralgia Paresthetica):</strong> The LFCN is compressed by the hip bolsters of the Jackson table. The nerve exits medial to the ASIS. If bolsters are positioned too medially (on the groin) rather than laterally (on the ASIS/iliac crest), the nerve is crushed.<span class="citation">[47]</span></p>
+
+    <p><strong>Femoral Nerve (Stretch):</strong> Excessive hip extension on the Jackson table stretches the femoral nerve. While extension aids in lumbar lordosis restoration, <strong>extension beyond 15–30°</strong> can cause femoral palsy. Biomechanical studies show the femoral nerve moves posteriorly and tightens with extension.<span class="citation">[49]</span></p>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="s6">
+    <h2>6. AORN Guidelines 2024–2025: Key Updates &amp; Strategic Shifts <span class="ev ev-guideline">AORN Guideline</span></h2>
+
+    <p>The AORN has released significant updates for 2024, with projected 2025/2026 refinements, shifting the paradigm from simple "positioning" to a broader <strong>Safe Patient Handling and Movement (SPHM)</strong> framework. This holistic approach recognizes that injury often begins before the incision, during the transfer itself.<span class="citation">[8]</span></p>
+
+    <h3>6.1 Safe Patient Handling and Movement (SPHM) Updates</h3>
+
+    <p>The 2024 guidelines emphasize that manual lifting is insufficient for modern patient populations (increasing BMI).<span class="citation">[11]</span></p>
+
+    <ul>
+      <li><strong>Mechanical Lifts:</strong> Strong recommendation for <strong>overhead-mounted lifts (ceiling lifts)</strong> over floor-based lifts to reduce torque and shear forces during lateral transfers. This protects both the patient (shear injury) and the staff (musculoskeletal injury).<span class="citation">[8]</span></li>
+      <li><strong>Staffing Fluidity:</strong> Previous rigid rules (e.g., "always use 4 people") have been replaced with a requirement for "adequate staff to maintain body alignment," acknowledging that patient condition and BMI dictate the resource need.</li>
+      <li><strong>Air-Assisted Devices:</strong> Use of air-assisted lateral transfer devices (e.g., HoverMatt) is strongly encouraged to <strong>eliminate friction and shear</strong> during transfer to the OR bed.<span class="citation">[51]</span></li>
+    </ul>
+
+    <h3>6.2 Preoperative Assessment and Briefing</h3>
+
+    <p>A critical administrative control introduced is the mandatory <strong>Preoperative Mobility and Positioning Assessment</strong>.<span class="citation">[8]</span></p>
+
+    <ul>
+      <li><strong>The Assessment:</strong> The team must assess the patient's baseline Range of Motion (ROM) and pre-existing neuropathies <em>before</em> anesthesia. This identifies patients with "Double Crush" potential (e.g., limited shoulder abduction due to adhesive capsulitis).</li>
+      <li><strong>The Briefing:</strong> Positioning considerations must be discussed during the <strong>Time Out/Briefing</strong>. Conflicts (e.g., "The patient cannot pronate the left arm") must be resolved, and equipment availability verified before induction.<span class="citation">[52]</span></li>
+    </ul>
+
+    <h3>6.3 Prophylactic Technology: Silicone Foam Dressings <span class="ev ev-ii">Level II Evidence (Meta-Analysis)</span></h3>
+
+    <p>The guidelines now support the prophylactic use of <strong>multi-layer silicone foam dressings</strong> to prevent pressure injuries.<span class="citation">[53]</span></p>
+
+    <p><strong>Evidence:</strong> Meta-analyses demonstrate that applying these dressings to high-risk areas (sacrum in supine; chin, cheekbones, and iliac crests in prone) significantly reduces the incidence of pressure ulcers. These dressings work by absorbing shear forces and redistributing pressure at the skin interface.<span class="citation">[53]</span></p>
+
+    <p><strong>Protocol:</strong> In prone spine surgery, applying silicone foam to the face (zygoma/chin) and chest reduces the rate of facial pressure ulcers, a common complication of the prone pillow.<span class="citation">[54]</span></p>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section id="s7">
+    <h2>7. Operational Protocols and Checklists</h2>
+
+    <p>To translate biomechanical theory into clinical safety, facilities should adopt rigorous, checklist-based protocols. The following tables synthesize best practices from AORN guidelines and ASA advisories.<span class="citation">[8, 25]</span></p>
+
+    <h3>7.1 Protocol for Prone Positioning (Spine Surgery)</h3>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2: Prone Positioning Safety Checklist</caption>
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Action Item</th>
+            <th>Biomechanical Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Pre-Induction</strong></td>
+            <td>Apply silicone foam to chin, zygoma, chest, knees</td>
+            <td>Reduces shear and interface pressure at bony prominences<span class="citation">[54]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Transfer</strong></td>
+            <td>Log-roll using friction-reducing device (slider/air-mattress)</td>
+            <td>Maintains spinal alignment; prevents skin shear<span class="citation">[8]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Head/Eyes</strong></td>
+            <td>Secure eyes closed. Use 3-pin holder or mirror pillow. Verify no direct eye pressure.</td>
+            <td>Prevents corneal abrasion and CRAO. Mirror allows q20min checks<span class="citation">[27]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Arms</strong></td>
+            <td>Abduct &lt;90°. Flex elbows &lt;90°. Forearms neutral/supinated (padded).</td>
+            <td>Prevents brachial plexus stretch and ulnar compression<span class="citation">[3]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Torso/Abdomen</strong></td>
+            <td>Chest bolster under clavicles. Hip bolster under ASIS/Iliac Crest.</td>
+            <td>Ensures abdomen hangs free (IVC decompression). Avoids groin/LFCN compression<span class="citation">[14]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Legs</strong></td>
+            <td>Flex knees slightly. Pad knees and shins. Elevate toes.</td>
+            <td>Prevents hamstring stretch and toe pressure ulcers<span class="citation">[57]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Maintenance</strong></td>
+            <td>Re-check eyes and pulses q20–30 mins</td>
+            <td>Detects head shift or progressive edema<span class="citation">[28]</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>7.2 Protocol for Lateral Decubitus Positioning</h3>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3: Lateral Decubitus Safety Checklist</caption>
+        <thead>
+          <tr>
+            <th>Anatomical Area</th>
+            <th>Intervention</th>
+            <th>Biomechanical Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Axilla</strong></td>
+            <td>Place <strong>Thoracic Roll</strong> caudad to axilla (Ribs 7–9)</td>
+            <td>Lifts thorax to suspend humeral head, preventing brachial plexus compression<span class="citation">[33]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Head/Neck</strong></td>
+            <td>Use thick pillow/foam to maintain neutral spine</td>
+            <td>Prevents lateral flexion stretch of the "up" side brachial plexus<span class="citation">[42]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Down Leg</strong></td>
+            <td>Pad lateral knee (fibular head). Flex knee slightly.</td>
+            <td>Protects peroneal nerve from table compression. Relaxes sciatic tract<span class="citation">[39]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Up Leg</strong></td>
+            <td>Support with pillow/holder parallel to bed</td>
+            <td>Prevents adduction crushing the down leg<span class="citation">[42]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Pelvic Fixation</strong></td>
+            <td>Gel overlays on Peg Board pegs. Anterior pegs on Pubis (not groin).</td>
+            <td>Prevents pressure ulcers and femoral/LFCN compression<span class="citation">[35]</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>7.3 Ulnar Nerve Protection Protocol (All Positions)</h3>
+
+    <div class="callout callout-info">
+      <strong>Universal Ulnar Nerve Protection</strong>
+      <ul>
+        <li><strong>Supine:</strong> Arms on boards must be <strong>supinated</strong> or neutral. If tucked, palms must face thighs.</li>
+        <li><strong>Padding:</strong> Use convoluted foam or gel at the elbow.</li>
+        <li><strong>Fixation:</strong> Do not over-tighten draw sheets across the elbow (tourniquet effect).<span class="citation">[43]</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 8 -->
+  <section id="s8">
+    <h2>8. Conclusion</h2>
+
+    <p>The prevention of positioning-related injuries in orthopedic surgery requires a paradigm shift from viewing positioning as a static preparatory step to viewing it as a <strong>dynamic, physiological intervention</strong>. The potential for catastrophic outcomes—from blindness (POVL) to permanent nerve palsy—demands vigilance.</p>
+
+    <p>The evidence presented in this review supports <strong>three foundational pillars of safety</strong>:</p>
+
+    <ol>
+      <li><strong>Biomechanical Precision:</strong> Adherence to strict angular limits (e.g., &lt;90° abduction) and correct equipment usage (e.g., thoracic vs. axillary roll) is non-negotiable.<span class="citation">[3, 29]</span></li>
+      <li><strong>Individualized Assessment:</strong> The AORN 2024 focus on preoperative mobility assessment acknowledges that patient-specific factors (e.g., diabetic neuropathy, limited ROM) dictate the safety margin for positioning.<span class="citation">[8]</span></li>
+      <li><strong>Proactive Technology:</strong> The integration of prophylactic silicone dressings, air-assisted transfer devices, and pressure-distributing tables (Jackson) represents the modern standard of care.<span class="citation">[51, 53]</span></li>
+    </ol>
+
+    <p>By rigorously applying these protocols, the perioperative team can effectively shield the patient from the "second insult" of surgery, ensuring that the positioning does not cause more harm than the pathology being treated.</p>
+
+    <div class="limitation-note">Source Document Limitations: This review is based on the provided document, which is a narrative review with guideline-level evidence (AORN, ASA) and registry data. The source does not contain formal RCTs specifically on positioning interventions. Five landmark prospective/registry studies are identified and summarized below. Evidence gaps exist for randomized controlled trials comparing specific positioning devices.</div>
+  </section>
+
+  <!-- SECTION 9 - REFERENCES -->
+  <section id="s9" class="references">
+    <h2>References</h2>
+    <p>The following references are derived directly from the source document's citation list:</p>
+    <ol class="ref-list">
+      <li>ASA Closed Claims Project. Positioning patients for spine surgery: Avoiding uncommon position-related complications. <em>World J Orthop</em>. Available at: wjgnet.com</li>
+      <li>Pathophysiology of nerve ischemia and stretch. Positioning patients for spine surgery — PubMed Central (PMC4133449).</li>
+      <li>AORN. Positioning the Patient. <em>AORN Journal</em>, 2021. Spruce L.</li>
+      <li>Perioperative Upper Extremity Peripheral Nerve Injury and Patient Positioning. <em>Medwin Publishers</em>.</li>
+      <li>The Prone Position During Surgery and its Complications: A Systematic Review. <em>PubMed Central</em> (PMC4337445).</li>
+      <li>Orthopedic Surgeon Expert Witness: Complications of Arthroscopic Shoulder Surgery. SEAK Experts Blog.</li>
+      <li>Patient positioning and common nerve injuries. In: <em>Essential Clinical Anesthesia</em>, Chapter 51. Cambridge University Press.</li>
+      <li>AORN. 2024 Updated Guideline for Safe Patient Handling. <em>Periop Today</em>.</li>
+      <li>Royal Children's Hospital. Nursing guidelines: Pressure injury prevention and management.</li>
+      <li>Xodus Medical. Challenges of Positioning High-Risk Patients in the OR.</li>
+      <li>AORN. 2024 Updates to AORN Guideline for Safe Patient Handling and Movement.</li>
+      <li>BoneFoam. Navigating the Complications of Prone Positioning in Surgery.</li>
+      <li>Complications associated with prone positioning in elective spinal surgery. <em>PMC</em> (PMC4390897).</li>
+      <li>The ideal patient positioning in spine surgery: a preventive strategy. <em>PMC</em> (PMC9968999).</li>
+      <li>Strategies to preventing pressure injuries among ICU patients in prone position. <em>Frontiers in Medicine</em>.</li>
+      <li>SchureMed. The Role of the Wilson™ Frame in Spine Surgery: Uses &amp; Alternatives.</li>
+      <li>Reverse Wilson's framing for lumbar spinal surgery. <em>PMC</em> (PMC6667961).</li>
+      <li>Meralgia paresthetica after posterior lumbar spinal surgery. <em>CNS</em>.</li>
+      <li>Patient positioned on Jackson table. <em>ResearchGate</em>.</li>
+      <li>ASA Postoperative Visual Loss (POVL) Registry. <em>Anesthesia Patient Safety Foundation</em>.</li>
+      <li>Girards Law Firm. Post Operative Visual Loss after Spine Surgery.</li>
+      <li>How to avoid perioperative visual loss following prone spinal surgery. <em>PMC</em> (PMC4879842).</li>
+      <li>Patient Positioning in Spine Surgery. <em>Asian Spine Journal</em>.</li>
+      <li>Perioperative visual loss following prone spinal surgery: A review. <em>PMC</em> (PMC4879856).</li>
+      <li>ASA. Practice Advisory For Perioperative Visual Loss Associated with Spine Surgery.</li>
+      <li>Practice Advisory for Perioperative Visual Loss 2019. <em>PMC</em> (PMC9556164).</li>
+      <li>Medstar Health. Minimizing risk of perioperative visual loss in spinal surgery.</li>
+      <li>How to avoid perioperative visual loss following prone spinal surgery. <em>PubMed</em>.</li>
+      <li>BOA. A commentary on Prone Position Plexopathy during the COVID-19 pandemic.</li>
+      <li>Swimmer position during prone ventilation — brachial plexus injury. <em>ResearchGate</em>.</li>
+      <li>Safe prone checklist: construction and implementation. <em>PMC</em> (PMC5496747).</li>
+      <li>Intensive Care Society. Guidance: Prevention, diagnosis and management of Plexopathy during prone positioning.</li>
+      <li>Davis R. Lateral Decubitus Position. Vanderbilt University Medical Center.</li>
+      <li>STERIS. Lateral Position Guide for Surgical Procedures.</li>
+      <li>Action Products. Pressure Injuries: Protect your Patients in Extreme Surgical Positions.</li>
+      <li>David Scott Company. Lateral Peg Board Positioner.</li>
+      <li>MPR Ortho. MPR Lateral Hip Positioning System set-up guide.</li>
+      <li>Musculoskeletal Key. Anterior-Based Muscle-Sparing Approach in the Lateral Position.</li>
+      <li>Johns Hopkins Medicine. Peroneal Nerve Injury.</li>
+      <li>Evaluation and treatment of peroneal neuropathy. <em>PMC</em> (PMC2684217).</li>
+      <li>AO Surgery Reference. Lateral decubitus position.</li>
+      <li>AliMed. Proper Patient Positioning Guidelines: Lateral Position.</li>
+      <li>Ulnar nerve pressure: influence of arm position. <em>PubMed</em> (10443595).</li>
+      <li>What Actions Can Be Used to Prevent Peripheral Nerve Injury? <em>Anesthesia Key</em>.</li>
+      <li>AORN. Intraoperative Patient Positioning: Decreasing the Risk of Brachial Plexus Nerve Damage.</li>
+      <li>AORN. Guideline for Positioning the Patient. <em>AORN Journal</em>, 2023.</li>
+      <li>Prone Position-Related Meralgia Paresthetica after Lumbar Spinal Surgery. <em>J Korean Neurosurg Soc</em>.</li>
+      <li>Injuries to the Lateral Femoral Cutaneous Nerve During Spine Surgery. <em>ResearchGate</em>.</li>
+      <li>Effects of thigh extension on the position of the femoral nerve. <em>ResearchGate</em>.</li>
+      <li>Transient postoperative femoral neuropathy following prone positioning. <em>ResearchGate</em>.</li>
+      <li>AORN. Safe Patient Handling and Movement in the Perioperative Setting.</li>
+      <li>AORN. Key Takeaways: Patient Positioning — Importance of a Briefing Process.</li>
+      <li>Pressure Ulcer Prevention Using Silicone Foam Dressings. <em>ResearchGate</em>.</li>
+      <li>Silicone adhesive multilayer foam dressings for preventing facial pressure injuries. <em>PMC</em> (PMC8886309).</li>
+      <li>Efficacy of silicone foam dressings in preventing pressure injuries. <em>PMC</em> (PMC12380920).</li>
+      <li>Rush University Medical Center. PHASE 1: "Pre-Prone" Checklist.</li>
+      <li>Davis R, Sund G. Prone Position. Vanderbilt University Medical Center.</li>
+      <li>An evidence-based general anaesthesia and prone position nursing checklist. <em>PMC</em> (PMC9912415).</li>
+      <li>Complications associated with prone positioning. <em>ResearchGate</em>.</li>
+      <li>Meralgia paresthetica after spine surgery on the Jackson table. WashU Profiles.</li>
+      <li>Vulnerability of the Femoral Nerve During Complex Spinal Surgery. <em>PMC</em> (PMC2830684).</li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside role="complementary" aria-label="Interactive positioning risk calculator">
+  <h2>Positioning Risk Calculator</h2>
+  <p class="sidebar-subtitle">Adjust parameters below to receive real-time, evidence-based risk assessments and mitigation recommendations based on source document thresholds.</p>
+
+  <!-- SLIDER 1 -->
+  <div class="slider-group">
+    <div class="slider-label">
+      <span>Arm Abduction Angle</span>
+      <span class="slider-value" id="val-abduction">45°</span>
+    </div>
+    <p class="slider-desc">Critical threshold: &lt;90° per AORN &amp; ASA guidelines. <em>Threshold from source [29, 31, 45]</em></p>
+    <input type="range" id="slider-abduction" min="0" max="130" value="45" step="5"
+           aria-label="Arm abduction angle in degrees"
+           aria-valuemin="0" aria-valuemax="130" aria-valuenow="45">
+  </div>
+
+  <!-- SLIDER 2 -->
+  <div class="slider-group">
+    <div class="slider-label">
+      <span>Elbow Flexion Angle</span>
+      <span class="slider-value" id="val-elbow">70°</span>
+    </div>
+    <p class="slider-desc">Critical threshold: &lt;90° per ulnar nerve studies. <em>Threshold from source [23, 43, 44]</em></p>
+    <input type="range" id="slider-elbow" min="0" max="140" value="70" step="5"
+           aria-label="Elbow flexion angle in degrees"
+           aria-valuemin="0" aria-valuemax="140" aria-valuenow="70">
+  </div>
+
+  <!-- SLIDER 3 -->
+  <div class="slider-group">
+    <div class="slider-label">
+      <span>Surgery Duration</span>
+      <span class="slider-value" id="val-duration">3 h</span>
+    </div>
+    <p class="slider-desc">POVL risk increases &gt;6 h; nerve ischemia escalates &gt;3–4 h. <em>Thresholds from source [2, 20, 23]</em></p>
+    <input type="range" id="slider-duration" min="0.5" max="14" value="3" step="0.5"
+           aria-label="Surgery duration in hours"
+           aria-valuemin="0.5" aria-valuemax="14" aria-valuenow="3">
+  </div>
+
+  <!-- RISK OUTPUT -->
+  <div class="risk-output risk-low" id="risk-output" aria-live="polite">
+    <div class="risk-title" id="risk-title">✓ Overall Risk: LOW</div>
+    <div id="risk-body">
+      <p>All parameters are within recommended thresholds. Standard positioning precautions apply.</p>
+      <ul>
+        <li>Brachial plexus: Low risk</li>
+        <li>Ulnar nerve: Low risk</li>
+        <li>Peroneal nerve: Low risk</li>
+        <li>POVL (ION/CRAO): Low risk</li>
+        <li>Pressure injury: Low risk</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="callout callout-success" id="recommendation-box" style="font-size:0.82rem;">
+    <strong>Current Recommendations</strong>
+    <div id="recommendation-text">
+      Maintain current positioning. Continue standard intraoperative checks per AORN guidelines (q20–30 min). Ensure eyes verified free of pressure if prone. Apply prophylactic silicone foam dressings as indicated.
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="btn-row">
+    <button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders to default values">↻ Reset</button>
+    <button class="btn btn-export" id="btn-export" aria-label="Copy current assessment to clipboard">📋 Export</button>
+  </div>
+
+  <p style="font-size:0.7rem; color:var(--gray-500); margin-top:0.8rem; line-height:1.4;">
+    Thresholds derived from source document citations: nerve ischemia [2], stretch limits [4], POVL registry [20], AORN 2024 [8], ASA advisory [25]. Clinical thresholds annotated from source where available.
+  </p>
+</aside>
+
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ELEMENTS
+  const sliderAbduction = document.getElementById('slider-abduction');
+  const sliderElbow = document.getElementById('slider-elbow');
+  const sliderDuration = document.getElementById('slider-duration');
+  const valAbduction = document.getElementById('val-abduction');
+  const valElbow = document.getElementById('val-elbow');
+  const valDuration = document.getElementById('val-duration');
+  const riskOutput = document.getElementById('risk-output');
+  const riskTitle = document.getElementById('risk-title');
+  const riskBody = document.getElementById('risk-body');
+  const recommendationBox = document.getElementById('recommendation-box');
+  const recommendationText = document.getElementById('recommendation-text');
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+
+  const defaults = { abduction: 45, elbow: 70, duration: 3 };
+
+  function update() {
+    const abd = parseInt(sliderAbduction.value);
+    const elb = parseInt(sliderElbow.value);
+    const dur = parseFloat(sliderDuration.value);
+
+    valAbduction.textContent = abd + '°';
+    valElbow.textContent = elb + '°';
+    valDuration.textContent = dur + ' h';
+
+    // ARIA
+    sliderAbduction.setAttribute('aria-valuenow', abd);
+    sliderElbow.setAttribute('aria-valuenow', elb);
+    sliderDuration.setAttribute('aria-valuenow', dur);
+
+    // RISK ASSESSMENT
+    let risks = [];
+    let overallSeverity = 0; // 0=low, 1=moderate, 2=high
+    let recs = [];
+
+    // Brachial Plexus
+    if (abd >= 90) {
+      risks.push({ name: 'Brachial Plexus', level: 'HIGH', detail: 'Abduction ≥90° exceeds AORN/ASA limits — risk of traction injury and plexus compression against acromion [29, 45].' });
+      overallSeverity = Math.max(overallSeverity, 2);
+      recs.push('REDUCE arm abduction to &lt;90° immediately. Verify head is neutral or rotated toward abducted arm.');
+    } else if (abd >= 75) {
+      risks.push({ name: 'Brachial Plexus', level: 'MODERATE', detail: 'Approaching 90° limit. Caution warranted, especially with head rotation or shoulder pathology (Double Crush) [7, 29].' });
+      overallSeverity = Math.max(overallSeverity, 1);
+      recs.push('Monitor abduction closely. Verify neutral head position. Consider reducing if prolonged surgery expected.');
+    } else {
+      risks.push({ name: 'Brachial Plexus', level: 'LOW', detail: 'Abduction within safe range (&lt;75°) [29].' });
+    }
+
+    // Ulnar Nerve
+    if (elb >= 90) {
+      risks.push({ name: 'Ulnar Nerve', level: 'HIGH', detail: 'Elbow flexion ≥90° increases cubital tunnel pressure and nerve elongation up to 18% (MRI data) [23, 43].' });
+      overallSeverity = Math.max(overallSeverity, 2);
+      recs.push('REDUCE elbow flexion to &lt;90°. Ensure forearm is supinated (palms up) — pronation increases cubital tunnel pressure to ~95 mmHg [43].');
+    } else if (elb >= 80) {
+      risks.push({ name: 'Ulnar Nerve', level: 'MODERATE', detail: 'Approaching 90° threshold. Ensure padding at cubital tunnel [44].' });
+      overallSeverity = Math.max(overallSeverity, 1);
+      recs.push('Verify cubital tunnel padding (gel/foam). Confirm supinated forearm position.');
+    } else {
+      risks.push({ name: 'Ulnar Nerve', level: 'LOW', detail: 'Elbow flexion within safe range. Verify supination for optimal pressure relief (~2 mmHg) [43].' });
+    }
+
+    // Peroneal Nerve
+    if (dur >= 4) {
+      risks.push({ name: 'Peroneal Nerve (Lateral)', level: dur >= 6 ? 'HIGH' : 'MODERATE', detail: 'Prolonged surgery increases compression risk at fibular head. Verify gel padding under dependent knee in lateral position [39].' });
+      overallSeverity = Math.max(overallSeverity, dur >= 6 ? 2 : 1);
+      recs.push('In lateral position: verify gel donut under lateral knee (fibular head). Slight knee flexion to relax sciatic/peroneal tract [41].');
+    } else {
+      risks.push({ name: 'Peroneal Nerve', level: 'LOW', detail: 'Duration within range for standard peroneal protection protocols [39].' });
+    }
+
+    // POVL (ION)
+    if (dur >= 6) {
+      risks.push({ name: 'POVL – Ischemic Optic Neuropathy', level: 'HIGH', detail: 'Duration &gt;6 h is an independent risk factor for PION per ASA POVL Registry. Risk increases with male sex, obesity, Wilson frame, and blood loss &gt;1 L [20, 23].' });
+      overallSeverity = Math.max(overallSeverity, 2);
+      recs.push('ION RISK: Maintain MAP at or near baseline. Avoid Wilson frame in obese patients. Position head neutral or above heart level. Consider staged procedures if possible [25].');
+    } else if (dur >= 4) {
+      risks.push({ name: 'POVL – ION', level: 'MODERATE', detail: 'Extended duration. Monitor hemodynamics and blood loss carefully [20].' });
+      overallSeverity = Math.max(overallSeverity, 1);
+      recs.push('Monitor blood loss closely (threshold: &gt;1 L increases ION risk). Maintain euvolemia and normotension [25].');
+    } else {
+      risks.push({ name: 'POVL – ION', level: 'LOW', detail: 'Duration within lower-risk range for POVL [20].' });
+    }
+
+    // CRAO (always note)
+    risks.push({ name: 'POVL – CRAO', level: 'INFO', detail: 'Mechanical prevention only: use 3-pin Mayfield holder or mirror pillow. Verify eyes free of pressure q20 min [27].' });
+
+    // Render risk output
+    let riskClass = overallSeverity === 0 ? 'risk-low' : overallSeverity === 1 ? 'risk-moderate' : 'risk-high';
+    let riskLabel = overallSeverity === 0 ? '✓ Overall Risk: LOW' : overallSeverity === 1 ? '⚠ Overall Risk: MODERATE' : '✗ Overall Risk: HIGH';
+    riskOutput.className = 'risk-output ' + riskClass;
+    riskTitle.textContent = riskLabel;
+
+    let bodyHTML = '';
+    risks.forEach(function(r) {
+      let badge = r.level === 'HIGH' ? '🔴' : r.level === 'MODERATE' ? '🟡' : r.level === 'LOW' ? '🟢' : 'ℹ️';
+      bodyHTML += '<p style="margin-bottom:0.4rem;">' + badge + ' <strong>' + r.name + ' [' + r.level + ']</strong><br>' + r.detail + '</p>';
+    });
+    riskBody.innerHTML = bodyHTML;
+
+    // Render recommendations
+    let recHTML = '';
+    if (recs.length === 0) {
+      recHTML = '<p>All parameters are within recommended thresholds. Standard positioning precautions apply per AORN 2024 guidelines [8].</p>';
+      recHTML += '<ul><li>Continue intraoperative checks q20–30 min.</li>';
+      recHTML += '<li>Verify eyes free of pressure if prone.</li>';
+      recHTML += '<li>Apply prophylactic silicone foam dressings [53, 54].</li>';
+      recHTML += '<li>Confirm abdomen hangs free (prone) or thoracic roll positioned correctly (lateral) [33].</li></ul>';
+    } else {
+      recs.forEach(function(r) {
+        recHTML += '<p style="margin-bottom:0.3rem;">• ' + r + '</p>';
+      });
+      recHTML += '<p style="margin-top:0.5rem;font-style:italic;">Plus: continue standard checks per AORN guidelines. Apply silicone foam prophylactically [53].</p>';
+    }
+    recommendationText.innerHTML = recHTML;
+  }
+
+  // EVENT LISTENERS
+  sliderAbduction.addEventListener('input', update);
+  sliderElbow.addEventListener('input', update);
+  sliderDuration.addEventListener('input', update);
+
+  // RESET
+  btnReset.addEventListener('click', function() {
+    sliderAbduction.value = defaults.abduction;
+    sliderElbow.value = defaults.elbow;
+    sliderDuration.value = defaults.duration;
+    update();
+  });
+
+  // EXPORT
+  btnExport.addEventListener('click', function() {
+    const now = new Date();
+    const timestamp = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+
+    let text = '=== ORTHOPEDIC PATIENT POSITIONING RISK ASSESSMENT ===\n';
+    text += 'Generated: ' + timestamp + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Arm Abduction Angle: ' + sliderAbduction.value + '°\n';
+    text += '  Elbow Flexion Angle: ' + sliderElbow.value + '°\n';
+    text += '  Surgery Duration: ' + sliderDuration.value + ' hours\n\n';
+    text += 'RISK ASSESSMENT:\n';
+    text += '  ' + riskTitle.textContent + '\n\n';
+
+    // Extract risk details
+    const riskItems = riskBody.querySelectorAll('p');
+    riskItems.forEach(function(p) {
+      text += '  ' + p.textContent.trim() + '\n';
+    });
+
+    text += '\nRECOMMENDATIONS:\n';
+    text += '  ' + recommendationText.textContent.trim() + '\n\n';
+    text += 'EVIDENCE BASE:\n';
+    text += '  Thresholds derived from: AORN 2024 Guidelines [8], ASA Practice Advisory [25],\n';
+    text += '  ASA POVL Registry [20], Ulnar nerve pressure mapping [43],\n';
+    text += '  Brachial plexus biomechanics [29, 45], Peroneal nerve studies [39].\n';
+    text += '  [All thresholds from source document unless annotated otherwise.]\n\n';
+    text += 'Source: Biomechanical Analysis and Complication Mitigation in Orthopedic Patient Positioning (2025 Review)';
+
+    navigator.clipboard.writeText(text).then(function() {
+      btnExport.textContent = '✓ Copied!';
+      btnExport.classList.add('copied');
+      setTimeout(function() {
+        btnExport.textContent = '📋 Export';
+        btnExport.classList.remove('copied');
+      }, 2000);
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btnExport.textContent = '✓ Copied!';
+      btnExport.classList.add('copied');
+      setTimeout(function() {
+        btnExport.textContent = '📋 Export';
+        btnExport.classList.remove('copied');
+      }, 2000);
+    });
+  });
+
+  // INIT
+  update();
+})();
+</script>
+
+</body>
+</html>

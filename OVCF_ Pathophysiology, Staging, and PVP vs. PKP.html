@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVCF Evidence-Based Educational Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fafbfc;--surface:#ffffff;--surface-alt:#f4f6f9;
+  --text:#1a1d23;--text-secondary:#4a5068;--text-muted:#7c8294;
+  --primary:#2563eb;--primary-light:#dbeafe;--primary-dark:#1d4ed8;
+  --accent:#7c3aed;--accent-light:#ede9fe;
+  --success:#059669;--success-light:#d1fae5;
+  --warning:#d97706;--warning-light:#fef3c7;
+  --danger:#dc2626;--danger-light:#fee2e2;
+  --info:#0891b2;--info-light:#cffafe;
+  --border:#e2e6ee;--shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg:0 10px 25px rgba(0,0,0,0.08),0 4px 10px rgba(0,0,0,0.04);
+  --radius:10px;--radius-lg:16px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+h1{font-size:2rem;font-weight:800;letter-spacing:-0.02em;line-height:1.2;margin-bottom:0.5rem}
+h2{font-size:1.55rem;font-weight:700;letter-spacing:-0.015em;line-height:1.3;margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--primary-light)}
+h3{font-size:1.2rem;font-weight:600;margin:1.8rem 0 0.7rem;color:var(--primary-dark)}
+h4{font-size:1.05rem;font-weight:600;margin:1.2rem 0 0.5rem}
+p{margin-bottom:1rem;color:var(--text-secondary)}
+ul,ol{margin:0.5rem 0 1rem 1.5rem;color:var(--text-secondary)}
+li{margin-bottom:0.35rem}
+strong{color:var(--text);font-weight:600}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Layout */
+.page-header{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 50%,#7c3aed 100%);color:#fff;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.page-header h1{font-size:2.2rem;text-shadow:0 2px 8px rgba(0,0,0,0.2);position:relative}
+.page-header p{color:rgba(255,255,255,0.85);font-size:1.05rem;max-width:700px;margin:0.5rem auto 0;position:relative}
+.container{max-width:1280px;margin:0 auto;padding:0 1.5rem 3rem}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start}
+.main-content{min-width:0}
+.sidebar{position:sticky;top:1rem;max-height:calc(100vh - 2rem);overflow-y:auto}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.8rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.card-header{display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem}
+.card-header .icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+
+/* Evidence Badge */
+.ev-badge{display:inline-flex;align-items:center;gap:0.3rem;padding:0.15rem 0.6rem;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:0.03em;vertical-align:middle;white-space:nowrap}
+.ev-I{background:#064e3b;color:#d1fae5}
+.ev-II{background:#065f46;color:#d1fae5}
+.ev-III{background:#92400e;color:#fef3c7}
+.ev-IV{background:#78350f;color:#fef3c7}
+.ev-V{background:#7f1d1d;color:#fee2e2}
+.ev-G{background:#1e3a5f;color:#dbeafe}
+.ev-NR{background:#4a5068;color:#e2e6ee}
+
+/* Callout */
+.callout{border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0;font-size:0.92rem}
+.callout-info{background:var(--info-light);border-left:4px solid var(--info)}
+.callout-warning{background:var(--warning-light);border-left:4px solid var(--warning)}
+.callout-danger{background:var(--danger-light);border-left:4px solid var(--danger)}
+.callout-success{background:var(--success-light);border-left:4px solid var(--success)}
+.callout strong{display:block;margin-bottom:0.2rem;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.88rem}
+caption{font-weight:700;font-size:0.95rem;padding:0.8rem 1rem;text-align:left;background:var(--primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0}
+thead th{background:var(--surface-alt);font-weight:600;text-align:left;padding:0.65rem 0.8rem;border-bottom:2px solid var(--border);white-space:nowrap;color:var(--text)}
+tbody td{padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:hover{background:var(--primary-light)}
+tbody tr:last-child td{border-bottom:none}
+
+/* Formula */
+.formula-block{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;margin:1rem 0;text-align:center;overflow-x:auto}
+
+/* Sidebar - Interactive Panel */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;margin-bottom:1.5rem}
+.panel-head{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:#fff;padding:1rem 1.2rem;font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:0.5rem}
+.panel-body{padding:1.2rem}
+
+/* Slider Group */
+.slider-group{margin-bottom:1.3rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.4rem}
+.slider-label span{font-weight:600;font-size:0.88rem;color:var(--text)}
+.slider-value{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;color:var(--primary);background:var(--primary-light);padding:0.1rem 0.5rem;border-radius:6px;min-width:3.5rem;text-align:center}
+input[type=range]{-webkit-appearance:none;width:100%;height:8px;border-radius:4px;background:linear-gradient(to right,var(--success) 0%,var(--warning) 50%,var(--danger) 100%);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--primary);box-shadow:0 2px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--primary);box-shadow:0 2px 6px rgba(0,0,0,0.15);cursor:pointer}
+.slider-ticks{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-muted);margin-top:0.2rem;font-family:'JetBrains Mono',monospace}
+
+/* Recommendation Output */
+.rec-box{border-radius:var(--radius);padding:1rem;margin-top:1rem;font-size:0.85rem;line-height:1.6}
+.rec-box .rec-title{font-weight:700;font-size:0.92rem;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.4rem}
+.rec-box .rec-detail{color:var(--text-secondary)}
+.rec-appropriate{background:var(--success-light);border:1px solid #6ee7b7}
+.rec-uncertain{background:var(--warning-light);border:1px solid #fcd34d}
+.rec-inappropriate{background:var(--danger-light);border:1px solid #fca5a5}
+.rec-chronic{background:var(--info-light);border:px solid #67e8f9}
+
+/* Buttons */
+.btn-row{display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{padding:0.55rem 1rem;border:none;border-radius:8px;font-weight:600;font-size:0.82rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.35rem;transition:all 0.2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:#b91c1c}
+
+/* Status Indicator */
+.status-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:0.3rem}
+.status-green{background:var(--success);box-shadow:0 0 6px rgba(5,150,105,0.4)}
+.status-yellow{background:var(--warning);box-shadow:0 0 6px rgba(217,119,6,0.4)}
+.status-red{background:var(--danger);box-shadow:0 0 6px rgba(220,38,38,0.4)}
+
+/* Reference list */
+.ref-list{counter-reset:ref;list-style:none;margin:0;padding:0}
+.ref-list li{counter-increment:ref;padding:0.4rem 0 0.4rem 2.2rem;position:relative;font-size:0.82rem;color:var(--text-muted);border-bottom:1px solid var(--surface-alt)}
+.ref-list li::before{content:'['counter(ref)']';position:absolute;left:0;font-weight:700;color:var(--primary)}
+
+/* Responsive */
+@media(max-width:960px){
+  .grid{grid-template-columns:1fr}
+  .sidebar{position:static;max-height:none}
+  h1{font-size:1.7rem}
+  h2{font-size:1.3rem}
+}
+@media(max-width:600px){
+  .page-header{padding:1.5rem 1rem}
+  .page-header h1{font-size:1.4rem}
+  .container{padding:0 1rem 2rem}
+  .card{padding:1.2rem}
+  table{font-size:0.8rem}
+}
+
+/* Utility */
+.mt-1{margin-top:0.5rem}.mt-2{margin-top:1rem}.mb-1{margin-bottom:0.5rem}.mb-2{margin-bottom:1rem}
+.text-center{text-align:center}
+.text-sm{font-size:0.85rem}
+.text-xs{font-size:0.78rem}
+.text-muted{color:var(--text-muted)}
+.font-mono{font-family:'JetBrains Mono',monospace}
+.flex{display:flex}.flex-col{flex-direction:column}.gap-1{gap:0.5rem}.items-center{items-align:center}.justify-between{justify-content:space-between}
+.tag{display:inline-block;padding:0.1rem 0.5rem;border-radius:4px;font-size:0.75rem;font-weight:600}
+.tag-acute{background:#fee2e2;color:#991b1b}
+.tag-subacute{background:#fef3c7;color:#92400e}
+.tag-chronic{background:#d1fae5;color:#065f46}
+.tag-kummell{background:#ede9fe;color:#5b21b6}
+
+/* Print */
+@media print{
+  .sidebar,.btn-row{display:none!important}
+  .grid{grid-template-columns:1fr}
+  .page-header{background:#333!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>🦴 Osteoporotic Vertebral Compression Fractures</h1>
+  <p>Comprehensive Evidence-Based Educational Summary — Pathophysiology, Classification &amp; Intervention</p>
+</header>
+
+<div class="container">
+<div class="grid">
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<main class="main-content" role="main">
+
+<!-- Section 1: Introduction -->
+<section class="card" id="section-intro">
+  <h2>1. Introduction: The Global Burden</h2>
+  <p>Osteoporotic Vertebral Compression Fractures (OVCFs) are the <strong>most common fragility fracture</strong>, arising from the systemic deterioration of bone mass and micro-architectural integrity associated with osteoporosis. While historically dismissed as benign, modern evidence reveals that OVCFs initiate a devastating biomechanical cascade: a single anterior wedge fracture shifts the center of gravity anteriorly, increasing the flexion moment arm on adjacent vertebrae and dramatically raising the risk of subsequent fractures—independent of bone mineral density (BMD). <span class="ev-badge ev-II">Level II</span> <sup>[1,3]</sup></p>
+  <p>The functional consequences of untreated or malunited OVCFs include <strong>hyperkyphosis</strong> ("dowager's hump"), reduced vital capacity, gastrointestinal compression, chronic pain, and increased mortality—contributing to a frailty syndrome that significantly shortens life expectancy. <span class="ev-badge ev-II">Level II</span> <sup>[3]</sup></p>
+
+  <div class="callout callout-info">
+    <strong>⚡ Key Clinical Imperative</strong>
+    OVCFs are not benign collapses. Each fracture initiates a self-reinforcing "fracture cascade" that requires proactive identification, accurate staging, and evidence-based intervention to interrupt.
+  </div>
+</section>
+
+<!-- Section 2: Pathophysiology -->
+<section class="card" id="section-patho">
+  <h2>2. Pathophysiology: Biomechanics of Trabecular Failure</h2>
+  <p>Understanding OVCFs requires looking beyond the macroscopic measure of BMD provided by DXA. While BMD is a strong predictor of fracture risk, vertebral structural integrity fundamentally depends on the <strong>quality of trabecular micro-architecture</strong> and the load-sharing relationship between the cancellous core and cortical shell. <span class="ev-badge ev-II">Level II</span> <sup>[9]</sup></p>
+
+  <h3>2.1 The Euler Buckling Phenomenon</h3>
+  <p>The vertebral body functions as a composite structure. Healthy trabecular bone consists of vertical plates sustaining axial loads and horizontal struts providing cross-bracing stability. The hallmark pathophysiological event is a <strong>topological transformation</strong>: plate-like trabeculae are resorbed and perforated, converting into thinner, disconnected rod-like structures. <span class="ev-badge ev-II">Level II</span> <sup>[2]</sup></p>
+
+  <div class="callout callout-warning">
+    <strong>⚠️ Critical Mechanism — Euler Buckling</strong>
+    Loss of horizontal cross-struts effectively doubles or triples the unsupported length (L) of vertical trabeculae. Since failure load is inversely proportional to L², a twofold increase in unsupported length results in a <strong>fourfold decrease</strong> in load-bearing capacity.
+  </div>
+
+  <div class="formula-block">
+    <p style="margin-bottom:0.5rem;font-weight:600;font-size:0.85rem;color:var(--text)">Euler's Critical Buckling Load</p>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;margin:0">P<sub>cr</sub> = π²EI / (KL)²</p>
+    <p class="text-xs text-muted mt-1">E = modulus of elasticity &bull; I = area moment of inertia &bull; K = effective length factor &bull; L = unsupported length</p>
+  </div>
+
+  <h3>2.2 Anisotropy &amp; Off-Axis Loading</h3>
+  <p>Healthy trabecular bone is anisotropic—optimized to resist vertical compression. In osteoporosis, preferential loss of horizontal connections exaggerates this anisotropy. The remaining vertical "rods" buckle instantly under shear or transverse loading during bending or lifting. <span class="ev-badge ev-II">Level II</span> <sup>[3]</sup></p>
+
+  <h3>2.3 The Anterior "Weak Zone"</h3>
+  <p>Trabecular density is not uniform. Extensive mapping reveals that the <strong>anterior-superior quadrant</strong> of the lumbar vertebra has significantly less dense and less interconnected bone. During forward flexion, peak compressive stress coincides with this weakest region, explaining the overwhelming predominance of <strong>anterior wedge deformities</strong> (Genant Type I). <span class="ev-badge ev-II">Level II</span> <sup>[2]</sup></p>
+
+  <h3>2.4 The Cortical Shell</h3>
+  <p>The vertebral cortex (0.4–0.8 mm thick) assumes a critical load-bearing role as the trabecular network fails. Finite Element (FE) modeling shows that maximum principal stress at endplates increases from ~5.4 MPa in healthy adults (&lt;50 years) to &gt;73 MPa in the elderly (&gt;75 years). This dramatic increase predisposes to endplate failure and Schmorl's nodes. <span class="ev-badge ev-II">Level II</span> <sup>[3,10,11]</sup></p>
+
+  <h3>2.5 Kummell's Disease: Delayed Osteonecrosis</h3>
+  <p>A critical subset of OVCF pathology is <strong>Kummell's disease</strong>—delayed post-traumatic vertebral osteonecrosis. The initial compression injury disrupts the end-arterial supply to the anterior vertebral body, leading to avascular necrosis (AVN). <span class="ev-badge ev-III">Level III</span> <sup>[12]</sup></p>
+
+  <div class="callout callout-danger">
+    <strong>🔴 Pathognomonic Sign — Intravertebral Vacuum Cleft (IVC)</strong>
+    The IVC represents a pseudoarthrosis. On extension (supine), the fracture gap opens, drawing nitrogen gas into the cleft (radiolucent on X-ray/CT). On MRI, the <strong>"Fluid Sign"</strong> (hyperintense on T2/STIR) and <strong>"Double Line Sign"</strong> (hypointense sclerotic rim) are diagnostic. The fluid-filled cleft indicates significant micromotion, prevents spontaneous healing, and poses high risk for cement leakage during vertebroplasty. <sup>[12,15,17]</sup>
+  </div>
+</section>
+
+<!-- Section 3: Classification -->
+<section class="card" id="section-class">
+  <h2>3. Clinical Staging &amp; Radiological Classification</h2>
+
+  <h3>3.1 Genant's Semi-Quantitative (SQ) Classification</h3>
+  <p>Developed by Genant et al. (1993), the SQ method is the global standard for grading vertebral fractures. It categorizes fractures by morphology and severity. <span class="ev-badge ev-III">Level III</span> <sup>[18,19]</sup></p>
+
+  <h4>Morphological Categorization</h4>
+  <ul>
+    <li><strong>Wedge Deformity:</strong> Anterior height reduction — most common, reflecting anterior column failure under flexion.</li>
+    <li><strong>Biconcave (Codfish) Deformity:</strong> Central height reduction — endplate failure from disc nucleus invagination.</li>
+    <li><strong>Crush Deformity:</strong> Pan-column height loss — highest instability.</li>
+  </ul>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1. Genant Semi-Quantitative Severity Grading</caption>
+      <thead>
+        <tr><th>Grade</th><th>Severity</th><th>Height Loss</th><th>Area Loss</th><th>Clinical Significance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tag tag-chronic">0</span></td><td>Normal</td><td>&lt; 20%</td><td>&lt; 10%</td><td>No fracture; physiological wedging may be present</td></tr>
+        <tr><td><span class="tag tag-subacute">0.5</span></td><td>Minimal</td><td>&lt; 20%</td><td>N/A</td><td>Expanded criteria (eSQ); cortical buckling or endplate depression present. Predictive of future fractures.</td></tr>
+        <tr><td><span class="tag tag-subacute">1</span></td><td>Mild</td><td>20–25%</td><td>10–20%</td><td>Often asymptomatic; differentiate from Scheuermann's disease</td></tr>
+        <tr><td><span class="tag tag-acute">2</span></td><td>Moderate</td><td>25–40%</td><td>20–40%</td><td>Typically symptomatic in acute phase</td></tr>
+        <tr><td><span class="tag tag-acute">3</span></td><td>Severe</td><td>&gt; 40%</td><td>&gt; 40%</td><td>High risk of kyphotic deformity, pulmonary compromise, cord compression</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>💡 Expanded SQ (eSQ) — Grade 0.5</strong>
+    Deformities of 15–19% height loss are "normal" in the original system but may represent acute, painful fractures. Grade 0.5 captures vertebrae with qualitative failure signs (cortical disruption, endplate depression). Identifying Grade 0.5 is crucial because <strong>any fracture increases subsequent fracture risk by 5-fold</strong>. <sup>[18]</sup>
+  </div>
+
+  <h3>3.2 MRI-Based Acuity Staging</h3>
+  <p>Morphological grade is secondary to <em>acuity</em> in interventional decision-making. MRI is the gold standard for determining fracture age, with sensitivity and specificity &gt;95%. <span class="ev-badge ev-II">Level II</span> <sup>[21]</sup></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2. MRI Signal Characteristics by Fracture Stage</caption>
+      <thead>
+        <tr><th>Stage</th><th>Timeline</th><th>T1 Signal</th><th>T2/STIR</th><th>Enhancement</th><th>Pathology</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-acute">Acute</span></td>
+          <td>0–4 weeks</td>
+          <td>Hypointense (dark)</td>
+          <td><strong>Hyperintense (bright)</strong></td>
+          <td>Intense, diffuse</td>
+          <td>Hemorrhage, micro-fracture, edema, inflammation</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-subacute">Subacute</span></td>
+          <td>1–3 months</td>
+          <td>Mixed / Hypointense</td>
+          <td>Mixed / Hyperintense</td>
+          <td>Moderate / Patchy</td>
+          <td>Resolving edema, early woven bone, vascular proliferation</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-chronic">Chronic</span></td>
+          <td>&gt; 3 months</td>
+          <td>Isointense (fatty)</td>
+          <td>Isointense (fatty)</td>
+          <td>None</td>
+          <td>Healed fracture, fatty marrow restoration</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-kummell">Non-Union</span></td>
+          <td>Indefinite</td>
+          <td>Hypointense (cleft)</td>
+          <td>Hyperintense (fluid)</td>
+          <td>Rim enhancement</td>
+          <td>Kummell's disease — fluid-filled cleft, necrotic bone</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3.3 Differential Diagnosis: Benign vs. Malignant</h3>
+  <p>Distinguishing acute osteoporotic fractures from pathologic fractures is critical. Key MRI features favoring a <strong>benign</strong> etiology include: <span class="ev-badge ev-III">Level III</span> <sup>[25]</sup></p>
+  <ul>
+    <li><strong>Preserved fatty marrow</strong> in non-fractured portions</li>
+    <li><strong>"Band" sign:</strong> low-signal band on T1/T2 representing the fracture line</li>
+    <li><strong>Retropulsion morphology:</strong> specific posterior-superior bone fragment vs. diffuse soft tissue mass</li>
+    <li><strong>Absence of isolated pedicle involvement</strong> (pedicle marrow replacement is highly suspicious for metastasis)</li>
+    <li><strong>Minimal paravertebral soft tissue</strong> (malignancies show large distinct masses beyond vertebral confines)</li>
+  </ul>
+</section>
+
+<!-- Section 4: PVP vs PKP -->
+<section class="card" id="section-treatment">
+  <h2>4. Evidence-Based Intervention: PVP vs. PKP</h2>
+  <p>The choice between Percutaneous Vertebroplasty (PVP) and Percutaneous Kyphoplasty (PKP) involves balancing efficacy, anatomical restoration, safety, and cost. Both inject polymethylmethacrylate (PMMA) cement, but PVP uses high-pressure injection while PKP employs inflatable balloon tamps for fracture reduction and low-pressure cement delivery. <span class="ev-badge ev-I">Level I</span> <sup>[6]</sup></p>
+
+  <h3>4.1 The Evolution of Consensus</h3>
+  <div class="callout callout-warning">
+    <strong>⏱️ The "Pendulum" Swing of VAP Guidelines</strong>
+    <strong>Era of Adoption (1990s–2008):</strong> Widespread use based on observational data.<br>
+    <strong>Era of Skepticism (2009–2018):</strong> Two sham-controlled RCTs in NEJM showed no benefit over sham. AAOS issued "Strong Recommendation Against" PVP (2010). ASBMR (2019) recommended against routine use.<br>
+    <strong>Era of Refinement (2018–Present):</strong> Subsequent RCTs (VAPOUR, VERTOS) with strict acute-fracture selection demonstrated clear benefits. NASS, SIR, CIRSE updated guidelines emphasizing patient selection. <sup>[5,8,30,31]</sup>
+  </div>
+
+  <h3>4.2 NASS 2024 Appropriate Use Criteria</h3>
+  <p>The <strong>2024 NASS AUC</strong> uses a matrix-based approach with "Appropriateness Ratings" (Median 1–9). Augmentation is <strong>"Appropriate" (Rating 7–9)</strong> when three factors converge: <span class="ev-badge ev-G">Guideline</span> <sup>[32]</sup></p>
+  <ol>
+    <li><strong>Acute Duration:</strong> Biological activity confirmed by edema on STIR MRI (not just calendar time)</li>
+    <li><strong>High Pain Intensity:</strong> Severe mechanical pain (VAS &gt; 7/10) significantly impairing mobility</li>
+    <li><strong>Fracture Morphology:</strong> Simple patterns (wedge, compression) without complex burst features or significant canal compromise</li>
+  </ol>
+
+  <div class="callout callout-danger">
+    <strong>🚫 Contraindication</strong>
+    Augmentation is rated <strong>"Rarely Appropriate"</strong> for chronic fractures (no edema), mild pain, or asymptomatic radiographic findings. Treating a healed fracture with cement offers no mechanical benefit and exposes the patient to unnecessary risk.
+  </div>
+
+  <h3>4.3 Comparative Efficacy</h3>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3. PVP vs. PKP — Head-to-Head Comparison</caption>
+      <thead>
+        <tr><th>Outcome</th><th>PVP</th><th>PKP</th><th>Verdict</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Pain Relief (VAS/ODI)</strong></td>
+          <td>Significant relief</td>
+          <td>Equivalent relief</td>
+          <td><span class="tag tag-chronic">Equivalent</span></td>
+          <td><span class="ev-badge ev-I">Level I</span> <sup>[4,33]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Height Restoration</strong></td>
+          <td>Minimal</td>
+          <td>Significant correction</td>
+          <td><span class="tag tag-subacute">PKP Superior</span></td>
+          <td><span class="ev-badge ev-I">Level I</span> <sup>[4]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Cement Leakage Rate</strong></td>
+          <td>17–50%</td>
+          <td>7–20%</td>
+          <td><span class="tag tag-acute">PKP Safer</span></td>
+          <td><span class="ev-badge ev-I">Level I</span> <sup>[7,17]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Kyphosis Correction</strong></td>
+          <td>Limited</td>
+          <td>Significant (with recoil caveat)</td>
+          <td><span class="tag tag-subacute">PKP Superior</span></td>
+          <td><span class="ev-badge ev-I">Level I</span> <sup>[4]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Initial Cost</strong></td>
+          <td>Lower ($500–1,500)</td>
+          <td>Higher ($3,000–5,000)</td>
+          <td><span class="tag tag-chronic">PVP Cheaper</span></td>
+          <td><span class="ev-badge ev-III">Level III</span> <sup>[38]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>2-Year Cost-Effectiveness</strong></td>
+          <td>Comparable</td>
+          <td>May be cost-neutral due to fewer complications</td>
+          <td><span class="tag tag-subacute">Potentially Equivalent</span></td>
+          <td><span class="ev-badge ev-III">Level III</span> <sup>[38]</sup></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>4.4 Procedural Considerations</h3>
+  <ul>
+    <li><strong>Cement Volume:</strong> A filling ratio of <strong>0.4–0.6</strong> (relative to vertebral volume) balances stabilization and complication reduction. <span class="ev-badge ev-III">Level III</span> <sup>[39]</sup></li>
+    <li><strong>Unilateral vs. Bilateral:</strong> Unilateral approach with needle crossing the midline provides equivalent pain relief with reduced procedure time and radiation exposure.</li>
+    <li><strong>Third-Generation Devices:</strong> Vertebral Body Stenting (VBS) and SpineJack leave titanium implants to maintain reduction after balloon deflation, addressing the "recoil" phenomenon. <span class="ev-badge ev-I">Level I</span> <sup>[4,34]</sup></li>
+  </ul>
+</section>
+
+<!-- Section 5: Landmark Studies -->
+<section class="card" id="section-studies">
+  <h2>5. Landmark Studies &amp; Evidence Summary</h2>
+  <p>The evidence base for OVCF management has evolved through pivotal trials that shaped clinical guidelines.</p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 4. Key Studies in OVCF Intervention</caption>
+      <thead>
+        <tr><th>#</th><th>Study</th><th>Year</th><th>Design</th><th>Key Finding</th><th>Level</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>Buchbinder et al.</strong> <em>NEJM</em></td>
+          <td>2009</td>
+          <td>Sham-controlled RCT</td>
+          <td>No significant benefit of PVP over sham for pain at 1, 3, or 6 months. Criticized for including chronic fractures and low baseline pain.</td>
+          <td><span class="ev-badge ev-I">I</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Kallmes et al.</strong> (INVEST) <em>NEJM</em></td>
+          <td>2009</td>
+          <td>Sham-controlled RCT</td>
+          <td>No significant difference in pain outcomes between PVP and sham. Crossover bias noted (63% of controls crossed over).</td>
+          <td><span class="ev-badge ev-I">I</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>VAPOUR Trial</strong></td>
+          <td>2016</td>
+          <td>Sham-controlled RCT</td>
+          <td>Strict selection of <em>acute</em> fractures (MRI edema, VAS ≥7, &lt;6 weeks). Significant pain relief with PVP vs. sham at 2 weeks and maintained at 6 months.</td>
+          <td><span class="ev-badge ev-I">I</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>VERTOS II</strong></td>
+          <td>2010</td>
+          <td>Prospective RCT</td>
+          <td>PVP provided faster and greater pain relief vs. conservative care in acute/subacute OVCFs with edema on MRI. Benefits sustained at 1 year.</td>
+          <td><span class="ev-badge ev-I">I</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Genant et al.</strong></td>
+          <td>1993</td>
+          <td>Classification System</td>
+          <td>Established the Semi-Quantitative (SQ) method for grading vertebral fractures, adopted as global standard for epidemiological and clinical trials.</td>
+          <td><span class="ev-badge ev-III">III</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>NASS AUC</strong></td>
+          <td>2024</td>
+          <td>Guideline / AUC</td>
+          <td>Matrix-based approach; augmentation "Appropriate" for acute, high-pain, morphologically simple fractures. "Rarely Appropriate" for chronic/low-pain.</td>
+          <td><span class="ev-badge ev-G">G</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>📊 Evidence Gap Note</strong>
+    The source document references systematic reviews and meta-analyses <sup>[4,7,33,34,35,36]</sup> that synthesize data from multiple RCTs. However, only the trials listed above are described in detail within the document. Additional RCTs may exist in the referenced meta-analyses.
+  </div>
+</section>
+
+<!-- Section 6: Treatment Algorithm -->
+<section class="card" id="section-algo">
+  <h2>6. Treatment Selection Algorithm</h2>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 5. Procedure Selection by Fracture Characteristics</caption>
+      <thead>
+        <tr><th>Patient / Fracture Characteristics</th><th>Recommended Procedure</th><th>Rationale</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Standard acute OVCF (Grade 1/2, intact posterior wall)</td>
+          <td><strong>PVP</strong> or <strong>PKP</strong></td>
+          <td>PVP is cost-effective; PKP optional if height restoration desired</td>
+        </tr>
+        <tr>
+          <td>Severe collapse (Grade 3, &gt;40% height loss)</td>
+          <td><strong>PKP</strong></td>
+          <td>PVP difficult due to dense collapsed bone; balloon creates space</td>
+        </tr>
+        <tr>
+          <td>Posterior wall defect / burst component</td>
+          <td><strong>PKP</strong> <span class="ev-badge ev-G">Strong</span></td>
+          <td>Low-pressure fill reduces epidural leakage risk</td>
+        </tr>
+        <tr>
+          <td>Kummell's disease (fluid sign / cleft)</td>
+          <td><strong>PKP</strong></td>
+          <td>Balloon contains cement within cleft; high-viscosity cement mandatory</td>
+        </tr>
+        <tr>
+          <td>High kyphosis (&gt;15°)</td>
+          <td><strong>PKP</strong> (or VBS)</td>
+          <td>Best sagittal alignment correction; manage "recoil"</td>
+        </tr>
+        <tr>
+          <td>Resource-limited setting</td>
+          <td><strong>PVP</strong></td>
+          <td>Equivalent pain relief at fraction of cost; requires higher operator skill</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 7: Conclusion -->
+<section class="card" id="section-conclusion">
+  <h2>7. Conclusion</h2>
+  <p>OVCFs constitute a complex biomechanical failure driven by the degradation of trabecular plates into fragile rods and the creation of anterior "weak zones." Accurate diagnosis demands nuanced application of Genant's morphological grading and MRI-based acuity staging to identify biologically active lesions and exclude malignancy.</p>
+  <p>The debate between PVP and PKP has matured into a <strong>tailored decision matrix</strong>. Evidence overwhelmingly supports that:</p>
+  <ul>
+    <li>Both procedures provide <strong>equivalent pain relief</strong>.</li>
+    <li><strong>PKP offers superior safety</strong> (lower cement leakage) and <strong>greater radiological height restoration</strong>.</li>
+    <li>PKP should be preferred for <strong>high-risk fractures</strong> (severe collapse, posterior wall defects, Kummell's disease).</li>
+    <li><strong>PVP remains highly effective</strong> and cost-conscious for routine, uncomplicated acute fractures.</li>
+  </ul>
+  <p>Per NASS 2024 AUC, intervention is reserved for patients with <strong>acute, biologically active, mechanically unstable fractures</strong> who fail conservative care. By adhering to evidence-based selection criteria, clinicians can interrupt the fracture cascade, restore function, and improve survival. <span class="ev-badge ev-G">Guideline</span> <sup>[32]</sup></p>
+</section>
+
+<!-- References -->
+<section class="card" id="section-refs">
+  <h2>References</h2>
+  <ol class="ref-list">
+    <li>Mechanical Behavior of Osteoporotic Bone at Sub-Lamellar Length Scales. <em>Frontiers in Materials</em>, 2015.</li>
+    <li>A review of anatomical and mechanical factors affecting vertebral body integrity. <em>PMC</em>.</li>
+    <li>Anatomical and biomechanical factors of osteoporotic vertebral fracture and cascade fracturing.</li>
+    <li>Comparison of clinical and radiological outcomes of VBS vs PKP for OVCF: Systematic review and meta-analysis. <em>JointDrs</em>.</li>
+    <li>Summary of Recommendations — AAOS Guidelines.</li>
+    <li>Percutaneous Vertebroplasty and Kyphoplasty. <em>StatPearls — NCBI Bookshelf</em>.</li>
+    <li>Percutaneous Vertebroplasty Versus Balloon Kyphoplasty. <em>Pain Physician</em>.</li>
+    <li>Efficacy and Safety of Vertebral Augmentation: Second ASBMR Task Force Report (2019).</li>
+    <li>Role of Trabecular Microarchitecture in Whole-Vertebral Body Biomechanics. <em>PMC</em>.</li>
+    <li>The effect of trabecular micro-architecture on vertebra biomechanics: A finite element investigation. <em>WIT Press</em>.</li>
+    <li>Radiographic assessment of acute vs chronic vertebral compression fractures. <em>ResearchGate</em>.</li>
+    <li>Kummell disease. <em>PMC — NIH</em>.</li>
+    <li>Kümmell disease. <em>Radiopaedia</em>.</li>
+    <li>Intravertebral Cleft Sign. <em>Radsource</em>.</li>
+    <li>Vertebral Osteonecrosis: MR Imaging Findings. <em>AJNR</em>, 2007.</li>
+    <li>Acute Osteoporotic and Neoplastic Vertebral Compression Fractures. <em>Radiology</em>.</li>
+    <li>A predictive nomogram for intradiscal cement leakage in PKP. <em>PMC</em>.</li>
+    <li>A modified semi-quantitative (mSQ) grading scheme for OVCF. <em>QIMS</em>.</li>
+    <li>Semi-quantitative grading and extended semi-quantitative grading for OVCF deformity. <em>PMC</em>.</li>
+    <li>Genant classification of vertebral fractures. <em>Radiopaedia</em>.</li>
+    <li>Enhancing Box Sign: Enhancement Pattern of Acute Osteoporotic Compression Fracture. <em>PMC</em>.</li>
+    <li>Paradoxical Presentation of an Acute Vertebral Compression Fracture. <em>THE ORTHOPOD</em>.</li>
+    <li>Vertebral Body Compression Fracture, New vs Old. <em>Illinois Chiropractic Society</em>.</li>
+    <li>Differentiation of acute and chronic VCF using CT with deep transfer learning. <em>PMC</em>.</li>
+    <li>Pathologic Fractures. <em>Radsource</em>.</li>
+    <li>Spinal compression fracture. <em>Radiopaedia</em>.</li>
+    <li>PVP versus PKP for OVCF: An umbrella review protocol. <em>BMJ Open</em>, 2024.</li>
+    <li>AAOS Publishes New Tx Guideline for Vertebral Fractures. <em>AAPC</em>.</li>
+    <li>Efficacy and Safety of Vertebral Augmentation: Second ASBMR Task Force Report. <em>JBMR</em>.</li>
+    <li>CIRSE Guidelines on Percutaneous Vertebral Augmentation. <em>ResearchGate</em>.</li>
+    <li>Position Statement on Percutaneous Vertebral Augmentation (Multi-society). <em>PMC</em>.</li>
+    <li>Appropriate use criteria for osteoporotic compression fractures. <em>PubMed</em>, 2024.</li>
+    <li>PVP versus PKP: Evaluating Overlapping Meta-analyses. <em>PubMed</em>.</li>
+    <li>Comparison of clinical and radiological outcomes of VBS vs PKP: Systematic review. <em>PMC</em>.</li>
+    <li>Therapeutic effect of kyphoplasty and balloon vertebroplasty on OVCF: Systematic review. <em>PMC</em>.</li>
+    <li>Incidence of new osteoporotic adjacent VCFs: Conservative vs augmentation. <em>Frontiers in Surgery</em>, 2025.</li>
+    <li>Efficacy and Complication Rates of PVP and PKP: Retrospective 280 patients. <em>MDPI</em>.</li>
+    <li>Two-year cost comparison of vertebroplasty and kyphoplasty. <em>ResearchGate</em>.</li>
+    <li>Enhancing PKP efficacy through optimal cement filling ratio. <em>Frontiers in Endocrinology</em>, 2024.</li>
+  </ol>
+</section>
+
+</main>
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tool">
+
+<!-- Interactive Panel -->
+<div class="panel">
+  <div class="panel-head">🔬 Interactive Clinical Decision Tool</div>
+  <div class="panel-body">
+    <p class="text-xs text-muted mb-2">Adjust parameters below to generate a real-time recommendation based on source document thresholds.</p>
+
+    <!-- Slider 1: Height Loss -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Anterior Height Loss (%)</span>
+        <span class="slider-value" id="val-height">0%</span>
+      </div>
+      <input type="range" id="slider-height" min="0" max="60" value="0" step="1" aria-label="Anterior height loss percentage">
+      <div class="slider-ticks">
+        <span>0%</span>
+        <span>20%</span>
+        <span>40%</span>
+        <span>60%</span>
+      </div>
+    </div>
+
+    <!-- Slider 2: Pain VAS -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Pain Severity (VAS 0–10)</span>
+        <span class="slider-value" id="val-pain">0</span>
+      </div>
+      <input type="range" id="slider-pain" min="0" max="10" value="0" step="0.5" aria-label="Pain severity VAS score">
+      <div class="slider-ticks">
+        <span>0</span>
+        <span>5</span>
+        <span>10</span>
+      </div>
+    </div>
+
+    <!-- Slider 3: Kyphosis Angle -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Kyphosis Angle (Cobb °)</span>
+        <span class="slider-value" id="val-kyph">0°</span>
+      </div>
+      <input type="range" id="slider-kyph" min="0" max="40" value="0" step="1" aria-label="Kyphosis angle in degrees">
+      <div class="slider-ticks">
+        <span>0°</span>
+        <span>15°</span>
+        <span>25°</span>
+        <span>40°</span>
+      </div>
+    </div>
+
+    <!-- MRI Acuity Toggle -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>MRI STIR Edema</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.3rem">
+        <button class="btn btn-outline edema-btn active-edema" data-val="acute" onclick="setEdema(this)">Acute</button>
+        <button class="btn btn-outline edema-btn" data-val="subacute" onclick="setEdema(this)">Subacute</button>
+        <button class="btn btn-outline edema-btn" data-val="fluid" onclick="setEdema(this)">Fluid Sign</button>
+        <button class="btn btn-outline edema-btn" data-val="chronic" onclick="setEdema(this)">Chronic</button>
+      </div>
+    </div>
+
+    <!-- Posterior Wall Toggle -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Posterior Wall Integrity</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.3rem">
+        <button class="btn btn-outline pw-btn active-pw" data-val="intact" onclick="setPW(this)">Intact</button>
+        <button class="btn btn-outline pw-btn" data-val="defect" onclick="setPW(this)">Defect</button>
+      </div>
+    </div>
+
+    <!-- Recommendation Output -->
+    <div id="rec-output" class="rec-box rec-uncertain">
+      <div class="rec-title"><span class="status-dot status-yellow"></span> Adjust Parameters</div>
+      <div class="rec-detail">Set the sliders and toggles above to generate a clinical recommendation.</div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="resetAll()">↺ Reset</button>
+      <button class="btn btn-outline" onclick="copyExport()">📋 Copy Summary</button>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Reference Card -->
+<div class="panel">
+  <div class="panel-head">📋 Quick Reference</div>
+  <div class="panel-body">
+    <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>Genant Grading Thresholds:</strong></p>
+    <div style="font-size:0.78rem;line-height:1.8">
+      <span class="status-dot status-green"></span> <strong>Grade 0:</strong> &lt;20% height loss<br>
+      <span class="status-dot status-yellow"></span> <strong>Grade 1:</strong> 20–25% loss<br>
+      <span class="status-dot status-yellow"></span> <strong>Grade 2:</strong> 25–40% loss<br>
+      <span class="status-dot status-red"></span> <strong>Grade 3:</strong> &gt;40% loss
+    </div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:0.8rem 0">
+    <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>NASS 2024 AUC — "Appropriate" Criteria:</strong></p>
+    <div style="font-size:0.78rem;line-height:1.8">
+      ✓ Acute edema on MRI STIR<br>
+      ✓ VAS pain &gt; 7/10<br>
+      ✓ Simple morphology
+    </div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:0.8rem 0">
+    <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>Cement Leakage Rates:</strong></p>
+    <div style="font-size:0.78rem;line-height:1.8">
+      <span class="tag tag-acute" style="margin-right:0.3rem">PVP</span> 17–50%<br>
+      <span class="tag tag-chronic" style="margin-right:0.3rem">PKP</span> 7–20%
+    </div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:0.8rem 0">
+    <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>Optimal Cement Fill Ratio:</strong></p>
+    <div style="font-size:0.78rem;font-family:'JetBrains Mono',monospace">
+      0.4 – 0.6 of vertebral volume
+    </div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:0.8rem 0">
+    <p style="font-size:0.75rem;color:var(--text-muted)"><em>Note: Thresholds for kyphosis severity (&gt;15° moderate, &gt;25° severe) are based on common clinical practice and not explicitly defined as categorical cut-offs in the source document. NASS 2024 specifies &gt;15° as a consideration for PKP.</em></p>
+  </div>
+</div>
+
+<!-- Euler's Formula Reference -->
+<div class="panel">
+  <div class="panel-head">📐 Euler's Buckling</div>
+  <div class="panel-body text-center">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:0.95rem;margin:0.5rem 0">P<sub>cr</sub> = π²EI / (KL)²</p>
+    <p class="text-xs text-muted mt-1">Doubling unsupported length → 4× reduction in critical load</p>
+    <p class="text-xs text-muted">Loss of horizontal struts is the primary mechanism of trabecular failure in osteoporosis. <sup>[2]</sup></p>
+  </div>
+</div>
+
+</aside>
+
+</div><!-- /grid -->
+</div><!-- /container -->
+
+<script>
+// State
+let edemaState = 'acute';
+let pwState = 'intact';
+
+const sliderHeight = document.getElementById('slider-height');
+const sliderPain = document.getElementById('slider-pain');
+const sliderKyph = document.getElementById('slider-kyph');
+const valHeight = document.getElementById('val-height');
+const valPain = document.getElementById('val-pain');
+const valKyph = document.getElementById('val-kyph');
+const recOutput = document.getElementById('rec-output');
+
+// Slider listeners
+sliderHeight.addEventListener('input', () => { valHeight.textContent = sliderHeight.value + '%'; updateRec(); });
+sliderPain.addEventListener('input', () => { valPain.textContent = sliderPain.value; updateRec(); });
+sliderKyph.addEventListener('input', () => { valKyph.textContent = sliderKyph.value + '°'; updateRec(); });
+
+// Toggle helpers
+function setEdema(btn) {
+  document.querySelectorAll('.edema-btn').forEach(b => b.classList.remove('active-edema'));
+  btn.classList.add('active-edema');
+  edemaState = btn.dataset.val;
+  updateRec();
+}
+function setPW(btn) {
+  document.querySelectorAll('.pw-btn').forEach(b => b.classList.remove('active-pw'));
+  btn.classList.add('active-pw');
+  pwState = btn.dataset.val;
+  updateRec();
+}
+
+// Active button styles
+document.head.insertAdjacentHTML('beforeend', `<style>
+  .active-edema{background:var(--primary)!important;color:#fff!important;border-color:var(--primary)!important}
+  .active-pw{background:var(--primary)!important;color:#fff!important;border-color:var(--primary)!important}
+</style>`);
+
+// Genant grade calc
+function getGenantGrade(h) {
+  if (h < 20) return { grade: '0 (Normal)', cls: 'tag-chronic', sev: 'normal' };
+  if (h < 25) return { grade: '1 (Mild)', cls: 'tag-subacute', sev: 'mild' };
+  if (h < 40) return { grade: '2 (Moderate)', cls: 'tag-acute', sev: 'moderate' };
+  return { grade: '3 (Severe)', cls: 'tag-acute', sev: 'severe' };
+}
+
+// Update recommendation
+function updateRec() {
+  const h = parseInt(sliderHeight.value);
+  const p = parseFloat(sliderPain.value);
+  const k = parseInt(sliderKyph.value);
+  const g = getGenantGrade(h);
+
+  let title = '', detail = '', cssClass = 'rec-uncertain', dot = 'status-yellow';
+
+  // Chronic / no edema
+  if (edemaState === 'chronic') {
+    cssClass = 'rec-chronic'; dot = 'status-yellow';
+    title = `<span class="status-dot ${dot}"></span> Chronic / Healed Fracture`;
+    detail = `<strong>No intervention indicated.</strong> Absence of STIR edema suggests a healed fracture. Cement augmentation offers no mechanical benefit and is rated <em>"Rarely Appropriate"</em> per NASS 2024 AUC.<br><br>
+    <strong>Recommendation:</strong> Conservative management — physical therapy, rehabilitation, antiresorptive therapy (bisphosphonates/Denosumab). Reassess if new symptoms develop.`;
+  }
+  // Fluid sign (Kummell's)
+  else if (edemaState === 'fluid') {
+    cssClass = 'rec-appropriate'; dot = 'status-green';
+    title = `<span class="status-dot ${dot}"></span> Kummell's Disease (Fluid Sign)`;
+    detail = `<strong>PKP strongly recommended.</strong> Intravertebral vacuum cleft / pseudoarthrosis indicates significant micromotion preventing healing.<br><br>
+    <strong>Procedure:</strong> <em>Percutaneous Kyphoplasty (PKP)</em> — balloon containment reduces risk of cement flow toward spinal canal. High-viscosity cement mandatory.<br>
+    <strong>Contraindicated:</strong> PVP (high leakage risk through fluid-filled cleft).<br>
+    <strong>Cement fill ratio:</strong> 0.4–0.6 of vertebral volume. <sup>[12,15,17]</sup>`;
+  }
+  // Acute / subacute with edema
+  else {
+    const isAcute = edemaState === 'acute';
+    let appropriateness = '';
+    let procRec = '';
+    let kypRec = '';
+
+    // NASS criteria check
+    const meetsEdema = true; // we have edema
+    const meetsPain = p >= 7;
+    const meetsMorphology = (pwState === 'intact');
+
+    if (meetsPain && meetsMorphology) {
+      appropriateness = 'Appropriate (Rating 7–9)';
+      cssClass = 'rec-appropriate'; dot = 'status-green';
+    } else if (meetsPain || meetsMorphology) {
+      appropriateness = 'Uncertain / May Be Appropriate (Rating 4–6)';
+      cssClass = 'rec-uncertain'; dot = 'status-yellow';
+    } else {
+      appropriateness = 'Rarely Appropriate (Rating 1–3)';
+      cssClass = 'rec-inappropriate'; dot = 'status-red';
+    }
+
+    // Procedure selection
+    if (pwState === 'defect') {
+      procRec = `<strong>PKP</strong> (Strong Recommendation). Posterior wall defect poses high risk for epidural cement leakage with PVP. Balloon creates contained cavity for low-pressure fill.`;
+    } else if (g.sev === 'severe') {
+      procRec = `<strong>PKP</strong>. Severe collapse (&gt;40% height loss) makes PVP technically difficult. Balloon tamp creates space for cement.`;
+    } else if (k > 15) {
+      procRec = `<strong>PKP</strong> (or VBS). Significant kyphosis (&gt;15°) warrants height restoration attempt.`;
+    } else {
+      procRec = `<strong>PVP or PKP</strong>. Standard acute fracture — PVP is cost-effective and sufficient for pain relief. PKP optional if height restoration desired.`;
+    }
+
+    // Kyphosis note
+    if (k > 25) kypRec = `<br>⚠️ <strong>Severe kyphosis (&gt;25°):</strong> Associated with pulmonary compromise and increased adjacent-level fracture risk.`;
+    else if (k > 15) kypRec = `<br>⚠️ <strong>Moderate kyphosis (&gt;15°):</strong> Consider PKP/VBS for sagittal alignment correction.`;
+
+    title = `<span class="status-dot ${dot}"></span> ${isAcute ? 'Acute' : 'Subacute'} OVCF — ${appropriateness}`;
+    detail = `<strong>Genant Grade:</strong> <span class="tag ${g.cls}">${g.grade}</span> (${h}% height loss)<br>
+    <strong>Pain (VAS):</strong> ${p}/10 ${meetsPain ? '✓' : '(below threshold of 7/10 — NASS criterion not fully met)'}<br>
+    <strong>Posterior Wall:</strong> ${pwState === 'intact' ? 'Intact ✓' : '<span style="color:var(--danger)">Defect — higher leakage risk</span>'}<br>
+    <strong>MRI:</strong> ${isAcute ? 'STIR edema (acute)' : 'Mixed signal (subacute)'} ✓<br>${kypRec}<br>
+    <strong>Recommended Procedure:</strong> ${procRec}<br><br>
+    <em>Per NASS 2024 AUC, conservative management should be trialed first. Augmentation is indicated when conservative care fails after 2–4 weeks.</em> <sup>[32]</sup>`;
+  }
+
+  recOutput.className = 'rec-box ' + cssClass;
+  recOutput.innerHTML = `<div class="rec-title">${title}</div><div class="rec-detail">${detail}</div>`;
+}
+
+// Reset
+function resetAll() {
+  sliderHeight.value = 0; valHeight.textContent = '0%';
+  sliderPain.value = 0; valPain.textContent = '0';
+  sliderKyph.value = 0; valKyph.textContent = '0°';
+  edemaState = 'acute';
+  document.querySelectorAll('.edema-btn').forEach(b => b.classList.remove('active-edema'));
+  document.querySelector('.edema-btn[data-val="acute"]').classList.add('active-edema');
+  pwState = 'intact';
+  document.querySelectorAll('.pw-btn').forEach(b => b.classList.remove('active-pw'));
+  document.querySelector('.pw-btn[data-val="intact"]').classList.add('active-pw');
+  updateRec();
+}
+
+// Copy / Export
+function copyExport() {
+  const h = sliderHeight.value;
+  const p = sliderPain.value;
+  const k = sliderKyph.value;
+  const g = getGenantGrade(parseInt(h));
+  const timestamp = new Date().toLocaleString();
+  const recText = recOutput.innerText;
+
+  const summary = `OVCF Clinical Decision Summary
+Generated: ${timestamp}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PARAMETERS:
+• Anterior Height Loss: ${h}% (Genant Grade: ${g.grade})
+• Pain Severity (VAS): ${p}/10
+• Kyphosis Angle (Cobb): ${k}°
+• MRI STIR Status: ${edemaState.charAt(0).toUpperCase() + edemaState.slice(1)}
+• Posterior Wall: ${pwState === 'intact' ? 'Intact' : 'Defect'}
+
+RECOMMENDATION:
+${recText}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Source: Comprehensive Analysis of OVCFs (NASS 2024 AUC, Genant Classification)
+Evidence thresholds from provided source document.
+Thresholds for kyphosis severity annotated as general clinical practice.`;
+
+  navigator.clipboard.writeText(summary).then(() => {
+    const btn = document.querySelector('.btn-outline[onclick="copyExport()"]');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ Copied!';
+    btn.style.background = 'var(--success-light)';
+    btn.style.borderColor = 'var(--success)';
+    btn.style.color = 'var(--success)';
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = summary;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Summary copied to clipboard!');
+  });
+}
+
+// Initialize
+updateRec();
+</script>
+
+</body>
+</html>

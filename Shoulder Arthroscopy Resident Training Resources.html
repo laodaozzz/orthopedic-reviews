@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foundations of Shoulder Arthroscopy — Interactive Educational Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f9fb;
+    --card: #ffffff;
+    --primary: #1a56db;
+    --primary-light: #e8eefb;
+    --accent: #0e9f6e;
+    --accent-light: #def7ec;
+    --warn: #e02424;
+    --warn-light: #fde8e8;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.05);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,.07), 0 4px 6px rgba(0,0,0,.04);
+    --radius: 10px;
+    --sidebar-w: 340px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--gray-900);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #1a56db 100%);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--accent), #38bdf8, var(--primary));
+  }
+  .site-header h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: .35rem;
+  }
+  .site-header .subtitle {
+    font-size: .95rem;
+    opacity: .85;
+    font-weight: 400;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .header-meta {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    font-size: .8rem;
+    opacity: .7;
+  }
+
+  /* LAYOUT */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr var(--sidebar-w);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; padding: 1rem; }
+    .sidebar { position: static !important; width: 100% !important; top: auto !important; }
+  }
+
+  /* MAIN */
+  main { min-width: 0; }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    width: var(--sidebar-w);
+  }
+  .sidebar-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--gray-200);
+  }
+  .sidebar-card h3 {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+  }
+  .slider-group { margin-bottom: 1.25rem; }
+  .slider-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: .3rem;
+  }
+  .slider-group label span.val {
+    color: var(--primary);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--gray-200);
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid #fff;
+    box-shadow: var(--shadow);
+  }
+  .slider-note {
+    font-size: .72rem;
+    color: var(--gray-500);
+    margin-top: .2rem;
+    font-style: italic;
+  }
+  .recommendation-box {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem;
+    margin-top: .5rem;
+    font-size: .84rem;
+    line-height: 1.55;
+    color: var(--gray-900);
+    min-height: 120px;
+    transition: all .3s;
+  }
+  .recommendation-box strong { color: #065f46; }
+  .btn-row { display: flex; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .btn {
+    padding: .5rem .9rem;
+    border: none;
+    border-radius: 6px;
+    font-size: .78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-reset { background: var(--gray-100); color: var(--gray-700); }
+  .btn-reset:hover { background: var(--gray-200); }
+  .btn-copy { background: var(--primary); color: #fff; }
+  .btn-copy:hover { background: #1549b0; }
+  .btn-copy:active { transform: scale(.97); }
+  .copied-toast {
+    display: none;
+    font-size: .75rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: .4rem;
+  }
+
+  /* CONTENT CARDS */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 2.2rem;
+    margin-bottom: 1.75rem;
+    border: 1px solid var(--gray-200);
+  }
+  .card h2 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: .3rem;
+    padding-bottom: .6rem;
+    border-bottom: 2px solid var(--primary-light);
+  }
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: 1.5rem 0 .5rem;
+  }
+  .card h4 {
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin: 1.1rem 0 .35rem;
+  }
+  .card p, .card li { font-size: .92rem; color: var(--gray-700); margin-bottom: .6rem; }
+  .card ul, .card ol { padding-left: 1.3rem; margin-bottom: .8rem; }
+  .card li { margin-bottom: .35rem; }
+  .card strong { color: var(--gray-900); }
+
+  /* EVIDENCE BADGE */
+  .ev {
+    display: inline-block;
+    font-size: .68rem;
+    font-weight: 700;
+    padding: .1rem .45rem;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: .25rem;
+    letter-spacing: .02em;
+  }
+  .ev-1 { background: #d1fae5; color: #065f46; }
+  .ev-2 { background: #dbeafe; color: #1e40af; }
+  .ev-3 { background: #fef3c7; color: #92400e; }
+  .ev-4 { background: #fce7f3; color: #9d174d; }
+  .ev-5 { background: var(--gray-100); color: var(--gray-500); }
+  .ev-na { background: var(--gray-100); color: var(--gray-500); }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+    padding: 1rem 1.2rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+    font-size: .88rem;
+    color: var(--gray-700);
+  }
+  .callout.warn { border-color: var(--warn); background: var(--warn-light); }
+  .callout.accent { border-color: var(--accent); background: var(--accent-light); }
+  .callout strong { color: var(--gray-900); }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .84rem;
+  }
+  table caption {
+    text-align: left;
+    font-weight: 700;
+    font-size: .88rem;
+    color: var(--gray-900);
+    margin-bottom: .5rem;
+  }
+  thead { background: var(--primary); color: #fff; }
+  th { padding: .65rem .8rem; text-align: left; font-weight: 600; white-space: nowrap; }
+  td { padding: .6rem .8rem; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+  tbody tr:hover { background: var(--gray-100); }
+
+  /* TOC */
+  .toc {
+    columns: 2;
+    column-gap: 2rem;
+    font-size: .88rem;
+  }
+  .toc li { margin-bottom: .3rem; break-inside: avoid; }
+  .toc a { color: var(--primary); text-decoration: none; font-weight: 500; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* STEP LIST */
+  .step-list { counter-reset: steps; list-style: none; padding-left: 0; }
+  .step-list li {
+    counter-increment: steps;
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .step-list li::before {
+    content: counter(steps);
+    position: absolute;
+    left: 0; top: 0;
+    width: 1.8rem; height: 1.8rem;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .78rem;
+    font-weight: 700;
+  }
+
+  /* REFERENCE SECTION */
+  .refs { font-size: .78rem; color: var(--gray-500); line-height: 1.6; }
+  .refs li { margin-bottom: .25rem; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: .78rem;
+    color: var(--gray-500);
+    border-top: 1px solid var(--gray-200);
+    margin-top: 2rem;
+  }
+
+  /* PRINT */
+  @media print {
+    .sidebar, .btn-row { display: none !important; }
+    .layout { grid-template-columns: 1fr; }
+    .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Foundations of Shoulder Arthroscopy</h1>
+  <p class="subtitle">A Clinical and Educational Manual for Orthopedic Residents — Evidence-Based Interactive Summary</p>
+  <div class="header-meta">
+    <span>Sources: AANA · ESSKA · Orthobullets · PMC Literature</span>
+    <span>|</span>
+    <span>43 references cited</span>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- ===== MAIN CONTENT ===== -->
+<main>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="card" id="toc-card">
+    <h2>Table of Contents</h2>
+    <ol class="toc">
+      <li><a href="#sec1">Physiological Optimization &amp; Patient Positioning</a></li>
+      <li><a href="#sec2">Anesthesia &amp; Fluid Management</a></li>
+      <li><a href="#sec3">Surface Landmarks &amp; Surgical Portals</a></li>
+      <li><a href="#sec4">Systematic Diagnostic Examination</a></li>
+      <li><a href="#sec5">Arthroscopic Management of Common Conditions</a></li>
+      <li><a href="#sec6">Resident Education &amp; the Learning Curve</a></li>
+      <li><a href="#sec7">Curated Educational Resources</a></li>
+      <li><a href="#sec8">Conclusions &amp; Recommendations</a></li>
+      <li><a href="#sec9">References</a></li>
+    </ol>
+  </div>
+
+  <!-- ========== SECTION 1: POSITIONING ========== -->
+  <div class="card" id="sec1">
+    <h2>1. Physiological Optimization &amp; Patient Positioning</h2>
+    <p>
+      The success of a shoulder arthroscopy originates well before the first incision, in the meticulous selection of patient positioning and the stabilization of physiological parameters.<sup>[1, 8]</sup> Positioning is a critical variable that dictates the surgeon's access to specific anatomical sectors, the quality of the visual field, and the risk of perioperative complications.<sup>[8]</sup>
+    </p>
+
+    <h3>Lateral Decubitus Position (LDP)</h3>
+    <p>
+      The LDP remains the traditional gold standard for many arthroscopists due to its <strong>superior joint distraction and working space</strong>.<sup>[9]</sup> The patient is positioned on the non-surgical side, supported by a beanbag or rigid pegboard system. The trunk is tilted 20°–30° posteriorly to orient the glenoid surface parallel to the floor.<sup>[1]</sup>
+    </p>
+    <p>
+      Longitudinal traction of <strong>15–20 lb</strong> is applied through a sterile sleeve and pulley system; lateral traction may further translate the joint to open the intra-articular space.<sup>[1]</sup> This distraction is particularly advantageous for <strong>inferior or posterior labral pathology</strong>, creating a clear "skyline" view of the glenoid rim.<sup>[9]</sup>
+    </p>
+    <div class="callout warn">
+      <strong>Risk Alert:</strong> Traction-related neurapraxia of the brachial plexus occurs at reported rates of <strong>10–30%</strong> (transient paresthesia).<sup>[8]</sup> Airway management is inherently more difficult, and conversion to an open approach requires significant repositioning.<sup>[8]</sup>
+    </div>
+
+    <h3>Beach Chair Position (BCP)</h3>
+    <p>
+      The BCP offers an <strong>"anatomic" vantage point</strong> that many surgeons find more intuitive for procedures requiring external landmark palpation or transition to open surgery.<sup>[8]</sup> The patient is semi-seated with hips flexed to 60° and knees to 30°; the head must be secured in neutral alignment to prevent cervical strain or vascular compromise.<sup>[1]</sup>
+    </p>
+    <p>
+      The surgeon can freely move and rotate the operative arm — especially useful for <strong>anterior stabilization</strong> and complex rotator cuff repairs requiring dynamic tensioning.<sup>[2]</sup>
+    </p>
+    <div class="callout warn">
+      <strong>Risk Alert:</strong> The upright orientation introduces risk of <strong>cerebral hypoperfusion</strong>. In the anesthetized patient, the normal sympathetic response to upright posture is blunted, creating a significant pressure gradient between heart and brain.<sup>[1]</sup> Mean arterial pressure must be sufficient to maintain cerebral oxygenation, especially with induced hypotension.<sup>[1]</sup>
+    </div>
+
+    <h3>Comparative Data: LDP vs. BCP</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1. Comparative Analysis of Lateral Decubitus vs. Beach Chair Positioning <span class="ev ev-2">LOE II</span></caption>
+        <thead>
+          <tr><th>Parameter</th><th>Lateral Decubitus (LDP)</th><th>Beach Chair (BCP)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Primary Indication</strong></td><td>Labral / Instability (inferior/posterior)<sup>[9]</sup></td><td>Rotator cuff repair, anterior stabilization<sup>[8]</sup></td></tr>
+          <tr><td><strong>Joint Distraction</strong></td><td>Maximal (via pulley traction)<sup>[1]</sup></td><td>Passive (limited by gravity)<sup>[4]</sup></td></tr>
+          <tr><td><strong>Airway Access</strong></td><td>Difficult (lateral orientation)<sup>[8]</sup></td><td>Easier (upright/accessible)<sup>[1]</sup></td></tr>
+          <tr><td><strong>Primary Neurological Risk</strong></td><td>Brachial plexus neurapraxia<sup>[2]</sup></td><td>Cerebral hypoperfusion<sup>[1]</sup></td></tr>
+          <tr><td><strong>Setup Time (Intubation → Incision)</strong></td><td><strong>29.3 min</strong><sup>[13]</sup></td><td><strong>37.4 min</strong> (P &lt; 0.001)<sup>[13]</sup></td></tr>
+          <tr><td><strong>Average Implant Cost</strong></td><td>$1,152<sup>[13]</sup></td><td>$1,502<sup>[13]</sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="ev" style="background:none; font-size:.78rem; color:var(--gray-500);">
+      Source: Study comparing setup time and cost for arthroscopic rotator cuff repair<sup>[13]</sup>
+    </p>
+  </div>
+
+  <!-- ========== SECTION 2: ANESTHESIA & FLUID ========== -->
+  <div class="card" id="sec2">
+    <h2>2. Anesthesia &amp; Fluid Management Strategies</h2>
+    <p>
+      Intra-articular visualization in shoulder arthroscopy is heavily dependent on the balance between systemic blood pressure and the pressure of the irrigation fluid.<sup>[1]</sup> Achieving a bloodless field is paramount yet must be balanced against physiological safety.
+    </p>
+
+    <h3>Regional Anesthesia &amp; Sedation</h3>
+    <p>
+      The majority of shoulder arthroscopies are performed under <strong>general anesthesia</strong>, often supplemented with a regional nerve block such as an <strong>interscalene block</strong>.<sup>[15]</sup> This combination provides excellent intraoperative muscle relaxation and significant postoperative pain control, essential for early mobilization.<sup>[6]</sup>
+    </p>
+    <div class="callout warn">
+      <strong>Bezold-Jarisch Reflex:</strong> In the beach chair position, clinicians must be vigilant for a triad of bradycardia, hypotension, and vasodilation that can occur in patients receiving regional blocks in the upright position.<sup>[1]</sup>
+    </div>
+
+    <h3>Fluid Pressure &amp; Visualization</h3>
+    <p>
+      The irrigation fluid distends the joint space, clears debris, and tamponades small vascular bleeders.<sup>[1]</sup> Automated pump systems maintain constant pressure, typically between <strong>20 and 50 mm Hg</strong>.<sup>[1]</sup>
+    </p>
+    <div class="callout">
+      <strong>Key Principle:</strong> Maintain a pressure difference of <strong>&lt; 49 mm Hg</strong> between the patient's systolic blood pressure and the pump pressure.<sup>[1]</sup>
+    </div>
+    <p>
+      High pump pressures can lead to <strong>soft tissue extravasation</strong>, particularly in the deltoid and subdeltoid space. This fluid buildup limits the surgical window and, in extreme cases, can cause airway obstruction due to neck swelling.<sup>[1]</sup> Modern pumps often include a "shaver boost" feature that automatically increases pressure when the shaver suction is active to prevent joint collapse.<sup>[14]</sup>
+    </p>
+  </div>
+
+  <!-- ========== SECTION 3: LANDMARKS & PORTALS ========== -->
+  <div class="card" id="sec3">
+    <h2>3. Surface Landmarks &amp; Surgical Portals</h2>
+    <p>
+      Precise portal placement is the most critical technical step for a successful procedure. Portals act as the "eyes and hands" of the surgeon; an improperly placed portal can lead to chondral scuffing, tendon damage, and frustrating instrument collisions.<sup>[4]</sup>
+    </p>
+
+    <h3>Identification of Landmarks</h3>
+    <p>
+      The surgeon must begin by palpating and marking bony landmarks: the <strong>acromion</strong> (anterior, lateral, posterior borders), the <strong>distal clavicle</strong>, the <strong>AC joint</strong>, and the <strong>coracoid process</strong>.<sup>[2]</sup> It is vital to outline the "true" inferior margin of these bones, as this is the level at which the joint and bursa are accessed.<sup>[18]</sup>
+    </p>
+
+    <h3>Standard &amp; Accessory Portals</h3>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2. Standard Shoulder Arthroscopy Portals <span class="ev ev-2">LOE II–IV</span></caption>
+        <thead>
+          <tr><th>Portal</th><th>Anatomical Location</th><th>Primary Indications</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Posterior</strong></td><td>2 cm inferior, 1–2 cm medial to posterolateral acromion<sup>[17]</sup></td><td>Primary viewing, diagnostic exam<sup>[2]</sup></td></tr>
+          <tr><td><strong>Anterior</strong></td><td>Lateral to coracoid, through rotator interval<sup>[4]</sup></td><td>Working portal, labral repair<sup>[4]</sup></td></tr>
+          <tr><td><strong>Lateral</strong></td><td>2–3 cm lateral to acromial edge<sup>[4]</sup></td><td>Subacromial decompression, RCR<sup>[4]</sup></td></tr>
+          <tr><td><strong>Neviaser</strong></td><td>Supraclavicular fossa, posterior to AC joint<sup>[2]</sup></td><td>SLAP repair, superior cuff sutures<sup>[4]</sup></td></tr>
+          <tr><td><strong>Wilmington</strong></td><td>1 cm lateral to posterolateral acromion<sup>[4]</sup></td><td>Posterior SLAP and cuff repair<sup>[4]</sup></td></tr>
+          <tr><td><strong>5 o'clock</strong></td><td>Anteroinferior trans-subscapular<sup>[2]</sup></td><td>Bankart repair (inferior glenoid)<sup>[4]</sup></td></tr>
+          <tr><td><strong>7 o'clock</strong></td><td>Posteroinferior<sup>[2]</sup></td><td>Posterior labral repair, loose bodies<sup>[4]</sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Anatomical Safety Zones</h3>
+    <p>
+      Avoiding neurovascular injury requires a three-dimensional understanding of structures surrounding each portal.<sup>[2]</sup>
+    </p>
+    <ul>
+      <li><strong>Axillary nerve:</strong> Passes through the quadrangular space approximately <strong>7 cm below</strong> the acromion tip — the most critical structure to avoid in posterior/inferior portals.<sup>[19]</sup></li>
+      <li><strong>Cephalic vein:</strong> Lies in the deltopectoral groove — primary risk for anterior portals.<sup>[4]</sup></li>
+      <li><strong>Musculocutaneous nerve:</strong> Enters the coracobrachialis 2–8 cm distal to the coracoid.<sup>[4]</sup></li>
+    </ul>
+    <div class="callout accent">
+      <strong>Clock-face safety zones</strong> (for a left shoulder):<sup>[22]</sup><br>
+      Standard posterior portal safe area: <strong>11 to 1 o'clock</strong><br>
+      Standard anterior portal safe area: <strong>2 to 3 o'clock</strong><br>
+      The "outside-in" technique using a spinal needle is highly recommended for all anterior and accessory portals.<sup>[4]</sup>
+    </div>
+  </div>
+
+  <!-- ========== SECTION 4: DIAGNOSTIC EXAM ========== -->
+  <div class="card" id="sec4">
+    <h2>4. Systematic Diagnostic Examination Sequences</h2>
+    <p>
+      To ensure no pathology is missed, the arthroscopic examination must follow a rigid, stepwise sequence.<sup>[2]</sup> The two most commonly taught systems are the <strong>SCOI 15-point exam</strong> and the <strong>2-circle approach</strong>.<sup>[2]</sup>
+    </p>
+
+    <h3>The SCOI 15-Point System</h3>
+    <p>Phase 1 — <strong>Posterior Viewing</strong>:<sup>[18]</sup></p>
+    <ol>
+      <li>Long head of biceps (LHB) tendon and superior labrum</li>
+      <li>Follow the tendon to the bicipital groove</li>
+      <li>Posterior labrum and recess</li>
+      <li>Inferior axillary recess and inferior capsule</li>
+      <li>Articular surface of the humeral head and "bare area" — distinguish from Hill-Sachs lesions<sup>[2]</sup></li>
+      <li>Anterior structures: subscapularis tendon, MGHL, and anterior labrum<sup>[18]</sup></li>
+    </ol>
+    <p>Phase 2 — <strong>Anterior Viewing</strong>:<sup>[18]</sup></p>
+    <ol>
+      <li>"Look-back" view of the posterior labrum</li>
+      <li>Insertion of infraspinatus and supraspinatus tendons</li>
+      <li>Evaluate for posterior-superior impingement or subtle labral detachments</li>
+    </ol>
+
+    <h3>The 2-Circle Approach</h3>
+    <ul>
+      <li><strong>Circle 1 (Glenoid Aspect):</strong> Rotator interval → LHB → SGHL → MGHL → subscapularis → anteroinferior labrum → axillary pouch<sup>[2]</sup></li>
+      <li><strong>Circle 2 (Humeral Aspect):</strong> Rotator cuff insertions → posterior cuff → humeral head articular surface → joint capsule humeral attachments<sup>[2]</sup></li>
+      <li><strong>Subacromial Evaluation:</strong> Bursal side of the cuff → coracoacromial ligament → AC joint<sup>[2]</sup></li>
+    </ul>
+
+    <h3>Distinguishing Normal Variants from Pathology</h3>
+    <div class="callout warn">
+      <strong>Common Pitfall:</strong> Misidentifying anatomical variants as surgical lesions can lead to unnecessary repair and severe postoperative stiffness.<sup>[2]</sup>
+    </div>
+    <ul>
+      <li><strong>Buford Complex:</strong> Cord-like MGHL with absence of the anterosuperior labrum. <em>Do not repair</em>.<sup>[2]</sup></li>
+      <li><strong>Sublabral Hole:</strong> Normal variant in anterosuperior labrum — smooth edges, stable biceps anchor (unlike SLAP lesion).<sup>[19]</sup></li>
+      <li><strong>Glenoid Bare Spot:</strong> Central area of naturally thinner cartilage — not a chondral lesion.<sup>[19]</sup></li>
+    </ul>
+  </div>
+
+  <!-- ========== SECTION 5: COMMON CONDITIONS ========== -->
+  <div class="card" id="sec5">
+    <h2>5. Arthroscopic Management of Common Conditions</h2>
+    <p>
+      Mastery of diagnostic skills serves as the prerequisite for therapeutic intervention in rotator cuff disease and instability.<sup>[1]</sup>
+    </p>
+
+    <h3>Rotator Cuff Disease</h3>
+    <p>
+      Management involves a progression from debridement to formal repair.<sup>[4]</sup> For impingement, a <strong>subacromial decompression (SAD)</strong> and <strong>acromioplasty</strong> increase subacromial volume.<sup>[17]</sup> For full-thickness tears, the greater tuberosity "footprint" is prepared by removing soft tissue to create a bleeding bone surface for tendon-to-bone healing.<sup>[17]</sup>
+    </p>
+    <p>
+      A specialized <strong>"panorama" view</strong> can be achieved by releasing the deep deltoid fascia, significantly increasing subdeltoid bursa volume for concurrent assessment of the entire rotator cuff — especially valuable for large/massive tears.<sup>[16]</sup>
+    </p>
+
+    <h3>Shoulder Instability</h3>
+    <p>
+      Surgical stabilization focuses on restoration of the <strong>labral-ligamentous complex</strong>.<sup>[2]</sup> In a <strong>Bankart repair</strong>, the torn anteroinferior labrum is reattached to the glenoid rim using suture anchors.<sup>[4]</sup>
+    </p>
+    <div class="callout">
+      <strong>Drive-Through Sign:</strong> If the arthroscope passes easily between humeral head and glenoid after repair, this indicates insufficient restoration of capsular tension.<sup>[18]</sup>
+    </div>
+  </div>
+
+  <!-- ========== SECTION 6: LEARNING CURVE ========== -->
+  <div class="card" id="sec6">
+    <h2>6. Resident Education &amp; the Learning Curve</h2>
+    <p>
+      Shoulder arthroscopy has one of the steepest learning curves in orthopedic surgery due to the limited joint volume and the technical complexity of triangulation.<sup>[5]</sup>
+    </p>
+
+    <h3>Milestones of Proficiency</h3>
+    <p>
+      Evidence indicates that the "safety" threshold is reached after approximately <strong>31–50 cases</strong>.<sup>[26]</sup> Specialist-level proficiency (handling complex revisions and massive tears) typically requires <strong>&gt; 500 cases</strong>.<sup>[26]</sup>
+    </p>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3. Cases Required to Overcome the Learning Curve by Procedure <span class="ev ev-3">LOE III</span></caption>
+        <thead>
+          <tr><th>Procedure</th><th>Cases to Plateau</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Basic Shoulder Arthroscopy</td><td><strong>22</strong> (median)</td><td>Systematic review<sup>[27]</sup></td></tr>
+          <tr><td>Arthroscopic Latarjet</td><td><strong>20–30</strong></td><td>Systematic review<sup>[28]</sup></td></tr>
+          <tr><td>Bankart Repair</td><td><strong>30</strong></td><td>Systematic review<sup>[28]</sup></td></tr>
+          <tr><td>Rotator Cuff Repair</td><td><strong>10</strong> (early plateau)</td><td>Systematic review<sup>[28]</sup></td></tr>
+          <tr><td>Suprascapular Nerve Decompression</td><td><strong>50</strong></td><td>Systematic review<sup>[28]</sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Proficiency-Based Progression (PBP)</h3>
+    <p>
+      The <strong>AANA Copernicus Initiative</strong> has demonstrated that a metric-based, proficiency-driven curriculum is superior to the traditional apprenticeship model.<sup>[29]</sup> PBP training requires residents to master specific, unambiguously defined steps on a simulator before progressing to cadaveric or live procedures.<sup>[29]</sup>
+    </p>
+    <div class="callout accent">
+      <strong>Key Evidence:</strong><sup>[30, 31]</sup>
+      <ul style="margin-top:.4rem;">
+        <li>PBP-trained residents make <strong>56% fewer objectively assessed errors</strong> in final cadaveric Bankart repair</li>
+        <li><strong>68.7%</strong> of PBP-trained residents achieve the final proficiency benchmark vs. <strong>28.6%</strong> of traditionally trained peers</li>
+        <li>"Time on task" is less important than <strong>"deliberate practice"</strong> against expert benchmarks<sup>[29]</sup></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========== SECTION 7: RESOURCES ========== -->
+  <div class="card" id="sec7">
+    <h2>7. Curated Educational Resources</h2>
+    <p>
+      Residents are encouraged to utilize a variety of digital and hands-on resources to supplement their clinical training.<sup>[33]</sup>
+    </p>
+
+    <h3>Reputable Training Repositories</h3>
+    <ol>
+      <li><strong>AANA</strong> — The CORE webinar series offers 24 expert-led sessions aligned with ACGME requirements.<sup>[33, 35]</sup> The Copernicus Initiative provides validated metrics for Bankart and rotator cuff repairs.<sup>[29]</sup></li>
+      <li><strong>ESSKA</strong> — The ESSKA Academy provides an extensive library of technical videos and assessment modules for rotator cuff and subacromial disorders.<sup>[36, 37]</sup></li>
+      <li><strong>Vumedi</strong> — A primary source for "tips and pearls" from high-volume surgeons.<sup>[34]</sup> Recommended series include Gavin Jennings' <em>"Tips for Basic Shoulder Arthroscopy"</em><sup>[38]</sup> and Prof. Bijayendra Singh's <em>"Step by Step Approach to Shoulder Arthroscopy."</em><sup>[39]</sup></li>
+      <li><strong>Orthobullets</strong> — High-yield evidence-based summaries of indications, techniques, and complications.<sup>[1]</sup></li>
+    </ol>
+
+    <h3>Simulation &amp; Cadaveric Learning</h3>
+    <ul>
+      <li><strong>AAOS Fundamentals Course</strong> — 2.5-day intensive combining classroom sessions with cadaver lab focusing on ACL reconstruction, meniscectomy, and rotator cuff repair.<sup>[40]</sup></li>
+      <li><strong>ESSKA Residents' Simulator Training Course</strong> — Uses state-of-the-art VR simulators (e.g., VirtaMed) for image centering and triangulation skills.<sup>[41, 42]</sup></li>
+    </ul>
+  </div>
+
+  <!-- ========== SECTION 8: CONCLUSIONS ========== -->
+  <div class="card" id="sec8">
+    <h2>8. Conclusions &amp; Recommendations</h2>
+    <p>
+      Shoulder arthroscopy is a demanding discipline that rewards systematic preparation and a deep understanding of anatomical "safe zones."<sup>[4]</sup> The following recommendations are derived from the current evidence-based literature:
+    </p>
+    <ol class="step-list">
+      <li>
+        <strong>Consistency in Setup:</strong> Whether using the beach chair or lateral decubitus position, the surgeon must be consistent in marking landmarks and portal placement to develop a reliable mental map of the joint.<sup>[1]</sup>
+      </li>
+      <li>
+        <strong>Systematic Diagnostic Routine:</strong> Adopting a formal sequence (e.g., SCOI 15-point exam) is the only way to ensure that subtle pathology — such as a HAGL lesion or subscapularis tear — is not overlooked.<sup>[2]</sup>
+      </li>
+      <li>
+        <strong>Deliberate Practice:</strong> Residents should seek proficiency-based training programs and utilize simulators to master triangulation and suture management before attempting complex repairs.<sup>[29]</sup>
+      </li>
+      <li>
+        <strong>Continuous Education:</strong> Regularly review technical videos from Vumedi and stay current with the AANA CORE curriculum to remain abreast of evolving techniques.<sup>[34, 35]</sup>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ========== REFERENCES ========== -->
+  <div class="card" id="sec9">
+    <h2>References</h2>
+    <ol class="refs">
+      <li>[1] Shoulder Arthroscopy: Basic Principles of Positioning — Orthobullets. <em>J. Club PDF</em></li>
+      <li>[2] Diagnostic Shoulder Arthroscopy: Surgical Technique. <em>PMC6551420</em></li>
+      <li>[4] Portals of Shoulder Arthroscopy — Osteocare Medical.</li>
+      <li>[5] Arthroscopy Training for Residents: Overcoming the Steep Curve. <em>PrecisionOS</em></li>
+      <li>[6] <em>Shoulder Arthroscopy: Principles and Practice</em>. Google Books.</li>
+      <li>[8] A Comparison of the Lateral Decubitus and Beach Chair Position. <em>JAAOS 2015</em></li>
+      <li>[9] Patient Positioning in Shoulder Arthroscopy: Which is Best? <em>PMC6930847</em></li>
+      <li>[13] Beach-Chair versus Lateral Decubitus Positioning: Setup Time and Cost. <em>Fortune Journals</em></li>
+      <li>[14] Shoulder Arthroscopy: Setup, Positioning, Portal Placement. <em>YouTube</em></li>
+      <li>[15] Shoulder Arthroscopy — OrthoInfo, AAOS.</li>
+      <li>[16] Arthroscopic "Panorama" View via Deltoid Fascia Release. <em>PMC5040598</em></li>
+      <li>[17] Small-to-medium Full-thickness Rotator Cuff Repair — Orthobullets.</li>
+      <li>[18] Diagnostic Arthroscopy of the Shoulder: Normal Anatomy — Orthobullets.</li>
+      <li>[19] Shoulder Arthroscopy: Indications &amp; Approach — Orthobullets.</li>
+      <li>[22] Safe Areas for Placement of Standard Shoulder Arthroscopy Portals. <em>Int J Morphol</em></li>
+      <li>[26] Profile and Learning Curve of Brazilian Surgeons — PMC12517551.</li>
+      <li>[27] A Systematic Review of Learning Curves in Orthopaedic Sports Surgery. <em>PubMed 40606710</em></li>
+      <li>[28] A Systematic Review of Learning Curves — PMC12212312.</li>
+      <li>[29] Proficiency Based Progression Training — AANA.</li>
+      <li>[30] PBP Training Curriculum &amp; Model Simulator Results. <em>ResearchGate</em></li>
+      <li>[31] PBP Training Curriculum — Superior Bankart Skill Set. <em>PubMed 26341047</em></li>
+      <li>[33] Advance Arthroscopy Education — AANA Courses.</li>
+      <li>[34] Can Arthroscopic Training Courses Improve Residents' Skills? <em>ResearchGate</em></li>
+      <li>[35] CORE: Orthopaedic Resident &amp; Fellow Learning Series — AANA.</li>
+      <li>[36] Library — ESSKA Education.</li>
+      <li>[37] ESSKA European Certification Programme — Rotator Cuff Module.</li>
+      <li>[38] Tips for Basic Shoulder Arthroscopy — Gavin Jennings. <em>YouTube</em></li>
+      <li>[39] Step by Step Approach to Shoulder Arthroscopy — Prof. Singh. <em>YouTube</em></li>
+      <li>[40] 2025 AAOS Fundamentals of Knee &amp; Shoulder Arthroscopy.</li>
+      <li>[41] ArthroS: Basic Skills Module for Arthroscopy Training. <em>YouTube</em></li>
+      <li>[42] ESSKA Residents' Simulator Training Course 2025.</li>
+    </ol>
+    <p style="margin-top:.8rem; font-size:.75rem; color:var(--gray-500);">
+      <em>Note: References are numbered according to the source document's reference list. Not all 43 references in the original document are cited in the main text; those referenced above correspond to the numbers used in the source.</em>
+    </p>
+  </div>
+
+</main>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" aria-label="Interactive clinical parameter sliders and recommendations">
+
+  <!-- SLIDER CARD -->
+  <div class="sidebar-card">
+    <h3>⚙ Clinical Parameters</h3>
+
+    <div class="slider-group">
+      <label>
+        Longitudinal Traction (LDP)
+        <span class="val" id="val-traction">17.5 lb</span>
+      </label>
+      <input type="range" id="slider-traction" min="5" max="30" step="0.5" value="17.5"
+             aria-label="Longitudinal traction weight in pounds">
+      <div class="slider-note">Source range: 15–20 lb<sup>[1]</sup></div>
+    </div>
+
+    <div class="slider-group">
+      <label>
+        Irrigation Pump Pressure
+        <span class="val" id="val-pressure">35 mm Hg</span>
+      </label>
+      <input type="range" id="slider-pressure" min="10" max="70" step="1" value="35"
+             aria-label="Irrigation pump pressure in mm Hg">
+      <div class="slider-note">Typical range: 20–50 mm Hg<sup>[1]</sup></div>
+    </div>
+
+    <div class="slider-group">
+      <label>
+        Systolic BP – Pump Pressure Δ
+        <span class="val" id="val-delta">40 mm Hg</span>
+      </label>
+      <input type="range" id="slider-delta" min="0" max="80" step="1" value="40"
+             aria-label="Pressure differential between systolic blood pressure and pump pressure">
+      <div class="slider-note">Target: &lt; 49 mm Hg<sup>[1]</sup></div>
+    </div>
+
+    <h3 style="margin-top:1.2rem;">📋 Real-Time Recommendation</h3>
+    <div class="recommendation-box" id="rec-box">
+      Adjust the sliders above to receive clinical recommendations based on the source evidence.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset sliders to default">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy recommendation to clipboard">📋 Copy / Export</button>
+    </div>
+    <div class="copied-toast" id="copied-toast">✓ Copied to clipboard!</div>
+  </div>
+
+  <!-- QUICK REFERENCE CARD -->
+  <div class="sidebar-card">
+    <h3>📐 Portal Quick Reference</h3>
+    <div style="font-size:.82rem; line-height:1.7; color:var(--gray-700);">
+      <p><strong>Posterior:</strong> 2 cm inf, 1–2 cm med to post-lat acromion<sup>[17]</sup></p>
+      <p><strong>Anterior:</strong> Lat to coracoid, through rotator interval<sup>[4]</sup></p>
+      <p><strong>Lateral:</strong> 2–3 cm lateral to acromion<sup>[4]</sup></p>
+      <p><strong>Neviaser:</strong> Supraclavicular fossa<sup>[2]</sup></p>
+      <p><strong>5 o'clock:</strong> Anteroinferior<sup>[2]</sup></p>
+      <p style="margin-top:.5rem; font-size:.75rem; color:var(--gray-500);">Axillary nerve: ~7 cm below acromion tip<sup>[19]</sup></p>
+    </div>
+  </div>
+
+  <!-- LEARNING CURVE CARD -->
+  <div class="sidebar-card">
+    <h3>📈 Learning Curve Key Numbers</h3>
+    <div style="font-size:.82rem; line-height:1.7; color:var(--gray-700);">
+      <p><strong>Safety threshold:</strong> 31–50 cases<sup>[26]</sup></p>
+      <p><strong>Specialist level:</strong> &gt;500 cases<sup>[26]</sup></p>
+      <p><strong>Basic arthroscopy:</strong> 22 cases (median)<sup>[27]</sup></p>
+      <p><strong>Bankart repair:</strong> 30 cases<sup>[28]</sup></p>
+      <p><strong>PBP error reduction:</strong> 56% fewer errors<sup>[30]</sup></p>
+    </div>
+  </div>
+
+</aside>
+
+</div><!-- /.layout -->
+
+<footer>
+  <p>Foundations of Shoulder Arthroscopy — Interactive Educational Summary</p>
+  <p>Based exclusively on the provided source document (43 references). Evidence levels are inferred from study design when not explicitly stated.</p>
+  <p>Generated for educational purposes. Not a substitute for clinical judgment.</p>
+</footer>
+
+<script>
+(function() {
+  // Elements
+  const sTraction  = document.getElementById('slider-traction');
+  const sPressure  = document.getElementById('slider-pressure');
+  const sDelta     = document.getElementById('slider-delta');
+  const vTraction  = document.getElementById('val-traction');
+  const vPressure  = document.getElementById('val-pressure');
+  const vDelta     = document.getElementById('val-delta');
+  const recBox     = document.getElementById('rec-box');
+  const btnReset   = document.getElementById('btn-reset');
+  const btnCopy    = document.getElementById('btn-copy');
+  const toast      = document.getElementById('copied-toast');
+
+  const defaults = { traction: 17.5, pressure: 35, delta: 40 };
+
+  function update() {
+    const t = parseFloat(sTraction.value);
+    const p = parseFloat(sPressure.value);
+    const d = parseFloat(sDelta.value);
+
+    vTraction.textContent = t + ' lb';
+    vPressure.textContent = p + ' mm Hg';
+    vDelta.textContent    = d + ' mm Hg';
+
+    let msgs = [];
+
+    // Traction assessment
+    if (t < 10) {
+      msgs.push('⚠ <strong>Traction &lt; 10 lb:</strong> Insufficient joint distraction for most arthroscopic procedures. Consider increasing to 15–20 lb for adequate visualization.<sup>[1]</sup>');
+    } else if (t >= 15 && t <= 20) {
+      msgs.push('✓ <strong>Traction 15–20 lb:</strong> Within the recommended range for LDP. Provides optimal joint distraction with acceptable neurapraxia risk.<sup>[1]</sup>');
+    } else if (t > 20 && t <= 25) {
+      msgs.push('⚠ <strong>Traction 20–25 lb:</strong> Above the typical recommended range. Increased risk of brachial plexus neurapraxia (reported 10–30%). Monitor closely for postoperative paresthesia.<sup>[8]</sup>');
+    } else if (t > 25) {
+      msgs.push('⛔ <strong>Traction &gt; 25 lb:</strong> Excessive. High risk of traction-related nerve injury. Reduce immediately.<sup>[8]</sup>');
+    } else {
+      msgs.push('ℹ <strong>Traction 10–15 lb:</strong> Sub-optimal but may be adequate for diagnostic arthroscopy. Consider increasing to 15–20 lb for therapeutic procedures.<sup>[1]</sup>');
+    }
+
+    // Pressure assessment
+    if (p < 20) {
+      msgs.push('⚠ <strong>Pump pressure &lt; 20 mm Hg:</strong> Likely insufficient for adequate joint distension and hemostasis. Visualization may be poor.<sup>[1]</sup>');
+    } else if (p >= 20 && p <= 50) {
+      msgs.push('✓ <strong>Pump pressure 20–50 mm Hg:</strong> Within the recommended operating range. Provides good distension and hemostasis.<sup>[1]</sup>');
+    } else {
+      msgs.push('⛔ <strong>Pump pressure &gt; 50 mm Hg:</strong> Risk of soft tissue extravasation (deltoid, subdeltoid). May cause airway compromise from neck swelling. Reduce pressure.<sup>[1]</sup>');
+    }
+
+    // Delta assessment
+    if (d < 49) {
+      msgs.push('✓ <strong>Pressure differential &lt; 49 mm Hg:</strong> Maintains adequate perfusion gradient. Safe for visualization.<sup>[1]</sup>');
+    } else if (d >= 49 && d <= 60) {
+      msgs.push('⚠ <strong>Pressure differential ≥ 49 mm Hg:</strong> At or above the recommended maximum. Consider increasing systolic BP (reduce hypotension) or decreasing pump pressure.<sup>[1]</sup>');
+    } else {
+      msgs.push('⛔ <strong>Pressure differential &gt; 60 mm Hg:</strong> Dangerously high. Risk of impaired joint perfusion and visualization. Urgent adjustment needed — collaborate with anesthesia team.<sup>[1]</sup>');
+    }
+
+    // Combined recommendation
+    msgs.push('<hr style="border:none;border-top:1px solid #a7f3d0;margin:.5rem 0;">');
+    msgs.push('<em>Based on your settings: ' +
+      'LDP traction ' + t + ' lb, pump ' + p + ' mm Hg, ΔP ' + d + ' mm Hg. ' +
+      'Always confirm with institutional protocols and anesthesia team.</em>');
+
+    recBox.innerHTML = msgs.join('<br>');
+  }
+
+  // Event listeners
+  [sTraction, sPressure, sDelta].forEach(s => s.addEventListener('input', update));
+
+  // Reset
+  btnReset.addEventListener('click', function() {
+    sTraction.value = defaults.traction;
+    sPressure.value = defaults.pressure;
+    sDelta.value    = defaults.delta;
+    update();
+  });
+
+  // Copy / Export
+  btnCopy.addEventListener('click', function() {
+    const t = sTraction.value;
+    const p = sPressure.value;
+    const d = sDelta.value;
+    const now = new Date().toISOString().replace('T',' ').slice(0,19);
+    const text =
+      '=== SHOULDER ARTHROSCOPY — PARAMETER SNAPSHOT ===\n' +
+      'Timestamp: ' + now + '\n\n' +
+      'PARAMETERS:\n' +
+      '  Longitudinal Traction (LDP): ' + t + ' lb\n' +
+      '  Irrigation Pump Pressure:    ' + p + ' mm Hg\n' +
+      '  Systolic BP – Pump ΔP:       ' + d + ' mm Hg\n\n' +
+      'RECOMMENDATION:\n' +
+      recBox.innerText + '\n\n' +
+      'Source: Foundations of Shoulder Arthroscopy — Clinical & Educational Manual\n' +
+      'References: [1][2][4][8][9][13][14][15][17][18][19][26][27][28][29][30]\n' +
+      '==============================================';
+    navigator.clipboard.writeText(text).then(function() {
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

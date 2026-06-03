@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPLL Molecular Pathogenesis — Interactive Educational Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --clr-bg:#f8f9fb;--clr-surface:#ffffff;--clr-text:#1a1d23;--clr-muted:#5f6775;
+  --clr-accent:#2563eb;--clr-accent-light:#dbeafe;--clr-accent-dark:#1d4ed8;
+  --clr-warn:#d97706;--clr-warn-light:#fef3c7;--clr-danger:#dc2626;--clr-danger-light:#fee2e2;
+  --clr-success:#059669;--clr-success-light:#d1fae5;
+  --clr-badge1:#7c3aed;--clr-badge2:#2563eb;--clr-badge3:#0891b2;--clr-badge4:#d97706;--clr-badge5:#9ca3af;
+  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 20px rgba(0,0,0,.1);
+  --sidebar-w:340px;--header-h:64px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--clr-bg);color:var(--clr-text);line-height:1.7;min-height:100vh}
+h1,h2,h3,h4{font-family:'Source Serif 4',Georgia,serif;line-height:1.3;color:var(--clr-text)}
+h1{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700}
+h2{font-size:clamp(1.25rem,2.2vw,1.65rem);font-weight:600;margin:2.2rem 0 1rem;padding-top:1rem;border-top:2px solid #e5e7eb}
+h3{font-size:1.1rem;font-weight:600;margin:1.6rem 0 .6rem;color:var(--clr-accent-dark)}
+h4{font-size:1rem;font-weight:600;margin:1.2rem 0 .4rem}
+p{margin-bottom:1rem;text-align:justify}
+a{color:var(--clr-accent);text-decoration:none}
+a:hover{text-decoration:underline}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin-bottom:.35rem}
+strong{color:var(--clr-text)}
+em{color:var(--clr-muted)}
+
+/* === HEADER === */
+.site-header{
+  position:sticky;top:0;z-index:100;height:var(--header-h);
+  background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 100%);
+  display:flex;align-items:center;padding:0 1.5rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+}
+.site-header h1{color:#fff;font-size:clamp(1rem,2vw,1.35rem);font-weight:600;letter-spacing:-.01em}
+.site-header .tag{display:inline-block;background:rgba(255,255,255,.2);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:20px;margin-left:.8rem;font-family:'Inter',sans-serif;font-weight:500;vertical-align:middle}
+
+/* === LAYOUT === */
+.page-wrap{
+  max-width:1320px;margin:0 auto;
+  display:grid;grid-template-columns:1fr var(--sidebar-w);gap:1.5rem;
+  padding:1.5rem;align-items:start;
+}
+.main-content{min-width:0}
+.sidebar{position:sticky;top:calc(var(--header-h) + 1.5rem);max-height:calc(100vh - var(--header-h) - 3rem);overflow-y:auto}
+
+/* === EVIDENCE BADGE === */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:20px;
+  vertical-align:middle;white-space:nowrap;font-family:'Inter',sans-serif;letter-spacing:.02em;
+  border:1px solid;
+}
+.badge-1{background:#ede9fe;color:var(--clr-badge1);border-color:#c4b5fd}
+.badge-2{background:var(--clr-accent-light);color:var(--clr-badge2);border-color:#93bbfd}
+.badge-3{background:#cffafe;color:var(--clr-badge3);border-color:#67e8f9}
+.badge-4{background:var(--clr-warn-light);color:var(--clr-badge4);border-color:#fcd34d}
+.badge-5{background:#f3f4f6;color:var(--clr-badge5);border-color:#d1d5db}
+
+/* === CALLOUT BOXES === */
+.callout{
+  border-radius:var(--radius);padding:1rem 1.2rem;margin:1.2rem 0;
+  border-left:4px solid;font-size:.92rem;
+}
+.callout-info{background:#eff6ff;border-color:var(--clr-accent);color:#1e40af}
+.callout-warn{background:var(--clr-warn-light);border-color:var(--clr-warn);color:#92400e}
+.callout-danger{background:var(--clr-danger-light);border-color:var(--clr-danger);color:#991b1b}
+.callout-success{background:var(--clr-success-light);border-color:var(--clr-success);color:#065f46}
+.callout strong{display:block;margin-bottom:.2rem}
+
+/* === TABLES === */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{
+  width:100%;border-collapse:collapse;font-size:.85rem;
+  background:var(--clr-surface);
+}
+caption{font-weight:600;padding:.6rem .8rem;text-align:left;background:#f1f5f9;font-size:.9rem;letter-spacing:.01em}
+th{background:#f1f5f9;text-align:left;padding:.55rem .7rem;font-weight:600;white-space:nowrap;border-bottom:2px solid #e2e8f0;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--clr-muted)}
+td{padding:.5rem .7rem;border-bottom:1px solid #f1f5f9;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+
+/* === CITATION === */
+.cite{
+  font-size:.7rem;color:var(--clr-accent);cursor:help;
+  vertical-align:super;font-weight:600;
+}
+
+/* === SIDEBAR CARDS === */
+.sidebar-card{
+  background:var(--clr-surface);border-radius:var(--radius);padding:1.2rem;
+  margin-bottom:1rem;box-shadow:var(--shadow);
+}
+.sidebar-card h3{margin-top:0;font-size:1rem;color:var(--clr-text)}
+.slider-group{margin-bottom:1rem}
+.slider-group label{display:flex;justify-content:space-between;align-items:baseline;font-size:.82rem;font-weight:500;margin-bottom:.3rem}
+.slider-group label span.val{
+  font-weight:700;color:var(--clr-accent);background:var(--clr-accent-light);
+  padding:1px 8px;border-radius:6px;font-size:.78rem;
+}
+input[type=range]{
+  width:100%;height:6px;border-radius:3px;outline:none;
+  -webkit-appearance:none;appearance:none;background:#e2e8f0;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--clr-accent);cursor:pointer;border:3px solid #fff;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+input[type=range]::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--clr-accent);cursor:pointer;border:3px solid #fff;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+
+.rec-box{
+  border-radius:var(--radius);padding:1rem;margin-top:.6rem;
+  font-size:.82rem;line-height:1.55;transition:all .3s ease;
+}
+.rec-low{background:var(--clr-success-light);border:1px solid #6ee7b7}
+.rec-mid{background:var(--clr-warn-light);border:1px solid #fcd34d}
+.rec-high{background:var(--clr-danger-light);border:1px solid #fca5a5}
+.rec-box h4{margin:0 0 .3rem;font-size:.85rem}
+.rec-box ul{margin:.3rem 0 0 .8rem}
+
+.btn-row{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap}
+.btn{
+  padding:.45rem .9rem;border:none;border-radius:6px;font-size:.78rem;
+  font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;
+}
+.btn-reset{background:#e2e8f0;color:var(--clr-text)}
+.btn-reset:hover{background:#cbd5e1}
+.btn-copy{background:var(--clr-accent);color:#fff}
+.btn-copy:hover{background:var(--clr-accent-dark)}
+
+.copy-toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  background:#1e293b;color:#fff;padding:.6rem 1.2rem;border-radius:8px;
+  font-size:.82rem;font-weight:500;opacity:0;transition:opacity .3s;
+  pointer-events:none;z-index:999;
+}
+.copy-toast.show{opacity:1}
+
+/* === PATHWAY DIAGRAM === */
+.pathway-diagram{
+  background:var(--clr-surface);border-radius:var(--radius);
+  padding:1.5rem;margin:1.5rem 0;box-shadow:var(--shadow);
+  text-align:center;overflow-x:auto;
+}
+.pathway-flow{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:.4rem;font-size:.82rem;
+}
+.pf-node{
+  padding:.4rem .8rem;border-radius:8px;font-weight:600;
+  white-space:nowrap;
+}
+.pf-mech{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.pf-wnt{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.pf-bmp{background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd}
+.pf-tgfb{background:#cffafe;color:#0e7490;border:1px solid #67e8f9}
+.pf-tf{background:#fce7f3;color:#9d174d;border:1px solid #f9a8d4}
+.pf-out{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
+.pf-arrow{font-size:1.1rem;color:var(--clr-muted)}
+
+/* === REFERENCE LIST === */
+.ref-list{font-size:.8rem;color:var(--clr-muted);line-height:1.6}
+.ref-list li{margin-bottom:.3rem}
+.ref-list a{word-break:break-all}
+
+/* === TOC === */
+.toc{
+  background:var(--clr-surface);border-radius:var(--radius);padding:1rem 1.2rem;
+  margin-bottom:1.5rem;box-shadow:var(--shadow);
+}
+.toc h3{margin-top:0;font-size:.95rem}
+.toc ol{margin:.4rem 0 0 1.2rem;font-size:.82rem}
+.toc li{margin-bottom:.25rem}
+.toc a{color:var(--clr-muted);font-weight:500}
+.toc a:hover{color:var(--clr-accent)}
+
+/* === MOBILE === */
+@media(max-width:900px){
+  .page-wrap{grid-template-columns:1fr;padding:1rem}
+  .sidebar{position:static;max-height:none;order:-1}
+  .site-header{height:auto;min-height:56px;padding:.6rem 1rem}
+  table{font-size:.78rem}
+}
+@media(max-width:600px){
+  h1{font-size:1.2rem}
+  h2{font-size:1.1rem}
+  .pathway-flow{font-size:.72rem}
+}
+
+/* === STUDY CARD === */
+.study-card{
+  background:var(--clr-surface);border-radius:var(--radius);padding:1rem 1.2rem;
+  margin-bottom:.8rem;box-shadow:var(--shadow);border-left:4px solid var(--clr-accent);
+}
+.study-card h4{margin:0 0 .2rem;font-size:.92rem;color:var(--clr-accent-dark)}
+.study-card p{margin:0;font-size:.85rem}
+
+/* === SECTION ANCHOR === */
+section{scroll-margin-top:calc(var(--header-h) + 1rem)}
+
+/* limit toggle */
+.limit-note{
+  background:#fffbeb;border:1px dashed #f59e0b;border-radius:var(--radius);
+  padding:.8rem 1rem;font-size:.82rem;color:#92400e;margin:1rem 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header" role="banner">
+  <h1>OPLL Molecular Pathogenesis <span class="tag">Interactive Review</span></h1>
+</header>
+
+<!-- ================= PAGE WRAP ================= -->
+<div class="page-wrap">
+
+<!-- ================= MAIN CONTENT ================= -->
+<main class="main-content" role="main">
+
+<!-- TOC -->
+<nav class="toc" aria-label="Table of contents">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#sec1">Clinical Context &amp; Pathophysiology</a></li>
+    <li><a href="#sec2">TGF-β Superfamily in OPLL</a></li>
+    <li><a href="#sec3">Wnt/β-Catenin Pathway &amp; Mechanotransduction</a></li>
+    <li><a href="#sec4">Gene Regulatory Network</a></li>
+    <li><a href="#sec5">Crosstalk &amp; Unified Model</a></li>
+    <li><a href="#sec6">Future Horizons &amp; Therapeutic Strategies</a></li>
+    <li><a href="#sec7">Key Studies</a></li>
+    <li><a href="#sec8">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= SECTION 1 ================= -->
+<section id="sec1">
+<h2>I. Clinical Context and Pathophysiological Foundations</h2>
+
+<h3>1.1 Defining the Disease</h3>
+<p>
+Ossification of the posterior longitudinal ligament (OPLL) is a hyperostotic condition defined by the pathological, ectopic formation of bone within the posterior longitudinal ligament (PLL).<sup class="cite">[1]</sup>
+The PLL normally connects the vertebral bodies from C2 to the sacrum, lying directly anterior to the spinal cord within the spinal canal.<sup class="cite">[5]</sup>
+As this normally pliant ligament ossifies and thickens, it progressively encroaches upon the spinal canal, causing chronic compression of the spinal cord (<strong>myelopathy</strong>) and nerve roots (<strong>radiculopathy</strong>).<sup class="cite">[2,6]</sup>
+</p>
+<p>
+Symptoms are often insidious: early manifestations include localized pain, numbness, tingling, and dysesthesia.<sup class="cite">[3]</sup>
+As compression worsens, patients develop clumsiness, gait disturbances, loss of fine motor skills, and, in advanced stages, significant motor paralysis and impaired bowel or bladder control.<sup class="cite">[3]</sup>
+Critically, minor trauma can acutely exacerbate a previously asymptomatic condition into a severe neurological emergency.<sup class="cite">[6]</sup>
+</p>
+
+<div class="callout callout-info">
+  <strong>Diagnostic Modalities</strong>
+  CT is the gold standard for visualizing bony pathology (location, thickness, morphology). MRI is indispensable for evaluating spinal cord compression and detecting signal changes (T2 hyperintensity) indicative of myelopathy.<sup class="cite">[2,6]</sup>
+</div>
+
+<h3>1.2 Epidemiological Landscape</h3>
+<p>
+OPLL is most prevalent in East Asian populations, especially Japanese (radiographic prevalence 2–4.3%), compared with 0.1–2% in North American and European cohorts.<sup class="cite">[2]</sup>
+This pronounced ethnic disparity strongly suggests a significant genetic contribution.
+The disease predominantly affects males (~2:1 ratio) with peak symptom onset between ages 50–69.<sup class="cite">[4,7]</sup>
+The cervical spine is involved in approximately 70% of cases.<sup class="cite">[4]</sup>
+</p>
+
+<div class="callout callout-warn">
+  <strong>The "Second Hit" Hypothesis</strong>
+  A nationwide Japanese registry found that symptomatic OPLL prevalence was only 0.027% (27 per 100,000) — over 100-fold lower than radiographic prevalence (up to 6%).<sup class="cite">[15]</sup>
+  This gap implies that ectopic bone <em>formation</em> and disease <em>progression</em> to neurological compromise are distinct biological events. The central pathogenic question is: what factors trigger the transition from asymptomatic to progressive, symptomatic disease?
+</div>
+
+<h3>1.3 Cellular Basis: Progenitor Cells &amp; Pathological Differentiation</h3>
+<p>
+The fundamental histopathological process is <strong>endochondral ossification</strong> — the same mechanism used in embryonic long bone development and fracture healing.<sup class="cite">[2,17]</sup>
+Normally organized collagen fibers are replaced by cartilaginous tissue, hyalinoid degeneration centers, and ultimately mature lamellar bone with neovascularization.<sup class="cite">[7]</sup>
+</p>
+<p>
+The key cellular actors are <strong>mesenchymal stem cells (MSCs)</strong> and <strong>ligament fibroblasts</strong> residing within the ligament tissue.<sup class="cite">[8]</sup>
+Critically, MSCs isolated from OPLL patients (OPLL-MSCs) exhibit <strong>significantly heightened intrinsic osteogenic potential</strong> compared to controls, with increased alkaline phosphatase (ALP) activity and elevated expression of <em>BMP2</em> and <em>Runx2</em>.<sup class="cite">[8]</sup>
+This indicates OPLL is not merely a passive response to external stimuli but is driven by a pre-existing cellular state of <strong>hypersusceptibility</strong> to osteogenic signals.
+</p>
+
+<div class="callout callout-info">
+  <strong>OPLL as Aberrant Tissue Repair</strong>
+  Spinal ligaments are constantly subjected to mechanical loading and micro-trauma. In healthy individuals, resident cells regenerate ligament tissue. In OPLL, intrinsically pro-osteogenic MSCs hijack this normal repair process, initiating a pathological cascade of chondrogenesis and osteogenesis instead of ligament regeneration.
+</div>
+
+<h3>1.4 Genetic Predisposition &amp; Multifactorial Etiology</h3>
+<p>
+OPLL etiology is unequivocally multifactorial. Familial studies show dramatically elevated prevalence among parents (26%) and siblings (29%) of affected individuals.<sup class="cite">[7]</sup>
+GWAS and linkage analyses have identified multiple susceptibility loci. Key genes are summarized in the table below.
+</p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 1. Key Genetic Loci Associated with OPLL Susceptibility</caption>
+<thead>
+<tr><th>Gene/Locus</th><th>Function/Pathway</th><th>Key Findings</th><th>Evidence</th></tr>
+</thead>
+<tbody>
+<tr><td><em>BMP2</em></td><td>BMP Signaling</td><td>SNPs (rs2273073, rs235768) associated with increased susceptibility; rs2273073 aberrantly activates BMP-Smad signaling</td><td><span class="badge badge-2">II GWAS</span></td></tr>
+<tr><td><em>BMP4</em></td><td>BMP Signaling</td><td>Specific SNPs associated with increased genetic susceptibility</td><td><span class="badge badge-2">II GWAS</span></td></tr>
+<tr><td><em>BMP9</em></td><td>BMP Signaling</td><td>Certain SNPs associated with OPLL</td><td><span class="badge badge-2">II GWAS</span></td></tr>
+<tr><td><em>TGFB1</em></td><td>TGF-β Signaling</td><td>Polymorphism 869T>C linked to OPLL; results inconsistent across studies</td><td><span class="badge badge-3">III Assoc.</span></td></tr>
+<tr><td><em>COL6A1</em></td><td>Collagen/ECM</td><td>Implicated in linkage studies</td><td><span class="badge badge-3">III Linkage</span></td></tr>
+<tr><td><em>COL11A2</em></td><td>Collagen/ECM</td><td>Near significant linkage peak on chr 6p; strong candidate gene</td><td><span class="badge badge-3">III Linkage</span></td></tr>
+<tr><td><em>ENPP1</em></td><td>Calcification Inhibitor</td><td>Responsible for OPLL-like phenotype in <em>twy</em> mouse model; SNPs linked to OPLL severity in humans</td><td><span class="badge badge-2">II/IV</span></td></tr>
+<tr><td><em>RSPO2</em></td><td>Wnt Modulator</td><td>Identified in large GWAS; may promote OPLL via endochondral ossification</td><td><span class="badge badge-2">II GWAS</span></td></tr>
+<tr><td>6p21.1</td><td>HLA Region</td><td>Susceptibility locus suggesting immune/inflammatory link</td><td><span class="badge badge-2">II GWAS</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>
+Non-genetic factors that trigger or accelerate the disease include <strong>diabetes mellitus</strong>, <strong>obesity</strong>, dietary habits, and, critically, <strong>mechanical stress</strong> — repetitive motion and physical strain on spinal ligaments.<sup class="cite">[3,4]</sup>
+This multifactorial model underscores how inherited predisposition is acted upon by a lifetime of metabolic and mechanical insults.
+</p>
+</section>
+
+<!-- ================= SECTION 2 ================= -->
+<section id="sec2">
+<h2>II. The TGF-β Superfamily in OPLL</h2>
+
+<h3>2.1 The BMP Signaling Axis</h3>
+
+<h4>2.1.1 Canonical and Non-Canonical BMP Pathways</h4>
+<p>
+BMPs induce bone and cartilage formation at extraskeletal sites — a property that defines them as potent <strong>osteoinductive factors</strong>.<sup class="cite">[19]</sup>
+The <strong>canonical Smad-dependent pathway</strong> begins when a BMP ligand (BMP-2, -4, -7, or -9) binds a heterotetrameric receptor complex of Type I (e.g., BMPR1A/ALK3) and Type II (e.g., BMPR2) serine/threonine kinase receptors.<sup class="cite">[18]</sup>
+The activated Type I receptor phosphorylates receptor-regulated Smads (Smad1/5/8), which form a complex with Smad4 and translocate to the nucleus.<sup class="cite">[8,18]</sup>
+There, the Smad complex directly activates master osteogenic transcription factors <em>Runx2</em> and <em>Osterix</em>, orchestrating the entire osteoblast differentiation program.<sup class="cite">[8]</sup>
+</p>
+<p>
+BMPs also signal through <strong>non-canonical, Smad-independent pathways</strong>, notably the p38 MAPK cascade via TAK1. Activated p38 MAPK phosphorylates and enhances Runx2 transcriptional activity, synergizing with the canonical pathway for robust osteogenic regulation.<sup class="cite">[8,18]</sup>
+</p>
+
+<h4>2.1.2 Aberrant BMP Signaling in OPLL</h4>
+<p>
+In OPLL, BMP signaling becomes pathologically dysregulated. A primary feature is <strong>overexpression of BMP-2</strong> within the ossified matrix, chondrocytes of transition zones, and crucially, in MSCs near these areas — suggesting BMP-2 initiates OPLL by triggering progenitor cell differentiation.<sup class="cite">[7]</sup>
+This is compounded by <strong>heightened BMP receptor expression</strong> in OPLL ligament cells, creating a potent positive feedback loop.<sup class="cite">[4]</sup>
+</p>
+
+<div class="callout callout-success">
+  <strong>Genetic Validation</strong>
+  SNPs in <em>BMP2</em> (rs2273073), <em>BMP4</em>, and <em>BMP9</em> are significantly associated with OPLL susceptibility. The <em>BMP2</em> rs2273073 (T/G) variant directly causes heightened BMP-Smad signaling activation — a direct molecular link from genotype to pathology.<sup class="cite">[2,8]</sup>
+  <span class="badge badge-2">Level II</span>
+</div>
+
+<h3>2.2 The TGF-β Signaling Axis</h3>
+<h4>2.2.1 Dichotomous Role in Osteoblast Differentiation</h4>
+<p>
+TGF-β (isoforms -β1, -β2, -β3) has distinct and opposing effects depending on osteoblast differentiation stage:<sup class="cite">[18]</sup>
+</p>
+<ul>
+  <li><strong>Early stages:</strong> TGF-β is a potent chemoattractant and mitogen for osteoprogenitor cells, expanding the cell pool available for bone formation. It couples bone formation to resorption by recruiting progenitors into resorption pits activated by latent TGF-β released during osteoclastic activity.<sup class="cite">[18]</sup></li>
+  <li><strong>Late stages:</strong> TGF-β potently <strong>inhibits terminal osteoblast maturation</strong> and mineralization, serving as a critical regulatory checkpoint against excessive bone formation.<sup class="cite">[18]</sup></li>
+</ul>
+
+<h4>2.2.2 Smad2/3 Signaling &amp; OPLL</h4>
+<p>
+TGF-β signals via R-Smads Smad2 and Smad3, which complex with Smad4 and translocate to the nucleus. There, the Smad2/3 complex <strong>antagonizes Runx2 function</strong> by recruiting inhibitory co-factors like class II HDACs.<sup class="cite">[18]</sup>
+In OPLL, TGF-β is found in the ossified matrix and adjacent chondrocytes, and macrophages infiltrating degenerated PLL tissue are a major source of TGF-β1.<sup class="cite">[8,30]</sup>
+</p>
+
+<div class="callout callout-info">
+  <strong>Two-Step Model of OPLL Progression</strong>
+  <strong>Step 1 — Initiation:</strong> BMP pathway drives MSC commitment to osteochondral lineage via BMP-2 overexpression and heightened receptor sensitivity.<br>
+  <strong>Step 2 — Expansion:</strong> TGF-β pathway expands the committed progenitor pool and promotes matrix deposition. The critical pathogenic event is the <strong>failure of TGF-β's normal inhibitory checkpoint</strong> on terminal mineralization, likely overwhelmed by synergistic BMP and Wnt signals.<br>
+  <em>This model reframes OPLL as a failure of negative regulatory mechanisms, not merely overactivation of positive signals.</em>
+</div>
+</section>
+
+<!-- ================= SECTION 3 ================= -->
+<section id="sec3">
+<h2>III. Wnt/β-Catenin Pathway &amp; Mechanotransduction</h2>
+
+<h3>3.1 Canonical Wnt Signaling in Skeletal Homeostasis</h3>
+<p>
+The canonical, β-catenin-dependent Wnt pathway is central to osteogenic commitment.<sup class="cite">[35]</sup>
+In the <strong>"off" state</strong>, β-catenin is continuously phosphorylated by the destruction complex (Axin, APC, GSK3, CK1α) and degraded by the proteasome.<sup class="cite">[28]</sup>
+The pathway is <strong>activated ("on")</strong> when a Wnt ligand (e.g., Wnt1, Wnt3a, Wnt10b) binds to a Frizzled receptor and LRP5/6 co-receptor, triggering Dishevelled-mediated inactivation of the destruction complex.<sup class="cite">[28,31]</sup>
+β-catenin accumulates, translocates to the nucleus, and binds TCF/LEF transcription factors to activate target genes — including the master osteogenic regulator <em>Runx2</em>.<sup class="cite">[17,28]</sup>
+</p>
+
+<h3>3.2 The YAP-Wnt/β-Catenin Mechanosensitive Switch</h3>
+
+<div class="callout callout-danger">
+  <strong>Key Discovery</strong>
+  When OPLL ligament cells are subjected to cyclic mechanical stretch, they show significant upregulation of osteogenic gene expression — a response <strong>absent</strong> in non-OPLL control cells.<sup class="cite">[39]</sup>
+  This demonstrates the intrinsic hypersensitivity of OPLL cells to mechanical forces.
+</div>
+
+<p>
+The key molecular mediator is <strong>Yes-associated protein (YAP)</strong>. Mechanical stretch induces rapid YAP nuclear translocation in OPLL cells. Once in the nucleus, YAP directly activates the canonical Wnt/β-catenin pathway. Knockdown of either <em>YAP</em> or <em>β-catenin</em> abolishes the pro-osteogenic response to mechanical stimulation.<sup class="cite">[39]</sup>
+</p>
+
+<div class="pathway-diagram">
+  <h4 style="margin-bottom:.8rem">Mechanotransduction Cascade in OPLL</h4>
+  <div class="pathway-flow">
+    <span class="pf-node pf-mech">Mechanical Stress</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-mech">YAP Nuclear Translocation</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-wnt">Wnt/β-catenin Activation</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-bmp">Runx2 ↑</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-out">Osteogenic Differentiation</span>
+  </div>
+  <p style="font-size:.78rem;color:var(--clr-muted);margin-top:.8rem">
+    This mechanosensitive activation of YAP in OPLL cells appears independent of the canonical Hippo signaling pathway.<sup class="cite">[39]</sup>
+  </p>
+</div>
+
+<div class="callout callout-info">
+  <strong>Therapeutic Implication</strong>
+  YAP is positioned as a <strong>central integration hub</strong> — a prime therapeutic target. Strategies inhibiting YAP nuclear translocation or its interaction with Wnt pathway components could uncouple mechanical stimuli from pathological bone formation while avoiding systemic Wnt inhibition side effects.
+</div>
+
+<p>
+This integrated <strong>"Genetics + Mechanobiology" model</strong> explains why not all genetically predisposed individuals develop severe OPLL: the underlying susceptibility creates a "primed" cellular state, but clinically significant progression requires sufficient environmental triggers (mechanical stress) to activate the YAP-Wnt switch and push sensitized cells past the pathogenic threshold.
+</p>
+</section>
+
+<!-- ================= SECTION 4 ================= -->
+<section id="sec4">
+<h2>IV. The Integrated Gene Regulatory Network</h2>
+
+<h3>4.1 Master Transcription Factors</h3>
+<p>
+Diverse signals from BMP, TGF-β, and Wnt pathways converge on a small cohort of master transcription factors that directly orchestrate the gene expression program for cartilage and bone:<sup class="cite">[8]</sup>
+</p>
+<ul>
+  <li><strong>Runx2:</strong> The single most important master regulator of osteoblast differentiation. Indispensable for bone formation — its absence completely prevents mineralized skeleton development. Targeted by both BMP (via Smad1/5/8) and Wnt (via β-catenin/TCF/LEF) pathways.<sup class="cite">[8,28]</sup> Expression is significantly elevated in OPLL tissue.</li>
+  <li><strong>Osterix (Sp7):</strong> Acts downstream of Runx2, essential for maturation of committed precursors into fully functional, matrix-secreting osteoblasts.<sup class="cite">[8]</sup></li>
+  <li><strong>Sox9:</strong> Master transcription factor for chondrogenesis, critical for the endochondral ossification pathway that characterizes OPLL. BMP signaling maintains high Sox9 expression.<sup class="cite">[8,18]</sup></li>
+</ul>
+
+<h3>4.2 The microRNA (miRNA) Regulome</h3>
+<p>
+miRNAs are small (~21 nt) non-coding RNAs that fine-tune gene expression post-transcriptionally by binding to the 3' UTR of target mRNAs, leading to mRNA degradation or translational repression.<sup class="cite">[40]</sup>
+OPLL is associated with a <strong>distinct miRNA expression signature</strong>, with numerous miRNAs significantly dysregulated compared to healthy controls.<sup class="cite">[40]</sup>
+</p>
+
+<h4>Pro-osteogenic miRNAs (Upregulated in OPLL)</h4>
+<ul>
+  <li><strong>miR-10a-5p:</strong> Upregulated. Overexpression in normal ligament cells induces <em>Runx2</em> expression and calcium deposition.<sup class="cite">[40]</sup> <span class="badge badge-4">IV In Vitro</span></li>
+  <li><strong>miR-563:</strong> Upregulated. Targets and downregulates <em>SMURF1</em> mRNA (an E3 ubiquitin ligase for Smad1/5 degradation), thereby stabilizing BMP signaling.<sup class="cite">[42]</sup> <span class="badge badge-4">IV In Vitro</span></li>
+  <li><strong>miR-181a-5p:</strong> Upregulated. Promotes ALP activity and contributes to osteophyte formation.<sup class="cite">[43]</sup> <span class="badge badge-4">IV In Vitro</span></li>
+</ul>
+
+<h4>Anti-osteogenic miRNAs (Downregulated in OPLL)</h4>
+<ul>
+  <li><strong>miR-497 &amp; miR-195:</strong> Reduced in OPLL tissues. Their downregulation is partly caused by mechanical stress–induced promoter hypermethylation. Key target: adenosine A2A receptor (<em>ADORA2A</em>). Loss of these miRNAs increases ADORA2A protein levels, promoting osteogenesis.<sup class="cite">[43]</sup> <span class="badge badge-4">IV In Vitro</span></li>
+</ul>
+
+<h3>4.3 Long Non-coding RNAs (lncRNAs) as Network Modulators</h3>
+<p>
+lncRNAs (>200 nt) function as molecular scaffolds, chromatin guides, or miRNA "sponges."<sup class="cite">[44]</sup>
+A distinct lncRNA signature has been identified in OPLL.<sup class="cite">[43]</sup>
+</p>
+<ul>
+  <li><strong>lncRNA XIST:</strong> Upregulated in OPLL fibroblasts (especially under mechanical stress). Functions as a competing endogenous RNA (ceRNA) sponging <strong>miR-17-5p</strong>, derepressing its target <em>AHNAK</em>, which upregulates <em>BMP2</em> expression.<sup class="cite">[43]</sup></li>
+  <li><strong>lncRNA SNHG1:</strong> Upregulated. Sponges <strong>miR-320b</strong>, derepressing <em>IFNGR1</em> and activating the JAK/STAT pathway to promote mineralization.<sup class="cite">[43]</sup></li>
+</ul>
+
+<div class="pathway-diagram">
+  <h4 style="margin-bottom:.8rem">lncRNA XIST Regulatory Axis</h4>
+  <div class="pathway-flow">
+    <span class="pf-node pf-mech">Mechanical Stress</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-tf">XIST ↑</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-wnt">miR-17-5p sequestered</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-bmp">AHNAK ↑</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-bmp">BMP2 ↑</span>
+    <span class="pf-arrow">→</span>
+    <span class="pf-node pf-out">Ossification</span>
+  </div>
+</div>
+
+<div class="table-wrap">
+<table>
+<caption>Table 2. Key Non-coding RNAs in OPLL Pathogenesis</caption>
+<thead>
+<tr><th>ncRNA</th><th>Type</th><th>Expression</th><th>Target/Mechanism</th><th>Functional Outcome</th><th>Ref.</th></tr>
+</thead>
+<tbody>
+<tr><td>miR-10a-5p</td><td>miRNA</td><td>↑</td><td>Induces <em>Runx2</em></td><td>Osteogenic differentiation, Ca²⁺ deposition</td><td>[40]</td></tr>
+<tr><td>miR-563</td><td>miRNA</td><td>↑</td><td>Inhibits <em>SMURF1</em></td><td>Enhanced BMP signaling (Smad1/5 stabilized)</td><td>[42]</td></tr>
+<tr><td>miR-181a-5p</td><td>miRNA</td><td>↑</td><td>Promotes ALP activity</td><td>Osteophyte formation</td><td>[43]</td></tr>
+<tr><td>miR-497</td><td>miRNA</td><td>↓</td><td>Inhibits <em>ADORA2A</em> (lost)</td><td>Increased osteogenesis</td><td>[43]</td></tr>
+<tr><td>miR-195</td><td>miRNA</td><td>↓</td><td>Inhibits <em>ADORA2A</em> (lost)</td><td>Increased osteogenesis</td><td>[43]</td></tr>
+<tr><td>lncRNA XIST</td><td>lncRNA</td><td>↑</td><td>Sponges miR-17-5p → AHNAK↑</td><td>BMP2↑, ossification</td><td>[43]</td></tr>
+<tr><td>lncRNA SNHG1</td><td>lncRNA</td><td>↑</td><td>Sponges miR-320b → IFNGR1↑</td><td>JAK/STAT activation, mineralization</td><td>[43]</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-warn">
+  <strong>Pathological Robustness of the Regulatory Network</strong>
+  This multi-layered system creates profound "pathological robustness." Pro-osteogenic signals are amplified at every level — positive feedback via miR-563 (BMP enhancer) and XIST (BMP2 inducer) — while endogenous brakes (anti-osteogenic miRNAs) are epigenetically silenced. This redundancy may explain the progressive, often relentless nature of OPLL and suggests that <strong>single-target therapies may be insufficient</strong>.
+</div>
+</section>
+
+<!-- ================= SECTION 5 ================= -->
+<section id="sec5">
+<h2>V. Crosstalk and Unified Model</h2>
+
+<h3>5.1 Pathway Interactions</h3>
+
+<h4>BMP–Wnt Synergy</h4>
+<p>Both are powerful osteogenic inducers. Their combined activation produces a maximal osteogenic response. Both converge on Runx2 activation. Active Wnt signaling directly promotes downstream BMP targets.<sup class="cite">[18,28]</sup> <span class="badge badge-5">V Review</span></p>
+
+<h4>TGF-β–Wnt Cooperation</h4>
+<p>TGF-β enhances canonical Wnt signaling by upregulating Wnt ligands and suppressing Wnt inhibitors (e.g., Axin). Wnt influences TGF-β receptor expression. In the nucleus, Smad proteins physically associate with β-catenin/TCF/LEF complexes to co-regulate shared target genes.<sup class="cite">[18,50]</sup> <span class="badge badge-5">V Review</span></p>
+
+<h4>BMP–TGF-β Interplay</h4>
+<p>Both share Smad4 as a common co-Smad, creating a point of competition or integration. Their functional relationship can be antagonistic: in chondrocyte maturation, BMPs promote hypertrophy while TGF-β (via Smad3) inhibits it. Smad3 deficiency leads to unopposed BMP signaling and accelerated hypertrophy.<sup class="cite">[18]</sup> <span class="badge badge-5">V Review</span></p>
+
+<h4>Integration with Other Pathways</h4>
+<ul>
+  <li><strong>Hedgehog (Hh):</strong> Hh and BMP cooperatively promote osteoblastogenesis via positive feedback loops (Hh→BMP2; BMP→Hh ligands).<sup class="cite">[18]</sup></li>
+  <li><strong>Notch:</strong> Context-dependent crosstalk; TGF-β induces Notch ligands (Jagged1); NICD can interact with Smads to co-regulate target genes.<sup class="cite">[18]</sup></li>
+  <li><strong>FGF:</strong> Complex interplay with BMP — synergistic in osteoblast differentiation but antagonistic in growth plate (BMP promotes hypertrophy, FGF inhibits).<sup class="cite">[18]</sup></li>
+</ul>
+
+<h3>5.2 Unified Model of Molecular Pathogenesis</h3>
+<div class="pathway-diagram">
+  <h4 style="margin-bottom:1rem">Integrated OPLL Pathogenesis Model</h4>
+  <div class="pathway-flow" style="flex-direction:column;gap:.6rem;align-items:stretch;max-width:600px;margin:0 auto;text-align:center">
+    <span class="pf-node pf-mech" style="width:100%">① Genetic Predisposition (BMP2, COL11A2, ENPP1, ncRNAs…)</span>
+    <span class="pf-arrow" style="align-self:center">↓ creates "primed" cellular state</span>
+    <span class="pf-node pf-mech" style="width:100%">② Environmental Triggers (Mechanical Stress, Diabetes, Obesity)</span>
+    <span class="pf-arrow" style="align-self:center">↓ activates mechanosensitive switch</span>
+    <span class="pf-node pf-wnt" style="width:100%">③ YAP-Wnt/β-catenin Axis Activation</span>
+    <span class="pf-arrow" style="align-self:center">↓ synergizes with</span>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+      <span class="pf-node pf-bmp">BMP-Smad ↑</span>
+      <span class="pf-node pf-tgfb">TGF-β (expanded progenitors)</span>
+      <span class="pf-node pf-wnt">Wnt/β-catenin ↑</span>
+    </div>
+    <span class="pf-arrow" style="align-self:center">↓ amplified by</span>
+    <div style="display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center">
+      <span class="pf-node pf-tf">miR-10a-5p ↑</span>
+      <span class="pf-node pf-tf">miR-563 ↑</span>
+      <span class="pf-node pf-tf">XIST ↑</span>
+      <span class="pf-node pf-tf">SNHG1 ↑</span>
+    </div>
+    <span class="pf-arrow" style="align-self:center">↓ + loss of brakes (miR-497/195 ↓)</span>
+    <span class="pf-node pf-out" style="width:100%">④ Runx2/Osterix/Sox9 Activation → Endochondral Ossification</span>
+  </div>
+</div>
+
+<p>
+In OPLL, the normal homeostatic balance is catastrophically disrupted. The disease can be characterized as a <strong>"signal integration failure"</strong> — pro-osteogenic signals dominate unrelentingly while anti-osteogenic and inhibitory checkpoints are overwhelmed or silenced. The relentless progression implies not just overproduction of pro-osteogenic ligands, but a <strong>concomitant failure of intrinsic negative feedback loops</strong> (e.g., Noggin, Chordin, Smad6/7, inhibitory miRNAs).
+</p>
+</section>
+
+<!-- ================= SECTION 6 ================= -->
+<section id="sec6">
+<h2>VI. Future Horizons &amp; Therapeutic Strategies</h2>
+
+<h3>6.1 Novel Molecular Targets</h3>
+<ul>
+  <li><strong>Key pathway components:</strong> Small molecule inhibitors or monoclonal antibodies targeting BMP ligands, Type I receptors (e.g., BMPR1A/ALK3), or intracellular nodes. <strong>YAP</strong> is a particularly attractive target for uncoupling mechanotransduction from ossification.<sup class="cite">[3]</sup></li>
+  <li><strong>Non-coding RNAs:</strong> Antisense oligonucleotides (ASOs) against pro-osteogenic miRNAs (e.g., anti-miR-10a-5p) or lncRNAs. miRNA mimics to restore anti-osteogenic miRNAs (e.g., miR-497 mimic).<sup class="cite">[43]</sup></li>
+  <li><strong>Upstream regulators:</strong> Targeting cellular senescence, circadian clock gene <em>BMAL1</em>, or mechanotransduction machinery (Connexin 43/Cx43).<sup class="cite">[54]</sup></li>
+</ul>
+
+<h3>6.2 Translational Gap</h3>
+<div class="callout callout-danger">
+  <strong>Critical Gap</strong>
+  Despite the wealth of potential targets, there are <strong>no established pharmacological treatments</strong> that can halt or reverse OPLL ossification. Current management is limited to conservative measures (physical therapy, analgesics) or major surgical decompression for myelopathy.<sup class="cite">[4]</sup>
+  Preclinical compounds like LDN-193189 (BMP pathway inhibitor) show efficacy in related heterotopic ossification models (FOP) and could be repurposed.<sup class="cite">[18]</sup>
+  However, the key pathogenic pathways (BMP, Wnt, TGF-β) are ubiquitous and essential for numerous physiological processes — systemic inhibition carries high risk of off-target effects including impaired fracture healing, compromised immunity, and increased cancer risk.<sup class="cite">[21]</sup>
+</div>
+
+<h3>6.3 Key Future Research Directions</h3>
+<ul>
+  <li><strong>Bridging genotype-phenotype gap:</strong> Elucidating how specific GWAS SNPs translate into the "primed" cellular phenotype.</li>
+  <li><strong>Understanding progression:</strong> Prospective longitudinal cohort studies following asymptomatic OPLL individuals with serial imaging and biological samples to identify progression triggers.</li>
+  <li><strong>Advanced preclinical models:</strong> Models incorporating both genetic susceptibility and controlled chronic mechanical stress.</li>
+  <li><strong>Personalized medicine:</strong> Polygenic risk scores combined with circulating miRNA biomarker panels to identify high-risk individuals for early, targeted intervention.<sup class="cite">[9]</sup></li>
+</ul>
+
+<div class="limit-note">
+  <strong>Source Limitation Note:</strong> The source document is a molecular pathogenesis review. It does not provide specific clinical decision thresholds (e.g., canal occupancy ratio % for surgical indication), validated clinical scoring systems, or treatment algorithm parameters. The interactive sliders in the sidebar use conceptual parameters based on the review's framework, annotated with general clinical knowledge where applicable.
+</div>
+</section>
+
+<!-- ================= SECTION 7 ================= -->
+<section id="sec7">
+<h2>VII. Summary of Key Studies</h2>
+
+<div class="callout callout-warn">
+  <strong>Evidence Gap Note:</strong> The source document is a narrative review synthesizing findings from numerous primary studies. It does not list five discrete landmark RCTs. The studies below represent key foundational and mechanistic works cited in the review. Evidence levels are inferred from study design descriptions.
+</div>
+
+<div class="study-card">
+  <h4>1. YAP-Wnt Mechanotransduction Study <span class="badge badge-4">Level IV</span></h4>
+  <p><em>In vitro</em> demonstration that cyclic mechanical stretch activates YAP nuclear translocation → Wnt/β-catenin pathway → osteogenic differentiation exclusively in OPLL ligament cells, not controls. YAP or β-catenin knockdown abolishes the response.<sup class="cite">[39]</sup></p>
+</div>
+
+<div class="study-card">
+  <h4>2. Nationwide Epidemiology Registry (Japan) <span class="badge badge-2">Level II</span></h4>
+  <p>Nationwide registry survey revealing symptomatic OPLL prevalence of 0.027% (27 per 100,000) — over 100-fold lower than radiographic prevalence, establishing the critical distinction between radiographic presence and clinical disease.<sup class="cite">[15]</sup></p>
+</div>
+
+<div class="study-card">
+  <h4>3. BMP2 rs2273073 Functional Characterization <span class="badge badge-2">Level II</span></h4>
+  <p>GWAS-identified <em>BMP2</em> polymorphism rs2273073 (T/G) functionally validated to cause aberrant, heightened activation of BMP-Smad signaling — a direct genotype-to-pathology link in OPLL.<sup class="cite">[2,4,8]</sup></p>
+</div>
+
+<div class="study-card">
+  <h4>4. OPLL-MSC Osteogenic Hypersensitivity <span class="badge badge-4">Level IV</span></h4>
+  <p>Comparative <em>in vitro</em> studies showing MSCs from OPLL patients exhibit significantly increased ALP activity and elevated BMP2/Runx2 expression versus controls under identical culture conditions, demonstrating intrinsic cellular predisposition.<sup class="cite">[8]</sup></p>
+</div>
+
+<div class="study-card">
+  <h4>5. miRNA-mRNA Integrated Network Analysis <span class="badge badge-4">Level IV</span></h4>
+  <p>High-throughput sequencing revealing distinct miRNA expression signatures in OPLL, with functional validation of pro-osteogenic miRNAs (miR-10a-5p, miR-563) and anti-osteogenic miRNAs (miR-497, miR-195), mapping the post-transcriptional regulatory landscape.<sup class="cite">[40,42,43]</sup></p>
+</div>
+
+<div class="study-card">
+  <h4>6. twy Mouse Model &amp; ENPP1 <span class="badge badge-4">Level IV</span></h4>
+  <p>The <em>twy</em> (tiptoe walking Yoshimura) mouse, carrying <em>ENPP1</em> mutations, develops spontaneous OPLL-like ectopic ossification — a key animal model linking calcification inhibitor deficiency to OPLL pathogenesis.<sup class="cite">[4]</sup></p>
+</div>
+</section>
+
+<!-- ================= SECTION 8 ================= -->
+<section id="sec8">
+<h2>References</h2>
+<ol class="ref-list">
+  <li id="ref1">[1] Ossification of the Posterior Longitudinal Ligament in the Cervical Spine: Etiology, Clinical Presentation, and Management. ResearchGate, 2025.</li>
+  <li id="ref2">[2] Ossification of the Posterior Longitudinal Ligament: Etiology, Diagnosis, and Outcomes of Nonoperative and Operative Management. ResearchGate.</li>
+  <li id="ref3">[3] Molecular Pathophysiology of Ossification of the Posterior Longitudinal Ligament (OPLL). <em>Biomol Ther</em>.</li>
+  <li id="ref4">[4] Molecular Pathophysiology of Ossification of the Posterior Longitudinal Ligament. <em>PMC6609106</em>.</li>
+  <li id="ref5">[5] Ossification of Posterior Longitudinal Ligament (OPLL). Columbia Neurosurgery.</li>
+  <li id="ref6">[6] Ossification of the Posterior Longitudinal Ligament (OPLL). Columbia Neurosurgery – Patient Care.</li>
+  <li id="ref7">[7] Ossification of the Posterior Longitudinal Ligament: Surgical Management. <em>Neurospine</em>.</li>
+  <li id="ref8">[8] The Pathogenesis of Ossification of the Posterior Longitudinal Ligament. <em>PMC5614322</em>.</li>
+  <li id="ref9">[9] Spinal hypermobility accelerates ossification in posterior longitudinal ligaments: insights from an in vivo mouse model. <em>PMC11962021</em>.</li>
+  <li id="ref10">[10] The Pathogenesis of Ossification of the Posterior Longitudinal Ligament. <em>Aging and Disease</em>.</li>
+  <li id="ref15">[15] Epidemiology of symptomatic ossification of the posterior longitudinal ligament: a nationwide registry survey. <em>PMC8743291</em>.</li>
+  <li id="ref17">[17] Wnt Pathway in Bone Repair and Regeneration. <em>Front Cell Dev Biol</em>, 2018.</li>
+  <li id="ref18">[18] TGF-β and BMP signaling in osteoblast, skeletal development, and bone formation, homeostasis and disease. <em>PMC4985055</em>.</li>
+  <li id="ref19">[19] BMP signaling in development and diseases: A pharmacological perspective.</li>
+  <li id="ref28">[28] Crosstalk between Wnt and bone morphogenetic protein signaling during osteogenic differentiation. <em>PMC10915952</em>.</li>
+  <li id="ref30">[30] TGF-β1 related inflammation in the posterior longitudinal ligament of cervical spondylotic myelopathy patients. <em>PMC4402803</em>.</li>
+  <li id="ref39">[39] Uniaxial cyclic stretch enhances osteogenic differentiation of OPLL cells. <em>PubMed 36749152</em>.</li>
+  <li id="ref40">[40] Integrated microRNA-mRNA analyses reveal OPLL specific signatures. <em>PMC4751494</em>.</li>
+  <li id="ref42">[42] Integrated miRNA-mRNA network revealing the key molecular characteristics of OPLL. <em>PMC7249941</em>.</li>
+  <li id="ref43">[43] Non-coding RNAs in ossification of the posterior longitudinal ligament. <em>PMC9729789</em>.</li>
+  <li id="ref44">[44] Transcription regulation by long non-coding RNAs: mechanisms and disease relevance. <em>PMC11045326</em>.</li>
+  <li id="ref50">[50] Signaling cross-talk between TGF-β/BMP and other pathways. <em>PMC3606489</em>.</li>
+  <li id="ref54">[54] Targeting fibroblasts in pathological bone formation. <em>Front Cell Dev Biol</em>, 2025.</li>
+</ol>
+</section>
+
+</main>
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" role="complementary" aria-label="Interactive pathway simulator">
+
+<div class="sidebar-card">
+  <h3>🧪 Pathway Activity Simulator</h3>
+  <p style="font-size:.75rem;color:var(--clr-muted);margin-bottom:.8rem">
+    Adjust the sliders to model how the relative activity of key osteogenic pathways affects estimated OPLL risk.
+    <br><em style="font-size:.7rem">Conceptual model based on review framework — not from specific clinical trial data.</em>
+  </p>
+
+  <div class="slider-group">
+    <label>BMP Signaling Intensity <span class="val" id="v-bmp">50</span></label>
+    <input type="range" id="s-bmp" min="0" max="100" value="50" aria-label="BMP signaling intensity">
+  </div>
+
+  <div class="slider-group">
+    <label>Wnt/β-catenin Activity <span class="val" id="v-wnt">50</span></label>
+    <input type="range" id="s-wnt" min="0" max="100" value="50" aria-label="Wnt beta-catenin activity">
+  </div>
+
+  <div class="slider-group">
+    <label>Mechanical Stress Exposure <span class="val" id="v-mech">50</span></label>
+    <input type="range" id="s-mech" min="0" max="100" value="50" aria-label="Mechanical stress exposure">
+  </div>
+
+  <div class="slider-group">
+    <label>Anti-osteogenic Brake Function <span class="val" id="v-brake">50</span></label>
+    <input type="range" id="s-brake" min="0" max="100" value="50" aria-label="Anti-osteogenic brake function">
+  </div>
+
+  <div id="rec-box" class="rec-box rec-low">
+    <h4>📊 Estimated Risk Assessment</h4>
+    <div id="rec-content">Adjust sliders to see assessment.</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-reset" id="btn-reset" aria-label="Reset sliders">↺ Reset</button>
+    <button class="btn btn-copy" id="btn-copy" aria-label="Copy assessment to clipboard">📋 Copy Report</button>
+  </div>
+</div>
+
+<div class="sidebar-card">
+  <h3>📖 Pathway Legend</h3>
+  <ul style="font-size:.78rem;list-style:none;margin:0;padding:0">
+    <li style="margin-bottom:.4rem"><span class="pf-node pf-bmp" style="display:inline-block;font-size:.72rem;padding:2px 6px">BMP</span> Bone Morphogenetic Protein — primary osteoinductive driver</li>
+    <li style="margin-bottom:.4rem"><span class="pf-node pf-wnt" style="display:inline-block;font-size:.72rem;padding:2px 6px">Wnt</span> Canonical β-catenin — mechanotransduction effector via YAP</li>
+    <li style="margin-bottom:.4rem"><span class="pf-node pf-tgfb" style="display:inline-block;font-size:.72rem;padding:2px 6px">TGF-β</span> Progenitor expansion; terminal mineralization checkpoint</li>
+    <li style="margin-bottom:.4rem"><span class="pf-node pf-mech" style="display:inline-block;font-size:.72rem;padding:2px 6px">Mech</span> Mechanical stress → YAP nuclear translocation</li>
+    <li><span class="pf-node pf-out" style="display:inline-block;font-size:.72rem;padding:2px 6px">Out</span> Endochondral ossification outcome</li>
+  </ul>
+</div>
+
+<div class="sidebar-card">
+  <h3>⚖️ Evidence Levels</h3>
+  <ul style="font-size:.76rem;list-style:none;margin:0;padding:0">
+    <li style="margin-bottom:.3rem"><span class="badge badge-1">I</span> Systematic review / meta-analysis of RCTs</li>
+    <li style="margin-bottom:.3rem"><span class="badge badge-2">II</span> Individual RCT / large cohort / GWAS</li>
+    <li style="margin-bottom:.3rem"><span class="badge badge-3">III</span> Analytical study / case-control / linkage</li>
+    <li style="margin-bottom:.3rem"><span class="badge badge-4">IV</span> In vitro / animal model / case series</li>
+    <li><span class="badge badge-5">V</span> Expert opinion / narrative review</li>
+  </ul>
+</div>
+
+</aside>
+
+</div><!-- /page-wrap -->
+
+<div class="copy-toast" id="toast">✓ Copied to clipboard</div>
+
+<script>
+(function(){
+  const sBmp = document.getElementById('s-bmp');
+  const sWnt = document.getElementById('s-wnt');
+  const sMech = document.getElementById('s-mech');
+  const sBrake = document.getElementById('s-brake');
+  const vBmp = document.getElementById('v-bmp');
+  const vWnt = document.getElementById('v-wnt');
+  const vMech = document.getElementById('v-mech');
+  const vBrake = document.getElementById('v-brake');
+  const recBox = document.getElementById('rec-box');
+  const recContent = document.getElementById('rec-content');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+  const toast = document.getElementById('toast');
+
+  function update(){
+    const bmp = +sBmp.value;
+    const wnt = +sWnt.value;
+    const mech = +sMech.value;
+    const brake = +sBrake.value;
+
+    vBmp.textContent = bmp;
+    vWnt.textContent = wnt;
+    vMech.textContent = mech;
+    vBrake.textContent = brake;
+
+    // Composite risk score: weighted sum of pro-osteogenic drivers minus brake
+    // Weights derived from the review's emphasis: BMP and Wnt are primary drivers,
+    // mechanical stress is key environmental trigger via YAP-Wnt axis,
+    // brake represents TGF-β checkpoint + anti-osteogenic ncRNAs
+    const proScore = (bmp * 0.30) + (wnt * 0.30) + (mech * 0.25);
+    const brakeEffect = brake * 0.15;
+    const riskScore = Math.max(0, Math.min(100, proScore - brakeEffect + 10));
+
+    let level, cls, title, body;
+    if(riskScore < 35){
+      level = 'LOW'; cls = 'rec-low'; title = '🟢 Low Estimated Osteogenic Drive';
+      body = `
+        <ul>
+          <li>Pro-osteogenic pathway activity is within a low range.</li>
+          <li>Anti-osteogenic regulatory mechanisms (TGF-β checkpoint, inhibitory ncRNAs) appear functional.</li>
+          <li>At this theoretical profile, the balance favors ligament homeostasis over ectopic ossification.</li>
+          <li><strong>Clinical note:</strong> Even in low-risk profiles, genetic predisposition may persist. Routine surveillance imaging is not typically indicated for asymptomatic individuals, but awareness of risk factors (family history, East Asian ethnicity) is prudent.</li>
+        </ul>
+        <p style="font-size:.7rem;color:#065f46;margin-top:.4rem"><em>Model basis: Review's framework of balanced pro-/anti-osteogenic signaling. Not a validated clinical tool.</em></p>`;
+    } else if(riskScore < 65){
+      level = 'MODERATE'; cls = 'rec-mid'; title = '🟡 Moderate Estimated Osteogenic Drive';
+      body = `
+        <ul>
+          <li>BMP and/or Wnt pathway activity is elevated, but anti-osteogenic brakes retain partial function.</li>
+          <li>Mechanical stress exposure is contributing to YAP-Wnt pathway activation.</li>
+          <li>The regulatory network shows early signs of imbalance: pro-osteogenic miRNAs (e.g., miR-10a-5p, miR-563) may be upregulated while anti-osteogenic miRNAs (miR-497/195) are beginning to decline.</li>
+          <li><strong>Potential therapeutic targets at this level:</strong> Restoring anti-osteogenic ncRNA function (miR-497/195 mimics); mechanical load modification; monitoring for YAP activation markers.</li>
+          <li><strong>Clinical note:</strong> This profile represents the theoretical "at-risk" state where intervention to restore signaling balance could prevent progression. In practice, no validated pharmacological interventions exist; management focuses on risk factor modification and surveillance.</li>
+        </ul>
+        <p style="font-size:.7rem;color:#92400e;margin-top:.4rem"><em>Model basis: Review's integrated signaling network concept. Therapeutic suggestions are theoretical — no approved OPLL-modifying drugs exist as of the source publication.</em></p>`;
+    } else {
+      level = 'HIGH'; cls = 'rec-high'; title = '🔴 High Estimated Osteogenic Drive';
+      body = `
+        <ul>
+          <li>Multiple pro-osteogenic pathways (BMP, Wnt, YAP-mediated mechanotransduction) are concurrently hyperactive.</li>
+          <li>Anti-osteogenic regulatory checkpoints are overwhelmed — consistent with the review's "signal integration failure" model.</li>
+          <li>The ncRNA regulatory network is likely reinforcing the pathological state: pro-osteogenic lncRNAs (XIST, SNHG1) amplify BMP2 expression while anti-osteogenic miRNA suppression removes endogenous brakes.</li>
+          <li><strong>Key convergence point:</strong> Runx2 activation is maximized, driving robust endochondral ossification within the PLL.</li>
+          <li><strong>Potential targets at this level:</strong> YAP inhibition (to uncouple mechanotransduction); BMP receptor antagonism (e.g., LDN-193189 analogue); anti-sense oligonucleotides against XIST or pro-osteogenic miRNAs.</li>
+          <li><strong>Clinical note:</strong> This theoretical profile corresponds to the state of active, progressive ossification. In current clinical practice, patients with symptomatic myelopathy from OPLL typically require surgical decompression. No disease-modifying pharmacotherapy is available. These molecular targets represent future therapeutic horizons.</li>
+        </ul>
+        <p style="font-size:.7rem;color:#991b1b;margin-top:.4rem"><em>Model basis: Review's unified pathogenesis model. All therapeutic strategies are preclinical/theoretical per source document — no clinical trials for OPLL-specific molecular therapies were identified.</em></p>`;
+    }
+
+    recBox.className = 'rec-box ' + cls;
+    recContent.innerHTML = `<h4>${title} (Score: ${Math.round(riskScore)}/100)</h4>${body}`;
+  }
+
+  [sBmp, sWnt, sMech, sBrake].forEach(s => s.addEventListener('input', update));
+
+  btnReset.addEventListener('click', function(){
+    sBmp.value = 50; sWnt.value = 50; sMech.value = 50; sBrake.value = 50;
+    update();
+  });
+
+  btnCopy.addEventListener('click', function(){
+    const bmp = sBmp.value, wnt = sWnt.value, mech = sMech.value, brake = sBrake.value;
+    const proScore = (+bmp * 0.30) + (+wnt * 0.30) + (+mech * 0.25);
+    const brakeEffect = +brake * 0.15;
+    const riskScore = Math.max(0, Math.min(100, proScore - brakeEffect + 10));
+    let riskLabel = riskScore < 35 ? 'LOW' : riskScore < 65 ? 'MODERATE' : 'HIGH';
+
+    const ts = new Date().toISOString();
+    const text = [
+      '=== OPLL Pathogenesis Risk Assessment ===',
+      'Date: ' + ts,
+      '',
+      '--- Parameters ---',
+      'BMP Signaling Intensity: ' + bmp + '/100',
+      'Wnt/beta-catenin Activity: ' + wnt + '/100',
+      'Mechanical Stress Exposure: ' + mech + '/100',
+      'Anti-osteogenic Brake Function: ' + brake + '/100',
+      '',
+      '--- Assessment ---',
+      'Composite Risk Score: ' + Math.round(riskScore) + '/100',
+      'Risk Level: ' + riskLabel,
+      '',
+      '--- Rationale ---',
+      'Composite score = (BMP x 0.30) + (Wnt x 0.30) + (Mech x 0.25) - (Brake x 0.15) + 10',
+      'Model based on review: BMP and Wnt are primary osteoinductive drivers;',
+      'mechanical stress activates YAP-Wnt axis (ref [39]); anti-osteogenic brake',
+      'represents TGF-beta checkpoint + inhibitory ncRNAs (miR-497/195).',
+      '',
+      'NOTE: This is a conceptual educational model based on the review by the',
+      'source document. It is NOT a validated clinical prediction tool.',
+      'No approved pharmacological treatments for OPLL disease modification exist',
+      'as of the source publication. Clinical decisions should follow established',
+      'guidelines and specialist consultation.',
+      '',
+      'Source: "The Molecular Pathogenesis of Ossification of the Posterior',
+      'Longitudinal Ligament: A Comprehensive Review"'
+    ].join('\n');
+
+    navigator.clipboard.writeText(text).then(function(){
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+    });
+  });
+
+  update();
+})();
+</script>
+
+</body>
+</html>

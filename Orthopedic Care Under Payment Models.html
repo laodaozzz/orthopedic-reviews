@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Orthopedic Administration Under DRG &amp; Bundled Payment Models</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a365d;
+  --primary-light: #2b6cb0;
+  --primary-lighter: #bee3f8;
+  --accent: #c53030;
+  --accent-light: #feb2b2;
+  --success: #276749;
+  --success-light: #c6f6d5;
+  --warning: #975a16;
+  --warning-light: #fefcbf;
+  --gray-50: #f7fafc;
+  --gray-100: #edf2f7;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e0;
+  --gray-500: #718096;
+  --gray-700: #4a5568;
+  --gray-800: #2d3748;
+  --gray-900: #1a202c;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--gray-800);
+  background: var(--gray-50);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  color: var(--primary);
+  line-height: 1.3;
+}
+/* HEADER */
+.site-header {
+  background: linear-gradient(135deg, var(--primary) 0%, #234e8e 100%);
+  color: var(--white);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.site-header h1 {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+.site-header .subtitle {
+  font-size: 0.95rem;
+  font-weight: 300;
+  opacity: 0.85;
+  position: relative;
+  z-index: 1;
+}
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+}
+/* MAIN CONTENT */
+.main-content { min-width: 0; }
+.main-content section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+}
+.main-content h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--primary-lighter);
+}
+.main-content h3 {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--primary-light);
+}
+.main-content h4 {
+  font-size: 1.05rem;
+  margin: 1.2rem 0 0.5rem;
+}
+.main-content p {
+  margin-bottom: 1rem;
+  color: var(--gray-700);
+}
+.main-content ul, .main-content ol {
+  margin: 0.5rem 0 1rem 1.5rem;
+  color: var(--gray-700);
+}
+.main-content li { margin-bottom: 0.4rem; }
+.main-content li strong { color: var(--gray-900); }
+/* EVIDENCE BADGE */
+.ev-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.ev-I { background: #c6f6d5; color: #22543d; }
+.ev-II { background: #bee3f8; color: #1a365d; }
+.ev-III { background: #fefcbf; color: #744210; }
+.ev-IV { background: #fed7e2; color: #702459; }
+.ev-V { background: #e2e8f0; color: #4a5568; }
+.ev-ns { background: #edf2f7; color: #718096; font-style: italic; }
+/* CALLOUT BOXES */
+.callout {
+  border-left: 4px solid var(--primary-light);
+  background: var(--gray-50);
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.95rem;
+}
+.callout.warning {
+  border-left-color: var(--warning);
+  background: var(--warning-light);
+}
+.callout.success {
+  border-left-color: var(--success);
+  background: var(--success-light);
+}
+.callout.danger {
+  border-left-color: var(--accent);
+  background: var(--accent-light);
+}
+.callout strong { color: var(--gray-900); }
+/* TABLES */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+}
+.table-wrap caption {
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  background: var(--primary);
+  color: var(--white);
+  text-align: left;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+thead th {
+  background: var(--gray-100);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--gray-300);
+  color: var(--primary);
+  white-space: nowrap;
+}
+tbody td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--gray-200);
+  vertical-align: top;
+}
+tbody tr:nth-child(even) { background: var(--gray-50); }
+tbody tr:hover { background: var(--primary-lighter); transition: background 0.2s; }
+/* SIDEBAR */
+.sidebar {
+  position: sticky;
+  top: 1.5rem;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+@media (max-width: 1024px) {
+  .sidebar { position: static; order: -1; }
+}
+.sidebar-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+}
+.sidebar-card h3 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.slider-group {
+  margin-bottom: 1.25rem;
+}
+.slider-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--gray-800);
+  margin-bottom: 0.35rem;
+}
+.slider-group .slider-val {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+.slider-group input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--gray-200);
+  outline: none;
+}
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-md);
+}
+.slider-group input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-md);
+}
+.slider-group .range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--gray-500);
+  margin-top: 2px;
+}
+.slider-group .source-note {
+  font-size: 0.7rem;
+  color: var(--gray-500);
+  font-style: italic;
+  margin-top: 2px;
+}
+/* RECOMMENDATION BOX */
+#recommendation-box {
+  background: linear-gradient(135deg, #ebf8ff, #e9d8fd);
+  border-radius: var(--radius);
+  padding: 1rem;
+  font-size: 0.85rem;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+#recommendation-box .rec-title {
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+#recommendation-box .rec-text {
+  color: var(--gray-700);
+  line-height: 1.5;
+}
+#recommendation-box .rec-metric {
+  display: inline-block;
+  background: var(--white);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin: 2px 0;
+}
+/* BUTTONS */
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.btn {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-reset {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+.btn-reset:hover { background: var(--gray-300); }
+.btn-export {
+  background: var(--primary);
+  color: var(--white);
+}
+.btn-export:hover { background: var(--primary-light); }
+/* TOC */
+.toc {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+.toc h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.toc ol { margin: 0; padding-left: 1.25rem; }
+.toc li {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+.toc a {
+  color: var(--primary-light);
+  text-decoration: none;
+}
+.toc a:hover { text-decoration: underline; }
+/* REFERENCES */
+.references {
+  font-size: 0.82rem;
+  color: var(--gray-500);
+}
+.references ol { padding-left: 1.25rem; }
+.references li { margin-bottom: 0.4rem; }
+.references a { color: var(--primary-light); word-break: break-all; }
+/* CITATION */
+sup.ref {
+  font-size: 0.7rem;
+  color: var(--primary-light);
+  font-weight: 700;
+  cursor: help;
+}
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--success);
+  color: var(--white);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s;
+  z-index: 9999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .site-header { padding: 1.5rem 1rem; }
+  .layout { padding: 1rem; gap: 1.25rem; }
+  .main-content section { padding: 1.25rem; }
+  table { font-size: 0.8rem; }
+  thead th, tbody td { padding: 0.5rem 0.6rem; }
+}
+/* Print */
+@media print {
+  .sidebar { display: none; }
+  .layout { grid-template-columns: 1fr; }
+  .site-header { background: var(--primary) !important; -webkit-print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Strategic Orthopedic Administration Under DRG &amp; Bundled Payment Models</h1>
+  <p class="subtitle">A Comprehensive, Evidence-Based Educational Summary for Orthopedic Leaders &amp; Healthcare Administrators</p>
+</header>
+
+<div class="layout">
+
+<!-- ======== MAIN CONTENT ======== -->
+<main class="main-content" role="main">
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#sec-intro">The Macroeconomic Shift in Orthopedic Care Delivery</a></li>
+      <li><a href="#sec-pathway">Clinical Pathway Optimization in Bundled Payment Ecosystems</a></li>
+      <li><a href="#sec-implant">Orthopedic Implant &amp; Device Cost Management</a></li>
+      <li><a href="#sec-intl">Comparative International Paradigms: United States vs. Germany</a></li>
+      <li><a href="#sec-cdi">Clinical Documentation Improvement &amp; DRG Revenue Integrity</a></li>
+      <li><a href="#sec-defense">Defending Revenue: Audits, Appeals &amp; P2P Reviews</a></li>
+      <li><a href="#sec-conclusion">Conclusion</a></li>
+      <li><a href="#sec-refs">References</a></li>
+    </ol>
+  </nav>
+
+  <!-- ===== SECTION 1: INTRODUCTION ===== -->
+  <section id="sec-intro">
+    <h2>1. The Macroeconomic Shift in Orthopedic Care Delivery</h2>
+    <p>The economic architecture of orthopedic surgery and musculoskeletal care is undergoing a profound and irreversible transformation. Historically anchored in traditional fee-for-service (FFS) reimbursement paradigms, healthcare systems internationally are aggressively transitioning toward value-based care frameworks. This shift is primarily driven by the unsustainable trajectory of healthcare spending, which currently accounts for approximately <strong>18 percent of the Gross Domestic Product</strong> in the United States.<sup class="ref">[1]</sup></p>
+
+    <p>Within this macroeconomic landscape, orthopedic procedures command a disproportionate share of expenditures. Hospital reimbursement for total joint replacements, particularly under <strong>Medicare Severity-Diagnosis Related Group (MS-DRG) 470</strong> (Major joint replacement or reattachment of lower extremity without major complications or comorbidities), represents one of the largest single procedural outlays for government payers such as the Centers for Medicare &amp; Medicaid Services (CMS).<sup class="ref">[1]</sup> <span class="ev-badge ev-II">Level II</span></p>
+
+    <p>Because orthopedic interventions typically follow predictable clinical trajectories and generate consistently high procedural volumes, they serve as ideal foundational candidates for <strong>episode-based reimbursement models</strong>. These models are explicitly designed to curtail unnecessary clinical utilization and financial waste while simultaneously maintaining or elevating the quality of patient outcomes.<sup class="ref">[3]</sup></p>
+
+    <h3>Bundle Payment Models: CJR and BPCI</h3>
+    <p>At the core of this transition are bundled payment models, such as the <strong>Comprehensive Care for Joint Replacement (CJR)</strong> model and the <strong>Bundled Payments for Care Improvement (BPCI)</strong> initiative. These models fundamentally alter hospital revenue cycle management by providing a single, comprehensive reimbursement target that covers an entire surgical episode.<sup class="ref">[1]</sup> Rather than utilizing isolated, fragmented billing mechanisms for surgeon professional fees, acute care facility stays, anesthesiology, and outpatient physical therapy, <strong>all services are consolidated into one predetermined target price</strong>.<sup class="ref">[3]</sup></p>
+
+    <div class="callout">
+      <strong>Key Concept — Episode of Care:</strong> Crucially, this episode of care is not temporally limited to the surgical intervention or the inpatient hospital stay; it extends comprehensively to encompass all related post-acute care (PAC) services—including skilled nursing facilities (SNFs), inpatient rehabilitation facilities, home health care, and ambulatory physical therapy—for <strong>up to 90 days following hospital discharge</strong>.<sup class="ref">[5]</sup>
+    </div>
+
+    <p>Under these advanced alternative payment models (APMs), the <strong>financial risk is directly transferred from the overarching payer to the localized provider network</strong>. Hospitals and affiliated physician groups that efficiently manage the longitudinal episode and keep aggregate costs below the regional and historical target price are eligible to retain the shared savings as supplemental revenue.<sup class="ref">[1]</sup> Conversely, facilities that suffer from clinical inefficiencies, high complication rates, or unchecked post-acute care utilization that pushes the episode cost beyond the target threshold must directly absorb the resulting financial losses.<sup class="ref">[3]</sup></p>
+
+    <div class="callout warning">
+      <strong>Implication:</strong> This binary financial reality forces a fundamental realignment of incentives among hospital administrators, orthopedic surgeons, and post-acute care providers, effectively dismantling the historical silos that separated acute surgical interventions from longitudinal recovery.<sup class="ref">[8]</sup>
+    </div>
+
+    <p>Thriving under the constraints of DRG optimization and bundled payment programs requires orthopedic departments to transcend traditional clinical paradigms. Facilities must deploy exhaustive, data-driven strategies that systematically address and mitigate expenses at every discrete stage of the patient journey—preoperative optimization, intraoperative efficiency, acute postoperative care, and post-acute recovery.<sup class="ref">[3]</sup></p>
+  </section>
+
+  <!-- ===== SECTION 2: CLINICAL PATHWAY ===== -->
+  <section id="sec-pathway">
+    <h2>2. Clinical Pathway Optimization in Bundled Payment Ecosystems</h2>
+    <p>The absolute foundation of margin management and quality assurance within a bundled payment or fixed-DRG environment is the <strong>rigorous, uncompromising standardization of clinical pathways</strong>. Because federal and commercial payers often reconcile episode costs and quality payments retrospectively—sometimes months after the actual clinical services have been rendered—successful management requires real-time data tracking and the systematic elimination of unwarranted clinical variation.<sup class="ref">[5]</sup> <span class="ev-badge ev-II">Level II</span></p>
+
+    <p>Historic models of autonomous, highly individualized surgeon-specific perioperative protocols are fundamentally incompatible with the financial realities of modern value-based reimbursement. To mitigate financial risk, orthopedic surgery leaders are increasingly mandated to spearhead the implementation of evidence-based clinical pathways that elevate the clinical practice of low-volume providers to consistently match the outcomes of their high-volume peers.<sup class="ref">[5]</sup></p>
+
+    <h3>2.1 Preoperative Risk Stratification and Medical Optimization</h3>
+    <p>The mechanism for controlling the fiscal volatility of a bundled episode begins long before the surgical incision is made. Orthopedic surgery leaders must champion the implementation of exhaustive <strong>preoperative risk assessment tools</strong>.<sup class="ref">[5]</sup> This proactive risk stratification is essential because the hospital fundamentally assumes the financial risk for post-acute complications, particularly those that precipitate extended length of stay (LOS) or costly readmissions.<sup class="ref">[5]</sup></p>
+
+    <ul>
+      <li><strong>Glycemic Control:</strong> Enforcing strict protocols for diabetic patients to optimize HbA1c prior to elective surgery.</li>
+      <li><strong>Anemia Management:</strong> Identifying and treating chronic anemia to reduce transfusion requirements and wound complications.</li>
+      <li><strong>Decolonization Therapies:</strong> Administering targeted treatments for pre-existing <em>Staphylococcus aureus</em> colonization to prevent periprosthetic joint infections.</li>
+      <li><strong>DRG Capture:</strong> Enabling clinical documentation teams to accurately capture the patient's true severity of illness, ensuring the episode is billed under the most appropriate, higher-weighted DRG prior to admission.<sup class="ref">[5]</sup></li>
+    </ul>
+
+    <h3>2.2 Enhanced Recovery After Surgery (ERAS) and Fast-Track Protocols</h3>
+    <p>Once the patient is medically optimized, the intraoperative and immediate postoperative phases must be governed by clinical pathway subtypes that prioritize rapid functional restoration. <strong>Enhanced Recovery After Surgery (ERAS)</strong>, fast-track programs, and outpatient arthroplasty pathways have demonstrated consistent, highly reproducible signals of clinical and financial benefit across international health systems.<sup class="ref">[9]</sup> <span class="ev-badge ev-II">Level II</span></p>
+
+    <div class="callout success">
+      <strong>ERAS Core Pillars:</strong> Multimodal, opioid-sparing pain management &bull; Immediate postoperative mobilization &bull; Highly streamlined perioperative workflows &bull; Earlier safe discharge as a primary mechanism for direct cost reduction.<sup class="ref">[9]</sup>
+    </div>
+
+    <p><strong>Integrated Clinical Pathways (ICPs)</strong> further improve standardization and multidisciplinary coordination across care settings, effectively reducing unwarranted variability and supporting much safer transitions of care from the acute hospital to the community.<sup class="ref">[9]</sup> <strong>Outpatient arthroplasty pathways</strong> represent the pinnacle of this efficiency, allowing for same-day discharge in carefully selected, low-risk patient cohorts. This approach not only slashes bed occupancy rates but also frees vital inpatient capacity for higher-acuity procedures.<sup class="ref">[9]</sup></p>
+
+    <h3>2.3 Rationalizing Post-Acute Care (PAC) Utilization</h3>
+    <p>While acute length of stay is a critical metric, the rationalization of post-acute care represents the <strong>single largest opportunity for episode cost reduction</strong> in joint replacement models. To succeed, health systems must construct exclusive, highly vetted networks of top-tier skilled nursing facilities (SNFs) and home health partners.<sup class="ref">[3]</sup></p>
+
+    <p>Extensive research into the CJR model indicates that patients discharged to institutional settings tend to be markedly older (with over <strong>35 percent aged 85 or older</strong>), possess a substantially higher comorbidity burden (four or more comorbidities), and are more likely to have sustained prior hip fractures.<sup class="ref">[10]</sup> <span class="ev-badge ev-II">Level II</span></p>
+
+    <p>Aggressive and strategic reductions in institutional PAC utilization across the broader orthopedic population have been proven to generate massive financial savings <strong>without negatively affecting</strong> patient-reported functional recovery, pain reduction, or overall patient satisfaction.<sup class="ref">[11]</sup> Proactive institutions utilizing comprehensive preoperative "joint classes" to educate and prepare patients for home discharge report significantly higher patient experience and satisfaction scores.<sup class="ref">[12]</sup></p>
+
+    <h3>2.4 Integrating Patient-Reported Outcome Measures (PROMs)</h3>
+    <p>As aggressive cost-containment strategies drive shorter hospital stays and systematically reduce PAC utilization, the continuous tracking of <strong>Patient-Reported Outcome Measures (PROMs)</strong> serves as the vital clinical counterweight to ensure that financial efficiency gains do not compromise the fundamental quality of care.<sup class="ref">[3]</sup></p>
+
+    <p>The most common PROM domains measured internationally in total joint replacement patients include:</p>
+    <ul>
+      <li><strong>Physical Function</strong></li>
+      <li><strong>Pain Interference</strong></li>
+      <li><strong>Pain Intensity</strong></li>
+    </ul>
+    <p>These domains are captured utilizing validated universal measures—such as the <strong>Patient-Reported Outcomes Measurement Information System (PROMIS) Global</strong> and <strong>Veterans RAND-12 (VR-12)</strong>—alongside highly specific legacy tools designed for joint disease.<sup class="ref">[14]</sup></p>
+
+    <div class="callout danger">
+      <strong>CMS TEAM Model (Effective January 2026):</strong> The Transforming Episode Accountability Model (TEAM) introduces a focused 30-day bundle approach for major joint replacement, SHFFT, and spinal fusion. PROMs are no longer optional—they directly dictate quality composite scores that determine final payment reconciliation and shared savings distribution.<sup class="ref">[15]</sup> <span class="ev-badge ev-II">Level II</span>
+    </div>
+
+    <p>The <strong>American Academy of Orthopaedic Surgeons (AAOS)</strong> outlines a strategic seven-step process for PROMs implementation, emphasizing stakeholder engagement, partner organization support, and the active use of captured data to drive clinical innovation and promote health equity.<sup class="ref">[17]</sup></p>
+
+    <!-- TABLE 1 -->
+    <div class="table-wrap">
+      <caption>Table 1. Strategic Clinical Pathway Mechanisms and Their Financial &amp; Quality Implications</caption>
+      <table>
+        <thead>
+          <tr>
+            <th>Mechanism</th>
+            <th>Core Objective &amp; Application</th>
+            <th>Financial &amp; Quality Implications</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Preoperative Optimization</strong></td>
+            <td>Identify and mitigate modifiable risk factors (e.g., uncontrolled diabetes, MRSA colonization, anemia).<sup class="ref">[5]</sup></td>
+            <td>Prevents costly postoperative complications and readmissions; ensures appropriate severity-of-illness DRG capture prior to admission.<sup class="ref">[5]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>ERAS &amp; Fast-Track Protocols</strong></td>
+            <td>Standardize perioperative workflows, minimize opioid utilization, mandate early postoperative mobilization.<sup class="ref">[9]</sup></td>
+            <td>Drastically decreases acute LOS; facilitates same-day or next-day community discharges.<sup class="ref">[3]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>PAC Triage</strong></td>
+            <td>Shift patient recovery away from expensive SNFs and inpatient rehab toward home health networks.<sup class="ref">[3]</sup></td>
+            <td>Eliminates high-cost institutional PAC spending while maintaining equivalent functional recovery and patient satisfaction.<sup class="ref">[10]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>PROMs Infrastructure</strong></td>
+            <td>Systematically track physical function and pain interference via validated tools (e.g., PROMIS).<sup class="ref">[14]</sup></td>
+            <td>Safeguards clinical quality against aggressive cost-cutting; ensures strict compliance with CMS TEAM and future mandatory models.<sup class="ref">[14]</sup></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: IMPLANT COST ===== -->
+  <section id="sec-implant">
+    <h2>3. Strategies for Orthopedic Implant &amp; Device Cost Management</h2>
+    <p>Orthopedic procedures represent one of the absolute largest and fastest-growing supply chain cost centers in modern healthcare. The surgical implants and associated specialized supplies carry exceptionally hefty price tags, and the historical margin for financial waste in this sector is remarkably high.<sup class="ref">[18]</sup></p>
+
+    <div class="callout warning">
+      <strong>Critical Insight:</strong> Extensive supply chain studies indicate that <strong>four out of five times</strong>, attending orthopedic surgeons cannot accurately estimate or price the hip and knee implants they routinely utilize.<sup class="ref">[19]</sup> When the end-users of surgical devices remain unaware of cost impact, unmanaged variation proliferates rapidly.
+    </div>
+
+    <p>Unchecked surgeon preference for specific, heavily marketed, high-cost implant systems—often lacking robust peer-reviewed evidence demonstrating superior long-term clinical outcomes—can lead to massive cost disparities. This unmanaged variation severely erodes the narrow profit margins associated with a fixed DRG payment.<sup class="ref">[18]</sup></p>
+
+    <h3>3.1 Reference Pricing and Vendor Standardization</h3>
+    <p>One of the most highly effective, evidence-based economic strategies for reducing implant expenditures is the implementation of <strong>reference pricing</strong> within a hospital-physician co-management framework. In a reference pricing model, a health system, acting in strict unison with its orthopedic faculty, establishes a non-negotiable price ceiling—the maximum amount the institution will pay for specific implant components.<sup class="ref">[20]</sup> <span class="ev-badge ev-II">Level II</span></p>
+
+    <p>A highly detailed economic evaluation demonstrated profound, sustainable financial success:</p>
+    <ul>
+      <li>Presented a unified front of over <strong>20 orthopedic surgeons</strong> to strengthen bargaining position against device manufacturers.</li>
+      <li>Achieved a <strong>22.7 percent decrease</strong> in overall total hip arthroplasty (THA) implant costs.</li>
+      <li>Generated more than <strong>$4 million in institutional savings</strong> in a single service line.</li>
+      <li>All individual hip components saw price decreases of <strong>21 percent or more</strong>.</li>
+      <li>Spending moved from the <strong>80th percentile nationally down to the 60th percentile</strong>.<sup class="ref">[20]</sup></li>
+    </ul>
+
+    <div class="callout success">
+      <strong>Surgeon Autonomy Preserved:</strong> Unlike restrictive single-vendor strategies, the reference pricing model allows surgeons to retain freedom to select any implant system based on clinical judgment, provided the vendor meets the established reference price. The studied institution actually <strong>increased its vendor pool from six to seven companies</strong> after implementation.<sup class="ref">[20]</sup>
+    </div>
+
+    <h3>3.2 Physician-Hospital Gainsharing and Regulatory Safe Harbors</h3>
+    <p>To appropriately incentivize surgeons to participate actively in cost-containment initiatives, hospitals frequently utilize formal <strong>gainsharing arrangements</strong>—structured contractual arrangements where physician groups and hospitals legally share the financial savings generated from specific, measurable efficiency actions.<sup class="ref">[1]</sup></p>
+
+    <p>While highly effective, gainsharing heavily implicates federal fraud and abuse laws in the United States, particularly the <strong>Anti-Kickback Statute (AKS)</strong> and the <strong>Physician Self-Referral Law (Stark Law)</strong>.<sup class="ref">[21]</sup> These statutes strictly prohibit the exchange of remuneration designed to induce patient referrals. Consequently, gainsharing agreements must be meticulously structured to fall within established <strong>Office of Inspector General (OIG) safe harbors</strong>.<sup class="ref">[21]</sup></p>
+
+    <p>Key regulatory requirements include:</p>
+    <ul>
+      <li>Shared savings must be directly attributable to documented, physician-driven changes in clinical decision-making.</li>
+      <li>Distributions must represent <strong>fair market value</strong> for the administrative effort involved.<sup class="ref">[23]</sup></li>
+      <li>Arrangements must include strict, immutable quality metrics to guarantee patient care is not compromised.</li>
+      <li>OIG Advisory Opinion No. 21-02 permitted a specialized ASC investment venture with integrated safeguards, demonstrating that complex financial alignment is permissible if constructed correctly.<sup class="ref">[24]</sup></li>
+    </ul>
+  </section>
+
+  <!-- ===== SECTION 4: INTERNATIONAL ===== -->
+  <section id="sec-intl">
+    <h2>4. Comparative International Paradigms: United States vs. Germany</h2>
+    <p>The structural and regulatory mechanisms utilized to optimize orthopedic care under prospective payment systems differ significantly across international borders. Comparing the United States' rapid evolution toward bundled payments with the mature German G-DRG system reveals distinct strategic pathways toward cost containment and quality management.</p>
+
+    <h3>4.1 The United States: Episode Accountability and Bundled Evolution</h3>
+    <p>In the United States, the traditional fee-for-service landscape is rapidly yielding to highly structured accountable care organizations and mandatory episode-based payments.<sup class="ref">[25]</sup> Initiatives like BPCI and CJR have forcefully required acute care hospitals to look beyond their own four walls, holding them strictly financially accountable for the full <strong>90-day continuum</strong> of patient care.<sup class="ref">[6]</sup></p>
+
+    <p>The American strategic approach heavily relies on episodic coordination, driving massive financial efficiency gains primarily through the severe restriction of post-acute care utilization.<sup class="ref">[11]</sup> The impending <strong>TEAM model</strong>, launching January 1, 2026 and extending through 2030, introduces mandatory, highly focused <strong>30-day bundles</strong> for major joint replacement, SHFFT, and spinal fusions.<sup class="ref">[15]</sup></p>
+
+    <p>Innovative integrated American systems, such as <strong>Kaiser Permanente</strong>, utilize structured patient pathways where the preoperative allocation of home-care resources enables the vast majority of standard-of-care nursing and rehabilitation to occur entirely within the patient's home, drastically reducing total structural cost.<sup class="ref">[25]</sup></p>
+
+    <h3>4.2 Germany: The G-DRG System and Structural Hospital Reform</h3>
+    <p>Germany fundamentally overhauled its hospital reimbursement landscape with the introduction of the <strong>diagnosis-related groups (G-DRG) system</strong> starting in 2003, systematically replacing an inefficient legacy system based on per diem rates.<sup class="ref">[27]</sup> A detailed retrospective econometric analysis indicated that the introduction of G-DRGs significantly <strong>increased hospital activity by approximately 20 percent</strong>.<sup class="ref">[29]</sup> <span class="ev-badge ev-II">Level II</span></p>
+
+    <div class="callout danger">
+      <strong>German Demographic Pressure:</strong> Diseases of the musculoskeletal system, particularly osteoarthritis, account for a massive <strong>10 percent of direct healthcare costs</strong> in Germany. Osteoarthritis-related costs rose by <strong>41 percent</strong> from €8.6 billion in 2015 to €12.1 billion in 2020, driven heavily by an aging population. The cost of inpatient nursing care nearly doubled over this period.<sup class="ref">[31]</sup>
+    </div>
+
+    <p>The G-DRG tariff calculation has faced intense academic criticism for its <strong>"one hospital" approach</strong>, which averages costs across highly heterogeneous institutions, often failing to adequately cover actual expenses for older, frail, and multimorbid patients.<sup class="ref">[27]</sup></p>
+
+    <p>Major German private hospital networks—<strong>Asklepios Kliniken</strong> (approximately 170 healthcare facilities, 3.6 million patients annually, consolidated net income of EUR 131.9 million in 2022) and <strong>Helios Kliniken</strong>—have pursued aggressive corporate consolidation and technological optimization.<sup class="ref">[34]</sup> Helios has implemented <strong>robotic arm-assisted technology (Mako system)</strong> for knee arthroplasty, facilitating faster postoperative mobilization, reduced pain, and critically shortened acute LOS.<sup class="ref">[36]</sup></p>
+
+    <p>The <strong>German Hospital Reform 2025</strong> introduces a paradigm shift by establishing strict <strong>"Leistungsgruppen" (service groups)</strong>: only Level II and Level III hospitals possessing verified, high-level structural capabilities will retain authorization to bill for complex, high-value orthopedic DRGs.<sup class="ref">[38]</sup></p>
+
+    <!-- TABLE 2 -->
+    <div class="table-wrap">
+      <caption>Table 2. Comparative Strategic Components: United States vs. Germany</caption>
+      <table>
+        <thead>
+          <tr>
+            <th>Strategic Component</th>
+            <th>United States (CJR, BPCI, TEAM)</th>
+            <th>Germany (G-DRG &amp; 2025 Reform)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Primary Financial Focus</strong></td>
+            <td>PAC utilization reduction, 90-day readmission avoidance, supply chain control.<sup class="ref">[3]</sup></td>
+            <td>OR throughput, acute LOS reduction, nursing care cost containment.<sup class="ref">[29]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Payment Architecture</strong></td>
+            <td>Retrospective reconciliation against regional/historical target price spanning 30–90 days.<sup class="ref">[5]</sup></td>
+            <td>Prospective payment calculated via flat base rate × specific DRG cost weight.<sup class="ref">[28]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Quality &amp; Reimbursement Linkage</strong></td>
+            <td>PROMs directly impact final financial composite scores.<sup class="ref">[15]</sup></td>
+            <td>Minimum volume thresholds and structural capability requirements (Leistungsgruppen) determine billing eligibility.<sup class="ref">[38]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Physician &amp; Facility Alignment</strong></td>
+            <td>Complex gainsharing agreements relying on OIG Safe Harbors and internal reference pricing.<sup class="ref">[20]</sup></td>
+            <td>Corporate employment models in massive private networks driven by capital technology investments (robotics).<sup class="ref">[34]</sup></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: CDI ===== -->
+  <section id="sec-cdi">
+    <h2>5. Clinical Documentation Improvement &amp; DRG Revenue Integrity</h2>
+    <p>The financial viability and operational survival of an orthopedic department under DRG models is entirely dependent on the extreme precision of its medical coding and clinical documentation. The MS-DRG classification system assigns a specific, heavily weighted payment based on the principal diagnosis, the exact surgical procedure performed, and the presence of <strong>comorbid conditions (CC)</strong> or <strong>major complications and comorbidities (MCC)</strong>.<sup class="ref">[2]</sup></p>
+
+    <h3>5.1 The Financial Impact of MCC and CC Capture</h3>
+    <p>Consider the classification matrix for lower extremity joint replacements:</p>
+    <ul>
+      <li><strong>MS-DRG 469:</strong> Major joint replacement <em>with</em> a documented MCC.</li>
+      <li><strong>MS-DRG 470:</strong> Major joint replacement <em>without</em> an MCC.</li>
+    </ul>
+    <p>The presence of a single properly documented MCC—such as acute exacerbation of heart failure, acute renal failure, or severe malnutrition—elevates the entire case to MS-DRG 469, triggering a significantly higher reimbursement rate.<sup class="ref">[2]</sup></p>
+
+    <div class="callout danger">
+      <strong>Revenue Leakage Risk:</strong> Common DRG audit findings routinely cite incomplete comorbidity documentation, mismatches between attending physician and hospital nursing documentation, and incorrect principal diagnosis selection as primary causes for devastating DRG downgrades.<sup class="ref">[2]</sup>
+    </div>
+
+    <p><strong>Clinical Documentation Improvement (CDI) programs</strong> deploy highly qualified professionals—often seasoned nurses or HIM experts holding CDIP or CCS credentials—to conduct rigorous concurrent and retrospective reviews of patient health records. When clinical ambiguities are detected, the CDI specialist issues a formal, compliant "query" to the provider requesting clarification using objective clinical indicators.<sup class="ref">[41]</sup></p>
+
+    <h3>5.2 Navigating the 2026 ICD-10-PCS Specificity Updates</h3>
+    <p>The fiscal year 2026 ICD-10-PCS updates introduce <strong>over 200 new inpatient procedure codes</strong> that will profoundly impact hospital facility billing and MS-DRG assignment.<sup class="ref">[43]</sup> For example:</p>
+
+    <ul>
+      <li><strong>Total Knee Arthroplasty:</strong> Documentation must specify exact constraint level (e.g., "unconstrained TKA with XLPE bearing surface"), robotic assistance platform, and use of patient-specific cutting guides.</li>
+      <li><strong>Reverse Shoulder Arthroplasty:</strong> Requires unprecedented details regarding glenosphere size, humeral component coating, fixation method (cemented vs. press-fit), and subscapularis management techniques.</li>
+    </ul>
+
+    <p>Healthcare organizations investing in comprehensive documentation system optimization report an average <strong>ROI of 340 percent within 18 months</strong>, driven by improved coding accuracy and the ability to capture an additional <strong>$4,000 to $12,000 per complex surgical case</strong>.<sup class="ref">[43]</sup></p>
+
+    <!-- TABLE 3 -->
+    <div class="table-wrap">
+      <caption>Table 3. 2026 ICD-10-PCS Documentation Requirements and Potential DRG Revenue Variance by Procedure Category</caption>
+      <table>
+        <thead>
+          <tr>
+            <th>Procedure Category</th>
+            <th>Key Documentation Requirements (2026)</th>
+            <th>Potential Revenue Variance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Complex Joint Replacement</strong></td>
+            <td>Specific device constraint level, bearing surfaces, robotic platform, approach complexity.<sup class="ref">[43]</sup></td>
+            <td>$4,000 – $8,500 per case<sup class="ref">[43]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Spinal Fusion Procedures</strong></td>
+            <td>Multi-level identification, interbody device specs, motion preservation devices, MIS/percutaneous approaches.<sup class="ref">[43]</sup></td>
+            <td>$6,200 – $12,000 per case<sup class="ref">[43]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Complex Trauma Repair</strong></td>
+            <td>Soft tissue involvement, specific fixation methods, detailed fracture complexity.<sup class="ref">[43]</sup></td>
+            <td>$3,100 – $7,800 per case<sup class="ref">[43]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Revision Arthroplasty</strong></td>
+            <td>Component status, bone loss management techniques, structural allograft utilization.<sup class="ref">[43]</sup></td>
+            <td>$5,500 – $11,200 per case<sup class="ref">[43]</sup></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: DEFENDING REVENUE ===== -->
+  <section id="sec-defense">
+    <h2>6. Defending Orthopedic Revenue: Audits, Appeals &amp; Peer-to-Peer Reviews</h2>
+    <p>Because major joint replacements under MS-DRG 469 and 470 represent massively high-volume expenditures, they are subjected to intense, relentless scrutiny by Medicare Administrative Contractors (MACs), Recovery Audit Contractors (RACs), and commercial payer auditors.<sup class="ref">[41]</sup></p>
+
+    <h3>6.1 Coding Downgrades vs. Clinical Validation Denials</h3>
+    <p>Effectively appealing a denial requires recognizing the fundamental distinction:</p>
+
+    <h4>Coding-Based Downgrades</h4>
+    <p>These occur when a payer unilaterally removes or alters an ICD-10 code based strictly on sequencing rules, coding guidelines, or documentation technicalities, triggering a DRG reduction.<sup class="ref">[47]</sup> These disputes are primarily <strong>technical in nature</strong> and are best defended by CDI specialists and certified coders who can prepare highly structured appeals referencing the ICD-10 Official Guidelines and specific AHA Coding Clinic directives.</p>
+
+    <h4>Clinical Validation Denials</h4>
+    <p>In these far more complex instances, the payer concedes that the code was mapped correctly but aggressively argues that the diagnosis itself lacks actual clinical support in the medical record.<sup class="ref">[47]</sup> The payer is directly <strong>disputing the treating physician's clinical judgment</strong>, often attempting to substitute the provider's diagnostic criteria with the payer's own highly restrictive, proprietary medical policies.</p>
+
+    <div class="callout warning">
+      <strong>Sepsis Definition Controversy:</strong> Many treating physicians accurately diagnose sepsis using CMS-recognized SIRS criteria. However, third-party auditors frequently deny these claims by retrospectively applying the narrower <strong>Sepsis-3 criteria</strong> (relying on SOFA scores), demanding evidence of acute end-organ compromise that may not align with the hospital's internal standards.<sup class="ref">[48]</sup> Successful overturning requires appeals referencing standard medical literature and asserting that the hospital is not legally bound to Sepsis-3 criteria if not adopted by CMS.<sup class="ref">[50]</sup>
+    </div>
+
+    <h3>6.2 Mastering the Peer-to-Peer (P2P) Review</h3>
+    <p>When prior authorizations are denied or clinical validation disputes escalate, orthopedic surgeons must engage in P2P reviews with payer medical directors. These conversations are high-stakes and time-compressed.<sup class="ref">[55]</sup></p>
+
+    <ol>
+      <li><strong>Prepare Objective Evidence:</strong> Have a specific, concise summary of objective clinical facts, diagnostic imaging reports, and failed prior conservative therapies.<sup class="ref">[56]</sup></li>
+      <li><strong>Build Rapport and Respect:</strong> Begin with professional courtesy. Acknowledging the medical director's role as a partner in resource stewardship disarms defensive posturing.<sup class="ref">[55]</sup></li>
+      <li><strong>Maintain a Clinical Lens:</strong> Paint a vivid clinical picture of the patient's unique anatomical limitations, asking: "Given these specific circumstances, how else could we have cared for this patient safely?"<sup class="ref">[55]</sup></li>
+      <li><strong>Set Firm Boundaries:</strong> Politely but firmly assert the right to fully present the case, reminding the reviewer that the patient's condition merits a complete review.<sup class="ref">[55]</sup></li>
+    </ol>
+
+    <h3>6.3 Structuring Letters of Medical Necessity (LMN)</h3>
+    <p>For high-cost device approvals, off-label utilization, or formal post-denial appeals, a robust LMN is the primary vehicle for clinical justification.<sup class="ref">[57]</sup> Best practices dictate:</p>
+    <ul>
+      <li>Explicitly outline the patient's <strong>functional deficits</strong> (ADL performance levels, range of motion limitations).</li>
+      <li>Meticulously detail the timeline of <strong>failed conservative therapies</strong> (PT, injections, bracing).</li>
+      <li>Provide clinical rationale supported by <strong>peer-reviewed literature and standard medical guidelines</strong>.<sup class="ref">[57]</sup></li>
+      <li>Articulate the <strong>specific risks and secondary morbidities</strong> if treatment is delayed or denied.<sup class="ref">[59]</sup></li>
+      <li>Define why cheaper alternatives are <strong>clinically contraindicated</strong> for this specific patient's unique anatomy.<sup class="ref">[60]</sup></li>
+    </ul>
+  </section>
+
+  <!-- ===== SECTION 7: CONCLUSION ===== -->
+  <section id="sec-conclusion">
+    <h2>Conclusion</h2>
+    <p>Succeeding in the modern, highly regulated landscape of orthopedic surgery requires clinical excellence to be seamlessly integrated with advanced financial, supply chain, and administrative acumen. As healthcare systems transition deeper into value-based care, DRG optimization and bundled payment models fundamentally alter the definition of a successful surgical outcome.</p>
+
+    <p>Optimization requires a deeply multifaceted, collaborative approach:</p>
+    <ul>
+      <li><strong>Clinical Pathways:</strong> Aggressively standardized to eliminate variation, utilizing fast-track protocols and PAC triage to control length of stay and post-acute expenditures without sacrificing PROMs.<sup class="ref">[3,5,9]</sup></li>
+      <li><strong>Supply Chain Management:</strong> Reference pricing and legally compliant gainsharing models strip unwarranted costs from implant procurement while preserving surgeon autonomy.<sup class="ref">[20]</sup></li>
+      <li><strong>International Models:</strong> From US episodic bundles to Germany's structural Leistungsgruppen reforms, future reimbursement will be gated by demonstrated high volume, advanced technology, and proven operational efficiency.<sup class="ref">[38]</sup></li>
+      <li><strong>Clinical Documentation:</strong> Surgeons must become fluent in MS-DRG language, rapidly adapting to granular ICD-10-PCS requirements to ensure accurate reimbursement.<sup class="ref">[43]</sup></li>
+      <li><strong>Revenue Defense:</strong> Physicians and administrative teams must defend clinical judgment through structured appeals, LMNs, and strategic P2P negotiations.<sup class="ref">[55]</sup></li>
+    </ul>
+
+    <p>By mastering the complex intersection of clinical pathway optimization, aggressive cost management, and unyielding revenue protection, orthopedic departments can secure their financial viability and maintain their steadfast commitment to superior patient care in an increasingly restrictive global economic environment.</p>
+  </section>
+
+  <!-- ===== SECTION 8: REFERENCES ===== -->
+  <section id="sec-refs" class="references">
+    <h2>References</h2>
+    <ol>
+      <li id="ref1">[1] "Bundled Payments in Orthopaedics." <em>PMC/NIH</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4294917/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC4294917</a></li>
+      <li id="ref2">[2] "Orthopedic Surgeons &amp; DRG Audits: Ensuring Correct Reimbursement for Inpatient Joint Replacements." <em>Right Medical Billing</em>. <a href="https://rightmedicalbilling.com/orthopedic-surgeons-drg-audits-ensuring-correct-reimbursement-for-inpatient-joint-replacements" target="_blank" rel="noopener">rightmedicalbilling.com</a></li>
+      <li id="ref3">[3] "Preparing Orthopedic Programs for Bundled Payment Models." <em>Dash Technologies</em>. <a href="https://dashtechinc.com/blog/preparing-orthopedic-programs-for-bundled-payment-models/" target="_blank" rel="noopener">dashtechinc.com</a></li>
+      <li id="ref4">[4] "Action Plan for Bundled Payments." <em>California Orthopaedic Association</em>. <a href="https://coa.org/docs/WhitePapers/bundledpayments.pdf" target="_blank" rel="noopener">coa.org</a></li>
+      <li id="ref5">[5] "Managing Orthopedic Bundled Payments: Recommendations for Clinical Leaders." <em>NYU Langone</em>. <a href="https://nyulangone.org/news/managing-orthopedic-bundled-payments-recommendations-clinical-leaders" target="_blank" rel="noopener">nyulangone.org</a></li>
+      <li id="ref6">[6] CMS. "Advancing Care Coordination through Episode Payment Models Final Rule (CMS-5519-F)." <a href="https://www.cms.gov/newsroom/fact-sheets/advancing-care-coordination-through-episode-payment-models-cardiac-and-orthopedic-bundled-payment" target="_blank" rel="noopener">cms.gov</a></li>
+      <li id="ref7">[7] "Joint replacement model requires CDI evolution." <em>ACDIS</em>. <a href="https://acdis.org/articles/joint-replacement-model-requires-cdi-evolution" target="_blank" rel="noopener">acdis.org</a></li>
+      <li id="ref8">[8] CMS. "Bundled Payments for Care Improvement (BPCI) Initiative: Public Toolkit." <a href="https://www.cms.gov/priorities/innovation/files/x/bpci-toolkit.pdf" target="_blank" rel="noopener">cms.gov</a></li>
+      <li id="ref9">[9] "Clinical Pathways in Knee and Hip Arthroplasty: Narrative Review." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12520643/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC12520643</a></li>
+      <li id="ref10">[10] "The Effect of CMS' CJR Bundled Payment Model on Trajectories of Post-acute Rehabilitation Care after THA." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9729363/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC9729363</a></li>
+      <li id="ref11">[11] "Impact of the CJR model on patient-reported outcomes." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9441280/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC9441280</a></li>
+      <li id="ref12">[12] CMS. "Provider Experiences Under the CJR Model: Case Studies." <a href="https://www.cms.gov/priorities/innovation/data-and-reports/2022/cjr-thirdannrpt-provider-experiences" target="_blank" rel="noopener">cms.gov</a></li>
+      <li id="ref13">[13] "Implementation of CJR model: A post-acute physical therapy case report." <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/29939810/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></li>
+      <li id="ref14">[14] "Strategies for Effective Implementation of PROMs in Arthroplasty Practice." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8678149/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC8678149</a></li>
+      <li id="ref15">[15] "Navigating the CMS TEAM Model: What Orthopedic Leaders Need to Know." <em>AAOE</em>. <a href="https://www.aaoe.net/news/navigating-the-cms-team-model-what-orthopedic-leaders-need-to-know-now" target="_blank" rel="noopener">aaoe.net</a></li>
+      <li id="ref16">[16] "CMS Proposed TEAM Model: What Orthopedic Care Teams Should Know." <em>Force Therapeutics</em>. <a href="https://www.forcetherapeutics.com/blog/cms-proposed-team-model-what-orthopedic-care-teams-should-know" target="_blank" rel="noopener">forcetherapeutics.com</a></li>
+      <li id="ref17">[17] AAOS. "User Guide for Enhancing the Utilization of PROMs in Orthopaedic Practice." <a href="https://www.aaos.org/globalassets/quality-and-practice-resources/patient-reported-outcome-measures/proms-user-guide.pdf" target="_blank" rel="noopener">aaos.org</a></li>
+      <li id="ref18">[18] "Five Signs You're Overspending on Orthopedics." <em>ECRI</em>. <a href="https://home.ecri.org/blogs/ecri-blog/five_signs_you_are_overspending_on_orthopedics_and_how_to_fix_them" target="_blank" rel="noopener">ecri.org</a></li>
+      <li id="ref19">[19] "What High-Value Implants Teach Us About Margin Management." <em>Premier Inc.</em> <a href="https://premierinc.com/newsroom/premier-in-the-news/what-high-value-implants-teach-us-about-margin-management" target="_blank" rel="noopener">premierinc.com</a></li>
+      <li id="ref20">[20] "Reducing the Price of THA Implant Costs Through Reference Pricing." <em>AHDB</em>. <a href="https://www.ahdbonline.com/issues/2022/december-2022-vol-15-no-4/reducing-the-price-of-total-hip-arthroplasty-implant-costs-through-reference-pricing-an-economic-evaluation" target="_blank" rel="noopener">ahdbonline.com</a></li>
+      <li id="ref21">[21] "Safe Harbor Regulations." <em>OIG</em>. <a href="https://oig.hhs.gov/compliance/safe-harbor-regulations/" target="_blank" rel="noopener">oig.hhs.gov</a></li>
+      <li id="ref23">[23] "Gainsharing Memo." <em>IDSA</em>. <a href="https://www.idsociety.org/globalassets/idsa/practice-management/compensation/final-idsa-gainsharing-memo-18571493_1.pdf" target="_blank" rel="noopener">idsociety.org</a></li>
+      <li id="ref24">[24] "OIG Advisory Opinion No. 21-02." <em>Dorsey Health Law</em>. <a href="https://www.dorseyhealthlaw.com/oig-advisory-opinion-no-21-02-provides-helpful-insights-into-risk-mitigation-factors-regarding-health-system-physician-and-management-company-owned-ambulatory-surgery-centers/" target="_blank" rel="noopener">dorseyhealthlaw.com</a></li>
+      <li id="ref25">[25] "Patient Pathway Comparison for THR in the US and Germany." <a href="https://storage.ghost.io/c/e5/60/e56013ef-5559-4bae-8c85-75559639fc46/content/files/2023/07/Patient_Pathway_Reimbursement.pdf" target="_blank" rel="noopener">ghost.io</a></li>
+      <li id="ref27">[27] "Differences in the Implementation of DRGs across Clinical Departments: A German Hospital Case Study." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2151394/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC2151394</a></li>
+      <li id="ref28">[28] "DRG based development of revenues in orthopaedic surgery: Germany vs. Australia." <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/12822072/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a></li>
+      <li id="ref29">[29] "Country-level effects of DRGs: evidence from Germany's comprehensive reform." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11283398/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC11283398</a></li>
+      <li id="ref31">[31] "Rising direct medical costs of osteoarthritis in Germany from 2002 to 2020." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12646989/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC12646989</a></li>
+      <li id="ref33">[33] "Profit-Influencing Factors in Orthopedic Surgery." <em>MDPI</em>. <a href="https://www.mdpi.com/1660-4601/19/7/4325" target="_blank" rel="noopener">mdpi.com</a></li>
+      <li id="ref34">[34] Asklepios. "Group Management Report 2022." <a href="https://report.asklepios.com/2022/downloads/Asklepios_AR_2022_EN_Group_management_report.pdf" target="_blank" rel="noopener">report.asklepios.com</a></li>
+      <li id="ref36">[36] "First robotic surgery at Helios Hospital München West." <em>Helios International</em>. <a href="https://www.helios-international.com/en/article/first-robotic-surgery-helios-hospital-munchen-west" target="_blank" rel="noopener">helios-international.com</a></li>
+      <li id="ref38">[38] "German Hospital Reform 2025: how to secure DRG Eligibility." <em>Odelle Technology</em>. <a href="https://odelletechnology.com/german-hospital-reform-2025-how-to-secure-drg-eligibility/" target="_blank" rel="noopener">odelletechnology.com</a></li>
+      <li id="ref41">[41] "Clinical Documentation Improvement Toolkit." <em>AHIMA</em>. <a href="https://www.ahima.org/media/qlkbu4ph/clinical-documentation-improvement-toolkit-2016-version-_axs.pdf" target="_blank" rel="noopener">ahima.org</a></li>
+      <li id="ref43">[43] "Medical Billing in Orthopedics: 2026 ICD-10-PCS Changes." <em>Victory RCM</em>. <a href="https://victoryrcm.com/blog/medical-billing-in-orthopedics-2026-icd-10-pcs-changes-driving-hospital-documentation-and-drg-reimbursement.html" target="_blank" rel="noopener">victoryrcm.com</a></li>
+      <li id="ref46">[46] "Current Challenges in Sepsis Documentation and Coding." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10701636/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC10701636</a></li>
+      <li id="ref47">[47] "Protecting Hospital Revenue in 2026: DRG Downgrades vs. Clinical Validation Denials." <em>Davis Wright Tremaine</em>. <a href="https://www.dwt.com/insights/2026/01/2026-hospital-revenue-clinical-validation-denials" target="_blank" rel="noopener">dwt.com</a></li>
+      <li id="ref48">[48] "Fight until the very end: Sepsis and malnutrition denials." <em>ACDIS</em>. <a href="https://acdis.org/articles/fight-until-very-end-sepsis-and-malnutrition-denials" target="_blank" rel="noopener">acdis.org</a></li>
+      <li id="ref50">[50] "CMS RFI: First appeal letter for sepsis clinical validation." <em>Regulations.gov</em>. <a href="https://downloads.regulations.gov/CMS-2022-0123-2507/attachment_1.pdf" target="_blank" rel="noopener">regulations.gov</a></li>
+      <li id="ref55">[55] "Five Strategies to Win Peer-to-Peer Conversations." <em>Sound Physicians</em>. <a href="https://www.soundphysicians.com/article/five-strategies-to-win-peer-to-peer-conversations/" target="_blank" rel="noopener">soundphysicians.com</a></li>
+      <li id="ref56">[56] "6 Tips to Navigate Insurance Peer-to-Peer Reviews." <em>symplr</em>. <a href="https://www.symplr.com/blog/navigate-insurance-peer-to-peer-reviews" target="_blank" rel="noopener">symplr.com</a></li>
+      <li id="ref57">[57] "Letter of Medical Necessity: Definition &amp; Examples." <em>MetLife</em>. <a href="https://www.metlife.com/stories/benefits/letter-of-medical-necessity/" target="_blank" rel="noopener">metlife.com</a></li>
+      <li id="ref59">[59] "Letter of Medical Necessity Guidance." <em>MyCartilageCare</em>. <a href="https://www.mycartilagecare.com/download/mcclomnguidance.pdf" target="_blank" rel="noopener">mycartilagecare.com</a></li>
+      <li id="ref60">[60] "Sample Letters of Medical Necessity." <em>ASIA</em>. <a href="https://asia-spinalinjury.org/wp-content/uploads/2023/03/Sample-Letters-of-Medical-Necessity.pdf" target="_blank" rel="noopener">asia-spinalinjury.org</a></li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ======== SIDEBAR ======== -->
+<aside class="sidebar" aria-label="Interactive Decision Support Tools">
+
+  <!-- Slider Card -->
+  <div class="sidebar-card">
+    <h3>&#9881; Episode Parameters</h3>
+
+    <div class="slider-group">
+      <label for="slider-los">Acute Length of Stay (LOS)</label>
+      <div class="slider-val" id="val-los">2 days</div>
+      <input type="range" id="slider-los" min="0" max="14" value="2" step="1" aria-label="Acute length of stay in days">
+      <div class="range-labels"><span>0 (Same-day)</span><span>14 days</span></div>
+      <div class="source-note">Threshold from source: each extra day exponentially increases episode cost.<sup class="ref">[3]</sup></div>
+    </div>
+
+    <div class="slider-group">
+      <label for="slider-pac">Institutional PAC Utilization Rate</label>
+      <div class="slider-val" id="val-pac">15%</div>
+      <input type="range" id="slider-pac" min="0" max="100" value="15" step="5" aria-label="Post-acute care utilization rate percentage">
+      <div class="range-labels"><span>0% (All home)</span><span>100% (All SNF/IRF)</span></div>
+      <div class="source-note">Source: PAC reduction is the single largest cost opportunity.<sup class="ref">[3,10]</sup></div>
+    </div>
+
+    <div class="slider-group">
+      <label for="slider-implant">Implant Cost Variation (%)</label>
+      <div class="slider-val" id="val-implant">0%</div>
+      <input type="range" id="slider-implant" min="-30" max="30" value="0" step="1" aria-label="Implant cost variation percentage from reference price">
+      <div class="range-labels"><span>−30% (Below ref)</span><span>+30% (Above ref)</span></div>
+      <div class="source-note">Source: Reference pricing achieved 22.7% reduction.<sup class="ref">[20]</sup></div>
+    </div>
+  </div>
+
+  <!-- Recommendation Card -->
+  <div class="sidebar-card">
+    <h3>&#128161; Real-Time Recommendation</h3>
+    <div id="recommendation-box">
+      <div class="rec-title">Financial &amp; Clinical Assessment</div>
+      <div class="rec-text" id="rec-text">Adjust the sliders above to generate episode-specific recommendations based on the document's evidence.</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders to default values">Reset</button>
+      <button class="btn btn-export" id="btn-export" aria-label="Copy current assessment to clipboard">Export</button>
+    </div>
+  </div>
+
+  <!-- Quick Reference Card -->
+  <div class="sidebar-card">
+    <h3>&#128200; Key Thresholds</h3>
+    <div style="font-size:0.82rem; color:var(--gray-700); line-height:1.6;">
+      <p style="margin-bottom:0.6rem;"><strong>MS-DRG 469 vs. 470:</strong> MCC capture can increase reimbursement significantly.<sup class="ref">[2]</sup></p>
+      <p style="margin-bottom:0.6rem;"><strong>CJR Episode:</strong> 90-day post-discharge bundle including all PAC.<sup class="ref">[5]</sup></p>
+      <p style="margin-bottom:0.6rem;"><strong>TEAM (2026):</strong> 30-day bundles for joint replacement, SHFFT, spinal fusion. PROMs mandatory.<sup class="ref">[15]</sup></p>
+      <p style="margin-bottom:0.6rem;"><strong>Reference Pricing Target:</strong> ≤60th national percentile recommended.<sup class="ref">[20]</sup></p>
+      <p style="margin-bottom:0;"><strong>PAC Institutional Rate:</strong> &gt;35% of patients discharged to SNF are aged 85+ with ≥4 comorbidities.<sup class="ref">[10]</sup></p>
+    </div>
+  </div>
+
+</aside>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // DOM references
+  const sliderLOS = document.getElementById('slider-los');
+  const sliderPAC = document.getElementById('slider-pac');
+  const sliderImplant = document.getElementById('slider-implant');
+  const valLOS = document.getElementById('val-los');
+  const valPAC = document.getElementById('val-pac');
+  const valImplant = document.getElementById('val-implant');
+  const recText = document.getElementById('rec-text');
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  function generateRecommendation() {
+    const los = parseInt(sliderLOS.value, 10);
+    const pac = parseInt(sliderPAC.value, 10);
+    const implant = parseInt(sliderImplant.value, 10);
+
+    let riskLevel = 'LOW';
+    let riskColor = '#276749';
+    let findings = [];
+    let actions = [];
+
+    // --- LOS Assessment ---
+    if (los <= 1) {
+      findings.push('<span class="rec-metric">LOS: ' + los + ' day(s)</span> — Consistent with ERAS/fast-track or outpatient pathway. Optimal for cost containment.<sup class="ref">[9]</sup>');
+    } else if (los <= 3) {
+      findings.push('<span class="rec-metric">LOS: ' + los + ' days</span> — Acceptable. Monitor for opportunities to transition to next-day or same-day discharge for eligible patients.<sup class="ref">[3]</sup>');
+    } else if (los <= 7) {
+      findings.push('<span class="rec-metric">LOS: ' + los + ' days</span> — Elevated. Each additional day exponentially increases episode cost. Review clinical pathway compliance and address barriers to early mobilization.<sup class="ref">[3,5]</sup>');
+      riskLevel = 'MODERATE';
+      riskColor = '#975a16';
+      actions.push('Initiate CDI concurrent review to capture any MCCs justifying extended stay (MS-DRG 469).<sup class="ref">[2,41]</sup>');
+      actions.push('Conduct root-cause analysis: medical optimization gaps, surgical complications, or PAC placement delays.<sup class="ref">[5]</sup>');
+    } else {
+      findings.push('<span class="rec-metric">LOS: ' + los + ' days</span> — Critically elevated. High probability of DRG deficit. Episode cost likely exceeds target price.<sup class="ref">[3]</sup>');
+      riskLevel = 'HIGH';
+      riskColor = '#c53030';
+      actions.push('<strong>Urgent:</strong> Ensure all MCCs are documented to justify MS-DRG 469 classification.<sup class="ref">[2]</sup>');
+      actions.push('Escalate to multidisciplinary case management; consider peer-to-peer review with payer if prior authorization is at risk.<sup class="ref">[55]</sup>');
+    }
+
+    // --- PAC Assessment ---
+    if (pac <= 15) {
+      findings.push('<span class="rec-metric">PAC Institutional Rate: ' + pac + '%</span> — Excellent. Majority discharged home, consistent with optimized CJR pathway.<sup class="ref">[10,11]</sup>');
+    } else if (pac <= 40) {
+      findings.push('<span class="rec-metric">PAC Institutional Rate: ' + pac + '%</span> — Moderate. Review patient selection criteria; consider expanding home health network and preoperative "joint classes."<sup class="ref">[12]</sup>');
+      if (riskLevel === 'LOW') { riskLevel = 'MODERATE'; riskColor = '#975a16'; }
+      actions.push('Expand vetted home health partner network; implement preoperative patient education to increase home discharge confidence.<sup class="ref">[12]</sup>');
+    } else {
+      findings.push('<span class="rec-metric">PAC Institutional Rate: ' + pac + '%</span> — Critically high. Institutional PAC is the largest single cost driver in joint replacement episodes.<sup class="ref">[3]</sup>');
+      riskLevel = 'HIGH';
+      riskColor = '#c53030';
+      actions.push('<strong>Priority:</strong> Restructure PAC triage. Only the oldest, highest-comorbidity patients (≥85 years, ≥4 comorbidities) should be considered for SNF/IRF.<sup class="ref">[10]</sup>');
+      actions.push('Negotiate exclusive SNF contracts with outcome-based pricing; track PROMs to validate that home discharge does not compromise recovery.<sup class="ref">[11]</sup>');
+    }
+
+    // --- Implant Cost Assessment ---
+    if (implant <= -15) {
+      findings.push('<span class="rec-metric">Implant Cost: ' + implant + '% below reference</span> — Strong supply chain performance. Consistent with or exceeding reference pricing benchmarks.<sup class="ref">[20]</sup>');
+    } else if (implant < 0) {
+      findings.push('<span class="rec-metric">Implant Cost: ' + implant + '% below reference</span> — Positive margin. Continue monitoring vendor compliance.<sup class="ref">[20]</sup>');
+    } else if (implant === 0) {
+      findings.push('<span class="rec-metric">Implant Cost: at reference price</span> — Baseline. Consider negotiating further reduction toward −22.7% benchmark.<sup class="ref">[20]</sup>');
+    } else if (implant <= 15) {
+      findings.push('<span class="rec-metric">Implant Cost: +' + implant + '% above reference</span> — Eroding margins. Review surgeon preference card variation; ensure vendor pricing alignment.<sup class="ref">[18,19]</sup>');
+      if (riskLevel === 'LOW') { riskLevel = 'MODERATE'; riskColor = '#975a16'; }
+      actions.push('Present unblinded cost-outcome data to surgical faculty; renegotiate vendor contracts using unified physician-hospital bargaining.<sup class="ref">[18,20]</sup>');
+    } else {
+      findings.push('<span class="rec-metric">Implant Cost: +' + implant + '% above reference</span> — Significantly above benchmark. Implant overspend threatens DRG margin viability.<sup class="ref">[18]</sup>');
+      riskLevel = 'HIGH';
+      riskColor = '#c53030';
+      actions.push('<strong>Action Required:</strong> Implement reference pricing with a non-negotiable price ceiling. Retain surgeon autonomy by allowing any vendor that meets the ceiling.<sup class="ref">[20]</sup>');
+      actions.push('Explore gainsharing arrangements (within OIG safe harbors) to align surgeon incentives with cost reduction.<sup class="ref">[21,23,24]</sup>');
+    }
+
+    // Add documentation note
+    actions.push('Ensure 2026 ICD-10-PCS specificity requirements are met in operative documentation to capture full DRG revenue.<sup class="ref">[43]</sup>');
+
+    // Build HTML
+    let html = '<div class="rec-title" style="color:' + riskColor + ';">Risk Level: ' + riskLevel + '</div>';
+    html += '<div class="rec-text" style="margin-bottom:0.5rem;">';
+    findings.forEach(function(f) { html += '<p style="margin-bottom:0.4rem;font-size:0.83rem;">' + f + '</p>'; });
+    html += '</div>';
+    if (actions.length > 0) {
+      html += '<div style="font-size:0.82rem;font-weight:700;color:var(--gray-900);margin-bottom:0.3rem;">Recommended Actions:</div>';
+      html += '<ul style="margin:0;padding-left:1.1rem;font-size:0.8rem;color:var(--gray-700);">';
+      actions.forEach(function(a) { html += '<li style="margin-bottom:0.3rem;">' + a + '</li>'; });
+      html += '</ul>';
+    }
+
+    recText.innerHTML = html;
+  }
+
+  // Event listeners for sliders
+  sliderLOS.addEventListener('input', function() {
+    valLOS.textContent = this.value + ' day' + (parseInt(this.value) !== 1 ? 's' : '');
+    generateRecommendation();
+  });
+  sliderPAC.addEventListener('input', function() {
+    valPAC.textContent = this.value + '%';
+    generateRecommendation();
+  });
+  sliderImplant.addEventListener('input', function() {
+    valImplant.textContent = (parseInt(this.value) >= 0 ? '+' : '') + this.value + '%';
+    generateRecommendation();
+  });
+
+  // Reset
+  btnReset.addEventListener('click', function() {
+    sliderLOS.value = 2;
+    sliderPAC.value = 15;
+    sliderImplant.value = 0;
+    valLOS.textContent = '2 days';
+    valPAC.textContent = '15%';
+    valImplant.textContent = '0%';
+    recText.innerHTML = 'Adjust the sliders above to generate episode-specific recommendations based on the document\'s evidence.';
+  });
+
+  // Export
+  btnExport.addEventListener('click', function() {
+    var los = sliderLOS.value;
+    var pac = sliderPAC.value;
+    var implant = sliderImplant.value;
+    var now = new Date().toLocaleString();
+
+    var text = '=== STRATEGIC ORTHOPEDIC ADMINISTRATION — EPISODE ASSESSMENT ===\n';
+    text += 'Generated: ' + now + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Acute Length of Stay: ' + los + ' day(s)\n';
+    text += '  Institutional PAC Utilization Rate: ' + pac + '%\n';
+    text += '  Implant Cost Variation from Reference: ' + (parseInt(implant) >= 0 ? '+' : '') + implant + '%\n\n';
+    text += 'CLINICAL ASSESSMENT:\n';
+
+    // Recalculate plain text
+    var l = parseInt(los), p = parseInt(pac), im = parseInt(implant);
+    var risk = 'LOW';
+    if (l > 7 || p > 40 || im > 15) risk = 'HIGH';
+    else if (l > 3 || p > 15 || im > 0) risk = 'MODERATE';
+
+    text += '  Risk Level: ' + risk + '\n';
+    text += '  LOS Assessment: ';
+    if (l <= 1) text += 'Optimal (fast-track/outpatient pathway)\n';
+    else if (l <= 3) text += 'Acceptable\n';
+    else if (l <= 7) text += 'Elevated — review pathway compliance\n';
+    else text += 'Critically elevated — high DRG deficit risk\n';
+
+    text += '  PAC Assessment: ';
+    if (p <= 15) text += 'Excellent — majority home discharge\n';
+    else if (p <= 40) text += 'Moderate — expand home health network\n';
+    else text += 'Critically high — restructure PAC triage\n';
+
+    text += '  Implant Cost: ';
+    if (im <= -15) text += 'Strong — exceeding reference pricing benchmarks\n';
+    else if (im < 0) text += 'Positive margin\n';
+    else if (im === 0) text += 'At reference — consider negotiation\n';
+    else if (im <= 15) text += 'Eroding margins — review vendor alignment\n';
+    else text += 'Significantly above benchmark — immediate action required\n';
+
+    text += '\nEVIDENCE BASED ON:\n';
+    text += '  Source document: "Strategic Orthopedic Administration Under DRG and Bundled Payment Models"\n';
+    text += '  Key models referenced: CJR, BPCI, TEAM (2026), G-DRG\n';
+    text += '  Thresholds derived from document citations [2], [3], [5], [10], [18], [20], [43]\n';
+    text += '\n=== END ASSESSMENT ===';
+
+    navigator.clipboard.writeText(text).then(function() {
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback for older browsers
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  });
+
+  // Initial generation
+  generateRecommendation();
+})();
+</script>
+
+</body>
+</html>

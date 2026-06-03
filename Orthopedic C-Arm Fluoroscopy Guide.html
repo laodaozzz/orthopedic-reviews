@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intraoperative C-Arm Fluoroscopy in Orthopedic Surgery — Interactive Educational Summary</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg: #f7f8fa;
+            --surface: #ffffff;
+            --text: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --accent-dark: #1e40af;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --warning: #d97706;
+            --warning-light: #fef3c7;
+            --success: #059669;
+            --success-light: #d1fae5;
+            --info: #0891b2;
+            --info-light: #cffafe;
+            --border: #e2e8f0;
+            --radius: 10px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Sticky Header ── */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
+            color: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 12px rgba(37,99,235,0.25);
+        }
+        .site-header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .site-header p {
+            font-size: 0.8rem;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* ── Layout ── */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+        }
+
+        /* ── Main Content ── */
+        main {
+            min-width: 0;
+        }
+
+        main h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent-dark);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        main h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 1.8rem 0 0.6rem;
+        }
+
+        main h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 1.2rem 0 0.4rem;
+        }
+
+        main p {
+            margin-bottom: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        main ul, main ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        main li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        /* ── Evidence Badge ── */
+        .evidence-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            vertical-align: middle;
+            margin-left: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .ev-i   { background: var(--success-light); color: var(--success); }
+        .ev-ii  { background: var(--info-light);    color: var(--info);    }
+        .ev-iii { background: var(--warning-light);  color: var(--warning); }
+        .ev-iv  { background: #fae8ff;              color: #9333ea;       }
+        .ev-v   { background: var(--danger-light);   color: var(--danger);  }
+        .ev-ns  { background: #f1f5f9;              color: #64748b;       }
+
+        /* ── Callout Boxes ── */
+        .callout {
+            border-left: 4px solid;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 1rem 1.25rem;
+            margin: 1.2rem 0;
+            font-size: 0.92rem;
+        }
+        .callout strong { display: block; margin-bottom: 4px; }
+        .callout-info    { border-color: var(--info);    background: var(--info-light);    color: #155e75; }
+        .callout-warning { border-color: var(--warning); background: var(--warning-light); color: #92400e; }
+        .callout-danger  { border-color: var(--danger);  background: var(--danger-light);  color: #991b1b; }
+        .callout-success { border-color: var(--success); background: var(--success-light); color: #065f46; }
+
+        /* ── Tables ── */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            background: var(--surface);
+        }
+        caption {
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.8rem 1rem 0.4rem;
+            color: var(--accent-dark);
+        }
+        thead th {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            padding: 0.7rem 1rem;
+            text-align: left;
+            white-space: nowrap;
+        }
+        tbody td {
+            padding: 0.65rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        tbody tr:hover { background: var(--accent-light); }
+        tbody tr:nth-child(even) { background: #f8fafc; }
+        tbody tr:nth-child(even):hover { background: var(--accent-light); }
+
+        /* ── Sidebar ── */
+        aside.sidebar {
+            position: relative;
+        }
+        @media (min-width: 1025px) {
+            aside.sidebar {
+                position: sticky;
+                top: 80px;
+                align-self: start;
+                max-height: calc(100vh - 100px);
+                overflow-y: auto;
+            }
+        }
+
+        .sidebar-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .sidebar-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-card h3 .icon { font-size: 1.3rem; }
+
+        /* ── Sliders ── */
+        .slider-group {
+            margin-bottom: 1.4rem;
+        }
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .slider-group label span.val {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+        .slider-group input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--success) 0%, var(--accent) 50%, var(--danger) 100%);
+            outline: none;
+            cursor: pointer;
+        }
+        .slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .slider-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        .slider-group .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* ── Recommendation Box ── */
+        .recommendation-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            margin-top: 1rem;
+            min-height: 120px;
+            transition: all 0.3s ease;
+        }
+        .recommendation-box h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-dark);
+            margin-bottom: 0.5rem;
+        }
+        .recommendation-box p {
+            font-size: 0.82rem;
+            line-height: 1.55;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+        .rec-meter {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            margin: 0.8rem 0;
+            overflow: hidden;
+        }
+        .rec-meter-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease, background 0.5s ease;
+        }
+        .risk-low    { background: var(--success); }
+        .risk-medium { background: var(--warning); }
+        .risk-high   { background: var(--danger);  }
+
+        /* ── Buttons ── */
+        .btn-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .btn-reset {
+            background: #f1f5f9;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        .btn-reset:hover { background: #e2e8f0; }
+        .btn-copy {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-copy:hover { background: var(--accent-dark); }
+        .btn-copy.copied {
+            background: var(--success);
+        }
+
+        /* ── TOC ── */
+        .toc {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .toc li {
+            margin-bottom: 4px;
+        }
+        .toc a {
+            display: block;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+        .toc a:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        /* ── References ── */
+        .ref-list {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            list-style: decimal;
+            padding-left: 1.5rem;
+        }
+        .ref-list li {
+            margin-bottom: 0.6rem;
+            line-height: 1.45;
+        }
+        .ref-list a {
+            color: var(--accent);
+            word-break: break-all;
+        }
+
+        /* ── Citation links ── */
+        sup a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.72rem;
+        }
+        sup a:hover { text-decoration: underline; }
+
+        /* ── Anatomical Diagram (CSS-only) ── */
+        .diagram-box {
+            background: #0f172a;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.2rem 0;
+            color: #94a3b8;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+            text-align: center;
+        }
+
+        /* ── Limitation Note ── */
+        .limitation-note {
+            background: #fffbeb;
+            border: 1px dashed #f59e0b;
+            border-radius: var(--radius);
+            padding: 0.8rem 1rem;
+            font-size: 0.82rem;
+            color: #92400e;
+            margin: 1rem 0;
+        }
+
+        /* ── Footer ── */
+        .site-footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+        }
+
+        /* ── Print ── */
+        @media print {
+            .site-header { position: static; }
+            aside.sidebar { display: none; }
+            .layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════ STICKY HEADER ═══════════════════ -->
+<header class="site-header" role="banner">
+    <h1>Intraoperative C-Arm Fluoroscopy in Orthopedic Surgery</h1>
+    <p>Comprehensive Technical &amp; Safety Guide — Interactive Educational Summary</p>
+</header>
+
+<!-- ═══════════════════ LAYOUT ═══════════════════ -->
+<div class="layout">
+
+<!-- ─────────────────── MAIN CONTENT ─────────────────── -->
+<main role="main" aria-label="Educational content">
+
+    <!-- § 1 Introduction -->
+    <h2 id="s1">1. Introduction: The Dual Nature of Intraoperative Imaging</h2>
+    <div class="card">
+        <p>The mobile C-arm fluoroscope has fundamentally altered orthopedic surgery, facilitating the transition from extensive open exposures to <strong>minimally invasive percutaneous techniques</strong>. Intraoperative imaging serves as the surgeon's eyes beneath the skin—allowing precise reduction of complex fractures, accurate instrumentation placement in spine and pelvis, and restoration of articular congruity in joint arthroplasty.</p>
+        <p>However, this reliance introduces a paradox: while fluoroscopy reduces surgical morbidity by minimizing soft tissue dissection, it simultaneously introduces occupational hazards and technical pitfalls. The orthopedic surgeon must be a master of anatomy, a proficient radiologist, and a physicist—capable of interpreting 2D shadows to reconstruct 3D reality while navigating the invisible threat of ionizing radiation.</p>
+        <div class="callout callout-warning">
+            <strong>⚠ Adherence Gap</strong>
+            Despite universal recognition of the <strong>ALARA</strong> (As Low As Reasonably Achievable) principle, adherence to radiation safety protocols remains suboptimal in many orthopedic theaters.<sup><a href="#ref1">[1]</a></sup>
+        </div>
+        <p>Geometric limitations—parallax, distortion, and magnification—can lead to catastrophic errors in implant placement if not rigorously understood. A screw appearing safely within a pedicle on a standard view may, in reality, breach the spinal canal due to beam divergence.</p>
+        <p>This report synthesizes data from dosimetric studies, biomechanical analyses, and clinical workflow assessments to guide the surgeon through radiation safety, surgical workflow optimization, and precise fluoroscopic execution.</p>
+    </div>
+
+    <!-- § 2 Radiation Safety -->
+    <h2 id="s2">2. Advanced Radiation Safety Strategies &amp; Physics</h2>
+    <p>While lead aprons are the visible symbol of protection, true safety is achieved through manipulation of physics—<strong>time, distance, and beam geometry</strong>—to prevent radiation from reaching the surgeon.</p>
+
+    <!-- 2.1 Scatter -->
+    <h3 id="s2-1">2.1 Scatter Radiation &amp; Tube Orientation</h3>
+    <div class="card">
+        <p>The primary source of radiation exposure for OR personnel is <strong>not the direct x-ray beam</strong> but <strong>scatter radiation</strong>. When the primary beam strikes the patient, x-ray photons interact with tissue atoms (Compton scattering), deflecting in all directions. The patient effectively becomes the radiation source for the surgical team.</p>
+
+        <h4>Tube-Under Configuration (Standard)</h4>
+        <p>When the source is <strong>below</strong> the table, the majority of backscatter is directed downward toward the floor and the surgeon's feet—typically shielded by the table lead curtain and lead-lined footwear. Upward scatter is significantly attenuated by the patient's body.<sup><a href="#ref1">[1]</a></sup>
+        <span class="evidence-badge ev-iii">Evidence: Level III–IV (dosimetric studies)</span></p>
+
+        <h4>Tube-Over Configuration (Avoid)</h4>
+        <p>If the C-arm is inverted with the source <strong>above</strong> the patient, backscatter reflects upward directly into the surgeon's face, thyroid, and eyes—increasing upper body dose by a significant factor. <strong>Avoid unless strictly necessary.</strong><sup><a href="#ref1">[1]</a></sup></p>
+
+        <h4>Lateral Projections</h4>
+        <p>During lateral imaging, the "entrance" side produces high backscatter, while the "exit" side (image intensifier side) has a significantly lower radiation field. <strong>Position yourself on the image intensifier side</strong> to use the patient as a biological shield.<sup><a href="#ref1">[1]</a></sup></p>
+
+        <div class="callout callout-danger">
+            <strong>☢ Critical Safety Rule</strong>
+            Tube-Over configuration should be avoided unless the clinical scenario strictly mandates it. The scatter dose increase to the surgeon's upper body is substantial and entirely preventable.
+        </div>
+    </div>
+
+    <!-- 2.2 Inverse Square Law -->
+    <h3 id="s2-2">2.2 The Inverse Square Law: Mathematical Distance Protection</h3>
+    <div class="card">
+        <p>The most effective radiation safety tool is <strong>distance</strong>. Radiation intensity decreases inversely with the square of the distance from the source:</p>
+        <div class="diagram-box" aria-label="Inverse square law formula">I ∝ 1 / d²
+
+  Distance: 0.5 m  →  Exposure: ~100% (reference)
+  Distance: 1.0 m  →  Exposure: ~25%   (↓ 75%)
+  Distance: 1.5 m  →  Exposure: ~11%   (↓ 89%)
+  Distance: 2.0 m  →  Exposure: ~6.25% (↓ 94%)
+  Distance: 3.0 m  →  Exposure: ~2.8%  (↓ 97%)</div>
+        <p><strong>Clinical Application:</strong></p>
+        <ul>
+            <li>At <strong>1 meter</strong>: exposure is approximately 0.1% of the direct beam intensity<sup><a href="#ref1">[1]</a></sup></li>
+            <li>At <strong>2 meters</strong>: exposure drops to 0.025% of the original intensity<sup><a href="#ref1">[1]</a></sup></li>
+            <li>A single step backward (0.5m → 1.5m) can reduce exposure by <strong>nearly an order of magnitude</strong><sup><a href="#ref2">[2]</a></sup></li>
+        </ul>
+        <div class="callout callout-success">
+            <strong>✓ Behavioral Change with Greatest Impact</strong>
+            Cultivate a "step back" reflex: all personnel not engaged in stabilizing the limb/instrument should take a deliberate step back during every image acquisition.
+        </div>
+    </div>
+
+    <!-- 2.3 Collimation -->
+    <h3 id="s2-3">2.3 Collimation: The Multiplier Effect on Safety &amp; Quality</h3>
+    <div class="card">
+        <p>Collimation—narrowing the x-ray beam using lead shutters—is frequently underutilized despite its dual benefit.</p>
+        <ul>
+            <li><strong>Dose Reduction:</strong> Radiation dose is proportional to the volume of tissue irradiated. A cadaveric study demonstrated that aggressive collimation reduces surgeon's hand and thyroid exposure by <strong>≈65%</strong>.<sup><a href="#ref3">[3]</a></sup>
+            <span class="evidence-badge ev-iv">Evidence: Level IV (cadaveric study)</span></li>
+            <li><strong>Image Quality:</strong> Scatter creates "noise" or "fog" that degrades contrast. Collimation improves the signal-to-noise ratio, producing crisper images with better definition of trabecular bone and fracture lines.<sup><a href="#ref4">[4]</a></sup></li>
+            <li><strong>Virtual Collimation:</strong> Modern C-arms display collimator leaf positions as a graphic overlay on the monitor <em>without</em> x-ray activation, allowing setup before the first photon is emitted.<sup><a href="#ref5">[5]</a></sup></li>
+        </ul>
+    </div>
+
+    <!-- 2.4 Pulsed Fluoroscopy -->
+    <h3 id="s2-4">2.4 Pulse Mode Settings &amp; Generator Physics</h3>
+    <div class="card">
+        <p>Continuous fluoroscopy (default on many machines) generates a continuous stream of x-rays at ~30 fps—excessive for static bone or slow-moving instruments.</p>
+        <ul>
+            <li><strong>Pulsed Fluoroscopy:</strong> Emits x-rays in discrete bursts at 4, 8, or 15 pulses per second (pps).</li>
+            <li><strong>Dose Reduction:</strong> Reducing from continuous (30 fps) to pulsed (8 fps) reduces radiation dose by <strong>≈70% for the surgeon</strong> and <strong>≈30% for the patient</strong>.<sup><a href="#ref3">[3]</a></sup>
+            <span class="evidence-badge ev-iv">Evidence: Level IV (cadaveric study)</span></li>
+            <li>Visual "lag" at lower frame rates is generally imperceptible for static imaging (e.g., checking screw depth or fracture reduction).</li>
+            <li>Some generators automatically increase tube current (mA) per pulse, but the drastically reduced "duty cycle" still yields significant net dose reduction.</li>
+        </ul>
+        <div class="callout callout-info">
+            <strong>ℹ Surgeon Action Item</strong>
+            Explicitly request "low dose" or "pulsed" modes at the start of every case.<sup><a href="#ref1">[1]</a></sup>
+        </div>
+    </div>
+
+    <!-- 2.5 Shielding -->
+    <h3 id="s2-5">2.5 Advanced Shielding Beyond the Apron</h3>
+    <div class="card">
+        <p>Standard lead aprons (0.5 mm Pb equivalent) block ~90–99% of scatter to the torso but leave critical organs exposed.</p>
+        <ul>
+            <li><strong>Ocular Protection:</strong> The lens is highly radiosensitive; radiation-induced cataracts are a documented risk. Standard corrective lenses offer minimal protection (~20% attenuation), whereas dedicated leaded eyewear reduces ocular exposure by <strong>&gt;90%</strong>.<sup><a href="#ref6">[6]</a></sup>
+            <span class="evidence-badge ev-iv">Evidence: Level IV (dosimetric pilot study)</span></li>
+            <li><strong>Thyroid Shielding:</strong> The thyroid gland is highly susceptible to radiation-induced carcinogenesis. A thyroid collar is a standard adjunct.</li>
+            <li><strong>Hand Protection:</strong> Lead-impregnated gloves reduce scatter dose by 25–70%<sup><a href="#ref6">[6]</a></sup> <em>but</em> can trigger the C-arm's Automatic Brightness Control (ABC). If a gloved hand enters the primary beam, the C-arm ramps up kVp and mA, paradoxically increasing patient dose and room scatter. <strong>Primary strategy: keep hands out of the beam</strong> using instrument holders or "hands-free" techniques.<sup><a href="#ref1">[1]</a></sup></li>
+        </ul>
+    </div>
+
+    <!-- TABLE 1: Safety Interventions -->
+    <div class="table-wrap">
+        <table aria-label="Efficacy of Radiation Safety Interventions">
+            <caption>Table 1 — Efficacy of Radiation Safety Interventions (from source document)</caption>
+            <thead>
+                <tr>
+                    <th>Intervention</th>
+                    <th>Mechanism</th>
+                    <th>Estimated Dose Reduction</th>
+                    <th>Clinical Implication</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Inverse Square Law</strong></td>
+                    <td>Distance (step back 1 m)</td>
+                    <td>&gt;90% (vs. 0.5 m)</td>
+                    <td>Most effective behavioral change</td>
+                </tr>
+                <tr>
+                    <td><strong>Pulsed Mode</strong></td>
+                    <td>Reduced duty cycle (e.g., 8 pps)</td>
+                    <td>~70% (surgeon)<sup><a href="#ref3">[3]</a></sup></td>
+                    <td>Default setting for all static imaging</td>
+                </tr>
+                <tr>
+                    <td><strong>Collimation</strong></td>
+                    <td>Reduced scatter volume</td>
+                    <td>~65% (thyroid/hands)<sup><a href="#ref3">[3]</a></sup></td>
+                    <td>Improves image contrast; use virtual collimation</td>
+                </tr>
+                <tr>
+                    <td><strong>Lead Glasses</strong></td>
+                    <td>Shielding</td>
+                    <td>&gt;90% (lens)<sup><a href="#ref6">[6]</a></sup></td>
+                    <td>Critical for cataract prevention</td>
+                </tr>
+                <tr>
+                    <td><strong>Inverted Tube</strong></td>
+                    <td>Directs scatter to floor</td>
+                    <td>Variable (high for upper body)</td>
+                    <td>Avoid "tube-over" unless clinically mandated</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- § 3 Workflow -->
+    <h2 id="s3">3. Surgical Workflow Efficiency &amp; Communication Protocols</h2>
+    <p>Inefficiency in C-arm usage—often characterized by <strong>"fluoro-hunting"</strong>—is a major driver of unnecessary radiation and operative time, frequently stemming from lack of standardized communication.</p>
+
+    <h3 id="s3-1">3.1 The "Language" of the C-Arm</h3>
+    <div class="card">
+        <p>Ambiguous commands ("go up," "turn it") are interpreted differently depending on the technologist's training. A standardized, axis-based nomenclature is proven to reduce confusion, correction movements, and radiation time.<sup><a href="#ref7">[7]</a></sup><sup><a href="#ref8">[8]</a></sup></p>
+
+        <h4>Proposed Standardized Terminology</h4>
+        <div class="table-wrap">
+            <table aria-label="Standardized C-arm communication terminology">
+                <caption>Table 2 — Standardized C-Arm Communication Terminology</caption>
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Movement</th>
+                        <th>Example Command</th>
+                        <th>Mechanism</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Rainbow / Orbit</strong></td>
+                        <td>Orbital rotation (transverse plane)</td>
+                        <td>"Rainbow Over" (AP → Lateral)</td>
+                        <td>C-arm slides along C-shaped track</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cant / Wig-Wag</strong></td>
+                        <td>Angulation (craniocaudal tilt)</td>
+                        <td>"Cant Cephalad" / "Cant Caudal"</td>
+                        <td>C-arm pivots on its axis</td>
+                    </tr>
+                    <tr>
+                        <td><strong>North / South</strong></td>
+                        <td>Longitudinal travel</td>
+                        <td>"Drive North" (toward head)</td>
+                        <td>Base moves along patient long axis</td>
+                    </tr>
+                    <tr>
+                        <td><strong>East / West</strong></td>
+                        <td>Transverse travel</td>
+                        <td>"Drive West" (away from surgeon)</td>
+                        <td>Base moves across floor</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Boom / Telescope</strong></td>
+                        <td>Extension / retraction</td>
+                        <td>"Boom In" / "Boom Out"</td>
+                        <td>C-arm extends without moving base</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Up / Down</strong></td>
+                        <td>Vertical travel</td>
+                        <td>"Elevate" / "Lower"</td>
+                        <td>Affects magnification (source-to-object distance)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Studies indicate that implementing such standardized language significantly improves perceived communication quality, reduces "fluoro-hunting" time, and decreases the number of scout images required.<sup><a href="#ref8">[8]</a></sup><sup><a href="#ref10">[10]</a></sup></p>
+    </div>
+
+    <h3 id="s3-2">3.2 Technologist Positioning &amp; Team Dynamics</h3>
+    <div class="card">
+        <ul>
+            <li><strong>Line of Sight:</strong> The technologist must have unobstructed view of both the surgical field and the fluoroscopy monitor to anticipate needs and correlate C-arm position with the resulting image.<sup><a href="#ref11">[11]</a></sup></li>
+            <li><strong>Monitor Placement:</strong> Directly across from the surgeon, at eye level, to prevent cervical strain.</li>
+            <li><strong>Pre-Incision Scout:</strong> A "dry run" before draping confirms the C-arm can achieve all necessary views (AP, Lateral, Oblique) without collision. The technologist can mark floor positions for rapid return.<sup><a href="#ref11">[11]</a></sup></li>
+        </ul>
+    </div>
+
+    <h3 id="s3-3">3.3 Sterile Draping Protocols &amp; Contamination Risk</h3>
+    <div class="card">
+        <p>The C-arm drape can become a vector for contamination, particularly during AP-to-Lateral transitions. The lowest part of the drape may contact the non-sterile underbelly of the machine and swing into the sterile field.</p>
+        <ul>
+            <li><strong>Clip-Drape Method:</strong> Secure loose ends with sterile clips.<sup><a href="#ref12">[12]</a></sup></li>
+            <li><strong>Sterile Pouch (e.g., C-Armor):</strong> Encapsulates the image intensifier and secures excess drape—shown to be superior in maintaining sterility.<sup><a href="#ref13">[13]</a></sup></li>
+            <li><strong>Drape Integrity:</strong> Studies show C-arm drapes are contaminated in up to <strong>50% of cases within 20 minutes</strong> during complex spine surgery. The top of the image intensifier is the highest risk area.<sup><a href="#ref14">[14]</a></sup></li>
+        </ul>
+        <div class="callout callout-warning">
+            <strong>⚠ Infection Control</strong>
+            Consider the C-arm drape "dirty" relative to the wound. Change gloves if manipulating the drape directly.
+        </div>
+    </div>
+
+    <!-- § 4 Geometry -->
+    <h2 id="s4">4. The Geometry of Imaging: Parallax, Distortion &amp; Isocentering</h2>
+
+    <h3 id="s4-1">4.1 The Parallax Effect</h3>
+    <div class="card">
+        <p>A fluoroscopic image is a 2D shadow-gram created by a point source of diverging x-rays. This divergence causes <strong>parallax</strong>—the apparent displacement of objects relative to their background.</p>
+        <ul>
+            <li><strong>Mechanism:</strong> Objects closer to the source are magnified and projected further laterally on the detector than objects closer to the detector.</li>
+            <li><strong>Clinical Consequence:</strong> A screw tip may appear "inside" the bone on the monitor when actually breaching the cortex. The diverging beam projects the cortex edge "past" the screw tip.<sup><a href="#ref16">[16]</a></sup></li>
+            <li><strong>The "Tangentiality Problem":</strong> You can only accurately judge a border if the beam is perfectly <em>tangential</em> (parallel) to it. An oblique beam creates "double contours," masking breaches in a blind-spot "valley."<sup><a href="#ref18">[18]</a></sup></li>
+        </ul>
+    </div>
+
+    <h3 id="s4-2">4.2 Isocentering: The Antidote to Parallax</h3>
+    <div class="card">
+        <p>The only way to eliminate parallax is to place the structure of interest in the <strong>isocenter</strong>—the central ray of the beam where photons are perpendicular to the detector.</p>
+        <h4>The "Center-Center" Technique</h4>
+        <ol>
+            <li>Identify the specific anatomical target (disc space, screw tip, joint line).</li>
+            <li>Physically move the C-arm until that target is in the <strong>dead center</strong> of the monitor.</li>
+            <li><strong>Collimation Check:</strong> Collimate to a small square around the target—this forces centering and ensures parallel, orthogonal rays.<sup><a href="#ref19">[19]</a></sup></li>
+        </ol>
+        <div class="callout callout-danger">
+            <strong>☢ Critical Data Point</strong>
+            In total ankle arthroplasty, a beam offset of just <strong>55 mm</strong> from center can cause <strong>&gt;10 mm of parallax error</strong>, leading to significant mismeasurement of alignment angles.<sup><a href="#ref16">[16]</a></sup>
+        </div>
+    </div>
+
+    <h3 id="s4-3">4.3 Distortion in Fluoroscopy Units</h3>
+    <div class="card">
+        <p>Distortion arises from electromagnetic environment or image intensifier curvature (pincushion distortion).</p>
+        <ul>
+            <li><strong>Flat Panel Detectors (FPD):</strong> Modern FPDs have significantly less geometric distortion than older image intensifiers, but can still exhibit off-axis distortion.</li>
+            <li>A study of <strong>11 fluoroscopy units</strong> found that <strong>100%</strong> had some degree of parallax or distortion. Even FPD units were prone to being "off-axis."<sup><a href="#ref21">[21]</a></sup>
+            <span class="evidence-badge ev-iv">Evidence: Level IV (device comparison study)</span></li>
+        </ul>
+    </div>
+
+    <!-- § 5 Spine -->
+    <h2 id="s5">5. Precise Positioning: The Spine</h2>
+
+    <h3 id="s5-1">5.1 Cervical Spine</h3>
+    <div class="card">
+        <h4>True AP View</h4>
+        <p>Cervical lordosis requires the C-arm to be <strong>canted cephalad ~15–20°</strong> to match the curve. Criteria: spinous processes equidistant from uncinate processes; uncinate processes appear sharp.<sup><a href="#ref22">[22]</a></sup></p>
+
+        <h4>True Lateral View</h4>
+        <p>Shoulders must be depressed (caudal traction) to visualize the cervicothoracic junction. For C7–T1 obscured by shoulders, use the <strong>Swimmer's View</strong>: arm closest to detector abducted 180°, contralateral arm pulled caudally, beam centered on T1 with ~5° caudal tilt.<sup><a href="#ref22">[22]</a></sup></p>
+
+        <h4>Oblique (Foraminal) Views</h4>
+        <p>Rotate C-arm 45° from AP. Critical interpretation rules:<sup><a href="#ref24">[24]</a></sup></p>
+        <ul>
+            <li><strong>PA Oblique (Prone):</strong> Foramina <em>closest</em> to the image receptor ("downside") are visualized.</li>
+            <li><strong>Posterior Oblique (Supine):</strong> Foramina <em>furthest</em> from the image receptor ("upside") are visualized.</li>
+        </ul>
+        <div class="callout callout-info">
+            <strong>ℹ Clinical Pearl</strong>
+            This distinction is vital for correctly targeting the side during transforaminal injections.
+        </div>
+    </div>
+
+    <h3 id="s5-2">5.2 Lumbar Spine: The "Box" and "Scottie Dog"</h3>
+    <div class="card">
+        <h4>Level-Specific "True" AP (Ferguson View)</h4>
+        <p>Center on the target level. <strong>Cant cephalad/caudal</strong> until the superior endplate appears as a single sharp line (eliminating the elliptical appearance caused by lordosis). Center the spinous process exactly between the pedicles.<sup><a href="#ref25">[25]</a></sup></p>
+
+        <h4>True Lateral</h4>
+        <p>Goal: superimposition of posterior vertebral cortices and pedicles.</p>
+        <ul>
+            <li><strong>Double Wall Sign:</strong> Two posterior walls = patient is rotated. Adjust <strong>Orbit (Rainbow)</strong> until they merge.</li>
+            <li><strong>Uneven Pedicles:</strong> One higher than the other = adjust <strong>Cant (Wig-Wag)</strong>.<sup><a href="#ref25">[25]</a></sup></li>
+        </ul>
+
+        <h4>Scottie Dog (Oblique) View</h4>
+        <p>Rotate ~30–45° from AP. Key anatomy mnemonic:<sup><a href="#ref25">[25]</a></sup></p>
+        <div class="diagram-box" aria-label="Scottie dog anatomy mnemonic">
+    ┌──────────────────────────────────────┐
+    │     ▲ Ear  = Superior Articular Proc │
+    │     ◉ Eye  = Pedicle (screw entry)   │
+    │     ╱  Neck = Pars Interarticularis   │
+    │   Nose = Transverse Process           │
+    │   Front Leg = Inferior Articular Proc │
+    │                                       │
+    │  "Collar" on the dog = Pars fracture  │
+    │   (spondylolysis)                     │
+    └──────────────────────────────────────┘</div>
+    </div>
+
+    <h3 id="s5-3">5.3 Sacrum: The S1 Pedicle &amp; the "V" Sign</h3>
+    <div class="card">
+        <p>In the AP view, the confluence of the S1 articular process and sacral ala forms a distinct <strong>"V" shape</strong>—a reliable landmark for S1 pedicle entry point.</p>
+        <p>A study of <strong>270 screws</strong> confirmed that targeting the intersection of the lateral vertical line of the "V" and the transverse line of the "V" base results in a safe corridor, minimizing risk of breaching the L5/S1 facet superiorly or the S1 foramen inferiorly.<sup><a href="#ref26">[26]</a></sup>
+        <span class="evidence-badge ev-iii">Evidence: Level III (anatomical/radiographic validation study)</span></p>
+    </div>
+
+    <!-- § 6 Pelvis -->
+    <h2 id="s6">6. Precise Positioning: The Pelvis &amp; Acetabulum</h2>
+
+    <h3 id="s6-1">6.1 Inlet and Outlet Views</h3>
+    <div class="card">
+        <h4>Inlet View</h4>
+        <p><strong>Purpose:</strong> Visualizes the pelvis from "above"—assesses AP displacement of the SI joint and rotation of the hemipelvis.</p>
+        <p><strong>Technique:</strong> Patient supine. Tilt C-arm <strong>caudally 25–40°</strong>. Criteria: S1 and S2 alar ridges superimposed, creating a seamless "oval" of the pelvic brim.<sup><a href="#ref18">[18]</a></sup></p>
+
+        <h4>Outlet View</h4>
+        <p><strong>Purpose:</strong> Visualizes the pelvis "en face"—assesses vertical migration and profiles the sacral foramina.</p>
+        <p><strong>Technique:</strong> Tilt C-arm <strong>cephalad 35–45°</strong>. Criteria: superior pubic symphysis superimposed over S2 foramina.<sup><a href="#ref18">[18]</a></sup></p>
+    </div>
+
+    <h3 id="s6-2">6.2 Judet Views</h3>
+    <div class="card">
+        <ul>
+            <li><strong>Obturator Oblique:</strong> Rotate 45° toward the fracture side (or lift contralateral hip). Visualizes <em>anterior column</em> and <em>posterior wall</em>. Profiles the Obturator Foramen. Mnemonic: <em>"Obturator view opens the Obturator foramen."</em></li>
+            <li><strong>Iliac Oblique:</strong> Rotate 45° away from fracture side. Visualizes <em>posterior column</em> and <em>anterior wall</em>. The iliac wing appears broad and flat ("en face").</li>
+        </ul>
+    </div>
+
+    <h3 id="s6-3">6.3 The "Magic Screw" for Acetabular Fractures</h3>
+    <div class="card">
+        <p>A percutaneous lag screw inserted into the posterior column to capture the quadrilateral plate (medial wall) fragment.<sup><a href="#ref27">[27]</a></sup></p>
+        <ul>
+            <li><strong>Trajectory:</strong> From gluteus medius pillar (proximal) toward ischial spine (distal)</li>
+            <li><strong>Setup:</strong> 30–35° lateral inclination (toward contralateral side); ~20–30° Inlet tilt</li>
+            <li><strong>Safety Corridor:</strong> Between hip joint (lateral/inferior) and pelvic brim/internal iliac vessels (medial)</li>
+            <li><strong>Verification:</strong> An <strong>Obturator Inlet</strong> view confirms the screw is contained within the iliac tables<sup><a href="#ref27">[27]</a></sup></li>
+        </ul>
+    </div>
+
+    <!-- § 7 Articular Surfaces -->
+    <h2 id="s7">7. Precise Positioning: Articular Surfaces</h2>
+
+    <h3 id="s7-1">7.1 The Knee: True Lateral &amp; MPFL Landmarks</h3>
+    <div class="card">
+        <p>A "True Lateral" knee is non-negotiable for assessing femoral component rotation in TKA or fracture reduction.</p>
+        <p><strong>Criteria:</strong> Posterior aspects of medial and lateral femoral condyles must be <strong>perfectly superimposed</strong>.<sup><a href="#ref29">[29]</a></sup></p>
+
+        <h4>Troubleshooting ("The Big 3" Rotations)</h4>
+        <ol>
+            <li><strong>Internal/External Rotation:</strong> Check posterior condyles. Landmarks: Adductor Tubercle (medial) and Popliteal Sulcus (lateral). If the Adductor Tubercle is visible posteriorly → knee is internally rotated.<sup><a href="#ref29">[29]</a></sup></li>
+            <li><strong>Adduction/Abduction (Varus/Valgus):</strong> If one condyle is lower → "Cant" the C-arm.</li>
+            <li><strong>Blumensaat's Line:</strong> On a true lateral, the roof of the intercondylar notch appears as a sharp, dense white line. Fuzzy or wide → not a true lateral.<sup><a href="#ref30">[30]</a></sup></li>
+        </ol>
+
+        <h4>MPFL Reconstruction: Schöttle Point</h4>
+        <p>On a true lateral, the femoral attachment is located <strong>1.3 mm anterior</strong> to the posterior cortical line, <strong>2.5 mm distal</strong> to the posterior condylar origin, and <strong>3 mm proximal</strong> to Blumensaat's line.<sup><a href="#ref31">[31]</a></sup></p>
+    </div>
+
+    <h3 id="s7-2">7.2 The Ankle: Mortise &amp; TAA Parallax</h3>
+    <div class="card">
+        <h4>Mortise View</h4>
+        <p>Leg internally rotated ~15–20°. Criteria:<sup><a href="#ref32">[32]</a></sup></p>
+        <ul>
+            <li>Lateral clear space: &lt;6 mm</li>
+            <li>Medial clear space: ≤4 mm</li>
+            <li>Tib-Fib overlap: &gt;6 mm (or &gt;42% of fibular width)</li>
+        </ul>
+
+        <h4>Total Ankle Arthroplasty (TAA) Parallax</h4>
+        <p>The distal tibia is concave. If the C-arm is centered on the talus but the cut is proximal, beam divergence masks the true joint space. <strong>Center the beam exactly at the osteotomy/implant interface</strong>—a 55 mm deviation causes &gt;10 mm error in the aLDTA measurement.<sup><a href="#ref16">[16]</a></sup></p>
+    </div>
+
+    <h3 id="s7-3">7.3 The Wrist: Scaphoid &amp; Distal Radius</h3>
+    <div class="card">
+        <h4>Scaphoid Views (Ziter View)</h4>
+        <p>Wrist in ulnar deviation (extends scaphoid). Beam angled 20–30° proximally (toward elbow). Projects the scaphoid "elongated" without foreshortening—critical for detecting waist fractures.<sup><a href="#ref33">[33]</a></sup></p>
+
+        <h4>Distal Radius Screw Penetration</h4>
+        <p>On a standard lateral, Lister's tubercle can obscure dorsal screw tips. Use a <strong>"Skyline" view</strong> (tangential to the dorsal cortex) or an <strong>Elevated Lateral (23°)</strong> to visualize protruding tips.<sup><a href="#ref35">[35]</a></sup></p>
+        <div class="callout callout-warning">
+            <strong>⚠ Sensitivity Limitation</strong>
+            Radiographs are only <strong>~72% sensitive</strong> for detecting intra-articular screws. Clinical feedback (crepitus on rotation) is often more sensitive <strong>(~81%)</strong>.<sup><a href="#ref36">[36]</a></sup>
+            <span class="evidence-badge ev-iv">Evidence: Level IV (cadaveric study)</span>
+        </div>
+    </div>
+
+    <!-- § 8 Verifying Implants -->
+    <h2 id="s8">8. Verifying Implant Placement: 2D vs. 3D Reality</h2>
+
+    <h3 id="s8-1">8.1 The Rotational Check ("Propeller View")</h3>
+    <div class="card">
+        <p>Never rely on just AP and Lateral views alone.</p>
+        <h4>Technique</h4>
+        <p>While viewing the screw tip live (fluoro), <strong>slowly rotate the C-arm through an arc</strong> (e.g., from AP to Lateral).</p>
+        <p><strong>Logic:</strong> If the screw tip remains contained within the bony borders throughout the <em>entire</em> arc of motion, it is likely safe. If the tip "flashes" outside the bone boundary at any point, it is a breach. This utilizes the "tangentiality" of the beam at multiple angles to catch hidden breaches.<sup><a href="#ref37">[37]</a></sup></p>
+    </div>
+
+    <h3 id="s8-2">8.2 Pedicle Screw Breach Signs</h3>
+    <div class="card">
+        <ul>
+            <li><strong>Medial Breach:</strong> On AP, if the screw tip crosses the midline (spinous process) <em>before</em> the screw head reaches the pedicle on lateral → likely medial breach.</li>
+            <li><strong>Lateral Breach:</strong> On AP, if the screw tip is lateral to the lateral border of the pedicle → lateral breach.<sup><a href="#ref38">[38]</a></sup></li>
+            <li><strong>Pedicle "Eye" Check:</strong> On AP, the screw should reside <em>within</em> the oval of the pedicle.</li>
+        </ul>
+        <span class="evidence-badge ev-iii">Evidence: Level III (postoperative CT analysis of 513 pedicle screws)</span>
+    </div>
+
+    <!-- TABLE 2: Interpretive Errors -->
+    <div class="table-wrap">
+        <table aria-label="Common Interpretive Errors and Solutions">
+            <caption>Table 3 — Common Interpretive Errors &amp; Solutions (from source document)</caption>
+            <thead>
+                <tr>
+                    <th>Error</th>
+                    <th>Cause</th>
+                    <th>Consequence</th>
+                    <th>Solution</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Double Wall Sign</strong></td>
+                    <td>Rotated Lateral View</td>
+                    <td>Misjudging posterior wall fracture size</td>
+                    <td>Rotate C-arm (Orbit) until posterior borders merge</td>
+                </tr>
+                <tr>
+                    <td><strong>Pseudodysmorphism</strong></td>
+                    <td>Off-axis Inlet View</td>
+                    <td>Misinterpreting sacral anatomy</td>
+                    <td>Superimpose S1/S2 alar ridges</td>
+                </tr>
+                <tr>
+                    <td><strong>False Safe Screw</strong></td>
+                    <td>Parallax (off-center)</td>
+                    <td>Screw appears in bone but is actually out</td>
+                    <td><strong>Isocenter</strong> the screw tip (Center-Center)</td>
+                </tr>
+                <tr>
+                    <td><strong>Foreshortened Scaphoid</strong></td>
+                    <td>Standard PA View</td>
+                    <td>Missed waist fracture</td>
+                    <td><strong>Ziter View</strong> (ulnar deviation + 20° tilt)</td>
+                </tr>
+                <tr>
+                    <td><strong>Hidden Joint Breach</strong></td>
+                    <td>Beam not tangential</td>
+                    <td>Intra-articular screw placement</td>
+                    <td><strong>Rotational Check</strong> (live arc fluoro) &amp; crepitus check</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- § 9 Conclusion -->
+    <h2 id="s9">9. Conclusion</h2>
+    <div class="card">
+        <p>Mastery of intraoperative C-arm fluoroscopy integrates radiation physics, functional anatomy, and surgical strategy. It is not merely about "taking a picture" but actively managing the invisible geometry of x-rays to ensure patient safety and surgical precision.</p>
+        <p>By adhering to advanced ALARA principles—inverted tube positioning, pulsed fluoroscopy, aggressive collimation—surgeons can drastically reduce occupational radiation risk. Standardized communication protocols eliminate "fluoro-hunting." Deep understanding of positioning nuances—from the "V" sign in the sacrum to "Center-Center" in total ankle arthroplasty—overcomes parallax and distortion limitations.</p>
+        <p>Ultimately, safe implant placement relies on the surgeon's ability to mentally reconstruct 3D reality from 2D shadows—recognizing "blind spots" and employing isocentering and arc-rotational verification to ensure that what appears on screen translates to a safe outcome for the patient.</p>
+    </div>
+
+    <!-- Evidence Gap Note -->
+    <div class="limitation-note">
+        <strong>📊 Source Limitations Note:</strong> The source document does not explicitly assign evidence levels (I–V) to individual claims. Evidence badges displayed above are inferred from study design descriptions (e.g., cadaveric studies → Level IV, postoperative CT analyses → Level III, clinical workflow studies → Level III–IV). The document references 38 sources; key studies are cited using the original numbering from the source's reference list.
+    </div>
+
+    <!-- REFERENCES -->
+    <h2 id="refs">References (from Source Document)</h2>
+    <div class="card">
+        <ol class="ref-list">
+            <li id="ref1">Radiation safety in orthopaedic surgery: educational guidelines for surgeons using X-rays and C-arm fluoroscopy. <em>IJORO</em>. <a href="https://www.ijoro.org/index.php/ijoro/article/download/3886/2172/22316" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref2">Radiation safety in orthopaedic surgery (consensus/guidelines). <a href="https://www.researchgate.net/publication/395744767" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref3">Pulsation and Collimation During Fluoroscopy to Decrease Radiation: A Cadaver Study. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6133148/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref4">Fluoroscopy Orthopedic Assessment, Protocols, and Interpretation. <em>StatPearls – NCBI</em>. <a href="https://www.ncbi.nlm.nih.gov/books/NBK573065/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref5">Virtual fluoroscopy for intraoperative C-arm positioning and radiation dose reduction. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5812884/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref6">Radiation exposure to the orthopedic surgeon—a dosimetric comparison of two mini C-arm fluoroscopy models. <em>AVMA Journals</em>. <a href="https://avmajournals.avma.org/view/journals/javma/262/3/javma.23.05.0297.xml" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref7">A standard universal C-arm language: Assessing its need and its likelihood of acceptance. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6324758/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref8">Evaluating the effect of a standardized language protocol for intraoperative C-arm fluoroscopy on perceived communication quality. <em>UVA Orthopaedic Surgery</em>. <a href="https://med.virginia.edu/orthopaedic-surgery/wp-content/uploads/sites/242/2020/06/ANCIANO-RRD-2020.pdf" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref9">C-Arm Communication Terminologies during Orthopaedic Surgical Procedures: A Systematic Review. <em>ClinMed International Library</em>. <a href="https://clinmedjournals.org/articles/ijrit/international-journal-of-radiology-and-imaging-technology-ijrit-10-123.pdf" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref10">Use of Standardized Language for C-arm Fluoroscopy Improves Intraoperative Communication and Efficiency. <em>ResearchGate</em>. <a href="https://www.researchgate.net/publication/343686887" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref11">Techniques for C-Arm Operators: Image Quality &amp; Safety. <em>RGS Healthcare</em>. <a href="https://rgshealthcare.com/techniques-for-c-arm-operators/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref12">A Comparison of Three C-Arm Draping Techniques to Minimize Contamination of the Surgical Field. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/27124823/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref13">C-arm Drape Optimized for Multiple C-arm Swings. <em>TIDI Products</em>. <a href="https://www.tidiproducts.com/blog/c-arm-drape-optimized-for-multiple-c-arm-swings-tidi-products" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref14">Culture of Safety Tip of the Week: C-Arm Drape and Sterile Field Contamination. <em>Optim Health</em>. <a href="https://optimhealthsystem.com/culture-of-safety-tip-of-the-week-c-arm-drape-and-sterile-field-contamination/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref16">Effects of Parallax and Distortion in Total Ankle Arthroplasty. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/39363665/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref18">Fluoroscopic Imaging Guides of the Posterior Pelvis. <em>Orthobullets</em>. <a href="https://upload.orthobullets.com/journalclub/free_pdf/17297324_17297324.pdf" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref19">Attention to Detail: The Effect of Fluoroscopic Parallax on Limb Alignment Assessment During Corrective Osteotomy. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9928831/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref21">Parallax and Distortion in Fluoroscopy Units. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/38282326/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref22">Radiographic positioning techniques for the cervical spine. <em>AuntMinnie</em>. <a href="https://www.auntminnie.com/practice-management/radiologic-technologist/article/15564550/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref24">Cervical spine (AP oblique view). <em>Radiopaedia</em>. <a href="https://radiopaedia.org/articles/cervical-spine-ap-oblique-view" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref25">Guidelines to Imaging Landmarks for Interventional Spine Procedures. <em>Stemclinique</em>. <a href="http://stemclinique.com/cms_public_file/2/caf887400fc1a3c2cfff880dd1485c3a_29738_Neurographics_Final.pdf" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref26">A Reliable Anatomic and Radiographic Landmark for Posterior Percutaneous S1 Screw Placement. <em>JBJS</em>. <a href="https://www.jbjs.org/reader.php?rsuite_id=92c24e70-8a9b-4ce6-8a2c-924ff8d23948" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref27">Establishment of fluoroscopy views and standardized procedure of percutaneous magic screw insertion for acetabulum fractures. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6136216/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref29">Knee (lateral view). <em>Radiopaedia</em>. <a href="https://radiopaedia.org/articles/knee-lateral-view" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref30">Intraoperative imaging of the proximal tibia. <em>AO Surgery Reference</em>. <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/proximal-tibia/further-reading/intraoperative-imaging-of-the-knee-proximal-tibia" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref31">Comparison of five different fluoroscopic methods for identifying the MPFL femoral footprint. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10965741/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref32">Adult Ankle Radiographs. <em>Orthobullets</em>. <a href="https://www.orthobullets.com/trauma/322133/adult-ankle-radiographs" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref33">Scaphoid (PA axial view). <em>Radiopaedia</em>. <a href="https://radiopaedia.org/articles/scaphoid-pa-axial-view-1" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref35">Accuracy of Detecting Screw Penetration of the Radiocarpal Joint Following Volar Plating. <em>JBJS</em>. <a href="https://cdn.mdedge.com/files/s3fs-public/Document/September-2017/041080358.pdf" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref36">Assessment of Intra-articular Screw Penetration During Radial Head and Olecranon Locking Plate Fixation. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4920513/" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref37">Medial malleolus screws: out in one view and out. <em>ResearchGate</em>. <a href="https://www.researchgate.net/publication/280392944" target="_blank" rel="noopener">Link</a></li>
+            <li id="ref38">Incidence of pedicle breach following open and minimally invasive spinal instrumentation. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7608845/" target="_blank" rel="noopener">Link</a></li>
+        </ol>
+    </div>
+
+</main>
+
+<!-- ─────────────────── SIDEBAR ─────────────────── -->
+<aside class="sidebar" role="complementary" aria-label="Interactive tools and navigation">
+
+    <!-- TOC -->
+    <div class="sidebar-card">
+        <h3><span class="icon">📑</span> Contents</h3>
+        <ul class="toc">
+            <li><a href="#s1">1. Introduction</a></li>
+            <li><a href="#s2">2. Radiation Safety &amp; Physics</a></li>
+            <li><a href="#s3">3. Workflow &amp; Communication</a></li>
+            <li><a href="#s4">4. Geometry: Parallax &amp; Distortion</a></li>
+            <li><a href="#s5">5. Spine Positioning</a></li>
+            <li><a href="#s6">6. Pelvis &amp; Acetabulum</a></li>
+            <li><a href="#s7">7. Articular Surfaces</a></li>
+            <li><a href="#s8">8. Implant Verification</a></li>
+            <li><a href="#s9">9. Conclusion</a></li>
+            <li><a href="#refs">References</a></li>
+        </ul>
+    </div>
+
+    <!-- Interactive Sliders -->
+    <div class="sidebar-card" aria-label="Interactive radiation safety calculator">
+        <h3><span class="icon">⚙️</span> Radiation Safety Calculator</h3>
+        <p style="font-size:0.78rem;color:#64748b;margin-bottom:1rem;">Adjust parameters below to estimate relative risk and receive safety recommendations based on source document data.</p>
+
+        <!-- Slider 1: Distance -->
+        <div class="slider-group">
+            <label>
+                Distance from Source
+                <span class="val" id="distVal">1.0 m</span>
+            </label>
+            <input type="range" id="distSlider" min="0.3" max="3.0" step="0.1" value="1.0" aria-label="Distance from radiation source in meters">
+            <div class="range-labels"><span>0.3 m (Close)</span><span>3.0 m (Safe)</span></div>
+        </div>
+
+        <!-- Slider 2: Pulse Rate -->
+        <div class="slider-group">
+            <label>
+                Pulse Rate (fps)
+                <span class="val" id="pulseVal">8 pps</span>
+            </label>
+            <input type="range" id="pulseSlider" min="4" max="30" step="1" value="8" aria-label="Fluoroscopy pulse rate in pulses per second">
+            <div class="range-labels"><span>4 pps (Low dose)</span><span>30 pps (Continuous)</span></div>
+        </div>
+
+        <!-- Slider 3: Beam Offset -->
+        <div class="slider-group">
+            <label>
+                Beam Offset from Isocenter
+                <span class="val" id="offsetVal">0 mm</span>
+            </label>
+            <input type="range" id="offsetSlider" min="0" max="100" step="1" value="0" aria-label="Beam offset from isocenter in millimeters">
+            <div class="range-labels"><span>0 mm (Perfect)</span><span>100 mm (Off-axis)</span></div>
+        </div>
+
+        <!-- Recommendation Output -->
+        <div class="recommendation-box" id="recBox" aria-live="polite">
+            <h4>📊 Real-Time Safety Assessment</h4>
+            <p id="recText">Adjust sliders to see recommendations.</p>
+            <div class="rec-meter"><div class="rec-meter-fill risk-low" id="recMeter" style="width:20%"></div></div>
+            <p id="recRationale" style="font-size:0.76rem;color:#64748b;margin-top:0.3rem;"></p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row">
+            <button class="btn btn-reset" id="resetBtn" aria-label="Reset all sliders to defaults">↺ Reset</button>
+            <button class="btn btn-copy" id="copyBtn" aria-label="Copy assessment to clipboard">📋 Copy</button>
+        </div>
+    </div>
+
+    <!-- Quick Reference -->
+    <div class="sidebar-card">
+        <h3><span class="icon">📌</span> Quick Reference</h3>
+        <div style="font-size:0.8rem;color:var(--text-secondary);">
+            <p><strong>Safe tube position:</strong> Tube-under (standard)</p>
+            <p><strong>Step-back benefit:</strong> 0.5m → 1.5m = ~9× dose reduction</p>
+            <p><strong>Pulsed 8 fps:</strong> ~70% surgeon dose reduction</p>
+            <p><strong>Collimation:</strong> ~65% hand/thyroid dose reduction</p>
+            <p><strong>Parallax at 55mm offset:</strong> &gt;10mm measurement error</p>
+            <p><strong>Screw penetration sensitivity:</strong> XR 72% vs. crepitus 81%</p>
+        </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="sidebar-card" style="background:#fffbeb;border:1px solid #fde68a;">
+        <h3 style="color:#92400e;"><span class="icon">⚠️</span> Disclaimer</h3>
+        <p style="font-size:0.76rem;color:#92400e;">This document is for educational purposes only. Clinical application requires appropriate training, credentialing, and adherence to institutional protocols. Thresholds annotated as "based on general clinical knowledge" are not from the source document.</p>
+    </div>
+
+</aside>
+
+</div><!-- /layout -->
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="site-footer">
+    <p>Intraoperative C-Arm Fluoroscopy — Interactive Educational Summary &bull; Generated from source document provided by user &bull; All content derived exclusively from the supplied material.</p>
+</footer>
+
+<!-- ═══════════════════ JAVASCRIPT ═══════════════════ -->
+<script>
+(function() {
+    'use strict';
+
+    // ── Elements ──
+    const distSlider  = document.getElementById('distSlider');
+    const pulseSlider = document.getElementById('pulseSlider');
+    const offsetSlider= document.getElementById('offsetSlider');
+    const distVal     = document.getElementById('distVal');
+    const pulseVal    = document.getElementById('pulseVal');
+    const offsetVal   = document.getElementById('offsetVal');
+    const recText     = document.getElementById('recText');
+    const recRationale= document.getElementById('recRationale');
+    const recMeter    = document.getElementById('recMeter');
+    const resetBtn    = document.getElementById('resetBtn');
+    const copyBtn     = document.getElementById('copyBtn');
+
+    // ── Constants from source ──
+    const REF_DISTANCE  = 1.0; // m, reference for 0.1% intensity
+    const CONTINUOUS_FPS = 30;
+
+    // ── Calculate & Update ──
+    function update() {
+        const d = parseFloat(distSlider.value);
+        const p = parseInt(pulseSlider.value);
+        const o = parseInt(offsetSlider.value);
+
+        // Display
+        distVal.textContent  = d.toFixed(1) + ' m';
+        pulseVal.textContent = p + ' pps';
+        offsetVal.textContent = o + ' mm';
+
+        // ── Distance Score (0-100, lower is safer) ──
+        // At 0.3m: score ~95; at 3.0m: score ~5
+        const distScore = Math.max(0, Math.min(100, 100 * Math.pow(0.5, (d - 0.3) / 0.5)));
+
+        // ── Pulse Score ──
+        // 30fps=100, 4fps=0, linear
+        const pulseScore = ((p - 4) / (30 - 4)) * 100;
+
+        // ── Offset Score ──
+        // 0mm=0, 55mm=50 (threshold), 100mm=100
+        const offsetScore = Math.min(100, (o / 55) * 50);
+
+        // ── Composite Risk (weighted) ──
+        const risk = Math.round(distScore * 0.45 + pulseScore * 0.30 + offsetScore * 0.25);
+
+        // ── Parallax error estimate ──
+        // Source: 55mm offset → >10mm error. Linear approximation.
+        const parallaxError = (o / 55) * 10;
+
+        // ── Dose reduction from distance ──
+        // Inverse square: relative to 0.5m baseline
+        const doseVsHalfM = Math.pow(0.5 / d, 2);
+        const distReduction = Math.round((1 - doseVsHalfM) * 100);
+
+        // ── Dose reduction from pulse ──
+        // Source: 8fps ≈ 70% reduction from continuous for surgeon
+        // Approximate: reduction = (1 - p/30) * 70% scaled
+        const pulseReduction = Math.round(((CONTINUOUS_FPS - p) / CONTINUOUS_FPS) * 70);
+
+        // ── Meter ──
+        recMeter.style.width = risk + '%';
+        recMeter.className = 'rec-meter-fill ' + (risk < 35 ? 'risk-low' : risk < 65 ? 'risk-medium' : 'risk-high');
+
+        // ── Recommendation Text ──
+        let warnings = [];
+        let positives = [];
+        let riskLabel = '';
+
+        if (risk < 35) {
+            riskLabel = '✅ LOW RISK';
+        } else if (risk < 65) {
+            riskLabel = '⚠️ MODERATE RISK';
+        } else {
+            riskLabel = '🔴 HIGH RISK';
+        }
+
+        if (d < 1.0) {
+            warnings.push('Distance <1m: scatter exposure increases dramatically per the Inverse Square Law. Step back to ≥1m for a >90% dose reduction. [Source §2.2]');
+        } else if (d >= 2.0) {
+            positives.push('Distance ≥2m: exposure drops to ~0.025% of direct beam. Excellent protection. [Source §2.2]');
+        } else {
+            positives.push('Distance at 1m: exposure is ~0.1% of direct beam intensity. Standard safe working distance. [Source §2.2]');
+        }
+
+        if (p >= 15) {
+            warnings.push('Frame rate ≥15 pps: consider reducing to 4–8 pps for static imaging. 8 fps reduces surgeon dose by ~70%. [Source §2.4]');
+        } else {
+            positives.push('Pulsed mode at ' + p + ' pps: significant dose reduction vs. continuous (30 fps). [Source §2.4]');
+        }
+
+        if (o > 55) {
+            warnings.push('Beam offset >55mm: parallax error may exceed 10mm, risking implant mismeasurement. Use Center-Center technique. [Source §4.2]');
+        } else if (o > 20) {
+            warnings.push('Beam offset ' + o + 'mm: some parallax present. Isocenter the target for a true orthogonal view. [Source §4.2]');
+        } else {
+            positives.push('Beam well-centered: parallax error is minimal (<' + parallaxError.toFixed(1) + 'mm). [Source §4.2]');
+        }
+
+        let html = '<h4>' + riskLabel + ' — Overall Score: ' + risk + '/100</h4>';
+        html += '<p><strong>Distance reduction:</strong> ~' + Math.max(0, distReduction) + '% vs. 0.5m baseline</p>';
+        html += '<p><strong>Pulse reduction:</strong> ~' + Math.max(0, pulseReduction) + '% vs. continuous</p>';
+        html += '<p><strong>Est. parallax error:</strong> ~' + parallaxError.toFixed(1) + 'mm</p>';
+
+        if (warnings.length > 0) {
+            html += '<p style="color:var(--danger);margin-top:0.6rem;"><strong>⚠ Warnings:</strong></p>';
+            warnings.forEach(function(w) { html += '<p style="font-size:0.78rem;color:var(--danger);">• ' + w + '</p>'; });
+        }
+        if (positives.length > 0) {
+            html += '<p style="color:var(--success);margin-top:0.4rem;"><strong>✓ Good Practices:</strong></p>';
+            positives.forEach(function(p) { html += '<p style="font-size:0.78rem;color:var(--success);">• ' + p + '</p>'; });
+        }
+
+        recText.innerHTML = html;
+        recRationale.textContent = 'Composite: distance 45% + pulse rate 30% + beam offset 25%. Thresholds from source: 1m/0.1% dose [§2.2]; 8fps/70% reduction [§2.4]; 55mm/>10mm error [§4.2].';
+    }
+
+    // ── Event Listeners ──
+    distSlider.addEventListener('input', update);
+    pulseSlider.addEventListener('input', update);
+    offsetSlider.addEventListener('input', update);
+
+    // ── Reset ──
+    resetBtn.addEventListener('click', function() {
+        distSlider.value = 1.0;
+        pulseSlider.value = 8;
+        offsetSlider.value = 0;
+        update();
+    });
+
+    // ── Copy ──
+    copyBtn.addEventListener('click', function() {
+        const d = parseFloat(distSlider.value);
+        const p = parseInt(pulseSlider.value);
+        const o = parseInt(offsetSlider.value);
+        const parallaxError = (o / 55) * 10;
+
+        const text =
+            '=== C-Arm Fluoroscopy Safety Assessment ===\n' +
+            'Timestamp: ' + new Date().toISOString() + '\n\n' +
+            'PARAMETERS:\n' +
+            '  Distance from Source: ' + d.toFixed(1) + ' m\n' +
+            '  Pulse Rate: ' + p + ' pps\n' +
+            '  Beam Offset from Isocenter: ' + o + ' mm\n\n' +
+            'ESTIMATES:\n' +
+            '  Parallax Error: ~' + parallaxError.toFixed(1) + ' mm\n' +
+            '  Distance Dose Reduction vs 0.5m: ~' + Math.max(0, Math.round((1 - Math.pow(0.5/d,2))*100)) + '%\n' +
+            '  Pulse Dose Reduction vs Continuous: ~' + Math.max(0, Math.round(((30-p)/30)*70)) + '%\n\n' +
+            'RECOMMENDATIONS:\n' +
+            (d < 1.0 ? '  [!] Distance <1m: Step back to ≥1m per Inverse Square Law [Source §2.2]\n' : '') +
+            (p >= 15 ? '  [!] High frame rate: Reduce to 4-8 pps for static imaging [Source §2.4]\n' : '') +
+            (o > 55 ? '  [!] Beam offset >55mm: High parallax risk. Isocenter the target [Source §4.2]\n' : '') +
+            (o > 20 && o <= 55 ? '  [~] Moderate offset: Consider Center-Center technique [Source §4.2]\n' : '') +
+            (d >= 1.0 && p < 15 && o <= 20 ? '  [✓] All parameters within safe ranges.\n' : '') +
+            '\nSource: "Intraoperative C-Arm Fluoroscopy in Orthopedic Surgery: A Comprehensive Technical and Safety Guide"\n' +
+            'Disclaimer: Educational purposes only. Thresholds per source document annotations.\n';
+
+        navigator.clipboard.writeText(text).then(function() {
+            copyBtn.textContent = '✓ Copied!';
+            copyBtn.classList.add('copied');
+            setTimeout(function() {
+                copyBtn.innerHTML = '📋 Copy';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        }).catch(function() {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyBtn.textContent = '✓ Copied!';
+            copyBtn.classList.add('copied');
+            setTimeout(function() {
+                copyBtn.innerHTML = '📋 Copy';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        });
+    });
+
+    // ── Initial render ──
+    update();
+
+})();
+</script>
+
+</body>
+</html>

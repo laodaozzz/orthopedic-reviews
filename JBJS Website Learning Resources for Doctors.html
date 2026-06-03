@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JBJS Educational Ecosystem – Interactive Summary for Practicing Orthopedic Surgeons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        :root{
+            --primary:#1a365d;--primary-light:#2b6cb0;--accent:#e53e3e;--accent-light:#feb2b2;
+            --bg:#f7fafc;--card:#ffffff;--text:#1a202c;--text-muted:#4a5568;--border:#e2e8f0;
+            --green:#276749;--green-bg:#f0fff4;--blue:#2b6cb0;--blue-bg:#ebf8ff;
+            --orange:#c05621;--orange-bg:#fffaf0;--purple:#6b46c1;--purple-bg:#faf5ff;
+            --sidebar-width:340px;
+        }
+        html{font-size:16px;scroll-behavior:smooth}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+        a{color:var(--primary-light);text-decoration:none}a:hover{text-decoration:underline}
+
+        /* HEADER */
+        .site-header{background:linear-gradient(135deg,var(--primary) 0%,#2d3748 100%);color:#fff;padding:2rem 1.5rem;text-align:center;position:relative;overflow:hidden}
+        .site-header::after{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:rgba(255,255,255,.03);border-radius:50%}
+        .site-header h1{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;letter-spacing:-.5px;margin-bottom:.5rem;position:relative}
+        .site-header p{font-size:.95rem;opacity:.85;max-width:700px;margin:0 auto;position:relative}
+
+        /* LAYOUT */
+        .wrapper{display:grid;grid-template-columns:1fr var(--sidebar-width);gap:2rem;max-width:1400px;margin:0 auto;padding:2rem 1.5rem}
+        @media(max-width:1024px){.wrapper{grid-template-columns:1fr}.sidebar{position:relative!important;top:auto!important;width:100%!important}}
+
+        /* MAIN */
+        main{min-width:0}
+        .section-card{background:var(--card);border-radius:12px;padding:2rem;margin-bottom:2rem;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid var(--border)}
+        .section-card h2{font-size:1.35rem;font-weight:700;color:var(--primary);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:3px solid var(--accent);display:flex;align-items:center;gap:.5rem}
+        .section-card h2 .icon{font-size:1.3rem}
+        .section-card h3{font-size:1.1rem;font-weight:600;color:var(--text);margin:1.5rem 0 .75rem}
+        .section-card p,.section-card li{font-size:.93rem;color:var(--text-muted);margin-bottom:.6rem}
+        .section-card ul,.section-card ol{padding-left:1.5rem;margin-bottom:1rem}
+        .section-card li{margin-bottom:.4rem}
+        .section-card strong{color:var(--text)}
+
+        /* EVIDENCE BADGE */
+        .ev-badge{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:9999px;vertical-align:middle;white-space:nowrap;margin-left:4px}
+        .ev-expert{background:#edf2f7;color:#4a5568}
+        .ev-desc{background:#ebf8ff;color:#2b6cb0}
+        .ev-mixed{background:#fffaf0;color:#c05621}
+        .ev-note{background:#faf5ff;color:#6b46c1}
+        .callout{border-left:4px solid var(--primary-light);background:var(--blue-bg);padding:1rem 1.25rem;border-radius:0 8px 8px 0;margin:1.25rem 0;font-size:.9rem}
+        .callout.warning{border-left-color:var(--accent);background:#fff5f5}
+        .callout.success{border-left-color:var(--green);background:var(--green-bg)}
+
+        /* TABLE */
+        .table-wrap{overflow-x:auto;margin:1.25rem 0;border-radius:8px;border:1px solid var(--border)}
+        table{width:100%;border-collapse:collapse;font-size:.85rem}
+        caption{font-weight:700;font-size:.9rem;text-align:left;padding:.75rem 1rem;background:var(--primary);color:#fff;border-radius:8px 8px 0 0}
+        thead th{background:var(--primary);color:#fff;font-weight:600;padding:.65rem .75rem;text-align:left;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
+        tbody td{padding:.6rem .75rem;border-bottom:1px solid var(--border);vertical-align:top}
+        tbody tr:nth-child(even){background:#f7fafc}
+        tbody tr:hover{background:#edf2f7}
+
+        /* SIDEBAR */
+        .sidebar{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow-y:auto}
+        .sidebar-card{background:var(--card);border-radius:12px;padding:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,.1);border:1px solid var(--border)}
+        .sidebar-card h2{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:1rem;text-align:center;border-bottom:2px solid var(--accent);padding-bottom:.5rem}
+        .slider-group{margin-bottom:1.5rem}
+        .slider-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
+        .slider-group .val-display{float:right;font-weight:700;color:var(--primary-light);font-size:.85rem}
+        input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--primary-light),var(--accent));outline:none;margin:.5rem 0}
+        input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+        .range-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--text-muted);margin-top:2px}
+        .rec-box{background:linear-gradient(135deg,#ebf8ff,#f0fff4);border:2px solid var(--primary-light);border-radius:10px;padding:1.2rem;margin-top:1rem;min-height:200px}
+        .rec-box h3{font-size:.9rem;font-weight:700;color:var(--primary);margin-bottom:.6rem;text-align:center}
+        .rec-item{background:#fff;border-radius:6px;padding:.6rem .8rem;margin-bottom:.5rem;border-left:3px solid var(--primary-light);font-size:.82rem}
+        .rec-item .price{font-weight:700;color:var(--accent)}
+        .btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+        .btn{flex:1;padding:.6rem;border:none;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
+        .btn-reset{background:#edf2f7;color:var(--text)}.btn-reset:hover{background:#e2e8f0}
+        .btn-copy{background:var(--primary);color:#fff}.btn-copy:hover{background:var(--primary-light)}
+        .budget-note{font-size:.7rem;color:var(--text-muted);margin-top:.5rem;text-align:center;font-style:italic}
+
+        /* FOOTER */
+        .site-footer{background:var(--primary);color:#fff;text-align:center;padding:1.5rem;font-size:.8rem;margin-top:1rem}
+        .site-footer a{color:#bee3f8}
+
+        /* CITATION */
+        .ref-section{font-size:.82rem;color:var(--text-muted)}
+        .ref-section ol{padding-left:1.2rem}
+        .ref-section li{margin-bottom:.5rem}
+
+        /* MOBILE */
+        @media(max-width:768px){
+            .wrapper{padding:1rem}
+            .section-card{padding:1.25rem}
+            .site-header{padding:1.5rem 1rem}
+        }
+
+        /* PRINT */
+        @media print{.sidebar,.btn-row{display:none!important}.wrapper{grid-template-columns:1fr}.section-card{box-shadow:none;border:1px solid #ccc}}
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>📘 The JBJS Educational Ecosystem</h1>
+    <p>A Strategic Guide for the Practicing Orthopedic Surgeon — Based on Source Document Analysis</p>
+</header>
+
+<div class="wrapper">
+<main role="main" id="main-content">
+
+    <!-- Introduction -->
+    <section class="section-card" aria-label="Introduction">
+        <h2><span class="icon">🏥</span> Introduction to the JBJS Educational Ecosystem</h2>
+        <p>For over <strong>125 years</strong>, <em>The Journal of Bone &amp; Joint Surgery</em> (JBJS) has served as the definitive source of peer-reviewed scientific information for the global orthopedic community, establishing itself as the <strong>gold standard</strong> in the field. <span class="ev-badge ev-desc">Descriptive — Source §Intro [1]</span></p>
+        <p>Its authority is validated by indexing in premier academic databases — <strong>MEDLINE/PubMed, Scopus, and the Web of Science</strong> — with a <strong>2022 Impact Factor of 5.3</strong>. <span class="ev-badge ev-desc">Descriptive — [1]</span></p>
+        
+        <h3>Beyond Publication: A Service-Oriented Platform</h3>
+        <p>In the contemporary digital landscape, JBJS has evolved far beyond a traditional publisher into a <strong>comprehensive and integrated digital platform</strong> — a complete educational ecosystem supporting professional development at every career stage. This transformation from a content-centric publication to a service-oriented educational platform is a significant strategic development. <span class="ev-badge ev-expert">Expert Opinion — [2, 3]</span></p>
+        
+        <div class="callout">
+            <strong>Key Strategic Insight:</strong> The modern JBJS website is not merely an archive of articles but a sophisticated toolkit comprising interactive learning systems, CME packages, multimedia libraries, and programs that actively support the educational process itself, such as the <em>Robert Bucholz Resident Journal Club Support Program</em>. <span class="ev-badge ev-expert">Expert Opinion — [2, 14]</span>
+        </div>
+        
+        <p>The JBJS portfolio is a collection of distinct yet interconnected resources, each tailored to specific learning objectives. This includes a suite of <strong>six specialized journals</strong>, extensive CME activities, concise clinical summaries, and a rich variety of multimedia content. <span class="ev-badge ev-desc">Descriptive — [3, 5]</span></p>
+    </section>
+
+    <!-- Table 1: Overview -->
+    <section class="section-card" aria-label="Overview Table">
+        <h2><span class="icon">📊</span> Table 1: Overview of Key JBJS Learning Resources</h2>
+        <div class="table-wrap">
+            <table aria-describedby="Table 1 provides a high-level overview of key JBJS learning resources, their purposes, audiences, features, and credit availability.">
+                <caption>Table 1 — Key JBJS Learning Resources Overview <span class="ev-badge ev-desc">Descriptive — [5–14]</span></caption>
+                <thead>
+                    <tr>
+                        <th>Resource Name</th>
+                        <th>Primary Purpose</th>
+                        <th>Target Audience</th>
+                        <th>Key Features / Content</th>
+                        <th>CME/SAE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>JBJS Clinical Classroom</strong></td>
+                        <td>Adaptive Learning, Exam Prep, CME/SAE</td>
+                        <td>Surgeons, Residents, Fellows</td>
+                        <td>Over 1,000 questions, personalized algorithm, confidence assessment, content across 11 subspecialties</td>
+                        <td>Up to 750</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JBJS Summaries</strong></td>
+                        <td>"State of the Science" Updates</td>
+                        <td>Practicing Surgeons</td>
+                        <td>Synopses of common conditions across nine subspecialty areas</td>
+                        <td>Yes (Article-based)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Article Collections</strong></td>
+                        <td>Topical Deep Dives</td>
+                        <td>Surgeons, Researchers</td>
+                        <td>Curated articles on <em>What's New</em>, <em>Current Concepts</em>, and Artificial Intelligence</td>
+                        <td>Varies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JBJS Video</strong></td>
+                        <td>Surgical Technique &amp; Research Synopsis</td>
+                        <td>Surgeons, Residents</td>
+                        <td>Over 4,000 procedural videos, author insights, and video abstracts</td>
+                        <td>Included in CME Packages</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JBJS Podcasts</strong></td>
+                        <td>Staying Current, Expert Discussion</td>
+                        <td>All Orthopedic Professionals</td>
+                        <td><em>OrthoJoe</em> for scientific trends; <em>Your Case is On Hold</em> for article discussions with pop-culture perspective</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OITE Prep Modules</strong></td>
+                        <td>In-Training Exam Preparation</td>
+                        <td>Residents</td>
+                        <td>Focused question banks based on official OITE blueprints</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Journal Club Support</strong></td>
+                        <td>Fostering Resident Education</td>
+                        <td>Residency Programs, Residents</td>
+                        <td>Funding and resources to enhance journal club activities and critical appraisal skills</td>
+                        <td>No</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Core Publications -->
+    <section class="section-card" aria-label="Core Publications">
+        <h2><span class="icon">📚</span> The Core Publications: Foundation of JBJS Knowledge</h2>
+        <p>The bedrock of the JBJS educational platform is its portfolio of <strong>six specialized journals</strong>. This collection is not redundant; it represents a sophisticated content strategy where each publication serves a <strong>distinct and complementary purpose</strong>. This segmentation is designed to meet the varied information needs that arise throughout a surgeon's clinical and academic workflow. <span class="ev-badge ev-expert">Expert Opinion — [4]</span></p>
+        
+        <div class="callout">
+            <strong>Workflow Example:</strong> A surgeon might read the flagship journal for a landmark clinical trial → consult <em>JBJS Reviews</em> for a broader understanding → turn to <em>JBJS Essential Surgical Techniques</em> for a procedural guide → and search <em>JBJS Case Connector</em> when faced with an unexpected complication.
+        </div>
+
+        <h3>1. The Journal of Bone &amp; Joint Surgery (JBJS) — Flagship</h3>
+        <p>Published <strong>twice monthly</strong>, this is the primary source of foundational evidence for the entire ecosystem. Its core mission is to publish only the <strong>highest quality clinical and scientific research</strong> deemed clinically relevant and likely to influence essential thinking among orthopedic surgeons. This is the journal of record for landmark studies and practice-changing research. <span class="ev-badge ev-desc">Descriptive — [1, 4]</span></p>
+
+        <h3>2. JBJS Open Access</h3>
+        <p>A <strong>continuously published, online-only journal</strong> that provides free, perpetual, and unrestricted access to readers worldwide. Its mission is to expand the capacity of JBJS by disseminating a steady flow of evidence-based scientific studies, educational articles, and reviews from all sources and countries. Indexed in <strong>PubMed Central and Scopus</strong>. <span class="ev-badge ev-desc">Descriptive — [3]</span></p>
+
+        <h3>3. JBJS Reviews</h3>
+        <p>Designed for efficient knowledge synthesis, this online journal continuously publishes <strong>thorough and critical reviews</strong> of clinical and scientific research on topics of importance to orthopedic surgeons. All articles are authored by practicing surgeons and faculty members recognized as experts in their respective fields. <span class="ev-badge ev-desc">Descriptive — [4]</span></p>
+
+        <h3>4. JBJS Essential Surgical Techniques</h3>
+        <p>A highly visual and practical journal that leverages digital media to provide <strong>detailed, step-by-step presentations of surgical procedures</strong>. Each article is extensively illustrated with high-quality images and frequently features video excerpts. A key feature is the clear highlighting of <strong>indications, contraindications, potential pitfalls, and challenges</strong> associated with each technique. <span class="ev-badge ev-desc">Descriptive — [4, 10, 16]</span></p>
+
+        <h3>5. JBJS Case Connector</h3>
+        <p>A unique journal focused on rare or unusual case reports and complications. Its primary innovation lies in its function as a <strong>searchable database</strong> — compiling symptoms, conditions, and demographic details to empower surgeons to find similar cases, identify emerging trends, and distinguish between truly rare events and repeated instances of a larger, unrecognized problem. <span class="ev-badge ev-desc">Descriptive — [4, 17, 18, 19]</span></p>
+
+        <!-- Comparative Table of Journals -->
+        <div class="table-wrap">
+            <table>
+                <caption>Table 2 — Comparative Analysis of JBJS Journal Portfolio <span class="ev-badge ev-desc">Derived from source — [1, 3, 4, 17]</span></caption>
+                <thead>
+                    <tr>
+                        <th>Journal</th>
+                        <th>Publication Format</th>
+                        <th>Primary Content Type</th>
+                        <th>Access Model</th>
+                        <th>Best Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>JBJS</strong> (Flagship)</td>
+                        <td>Bi-monthly, print + digital</td>
+                        <td>Original research, landmark trials</td>
+                        <td>Subscription</td>
+                        <td>Finding practice-changing evidence</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JBJS Open Access</strong></td>
+                        <td>Continuous, online-only</td>
+                        <td>Evidence-based studies &amp; reviews</td>
+                        <td>Free, open access</td>
+                        <td>Broad dissemination; global readership</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JBJS Reviews</strong></td>
+                        <td>Continuous, online</td>
+                        <td>Critical reviews of research topics</td>
+                        <td>Subscription</td>
+                        <td>Efficient knowledge synthesis on broad topics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Essential Surgical Techniques</strong></td>
+                        <td>Continuous, online</td>
+                        <td>Step-by-step surgical guides with video</td>
+                        <td>Subscription</td>
+                        <td>Pre-operative planning &amp; skill refinement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JBJS Case Connector</strong></td>
+                        <td>Continuous, online</td>
+                        <td>Case reports &amp; complication database</td>
+                        <td>Subscription</td>
+                        <td>Solving unusual clinical presentations</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- CME & MOC -->
+    <section class="section-card" aria-label="CME and MOC Resources">
+        <h2><span class="icon">🎓</span> Structured Learning: CME &amp; MOC Resources</h2>
+        <p>JBJS has developed a sophisticated suite of resources specifically designed to meet Continuing Medical Education (CME) and Maintenance of Certification (MOC) requirements in a structured, efficient, and highly effective manner. <span class="ev-badge ev-expert">Expert Opinion — [6, 13]</span></p>
+
+        <div class="callout warning">
+            <strong>Strategic Unbundling:</strong> A notable aspect of the JBJS model is the strategic unbundling of CME from content subscriptions. A surgeon can purchase a comprehensive CME package to fulfill all MOC requirements <em>without</em> needing a full subscription to the journal portfolio. As stated: <em>"A subscription to the JBJS Journals is not required to complete CME activities. Access to the relevant articles is provided within the CME activity."</em> <span class="ev-badge ev-desc">Direct quote — [13]</span>
+        </div>
+
+        <h3>The JBJS Clinical Classroom: An Adaptive Learning Engine</h3>
+        <p>The centerpiece of JBJS structured learning is the <em>JBJS Clinical Classroom</em>. This is not a conventional question bank but a powerful online learning system that employs <strong>"a biological model of adaptive learning technology"</strong>. The platform's algorithm observes an individual's learning patterns and performance to deliver individualized content that targets their knowledge, skill, and confidence deficits. This approach has been shown to potentially save users <strong>up to 25–50% of their study time</strong> compared to traditional platforms. <span class="ev-badge ev-desc">Descriptive — [6]</span></p>
+
+        <ul>
+            <li><strong>Content scope:</strong> Over 1,021 questions and 515 learning objectives spanning all orthopedic subspecialties <span class="ev-badge ev-desc">[6]</span></li>
+            <li><strong>Quality assurance:</strong> All material developed by clinical experts, rigorously peer-reviewed, and grounded in best available evidence and clinical practice guidelines <span class="ev-badge ev-desc">[22]</span></li>
+            <li><strong>CME credit structure:</strong> 1 AMA PRA Category 1 Credit™ for every 6 questions answered correctly; 10 SAE credits for every 100 questions answered correctly <span class="ev-badge ev-desc">[8]</span></li>
+            <li><strong>Total credits available:</strong> Up to <strong>750 CME &amp; ABOS SAE credits</strong> <span class="ev-badge ev-desc">[6]</span></li>
+        </ul>
+
+        <h3>CME Subscription Packages</h3>
+        <div class="table-wrap">
+            <table>
+                <caption>Table 3 — Comparison of JBJS CME Subscription Packages <span class="ev-badge ev-desc">Derived from source — [13, 21, 23]</span></caption>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>JBJS CME Package ($349/yr)</th>
+                        <th>JBJS Platinum Package ($499/yr)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Total CME Credits</strong></td>
+                        <td>~1,100</td>
+                        <td>~1,100</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clinical Classroom Access</strong></td>
+                        <td>✅ Full (750 credits)</td>
+                        <td>✅ Full (750 credits)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JBJS Video Library</strong></td>
+                        <td>✅ Full access</td>
+                        <td>✅ Full access</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Article-Based CME</strong></td>
+                        <td>✅ ~350 additional credits via Quarterly, Reviews, Summaries</td>
+                        <td>✅ ~350 additional credits via Quarterly, Reviews, Summaries</td>
+                    </tr>
+                    <tr>
+                        <td><strong>All 6 JBJS Journals</strong></td>
+                        <td>❌ Not included</td>
+                        <td>✅ Full digital access</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Print Issues (JBJS Flagship)</strong></td>
+                        <td>❌</td>
+                        <td>✅ 24 print issues/year</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Surgeons focused primarily on MOC fulfillment</td>
+                        <td>Surgeons wanting complete ecosystem access</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Article-Based CME Opportunities</h3>
+        <p>Beyond the <em>Clinical Classroom</em>, CME credits can be earned directly by engaging with specific content. A primary source is <strong>JBJS Summaries</strong> — concise synopses distilling the current "State of the Science" for common orthopedic conditions across nine subspecialties. They are designed for efficient learning and are a designated source for earning CME credits. <span class="ev-badge ev-desc">Descriptive — [9]</span></p>
+    </section>
+
+    <!-- Curated Content -->
+    <section class="section-card" aria-label="Curated Content">
+        <h2><span class="icon">🔍</span> Curated Content: Article Collections &amp; Summaries</h2>
+        <p>JBJS addresses information overload by acting as an <strong>expert filter and sense-maker</strong>. Resources like the "What's New" series or the "Evidence-Based Orthopaedics Collection" provide context and interpretation that can be as valuable as the original research itself. <span class="ev-badge ev-expert">Expert Opinion — [10]</span></p>
+
+        <h3>Flagship Article Collections</h3>
+        <ul>
+            <li><strong>Current Concepts Reviews:</strong> 132 articles providing comprehensive and timely reviews of the latest literature on focused topics <span class="ev-badge ev-desc">[10]</span></li>
+            <li><strong>What's New By Subspecialty:</strong> 109 articles offering an annual review of the most important recent scientific advancements within each orthopedic subspecialty <span class="ev-badge ev-desc">[10]</span></li>
+            <li><strong>Evidence-Based Orthopaedics Collection:</strong> Published quarterly; highlights three high-quality studies with abstracts and expert commentary <span class="ev-badge ev-desc">[10]</span></li>
+            <li><strong>AOA Critical Issues in Education:</strong> 162 articles in partnership with the American Orthopaedic Association, focusing on major educational issues <span class="ev-badge ev-desc">[10, 15, 25]</span></li>
+            <li><strong>Topical Collections:</strong> Dynamic collections on emerging topics including Artificial Intelligence (56 articles), COVID-19 (133 articles), Pain Management, and Large Database Research <span class="ev-badge ev-desc">[10]</span></li>
+        </ul>
+
+        <h3>Subspecialty-Specific Resources</h3>
+        <ul>
+            <li><strong>Subspecialty Channels:</strong> Dedicated channels curating articles, videos, infographics, podcasts, and topic collections for each specialty area. Available for <strong>$179/year per channel</strong> or included in the Platinum Package <span class="ev-badge ev-desc">[26]</span></li>
+            <li><strong>JBJS Summaries:</strong> Concise "State of the Science" synopses organized across <strong>nine subspecialties</strong>: Foot &amp; Ankle, Hand &amp; Wrist, Hip, Knee, Pediatrics, Shoulder &amp; Elbow, Spine, Sports Medicine, and Trauma <span class="ev-badge ev-desc">[9]</span></li>
+        </ul>
+    </section>
+
+    <!-- Multimedia -->
+    <section class="section-card" aria-label="Multimedia Resources">
+        <h2><span class="icon">🎬</span> Multimedia Learning: Video, Audio &amp; Interactive Content</h2>
+        <p>Recognizing that orthopedics is a craft as much as a science, JBJS has invested heavily in multimedia resources. By ensuring video content is <strong>"supported by published outcomes and rigorously peer reviewed,"</strong> JBJS maintains its evidence-based authority while bridging the gap between "knowing" the evidence and "doing" the procedure. <span class="ev-badge ev-desc">Direct quote — [12]</span></p>
+
+        <h3>Video Resources</h3>
+        <ul>
+            <li><strong>Orthopaedic Techniques / Ortho Procedures:</strong> Over <strong>4,000 videos</strong> demonstrating the latest surgical techniques, from basic to advanced, supported by published outcomes and peer review <span class="ev-badge ev-desc">[11, 12]</span></li>
+            <li><strong>Video Abstracts:</strong> Short (2–3 minute) audio-visual synopses of select scientific studies providing quick overviews of key findings <span class="ev-badge ev-desc">[11]</span></li>
+            <li><strong>Author Insights:</strong> Informal videos where authors share personal reflections on their research and its potential impact <span class="ev-badge ev-desc">[11]</span></li>
+        </ul>
+
+        <h3>Audio Resources</h3>
+        <ul>
+            <li><strong>OrthoJoe Podcast:</strong> Hosted by Drs. Mohit Bhandari and Marc Swiontkowski; covers trending topics in orthopedic science and research <span class="ev-badge ev-desc">[11]</span></li>
+            <li><strong>Your Case is On Hold Podcast:</hosted></li>
+            <li><strong>Your Case is On Hold Podcast:</strong> Hosted by Drs. Antonia Chen and Andrew Schoenfeld; discusses latest articles with "an added dose of entertainment and pop culture" <span class="ev-badge ev-desc">[11]</span></li>
+            <li><strong>JBJS Audio App:</strong> Mobile application providing narrated versions of key articles during commutes or other activities <span class="ev-badge ev-desc">[11]</span></li>
+        </ul>
+
+        <h3>Visual &amp; Interactive Tools</h3>
+        <ul>
+            <li><strong>Infographics:</strong> Visual representations distilling study data, clinical takeaways, and outcomes into an at-a-glance format <span class="ev-badge ev-desc">[12]</span></li>
+            <li><strong>Image Quiz:</strong> Interactive feature allowing users to test diagnostic skills by interpreting clinical images <span class="ev-badge ev-desc">[5]</span></li>
+        </ul>
+    </section>
+
+    <!-- Trainees & Educators -->
+    <section class="section-card" aria-label="Trainees and Educators">
+        <h2><span class="icon">👨‍🎓</span> Resources for Trainees and Educators</h2>
+        <p>JBJS demonstrates a clear strategic focus on the next generation of surgeons. This heavy investment in free or low-cost resources represents a long-term strategy to cultivate lifelong users. A surgeon who has relied on JBJS resources throughout five years of residency is highly likely to view the platform as an essential tool upon entering practice. <span class="ev-badge ev-expert">Expert Opinion — [30, 31]</span></p>
+
+        <h3>For Residents and Fellows</h3>
+        <ul>
+            <li><strong>JBJS Clinical Classroom:</strong> A primary study tool highly recommended for OITE and ABOS Part 1 board preparation, containing over <strong>4,500 "probes"</strong> (questions) and more than 3,000 learning resources <span class="ev-badge ev-desc">[7]</span></li>
+            <li><strong>OITE Prep Modules:</strong> Curated question banks based on official OITE blueprints. Pricing: $19.99 for one year; $34.99 for a two-year bundle (90-day access products) <span class="ev-badge ev-desc">[7]</span></li>
+            <li><strong>Free Subscription for CORD Residents:</strong> Through a partnership with the AOA, JBJS provides free subscription packages to residents at CORD-member programs (individual value: $255/year). Includes digital access to 24 issues of <em>JBJS</em> annually, the online PDF archive dating to 1889, and <em>JBJS Reviews</em>. <span class="ev-badge ev-desc">[30, 31]</span></li>
+        </ul>
+
+        <h3>For Educators and Residency Programs</h3>
+        <ul>
+            <li><strong>Robert Bucholz Resident Journal Club Support Program:</strong> Provides funding to US-based residency programs to enhance journal club activities, fostering career-long skills in critically evaluating scientific literature. Funds can be used for refreshments, venue rental, or visiting professors. <span class="ev-badge ev-desc">[2, 14]</span></li>
+            <li><strong>Clinical Classroom for Residency Programs:</strong> Group subscriptions include free administrative tools allowing program directors and faculty to monitor resident performance, create customized exams, and utilize premade examinations for OITE and board preparation. <span class="ev-badge ev-desc">[7]</span></li>
+        </ul>
+    </section>
+
+    <!-- Strategic Recommendations -->
+    <section class="section-card" aria-label="Strategic Recommendations">
+        <h2><span class="icon">🧭</span> Strategic Recommendations by Career Profile</h2>
+        <p>The optimal approach to leveraging the JBJS ecosystem depends on an individual's career stage, clinical focus, and learning goals. <span class="ev-badge ev-expert">Expert Opinion — Source §Strategic Recommendations</span></p>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 4 — Strategic Resource Recommendations by Surgeon Profile <span class="ev-badge ev-expert">Derived from source — [6, 9, 11, 13, 26]</span></caption>
+                <thead>
+                    <tr>
+                        <th>Profile</th>
+                        <th>Primary Goal</th>
+                        <th>Recommended Resource(s)</th>
+                        <th>Approx. Annual Cost</th>
+                        <th>Key Strategy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MOC / Recertification Focus</strong></td>
+                        <td>Fulfill CME/SAE requirements efficiently</td>
+                        <td>JBJS CME Package; Clinical Classroom; JBJS Summaries</td>
+                        <td>$349</td>
+                        <td>Use adaptive learning to target knowledge gaps; supplement with article-based CME from Summaries</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Subspecialist — Cutting Edge</strong></td>
+                        <td>Deep, current subspecialty knowledge</td>
+                        <td>Subspecialty Channel ($179) or Platinum Package ($499); "What's New" collection; JBJS Audio App</td>
+                        <td>$179–$499</td>
+                        <td>Monthly "What's New" review; weekly article browsing; audio learning during commutes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>General Orthopedist — Quick Refresher</strong></td>
+                        <td>Rapid knowledge update on uncommon conditions</td>
+                        <td>JBJS Summaries; Essential Surgical Techniques; Ortho Procedures videos</td>
+                        <td>Varies (pay-per-use or subscription)</td>
+                        <td>Start with Summaries pre-clinic; use surgical technique articles/videos for case preparation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Academic Surgeon / Program Director</strong></td>
+                        <td>Train the next generation; own professional development</td>
+                        <td>Clinical Classroom group subscription; AOA/CORD free resident access; Journal Club Support Program</td>
+                        <td>Varies by program</td>
+                        <td>Enroll all trainees in free CORD subscription; use admin tools for rotation exams; apply for Journal Club funding annually</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Limitations -->
+    <section class="section-card" aria-label="Limitations">
+        <h2><span class="icon">⚠️</span> Source Document Limitations</h2>
+        <div class="callout warning">
+            <p>This summary is based <strong>exclusively</strong> on the provided source document, which is a <strong>descriptive, expert-opinion-based strategic guide</strong> — not a systematic review, meta-analysis, or clinical trial. Therefore:</p>
+            <ul>
+                <li>No Level I–II evidence (RCTs, meta-analyses) is available from this source for clinical decision-making.</li>
+                <li>The document does not include patient outcomes data, efficacy comparisons, or clinical thresholds.</li>
+                <li>Claims about efficiency ("25–50% time savings") and credit structures are derived from JBJS's own marketing materials as cited in the source <span class="ev-badge ev-mixed">Limited Evidence — [6]</span>.</li>
+                <li>No independent validation studies of the Clinical Classroom's adaptive algorithm are cited.</li>
+                <li>Pricing and feature availability are current as of the document's access date (August 2025) and may change.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- References -->
+    <section class="section-card ref-section" aria-label="References">
+        <h2><span class="icon">📖</span> References (Derived from Source Document)</h2>
+        <ol>
+            <li>About JBJS – The Journal of Bone &amp; Joint Surgery. <a href="https://www.jbjs.org/about-jbjs.php" target="_blank" rel="noopener">jbjs.org/about-jbjs.php</a></li>
+            <li>JBJS Journal Club 2023–24. <a href="https://clinicalclassroom.jbjs.org/journal-club-2023-24/" target="_blank" rel="noopener">clinicalclassroom.jbjs.org</a></li>
+            <li>About JBJS Open Access. <a href="https://www.jbjs.org/about-jbjs-openaccess.php" target="_blank" rel="noopener">jbjs.org/about-jbjs-openaccess.php</a></li>
+            <li>Media Kit – JBJS Portfolio. <a href="https://www.wolterskluwer.com/en/solutions/lippincott-hcp-access/media-kits/jbjs-portfolio" target="_blank" rel="noopener">wolterskluwer.com</a></li>
+            <li>The Journal of Bone and Joint Surgery. <a href="https://www.jbjs.org/" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>JBJS Clinical Classroom – Orthopaedic Education Platform. <a href="https://clinicalclassroom.jbjs.org/" target="_blank" rel="noopener">clinicalclassroom.jbjs.org</a></li>
+            <li>OITE ABOS Training for Residency Programs. <a href="https://clinicalclassroom.jbjs.org/residents-and-resident-directors/" target="_blank" rel="noopener">clinicalclassroom.jbjs.org</a></li>
+            <li>Online CME Credits for Orthopaedic Surgeons. <a href="https://clinicalclassroom.jbjs.org/orthopaedic-surgeons/" target="_blank" rel="noopener">clinicalclassroom.jbjs.org</a></li>
+            <li>All: JBJS Summaries – Earn CME credits. <a href="https://www.jbjs.org/summaries.php" target="_blank" rel="noopener">jbjs.org/summaries.php</a></li>
+            <li>JBJS Article Collections. <a href="https://www.jbjs.org/collections.php" target="_blank" rel="noopener">jbjs.org/collections.php</a></li>
+            <li>JBJS Media – Journal of Bone and Joint Surgery, Inc. <a href="https://storefront.jbjs.org/pages/jbjs-media" target="_blank" rel="noopener">storefront.jbjs.org</a></li>
+            <li>JBJS Surgical Videos and Media. <a href="https://www.jbjs.org/media.php" target="_blank" rel="noopener">jbjs.org/media.php</a></li>
+            <li>JBJS Orthopedic CME. <a href="https://storefront.jbjs.org/products/jbjs-cme" target="_blank" rel="noopener">storefront.jbjs.org</a></li>
+            <li>Robert Bucholz Resident Journal Club Support Program Application. <a href="https://clinicalclassroom.jbjs.org/wp-content/uploads/2024/07/JBJS_Journal_Club_Application_2024.pdf" target="_blank" rel="noopener">PDF</a></li>
+            <li>AOA Critical Issues in Education Channel. <a href="https://www.aoassn.org/critical-issues-in-education/" target="_blank" rel="noopener">aoassn.org</a></li>
+            <li>JBJS Essential Surgical Techniques of 2023. <a href="https://www.jbjs.org/collection.php?id=38" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>JBJS Case Connector Instructions for Authors. <a href="https://www.jbjs.org/cc-ifa.php" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>About JBJS Case Connector. <a href="https://www.jbjs.org/about-jbjs-caseconnector.php" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>JBJS Case Connector. <a href="https://www.jbjs.org/journal.php?j=case" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>JBJS Store. <a href="https://storefront.jbjs.org/" target="_blank" rel="noopener">storefront.jbjs.org</a></li>
+            <li>Orthopedic CME Online – JBJS Clinical Classroom. <a href="https://clinicalclassroom.jbjs.org/more-information/more-jbjs-cme/" target="_blank" rel="noopener">clinicalclassroom.jbjs.org</a></li>
+            <li>JBJS Clinical Classroom for Orthopaedic Surgeons (All Modules). <a href="https://storefront.jbjs.org/products/jbjs-clinical-classroom-for-orthopedic-surgeons-all-modules" target="_blank" rel="noopener">storefront.jbjs.org</a></li>
+            <li>JBJS Platinum. <a href="https://storefront.jbjs.org/products/jbjs-platinum" target="_blank" rel="noopener">storefront.jbjs.org</a></li>
+            <li>What's New By Subspecialty Collection. <a href="https://www.jbjs.org/collection.php?id=13" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>AOA Critical Issues in Education Collection. <a href="https://www.jbjs.org/collection.php?id=12" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>Subspecialties – JBJS Store. <a href="https://storefront.jbjs.org/pages/all-subspecialties" target="_blank" rel="noopener">storefront.jbjs.org</a></li>
+            <li>Sports Medicine: JBJS Summaries. <a href="https://hub.jbjs.org/summaries.php?topic=sports_medicine" target="_blank" rel="noopener">hub.jbjs.org</a></li>
+            <li>Hip: JBJS Summaries. <a href="https://www.jbjs.org/summaries.php?topic=hip" target="_blank" rel="noopener">jbjs.org</a></li>
+            <li>JBJSmedia YouTube Channel. <a href="https://www.youtube.com/jbjsmedia" target="_blank" rel="noopener">youtube.com</a></li>
+            <li>JBJS – American Orthopaedic Association. <a href="https://www.aoassn.org/5879-2/" target="_blank" rel="noopener">aoassn.org</a></li>
+            <li>JBJS Subscription for CORD Residents. <a href="https://www.aoassn.org/jbjs-for-residents/" target="_blank" rel="noopener">aoassn.org</a></li>
+            <li>Journal Club Archives – OrthoBuzz. <a href="https://orthobuzz.jbjs.org/category/journal-club/" target="_blank" rel="noopener">orthobuzz.jbjs.org</a></li>
+        </ol>
+    </section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Resource Advisor">
+    <div class="sidebar-card">
+        <h2>🎯 JBJS Resource Advisor</h2>
+        <p style="font-size:.78rem;color:#4a5568;text-align:center;margin-bottom:1rem;">Adjust parameters below to receive a personalized recommendation based on the source document.</p>
+
+        <!-- Slider 1: Career Stage -->
+        <div class="slider-group">
+            <label for="careerSlider">Career Stage <span class="val-display" id="careerVal">Practicing Surgeon</span></label>
+            <input type="range" id="careerSlider" min="0" max="4" step="1" value="2" aria-label="Career stage selection">
+            <div class="range-labels"><span>Medical Student</span><span>Resident</span><span>Practicing</span><span>Subspecialist</span><span>Educator/PD</span></div>
+        </div>
+
+        <!-- Slider 2: Annual CME Need -->
+        <div class="slider-group">
+            <label for="cmeSlider">Annual CME Credits Needed <span class="val-display" id="cmeVal">500</span></label>
+            <input type="range" id="cmeSlider" min="0" max="1200" step="100" value="500" aria-label="Annual CME credit requirement">
+            <div class="range-labels"><span>0</span><span>300</span><span>600</span><span>900</span><span>1,200</span></div>
+        </div>
+
+        <!-- Slider 3: Budget -->
+        <div class="slider-group">
+            <label for="budgetSlider">Annual Education Budget (USD) <span class="val-display" id="budgetVal">$349</span></label>
+            <input type="range" id="budgetSlider" min="0" max="600" step="25" value="349" aria-label="Annual education budget in USD">
+            <div class="range-labels"><span>$0</span><span>$150</span><span>$349</span><span>$499</span><span>$600</span></div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn btn-reset" id="resetBtn" aria-label="Reset all sliders to default values">↺ Reset</button>
+            <button class="btn btn-copy" id="copyBtn" aria-label="Copy recommendation to clipboard">📋 Copy Report</button>
+        </div>
+        <p class="budget-note">Note: Pricing reflects source document data (Aug 2025 access dates). Verify current pricing at jbjs.org.</p>
+
+        <!-- Recommendation Box -->
+        <div class="rec-box" id="recBox" aria-live="polite">
+            <h3>📌 Personalized Recommendation</h3>
+            <div id="recContent"></div>
+        </div>
+    </div>
+</aside>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+    <p>Educational summary generated from source document: <em>"A Strategic Guide to the JBJS Educational Ecosystem for the Practicing Orthopedic Surgeon."</em></p>
+    <p>All content derived exclusively from the provided source. Pricing &amp; features reflect data accessed August 26, 2025. © JBJS Content referenced under fair-use educational summary.</p>
+</footer>
+
+<script>
+(function(){
+    const careerLabels = ['Medical Student','Resident/Fellow','Practicing Surgeon','Subspecialist','Educator / Program Director'];
+    
+    const careerSlider = document.getElementById('careerSlider');
+    const cmeSlider = document.getElementById('cmeSlider');
+    const budgetSlider = document.getElementById('budgetSlider');
+    const careerVal = document.getElementById('careerVal');
+    const cmeVal = document.getElementById('cmeVal');
+    const budgetVal = document.getElementById('budgetVal');
+    const recContent = document.getElementById('recContent');
+    const resetBtn = document.getElementById('resetBtn');
+    const copyBtn = document.getElementById('copyBtn');
+
+    function updateDisplay(){
+        careerVal.textContent = careerLabels[careerSlider.value];
+        cmeVal.textContent = Number(cmeSlider.value).toLocaleString();
+        budgetVal.textContent = '$' + Number(budgetSlider.value).toLocaleString();
+        generateRecommendation();
+    }
+
+    function generateRecommendation(){
+        const career = parseInt(careerSlider.value);
+        const cme = parseInt(cmeSlider.value);
+        const budget = parseInt(budgetSlider.value);
+        let recs = [];
+
+        if(career === 0){
+            // Medical Student
+            recs.push({item:'<strong>JBJS Open Access</strong> (Free)', detail:'Access foundational orthopedic knowledge with no cost barrier. Open-access, indexed in PubMed Central.', price:'Free', priority:'Essential'});
+            recs.push({item:'<strong>JBJS Podcasts</strong> (Free)', detail:'OrthoJoe and Your Case is On Hold for staying current with trending topics.', price:'Free', priority:'Recommended'});
+        } else if(career === 1){
+            // Resident
+            recs.push({item:'<strong>AOA/CORD Free Subscription</strong>', detail:'Free if at CORD-member program. Includes 24 issues/yr of JBJS, full archive to 1889, and JBJS Reviews. (Individual value: $255/yr) [Source: 30,31]', price:'Free', priority:'Essential'});
+            if(budget >= 20){
+                recs.push({item:'<strong>OITE Prep Modules</strong>', detail:'Curated question banks based on official OITE blueprints. 90-day access.', price:'$19.99–$34.99', priority:'Highly Recommended'});
+            }
+            if(budget >= 349){
+                recs.push({item:'<strong>JBJS CME Package</strong>', detail:'Full Clinical Classroom access (750 SAE credits), JBJS Video, and article-based CME. Ideal for early MOC preparation.', price:'$349/yr', priority:'Recommended'});
+            } else {
+                recs.push({item:'<strong>Clinical Classroom (standalone)</strong>', detail:'If budget allows, access the adaptive learning engine with 4,500+ probes for OITE and ABOS prep [Source: 7].', price:'Varies', priority:'When budget permits'});
+            }
+        } else if(career === 2){
+            // Practicing Surgeon
+            if(cme >= 800){
+                if(budget >= 499){
+                    recs.push({item:'<strong>JBJS Platinum Package</strong>', detail:'~1,100 CME credits, Clinical Classroom, JBJS Video, all 6 journals, 24 print issues. Complete ecosystem access.', price:'$499/yr', priority:'Best Value'});
+                } else if(budget >= 349){
+                    recs.push({item:'<strong>JBJS CME Package</strong>', detail:'~1,100 CME credits via Clinical Classroom (750) + article-based CME (350). Sufficient for most MOC needs [Source: 13].', price:'$349/yr', priority:'Essential'});
+                } else {
+                    recs.push({item:'<strong>JBJS Summaries (article-based CME)</strong>', detail:'Lower-cost option for earning CME credits. Concise State-of-the-Science synopses across 9 subspecialties [Source: 9].', price:'Varies', priority:'Budget-friendly'});
+                }
+            } else if(cme >= 300){
+                if(budget >= 349){
+                    recs.push({item:'<strong>JBJS CME Package</strong>', detail:'Addresses moderate CME needs with ~1,100 available credits and efficient adaptive learning [Source: 13].', price:'$349/yr', priority:'Recommended'});
+                }
+                recs.push({item:'<strong>JBJS Summaries</strong>', detail:'Quick, high-yield condition summaries with CME credits. Ideal supplement.', price:'Included or pay-per-use', priority:'Recommended'});
+            } else {
+                recs.push({item:'<strong>JBJS Summaries</strong>', detail:'Concise synopses for quick clinical refreshers across 9 subspecialties with CME credit [Source: 9].', price:'Varies', priority:'Core resource'});
+                if(budget >= 179){
+                    recs.push({item:'<strong>Subspecialty Channel</strong>', detail:'Deep-dive into your area of focus with curated articles, videos, and collections [Source: 26].', price:'$179/yr', priority:'Recommended'});
+                }
+            }
+            recs.push({item:'<strong>JBJS Video / Ortho Procedures</strong>', detail:'4,000+ peer-reviewed surgical technique videos for pre-operative planning [Source: 11,12].', price:'Included in packages', priority:'Practical supplement'});
+        } else if(career === 3){
+            // Subspecialist
+            if(budget >= 499){
+                recs.push({item:'<strong>JBJS Platinum Package</strong>', detail:'Unlimited access to all journals + subspecialty channels + full multimedia library. Ideal for cutting-edge practice [Source: 23].', price:'$499/yr', priority:'Best Value'});
+            } else if(budget >= 179){
+                recs.push({item:'<strong>Subspecialty Channel</strong>', detail:'Dedicated channel with curated content for your subspecialty. 9 subspecialty areas available [Source: 26].', price:'$179/yr', priority:'Essential'});
+            }
+            recs.push({item:'<strong>"What\'s New By Subspecialty" Collection</strong>', detail:'109 articles offering annual review of most important recent advancements. Monthly review recommended [Source: 10,24].', price:'Subscription-dependent', priority:'Core strategy'});
+            recs.push({item:'<strong>JBJS Audio App</strong>', detail:'Narrated key articles for learning during commutes. Transforms passive time into productive learning [Source: 11].', price:'Included in subscription', priority:'Efficiency tool'});
+        } else if(career === 4){
+            // Educator / PD
+            recs.push({item:'<strong>Clinical Classroom (Group Subscription)</strong>', detail:'Admin tools for monitoring residents, creating custom exams, OITE/board prep. Transforms platform into institutional tool [Source: 7].', price:'Institutional pricing', priority:'Essential'});
+            recs.push({item:'<strong>Robert Bucholz Journal Club Support</strong>', detail:'Apply annually for funding to enhance journal club: refreshments, venue, visiting professors [Source: 2,14].', price:'Free (funded)', priority:'Must-apply'});
+            recs.push({item:'<strong>AOA/CORD Free Resident Subscriptions</strong>', detail:'Enroll all residents for free access to JBJS flagship + Reviews + archive [Source: 30,31].', price:'Free', priority:'Essential'});
+            recs.push({item:'<strong>Journal Club Article Starters Collection</strong>', detail:'Curated high-impact papers ideal for discussion and teaching critical appraisal [Source: 10].', price:'Subscription-dependent', priority:'Teaching tool'});
+            if(budget >= 349){
+                recs.push({item:'<strong>JBJS CME Package (personal use)</strong>', detail:'For your own MOC requirements: ~1,100 credits via Clinical Classroom + article-based CME.', price:'$349/yr', priority:'For personal CME'});
+            }
+        }
+
+        // Build HTML
+        let html = '';
+        if(recs.length === 0){
+            html = '<p style="font-size:.85rem;color:#718096;">Adjust the sliders above to see recommendations.</p>';
+        } else {
+            recs.forEach(function(r){
+                html += '<div class="rec-item"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:.72rem;font-weight:600;color:#276749;background:#f0fff4;padding:1px 6px;border-radius:4px;">' + r.priority + '</span><span class="price">' + r.price + '</span></div>' + r.item + '<div style="font-size:.78rem;color:#718096;margin-top:3px;">' + r.detail + '</div></div>';
+            });
+        }
+        recContent.innerHTML = html;
+    }
+
+    // Event listeners
+    careerSlider.addEventListener('input', updateDisplay);
+    cmeSlider.addEventListener('input', updateDisplay);
+    budgetSlider.addEventListener('input', updateDisplay);
+
+    // Reset
+    resetBtn.addEventListener('click', function(){
+        careerSlider.value = 2;
+        cmeSlider.value = 500;
+        budgetSlider.value = 349;
+        updateDisplay();
+    });
+
+    // Copy
+    copyBtn.addEventListener('click', function(){
+        const career = careerLabels[careerSlider.value];
+        const cme = Number(cmeSlider.value).toLocaleString();
+        const budget = '$' + Number(budgetSlider.value).toLocaleString();
+        const timestamp = new Date().toLocaleString('en-US',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+        
+        let text = '═══════════════════════════════════════\n';
+        text += 'JBJS Educational Ecosystem — Resource Advisor Report\n';
+        text += '═══════════════════════════════════════\n\n';
+        text += 'Generated: ' + timestamp + '\n\n';
+        text += 'PARAMETERS:\n';
+        text += '  Career Stage: ' + career + '\n';
+        text += '  Annual CME Need: ' + cme + ' credits\n';
+        text += '  Annual Budget: ' + budget + '\n\n';
+        text += 'RECOMMENDATIONS:\n';
+        const items = recContent.querySelectorAll('.rec-item');
+        let idx = 1;
+        items.forEach(function(item){
+            const title = item.querySelector('strong') ? item.querySelector('strong').textContent : 'Resource';
+            const price = item.querySelector('.price') ? item.querySelector('.price').textContent : '';
+            const detail = item.querySelector('div:last-child') ? item.querySelector('div:last-child').textContent : '';
+            const priority = item.querySelector('span') ? item.querySelector('span').textContent : '';
+            text += '  ' + idx + '. [' + priority + '] ' + title + ' (' + price + ')\n';
+            text += '     ' + detail + '\n\n';
+            idx++;
+        });
+        text += '───────────────────────────────────────\n';
+        text += 'Source: "A Strategic Guide to the JBJS Educational Ecosystem for the Practicing Orthopedic Surgeon"\n';
+        text += 'Evidence Level: Expert Opinion / Descriptive (Source document is not a clinical study)\n';
+        text += 'Pricing reflects data accessed August 26, 2025.\n';
+        text += '═══════════════════════════════════════\n';
+        
+        navigator.clipboard.writeText(text).then(function(){
+            copyBtn.textContent = '✅ Copied!';
+            setTimeout(function(){copyBtn.textContent = '📋 Copy Report';},2000);
+        }).catch(function(){
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyBtn.textContent = '✅ Copied!';
+            setTimeout(function(){copyBtn.textContent = '📋 Copy Report';},2000);
+        });
+    });
+
+    // Initial render
+    updateDisplay();
+})();
+</script>
+</body>
+</html>

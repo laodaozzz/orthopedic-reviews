@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigating Evidence in Orthopaedics: Registries, Databases & Adhesive Capsulitis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --col-bg: #f7f8fa;
+    --col-surface: #ffffff;
+    --col-primary: #1a5276;
+    --col-primary-light: #2980b9;
+    --col-accent: #e74c3c;
+    --col-text: #2c3e50;
+    --col-text-muted: #7f8c8d;
+    --col-border: #dce1e6;
+    --col-badge-1: #1e8449;
+    --col-badge-2: #2874a6;
+    --col-badge-3: #b9770e;
+    --col-badge-4: #7d3c98;
+    --col-badge-5: #922b21;
+    --col-callout: #eaf2f8;
+    --col-sidebar-bg: #f0f3f7;
+    --radius: 8px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: 'Source Serif 4', Georgia, serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: var(--font-body);
+    color: var(--col-text);
+    background: var(--col-bg);
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Header ─── */
+  .site-header {
+    background: linear-gradient(135deg, #1a3c5e 0%, #1a5276 50%, #217dbb 100%);
+    color: #fff;
+    padding: 2.4rem 2rem 2rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 3px 18px rgba(0,0,0,0.18);
+  }
+  .site-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.3;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .site-header p {
+    font-size: 0.88rem;
+    opacity: 0.85;
+    margin-top: 0.4rem;
+  }
+
+  /* ─── Layout ─── */
+  .page-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    max-width: 1320px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    align-items: start;
+  }
+  main { min-width: 0; }
+
+  /* ─── Sidebar ─── */
+  aside.sidebar {
+    position: sticky;
+    top: 100px;
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.3rem;
+    box-shadow: var(--shadow);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  .sidebar h2 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--col-primary);
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--col-primary-light);
+  }
+
+  /* Sliders */
+  .slider-group { margin-bottom: 1.4rem; }
+  .slider-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--col-text);
+    margin-bottom: 0.25rem;
+  }
+  .slider-group .value-display {
+    float: right;
+    font-weight: 700;
+    color: var(--col-primary);
+    font-size: 0.95rem;
+  }
+  .slider-group input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 4px;
+    background: linear-gradient(to right, var(--col-primary-light), var(--col-accent));
+    outline: none;
+    margin-top: 0.3rem;
+    cursor: pointer;
+  }
+  .slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--col-primary);
+    border: 3px solid #fff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.25);
+    cursor: grab;
+  }
+  .slider-group .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--col-text-muted);
+    margin-top: 0.15rem;
+  }
+
+  /* Recommendation box */
+  .recommendation-box {
+    background: var(--col-callout);
+    border-left: 4px solid var(--col-primary-light);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1rem 0.9rem;
+    margin-top: 1.2rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .recommendation-box h3 {
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
+    color: var(--col-primary);
+    margin-bottom: 0.5rem;
+  }
+  .recommendation-box .rec-text { font-size: 0.82rem; }
+  .rec-severity {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+  }
+  .rec-severity.mild { background: #d5f5e3; color: #1e8449; }
+  .rec-severity.moderate { background: #fdebd0; color: #b9770e; }
+  .rec-severity.severe { background: #fadbd8; color: #922b21; }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 0.5rem; margin-top: 1rem; }
+  .btn {
+    flex: 1;
+    padding: 0.55rem 0.7rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-family: var(--font-body);
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-reset { background: var(--col-border); color: var(--col-text); }
+  .btn-reset:hover { background: #c8ced6; }
+  .btn-export { background: var(--col-primary); color: #fff; }
+  .btn-export:hover { background: var(--col-primary-light); }
+
+  /* ─── Main Content Cards ─── */
+  .card {
+    background: var(--col-surface);
+    border: 1px solid var(--col-border);
+    border-radius: var(--radius);
+    padding: 1.8rem 2rem;
+    margin-bottom: 1.8rem;
+    box-shadow: var(--shadow);
+  }
+  .card h2 {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    color: var(--col-primary);
+    margin-bottom: 0.3rem;
+    line-height: 1.35;
+  }
+  .card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--col-primary);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--col-primary-light);
+    margin: 1.2rem 0 0.4rem;
+  }
+  .card p, .card li { font-size: 0.92rem; }
+  .card ul, .card ol { margin: 0.5rem 0 0.5rem 1.3rem; }
+  .card li { margin-bottom: 0.35rem; }
+  .card strong { color: var(--col-primary); }
+  .card .subtitle {
+    font-size: 0.88rem;
+    color: var(--col-text-muted);
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  /* Section divider */
+  .section-divider {
+    text-align: center;
+    margin: 0.5rem 0 1.5rem;
+    font-size: 0.78rem;
+    color: var(--col-text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ─── Evidence Badge ─── */
+  .ev-badge {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+    margin-left: 4px;
+    color: #fff;
+  }
+  .ev-1 { background: var(--col-badge-1); }
+  .ev-2 { background: var(--col-badge-2); }
+  .ev-3 { background: var(--col-badge-3); }
+  .ev-4 { background: var(--col-badge-4); }
+  .ev-5 { background: var(--col-badge-5); }
+  .ev-na { background: #7f8c8d; }
+
+  /* ─── Tables ─── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1rem 0;
+    border-radius: var(--radius);
+    border: 1px solid var(--col-border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+  caption {
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    background: var(--col-primary);
+    color: #fff;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  th {
+    background: #eaf0f6;
+    font-weight: 700;
+    text-align: left;
+    padding: 0.55rem 0.7rem;
+    border-bottom: 2px solid var(--col-primary-light);
+    white-space: nowrap;
+  }
+  td {
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid var(--col-border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) { background: #f9fafb; }
+
+  /* ─── Callout Box ─── */
+  .callout {
+    background: #fef9e7;
+    border-left: 4px solid #f39c12;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+  }
+  .callout.info {
+    background: var(--col-callout);
+    border-left-color: var(--col-primary-light);
+  }
+  .callout.warning {
+    background: #fdedec;
+    border-left-color: var(--col-accent);
+  }
+  .callout strong { color: inherit; }
+
+  /* ─── References ─── */
+  .references ol {
+    font-size: 0.8rem;
+    color: var(--col-text-muted);
+    line-height: 1.7;
+  }
+  .references li { margin-bottom: 0.25rem; }
+  .ref-num {
+    font-weight: 700;
+    color: var(--col-primary);
+    margin-right: 0.2rem;
+  }
+
+  /* ─── Phase Diagram ─── */
+  .phase-diagram {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin: 1.2rem 0;
+  }
+  .phase-box {
+    padding: 1rem;
+    border-radius: var(--radius);
+    text-align: center;
+    font-size: 0.82rem;
+  }
+  .phase-box.phase1 { background: #fadbd8; border: 2px solid #e74c3c; }
+  .phase-box.phase2 { background: #fdebd0; border: 2px solid #f39c12; }
+  .phase-box.phase3 { background: #d5f5e3; border: 2px solid #27ae60; }
+  .phase-box h4 {
+    margin: 0 0 0.3rem;
+    font-size: 0.88rem;
+    color: var(--col-text);
+  }
+  .phase-box .phase-duration {
+    font-size: 0.75rem;
+    color: var(--col-text-muted);
+    font-weight: 600;
+  }
+
+  /* ─── Risk Factor Tags ─── */
+  .risk-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0.7rem 0; }
+  .risk-tag {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #eaf2f8;
+    color: var(--col-primary);
+    border: 1px solid #b3d4eb;
+  }
+  .risk-tag.high { background: #fadbd8; color: #922b21; border-color: #f1948a; }
+
+  /* ─── Footer ─── */
+  .site-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.78rem;
+    color: var(--col-text-muted);
+    border-top: 1px solid var(--col-border);
+    margin-top: 2rem;
+  }
+
+  /* ─── Toast ─── */
+  .toast {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--col-primary);
+    color: #fff;
+    padding: 0.7rem 1.2rem;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 999;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 900px) {
+    .page-wrapper {
+      grid-template-columns: 1fr;
+    }
+    aside.sidebar {
+      position: relative;
+      top: 0;
+      max-height: none;
+      order: -1;
+    }
+    .phase-diagram { grid-template-columns: 1fr; }
+    .card { padding: 1.3rem 1.2rem; }
+  }
+  @media (max-width: 500px) {
+    .site-header { padding: 1.5rem 1rem 1.2rem; }
+    .page-wrapper { padding: 0 0.8rem; margin: 1rem auto; }
+    table { font-size: 0.74rem; }
+    th, td { padding: 0.4rem 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header class="site-header" role="banner">
+  <h1>Navigating the Evidence Landscape in Orthopaedic Research:<br>Registries, Databases &amp; Adhesive Capsulitis</h1>
+  <p>An interactive educational synthesis of clinical trial infrastructure and a prospective-cohort evidence review</p>
+</header>
+
+<!-- ═══════════════════════ PAGE WRAPPER ═══════════════════════ -->
+<div class="page-wrapper">
+
+  <!-- ══════════ MAIN CONTENT ══════════ -->
+  <main id="mainContent" role="main">
+
+    <!-- ── SECTION I ── -->
+    <article class="card" aria-label="Evidence Architecture">
+      <h2>I. The Architecture of Evidence in Orthopaedics</h2>
+      <p class="subtitle">A guide to clinical trial registries, biomedical databases, and strategic evidence retrieval</p>
+
+      <p>Evidence-based practice forms the bedrock of modern orthopaedic surgery and musculoskeletal medicine. The ability to critically appraise and synthesize the vast body of clinical research requires a sophisticated understanding of the <strong>global architecture of evidence</strong>—the ecosystem of clinical trial registries where research is born and the biomedical databases where it is published and archived. <span class="ev-badge ev-4">Review / Expert Opinion</span></p>
+
+      <!-- 1.1 Registries -->
+      <h3>1.1 The Foundation of Transparency: Clinical Trial Registries &amp; the WHO ICTRP</h3>
+
+      <h4>The Mandate for Registration</h4>
+      <p>The landscape of clinical research was reshaped by a collective move toward transparency aimed at mitigating <strong>publication bias</strong>—the tendency for studies with negative or unfavorable results to remain unpublished, skewing the evidence base. <span class="ev-badge ev-5">Narrative Review</span> The <strong>International Committee of Medical Journal Editors (ICMJE)</strong> mandates that for an interventional clinical study to be considered for publication, it must first be registered in a public, WHO-compliant registry before the enrollment of the first participant.<sup class="ref-num">2</sup> While the ICMJE policy focuses on interventional trials, many registries also accept observational studies, further enhancing transparency across all research designs.<sup class="ref-num">1</sup></p>
+
+      <h4>ClinicalTrials.gov: The Global Epicenter</h4>
+      <p>Operated by the U.S. National Library of Medicine, <strong>ClinicalTrials.gov</strong> is the largest and most widely utilized single clinical trial registry in the world.<sup class="ref-num">3</sup> It serves as a global repository for both publicly and privately funded clinical studies conducted in over <strong>200 countries</strong>. A typical study record provides structured information including purpose, recruitment status, eligibility criteria, study locations, and contact information.<sup class="ref-num">5</sup></p>
+
+      <div class="callout info">
+        <strong>Key Insight for Orthopaedic Researchers:</strong> ClinicalTrials.gov encompasses RCTs evaluating new treatments or devices<sup class="ref-num">5</sup>, large-scale prospective multicenter longitudinal cohort studies on total joint arthroplasty<sup class="ref-num">7</sup>, and studies tracking the natural history of conditions like cerebral palsy.<sup class="ref-num">8</sup> The detailed inclusion and exclusion criteria in each record are particularly valuable for assessing study relevance.
+      </div>
+
+      <h4>Key International Registries</h4>
+      <p>While ClinicalTrials.gov is dominant, a comprehensive global search necessitates awareness of other WHO-recognized primary registries:</p>
+      <ul>
+        <li><strong>ISRCTN Registry:</strong> A primary WHO and ICMJE-recognized registry with strong UK presence, accepting all types of clinical research from around the world, including non-interventional designs.<sup class="ref-num">1</sup></li>
+        <li><strong>EU Clinical Trials Information System (CTIS):</strong> In 2024, CTIS was officially designated as a WHO primary registry, replacing the older EU-CTR platform and enhancing global accessibility of EU/EEA trial data.<sup class="ref-num">11</sup></li>
+        <li><strong>Other Notable Registries:</strong> ANZCTR (Australia/New Zealand), ChiCTR (China), CRiS (Republic of Korea), CTRI (India), among many others.<sup class="ref-num">10</sup></li>
+      </ul>
+
+      <h4>The WHO ICTRP: The Federated Search Portal</h4>
+      <p>The proliferation of primary registries created <strong>data fragmentation</strong>. The WHO addressed this by creating the <strong>International Clinical Trials Registry Platform (ICTRP)</strong>—a meta-search portal providing a single point of access to records from all WHO-recognized primary registries.<sup class="ref-num">12,13</sup> As of 2020, the ICTRP contained records for nearly <strong>700,000 trials</strong>, surpassing ClinicalTrials.gov alone.<sup class="ref-num">4</sup> For any researcher aiming to conduct a systematic and unbiased search, utilizing the WHO ICTRP is a <strong>methodological necessity</strong>.</p>
+
+      <!-- Table 1 -->
+      <div class="table-wrap">
+        <table>
+          <caption>Table 1: Comparison of Major International Clinical Trial Registries</caption>
+          <thead>
+            <tr>
+              <th>Registry</th>
+              <th>Governance</th>
+              <th>Geographic Focus</th>
+              <th>Scope</th>
+              <th>Key Feature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>WHO ICTRP</strong></td>
+              <td>World Health Organization</td>
+              <td>Global</td>
+              <td>Aggregates data from all primary registries</td>
+              <td>Federated search portal; not a primary registry itself<sup class="ref-num">13</sup></td>
+            </tr>
+            <tr>
+              <td><strong>ClinicalTrials.gov</strong></td>
+              <td>U.S. NLM</td>
+              <td>Global (U.S.-centric)</td>
+              <td>Interventional &amp; observational studies</td>
+              <td>World's largest single registry; 200+ countries<sup class="ref-num">3</sup></td>
+            </tr>
+            <tr>
+              <td><strong>ISRCTN Registry</strong></td>
+              <td>Springer Nature</td>
+              <td>Global (strong UK)</td>
+              <td>All clinical research (interventional &amp; non-interventional)</td>
+              <td>Content validation and curation<sup class="ref-num">1</sup></td>
+            </tr>
+            <tr>
+              <td><strong>EU-CTIS</strong></td>
+              <td>European Medicines Agency</td>
+              <td>EU/EEA</td>
+              <td>Clinical trials for human medicines</td>
+              <td>Modern, transparent; WHO primary registry (2024)<sup class="ref-num">11</sup></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 1.2 Databases -->
+      <h3>1.2 Accessing the Published Record: Major Biomedical Literature Databases</h3>
+
+      <h4>PubMed/MEDLINE: The Cornerstone</h4>
+      <p>PubMed is the freely accessible search interface for the MEDLINE database, containing millions of citations. Its central importance stems from its <strong>Medical Subject Headings (MeSH)</strong>, a controlled vocabulary that allows highly structured and precise searches far more powerful than keyword searches.<sup class="ref-num">14,15</sup></p>
+
+      <h4>Embase: The Comprehensive Alternative</h4>
+      <p>Produced by Elsevier, Embase includes all of MEDLINE's content plus citations from over <strong>3,000 journals not indexed in MEDLINE</strong>. Two features are particularly vital for orthopaedics:<sup class="ref-num">18</sup></p>
+      <ul>
+        <li><strong>Conference Abstracts:</strong> Deep indexing of millions of conference abstracts provides access to cutting-edge findings before full-text publication.</li>
+        <li><strong>Emtree Thesaurus:</strong> More granular than MeSH, with extensive indexing for medical devices, including trade names and manufacturers.<sup class="ref-num">20</sup></li>
+      </ul>
+
+      <h4>Scopus: Bibliometric &amp; Interdisciplinary Analysis</h4>
+      <p>Scopus is the leading database for <strong>bibliometric analysis</strong>—quantitative assessment of research output. It provides citation metrics, author affiliations, and funding information to map research trends, identify prolific authors, and analyze collaboration networks.<sup class="ref-num">22,23</sup></p>
+
+      <h4>The Cochrane Library: Gold Standard for Synthesized Evidence</h4>
+      <p>The Cochrane Library is the world's foremost repository of <strong>systematic reviews and meta-analyses</strong>. Before embarking on a new research project, searching the Cochrane Library is the essential first step to determine if a comprehensive synthesis already exists.<sup class="ref-num">25,26</sup></p>
+
+      <!-- Table 2 -->
+      <div class="table-wrap">
+        <table>
+          <caption>Table 2: Comparative Features of Key Biomedical Literature Databases</caption>
+          <thead>
+            <tr>
+              <th>Database</th>
+              <th>Primary Content</th>
+              <th>Thesaurus</th>
+              <th>Unique Strengths</th>
+              <th>Best For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PubMed/MEDLINE</strong></td>
+              <td>Millions of biomedical journal citations</td>
+              <td>MeSH</td>
+              <td>Free access; comprehensive MeSH indexing<sup class="ref-num">14</sup></td>
+              <td>Foundational literature searches</td>
+            </tr>
+            <tr>
+              <td><strong>Embase</strong></td>
+              <td>MEDLINE + unique journals + conference abstracts</td>
+              <td>Emtree</td>
+              <td>European journal coverage; deep device indexing<sup class="ref-num">18</sup></td>
+              <td>Systematic reviews; device research</td>
+            </tr>
+            <tr>
+              <td><strong>Scopus</strong></td>
+              <td>Broad multidisciplinary abstracts &amp; citations</td>
+              <td>Scopus indexing</td>
+              <td>Citation data; trend analysis tools<sup class="ref-num">22</sup></td>
+              <td>Bibliometric analysis; impact assessment</td>
+            </tr>
+            <tr>
+              <td><strong>Cochrane Library</strong></td>
+              <td>Systematic reviews; CENTRAL register of trials</td>
+              <td>Cochrane-specific</td>
+              <td>Highest level of synthesized evidence<sup class="ref-num">25</sup></td>
+              <td>Finding existing evidence syntheses</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <strong>Methodological Imperative:</strong> Relying solely on PubMed/MEDLINE for a comprehensive review is a methodological flaw that risks missing international, conference, and device-related literature. An expert-level search must involve a <strong>multi-database approach</strong>.
+      </div>
+    </article>
+
+    <!-- ── SECTION II ── -->
+    <article class="card" aria-label="Adhesive Capsulitis">
+      <h2>II. Adhesive Capsulitis: Evidence Synthesis from Prospective Cohort Studies</h2>
+      <p class="subtitle">Applying evidence retrieval principles to a common orthopaedic condition—frozen shoulder</p>
+
+      <p>Adhesive capsulitis is a clinical syndrome characterized by the spontaneous onset of shoulder pain accompanied by a progressive, debilitating loss of both active and passive glenohumeral motion.<sup class="ref-num">29</sup> By synthesizing findings from key prospective cohort studies and high-quality systematic reviews, a nuanced, evidence-based understanding emerges that challenges long-held clinical dogma. <span class="ev-badge ev-2">Prospective Cohort Evidence</span></p>
+
+      <!-- 2.1 Natural History -->
+      <h3>2.1 The Natural History: Re-examining the Classic Narrative</h3>
+
+      <h4>The Traditional Three-Phase Model</h4>
+      <p>The classic description posits a progression through three overlapping stages, with a total duration estimated at <strong>one to three years</strong>:<sup class="ref-num">30</sup></p>
+
+      <div class="phase-diagram">
+        <div class="phase-box phase1">
+          <h4>Phase 1: Freezing</h4>
+          <p>Gradual onset of severe, diffuse pain (often nocturnal). Range of motion begins to decrease.</p>
+          <p class="phase-duration">Duration: 6 weeks – 9 months</p>
+        </div>
+        <div class="phase-box phase2">
+          <h4>Phase 2: Frozen</h4>
+          <p>Pain may subside; replaced by profound stiffness. External rotation most severely affected.</p>
+          <p class="phase-duration">Duration: 4 – 12 months</p>
+        </div>
+        <div class="phase-box phase3">
+          <h4>Phase 3: Thawing</h4>
+          <p>Gradual, spontaneous improvement in range of motion and resolution of symptoms.</p>
+          <p class="phase-duration">Duration: 6 months – 2+ years</p>
+        </div>
+      </div>
+
+      <h4>Challenging the Dogma of "Self-Limitation"</h4>
+
+      <div class="callout warning">
+        <strong>Key Evidence Update:</strong> The concept that frozen shoulder is uniformly "self-limiting" and inevitably leads to full recovery is a <strong>clinical myth</strong>. A substantial body of long-term prospective evidence demonstrates that a large minority are left with persistent symptoms and objective deficits.
+      </div>
+
+      <p><strong>Reeves (1975)</strong> — the foundational prospective study — followed 41 patients for 5–10 years and found the average total duration was <strong>30.1 months</strong>. More importantly, over half still had some slight, objectively measured restriction of movement.<sup class="ref-num">34</sup> <span class="ev-badge ev-2">Prospective Cohort</span></p>
+
+      <p><strong>Binder et al. (1984)</strong> followed 40 patients for a mean of 44 months, confirming that objective restriction of shoulder range of motion frequently persisted, even when functional impairment was minimal.<sup class="ref-num">35</sup> <span class="ev-badge ev-2">Prospective Cohort</span></p>
+
+      <p><strong>Hand et al. (2008)</strong> — the most compelling data — followed 223 patients (269 shoulders) for a mean of 4.4 years. Findings:<sup class="ref-num">36</sup> <span class="ev-badge ev-2">Prospective Cohort</span></p>
+      <ul>
+        <li><strong>41%</strong> of patients reported some ongoing symptoms</li>
+        <li><strong>6%</strong> continued to experience severe symptoms with significant pain and functional loss</li>
+      </ul>
+
+      <p>A <strong>2017 systematic review by Wong et al.</strong> concluded that the long-standing theory of progression through distinct recovery phases leading to complete resolution is <em>"unfounded"</em> and, in their words, <em>"fiction."</em><sup class="ref-num">37</sup> Moderate-quality evidence from modern longitudinal studies shows most improvement occurs early in the disease course, not in a late "thawing" phase. <span class="ev-badge ev-2">Systematic Review</span></p>
+
+      <!-- 2.2 Risk Factors -->
+      <h3>2.2 A Web of Causality: Risk Factors &amp; At-Risk Populations</h3>
+
+      <p>While primary adhesive capsulitis is often termed "idiopathic," a robust body of evidence identifies strong associations with various systemic and metabolic conditions. The condition is increasingly understood as a potential <strong>local manifestation of underlying systemic pathology</strong>. <span class="ev-badge ev-2">Multiple Cohort Studies</span></p>
+
+      <h4>The Central Role of Metabolic Disease</h4>
+
+      <div class="risk-tags">
+        <span class="risk-tag high">Diabetes Mellitus (10–36% prevalence vs 2–5% general)</span>
+        <span class="risk-tag high">Thyroid Disorders</span>
+        <span class="risk-tag">Dyslipidemia</span>
+        <span class="risk-tag">Obesity / High BMI</span>
+        <span class="risk-tag">Cardiovascular Disease</span>
+        <span class="risk-tag">Cervical Spondylosis</span>
+      </div>
+
+      <ul>
+        <li><strong>Diabetes Mellitus:</strong> The strongest and most consistent risk factor. Prevalence rises from 2–5% in the general population to 10–36% in individuals with diabetes.<sup class="ref-num">29</sup> A large-scale Korean nationwide cohort study (>3.4 million subjects) confirmed significantly increased risk in both type 2 diabetes and <strong>prediabetes</strong>.<sup class="ref-num">41</sup> Diabetes predicts a higher likelihood of developing frozen shoulder after surgery<sup class="ref-num">42</sup>, greater utilization of nonoperative treatments<sup class="ref-num">44</sup>, and poorer long-term outcomes.<sup class="ref-num">45</sup> The pathophysiology involves accumulation of <strong>advanced glycation end products (AGEs)</strong> in capsular tissue, promoting inflammation and abnormal collagen cross-linking.<sup class="ref-num">29</sup> <span class="ev-badge ev-2">Large Cohort</span></li>
+        <li><strong>Thyroid Disorders:</strong> Both hypothyroidism and hyperthyroidism are associated with increased risk.<sup class="ref-num">40</sup></li>
+        <li><strong>Dyslipidemia &amp; Obesity:</strong> Multiple large cohort and case-control studies have identified hyperlipidemia and high BMI as independent risk factors.<sup class="ref-num">40,48</sup></li>
+      </ul>
+
+      <h4>Demographic &amp; Other Systemic Factors</h4>
+      <ul>
+        <li><strong>Age &amp; Gender:</strong> Peak incidence between ages 40–70 years with a clear <strong>female predominance</strong>.<sup class="ref-num">29</sup></li>
+        <li><strong>Post-Surgical/Post-Traumatic States:</strong> A prospective cohort study of 505 patients undergoing elective shoulder surgeries found the incidence of postoperative frozen shoulder to be <strong>11%</strong>.<sup class="ref-num">42</sup> <span class="ev-badge ev-2">Prospective Cohort</span></li>
+        <li><strong>Dupuytren's Contracture:</strong> Histological studies reveal remarkable similarities in collagen and myofibroblast changes between adhesive capsulitis and Dupuytren's tissue, suggesting a common predisposition to fibrosis.<sup class="ref-num">31</sup></li>
+      </ul>
+
+      <div class="callout">
+        <strong>Clinical Implication:</strong> The clustering of diabetes, prediabetes, obesity, hyperlipidemia, and cardiovascular disease strongly suggests adhesive capsulitis is often a <strong>sentinel sign of systemic metabolic syndrome</strong>. Diagnosis of "idiopathic" frozen shoulder should prompt screening for these conditions.
+      </div>
+
+      <!-- 2.3 Treatment Outcomes -->
+      <h3>2.3 Long-Term Outcomes of Therapeutic Interventions</h3>
+      <p>The evidence supports a <strong>value-based, stepped-care approach</strong>, beginning with the least invasive options. However, recent high-quality evidence challenges the traditional role of some first-line therapies.</p>
+
+      <h4>Conservative Management</h4>
+      <ul>
+        <li><strong>Physical Therapy (PT):</strong> Long-standing mainstay, though evidence is mixed. A Cochrane review concluded there is little overall evidence to support PT as a standalone treatment.<sup class="ref-num">26,30</sup> <span class="ev-badge ev-2">Cochrane Review</span></li>
+        <li><strong>"Watchful Waiting" vs. Physical Therapy:</strong> A recent <strong>Level I RCT</strong> (Siddiq et al., 2024) randomized 61 patients to standard PT or watchful waiting. At 12 months, <strong>no significant differences</strong> were found in ASES, DASH, or pain scores. However, PT costs were <strong>ten times higher</strong>. This potentially practice-changing evidence suggests formal PT may offer no additional clinical benefit over guided self-management.<sup class="ref-num">54</sup> <span class="ev-badge ev-1">Level I – RCT</span></li>
+        <li><strong>Intra-articular Corticosteroid Injections:</strong> Consistent, high-quality evidence from systematic reviews shows significant short-term benefits (improvements in pain and function for up to 7 weeks), though benefits are often not sustained long-term.<sup class="ref-num">55,57</sup> <span class="ev-badge ev-1">Systematic Review / Meta-analysis</span></li>
+        <li><strong>Hydrodistension:</strong> May offer modest improvements in pain and disability at 3–12 weeks (mixed quality evidence).<sup class="ref-num">27</sup> A 2-year prospective study of 202 patients reported excellent long-term outcomes, though patients with diabetes had higher recurrence rates.<sup class="ref-num">46</sup> <span class="ev-badge ev-2">Prospective Cohort</span></li>
+      </ul>
+
+      <h4>Interventions for Refractory Cases</h4>
+      <ul>
+        <li><strong>Manipulation Under Anesthesia (MUA):</strong> Long-term prospective studies demonstrate excellent, sustained results. One study with mean follow-up of <strong>15 years</strong> found significant, lasting improvements in motion and function.<sup class="ref-num">58</sup> A large prospective cohort of 295 patients found short-term gains maintained at <strong>3.6 years</strong>.<sup class="ref-num">59</sup> <span class="ev-badge ev-2">Prospective Cohort</span></li>
+        <li><strong>Arthroscopic Capsular Release:</strong> Reserved for the most recalcitrant cases. A prospective study of 210 patients found 46% failed initial injection therapy and proceeded to release with significant improvements at 3 months.<sup class="ref-num">45</sup> A long-term study (mean 7 years) confirmed improvements in motion, pain, and function were <strong>maintained and sometimes enhanced</strong> over time.<sup class="ref-num">60</sup> <span class="ev-badge ev-2">Prospective Cohort</span></li>
+      </ul>
+
+      <!-- Table 3 -->
+      <div class="table-wrap">
+        <table>
+          <caption>Table 3: Summary of Key Prospective Cohort Studies on Adhesive Capsulitis</caption>
+          <thead>
+            <tr>
+              <th>Author &amp; Year</th>
+              <th>Focus</th>
+              <th>N</th>
+              <th>Follow-up</th>
+              <th>Key Findings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Reeves 1975</strong><sup class="ref-num">34</sup></td>
+              <td>Natural History</td>
+              <td>41</td>
+              <td>5–10 yr</td>
+              <td>Average duration ~30 months; >50% had residual motion restriction</td>
+            </tr>
+            <tr>
+              <td><strong>Binder 1984</strong><sup class="ref-num">35</sup></td>
+              <td>Natural History</td>
+              <td>40</td>
+              <td>Mean 44 mo</td>
+              <td>Objective motion restriction often persists long-term</td>
+            </tr>
+            <tr>
+              <td><strong>Hand 2008</strong><sup class="ref-num">36</sup></td>
+              <td>Natural History</td>
+              <td>223</td>
+              <td>Mean 4.4 yr</td>
+              <td>41% ongoing symptoms; 6% severe persistent disability</td>
+            </tr>
+            <tr>
+              <td><strong>Koorevaar 2017</strong><sup class="ref-num">42</sup></td>
+              <td>Risk Factors</td>
+              <td>505</td>
+              <td>6 mo</td>
+              <td>11% incidence of postoperative frozen shoulder; diabetes key predictor</td>
+            </tr>
+            <tr>
+              <td><strong>Cao 2022</strong><sup class="ref-num">51</sup></td>
+              <td>Risk Factors</td>
+              <td>2,425</td>
+              <td>1 yr</td>
+              <td>High BMI, diabetes, age 56–70, prolonged hospitalization as risk factors</td>
+            </tr>
+            <tr>
+              <td><strong>Farrell 2005</strong><sup class="ref-num">58</sup></td>
+              <td>MUA Outcomes</td>
+              <td>18</td>
+              <td>Mean 15 yr</td>
+              <td>Sustained long-term improvement in shoulder motion and function</td>
+            </tr>
+            <tr>
+              <td><strong>Le Lievre 2012</strong><sup class="ref-num">60</sup></td>
+              <td>Arthroscopy</td>
+              <td>43</td>
+              <td>Mean 7 yr</td>
+              <td>Significant improvements maintained long-term after capsular release</td>
+            </tr>
+            <tr>
+              <td><strong>Siddiq 2024</strong><sup class="ref-num">54</sup></td>
+              <td>PT vs. WW</td>
+              <td>61</td>
+              <td>12 mo</td>
+              <td>Watchful waiting equivalent to PT at fraction of the cost</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout info">
+        <strong>Stepped-Care Algorithm (Source-Derived):</strong> The evidence supports an initial approach of <strong>patient education + home exercise program + timely corticosteroid injection</strong>. Formal PT reserved for non-responders. MUA and arthroscopic capsular release for the minority with persistent, refractory symptoms. This approach prioritizes value and cost-effectiveness.
+      </div>
+    </article>
+
+    <!-- ── SECTION III ── -->
+    <article class="card" aria-label="Synthesis and Future Directions">
+      <h2>III. Synthesis &amp; Future Directions</h2>
+
+      <h3>3.1 Integrated Strategy for Evidence Retrieval</h3>
+      <p>An expert-level, comprehensive workflow for unbiased evidence retrieval in orthopaedics:</p>
+      <ol>
+        <li><strong>Step 1 — Identify Ongoing/Unpublished Trials:</strong> Begin at the <strong>WHO ICTRP search portal</strong> to capture a global view of all registered trials, minimizing selection bias.<sup class="ref-num">4</sup></li>
+        <li><strong>Step 2 — Search for Existing Synthesized Evidence:</strong> Search the <strong>Cochrane Library</strong> to determine if a high-quality systematic review already exists.<sup class="ref-num">25</sup></li>
+        <li><strong>Step 3 — Comprehensive Primary Literature Search:</strong> Perform parallel searches in <strong>PubMed/MEDLINE</strong> (MeSH) and <strong>Embase</strong> (Emtree). This dual-database approach is the standard for high-quality systematic reviews.<sup class="ref-num">14,18</sup></li>
+        <li><strong>Step 4 — Analyze the Research Landscape:</strong> Use <strong>Scopus</strong> for bibliometric analyses to identify seminal papers, map collaborations, and quantify trends.<sup class="ref-num">22</sup></li>
+      </ol>
+
+      <h3>3.2 Gaps in Evidence &amp; Recommendations for Future Research</h3>
+      <ul>
+        <li><strong>Natural History:</strong> Need for large-scale, modern prospective studies using validated patient-reported outcome measures to define true prognosis and identify predictors of poor outcomes.</li>
+        <li><strong>Risk Factors &amp; Pathophysiology:</strong> Precise molecular mechanisms linking hyperglycemia, dyslipidemia, and inflammation to capsular fibrosis require further elucidation. Prospective studies should investigate whether early management of systemic conditions can prevent onset.</li>
+        <li><strong>Treatment Outcomes:</strong> The "watchful waiting" RCT<sup class="ref-num">54</sup> is potentially practice-changing but needs replication. Future research should identify specific patient subgroups who benefit from structured PT. There is a lack of head-to-head RCTs comparing modern options (hydrodistension vs. MUA vs. arthroscopic release). Emerging biologics (e.g., PRP) require larger, well-designed RCTs.<sup class="ref-num">61</sup></li>
+      </ul>
+
+      <div class="callout warning">
+        <strong>Evidence Limitation Note:</strong> The source document is a narrative review and synthesis, not a systematic review with predefined inclusion criteria. While it draws on prospective cohort studies and systematic reviews, some claims are supported by limited individual studies. Evidence levels are inferred from study design as described in the source.
+      </div>
+    </article>
+
+    <!-- ── REFERENCES ── -->
+    <article class="card references" aria-label="References">
+      <h2>References</h2>
+      <ol>
+        <li><span class="ref-num">1.</span> ISRCTN Registry. https://www.isrctn.com/. Accessed October 10, 2025.</li>
+        <li><span class="ref-num">2.</span> About ICMJE — Clinical Trials Registration. https://www.icmje.org/about-icmje/faqs/clinical-trials-registration/. Accessed October 10, 2025.</li>
+        <li><span class="ref-num">3.</span> ClinicalTrials.gov. https://clinicaltrials.gov/. Accessed October 10, 2025.</li>
+        <li><span class="ref-num">4.</span> The ICTRP: data integrity and trends in clinical trials. <em>PMC</em>. https://pmc.ncbi.nlm.nih.gov/articles/PMC10544909/.</li>
+        <li><span class="ref-num">5.</span> NCT00436969 — ORTHOVISC Shoulder Osteoarthritis Study. ClinicalTrials.gov.</li>
+        <li><span class="ref-num">7.</span> NCT03737149 — A Prospective Multicenter Longitudinal Cohort Study. ClinicalTrials.gov.</li>
+        <li><span class="ref-num">8.</span> NCT01840930 — Cohort of Children With Severe Cerebral Palsy. ClinicalTrials.gov.</li>
+        <li><span class="ref-num">10.</span> Primary registries — WHO. https://www.who.int/tools/clinical-trials-registry-platform/network/primary-registries.</li>
+        <li><span class="ref-num">11.</span> CTIS designated as WHO primary registry. European Medicines Agency. 2024.</li>
+        <li><span class="ref-num">12.</span> International Clinical Trials Registry Platform — Wikipedia.</li>
+        <li><span class="ref-num">13.</span> ICTRP search portal — WHO. https://www.who.int/tools/clinical-trials-registry-platform/the-ictrp-search-portal.</li>
+        <li><span class="ref-num">14.</span> Orthopaedic Literature and MeSH. <em>PMC</em>. https://pmc.ncbi.nlm.nih.gov/articles/PMC3049625/.</li>
+        <li><span class="ref-num">15.</span> Principles of designing a cohort study in orthopaedics. <em>PubMed</em>.</li>
+        <li><span class="ref-num">18.</span> Embase — The comprehensive medical research database. Elsevier.</li>
+        <li><span class="ref-num">20.</span> Embase for medical device compliance and development. Elsevier.</li>
+        <li><span class="ref-num">22.</span> Mapping Orthopedic Research Trends in Nepal (2000–2024). <em>ResearchGate</em>.</li>
+        <li><span class="ref-num">23.</span> Trends of arthroscopy publications in PubMed and Scopus. <em>PMC</em>.</li>
+        <li><span class="ref-num">25.</span> Full-text databases — Augustus C. Long Health Sciences Library.</li>
+        <li><span class="ref-num">26.</span> Manual therapy and exercise for adhesive capsulitis — Cochrane Library, Page MJ, 2014.</li>
+        <li><span class="ref-num">27.</span> Arthrographic distension for adhesive capsulitis — Cochrane Library, Buchbinder R, 2008.</li>
+        <li><span class="ref-num">29.</span> Adhesive Capsulitis (Frozen Shoulder). <em>StatPearls</em>. NCBI Bookshelf.</li>
+        <li><span class="ref-num">30.</span> Adhesive capsulitis of the shoulder: review of pathophysiology. <em>PMC</em>.</li>
+        <li><span class="ref-num">31.</span> The Frozen Shoulder: Myths and Realities. <em>Open Orthopaedics Journal</em>.</li>
+        <li><span class="ref-num">34.</span> Reeves B. The natural history of the frozen shoulder syndrome. <em>Scand J Rheumatol</em>. 1975.</li>
+        <li><span class="ref-num">35.</span> Binder AI et al. Frozen shoulder: a long-term prospective study. <em>Ann Rheum Dis</em>. 1984.</li>
+        <li><span class="ref-num">36.</span> Hand C et al. Long-term outcome of frozen shoulder. <em>J Shoulder Elbow Surg</em>. 2008.</li>
+        <li><span class="ref-num">37.</span> Wong CK et al. Systematic review of the natural history of frozen shoulder. <em>Phys Ther</em>. 2017.</li>
+        <li><span class="ref-num">40.</span> Adhesive Capsulitis — Boston Sports &amp; Biologics.</li>
+        <li><span class="ref-num">41.</span> Risk of shoulder adhesive capsulitis in individuals with prediabetes and T2DM. <em>Diabetes Metab J</em>. 2022.</li>
+        <li><span class="ref-num">42.</span> Koorevaar RCT et al. Incidence and prognostic factors for postoperative frozen shoulder. <em>PubMed</em>. 2017.</li>
+        <li><span class="ref-num">44.</span> Evaluating utilization trends in adhesive capsulitis. <em>PMC</em>. 2022.</li>
+        <li><span class="ref-num">45.</span> Chronic adhesive capsulitis: comparative outcomes in patients with diabetes and obesity. <em>PMC</em>.</li>
+        <li><span class="ref-num">46.</span> Long-term outcomes of ultrasound-guided hydrodistension for adhesive capsulitis. <em>MDPI</em>. 2024.</li>
+        <li><span class="ref-num">48.</span> Asian ethnicity: a risk factor for adhesive capsulitis? <em>PMC</em>.</li>
+        <li><span class="ref-num">49.</span> Risk factors and predictive models for frozen shoulder. <em>PMC</em>. 2024.</li>
+        <li><span class="ref-num">51.</span> Cao et al. Risk factors for onset of frozen shoulder in middle-aged and elderly subjects. <em>ResearchGate</em>. 2022.</li>
+        <li><span class="ref-num">54.</span> Randomized study compares nonoperative treatments for frozen shoulder. <em>AAOS Now</em>. 2024.</li>
+        <li><span class="ref-num">55.</span> Manual therapy and exercise for adhesive capsulitis. <em>PubMed</em>. 2014.</li>
+        <li><span class="ref-num">57.</span> Pharmacological interventions for early-stage frozen shoulder: network meta-analysis. <em>Rheumatology</em>. 2024.</li>
+        <li><span class="ref-num">58.</span> Farrell R. Manipulation for frozen shoulder: long-term results. <em>ResearchGate</em>. 2005.</li>
+        <li><span class="ref-num">59.</span> Factors affecting outcomes of MUA in adhesive capsulitis. <em>PMC</em>.</li>
+        <li><span class="ref-num">60.</span> Le Lievre HM, Murrell GAC. Long-term outcomes after arthroscopic capsular release for idiopathic adhesive capsulitis. <em>J Bone Joint Surg</em>. 2012.</li>
+        <li><span class="ref-num">61.</span> PRP injections for shoulder adhesive capsulitis: systematic review of prospective cohort studies. <em>PubMed</em>. 2023.</li>
+      </ol>
+    </article>
+
+  </main>
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" aria-label="Clinical Parameter Adjuster" role="complementary">
+    <h2>🔬 Clinical Decision Support</h2>
+    <p style="font-size:0.78rem;color:var(--col-text-muted);margin-bottom:1rem;">Adjust parameters to see context-specific recommendations derived from the source evidence.</p>
+
+    <!-- Slider 1: Duration -->
+    <div class="slider-group">
+      <label>
+        Symptom Duration (months)
+        <span class="value-display" id="durVal">3</span>
+      </label>
+      <input type="range" id="durSlider" min="1" max="36" value="3" step="1"
+             aria-label="Symptom duration in months">
+      <div class="range-labels"><span>1 mo</span><span>12 mo</span><span>24 mo</span><span>36 mo</span></div>
+    </div>
+
+    <!-- Slider 2: External Rotation Deficit -->
+    <div class="slider-group">
+      <label>
+        External Rotation Deficit (°)
+        <span class="value-display" id="rotVal">30</span>
+      </label>
+      <input type="range" id="rotSlider" min="0" max="90" value="30" step="5"
+             aria-label="External rotation deficit in degrees">
+      <div class="range-labels"><span>0°</span><span>30°</span><span>60°</span><span>90°</span></div>
+    </div>
+
+    <!-- Slider 3: Pain VAS -->
+    <div class="slider-group">
+      <label>
+        Pain Level (VAS 0–10)
+        <span class="value-display" id="painVal">5</span>
+      </label>
+      <input type="range" id="painSlider" min="0" max="10" value="5" step="1"
+             aria-label="Pain level on visual analog scale">
+      <div class="range-labels"><span>0</span><span>5</span><span>10</span></div>
+    </div>
+
+    <!-- Recommendation Output -->
+    <div class="recommendation-box" id="recBox">
+      <h3>Evidence-Based Recommendation</h3>
+      <div id="recSeverity" class="rec-severity mild">MILD</div>
+      <div class="rec-text" id="recText">
+        Based on early symptom duration, moderate pain, and limited motion deficit: <strong>Patient education, home exercise program, and consideration of a single intra-articular corticosteroid injection</strong> are the evidence-based first-line approach. The source document reports that corticosteroid injections provide significant short-term benefits (up to 7 weeks) (Ref 55). A watchful waiting strategy with guided self-management has Level I evidence of equivalent clinical outcomes to formal PT at lower cost (Ref 54).
+      </div>
+      <p style="font-size:0.72rem;color:var(--col-text-muted);margin-top:0.6rem;font-style:italic;">
+        Recommendation derived from prospective cohort studies and RCTs cited in the source document. Thresholds based on clinical staging descriptions within the source and general orthopaedic knowledge where specified.
+      </p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btnReset" aria-label="Reset all sliders">↻ Reset</button>
+      <button class="btn btn-export" id="btnExport" aria-label="Export recommendation summary">📋 Export</button>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">Copied to clipboard ✓</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  Educational synthesis based exclusively on the provided source document. Evidence levels inferred from study designs described in the source. Not a substitute for clinical judgment.<br>
+  Generated for educational purposes &mdash; interactive parameter thresholds annotated from source where available.
+</footer>
+
+<!-- ═══════════════════════ JAVASCRIPT ═══════════════════════ -->
+<script>
+(function(){
+  const durSlider = document.getElementById('durSlider');
+  const rotSlider = document.getElementById('rotSlider');
+  const painSlider = document.getElementById('painSlider');
+  const durVal = document.getElementById('durVal');
+  const rotVal = document.getElementById('rotVal');
+  const painVal = document.getElementById('painVal');
+  const recSeverity = document.getElementById('recSeverity');
+  const recText = document.getElementById('recText');
+  const btnReset = document.getElementById('btnReset');
+  const btnExport = document.getElementById('btnExport');
+  const toast = document.getElementById('toast');
+
+  function update(){
+    const dur = parseInt(durSlider.value);
+    const rot = parseInt(rotSlider.value);
+    const pain = parseInt(painSlider.value);
+
+    durVal.textContent = dur;
+    rotVal.textContent = rot + '°';
+    painVal.textContent = pain;
+
+    let severity = 'mild';
+    let severityLabel = 'MILD';
+    let recommendation = '';
+
+    // ── Derived from source document's three-phase model and treatment evidence ──
+    // Phase 1 (Freezing): ~1-9 months, predominantly pain
+    // Phase 2 (Frozen): ~4-12+ months, predominantly stiffness
+    // Phase 3 (Thawing): recovery phase
+    // Evidence supports stepped care: education + HEP + injection → formal PT → MUA/arthroscopy
+
+    if(dur <= 9 && pain >= 5){
+      // Early / "Freezing" phase with significant pain
+      severity = pain >= 7 ? 'moderate' : 'mild';
+      severityLabel = pain >= 7 ? 'MODERATE' : 'MILD';
+      recommendation = `<strong>Phase: Likely "Freezing" Stage</strong> (Ref 29,30). Duration ≤9 months with active pain suggests ongoing inflammatory phase.<br><br>` +
+        `<strong>First-line:</strong> Patient education + structured home exercise program (gentle, pain-free range-of-motion exercises). The source notes aggressive stretching is not recommended in the early painful phase (Ref 30).<br><br>` +
+        `<strong>Intra-articular corticosteroid injection</strong> is strongly supported by meta-analysis evidence for short-term pain relief and function improvement for up to 7 weeks (Ref 55,57). This can facilitate participation in a home exercise program.<br><br>` +
+        `<strong>Watchful waiting vs. PT:</strong> A Level I RCT found equivalent 12-month outcomes at 1/10th the cost (Ref 54). Formal PT may be reserved for those who fail to progress.<br><br>` +
+        (pain >= 7 ? `<em>Note: VAS ≥7 indicates significant pain burden. Consider corticosteroid injection as priority.</em>` : ``);
+    }
+    else if(dur > 9 && dur <= 24 && rot >= 30){
+      // "Frozen" phase with significant stiffness
+      severity = rot >= 60 ? 'severe' : 'moderate';
+      severityLabel = rot >= 60 ? 'SEVERE' : 'MODERATE';
+      recommendation = `<strong>Phase: Likely "Frozen" Stage</strong> (Ref 29,30). Duration >9 months with significant external rotation deficit (>${rot}°) suggests established capsular contracture.<br><br>` +
+        `<strong>If not yet trialed:</strong> Corticosteroid injection + structured physiotherapy with progressive mobilization (Ref 30).<br><br>` +
+        (rot >= 60 ?
+          `<strong>Significant stiffness (≥60° ER deficit):</strong> Consider early referral for <strong>Manipulation Under Anesthesia (MUA)</strong>, which has prospective evidence of sustained improvement at 15-year follow-up (Ref 58). A cohort of 295 patients showed functional gains maintained at 3.6 years (Ref 59).<br><br>` +
+          `<strong>Alternatively: Hydrodistension</strong> may offer modest improvements at 3–12 weeks (Cochrane evidence, Ref 27). Note: patients with diabetes had higher recurrence rates (Ref 46).` :
+          `<strong>Moderate stiffness:</strong> Continue structured PT. If no progress at 4–6 weeks, consider MUA or hydrodistension.`) +
+        `<br><br><em>The source notes that 46% of patients in one prospective cohort of 210 failed injection therapy and proceeded to arthroscopic release (Ref 45).</em>`;
+    }
+    else if(dur > 24){
+      // Chronic / refractory
+      severity = 'severe';
+      severityLabel = 'SEVERE';
+      recommendation = `<strong>Chronic / Refractory Phase</strong>. Duration >24 months exceeds the average duration reported by Reeves (30.1 months) (Ref 34). The source documents that 41% of patients report ongoing symptoms at 4.4 years, and 6% have severe persistent disability (Ref 36).<br><br>` +
+        `<strong>The classic "self-limiting" narrative has been debunked</strong> (Ref 37). Continued symptoms at this stage require active intervention.<br><br>` +
+        (rot >= 30 ?
+          `<strong>Recommend: Arthroscopic capsular release.</strong> A prospective cohort with 7-year follow-up demonstrated that significant improvements in motion, pain, and function are maintained and sometimes enhanced over time (Ref 60).<br><br>` +
+          `Alternatively, MUA remains a viable option with long-term evidence (Ref 58).` :
+          `<strong>Consider MUA or arthroscopic capsular release</strong> if significant functional limitation persists. Both have strong long-term prospective evidence (Ref 58,60).`) +
+        `<br><br><strong>Screen for metabolic comorbidities:</strong> The source strongly associates adhesive capsulitis with diabetes, prediabetes, thyroid disease, dyslipidemia, and obesity (Ref 29,40,41). Ongoing symptoms may correlate with uncontrolled metabolic disease.`;
+    }
+    else {
+      // Mild/early, low pain
+      severity = 'mild';
+      severityLabel = 'MILD';
+      recommendation = `<strong>Early/Mild Presentation</strong>. Short duration with relatively preserved external rotation and manageable pain.<br><br>` +
+        `<strong>First-line (source-derived):</strong> Patient education, reassurance about the condition, and a simple home exercise program focusing on gentle, pain-free range-of-motion exercises (Ref 30).<br><br>` +
+        `<strong>Watchful waiting</strong> is a valid, evidence-based option. A Level I RCT demonstrated equivalent outcomes to formal PT at 12 months at 1/10th the cost (Ref 54).<br><br>` +
+        `<strong>Monitor for progression.</strong> If pain increases or range of motion deteriorates, consider corticosteroid injection (Ref 55).<br><br>` +
+        `<em>The source notes the natural history may last ~30 months on average (Ref 34), and 41% of patients report some ongoing symptoms at 4.4 years (Ref 36). Counseling should avoid promising guaranteed full recovery.</em>`;
+    }
+
+    recSeverity.className = 'rec-severity ' + severity;
+    recSeverity.textContent = severityLabel;
+    recText.innerHTML = recommendation;
+  }
+
+  durSlider.addEventListener('input', update);
+  rotSlider.addEventListener('input', update);
+  painSlider.addEventListener('input', update);
+
+  btnReset.addEventListener('click', function(){
+    durSlider.value = 3;
+    rotSlider.value = 30;
+    painSlider.value = 5;
+    update();
+  });
+
+  btnExport.addEventListener('click', function(){
+    const dur = durSlider.value;
+    const rot = rotSlider.value;
+    const pain = painSlider.value;
+    const severity = recSeverity.textContent;
+    const now = new Date().toLocaleString();
+    // Get text content of recommendation
+    const recDiv = document.getElementById('recText');
+    const recPlain = recDiv.innerText || recDiv.textContent;
+
+    const exportText =
+      '═══════════════════════════════════════════════\n' +
+      'ADHESIVE CAPSULITIS — CLINICAL DECISION SUPPORT\n' +
+      'Evidence-Based Educational Synthesis\n' +
+      '═══════════════════════════════════════════════\n\n' +
+      'Date/Time: ' + now + '\n\n' +
+      'PARAMETERS:\n' +
+      '  • Symptom Duration: ' + dur + ' months\n' +
+      '  • External Rotation Deficit: ' + rot + '°\n' +
+      '  • Pain Level (VAS): ' + pain + '/10\n\n' +
+      'SEVERITY CLASSIFICATION: ' + severity + '\n\n' +
+      'RECOMMENDATION:\n' + recPlain + '\n\n' +
+      '───────────────────────────────────────────────\n' +
+      'NOTES:\n' +
+      '• Recommendations derived from prospective cohort studies\n' +
+      '  and RCTs cited in the source document.\n' +
+      '• Phase thresholds based on clinical staging descriptions\n' +
+      '  within the source document (Refs 29,30).\n' +
+      '• Treatment evidence levels: Level I RCT (Ref 54),\n' +
+      '  Systematic Reviews/Meta-analyses (Refs 26,27,55,57),\n' +
+      '  Prospective Cohort Studies (Refs 34-36,42,58-60).\n' +
+      '• NOT a substitute for clinical judgment.\n' +
+      '═══════════════════════════════════════════════\n';
+
+    navigator.clipboard.writeText(exportText).then(function(){
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = exportText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

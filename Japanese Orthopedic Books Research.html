@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orthopedic Publications in Japan — Interactive Educational Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fc;--surface:#ffffff;--surface-alt:#f1f3f8;
+  --text:#1a1d2e;--text-secondary:#555a72;--text-muted:#8890a8;
+  --primary:#2b59c3;--primary-light:#e8edfb;--primary-dark:#1a3a8a;
+  --accent:#e8573a;--accent-light:#fef0ed;
+  --success:#22a06b;--success-light:#e6f7ef;
+  --warning:#d4850a;--warning-light:#fef6e6;
+  --info:#5a7bb5;--info-light:#edf1f9;
+  --border:#dfe3ed;--border-light:#eceef4;
+  --radius:10px;--radius-sm:6px;--shadow:0 2px 12px rgba(20,30,60,.07);
+  --shadow-lg:0 8px 32px rgba(20,30,60,.10);
+  --sidebar-width:340px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.72;-webkit-font-smoothing:antialiased}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1a2750 0%,#2b59c3 100%);color:#fff;padding:2.4rem 2rem 2rem;position:relative;overflow:hidden}
+.site-header::after{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.06)}
+.site-header h1{font-family:'Source Serif 4',Georgia,serif;font-size:clamp(1.5rem,3.2vw,2.2rem);font-weight:700;letter-spacing:-.02em;line-height:1.25;max-width:900px}
+.site-header p.subtitle{margin-top:.6rem;font-size:.95rem;color:rgba(255,255,255,.78);max-width:700px;font-weight:400}
+.site-header .meta{margin-top:1rem;font-size:.78rem;color:rgba(255,255,255,.55);display:flex;gap:1.4rem;flex-wrap:wrap}
+.site-header .meta span{display:flex;align-items:center;gap:.35rem}
+
+/* Layout */
+.page-wrapper{max-width:1340px;margin:0 auto;padding:2rem 1.5rem 4rem;display:grid;grid-template-columns:1fr var(--sidebar-width);gap:2.5rem;align-items:start}
+main{min-width:0}
+aside.sidebar{position:sticky;top:1.5rem;max-height:calc(100vh - 3rem);overflow-y:auto}
+aside.sidebar::-webkit-scrollbar{width:4px}
+aside.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* Typography */
+h2{font-family:'Source Serif 4',Georgia,serif;font-size:1.55rem;font-weight:700;color:var(--text);margin:2.8rem 0 1rem;padding-bottom:.55rem;border-bottom:2px solid var(--primary-light);letter-spacing:-.01em}
+h2:first-of-type{margin-top:0}
+h3{font-size:1.12rem;font-weight:600;color:var(--text);margin:2rem 0 .6rem}
+h4{font-size:.98rem;font-weight:600;color:var(--text-secondary);margin:1.4rem 0 .4rem}
+p{margin-bottom:1rem;font-size:.945rem}
+ul,ol{margin:0 0 1.2rem 1.4rem}
+li{margin-bottom:.35rem;font-size:.94rem}
+strong{font-weight:600;color:var(--text)}
+em{font-style:italic}
+a{color:var(--primary);text-decoration:none;border-bottom:1px solid transparent;transition:.2s}
+a:hover{border-bottom-color:var(--primary)}
+
+/* Callout boxes */
+.callout{border-radius:var(--radius);padding:1.2rem 1.4rem;margin:1.4rem 0;font-size:.9rem;line-height:1.65}
+.callout-info{background:var(--info-light);border-left:4px solid var(--info)}
+.callout-warning{background:var(--warning-light);border-left:4px solid var(--warning)}
+.callout-success{background:var(--success-light);border-left:4px solid var(--success)}
+.callout-accent{background:var(--accent-light);border-left:4px solid var(--accent)}
+.callout strong{display:block;margin-bottom:.3rem;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-secondary)}
+
+/* Evidence badge */
+.evidence{display:inline-flex;align-items:center;gap:.3rem;background:var(--primary-light);color:var(--primary-dark);font-size:.72rem;font-weight:700;padding:.18rem .55rem;border-radius:3px;vertical-align:middle;letter-spacing:.04em;white-space:nowrap}
+.evidence.na{background:#f0f0f5;color:#777}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.6rem 0;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+caption{caption-side:top;text-align:left;padding:.9rem 1.2rem;font-weight:700;font-size:.92rem;background:var(--primary-light);color:var(--primary-dark);border-bottom:1px solid var(--border)}
+thead th{background:var(--surface-alt);text-align:left;padding:.7rem .9rem;font-weight:600;border-bottom:2px solid var(--border);white-space:nowrap;color:var(--text-secondary);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+tbody td{padding:.65rem .9rem;border-bottom:1px solid var(--border-light);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface-alt)}
+
+/* Sidebar cards */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.4rem;margin-bottom:1.2rem;border:1px solid var(--border-light)}
+.card-title{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-secondary);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.card-title svg{flex-shrink:0}
+
+/* Slider styling */
+.slider-group{margin-bottom:1.3rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;font-size:.82rem;font-weight:500;color:var(--text)}
+.slider-value{font-weight:700;color:var(--primary);font-size:.85rem;background:var(--primary-light);padding:.1rem .5rem;border-radius:3px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--primary) 0%,var(--primary) var(--pct,50%),var(--border) var(--pct,50%),var(--border) 100%);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);cursor:pointer}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;font-size:.82rem;font-weight:500}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle .slider-track{position:absolute;inset:0;background:var(--border);border-radius:12px;cursor:pointer;transition:.25s}
+.toggle input:checked+.slider-track{background:var(--primary)}
+.toggle .slider-track::before{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.toggle input:checked+.slider-track::before{transform:translateX(20px)}
+
+/* Recommendation box */
+.reco-box{background:linear-gradient(135deg,#1a2750 0%,#2b59c3 100%);color:#fff;border-radius:var(--radius);padding:1.4rem;margin-top:1rem;font-size:.84rem;line-height:1.6;min-height:140px;transition:.3s}
+.reco-box h4{color:rgba(255,255,255,.9);font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.7rem;font-weight:600}
+.reco-box .reco-item{background:rgba(255,255,255,.12);border-radius:var(--radius-sm);padding:.6rem .8rem;margin-bottom:.5rem;backdrop-filter:blur(4px)}
+.reco-box .reco-item:last-child{margin-bottom:0}
+.reco-box .reco-title{font-weight:600;font-size:.82rem;margin-bottom:.2rem}
+.reco-box .reco-desc{font-size:.78rem;color:rgba(255,255,255,.78)}
+.reco-box .limitation-note{font-size:.72rem;color:rgba(255,255,255,.55);margin-top:.8rem;font-style:italic}
+
+/* Buttons */
+.btn-row{display:flex;gap:.6rem;margin-top:1rem}
+.btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem .8rem;border-radius:var(--radius-sm);font-size:.78rem;font-weight:600;cursor:pointer;border:none;transition:.2s;font-family:inherit}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+
+/* Section anchors */
+.section-anchor{scroll-margin-top:1rem}
+
+/* Pill tags */
+.pill{display:inline-block;font-size:.72rem;font-weight:600;padding:.15rem .5rem;border-radius:3px;margin-right:.3rem;margin-bottom:.2rem}
+.pill-blue{background:var(--primary-light);color:var(--primary-dark)}
+.pill-green{background:var(--success-light);color:var(--success)}
+.pill-orange{background:var(--warning-light);color:var(--warning)}
+.pill-gray{background:#f0f0f5;color:#666}
+
+/* Footer */
+.site-footer{max-width:1340px;margin:0 auto;padding:2rem 1.5rem;border-top:1px solid var(--border);font-size:.78rem;color:var(--text-muted);text-align:center}
+
+/* Toast */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:#1a2750;color:#fff;padding:.7rem 1.4rem;border-radius:var(--radius-sm);font-size:.82rem;font-weight:500;opacity:0;transition:.35s;z-index:1000;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Responsive */
+@media(max-width:960px){
+  .page-wrapper{grid-template-columns:1fr;gap:1.5rem}
+  aside.sidebar{position:static;max-height:none;order:-1}
+}
+@media(max-width:600px){
+  .site-header{padding:1.6rem 1.2rem 1.4rem}
+  .page-wrapper{padding:1.2rem 1rem 3rem}
+  table{font-size:.78rem}
+  thead th,tbody td{padding:.5rem .6rem}
+  .site-header .meta{flex-direction:column;gap:.3rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" role="banner">
+  <h1>An Expert Report on the Landscape of Orthopedic Publications in Japan</h1>
+  <p class="subtitle">A comprehensive, interactive educational summary analysing the tripartite ecosystem of textbooks, academic society journals &amp; guidelines, and surgical atlases that define orthopedic knowledge dissemination in Japan.</p>
+  <div class="meta">
+    <span>📄 Source: Expert Report (Narrative/Descriptive)</span>
+    <span>🏛️ Focus: Japanese Orthopedic Publishing Ecosystem</span>
+    <span>📅 Generated: <span id="genDate"></span></span>
+  </div>
+</header>
+
+<!-- ============ PAGE ============ -->
+<div class="page-wrapper">
+
+<!-- ============ MAIN CONTENT ============ -->
+<main id="mainContent" role="main">
+
+<!-- Introduction -->
+<h2 id="intro" class="section-anchor">Introduction</h2>
+<p>The field of orthopedic surgery in Japan, formally established over a century ago, has cultivated a mature and sophisticated ecosystem for knowledge dissemination. <span class="evidence na">Source: Expert Report</span> A comprehensive understanding of its published literature requires an appreciation of a <strong>tripartite structure</strong> that extends far beyond a simple list of books:</p>
+
+<ol>
+  <li><strong>Foundational Textbooks</strong> from major medical publishers that establish the core knowledge base for students and clinicians.</li>
+  <li><strong>Peer-Reviewed Journals &amp; Clinical Practice Guidelines</strong> from powerful academic societies that disseminate cutting-edge research and set national standards of care.</li>
+  <li><strong>Highly Detailed, Visually-Driven Surgical Atlases</strong> that form a cornerstone of practical surgical training.</li>
+</ol>
+
+<div class="callout callout-info">
+  <strong>Scope of Source Document</strong>
+  This educational summary is based exclusively on the provided expert report describing the Japanese orthopedic publishing landscape. The source is a <em>narrative/descriptive review</em>, not a clinical trial or systematic review. Evidence-level badges reflect the nature of the source (expert report). No clinical outcome parameters, RCT data, or numerical thresholds are present in the original document.
+</div>
+
+<!-- Section 1 -->
+<h2 id="societies" class="section-anchor">1. The Central Role of Academic Societies</h2>
+<p>In Japan, orthopedic academic societies are not merely professional networks; they are <strong>active and influential publishers</strong> whose outputs are indispensable for any practitioner or researcher. These organizations serve as the primary engines of scholarly communication, producing the journals and guidelines that define the field's standards and push its boundaries. <span class="evidence na">Source: Expert Report</span></p>
+
+<h3>1.1 The Japanese Orthopaedic Association (JOA)</h3>
+<p>The JOA stands as the <strong>principal academic body</strong> in Japanese orthopedics. Its influence is profound, extending from the organization of annual meetings to the direct publication of the field's most current research and clinical standards. The JOA is also a key player in global knowledge exchange, sponsoring international programs like the AOA–JOA Traveling Fellowship. <span class="evidence na">Ref 2, 3</span></p>
+
+<h4>Official Journals</h4>
+<ul>
+  <li><strong><em>The Journal of Orthopaedic Science</em> (JOS):</strong> The JOA's official international journal, documenting the latest research and topical debates across all fields of clinical and experimental orthopedics. It publishes high-impact original articles, instructional lectures, review articles, and rapid short communications, welcoming contributions from researchers worldwide. <span class="evidence na">Ref 2, 4</span></li>
+  <li><strong><em>JOS Case Reports:</strong></em> A peer-reviewed, open-access journal dedicated to original case reports across all orthopedic subspecialties including sports medicine, trauma, oncology, pediatrics, and biomaterials. <span class="evidence na">Ref 2</span></li>
+</ul>
+
+<h4>Clinical Practice Guidelines as Authoritative Monographs</h4>
+<p>Beyond its journals, the JOA develops and endorses comprehensive clinical practice guidelines that function as book-length, authoritative texts on specific pathologies. These guidelines are meticulously researched and often published as secondary articles within the <em>JOS</em>, ensuring wide dissemination and citation. <span class="evidence na">Ref 5</span></p>
+
+<h3>1.2 The Japanese Clinical Orthopaedic Association (JCOA)</h3>
+<p>Established in 1975, the JCOA has a distinct mission: to improve day-to-day orthopedic practice and foster a strong community among clinicians. Its official publication, <strong><em>The Journal of the Japanese Clinical Orthopaedic Association</em></strong>, focuses on cohort studies, case-control studies, and articles detailing clinical techniques. <span class="evidence na">Ref 8</span></p>
+
+<div class="callout callout-success">
+  <strong>Internationalization Trend</strong>
+  While manuscripts are primarily accepted in Japanese, all papers include English titles and abstracts. Since 2019, the journal has published full English-language articles. Since 2018, it has published English abstracts and proceedings from the annual Japan–Korea Clinical Orthopedics Joint Meetings. <span class="evidence na">Ref 8</span>
+</div>
+
+<h3>1.3 Specialized Sub-Societies</h3>
+<p>The depth of specialization in Japanese orthopedics is reflected in a network of sub-societies, each contributing to the literature in its respective niche:</p>
+<ul>
+  <li><strong>Japan Sports Orthopaedic Association (JSOA):</strong> Formed in 2023 through a merger of two established societies. Its mission covers diagnosis, treatment, and prevention of sports-related injuries. It publishes learned bulletins and books. <span class="evidence na">Ref 10</span></li>
+  <li><strong>Japanese Society for Replacement Arthroplasty (JSRA):</strong> Over 4,000 members; publishes the <em>Journal of Joint Surgery and Research</em> with Elsevier, demonstrating a commitment to global publishing standards. <span class="evidence na">Ref 11</span></li>
+  <li><strong>Japanese Orthopaedic Trauma Association (JOTA):</strong> Formerly the Japanese Society for Fracture Repair; devoted to advancing fracture care through annual meetings and published proceedings. <span class="evidence na">Ref 12</span></li>
+  <li><strong>Japanese Non-surgical Orthopedics Society (JNOS):</strong> Concentrates on non-operative treatment of musculoskeletal pain; publishes practical educational materials such as DVDs on musculoskeletal ultrasound. <span class="evidence na">Ref 14</span></li>
+</ul>
+
+<div class="callout callout-warning">
+  <strong>Key Structural Insight</strong>
+  The field's knowledge base is a <em>dynamic, distributed system</em> maintained by a network of highly specialized academic societies. The JOA functions as the central hub, while sub-societies drive progress in specific domains. To remain current in a sub-specialty, a practitioner must actively engage with the publications of the relevant society.
+</div>
+
+<!-- Table 1 -->
+<div class="table-wrap">
+  <table>
+    <caption>Table 1: Key Japanese Orthopedic Societies and Their Official Publications</caption>
+    <thead>
+      <tr><th>Society</th><th>Abbr.</th><th>Key Publication(s)</th><th>Mission / Focus</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Japanese Orthopaedic Association</td><td>JOA</td><td><em>J. Orthop. Sci.</em>; <em>JOS Case Reports</em>; Clinical Practice Guidelines</td><td>Document latest research in all fields of clinical &amp; experimental orthopedics</td></tr>
+      <tr><td>Japanese Clinical Orthopaedic Association</td><td>JCOA</td><td><em>J. Jpn. Clin. Orthop. Assoc.</em></td><td>Improve orthopedic practice via cohort studies, clinical techniques, and experience reports</td></tr>
+      <tr><td>Japan Sports Orthopaedic Association</td><td>JSOA</td><td>Learned bulletins and books</td><td>Advance diagnosis, treatment, and prevention of sports/exercise injuries</td></tr>
+      <tr><td>Japanese Society for Replacement Arthroplasty</td><td>JSRA</td><td><em>J. Joint Surg. Res.</em></td><td>Promote research, educate surgeons, advance international collaboration in arthroplasty</td></tr>
+      <tr><td>Japanese Orthopaedic Trauma Association</td><td>JOTA</td><td>Annual meeting proceedings</td><td>Advance fracture repair and orthopedic trauma</td></tr>
+      <tr><td>Japanese Non-surgical Orthopedics Society</td><td>JNOS</td><td>Educational materials (DVDs)</td><td>Develop diagnosis, treatment, and research for non-surgical musculoskeletal pain management</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Section 2 -->
+<h2 id="publishers" class="section-anchor">2. Major Publishers of Japanese Orthopedic Literature</h2>
+<p>A select group of commercial publishers works in a symbiotic relationship with the academic community to produce the field's most important textbooks, reference works, and surgical atlases. These companies have developed <strong>distinct areas of expertise</strong>, creating a stable and comprehensive ecosystem for orthopedic literature. <span class="evidence na">Source: Expert Report</span></p>
+
+<h3>2.1 Igaku-Shoin Ltd. (医学書院)</h3>
+<p>A premier medical publisher holding a <strong>dominant position</strong> in the orthopedic market. It publishes the two most foundational textbooks: <em>Standard Orthopedic Surgery</em> and <em>Today's Orthopedic Treatment Guidelines</em>. Igaku-Shoin maintains a robust digital presence through its online platform "Igaku-Shoin Library" (ISLIB) and its medical newspaper <em>Igakukai Shimbun</em>. <span class="evidence na">Ref 15–22</span></p>
+
+<h3>2.2 Nankodo Co., Ltd. (南江堂)</h3>
+<p>Founded in 1879, Nankodo publishes over 100 new books annually and five key clinical journals, including the monthly <em>Orthopedic Surgery</em> (臨床雑誌整形外科). It also acts as a major importer of foreign medical books and journals. <span class="evidence na">Ref 23–25</span></p>
+
+<h3>2.3 Ishiyaku Publishers, Inc. (医歯薬出版)</h3>
+<p>Founded in 1921, Ishiyaku focuses on specialized academic and clinical content across medicine, dentistry, rehabilitation, and physical therapy. Its contributions include textbooks for physical and occupational therapists. <span class="evidence na">Ref 26–31</span></p>
+
+<h3>2.4 Yodosha Co., Ltd. (羊土社)</h3>
+<p>Established in 1979, Yodosha targets physicians and researchers. It publishes the journal <em>Resident Note</em> for junior physicians, making it a key resource for those in training. <span class="evidence na">Ref 32–35</span></p>
+
+<h3>2.5 Nakayama Shoten (中山書店)</h3>
+<p>Has carved out a critical niche as the publisher of the definitive <em>Illustrated Orthopedic Surgery</em> (整形外科手術イラストレイテッド) multi-volume series with accompanying video content — a cornerstone of practical surgical training. <span class="evidence na">Ref 36</span></p>
+
+<h3>2.6 Other Notable Publishers</h3>
+<ul>
+  <li><strong>Asakura Publishing Co., Ltd. (朝倉書店):</strong> Long-standing academic publisher whose subjects include medical science. <span class="evidence na">Ref 37</span></li>
+  <li><strong>Medica Shuppan (メディカ出版):</strong> Produces <em>Seikeigeka SURGICAL TECHNIQUE</em>, a Japanese journal focused on orthopedic surgical techniques. <span class="evidence na">Ref 38</span></li>
+</ul>
+
+<div class="callout callout-info">
+  <strong>Division of Labour in Publishing</strong>
+  The Japanese medical publishing landscape exhibits a clear <strong>division of labor</strong>: Igaku-Shoin dominates foundational textbooks; Nankodo provides clinical journals and anatomy references; Nakayama Shoten has cornered premium surgical atlases. This specialization creates a predictable and reliable flow of medical knowledge.
+</div>
+
+<!-- Table 2 -->
+<div class="table-wrap">
+  <table>
+    <caption>Table 2: Major Japanese Medical Publishers and Their Orthopedic Focus</caption>
+    <thead>
+      <tr><th>Publisher</th><th>Key Orthopedic Publication(s)</th><th>Specialization</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Igaku-Shoin (医学書院)</td><td><em>Standard Orthopedic Surgery</em>; <em>Today's Orthopedic Treatment Guidelines</em></td><td>Foundational textbooks &amp; clinical reference manuals</td></tr>
+      <tr><td>Nankodo (南江堂)</td><td><em>Orthopedic Surgery</em> (Journal); <em>Surgical Anatomy for Orthopedic Surgeons</em></td><td>Clinical journals &amp; specialized surgical anatomy texts</td></tr>
+      <tr><td>Nakayama Shoten (中山書店)</td><td><em>Illustrated Orthopedic Surgery</em> (10-volume series)</td><td>High-end, multi-volume surgical atlases with video</td></tr>
+      <tr><td>Yodosha (羊土社)</td><td><em>Manual Therapy</em>; <em>Initial Response to Orthopedic Trauma</em></td><td>Practical books for clinical professionals &amp; residents</td></tr>
+      <tr><td>Ishiyaku (医歯薬出版)</td><td>Textbooks for PT/OT; <em>Orthopedics for Cerebral Palsy</em></td><td>Medicine &amp; allied health academic content</td></tr>
+      <tr><td>Medica Shuppan (メディカ出版)</td><td><em>Seikeigeka SURGICAL TECHNIQUE</em> (Journal)</td><td>Journals on surgical techniques</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Section 3 -->
+<h2 id="textbooks" class="section-anchor">3. Foundational Textbooks and Clinical Reference Works</h2>
+
+<h3>3.1 <em>Standard Orthopedic Surgery</em> (標準整形外科学) — Igaku-Shoin</h3>
+<p>This is the <strong>definitive, "gold standard" textbook</strong> for orthopedics in Japan, primarily aimed at medical students and postgraduate trainees. The 15th edition (2023) spans over <strong>1,100 pages</strong>, covering the full spectrum from basic science to specific diseases organized by anatomical region. <span class="evidence na">Ref 16, 17, 39–44</span></p>
+
+<p>Its authority stems from editorial leadership by Japan's most eminent professors. For example:</p>
+<ul>
+  <li>14th edition editors included <strong>Prof. Eiji Itoi</strong> (world-renowned shoulder surgeon) and <strong>Prof. Hideki Yoshikawa</strong> (bone/soft tissue tumors, Osaka University).</li>
+  <li>15th edition editors included <strong>Prof. Sakae Tanaka</strong>, <strong>Prof. Rikuo Takagi</strong>, and <strong>Prof. Shuichi Matsuda</strong>.</li>
+</ul>
+<p>Key features include supplementary booklets for OSCE preparation and access to web videos demonstrating procedures like ultrasound examinations. <span class="evidence na">Ref 39, 40</span></p>
+
+<h3>3.2 <em>Today's Orthopedic Treatment Guidelines</em> (今日の整形外科治療指針) — Igaku-Shoin</h3>
+<p>This serves as the essential <strong>clinical desk reference</strong> — described as a "clinical practice encyclopedia" designed for immediate use in guiding treatment decisions. The 8th edition (2021) spans nearly <strong>1,000 pages</strong>, led by <strong>Prof. Hiroyuki Tsuchiya</strong>, an internationally recognized expert in musculoskeletal oncology and limb salvage surgery. <span class="evidence na">Ref 18, 45–50</span></p>
+
+<div class="callout callout-success">
+  <strong>Complementary Duopoly Strategy</strong>
+  The Japanese orthopedic textbook market is anchored by a powerful and complementary pair from Igaku-Shoin: <em>Standard Orthopedic Surgery</em> provides the <strong>"why"</strong> (foundational principles), while <em>Today's Orthopedic Treatment Guidelines</em> provides the <strong>"how"</strong> (practical clinical guidance). This creates a continuous learning pathway from student to practicing clinician.
+</div>
+
+<!-- Table 3 -->
+<div class="table-wrap">
+  <table>
+    <caption>Table 3: Comparative Analysis of Major Japanese Orthopedic Publications</caption>
+    <thead>
+      <tr><th>Title</th><th>Publisher</th><th>Latest Ed.</th><th>Key Editors</th><th>Audience</th><th>Scope &amp; Features</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>標準整形外科学</strong><br><em>Standard Orthopedic Surgery</em></td>
+        <td>Igaku-Shoin</td>
+        <td>15th (2023)</td>
+        <td>E. Itoi, S. Tanaka, S. Matsuda, et al.</td>
+        <td>Students, residents, clinicians</td>
+        <td>1,100+ pp; foundational; web videos; OSCE booklet; edited by top professors</td>
+      </tr>
+      <tr>
+        <td><strong>今日の整形外科治療指針</strong><br><em>Today's Orthopedic Treatment Guidelines</em></td>
+        <td>Igaku-Shoin</td>
+        <td>8th (2021)</td>
+        <td>H. Tsuchiya, S. Konno, Y. Tanaka, et al.</td>
+        <td>Practicing surgeons</td>
+        <td>~1,000 pp; clinical encyclopedia; rapid-access treatment protocols</td>
+      </tr>
+      <tr>
+        <td><strong>整形外科手術イラストレイテッド</strong><br><em>Illustrated Orthopedic Surgery</em></td>
+        <td>Nakayama Shoten</td>
+        <td>Various</td>
+        <td>T. Toyama, E. Itoi, M. Kurosaka, et al.</td>
+        <td>Residents, specialists, OR staff</td>
+        <td>10-volume series; colour illustrations; accompanying videos; minimal text</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Section 4 -->
+<h2 id="atlases" class="section-anchor">4. The Surgical Atlas: A Pillar of Education</h2>
+<p>Beyond standard textbooks, the surgical atlas represents a distinct and vital genre in Japanese orthopedic education. These visually-driven guides provide highly detailed, step-by-step instruction, reflecting a pedagogical emphasis on the <strong>mastery of craft</strong>. <span class="evidence na">Source: Expert Report</span></p>
+
+<h3>4.1 The <em>Illustrated Orthopedic Surgery</em> Series (Nakayama Shoten)</h3>
+<p>This landmark <strong>10-volume series</strong> is the quintessential example of the modern surgical atlas in Japan. Each volume covers a specific anatomical region (e.g., Lumbar Spine, Shoulder Joint, Knee Joint) or foundational topic. <span class="evidence na">Ref 36</span></p>
+<ul>
+  <li><strong>Format:</strong> Prioritizes <em>seichina irasuto</em> (精緻なイラスト — exquisite, detailed illustrations) supplemented with DVD or web-based videos.</li>
+  <li><strong>Text:</strong> Intentionally minimal, designed to support the visual narrative, with key "points" highlighting technical tips and potential pitfalls.</li>
+  <li><strong>Audience:</strong> Orthopedic specialists, residents, <em>and</em> operating room staff — underscoring its role as a practical, team-based training tool.</li>
+  <li><strong>Editors:</strong> Top-tier professors including Toyoaki Toyama and Eiji Itoi.</li>
+</ul>
+
+<h3>4.2 The Tradition of Visual Surgical Guides</h3>
+<p>The emphasis on visual learning has deep historical roots. A key precedent is the <strong><em>Atlas of Arthroscopy</em></strong>, published by Igaku-Shoin in 1969, authored by pioneers like <strong>Dr. Masaki Watanabe</strong>. This was one of the world's earliest visual guides to arthroscopy. <span class="evidence na">Ref 20</span></p>
+
+<div class="callout callout-accent">
+  <strong>Pedagogical Philosophy</strong>
+  The existence of comprehensive, multi-volume surgical atlases reveals a core tenet of Japanese orthopedic pedagogy: <em>mastery of surgical craft requires more than abstract textual knowledge and is best achieved through meticulous, step-by-step visual instruction</em>. These atlases are not supplementary — they are a primary educational pillar, reflecting a cultural approach emphasizing precision, reproducibility, and detailed study of technique.
+</div>
+
+<!-- Section 5 -->
+<h2 id="guidelines" class="section-anchor">5. Clinical Practice Guidelines as Authoritative Monographs</h2>
+<p>A modern and agile component of the publishing landscape is the production of clinical practice guidelines by the JOA. These documents are so comprehensive they effectively function as standalone "books" on specific diseases. <span class="evidence na">Source: Expert Report</span></p>
+
+<h3>5.1 Methodology and Authority</h3>
+<p>JOA guidelines are developed through a formal, evidence-based process adhering to the <strong>Minds Handbook for Clinical Practice Guideline Development 2014</strong>. This involves: <span class="evidence na">Ref 5</span></p>
+<ol>
+  <li><strong>Systematic Literature Reviews:</strong> Exhaustive searches of existing literature.</li>
+  <li><strong>Evidence-Based Recommendations:</strong> Formal assessment of the "body of evidence" and "benefit-harm balance." Recommendations are assigned a <strong>strength rating</strong> based on supporting evidence quality.</li>
+  <li><strong>Peer Review &amp; Endorsement:</strong> Published as secondary articles in the <em>JOS</em>, subjecting them to peer review and making them part of the permanent scientific record.</li>
+</ol>
+
+<h3>5.2 Key Examples of Guideline "Books"</h3>
+<ul>
+  <li><strong>JOA Clinical Practice Guideline for Management of Low Back Pain (2019 Revised Edition):</strong> Comprehensive guide for orthopedic surgeons and primary care physicians, based on meta-analysis addressing nine key clinical questions. <span class="evidence na">Ref 7</span></li>
+  <li><strong>JOA Clinical Practice Guidelines on Lateral Epicondylitis of the Humerus:</strong> 19-page document with systematic, evidence-based recommendations for surgeons, physicians, therapists, and athletic trainers. <span class="evidence na">Ref 5</span></li>
+  <li><strong>JOA Clinical Practice Guidelines on Hallux Valgus:</strong> Authoritative advice on diagnosis and surgical management. <span class="evidence na">Ref 6</span></li>
+</ul>
+
+<div class="callout callout-info">
+  <strong>"Living Textbooks"</strong>
+  The JOA's guideline model creates <strong>highly authoritative, evidence-based, and continuously updatable monographs</strong>. This is far more nimble than the multi-year revision cycle of traditional hardcover textbooks. For a Japanese practitioner seeking the most current standard of care on low back pain, the primary reference is the 2019 JOA Guideline — effectively making it the most important "book" on that topic.
+</div>
+
+<!-- Source Limitations -->
+<h2 id="limitations" class="section-anchor">6. Source Document Limitations</h2>
+<div class="callout callout-warning">
+  <strong>Important Note on Evidence Character</strong>
+  The source document is a <strong>narrative expert report</strong> describing the Japanese orthopedic publishing ecosystem. It does <em>not</em> contain:
+  <ul style="margin-top:.5rem">
+    <li>Randomized controlled trials or cohort studies with clinical outcomes.</li>
+    <li>Continuous numerical clinical parameters (e.g., VAS scores, bone density, alignment angles).</li>
+    <li>Standard Level I–V evidence classifications for treatment recommendations.</li>
+    <li>Five or more landmark RCTs (no clinical trials are referenced).</li>
+  </ul>
+  <p style="margin-top:.5rem">The sidebar tools below are therefore <strong>adapted to the document's actual content</strong> — providing interactive navigation aids for the publishing landscape rather than clinical decision-support thresholds. Where general clinical knowledge is referenced for context, it is explicitly annotated as such.</p>
+</div>
+
+<!-- Conclusion -->
+<h2 id="conclusion" class="section-anchor">Conclusion: A Strategic Map for the Practitioner</h2>
+<p>The landscape of orthopedic literature in Japan is a robust and multifaceted ecosystem built upon three interconnected pillars. Navigating it effectively requires a strategic approach:</p>
+<ol>
+  <li><strong>For Foundational Knowledge:</strong> Begin with Igaku-Shoin's <em>Standard Orthopedic Surgery</em> (標準整形外科学).</li>
+  <li><strong>For Clinical Practice &amp; Standards:</strong> Consult Igaku-Shoin's <em>Today's Orthopedic Treatment Guidelines</em> (今日の整形外科治療指針) for daily decisions; for the most current evidence-based approach, consult <strong>JOA Clinical Practice Guidelines</strong>.</li>
+  <li><strong>For Surgical Technique:</strong> Study Nakayama Shoten's <em>Illustrated Orthopedic Surgery</em> (整形外科手術イラストレイテッド) 10-volume series.</li>
+  <li><strong>For Latest Research:</strong> Follow the <em>JOS</em> (JOA) and specialized sub-society journals (JSRA, JSOA, JOTA, JNOS).</li>
+</ol>
+
+<!-- References -->
+<h2 id="refs" class="section-anchor">References</h2>
+<p style="font-size:.82rem;color:var(--text-secondary);line-height:1.8">
+  [1] Prof. Yoshinori Tashiro's contribution to Orthopedic Surgery — PMC, 2025.<br>
+  [2] The Journal of Orthopaedic Science — JOA, 2025.<br>
+  [3] Japanese Orthopaedic Association Traveling Fellowship — AOA, 2025.<br>
+  [4] Official journal of the JOA — VIVO, Weill Cornell, 2025.<br>
+  [5] JOA Clinical Practice Guidelines on Lateral Epicondylitis — Fujita Health Univ., 2025.<br>
+  [6] JOA Clinical Practice Guidelines on Hallux Valgus — PubMed, 2025.<br>
+  [7] JOA Clinical Practice Guideline for Low Back Pain (2019 rev.) — PubMed, 2025.<br>
+  [8] The Journal of the Japanese Clinical Orthopaedic Association — JCOA, 2025.<br>
+  [9] J. Jpn. Clin. Orthop. Assoc. — J-STAGE, 2025.<br>
+  [10] Japan Sports Orthopaedic Association (JSOA), 2025.<br>
+  [11] The Japanese Society for Replacement Arthroplasty (JSRA), 2025.<br>
+  [12] Annual Meetings — Japanese Orthopaedic Trauma Association (JOTA), 2025.<br>
+  [13] Japanese Orthopaedic Trauma Association, 2025.<br>
+  [14] Japanese Non-surgical Orthopedics Society (JNOS), 2025.<br>
+  [15–22] Igaku-Shoin Ltd. publisher materials &amp; ISLIB, 2025.<br>
+  [23–25] Nankodo Co., Ltd. company profile &amp; catalog, 2025.<br>
+  [26–31] Ishiyaku Publishers, Inc. — STM Association, NLM Catalog, 2025.<br>
+  [32–35] Yodosha Co., Ltd. — About &amp; product listings, 2025.<br>
+  [36] 整形外科手術イラストレイテッド — Nakayama Shoten, 2025.<br>
+  [37] Asakura Publishing — JBPA members, 2025.<br>
+  [38] Seikeigeka SURGICAL TECHNIQUE — Medica Shuppan / CDJapan, 2025.<br>
+  [39–44] 標準整形外科学 editions — NDL Search, Igaku-Shoin, Medical Book Center, 2025.<br>
+  [45–50] 今日の整形外科治療指針 editions — various retailer &amp; publisher pages, 2025.<br>
+  [51] 整形外科手術イラストレイテッド full set — m3電子書籍, 2025.
+</p>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive navigation and recommendation tools">
+
+  <!-- Training Stage Slider -->
+  <div class="card">
+    <div class="card-title">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.42A12.08 12.08 0 0121 17.5c-4.48 1.5-8.48 2-11 2s-6.52-.5-11-2c0-.52.35-1.01.84-1.42L12 14z"/></svg>
+      Training Stage
+    </div>
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Your level</span>
+        <span class="slider-value" id="stageLabel">Resident</span>
+      </div>
+      <input type="range" id="stageSlider" min="1" max="4" value="2" step="1" aria-label="Training stage selector">
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-muted);margin-top:-.6rem">
+      <span>Student</span><span>Resident</span><span>Fellow</span><span>Attending</span>
+    </div>
+  </div>
+
+  <!-- Content Focus Slider -->
+  <div class="card">
+    <div class="card-title">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+      Content Focus
+    </div>
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Priority</span>
+        <span class="slider-value" id="focusLabel">Clinical Practice</span>
+      </div>
+      <input type="range" id="focusSlider" min="1" max="4" value="2" step="1" aria-label="Content focus selector">
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-muted);margin-top:-.6rem">
+      <span>Foundational</span><span>Clinical</span><span>Surgical</span><span>Research</span>
+    </div>
+  </div>
+
+  <!-- Toggle: Language -->
+  <div class="card">
+    <div class="card-title">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10A15.3 15.3 0 0112 2z"/></svg>
+      Language Filter
+    </div>
+    <div class="toggle-row">
+      <span>Show English-accessible resources only</span>
+      <label class="toggle">
+        <input type="checkbox" id="langToggle" aria-label="Toggle English-accessible resources">
+        <span class="slider-track"></span>
+      </label>
+    </div>
+    <p style="font-size:.72rem;color:var(--text-muted);margin-top:.3rem">
+      Some Japanese publications include English abstracts or titles; a few offer full English content.
+    </p>
+  </div>
+
+  <!-- Recommendation Engine -->
+  <div class="card" style="padding:0;border:none;background:transparent;box-shadow:none">
+    <div class="reco-box" id="recoBox">
+      <h4>📚 Recommended Reading Path</h4>
+      <div id="recoContent"></div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="card">
+    <div class="btn-row">
+      <button class="btn btn-outline" id="resetBtn" aria-label="Reset all filters">
+        ↺ Reset
+      </button>
+      <button class="btn btn-primary" id="copyBtn" aria-label="Copy recommendation to clipboard">
+        ⎘ Copy Summary
+      </button>
+    </div>
+  </div>
+
+</aside>
+</div><!-- /page-wrapper -->
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>This interactive summary was generated from the provided expert report on orthopedic publications in Japan. All content is derived exclusively from the source document. Clinical parameters and evidence thresholds are not available in this source — sidebar tools provide navigation aids adapted to the document's content.</p>
+</footer>
+
+<script>
+// ===== Date =====
+document.getElementById('genDate').textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+// ===== Data for recommendations =====
+const stages = ['Medical Student','Resident','Fellow / Specialist','Attending / Professor'];
+const focuses = ['Foundational Knowledge','Clinical Practice','Surgical Technique','Latest Research'];
+
+const recoData = {
+  // stageIndex -> focusIndex -> { items: [...], langNote }
+  0:{ // Student
+    0:{items:[{t:'Standard Orthopedic Surgery (標準整形外科学)',d:'Primary foundational textbook covering basic science, pathology, and disease management. 15th ed., 1,100+ pages.',p:'pill-blue'}],note:'Start here for comprehensive orthopedic fundamentals.'},
+    1:{items:[{t:'Today\'s Orthopedic Treatment Guidelines (今日の整形外科治療指針)',d:'Clinical desk reference providing concise, up-to-date treatment protocols. 8th ed.',p:'pill-green'}],note:'Use alongside foundational study for clinical context.'},
+    2:{items:[{t:'Illustrated Orthopedic Surgery series (整形外科手術イラストレイテッド)',d:'Begin reviewing Volume 1: Basic Surgical Techniques. Visual learning for procedural understanding.',p:'pill-orange'}],note:'Early exposure to surgical visuals builds procedural awareness.'},
+    3:{items:[{t:'JOS Case Reports',d:'Accessible open-access case reports across all subspecialties — good introduction to research reading.',p:'pill-gray'},{t:'J-STAGE database',d:'Free access to many Japanese clinical journal articles for early research exploration.',p:'pill-gray'}],note:'Case reports offer approachable entry points to research literature.'}
+  },
+  1:{ // Resident
+    0:{items:[{t:'Standard Orthopedic Surgery (15th ed.)',d:'Comprehensive review — use OSCE booklet and web videos for practical exam preparation.',p:'pill-blue'},{t:'JOA Clinical Practice Guidelines',d:'Evidence-based guidelines on low back pain, lateral epicondylitis, and hallux valgus as disease-specific deep dives.',p:'pill-green'}],note:'Combine the foundational text with specific JOA guidelines for exam preparation and clinical decision-making.'},
+    1:{items:[{t:'Today\'s Orthopedic Treatment Guidelines (8th ed.)',d:'Essential daily desk reference for treatment decisions on the ward and in clinic.',p:'pill-green'},{t:'JOA Clinical Practice Guidelines (Low Back Pain 2019, Lateral Epicondylitis, Hallux Valgus)',d:'Evidence-based monographs on high-yield clinical topics.',p:'pill-blue'}],note:'Primary clinical references for daily decision-making during residency.'},
+    2:{items:[{t:'Illustrated Orthopedic Surgery (full 10-volume series)',d:'Detailed step-by-step visual guides for surgical procedures; intended for residents and OR staff.',p:'pill-orange'},{t:'Seikeigeka SURGICAL TECHNIQUE (Medica Shuppan)',d:'Journal focused on surgical techniques for current procedural knowledge.',p:'pill-orange'}],note:'The Illustrated series is a cornerstone of surgical training — review relevant volumes before each case.'},
+    3:{items:[{t:'The Journal of Orthopaedic Science (JOS)',d:'JOA official international journal — original articles, reviews, instructional lectures.',p:'pill-blue'},{t:'Journal of the Japanese Clinical Orthopaedic Association',d:'Cohort studies and clinical experience reports; English abstracts available, full English articles since 2019.',p:'pill-gray'}],note:'Follow JOS for the latest research; JCOA journal for domestic clinical evidence.'}
+  },
+  2:{ // Fellow
+    0:{items:[{t:'JOA Clinical Practice Guidelines',d:'Deep evidence-based reviews on specific pathologies — essential for sub-specialty expertise.',p:'pill-green'},{t:'Standard Orthopedic Surgery (15th ed.)',d:'Continue as a reference for areas outside your sub-specialty.',p:'pill-blue'}],note:'JOA guidelines serve as "living textbooks" — stay current with updates.'},
+    1:{items:[{t:'JOA Clinical Practice Guidelines (latest editions)',d:'Primary evidence-based clinical references for your sub-specialty.',p:'pill-green'},{t:'Today\'s Orthopedic Treatment Guidelines (8th ed.)',d:'Broad clinical desk reference for cross-specialty consultations.',p:'pill-green'}],note:'Guidelines are more current than textbook chapters — always check the latest JOA guideline first.'},
+    2:{items:[{t:'Illustrated Orthopedic Surgery (sub-specialty volumes)',d:'Focus on the volume relevant to your fellowship (e.g., Shoulder Joint, Lumbar Spine, Knee Joint).',p:'pill-orange'},{t:'Surgical Anatomy for Orthopedic Surgeons (Nankodo)',d:'Detailed anatomical reference for surgical planning.',p:'pill-orange'}],note:'Combine atlas study with operative experience; use anatomy texts for complex cases.'},
+    3:{items:[{t:'JOS + Sub-society journals (JSRA, JSOA, JOTA)',d:'Follow your sub-specialty society\'s journal for cutting-edge research.',p:'pill-blue'},{t:'Journal of Joint Surgery and Research (JSRA/Elsevier)',d:'International-standard arthroplasty research if relevant to your sub-specialty.',p:'pill-gray'}],note:'Engage with sub-society publications — this is where the most relevant advances are published.'}
+  },
+  3:{ // Attending
+    0:{items:[{t:'JOA Clinical Practice Guidelines (updated editions)',d:'Stay current with evidence-based national standards for teaching and practice.',p:'pill-green'},{t:'Standard Orthopedic Surgery (as editorial committee member)',d:'Consider contributing to future editions as a recognized expert.',p:'pill-blue'}],note:'As an attending, you shape the next generation of textbooks and guidelines.'},
+    1:{items:[{t:'JOA Clinical Practice Guidelines',d:'Lead or contribute to guideline development committees.',p:'pill-green'},{t:'Today\'s Orthopedic Treatment Guidelines',d:'Reference for supervising residents\' clinical decision-making.',p:'pill-green'}],note:'Guidelines are the most current "books" — contribute to their development and dissemination.'},
+    2:{items:[{t:'Illustrated Orthopedic Surgery (as editor/contributor)',d:'Consider contributing surgical expertise to future atlas volumes.',p:'pill-orange'},{t:'Seikeigeka SURGICAL TECHNIQUE',d:'Publish and review novel surgical techniques.',p:'pill-orange'}],note:'At this stage, your role shifts from consumer to contributor of surgical knowledge.'},
+    3:{items:[{t:'JOS (peer review & editorial roles)',d:'Contribute to the peer review process and shape the journal\'s direction.',p:'pill-blue'},{t:'All sub-society journals',d:'Maintain awareness across the breadth of Japanese orthopedic research.',p:'pill-gray'}],note:'Stay engaged with the full research ecosystem to mentor the next generation effectively.'}
+  }
+};
+
+const langNotes = {
+  0: '🌐 Note: Standard Orthopedic Surgery and Today\'s Treatment Guidelines are published in Japanese. JOS and JOS Case Reports are in English.',
+  1: '🌐 Note: Most foundational texts are in Japanese. JOS is English. JCOA journal offers English abstracts (full English articles since 2019).',
+  2: '🌐 Note: JOA guidelines include English translations. JSRA\'s journal is published with Elsevier in English. Sub-society journals vary.',
+  3: '🌐 Note: JOS is fully English. Many guidelines have English editions. Consider contributing English-language publications to increase international visibility.'
+};
+
+// ===== Elements =====
+const stageSlider = document.getElementById('stageSlider');
+const focusSlider = document.getElementById('focusSlider');
+const langToggle = document.getElementById('langToggle');
+const stageLabel = document.getElementById('stageLabel');
+const focusLabel = document.getElementById('focusLabel');
+const recoContent = document.getElementById('recoContent');
+const recoBox = document.getElementById('recoBox');
+const resetBtn = document.getElementById('resetBtn');
+const copyBtn = document.getElementById('copyBtn');
+const toast = document.getElementById('toast');
+
+function updateSliderBg(slider) {
+  const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+  slider.style.setProperty('--pct', pct + '%');
+}
+
+function updateRecommendation() {
+  const si = parseInt(stageSlider.value) - 1;
+  const fi = parseInt(focusSlider.value) - 1;
+  const engOnly = langToggle.checked;
+
+  stageLabel.textContent = stages[si];
+  focusLabel.textContent = focuses[fi];
+
+  updateSliderBg(stageSlider);
+  updateSliderBg(focusSlider);
+
+  const data = recoData[si][fi];
+  let html = '';
+
+  data.items.forEach(item => {
+    // Simple language filter: if English-only is on, dim items known to be Japanese-only
+    const isJapaneseOnly = (item.t.includes('標準') || item.t.includes('今日の') || item.t.includes('整形外科手術') || item.t.includes('SURGICAL TECHNIQUE'));
+    const opacity = (engOnly && isJapaneseOnly) ? 'opacity:0.4;' : '';
+    html += `<div class="reco-item" style="${opacity}">
+      <div class="reco-title">${item.t}</div>
+      <div class="reco-desc">${item.d}${(engOnly && isJapaneseOnly) ? ' <em>(Japanese only)</em>' : ''}</div>
+    </div>`;
+  });
+
+  html += `<div style="margin-top:.6rem;font-size:.76rem;color:rgba(255,255,255,.8)">${data.note}</div>`;
+  html += `<div class="limitation-note">${langNotes[fi]}</div>`;
+
+  if (engOnly) {
+    html += `<div class="limitation-note" style="margin-top:.4rem">ℹ️ English filter active — Japanese-only resources are dimmed. The source notes that the JCOA journal has published full English articles since 2019.</div>`;
+  }
+
+  recoContent.innerHTML = html;
+}
+
+stageSlider.addEventListener('input', updateRecommendation);
+focusSlider.addEventListener('input', updateRecommendation);
+langToggle.addEventListener('change', updateRecommendation);
+
+// Reset
+resetBtn.addEventListener('click', function() {
+  stageSlider.value = 2;
+  focusSlider.value = 2;
+  langToggle.checked = false;
+  updateRecommendation();
+});
+
+// Copy
+copyBtn.addEventListener('click', function() {
+  const si = parseInt(stageSlider.value) - 1;
+  const fi = parseInt(focusSlider.value) - 1;
+  const engOnly = langToggle.checked;
+  const data = recoData[si][fi];
+
+  let text = '=== ORTHOPEDIC PUBLICATIONS IN JAPAN — READING RECOMMENDATION ===\n';
+  text += `Generated: ${new Date().toISOString()}\n`;
+  text += `Training Stage: ${stages[si]}\n`;
+  text += `Content Focus: ${focuses[fi]}\n`;
+  text += `English-Only Filter: ${engOnly ? 'ON' : 'OFF'}\n\n`;
+  text += 'RECOMMENDED RESOURCES:\n';
+  data.items.forEach((item, i) => {
+    text += `  ${i+1}. ${item.t}\n     ${item.d}\n`;
+  });
+  text += `\nRATIONALE: ${data.note}\n`;
+  text += `\nLANGUAGE NOTE: ${langNotes[fi]}\n`;
+  text += '\n--- SOURCE: Expert Report on the Landscape of Orthopedic Publications in Japan ---\n';
+  text += 'Note: This recommendation is based exclusively on the provided expert report.\n';
+  text += 'No clinical outcome data, RCTs, or numerical thresholds are available in this source.\n';
+
+  navigator.clipboard.writeText(text).then(() => {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  });
+});
+
+// Init
+updateRecommendation();
+</script>
+</body>
+</html>

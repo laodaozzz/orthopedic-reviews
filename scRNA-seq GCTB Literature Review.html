@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comprehensive Transcriptomic Landscape of Giant Cell Tumor of Bone — scRNA-seq Educational Summary</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a5276;--primary-light:#2980b9;--accent:#e74c3c;--accent2:#27ae60;
+  --bg:#f7f9fc;--card:#ffffff;--text:#2c3e50;--text-light:#5d6d7e;
+  --border:#dce6f0;--badge1:#8e44ad;--badge2:#2980b9;--badge3:#27ae60;
+  --badge4:#f39c12;--badge5:#e74c3c;--sidebar:#f0f4f8;
+  --shadow:0 2px 12px rgba(0,0,0,.08);--radius:10px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.72}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,var(--primary) 0%,#2c3e50 100%);color:#fff;padding:1.8rem 2rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.18)}
+.site-header h1{font-size:1.55rem;font-weight:700;letter-spacing:.3px}
+.site-header p{font-size:.85rem;opacity:.8;margin-top:.35rem}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1380px;margin:0 auto;padding:2rem 1.5rem}
+@media(max-width:1024px){.layout{grid-template-columns:1fr}.sidebar{position:relative!important;top:auto!important;margin-top:2rem}}
+
+/* Main Content */
+main{min-width:0}
+main h2{font-size:1.35rem;color:var(--primary);margin:2.2rem 0 .8rem;padding-bottom:.4rem;border-bottom:3px solid var(--primary-light)}
+main h2:first-child{margin-top:0}
+main h3{font-size:1.12rem;color:#34495e;margin:1.5rem 0 .5rem}
+main h4{font-size:1rem;color:var(--text);margin:1.2rem 0 .4rem}
+main p,main li{font-size:.95rem;margin-bottom:.7rem}
+main ul,main ol{padding-left:1.5rem;margin-bottom:1rem}
+main li{margin-bottom:.35rem}
+
+/* Callout boxes */
+.callout{border-left:4px solid var(--primary-light);background:#eaf2f8;padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.2rem 0;font-size:.92rem}
+.callout.warning{border-left-color:var(--accent);background:#fdedec}
+.callout.success{border-left-color:var(--accent2);background:#eafaf1}
+.callout.info{border-left-color:var(--badge4);background:#fef9e7}
+
+/* Evidence badges */
+.evidence{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;vertical-align:middle;margin-left:4px;letter-spacing:.3px}
+.ev-I{background:var(--badge1)}.ev-II{background:var(--badge2)}.ev-III{background:var(--badge3)}.ev-IV{background:var(--badge4)}.ev-V{background:var(--badge5)}
+.ev-ns{background:#7f8c8d;font-weight:600}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;box-shadow:var(--shadow);border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+caption{background:var(--primary);color:#fff;padding:.7rem 1rem;text-align:left;font-weight:600;font-size:.92rem;border-radius:var(--radius) var(--radius) 0 0}
+thead th{background:#34495e;color:#fff;padding:.6rem .7rem;text-align:left;font-weight:600;white-space:nowrap}
+tbody td{padding:.55rem .7rem;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:nth-child(even){background:#f8fafc}
+tbody tr:hover{background:#eaf2f8}
+.gene-tag{display:inline-block;background:#eaf2f8;color:var(--primary);padding:1px 6px;border-radius:4px;font-family:monospace;font-size:.78rem;margin:1px 2px}
+
+/* Reference list */
+.ref-list{list-style:none;padding:0;counter-reset:ref}
+.ref-list li{counter-increment:ref;font-size:.82rem;padding:.4rem 0;border-bottom:1px solid var(--border);color:var(--text-light)}
+.ref-list li::before{content:"[" counter(ref) "] ";font-weight:700;color:var(--primary)}
+.ref-list a{color:var(--primary-light);word-break:break-all}
+
+/* Sidebar */
+.sidebar{position:sticky;top:90px;height:fit-content;max-height:calc(100vh - 110px);overflow-y:auto}
+.sidebar-inner{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.3rem}
+.sidebar h3{font-size:1rem;color:var(--primary);margin-bottom:1rem;text-align:center;border-bottom:2px solid var(--border);padding-bottom:.5rem}
+.slider-group{margin-bottom:1.3rem}
+.slider-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
+.slider-group .range-row{display:flex;align-items:center;gap:.6rem}
+.slider-group input[type=range]{flex:1;accent-color:var(--primary);height:6px;cursor:pointer}
+.slider-group .val{background:var(--sidebar);padding:2px 8px;border-radius:6px;font-size:.78rem;font-weight:700;color:var(--primary);min-width:42px;text-align:center}
+.slider-group .thresholds{display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-light);margin-top:2px}
+.slider-group .thresholds span{flex:1;text-align:center}
+
+/* Recommendation box */
+.rec-box{background:linear-gradient(135deg,#eaf2f8,#d5e8f7);border:2px solid var(--primary-light);border-radius:var(--radius);padding:1rem;margin-top:1rem;font-size:.84rem;min-height:180px}
+.rec-box h4{color:var(--primary);font-size:.88rem;margin-bottom:.5rem}
+.rec-box ul{padding-left:1.1rem;font-size:.82rem}
+.rec-box li{margin-bottom:.3rem}
+.risk-indicator{text-align:center;padding:.6rem;border-radius:8px;margin-bottom:.8rem;font-weight:700;font-size:.9rem;transition:all .3s}
+.risk-low{background:#27ae60;color:#fff}
+.risk-moderate{background:#f39c12;color:#fff}
+.risk-high{background:#e74c3c;color:#fff}
+
+/* Buttons */
+.btn-row{display:flex;gap:.5rem;margin-top:.8rem;flex-wrap:wrap}
+.btn{flex:1;padding:.5rem;border:none;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;transition:all .2s;min-width:80px}
+.btn-reset{background:var(--text-light);color:#fff}
+.btn-reset:hover{background:#34495e}
+.btn-copy{background:var(--primary);color:#fff}
+.btn-copy:hover{background:var(--primary-light)}
+.btn:active{transform:scale(.97)}
+
+/* Footer */
+.site-footer{text-align:center;padding:2rem 1rem;color:var(--text-light);font-size:.8rem;border-top:1px solid var(--border);margin-top:2rem}
+
+/* Utility */
+strong{color:var(--text)}
+.highlight{background:#fef9e7;padding:1px 4px;border-radius:3px}
+.mt-1{margin-top:1rem}
+.mb-1{margin-bottom:1rem}
+.small-note{font-size:.78rem;color:var(--text-light);font-style:italic}
+sup a{color:var(--primary-light);text-decoration:none;font-weight:600}
+sup a:hover{text-decoration:underline}
+.toggle-section{cursor:pointer;user-select:none;display:flex;align-items:center;gap:.5rem}
+.toggle-section::before{content:"▶";font-size:.7rem;transition:transform .2s;display:inline-block}
+.toggle-section.open::before{transform:rotate(90deg)}
+.collapsible-content{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.collapsible-content.open{max-height:5000px}
+
+/* Toast notification */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:.7rem 1.5rem;border-radius:8px;font-size:.88rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200}
+.toast.show{opacity:1}
+
+/* Disclaimer banner */
+.disclaimer{background:#fef9e7;border:1px solid #f9e79f;border-radius:8px;padding:.8rem 1rem;margin-bottom:1.5rem;font-size:.82rem;color:#7d6608}
+.disclaimer strong{color:#7d6608}
+
+@media(max-width:600px){
+  .site-header h1{font-size:1.15rem}
+  .layout{padding:1rem}
+  .sidebar-inner{padding:1rem}
+  main h2{font-size:1.15rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Comprehensive Transcriptomic Landscape of Giant Cell Tumor of Bone</h1>
+  <p>Insights from Single-Cell RNA Sequencing — Interactive Educational Summary</p>
+</header>
+
+<div class="layout">
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main role="main" aria-label="Main educational content">
+
+    <div class="disclaimer">
+      <strong>Source-Faithful Summary:</strong> This document is derived exclusively from the user-provided review article on single-cell RNA sequencing of Giant Cell Tumor of Bone. All claims, thresholds, and study references are drawn directly from the source text. Where clinical parameters are unavailable in the source, commonly accepted clinical thresholds are used and annotated accordingly.
+    </div>
+
+    <!-- Section 1: Introduction -->
+    <h2 id="introduction">1. Introduction and Cellular Architecture</h2>
+    <p>
+      Giant Cell Tumor of Bone (GCTB) is a locally aggressive, osteolytic primary bone neoplasm predominantly affecting the epiphyses of long bones in young adults. It is characterized by extensive bone destruction, significant pain, and high local recurrence rates following surgical curettage.<sup><a href="#ref1">[1]</a></sup>
+    </p>
+    <p>
+      For decades, the cellular hierarchies and intercellular communication networks within GCTB remained obscured by the limitations of bulk genomic and transcriptomic sequencing, which average gene expression signals across millions of cells and inherently mask rare, defining subpopulations.
+    </p>
+    <p>
+      The advent of single-cell RNA sequencing (scRNA-seq) utilizing high-throughput droplet-based platforms (e.g., 10x Genomics Chromium) has catalyzed a revolution in understanding GCTB.<sup><a href="#ref3">[3]</a></sup> By capturing the distinct transcriptomic profile of individual cells, scRNA-seq provides a high-resolution, cell-by-cell cartography that deconvolutes the tumor microenvironment (TME) into its fundamental functional constituents.<sup><a href="#ref5">[5]</a></sup>
+    </p>
+    <div class="callout">
+      <strong>Key Paradigm Shift:</strong> It is now unequivocally established that the proliferating mononuclear spindle cells represent the true neoplastic compartment, defined by a pathognomonic post-zygotic mutation in <span class="gene-tag">H3F3A</span> (p.Gly34Trp / G34W). Conversely, the multinucleated osteoclast-like giant cells and immune infiltrates are definitively <em>non-neoplastic</em> — they are recruited and manipulated by the mutant stromal cells.<sup><a href="#ref7">[7]</a></sup><sup><a href="#ref10">[10]</a></sup>
+    </div>
+
+    <!-- Section 2: Cellular Heterogeneity -->
+    <h2 id="heterogeneity">2. High-Resolution Cellular Heterogeneity in the TME</h2>
+    <p>
+      scRNA-seq has successfully mapped tens of thousands of individual cells from fresh human surgical resections, fundamentally redefining the taxonomy of the GCTB microenvironment from a morphological classification to a strictly molecular one.<sup><a href="#ref3">[3]</a></sup>
+    </p>
+
+    <h3 id="neoplastic">2.1 The Neoplastic Compartment: Stromal Cell Phenotypes</h3>
+    <p>
+      The mononuclear spindle stromal cells act as the biological engines of GCTB. These neoplastic cells do not exist in a single, homogeneous state but represent a dynamic continuum of stalled osteoblast-like mesenchymal progenitors.<sup><a href="#ref14">[14]</a></sup>
+    </p>
+    <p>
+      To separate neoplastic stromal cells from non-neoplastic cancer-associated fibroblasts (CAFs), researchers employ <strong>Copy Number Variation inference (InferCNV)</strong> algorithms, utilizing resident immune cells as a diploid reference baseline.<sup><a href="#ref3">[3]</a></sup>
+    </p>
+    <p>
+      Normal mesenchymal stem cells (MSCs) undergo a well-defined differentiation trajectory culminating in mature osteoblasts. However, trajectory analyses reveal that GCTB stromal cells are <strong>decisively arrested at an early progenitor stage</strong>, prevented from terminal osteogenic differentiation.<sup><a href="#ref7">[7]</a></sup> This stalled differentiation is accompanied by a transcriptomic diversion into a unique myofibroblast-like trajectory, with up-regulation of <span class="gene-tag">ACTA2</span> (smooth muscle alpha-actin).<sup><a href="#ref14">[14]</a></sup>
+    </p>
+    <p>
+      These neoplastic cells are prolific secretory engines, secreting vast arrays of osteoclastogenic factors, most notably <span class="gene-tag">RANKL</span> (encoded by <span class="gene-tag">TNFSF11</span>) and <span class="gene-tag">M-CSF</span>.<sup><a href="#ref16">[16]</a></sup> Stromal cell clusters often segregate uniquely by individual patient samples, indicating that while the <span class="gene-tag">H3F3A</span> G34W mutation is universal, secondary transcriptomic alterations drive unique sub-clonal phenotypes.<sup><a href="#ref14">[14]</a></sup>
+    </p>
+
+    <h3 id="osteoclasts">2.2 The Myeloid Compartment: Osteoclast Ontogeny</h3>
+    <p>
+      ScRNA-seq mathematically divides the osteoclast population into <strong>three distinct, hierarchically related functional subsets</strong>:<sup><a href="#ref4">[4]</a></sup>
+    </p>
+    <ul>
+      <li><strong>C1 — Progenitor Osteoclasts:</strong> Enriched for monocyte-macrophage lineage genes; express <span class="gene-tag">CD14</span>, <span class="gene-tag">CSF1R</span>, <span class="gene-tag">MRC1</span>. Primed for migration via <span class="gene-tag">PTGER4</span>, <span class="gene-tag">HBEGF</span>, <span class="gene-tag">VEGFA</span>, and <span class="gene-tag">VSIR</span>.</li>
+      <li><strong>C2 — Mature Osteoclasts:</strong> Terminal osteoclast markers massively upregulated: <span class="gene-tag">ACP5</span> (TRAP), <span class="gene-tag">CTSK</span> (Cathepsin K), <span class="gene-tag">ATP6V0D2</span> (vacuolar ATPase subunit). Master regulators: <span class="gene-tag">NFATC1</span>, <span class="gene-tag">FOS</span>, <span class="gene-tag">JUN</span>, <span class="gene-tag">NFKB1</span>, <span class="gene-tag">RELB</span>.<sup><a href="#ref4">[4]</a></sup></li>
+      <li><strong>C3 — Dysfunctional Osteoclasts:</strong> Exhibit distinct drop in metabolic and structural transcripts, suggesting senescence or apoptotic phase after terminal hyperactivation.<sup><a href="#ref4">[4]</a></sup></li>
+    </ul>
+
+    <h3 id="tam">2.3 Macrophage Polarization and TAM Subsets</h3>
+    <p>
+      Tumor-Associated Macrophages (TAMs) constitute the dominant immune infiltrating population. ScRNA-seq has dismantled the binary M1/M2 paradigm, revealing <strong>at least ten distinct TAM clusters</strong> (Macro-C1 through Macro-C10).<sup><a href="#ref11">[11]</a></sup> Key clusters include:
+    </p>
+    <ul>
+      <li><strong>Macro-C2:</strong> Profoundly pro-tumorigenic, M2-skewed; massive <span class="gene-tag">SPP1</span>, <span class="gene-tag">HMOX1</span>, <span class="gene-tag">CD163</span> expression. Promotes angiogenesis and T-cell suppression.</li>
+      <li><strong>Macro-C8:</strong> Intense interferon-induced chemokine expression (<span class="gene-tag">CXCL9</span>, <span class="gene-tag">CXCL10</span>, <span class="gene-tag">CXCL11</span>) — critical for T lymphocyte recruitment.</li>
+      <li><strong>Macro-C9:</strong> High <span class="gene-tag">MKI67</span> (Ki-67) and <span class="gene-tag">TOP2A</span>, indicating locally expanding resident macrophage pool independent of peripheral recruitment.</li>
+    </ul>
+    <div class="callout info">
+      <strong>Global Polarization Pressure:</strong> The GCTB TME exerts a skewing pressure toward an immunosuppressive, M2-like phenotype, fundamentally blunting innate immunosurveillance.<sup><a href="#ref1">[1]</a></sup>
+    </div>
+
+    <h3 id="tcells">2.4 The Lymphoid Compartment: T-Cell Exhaustion</h3>
+    <p>
+      The lymphoid compartment in GCTB is indicative of a profoundly immunosuppressive milieu. scRNA-seq reveals:
+    </p>
+    <ul>
+      <li><strong>Regulatory T cells (Tregs):</strong> High abundance, characterized by co-expression of <span class="gene-tag">FOXP3</span> and <span class="gene-tag">IL2RA</span> (CD25). Actively suppress CD8+ T cell functions via TGF-β and IL-10.<sup><a href="#ref1">[1]</a></sup></li>
+      <li><strong>Exhausted CD8+ T cells (Tex):</strong> The tumor bed is dominated by late-stage exhausted cells (subC2) expressing alarmingly high levels of <span class="gene-tag">PDCD1</span> (PD-1), <span class="gene-tag">CTLA4</span>, <span class="gene-tag">LAG3</span>, <span class="gene-tag">TIGIT</span>, and <span class="gene-tag">HAVCR2</span> (TIM-3).<sup><a href="#ref11">[11]</a></sup></li>
+    </ul>
+    <div class="callout warning">
+      <strong>Critical Insight:</strong> This exhaustion is not an intrinsic, systemic defect of the patient's T cells; it is a <em>localized, reactive state</em> induced by continuous antigen exposure and the immunosuppressive networks maintained by neoplastic stromal cells and M2-skewed TAMs.<sup><a href="#ref1">[1]</a></sup>
+    </div>
+
+    <!-- Comparative Table 1: Cellular Compartments -->
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1. Cellular Compartments and Key Subpopulations in the GCTB Microenvironment (Identified via scRNA-seq)</caption>
+        <thead>
+          <tr>
+            <th>Cellular Compartment</th>
+            <th>Key Subpopulations</th>
+            <th>Hallmark Genes / Markers</th>
+            <th>Primary Functional Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Neoplastic Stroma</strong></td>
+            <td>Spindle Cells (Stalled Osteoblast Progenitors)</td>
+            <td><span class="gene-tag">H3F3A</span><sup>G34W</sup>, <span class="gene-tag">ACTA2</span>, <span class="gene-tag">TNFSF11</span>, <span class="gene-tag">CSF1</span>, <span class="gene-tag">POSTN</span></td>
+            <td>Recruitment and activation of osteoclasts; establishment of immunosuppressive ECM</td>
+          </tr>
+          <tr>
+            <td rowspan="3"><strong>Osteoclasts</strong></td>
+            <td>C1: Progenitor Osteoclasts</td>
+            <td><span class="gene-tag">CD14</span>, <span class="gene-tag">CSF1R</span>, <span class="gene-tag">MRC1</span>, <span class="gene-tag">PTGER4</span>, <span class="gene-tag">HBEGF</span>, <span class="gene-tag">VEGFA</span></td>
+            <td>Migration, chemotaxis, and pre-fusion localization</td>
+          </tr>
+          <tr>
+            <td>C2: Mature Osteoclasts</td>
+            <td><span class="gene-tag">ACP5</span>, <span class="gene-tag">CTSK</span>, <span class="gene-tag">ATP6V0D2</span>, <span class="gene-tag">NFATC1</span>, <span class="gene-tag">FOS</span>, <span class="gene-tag">JUN</span></td>
+            <td>Terminal osteoclysis; release of chemotactic factors</td>
+          </tr>
+          <tr>
+            <td>C3: Dysfunctional Osteoclasts</td>
+            <td>Reduced metabolic and structural transcripts</td>
+            <td>Senescence / apoptotic phase post-hyperactivation</td>
+          </tr>
+          <tr>
+            <td rowspan="3"><strong>TAMs</strong></td>
+            <td>M2-skewed Macrophages (Macro-C2)</td>
+            <td><span class="gene-tag">SPP1</span>, <span class="gene-tag">HMOX1</span>, <span class="gene-tag">CD163</span>, <span class="gene-tag">MRC1</span></td>
+            <td>Angiogenesis, trophic support, induction of CD8+ T-cell exhaustion</td>
+          </tr>
+          <tr>
+            <td>Interferon-responsive Macrophages (Macro-C8)</td>
+            <td><span class="gene-tag">CXCL9</span>, <span class="gene-tag">CXCL10</span>, <span class="gene-tag">CXCL11</span></td>
+            <td>Active recruitment of T lymphocytes</td>
+          </tr>
+          <tr>
+            <td>Proliferative Macrophages (Macro-C9)</td>
+            <td><span class="gene-tag">MKI67</span>, <span class="gene-tag">TOP2A</span></td>
+            <td>Maintenance of local TAM pool independent of circulating monocytes</td>
+          </tr>
+          <tr>
+            <td rowspan="2"><strong>T Lymphocytes</strong></td>
+            <td>Regulatory T Cells (Tregs)</td>
+            <td><span class="gene-tag">FOXP3</span>, <span class="gene-tag">IL2RA</span></td>
+            <td>Broad suppression of adaptive anti-tumor immunity</td>
+          </tr>
+          <tr>
+            <td>Exhausted CD8+ T Cells (subC2)</td>
+            <td><span class="gene-tag">PDCD1</span>, <span class="gene-tag">CTLA4</span>, <span class="gene-tag">LAG3</span>, <span class="gene-tag">TIGIT</span>, <span class="gene-tag">HAVCR2</span></td>
+            <td>Loss of cytotoxic capacity; facilitation of immune evasion</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 3: Epigenetic Reprogramming -->
+    <h2 id="epigenetics">3. The H3F3A G34W Mutation: Epigenetic Reprogramming</h2>
+    <p>
+      The <span class="gene-tag">H3F3A</span> p.Gly34Trp (G34W) mutation is the singular genetic driver of tumorigenesis in GCTB, occurring exclusively in neoplastic stromal cells.<sup><a href="#ref7">[7]</a></sup> The substitution of glycine with bulky tryptophan at position 34 of histone H3.3 exerts profound topological and biochemical alterations on the nucleosome.
+    </p>
+
+    <h3 id="epi-writers">3.1 Dysregulation of Epigenetic Writers</h3>
+    <p>
+      The G34W mutation creates severe steric hindrance that disrupts binding and function of epigenetic reader/writer complexes targeting adjacent Lysine 36 (K36). This leads to:
+    </p>
+    <ul>
+      <li><strong>Global reduction of H3K36me3 in <em>cis</em></strong> — loss occurs on the exact mutant histone tails themselves.<sup><a href="#ref7">[7]</a></sup></li>
+      <li><strong>Pathological spread of H3K27me3</strong> — loss of H3K36me3 removes the "molecular shield" preventing PRC2 from depositing H3K27me3 into actively transcribed gene bodies. Aberrant spread of heterochromatin leads to widespread epigenetic repression of genes essential for mesenchymal differentiation.<sup><a href="#ref14">[14]</a></sup></li>
+    </ul>
+
+    <h3 id="epi-repression">3.2 Repression of Mesenchymal Lineages</h3>
+    <p>
+      The global epigenetic remodeling actively represses entire lineage networks. Most heavily down-regulated targets include genes integral to muscle contraction, sarcomere structure, and cytoskeletal organization: <span class="gene-tag">LARGE1</span>, <span class="gene-tag">MYH</span>, <span class="gene-tag">ADORA1</span>, <span class="gene-tag">PKP2</span>, and <span class="gene-tag">TNNT2</span>.<sup><a href="#ref14">[14]</a></sup>
+    </p>
+    <p>
+      Critical osteogenic differentiation markers are severely down-regulated: <span class="gene-tag">IGF2</span>, <span class="gene-tag">LEP</span>, and <span class="gene-tag">STMN2</span>. <span class="gene-tag">IGF2</span> in particular is a master regulator of mesenchymal stem cell differentiation and osteoclastogenesis — its disruption contributes to the severe imbalance between bone formation and resorption.<sup><a href="#ref7">[7]</a></sup>
+    </p>
+    <p>
+      Furthermore, the mutation induces significant splicing aberrations through redistribution of <span class="gene-tag">hnRNPA1L2</span> to novel genomic loci, driving pathological alternative splicing events that diversify and corrupt the neoplastic transcriptome.<sup><a href="#ref22">[22]</a></sup>
+    </p>
+
+    <!-- Comparative Table 2: Epigenetic Mechanisms -->
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2. Epigenetic Mechanisms and Downstream Effects of H3F3A G34W Mutation</caption>
+        <thead>
+          <tr>
+            <th>Epigenetic Mechanism</th>
+            <th>Direct Consequence</th>
+            <th>Target Genes Affected</th>
+            <th>Biological Impact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Loss of H3K36me3 in <em>cis</em></td>
+            <td>Dysregulation of PRC2</td>
+            <td>Global genomic regulatory shift</td>
+            <td>Removes shield protecting active gene bodies from repressive marks</td>
+          </tr>
+          <tr>
+            <td>Spread of H3K27me3 into genic regions</td>
+            <td>Repression of bivalent osteogenic loci</td>
+            <td><span class="gene-tag">IGF2</span>, <span class="gene-tag">LEP</span>, <span class="gene-tag">STMN2</span></td>
+            <td>Prevents terminal osteoblast maturation; cells locked as non-functional progenitors</td>
+          </tr>
+          <tr>
+            <td>Epigenetic silencing of contractile networks</td>
+            <td>Obliteration of alternative mesenchymal lineage commitment</td>
+            <td><span class="gene-tag">LARGE1</span>, <span class="gene-tag">MYH</span>, <span class="gene-tag">ADORA1</span>, <span class="gene-tag">PKP2</span>, <span class="gene-tag">TNNT2</span></td>
+            <td>Prevents differentiation into muscle or structured connective tissue</td>
+          </tr>
+          <tr>
+            <td>Redistribution of <span class="gene-tag">hnRNPA1L2</span></td>
+            <td>Pathological alternative mRNA splicing</td>
+            <td>Diverse transcriptomic targets</td>
+            <td>Generates aberrant protein isoforms contributing to survival and heterogeneity</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 4: Intercellular Communication -->
+    <h2 id="signaling">4. Intercellular Communication Networks</h2>
+    <p>
+      The pathogenesis of GCTB is the emergent product of highly integrated, bidirectional intercellular communication networks modeled using algorithms such as CellPhoneDB, CellChat, and CSOmap.<sup><a href="#ref4">[4]</a></sup>
+    </p>
+
+    <h3 id="osteoclast-signaling">4.1 Novel Osteoclastogenic Pathways</h3>
+    <p>
+      While the <span class="gene-tag">RANKL/RANK</span> axis remains the master regulator of osteoclast formation,<sup><a href="#ref16">[16]</a></sup> single-cell transcriptomics uncovered a constellation of auxiliary signaling networks controlling osteoclast migration and hyperactivity:<sup><a href="#ref4">[4]</a></sup>
+    </p>
+    <ul>
+      <li><strong>Classical RANKL signaling pathway</strong></li>
+      <li><strong>Proteinase-Activated Receptors (PARs) pathway</strong> — explains the remarkably aggressive, lytic nature at the tumor-bone interface</li>
+      <li><strong>CD137 (4-1BB) pathway</strong> — co-opted to enhance migration and differentiation of monocytic precursors into osteoclasts</li>
+      <li><strong>Semaphorin 3 (SEMA3) pathway</strong> — orchestrates chemotaxis and spatial orientation of mature osteoclasts toward calcified bone matrix</li>
+    </ul>
+    <p>
+      Spatial reconstruction simulations identify four specific ligand-receptor pairs contributing to &gt;10% of total spatial clustering variance: <span class="gene-tag">MMP9-CD44</span>, <span class="gene-tag">MMP9-LRP1</span>, <span class="gene-tag">TIMP1-CD63</span>, and <span class="gene-tag">RPS19-C5AR1</span>.<sup><a href="#ref4">[4]</a></sup> Up-regulation of MMP9 and LRP1 forces osteoclasts into tight, localized aggregations — the spatial conformation required for coordinated, macroscopic bone resorption.
+    </p>
+
+    <h3 id="chemokine">4.2 Chemokine Signaling and Stromal-Immune Crosstalk</h3>
+    <p>
+      The neoplastic stroma constructs a barrier against anti-tumor immunity through complex chemokine gradients:
+    </p>
+    <ul>
+      <li><strong>SPP1 pathway:</strong> Mediates a positive feedback loop between neoplastic stroma and TAMs, drawing macrophages and locking them into the M2-polarized state.<sup><a href="#ref2">[2]</a></sup></li>
+      <li><strong>CXCL12-CXCR4 axis:</strong> The <span class="gene-tag">CXCR4</span> receptor is highly upregulated across multiple lineages; its ligand <span class="gene-tag">CXCL12</span> is dynamically modulated by the stroma. This gradient acts as a deceptive navigational beacon, physically entrapping T cells in sub-optimal locations and preventing effective cytotoxic response.<sup><a href="#ref23">[23]</a></sup><sup><a href="#ref24">[24]</a></sup></li>
+      <li><strong>CKLF-CCR4 axis:</strong> Mature osteoclasts secrete Chemokine-Like Factor (<span class="gene-tag">CKLF</span>) binding to <span class="gene-tag">CCR4</span> on adjacent endothelial cells, osteoblasts, and chondrocytes, drawing supportive stroma into the active lytic zone.<sup><a href="#ref4">[4]</a></sup></li>
+    </ul>
+
+    <!-- Section 5: Denosumab -->
+    <h2 id="denosumab">5. Clinical Translation: Denosumab Effects and Resistance</h2>
+    <p>
+      Denosumab (DMAB), a fully human monoclonal antibody against RANKL, has revolutionized management of advanced GCTB. By neutralizing RANKL, it functions akin to endogenous osteoprotegerin (OPG), rapidly aborting osteoclastogenesis and depleting the tumor of multinucleated giant cells.<sup><a href="#ref10">[10]</a></sup>
+    </p>
+    <div class="callout warning">
+      <strong>Critical Limitation:</strong> DMAB is strictly cytostatic regarding the true tumor drivers — it does NOT eradicate <span class="gene-tag">H3F3A</span>-mutant neoplastic stromal cells. Discontinuation universally results in rapid tumor reactivation and massive rebound osteolysis.<sup><a href="#ref16">[16]</a></sup>
+    </div>
+
+    <h3 id="postn">5.1 The POSTN-ITGAV/ITGB5 Axis and T-Cell Exhaustion</h3>
+    <p>
+      ScRNA-seq studies reveal that DMAB therapy drives pervasive CD8+ T-cell exhaustion, with treated tissues showing preferential enrichment of exhausted lymphocytes expressing <span class="gene-tag">LAG3</span>, <span class="gene-tag">TIGIT</span>, <span class="gene-tag">HAVCR2</span> (TIM-3), and <span class="gene-tag">CTLA4</span>.<sup><a href="#ref1">[1]</a></sup>
+    </p>
+    <p>
+      The mechanism involves:
+    </p>
+    <ol>
+      <li>DMAB-educated M2 TAMs secrete massive <strong>IL-10</strong>, forcibly downregulating cytotoxic granzyme machinery and inducing LAG3 and TIM-3 expression on CD8+ T cells.</li>
+      <li>The bridge connecting DMAB to M2 polarization is the <strong>Periostin (POSTN)</strong> pathway. Surviving neoplastic stromal cells undergo compensatory transcriptomic shift, heavily upregulating POSTN expression driven by <span class="gene-tag">c-FOS</span>.</li>
+      <li>POSTN communicates from tumor cells to TAMs via integrin receptors <span class="gene-tag">ITGAV</span> and <span class="gene-tag">ITGB5</span> — this ligation forces TAMs into the IL-10-secreting, exhaustion-inducing state.<sup><a href="#ref1">[1]</a></sup></li>
+    </ol>
+    <p>
+      POSTN expression levels strongly correlate with post-DMAB recurrence rates, identifying this axis as a primary engine of tumor persistence and therapeutic resistance.<sup><a href="#ref1">[1]</a></sup>
+    </p>
+
+    <h3 id="spp1">5.2 Paradox of SPP1 Suppression and T-Cell Activation</h3>
+    <p>
+      In stark contrast, parallel scRNA-seq investigations reveal that DMAB actually enhances specific facets of anti-tumor immunity through rapid suppression of <span class="gene-tag">SPP1</span>.<sup><a href="#ref12">[12]</a></sup>
+    </p>
+    <p>
+      RANKL is not merely an osteoclastogenic factor but also a potent immunological modulator capable of driving <span class="gene-tag">SPP1</span> transcription via NF-κB pathways. Single-cell profiling of paired pre- and post-DMAB samples reveals that RANKL inhibition extinguishes SPP1 expression, relieving the immunosuppressive blockade and augmenting CD8+ T cell infiltration and cytolytic activity.<sup><a href="#ref12">[12]</a></sup>
+    </p>
+    <div class="callout success">
+      <strong>Pan-Cancer Validation:</strong> Pan-cancer bioinformatic analyses confirm a rigid negative correlation between SPP1 and CD8A expression across human malignancies. The mathematical ratio of <span class="gene-tag">SPP1/CD8A</span> has emerged as a superior prognostic biomarker correlating with overall survival across 14 distinct cancer types.<sup><a href="#ref12">[12]</a></sup>
+    </div>
+
+    <!-- Comparative Table 3: DMAB Dual Effects -->
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3. Dual Transcriptomic Effects of Denosumab Therapy in GCTB</caption>
+        <thead>
+          <tr>
+            <th>Axis</th>
+            <th>Temporal Phase</th>
+            <th>Mechanism</th>
+            <th>Net Effect on Immunity</th>
+            <th>Clinical Correlation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SPP1 Suppression</strong></td>
+            <td>Early / Rapid</td>
+            <td>RANKL inhibition extinguishes SPP1 via NF-κB pathway blockade</td>
+            <td><span style="color:var(--accent2);font-weight:700">↑ CD8+ T cell activation</span></td>
+            <td>Transient immune boost; improved SPP1/CD8A ratio</td>
+          </tr>
+          <tr>
+            <td><strong>POSTN Upregulation</strong></td>
+            <td>Late / Chronic</td>
+            <td>c-FOS-driven POSTN → ITGAV/ITGB5 → M2 TAM education → IL-10 → LAG3/TIM-3 induction</td>
+            <td><span style="color:var(--accent);font-weight:700">↑ T-cell exhaustion</span></td>
+            <td>POSTN levels correlate with post-DMAB recurrence<sup><a href="#ref1">[1]</a></sup></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 6: Emerging Therapies -->
+    <h2 id="therapy">6. Emerging Therapeutic Vulnerabilities</h2>
+    <p>
+      Single-cell transcriptomics provides a definitive roadmap for next-generation therapeutic strategies:<sup><a href="#ref7">[7]</a></sup><sup><a href="#ref1">[1]</a></sup><sup><a href="#ref24">[24]</a></sup>
+    </p>
+    <ul>
+      <li><strong>PRC2 / EZH2 Inhibition:</strong> The dysregulation of PRC2 and pathological H3K27me3 spread are necessary to maintain the undifferentiated neoplastic state. EZH2 inhibitors could reverse heterochromatin spread, forcing stalled precursors to differentiate into benign osteoblasts or undergo apoptosis.<sup><a href="#ref7">[7]</a></sup></li>
+      <li><strong>CXCR4 Inhibitors:</strong> Could dismantle the spatial barrier maintaining the immunosuppressive TME geometry, untethering trapped lymphocytes and enhancing effector T cell penetrance into the neoplastic core.<sup><a href="#ref24">[24]</a></sup></li>
+      <li><strong>POSTN / ITGAV-ITGB5 Blockade:</strong> Monoclonal antibodies neutralizing POSTN or small molecules blocking the integrins could prevent POSTN-mediated M2 education, sustaining SPP1-driven immune activation.<sup><a href="#ref1">[1]</a></sup></li>
+      <li><strong>LAG3/TIM-3 Checkpoint Blockade:</strong> Given the consistent LAG3/TIM-3 exhaustion signature, combination immune checkpoint blockade targeting these non-classical checkpoints represents the most evidence-based immunotherapeutic approach. Traditional anti-PD-1 monotherapy may be insufficient due to redundancy of inhibitory receptors.<sup><a href="#ref1">[1]</a></sup></li>
+      <li><strong>Combination Strategies:</strong> Preliminary zebrafish model studies demonstrate that combining Denosumab with multi-kinase inhibitors (e.g., Lenvatinib) targeting pathways parallel to CXCR4 yields profound synergistic tumor suppression.<sup><a href="#ref24">[24]</a></sup></li>
+    </ul>
+
+    <!-- Section 7: Landmark Studies -->
+    <h2 id="studies">7. Landmark Studies Summary</h2>
+    <p>
+      The following key studies form the evidence base for the scRNA-seq insights summarized above. The source document references multiple primary research articles utilizing single-cell transcriptomics in GCTB.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 4. Key Primary Studies on Single-Cell Transcriptomics of GCTB (from Source Document)</caption>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Citation / Focus</th>
+            <th>Key Finding</th>
+            <th>Evidence Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Single-cell transcriptome analysis reveals T-cell exhaustion in denosumab-treated GCTB<sup><a href="#ref1">[1]</a></sup></td>
+            <td>DMAB drives CD8+ T-cell exhaustion via POSTN-ITGAV/ITGB5 axis and M2 TAM polarization</td>
+            <td><span class="evidence ev-III">Level III</span> (scRNA-seq of paired patient samples)</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Single-cell RNA sequencing reveals key signaling pathways and immunosuppressive trajectory<sup><a href="#ref2">[2]</a></sup></td>
+            <td>SPP1 pathway as central mediator of stroma-TAM crosstalk; immunosuppressive trajectory mapping</td>
+            <td><span class="evidence ev-III">Level III</span> (scRNA-seq analysis)</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Single-Cell RNA Sequencing Reveals the Migration of Osteoclasts in GCTB<sup><a href="#ref4">[4]</a></sup></td>
+            <td>Three osteoclast subsets (C1-C3); novel PARs, CD137, SEMA3 pathways; MMP9/LRP1 spatial aggregation</td>
+            <td><span class="evidence ev-III">Level III</span> (scRNA-seq with spatial modeling)</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Globally altered epigenetic landscape and delayed osteogenic differentiation in H3.3-G34W-mutant GCTB<sup><a href="#ref7">[7]</a></sup></td>
+            <td>H3K36me3 loss → PRC2 dysregulation → H3K27me3 spread → IGF2/LEP repression; stalled osteogenic differentiation</td>
+            <td><span class="evidence ev-III">Level III</span> (epigenomic and transcriptomic profiling)</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>H3.3G34W promotes growth and impedes differentiation of osteoblast-like mesenchymal progenitors<sup><a href="#ref14">[14]</a></sup></td>
+            <td>Stromal cells as stalled progenitors; myofibroblast-like trajectory; hnRNPA1L2 redistribution; ECM remodeling</td>
+            <td><span class="evidence ev-III">Level III</span> (scRNA-seq + epigenomics)</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Single-Cell Sequencing Reveals the Immunosuppressive Trajectory in the TME of Human GCTB<sup><a href="#ref11">[11]</a></sup></td>
+            <td>≥10 TAM clusters; LAG3/TIGIT/HAVCR2 exhaustion markers; Treg characterization</td>
+            <td><span class="evidence ev-III">Level III</span> (high-dimensional scRNA-seq)</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Denosumab Enhances Antitumor Immunity by Suppressing SPP1 and Boosting Cytotoxic T Cells<sup><a href="#ref12">[12]</a></sup></td>
+            <td>DMAB → SPP1 suppression → enhanced CD8+ activity; SPP1/CD8A ratio as pan-cancer prognostic biomarker</td>
+            <td><span class="evidence ev-III">Level III</span> (paired scRNA-seq + pan-cancer validation)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small-note">Note: All studies are classified as Level III evidence based on their study designs (single-cell transcriptomic analyses, not RCTs). The source document does not contain randomized controlled trials or prospective cohorts with clinical endpoints.</p>
+
+    <!-- Section 8: Conclusions -->
+    <h2 id="conclusions">8. Conclusions</h2>
+    <p>
+      Single-cell RNA sequencing has catalyzed a fundamental paradigm shift in GCTB research, moving the field past macroscopic histological descriptions into the era of precision cellular transcriptomics. Key conclusions include:
+    </p>
+    <ol>
+      <li><strong>GCTB is driven by ultra-rare <span class="gene-tag">H3F3A</span> G34W-mutant stromal cells</strong> — stalled, epigenetically deranged mesenchymal progenitors with obliterated osteogenic and alternative lineage capacity.<sup><a href="#ref14">[14]</a></sup></li>
+      <li><strong>The osteolytic and immunosuppressive microenvironment</strong> is constructed through novel signaling networks (PARs, CD137, SEMA3, MMP9-LRP1 aggregation) and chemokine axes (SPP1, CXCL12-CXCR4, CKLF-CCR4).<sup><a href="#ref4">[4]</a></sup></li>
+      <li><strong>Denosumab has a dual-edged transcriptomic profile</strong>: early SPP1 suppression transiently boosts immunity, while chronic POSTN upregulation drives terminal T-cell exhaustion via M2 TAM education.<sup><a href="#ref1">[1]</a></sup><sup><a href="#ref12">[12]</a></sup></li>
+      <li><strong>Future curative strategies require rationally designed combinations</strong>: maintaining RANKL inhibition while targeting POSTN/ITGAV/ITGB5, utilizing CXCR4/LAG3 blockade, and reversing G34W-mediated epigenetic stalling via PRC2 inhibition.</li>
+    </ol>
+    <div class="callout">
+      <strong>Evidence Gap Note:</strong> The source document relies exclusively on single-cell transcriptomic studies (Level III–IV evidence). No randomized controlled trials, prospective cohorts, or meta-analyses are available for this specific molecular characterization. Future prospective validation studies are needed to translate these findings into clinical practice.
+    </div>
+
+    <!-- References -->
+    <h2 id="references">References</h2>
+    <ol class="ref-list" id="refList">
+      <li id="ref1">Single-cell transcriptome analysis reveals T-cell exhaustion in denosumab-treated giant cell tumor of bone. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9510370/" target="_blank" rel="noopener">PMC9510370</a></li>
+      <li id="ref2">Single-cell RNA sequencing reveals key signaling pathways and immunosuppressive trajectory in GCTB. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12009258/" target="_blank" rel="noopener">PMC12009258</a></li>
+      <li id="ref3">Single-cell transcriptome analysis reveals T-cell exhaustion in denosumab-treated GCTB (ResearchGate). <a href="https://www.researchgate.net/publication/363484008" target="_blank" rel="noopener">ResearchGate</a></li>
+      <li id="ref4">Single-Cell RNA Sequencing Reveals the Migration of Osteoclasts in Giant Cell Tumor of Bone. <em>Frontiers in Oncology</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8421549/" target="_blank" rel="noopener">PMC8421549</a></li>
+      <li id="ref5">Examining heterogeneity of stromal cells in tumor microenvironment based on pan-cancer single-cell RNA sequencing data. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8763007/" target="_blank" rel="noopener">PMC8763007</a></li>
+      <li id="ref7">Globally altered epigenetic landscape and delayed osteogenic differentiation in H3.3-G34W-mutant giant cell tumor of bone. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7591516/" target="_blank" rel="noopener">PMC7591516</a></li>
+      <li id="ref10">Characteristics and Mechanism of Denosumab-treated Giant Cell Tumor of Bone (NCT03259152). <em>ClinicalTrials.gov</em>. <a href="https://clinicaltrials.gov/study/NCT03259152" target="_blank" rel="noopener">NCT03259152</a></li>
+      <li id="ref11">Single-Cell Sequencing Reveals the Immunosuppressive Trajectory in the Tumor Microenvironment of Human Giant Cell Tumor of Bone. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862500/" target="_blank" rel="noopener">PMC12862500</a></li>
+      <li id="ref12">Denosumab Enhances Antitumor Immunity by Suppressing SPP1 and Boosting Cytotoxic T Cells. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/40009710/" target="_blank" rel="noopener">PMID:40009710</a></li>
+      <li id="ref14">H3.3G34W promotes growth and impedes differentiation of osteoblast-like mesenchymal progenitors in Giant Cell Tumour of Bone. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7710565/" target="_blank" rel="noopener">PMC7710565</a></li>
+      <li id="ref16">TNFRSF11A (RANK) disease associations. <em>JensenLab</em>. <a href="https://diseases.jensenlab.org/Entity?documents=10&type1=9606&id1=ENSP00000465500&type2=-26&id2=DOID:200" target="_blank" rel="noopener">JensenLab</a></li>
+      <li id="ref22">G34W is deposited into euchromatin and is associated with redistribution of H3.3 in GCTB. <em>ResearchGate</em>. <a href="https://www.researchgate.net/figure/G34W-is-deposited-into-euchromatin-and-is-associated-with-redistribution-of-H33-in-GCT_fig3_344383271" target="_blank" rel="noopener">ResearchGate</a></li>
+      <li id="ref23">Single-Cell Sequencing Reveals the Immunosuppressive Trajectory in the TME of Human GCTB (ResearchGate). <a href="https://www.researchgate.net/publication/400368560" target="_blank" rel="noopener">ResearchGate</a></li>
+      <li id="ref24">A Rationale for the Activity of Bone Target Therapy and Tyrosine Kinase Inhibitor Combination in GCTB. <em>MDPI Biomedicines</em>. <a href="https://www.mdpi.com/2227-9059/10/2/372" target="_blank" rel="noopener">MDPI</a></li>
+    </ol>
+
+  </main>
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive parameter controls">
+    <div class="sidebar-inner">
+      <h3>🔬 Interactive Parameter Explorer</h3>
+      <p style="font-size:.78rem;color:var(--text-light);margin-bottom:1rem;text-align:center;">
+        Adjust parameters to explore their relationship with GCTB biology and therapeutic implications. Thresholds derived from source document findings.
+      </p>
+
+      <!-- Slider 1: Osteoclast Maturation -->
+      <div class="slider-group">
+        <label for="ocSlider">Osteoclast Maturation Index</label>
+        <div class="range-row">
+          <input type="range" id="ocSlider" min="0" max="100" value="50" aria-label="Osteoclast maturation index">
+          <span class="val" id="ocVal">50</span>
+        </div>
+        <div class="thresholds">
+          <span>0 = Progenitor (C1)</span>
+          <span>50 = Mature (C2)</span>
+          <span>100 = Dysfunctional (C3)</span>
+        </div>
+      </div>
+
+      <!-- Slider 2: Epigenetic Dysregulation Severity -->
+      <div class="slider-group">
+        <label for="epiSlider">Epigenetic Dysregulation Severity</label>
+        <div class="range-row">
+          <input type="range" id="epiSlider" min="0" max="100" value="60" aria-label="Epigenetic dysregulation severity">
+          <span class="val" id="epiVal">60</span>
+        </div>
+        <div class="thresholds">
+          <span>0 = Normal H3K36me3</span>
+          <span>50 = Moderate H3K27me3 spread</span>
+          <span>100 = Severe global repression</span>
+        </div>
+      </div>
+
+      <!-- Slider 3: CD8+ T-cell Exhaustion Level -->
+      <div class="slider-group">
+        <label for="texSlider">CD8+ T-cell Exhaustion Level</label>
+        <div class="range-row">
+          <input type="range" id="texSlider" min="0" max="100" value="55" aria-label="CD8 T-cell exhaustion level">
+          <span class="val" id="texVal">55</span>
+        </div>
+        <div class="thresholds">
+          <span>0 = Functional effector</span>
+          <span>50 = Intermediate exhaustion</span>
+          <span>100 = Terminal LAG3+/TIM-3+</span>
+        </div>
+      </div>
+
+      <!-- Risk Indicator -->
+      <div id="riskIndicator" class="risk-indicator risk-moderate" aria-live="polite">
+        Moderate Microenvironmental Complexity
+      </div>
+
+      <!-- Recommendation Box -->
+      <div class="rec-box" id="recBox" aria-live="polite">
+        <h4>📋 Biological Interpretation &amp; Therapeutic Implications</h4>
+        <div id="recContent">
+          <p>Adjust the sliders above to explore how osteoclast maturation, epigenetic dysregulation, and T-cell exhaustion levels interplay to shape the GCTB tumor microenvironment and influence therapeutic strategy.</p>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button class="btn btn-reset" id="resetBtn" type="button" aria-label="Reset all sliders to default values">↺ Reset</button>
+        <button class="btn btn-copy" id="copyBtn" type="button" aria-label="Copy current assessment to clipboard">📋 Copy</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard!</div>
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <p>Educational summary derived from: <em>"A Comprehensive Transcriptomic Landscape of Giant Cell Tumor of Bone: Insights from Single-Cell RNA Sequencing"</em></p>
+  <p>This document is intended for educational purposes only and does not constitute clinical advice. All content based exclusively on the provided source document. Generated 2026.</p>
+</footer>
+
+<script>
+(function(){
+  // Element references
+  const ocSlider = document.getElementById('ocSlider');
+  const epiSlider = document.getElementById('epiSlider');
+  const texSlider = document.getElementById('texSlider');
+  const ocVal = document.getElementById('ocVal');
+  const epiVal = document.getElementById('epiVal');
+  const texVal = document.getElementById('texVal');
+  const riskIndicator = document.getElementById('riskIndicator');
+  const recContent = document.getElementById('recContent');
+  const resetBtn = document.getElementById('resetBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const toast = document.getElementById('toast');
+
+  function getOcLabel(v){
+    if(v<=33) return {label:'Progenitor-Dominant (C1)', phase:'Early'};
+    if(v<=66) return {label:'Mature/Active (C2)', phase:'Active'};
+    return {label:'Dysfunctional/Senescent (C3)', phase:'Late'};
+  }
+  function getEpiLabel(v){
+    if(v<=33) return 'Mild — localized H3K36me3 reduction';
+    if(v<=66) return 'Moderate — significant H3K27me3 spread into genic regions';
+    return 'Severe — global epigenetic repression with obliterated lineage capacity';
+  }
+  function getTexLabel(v){
+    if(v<=33) return 'Functional Effector — granzyme-expressing (subC1)';
+    if(v<=66) return 'Intermediate Exhaustion — emerging checkpoint expression';
+    return 'Terminal Exhaustion — LAG3⁺/TIM-3⁺/PD-1⁺/CTLA4⁺ (subC2)';
+  }
+
+  function update(){
+    const oc = parseInt(ocSlider.value);
+    const epi = parseInt(epiSlider.value);
+    const tex = parseInt(texSlider.value);
+
+    ocVal.textContent = oc;
+    epiVal.textContent = epi;
+    texVal.textContent = tex;
+
+    const ocInfo = getOcLabel(oc);
+    const epiLabel = getEpiLabel(epi);
+    const texLabel = getTexLabel(tex);
+
+    // Composite risk score
+    const composite = Math.round((epi * 0.4 + tex * 0.4 + (oc > 66 ? 20 : oc > 33 ? 10 : 0) * 0.2) / 0.4);
+    const riskScore = Math.min(100, Math.round(epi * 0.35 + tex * 0.45 + (oc > 50 ? (oc - 50) * 0.4 : 0)));
+
+    // Risk level
+    let riskClass, riskText;
+    if(riskScore <= 33){
+      riskClass = 'risk-low'; riskText = 'Low Microenvironmental Complexity';
+    } else if(riskScore <= 66){
+      riskClass = 'risk-moderate'; riskText = 'Moderate Microenvironmental Complexity';
+    } else {
+      riskClass = 'risk-high'; riskText = 'High Microenvironmental Complexity';
+    }
+
+    riskIndicator.className = 'risk-indicator ' + riskClass;
+    riskIndicator.textContent = riskText + ' (Score: ' + riskScore + '/100)';
+
+    // Build recommendations
+    let html = '';
+
+    // Osteoclast section
+    html += '<h4>🦴 Osteoclast Dynamics</h4>';
+    html += '<p><strong>Current State:</strong> ' + ocInfo.label + '</p>';
+    if(oc <= 33){
+      html += '<p>C1 progenitor osteoclasts dominate, expressing <code>CD14</code>, <code>CSF1R</code>, and migration markers (<code>PTGER4</code>, <code>VEGFA</code>). These cells are actively chemotaxing toward the neoplastic stromal niche. <strong>RANKL/RANK</strong> signaling is initiating fusion and maturation.</p>';
+    } else if(oc <= 66){
+      html += '<p>C2 mature osteoclasts dominate, expressing terminal markers (<code>ACP5</code>, <code>CTSK</code>, <code>ATP6V0D2</code>). Active bone resorption is maximal. <strong>NFATC1/FOS/JUN</strong> regulon activity is high. Spatial aggregation via <strong>MMP9-CD44/LRP1</strong> is facilitating coordinated osteolysis.</p>';
+    } else {
+      html += '<p>C3 dysfunctional osteoclasts predominate. Reduced metabolic and structural transcripts suggest senescence or apoptotic phase. This may indicate partial response to anti-resorptive therapy (e.g., Denosumab), but neoplastic stroma persists.</p>';
+    }
+
+    // Epigenetic section
+    html += '<h4>🧬 Epigenetic Landscape</h4>';
+    html += '<p><strong>Severity:</strong> ' + epiLabel + '</p>';
+    if(epi <= 33){
+      html += '<p><strong>H3F3A G34W mutation</strong> present but PRC2 dysregulation remains localized. Some bivalent genes (e.g., <code>IGF2</code>, <code>LEP</code>) may still be partially expressed. Mesenchymal progenitors retain limited differentiative potential. <em>EZH2 inhibition may have modest efficacy at this stage.</em></p>';
+    } else if(epi <= 66){
+      html += '<p>Significant <strong>H3K27me3 spread</strong> into genic regions. Osteogenic markers (<code>IGF2</code>, <code>LEP</code>, <code>STMN2</code>) and contractile genes (<code>LARGE1</code>, <code>MYH</code>, <code>TNNT2</code>) are substantially repressed. Cells are firmly locked as non-functional progenitors. <em>PRC2/EZH2 inhibition is a strong rational target at this severity.</em></p>';
+    } else {
+      html += '<p><strong>Global epigenetic catastrophe.</strong> H3K36me3 is nearly abolished; H3K27me3 blankets active chromatin. <code>hnRNPA1L2</code> redistribution drives pathological splicing. The neoplastic stroma is maximally dedifferentiated with no lineage commitment pathways active. <em>Aggressive epigenetic reprogramming via combined EZH2 inhibition + differentiation therapy may be required.</em></p>';
+    }
+
+    // T-cell section
+    html += '<h4>🛡️ Immune Microenvironment</h4>';
+    html += '<p><strong>T-cell State:</strong> ' + texLabel + '</p>';
+    if(tex <= 33){
+      html += '<p>CD8+ T cells maintain functional cytotoxic capacity with <code>GZMA</code>, <code>GZMB</code>, <code>GZMH</code> expression and acute activation markers. <strong>SPP1/CD8A ratio is favorable.</strong> This state may reflect early Denosumab effect (SPP1 suppression) or pre-treatment immunocompetence. <em>Checkpoint blockade may enhance existing anti-tumor immunity.</em></p>';
+    } else if(tex <= 66){
+      html += '<p>Emerging exhaustion markers: <code>PDCD1</code> (PD-1) upregulated, early <code>LAG3</code> expression. M2 TAMs are accumulating and secreting IL-10. The <strong>POSTN-ITGAV/ITGB5</strong> axis may be activating under Denosumab pressure. <em>Combination anti-LAG3/anti-PD-1 blockade + POSTN pathway inhibition could prevent terminal exhaustion.</em></p>';
+    } else {
+      html += '<p><strong>Terminal exhaustion dominates.</strong> CD8+ T cells co-express <code>LAG3</code>, <code>TIGIT</code>, <code>HAVCR2</code> (TIM-3), <code>CTLA4</code>, and <code>PDCD1</code>. M2 TAMs (Macro-C2) are heavily polarized by POSTN, secreting maximal IL-10. Single-agent anti-PD-1 is likely insufficient due to checkpoint redundancy. <em>Multi-target approach: POSTN neutralization + LAG3/TIM-3 blockade + CXCR4 inhibitor to restore T-cell trafficking is urgently needed.</em></p>';
+    }
+
+    // Integrated assessment
+    html += '<h4>📊 Integrated Therapeutic Strategy</h4><ul>';
+    html += '<li><strong>RANKL inhibition (Denosumab):</strong> ' + (oc > 33 ? 'Critical — mature osteoclasts require RANKL neutralization' : 'Consider — early osteoclast maturation may be managed surgically') + '</li>';
+
+    if(epi > 50){
+      html += '<li><strong>EZH2/PRC2 inhibitor:</strong> Strongly indicated — severe epigenetic dysregulation locks cells in undifferentiated state</li>';
+    }
+    if(tex > 50){
+      html += '<li><strong>Checkpoint blockade (LAG3/TIM-3):</strong> Strongly indicated — terminal exhaustion signature present</li>';
+      html += '<li><strong>POSTN/ITGAV-ITGB5 blockade:</strong> Indicated — to prevent M2 TAM education and sustain immune activation</li>';
+    }
+    if(tex > 33){
+      html += '<li><strong>CXCR4 inhibitor:</strong> Considered — to dismantle spatial immune barrier and enhance T-cell penetrance</li>';
+    }
+    if(epi > 50 && tex > 50){
+      html += '<li><strong>Combination approach mandatory:</strong> Monotherapy unlikely to achieve durable response given concurrent epigenetic stalling and immune exhaustion</li>';
+    }
+    html += '</ul>';
+
+    html += '<p class="small-note" style="margin-top:.8rem;">Note: These recommendations are mechanistically derived from the source document\'s transcriptomic findings. They represent biological plausibility, not validated clinical protocols. Thresholds reflect source document characterizations of C1/C2/C3 subsets and exhaustion states.</p>';
+
+    recContent.innerHTML = html;
+  }
+
+  // Event listeners
+  ocSlider.addEventListener('input', update);
+  epiSlider.addEventListener('input', update);
+  texSlider.addEventListener('input', update);
+
+  // Reset
+  resetBtn.addEventListener('click', function(){
+    ocSlider.value = 50;
+    epiSlider.value = 60;
+    texSlider.value = 55;
+    update();
+  });
+
+  // Copy
+  copyBtn.addEventListener('click', function(){
+    const oc = ocSlider.value;
+    const epi = epiSlider.value;
+    const tex = texSlider.value;
+    const ocInfo = getOcLabel(parseInt(oc));
+    const timestamp = new Date().toISOString();
+
+    let text = 'GCTB Transcriptomic Assessment\n';
+    text += '==============================\n';
+    text += 'Timestamp: ' + timestamp + '\n\n';
+    text += 'Parameters:\n';
+    text += '  Osteoclast Maturation Index: ' + oc + '/100 (' + ocInfo.label + ')\n';
+    text += '  Epigenetic Dysregulation Severity: ' + epi + '/100 (' + getEpiLabel(parseInt(epi)) + ')\n';
+    text += '  CD8+ T-cell Exhaustion Level: ' + tex + '/100 (' + getTexLabel(parseInt(tex)) + ')\n\n';
+
+    const riskScore = Math.min(100, Math.round(parseInt(epi) * 0.35 + parseInt(tex) * 0.45 + (parseInt(oc) > 50 ? (parseInt(oc) - 50) * 0.4 : 0)));
+    text += 'Risk Score: ' + riskScore + '/100\n\n';
+
+    text += 'Biological Interpretation:\n';
+    const recText = recContent.innerText || recContent.textContent;
+    text += recText + '\n\n';
+
+    text += 'Source: "A Comprehensive Transcriptomic Landscape of Giant Cell Tumor of Bone: Insights from scRNA-seq"\n';
+    text += 'Note: Mechanistically derived from transcriptomic findings; not a validated clinical protocol.';
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        showToast('Assessment copied to clipboard!');
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast('Copied!'); }
+    catch(e) { showToast('Copy failed — please select manually.'); }
+    document.body.removeChild(ta);
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+  }
+
+  // Initialize
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Efficacy and Safety of Aqueous versus Antiseptic Hand Hygiene Protocols</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#ffffff;--text:#1a1d23;--text-secondary:#5a6070;
+  --primary:#2563eb;--primary-light:#dbeafe;--primary-dark:#1d4ed8;
+  --accent:#0ea5e9;--accent-light:#e0f2fe;
+  --success:#059669;--success-light:#d1fae5;
+  --warning:#d97706;--warning-light:#fef3c7;
+  --danger:#dc2626;--danger-light:#fee2e2;
+  --info:#7c3aed;--info-light:#ede9fe;
+  --border:#e2e5ea;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.08),0 4px 10px rgba(0,0,0,.04);
+  --radius:10px;--radius-lg:16px;
+  --sidebar-width:340px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 60%,#0ea5e9 100%);color:#fff;padding:2.5rem 2rem 2rem;position:relative;overflow:hidden}
+.site-header::after{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);pointer-events:none}
+.site-header h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.02em;max-width:900px;line-height:1.3}
+.site-header .subtitle{font-size:.95rem;opacity:.85;margin-top:.5rem;font-weight:400;max-width:800px}
+.site-header .meta{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;font-size:.8rem;opacity:.75}
+.site-header .meta span{display:flex;align-items:center;gap:.35rem}
+
+/* Layout */
+.page-wrapper{display:grid;grid-template-columns:1fr var(--sidebar-width);gap:0;max-width:1400px;margin:0 auto;min-height:100vh}
+.main-content{padding:2.5rem 2.5rem 4rem;max-width:100%;overflow-x:hidden}
+
+/* Sidebar */
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;border-left:1px solid var(--border);background:var(--surface);padding:1.5rem 1.25rem;box-shadow:-2px 0 12px rgba(0,0,0,.03);z-index:10}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px}
+.sidebar-title{font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:.25rem;display:flex;align-items:center;gap:.4rem}
+.sidebar-subtitle{font-size:.75rem;color:var(--text-secondary);margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+
+/* Slider Groups */
+.slider-group{margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.slider-group:last-of-type{border-bottom:none}
+.slider-label{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.15rem;display:flex;justify-content:space-between;align-items:baseline}
+.slider-value{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--primary);font-weight:600}
+.slider-desc{font-size:.7rem;color:var(--text-secondary);margin-bottom:.6rem;line-height:1.4}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--primary-light),var(--primary));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(37,99,235,.35);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(37,99,235,.35);cursor:pointer}
+.range-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--text-secondary);margin-top:.2rem}
+
+/* Toggle */
+.toggle-group{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.toggle-label-text{font-size:.8rem;font-weight:600}
+.toggle-switch{position:relative;width:46px;height:26px;cursor:pointer}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:#cbd5e1;border-radius:26px;transition:.3s}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-switch input:checked+.toggle-slider{background:var(--primary)}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(20px)}
+
+/* Recommendation Box */
+.recommendation-box{background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:1.5px solid var(--primary-light);border-radius:var(--radius);padding:1rem;margin-bottom:1.25rem;transition:all .3s}
+.recommendation-box.alert{background:linear-gradient(135deg,#fef2f2,#fff1f2);border-color:var(--danger-light)}
+.recommendation-box.success{background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-color:var(--success-light)}
+.rec-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--primary);margin-bottom:.4rem}
+.rec-title.alert{color:var(--danger)}
+.rec-title.success{color:var(--success)}
+.rec-text{font-size:.8rem;line-height:1.5;color:var(--text)}
+.rec-rationale{font-size:.7rem;color:var(--text-secondary);margin-top:.4rem;font-style:italic;line-height:1.4}
+
+/* Buttons */
+.btn-group{display:flex;gap:.5rem;margin-bottom:1rem}
+.btn{flex:1;padding:.6rem .5rem;border:none;border-radius:var(--radius);font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.3rem;transition:all .2s;font-family:inherit}
+.btn-reset{background:#f1f5f9;color:var(--text-secondary);border:1px solid var(--border)}
+.btn-reset:hover{background:#e2e8f0}
+.btn-export{background:var(--primary);color:#fff}
+.btn-export:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.3)}
+.btn-export.copied{background:var(--success)}
+
+/* Evidence Badges */
+.ev{display:inline-flex;align-items:center;gap:.2rem;padding:.15rem .5rem;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:.02em;vertical-align:middle;line-height:1}
+.ev-i{background:#dcfce7;color:#166534}.ev-ii{background:#dbeafe;color:#1e40af}.ev-iii{background:#fef3c7;color:#92400e}
+.ev-iv{background:#fed7aa;color:#9a3412}.ev-v{background:#fee2e2;color:#991b1b}.ev-na{background:#f1f5f9;color:#64748b}
+.ev-label{font-size:.55rem;opacity:.7;margin-left:.15rem}
+
+/* Section Styles */
+.section{margin-bottom:2.5rem}
+.section-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--primary-light)}
+.section-number{width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.section-header h2{font-size:1.2rem;font-weight:700;color:var(--text);line-height:1.3}
+h3{font-size:1rem;font-weight:700;color:var(--text);margin:1.5rem 0 .5rem}
+h4{font-size:.9rem;font-weight:600;color:var(--text-secondary);margin:1.2rem 0 .4rem}
+p{margin-bottom:.75rem;font-size:.9rem}
+ul,ol{margin:.5rem 0 1rem 1.5rem;font-size:.9rem}
+li{margin-bottom:.35rem}
+li::marker{color:var(--primary)}
+strong{font-weight:700;color:var(--text)}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:#f1f5f9;padding:.1rem .35rem;border-radius:4px}
+
+/* Callout Boxes */
+.callout{padding:1rem 1.25rem;border-radius:var(--radius);margin:1rem 0;font-size:.85rem;line-height:1.6;border-left:4px solid}
+.callout-info{background:#eff6ff;border-color:var(--primary);color:#1e3a5f}
+.callout-warning{background:#fffbeb;border-color:var(--warning);color:#78350f}
+.callout-danger{background:#fef2f2;border-color:var(--danger);color:#7f1d1d}
+.callout-success{background:#ecfdf5;border-color:var(--success);color:#064e3b}
+.callout-title{font-weight:700;font-size:.8rem;margin-bottom:.25rem;display:flex;align-items:center;gap:.3rem}
+
+/* Tables */
+.table-wrapper{overflow-x:auto;margin:1.25rem 0;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+caption{padding:.75rem 1rem;text-align:left;font-weight:700;font-size:.85rem;background:#f8fafc;border-bottom:1px solid var(--border);caption-side:top}
+th{background:#f1f5f9;padding:.6rem .8rem;text-align:left;font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:.55rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#f8fafc}
+
+/* Citations */
+.citations{margin-top:3rem;padding-top:2rem;border-top:2px solid var(--border)}
+.citations h2{font-size:1.1rem;margin-bottom:1rem}
+.citation-list{list-style:none;margin:0;padding:0;counter-reset:cite}
+.citation-list li{counter-increment:cite;font-size:.78rem;line-height:1.5;padding:.4rem 0;border-bottom:1px solid #f1f5f9;color:var(--text-secondary)}
+.citation-list li::before{content:counter(cite) ". ";font-weight:700;color:var(--primary);margin-right:.25rem}
+
+/* Algorithm Flowchart */
+.flowchart{background:#f8fafc;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin:1.25rem 0;font-size:.82rem}
+.flow-step{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.75rem;padding:.6rem .75rem;border-radius:var(--radius);background:var(--surface);border:1px solid var(--border);transition:all .3s}
+.flow-step.highlight{border-color:var(--primary);background:var(--primary-light);box-shadow:0 0 0 2px rgba(37,99,235,.15)}
+.flow-step.danger{border-color:var(--danger);background:var(--danger-light)}
+.flow-step.success{border-color:var(--success);background:var(--success-light)}
+.flow-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.flow-text{flex:1}
+.flow-arrow{text-align:center;color:var(--text-secondary);font-size:1.2rem;margin:.25rem 0}
+
+/* Responsive */
+@media(max-width:1024px){
+  .page-wrapper{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;border-left:none;border-top:1px solid var(--border);order:2}
+  .main-content{order:1;padding:1.5rem 1.25rem 2rem}
+}
+@media(max-width:640px){
+  .site-header{padding:1.5rem 1rem}
+  .site-header h1{font-size:1.2rem}
+  .btn-group{flex-direction:column}
+  table{font-size:.75rem}
+  th,td{padding:.4rem .5rem}
+}
+
+/* Print */
+@media print{
+  .sidebar,.btn-group{display:none!important}
+  .page-wrapper{grid-template-columns:1fr}
+  .site-header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .callout{break-inside:avoid}
+  table{break-inside:avoid}
+}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.section{animation:fadeIn .4s ease-out}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Clinical Efficacy and Safety of Aqueous versus Antiseptic Hand Hygiene Protocols</h1>
+  <p class="subtitle">A Comprehensive Analysis of Bacterial Load Reduction in Ward and Surgical Settings</p>
+  <div class="meta">
+    <span>📋 Evidence-Based Clinical Summary</span>
+    <span>📚 Based on WHO & CDC Guidelines</span>
+    <span>🔬 Systematic Reviews & RCTs</span>
+  </div>
+</header>
+
+<div class="page-wrapper">
+<main class="main-content" role="main">
+
+<!-- Section 1: Introduction -->
+<section class="section" id="sec-intro">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <h2>Introduction: The Microbiological and Physical Basis of Hand Hygiene</h2>
+  </div>
+
+  <p>The interruption of nosocomial pathogen transmission via <strong>hand hygiene (HH)</strong> remains the primary intervention in infection prevention and control (IPC) programs worldwide. Despite universal acceptance of this principle, the specific efficacy of differing protocols—<strong>plain water versus surfactant-based or antiseptic agents</strong>—varies significantly depending on the clinical context and target microbial flora. <span class="ev ev-i">I <span class="ev-label">Guideline</span></span></p>
+
+  <h3>1.1 The Dual Microbiological Landscape: Transient versus Resident Flora</h3>
+  <p>To accurately assess hygiene protocol efficacy, one must first distinguish the target organism, as the physical location of bacteria determines removal agent efficacy. <span class="ev ev-i">I <span class="ev-label">WHO Guideline</span></span></p>
+
+  <div class="callout callout-info">
+    <div class="callout-title">🔬 Transient Flora</div>
+    Microorganisms including <em>Staphylococcus aureus</em>, <em>Escherichia coli</em>, and <em>Clostridioides difficile</em> spores that colonize the superficial layers of the skin (stratum corneum). They are loosely attached via electrostatic forces and amenable to mechanical removal. <strong>Primary goal of routine ward hygiene.</strong>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">🧬 Resident Flora</div>
+    Microorganisms such as coagulase-negative staphylococci (<em>S. epidermidis</em>) and diphtheroids residing in deeper layers of the skin, hair follicles, and sebaceous glands. They require <strong>chemical inactivation</strong> rather than mechanical removal. <strong>Primary target of surgical hand preparation.</strong>
+  </div>
+
+  <h3>1.2 Mechanisms of Action: Solvency, Surfactancy, and Antisepsis</h3>
+
+  <ul>
+    <li><strong>Plain Water:</strong> Acts as a solvent for hydrophilic substances only. Cannot dissolve hydrophobic substances (fats, oils, sebum). Relies exclusively on mechanical shear force to dislodge bacteria. <span class="ev ev-ii">II <span class="ev-label">Lab Study</span></span></li>
+    <li><strong>Plain Soap (Surfactants):</strong> Amphipathic molecules with hydrophilic heads and lipophilic tails. Bind to oils and dirt, emulsify lipid-soil-bacteria complexes into micelles, and rinse them away. Significantly enhances mechanical removal. <span class="ev ev-i">I <span class="ev-label">WHO §11.2</span></span></li>
+    <li><strong>Antiseptic Agents:</strong> Chemical killing/inhibition of microorganisms via membrane disruption, protein denaturation, or oxidation. Provides reduction beyond mechanical removal. <span class="ev ev-i">I <span class="ev-label">Guideline</span></span></li>
+  </ul>
+</section>
+
+<!-- Section 2: Global Guidelines -->
+<section class="section" id="sec-guidelines">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <h2>Global Clinical Guidelines: The Regulatory Framework</h2>
+  </div>
+
+  <h3>2.1 WHO Guidelines on Hand Hygiene in Health Care <span class="ev ev-i">I <span class="ev-label">Guideline</span></span></h3>
+  <p>The WHO guidelines provide a definitive stance on the insufficiency of water alone:</p>
+  <ul>
+    <li><strong>Water and Soil:</strong> "Water alone is not suitable for cleaning soiled hands; soap or detergent must be applied as well as water" to dissolve fatty materials and facilitate flushing. <span class="ev ev-i">I <span class="ev-label">WHO §11.1</span></span></li>
+    <li><strong>Plain Soap:</strong> Defined as detergents with no added antimicrobial agents. Primary function is mechanical removal. Minimal antimicrobial activity compared to alcohols or antiseptics. <span class="ev ev-i">I <span class="ev-label">WHO §11.2</span></span></li>
+    <li><strong>Surgical Recommendations:</strong> Strong recommendation for alcohol-based hand rub (ABHR) or antimicrobial soap. Plain soap mentioned only for pre-wash if hands are visibly soiled. <span class="ev ev-i">I <span class="ev-label">WHO §13</span></span></li>
+  </ul>
+
+  <h3>2.2 CDC Guideline for Hand Hygiene in Health-Care Settings <span class="ev ev-i">I <span class="ev-label">Guideline</span></span></h3>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">📊 The Hierarchy of Efficacy (CDC)</div>
+    <strong>Alcohol-Based Hand Rub (ABHR) > Antiseptic Soap > Plain Soap > Plain Water</strong><br>
+    There is <strong>no clinical scenario</strong> in CDC guidelines where "washing with water only" is an accepted standard of care.
+  </div>
+
+  <ul>
+    <li>Soap and water specifically indicated when hands are <strong>"visibly dirty or visibly soiled with blood or other body fluids"</strong> or after caring for patients with <em>C. difficile</em> or Norovirus.</li>
+    <li>In all other clinical situations, <strong>ABHR is preferred</strong> due to superior kill rates and better compliance. <span class="ev ev-i">I <span class="ev-label">CDC 2002</span></span></li>
+  </ul>
+</section>
+
+<!-- Section 3: Ward Settings -->
+<section class="section" id="sec-ward">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <h2>Efficacy in Routine Ward Settings: Bacterial Load Reduction</h2>
+  </div>
+
+  <h3>3.1 Quantitative Bacterial Reduction: Water vs. Soap</h3>
+
+  <h4>3.1.1 Plain Water: The Limits of Mechanical Removal</h4>
+  <p>Research indicates washing with water alone provides statistically significant reduction compared to no hygiene, but is <strong>consistently inferior</strong> to soap and water. <span class="ev ev-ii">II <span class="ev-label">Controlled Trial</span></span></p>
+  <ul>
+    <li>In a study of 20 volunteers contaminating hands on public surfaces, washing with water reduced bacteria to <strong>23%</strong> vs. 44% with no washing (p &lt; 0.001). Plain soap reduced presence to <strong>8%</strong> (p &lt; 0.001 vs. water alone). <span class="ev ev-ii">II <span class="ev-label">Burton et al. 2011 [11]</span></span></li>
+    <li>Laboratory <em>E. coli</em> studies: rinsing with plain water for 10 seconds achieved ~<span class="mono">1.93–2.01 log₁₀</span> reduction; 20 seconds improved to ~<span class="mono">2.23–2.39 log₁₀</span>. Reference handwashes with soft soap achieved <span class="mono">>2.68 log₁₀</span>. <span class="ev ev-ii">II <span class="ev-label">Jensen et al. [12]</span></span></li>
+    <li><strong>Temperature Effect:</strong> Water temperature (4°C vs. 40°C) does <em>not</em> significantly impact bacterial removal efficacy (p > 0.5). Warmer water is associated with <em>increased</em> skin irritation. <span class="ev ev-ii">II <span class="ev-label">[12]</span></span></li>
+  </ul>
+
+  <h4>3.1.2 Soap and Water: Enhanced Removal</h4>
+  <p>Systematic reviews confirm that handwashing with soap and water consistently yields a <span class="mono">>2 log₁₀</span> reduction (mean 2.19; 95% CI 1.5–2.87). <span class="ev ev-i">I <span class="ev-label">Systematic Review [13]</span></span></p>
+  <p>Plain soap reduces bacterial counts by <span class="mono">0.6–1.1 log₁₀</span> in 15 seconds and <span class="mono">1.8–2.8 log₁₀</span> in 30 seconds, demonstrating that <strong>duration and mechanical friction</strong> are critical. <span class="ev ev-iii">III <span class="ev-label">[14]</span></span></p>
+
+  <h3>3.2 The Special Case of <em>Clostridioides difficile</em></h3>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">⚠️ Spore-Forming Organisms</div>
+    <em>C. difficile</em> spores are chemically inert, resistant to alcohol, and not susceptible to protein denaturation. Removal relies <strong>entirely on mechanical action</strong>. <span class="ev ev-ii">II <span class="ev-label">[16]</span></span>
+  </div>
+
+  <p>One study found plain water rubbing reduced palmar spore counts by mean <span class="mono">1.57 log₁₀</span>, while chlorhexidine soap reduced them by <span class="mono">0.89 log₁₀</span>. <span class="ev ev-iii">III <span class="ev-label">Oughton et al. [16]</span></span> This counter-intuitive finding (water > soap) likely highlights that mechanical friction is the dominant variable, and soap lathering may reduce friction. Despite these findings, <strong>CDC and WHO guidelines mandate soap and water for <em>C. difficile</em></strong> because soap facilitates removal of organic fecal load harboring spores. <span class="ev ev-i">I <span class="ev-label">[10]</span></span></p>
+
+  <!-- Table 1 -->
+  <div class="table-wrapper">
+    <table id="table1">
+      <caption>Table 1: Comparative Mean Log Reduction of Bacterial Load (Routine Handwashing)</caption>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Target Organism</th>
+          <th>Mean log₁₀ Reduction</th>
+          <th>Mechanism</th>
+          <th>Evidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Plain Water (10s)</strong></td>
+          <td><em>E. coli</em> (Transient)</td>
+          <td><span class="mono">1.93 – 2.01</span></td>
+          <td>Mechanical Shear</td>
+          <td><span class="ev ev-ii">II [12]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Plain Water (20s)</strong></td>
+          <td><em>E. coli</em> (Transient)</td>
+          <td><span class="mono">2.23 – 2.39</span></td>
+          <td>Mechanical Shear</td>
+          <td><span class="ev ev-ii">II [12]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Plain Water</strong></td>
+          <td><em>C. difficile</em> spores</td>
+          <td><span class="mono">~1.57</span></td>
+          <td>Mechanical Shear</td>
+          <td><span class="ev ev-iii">III [16]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Plain Soap & Water</strong></td>
+          <td>General Flora</td>
+          <td><span class="mono">2.19 (1.5–2.87)</span></td>
+          <td>Surfactant + Shear</td>
+          <td><span class="ev ev-i">I [13]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Alcohol-Based Rub</strong></td>
+          <td>General Flora</td>
+          <td><span class="mono">3.13 (2.7–3.56)</span></td>
+          <td>Protein Denaturation</td>
+          <td><span class="ev ev-i">I [13]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 4: Surgical Settings -->
+<section class="section" id="sec-surgical">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <h2>Surgical Hand Preparation: The High-Stakes Environment</h2>
+  </div>
+
+  <h3>4.1 Plain Water in Surgical Protocols</h3>
+
+  <div class="callout callout-danger">
+    <div class="callout-title">🚫 Critical Safety Alert</div>
+    <strong>"Plain running water only" is NEVER a recommended method for surgical hand preparation.</strong> It fails to achieve necessary log reduction of resident flora and may cause a "paradoxical increase" in surface bacteria by mobilizing deep flora without killing them. <span class="ev ev-ii">II <span class="ev-label">[17]</span></span>
+  </div>
+
+  <ul>
+    <li><strong>Paradoxical Increase:</strong> Scrubbing with plain soap or water can result in <em>higher</em> colony counts post-wash because scrubbing breaks up bacterial clumps and draws resident bacteria from deep pores to the surface. <span class="ev ev-i">I <span class="ev-label">CDC [8]</span></span></li>
+    <li><strong>Failure to Suppress Regrowth:</strong> Water combined with brushing reduces counts immediately but fails to inhibit regrowth under gloves. Bacteria rapidly repopulate the humid gloved environment. <span class="ev ev-i">I <span class="ev-label">WHO [9]</span></span></li>
+    <li><strong>Inferiority to Antiseptics:</strong> CHG or PVI achieve significantly greater log reductions of resident flora. Plain soap achieved minimal reduction vs. CHG (<span class="mono">0.35–2.29 log₁₀</span>). <span class="ev ev-ii">II <span class="ev-label">[17]</span></span></li>
+  </ul>
+
+  <h3>4.2 The Risks of Water-Based Washing for Surgeons</h3>
+
+  <h4>4.2.1 Tap Water as a Source of Nosocomial Pathogens <span class="ev ev-ii">II <span class="ev-label">[18]</span></span></h4>
+  <ul>
+    <li><strong>Pathogen Reservoirs:</strong> Sinks, faucets, and aerators in surgical scrub stations are documented reservoirs for <em>Pseudomonas aeruginosa</em>, <em>Legionella</em> spp., <em>Mycobacterium</em> spp., and fungi such as <em>Fusarium</em>. <span class="ev ev-iii">III <span class="ev-label">[9, 18]</span></span></li>
+    <li><strong>Recontamination Risk:</strong> Using tap water to rinse hands after antiseptic application introduces risk of recontaminating "sterile" hands with waterborne pathogens. <span class="ev ev-iii">III <span class="ev-label">[18]</span></span></li>
+    <li><strong>Splash Hazard:</strong> Water-based scrubbing creates aerosols and splashes. Droplets from heavily colonized sink drains can splash back onto sterile scrub suits, transferring Gram-negative bacilli to the sterile field. <span class="ev ev-i">I <span class="ev-label">WHO [7, 19]</span></span></li>
+  </ul>
+
+  <h4>4.2.2 Dermatitis and Skin Health</h4>
+  <ul>
+    <li>Frequent water and detergent exposure strips skin lipids, leading to <strong>irritant contact dermatitis</strong>. Damaged skin harbors higher bacterial loads. <span class="ev ev-iii">III <span class="ev-label">[2]</span></span></li>
+    <li>Traditional scrubbing with brushes causes <strong>micro-abrasions</strong> that become colonized by pathogens. Guidelines now recommend <em>brushless</em> scrubbing or waterless rubbing. <span class="ev ev-i">I <span class="ev-label">WHO [7]</span></span></li>
+  </ul>
+
+  <h4>4.2.3 Economic and Environmental Impact</h4>
+  <ul>
+    <li>A single surgical scrub consumes approximately <strong>20 liters of water</strong>.</li>
+    <li>Switching to waterless rubs: savings of over <strong>600,000 liters/year per OR</strong>, translating to <strong>$280,000–$348,000 annually</strong>. <span class="ev ev-iii">III <span class="ev-label">[22]</span></span></li>
+    <li>In low-resource settings, ABHR effectively decouples surgical safety from water infrastructure. <span class="ev ev-i">I <span class="ev-label">RCT, Kenya [24]</span></span></li>
+  </ul>
+
+  <h3>4.3 Comparative Efficacy: Waterless (ABHR) vs. Aqueous Scrub</h3>
+  <p>Most studies conclude ABHR is as effective or more effective than traditional water-based scrubs. Meta-analysis showed ABHRs had similar or significantly lower colony counts. <span class="ev ev-i">I <span class="ev-label">Meta-analysis [25]</span></span></p>
+  <p>Large-scale cluster-randomized trials found <strong>no significant difference in SSI rates</strong> between surgeons using traditional scrubs and those using ABHR. <span class="ev ev-i">I <span class="ev-label">Parienti et al. [29]; Nthumba et al. [24]</span></span></p>
+
+  <!-- Table 2 -->
+  <div class="table-wrapper">
+    <table id="table2">
+      <caption>Table 2: Comparison of Surgical Hand Preparation Methods</caption>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Traditional Scrub (Water + Antiseptic)</th>
+          <th>Waterless Rub (ABHR)</th>
+          <th>Plain Water Only</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Mechanism</strong></td>
+          <td>Mechanical + Chemical</td>
+          <td>Chemical (Protein denaturation)</td>
+          <td>Mechanical only</td>
+        </tr>
+        <tr>
+          <td><strong>Log Reduction (Immediate)</strong></td>
+          <td><span class="mono">~1.5–2.5 log₁₀</span></td>
+          <td><span class="mono">~2.5–3.5 log₁₀</span></td>
+          <td><span class="mono">&lt;1.0 log₁₀</span> <span class="ev ev-ii">[17]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Sustained Effect (3–6 hrs)</strong></td>
+          <td>Yes (CHG residual)</td>
+          <td>Yes (if +CHG/quats)</td>
+          <td>No (rapid regrowth)</td>
+        </tr>
+        <tr>
+          <td><strong>Skin Damage Risk</strong></td>
+          <td>High (Dermatitis)</td>
+          <td>Low (emollients)</td>
+          <td>Moderate</td>
+        </tr>
+        <tr>
+          <td><strong>Water Usage</strong></td>
+          <td>~20 L per scrub</td>
+          <td>Zero</td>
+          <td>~20 L per scrub</td>
+        </tr>
+        <tr>
+          <td><strong>Pathogen Risk (Tap Water)</strong></td>
+          <td>Present</td>
+          <td>None</td>
+          <td>High</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 5: Synthesis -->
+<section class="section" id="sec-synthesis">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <h2>Synthesis of Systematic Reviews and Guidelines</h2>
+  </div>
+
+  <!-- Table 3: Guideline Summary -->
+  <div class="table-wrapper">
+    <table id="table3">
+      <caption>Table 3: Summary of WHO and CDC Recommendations by Clinical Scenario</caption>
+      <thead>
+        <tr>
+          <th>Clinical Scenario</th>
+          <th>Recommended Method</th>
+          <th>Water Alone Acceptable?</th>
+          <th>Evidence Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Routine care (not visibly soiled)</td>
+          <td><strong>ABHR (preferred)</strong></td>
+          <td>❌ No</td>
+          <td><span class="ev ev-i">I</span></td>
+        </tr>
+        <tr>
+          <td>Visibly soiled hands</td>
+          <td><strong>Soap and water</strong></td>
+          <td>❌ No</td>
+          <td><span class="ev ev-i">I</span></td>
+        </tr>
+        <tr>
+          <td><em>C. difficile</em> / Norovirus contact</td>
+          <td><strong>Soap and water (mandatory)</strong></td>
+          <td>❌ No</td>
+          <td><span class="ev ev-i">I</span></td>
+        </tr>
+        <tr>
+          <td>Surgical hand preparation</td>
+          <td><strong>ABHR or antimicrobial soap</strong></td>
+          <td>❌ Never</td>
+          <td><span class="ev ev-i">I</span></td>
+        </tr>
+        <tr>
+          <td>Low-resource setting (no clean water)</td>
+          <td><strong>ABHR</strong></td>
+          <td>❌ No (use ABHR)</td>
+          <td><span class="ev ev-i">I [24]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Key Guideline Positions</h3>
+  <ul>
+    <li><strong>WHO:</strong> Water alone cannot remove hydrophobic substances (fats/oils). Not suitable for cleaning soiled hands. Section 11.1 explicitly states this limitation. <span class="ev ev-i">I <span class="ev-label">WHO §11.1</span></span></li>
+    <li><strong>CDC:</strong> Establishes efficacy hierarchy ABHR > Antiseptic Soap > Plain Soap > Plain Water. Notes that plain soap can occasionally fail to remove pathogens and may increase bacterial counts if contaminated. <span class="ev ev-i">I <span class="ev-label">CDC [8]</span></span></li>
+  </ul>
+</section>
+
+<!-- Section 6: Decision Algorithm -->
+<section class="section" id="sec-algorithm">
+  <div class="section-header">
+    <div class="section-number">6</div>
+    <h2>Clinical Decision Algorithm</h2>
+  </div>
+
+  <div class="flowchart" id="decision-algorithm">
+    <div class="flow-step highlight">
+      <div class="flow-icon">🤔</div>
+      <div class="flow-text"><strong>Step 1:</strong> Is the clinical setting surgical (operating theater)?</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step" id="flow-branch-surgical">
+      <div class="flow-icon">🏥</div>
+      <div class="flow-text"><strong>If YES:</strong> Use <strong>ABHR</strong> (preferred) or <strong>antimicrobial soap + water</strong>. <em>Never</em> use plain water or plain soap alone. <span class="ev ev-i">I</span></div>
+    </div>
+    <div class="flow-arrow">↓ If NO</div>
+    <div class="flow-step" id="flow-step-soiled">
+      <div class="flow-icon">🩸</div>
+      <div class="flow-text"><strong>Step 2:</strong> Are hands <strong>visibly soiled</strong> with blood/body fluids? Or is patient known/suspected <em>C. difficile</em>/Norovirus?</div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step success">
+      <div class="flow-icon">🧼</div>
+      <div class="flow-text"><strong>If YES:</strong> Wash with <strong>soap and water</strong> for at least 20 seconds. <span class="ev ev-i">I</span></div>
+    </div>
+    <div class="flow-arrow">↓ If NO</div>
+    <div class="flow-step success">
+      <div class="flow-icon">🧴</div>
+      <div class="flow-text"><strong>If NO:</strong> Use <strong>ABHR</strong> (superior efficacy, better compliance, skin-friendly). <span class="ev ev-i">I</span></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step danger" id="flow-never">
+      <div class="flow-icon">🚫</div>
+      <div class="flow-text"><strong>NEVER recommended:</strong> Plain water alone in any clinical scenario. <span class="ev ev-na">N/A <span class="ev-label">Not in any guideline</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 7: Conclusion -->
+<section class="section" id="sec-conclusion">
+  <div class="section-header">
+    <div class="section-number">7</div>
+    <h2>Conclusions</h2>
+  </div>
+
+  <ol>
+    <li><strong>Inefficacy of Water Alone:</strong> "Running water only" is inferior to all other hand hygiene methods. It provides modest reduction in transient bacterial load via mechanical shear (~1.9–2.3 log₁₀) but fails to emulsify lipids, remove adherent soil, or kill resident flora. <span class="ev ev-i">I</span></li>
+    <li><strong>Routine Ward Superiority of Soap:</strong> Addition of surfactant significantly improves pathogen removal. For <em>C. difficile</em>, efficacy is primarily mechanical, but soap is required for adequate removal of organic load. <span class="ev ev-i">I</span></li>
+    <li><strong>Surgical Contraindication:</strong> Water-only washing is a critical safety failure for surgeons—it does not achieve necessary log reduction and may cause "paradoxical increase" in surface bacteria. <span class="ev ev-i">I</span></li>
+    <li><strong>Risks of Water-Based Protocols:</strong> Tap water recontamination, splash hazards, and dermatitis compromise the surgical environment. <span class="ev ev-ii">II</span></li>
+    <li><strong>The Shift to Waterless:</strong> Current evidence overwhelmingly favors ABHR for both routine and surgical hand hygiene due to superior kill rates, better skin tolerance, and elimination of waterborne contamination. <span class="ev ev-i">I</span></li>
+  </ol>
+</section>
+
+<!-- References -->
+<section class="citations" id="references">
+  <h2>References (from Source Document)</h2>
+  <ol class="citation-list">
+    <li>WHO Guidelines on Hand Hygiene in Health Care. <a href="https://www.ncbi.nlm.nih.gov/books/NBK144013/" target="_blank" rel="noopener">NCBI Bookshelf</a></li>
+    <li>HAND HYGIENE PRACTICES IN HEALTHCARE SETTINGS. <a href="https://publications.gc.ca/collections/collection_2012/aspc-phac/HP40-74-2012-eng.pdf" target="_blank" rel="noopener">publications.gc.ca</a></li>
+    <li>The Impact of the Three Most Common Hand Cleansing Methods on the Bacterial Profile. <a href="https://scielo.isciii.es/pdf/ijm/v4n1/2695-5075-ijm-4-1-4.pdf" target="_blank" rel="noopener">SciELO</a></li>
+    <li>Hand Hygiene: Key to Infection Control Success. <a href="https://soapy.care/evidence-of-hand-hygiene-to-reduce-transmission-and-improves-infection-control" target="_blank" rel="noopener">Soapy Care</a></li>
+    <li>WHO Guidelines on Hand Hygiene – PAHO. <a href="https://www3.paho.org/hq/dmdocuments/2010/WHO-Guidelines-on-hand-hygiene.pdf" target="_blank" rel="noopener">PAHO</a></li>
+    <li>Soap: The Science Behind It. <a href="https://www.gojo.com/~/media/GOJO%20Site/Product-Catalog/Hand-Soaps/Files/The-Science-of-Soap-Whitepaper-2018.ashx" target="_blank" rel="noopener">GOJO Industries</a></li>
+    <li>Consensus Recommendations – WHO Guidelines. <a href="https://www.ncbi.nlm.nih.gov/books/NBK144035/" target="_blank" rel="noopener">NCBI Bookshelf</a></li>
+    <li>CDC Guideline for Hand Hygiene in Health-Care Settings (2002). <a href="https://www.cdc.gov/mmwr/preview/mmwrhtml/rr5116a1.htm" target="_blank" rel="noopener">CDC MMWR</a></li>
+    <li>Review of preparations used for hand hygiene – WHO. <a href="https://www.ncbi.nlm.nih.gov/books/NBK144041/" target="_blank" rel="noopener">NCBI Bookshelf</a></li>
+    <li>Hand Hygiene FAQ – CDC Clean Hands. <a href="https://www.cdc.gov/clean-hands/faq/index.html" target="_blank" rel="noopener">CDC</a></li>
+    <li>Burton M et al. The Effect of Handwashing with Water or Soap on Bacterial Contamination. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3037063/" target="_blank" rel="noopener">Trop Med Int Health</a></li>
+    <li>Jensen DA et al. Equivalent reduction of E. coli by rinsing hands with cold and warm water. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11730179/" target="_blank" rel="noopener">PMC</a></li>
+    <li>Efficacy and effectiveness of hand hygiene practices in community settings – Systematic Review. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12443168/" target="_blank" rel="noopener">PMC</a></li>
+    <li>Hand Hygiene: A Frequently Missed Lifesaving Opportunity. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7094481/" target="_blank" rel="noopener">PMC</a></li>
+    <li>Clinical Safety: Hand Hygiene for Healthcare Workers – CDC. <a href="https://www.cdc.gov/clean-hands/hcp/clinical-safety/index.html" target="_blank" rel="noopener">CDC</a></li>
+    <li>Oughton MT et al. Effectiveness of alcohol-based hand rubs for removal of <em>C. difficile</em> spores. <a href="https://pubmed.ncbi.nlm.nih.gov/20429659/" target="_blank" rel="noopener">PubMed</a></li>
+    <li>Boyce JM, Pittet D. Guideline for Hand Hygiene – Epidemiologic Background. <a href="https://journals.asm.org/doi/10.1128/cmr.17.4.863-893.2004" target="_blank" rel="noopener">Clin Microbiol Rev</a></li>
+    <li>Is Tap Water safe for Surgical Hand Washing? <a href="https://scispace.com/pdf/is-tap-water-safe-for-surgical-hand-washing-3ye5m4xgkh.pdf" target="_blank" rel="noopener">SciSpace</a></li>
+    <li>Hand Hygiene: Surgical hand antisepsis – National IPC Manual. <a href="https://www.nipcm.hps.scot.nhs.uk/web-resources-container/literature-review-hand-hygiene-surgical-hand-antisepsis-in-the-clinical-setting/" target="_blank" rel="noopener">NHS Scotland</a></li>
+    <li>Surgical Hand Antisepsis – Scrub vs. Rub? <a href="https://www.mspca.org/angell_services/surgical-hand-antisepsis-scrub-vs-rub/" target="_blank" rel="noopener">MSPCA-Angell</a></li>
+    <li>Which Surgical Hand Preparation Method Is More Effective? <a href="https://www.mdpi.com/2039-4403/15/7/242" target="_blank" rel="noopener">MDPI</a></li>
+    <li>Association Between Eliminating Water From Surgical Hand Antisepsis and Cost. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7047872/" target="_blank" rel="noopener">PMC</a></li>
+    <li>Sustainable Hand Surgery: Water Efficiency. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10230851/" target="_blank" rel="noopener">PMC</a></li>
+    <li>Nthumba PM et al. Cluster-randomized trial of plain soap vs. alcohol rub for surgical hand preparation in Kenya. <a href="https://pubmed.ncbi.nlm.nih.gov/20878941/" target="_blank" rel="noopener">PubMed</a></li>
+    <li>Efficacy of Various Handwashing Methods against Enveloped and Non-Enveloped Viruses. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10076994/" target="_blank" rel="noopener">PMC</a></li>
+    <li>Effect of surgical site infections with waterless and traditional hand scrubbing protocols. <a href="https://betterbuildingssolutioncenter.energy.gov/sites/default/files/tools/Effect_of_surgical_site_infection_with_waterless_and_traditional_hand_scrubbing.pdf" target="_blank" rel="noopener">Better Buildings</a></li>
+    <li>Which Surgical Hand Preparation Method Is More Effective? <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12300004/" target="_blank" rel="noopener">PMC</a></li>
+    <li>What is better for surgical hand disinfection: scrubbing or rubbing? <a href="https://www.hartmann-science-center.com/en/hygiene-knowledge/hand-hygiene/hand-disinfection/scrub-vs-rub" target="_blank" rel="noopener">Hartmann</a></li>
+    <li>Parienti JJ et al. Hand-rubbing with an aqueous alcoholic solution vs. traditional surgical hand-scrubbing. <a href="https://www.wjols.com/doi/WJOLS/pdf/10.5005/jp-journals-10033-1633" target="_blank" rel="noopener">WJOLS</a></li>
+    <li>A Randomized Trial of Soap and Water vs. Alcohol Hand Rub for <em>C. difficile</em> Spores. <a href="https://www.researchgate.net/publication/259808490" target="_blank" rel="noopener">ResearchGate</a></li>
+  </ol>
+</section>
+
+</main>
+
+<!-- Sidebar -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Parameter Panel">
+  <div class="sidebar-title">⚙️ Clinical Parameter Panel</div>
+  <div class="sidebar-subtitle">Adjust parameters to explore real-time clinical recommendations based on the source evidence.</div>
+
+  <!-- Slider 1: Contact Time -->
+  <div class="slider-group">
+    <div class="slider-label">
+      <span>Handwashing Duration</span>
+      <span class="slider-value" id="val-duration">20s</span>
+    </div>
+    <div class="slider-desc">Duration of aqueous handwashing. Source data: 10s and 20s rinse studied for <em>E. coli</em> removal [12]. WHO recommends ≥20s.</div>
+    <input type="range" id="slider-duration" min="5" max="120" value="20" step="5" aria-label="Handwashing duration in seconds">
+    <div class="range-labels"><span>5s</span><span>20s</span><span>40s</span><span>60s</span><span>120s</span></div>
+  </div>
+
+  <!-- Slider 2: Target Log Reduction -->
+  <div class="slider-group">
+    <div class="slider-label">
+      <span>Target Log₁₀ Reduction Threshold</span>
+      <span class="slider-value" id="val-logreduction">2.0</span>
+    </div>
+    <div class="slider-desc">Minimum acceptable log₁₀ reduction for clinical hand hygiene. ABHR achieves ~3.13 log₁₀; soap/water ~2.19 log₁₀ [13].</div>
+    <input type="range" id="slider-logreduction" min="0.5" max="5" value="2" step="0.1" aria-label="Target log10 reduction threshold">
+    <div class="range-labels"><span>0.5</span><span>2.0</span><span>3.5</span><span>5.0</span></div>
+  </div>
+
+  <!-- Slider 3: Washes Per Day -->
+  <div class="slider-group">
+    <div class="slider-label">
+      <span>Hand Hygiene Events / Day</span>
+      <span class="slider-value" id="val-frequency">10</span>
+    </div>
+    <div class="slider-desc">Frequency of hand hygiene per day. Higher frequency increases dermatitis risk from water-based protocols [2, 7].</div>
+    <input type="range" id="slider-frequency" min="1" max="80" value="10" step="1" aria-label="Hand hygiene events per day">
+    <div class="range-labels"><span>1</span><span>20</span><span>40</span><span>60</span><span>80</span></div>
+  </div>
+
+  <!-- Toggle: Surgical Setting -->
+  <div class="toggle-group">
+    <div>
+      <div class="toggle-label-text">Surgical Setting?</div>
+      <div class="slider-desc" style="margin-bottom:0">Activates resident flora targets & stricter thresholds.</div>
+    </div>
+    <label class="toggle-switch" aria-label="Toggle surgical setting">
+      <input type="checkbox" id="toggle-surgical">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <!-- Toggle: Visible Soil -->
+  <div class="toggle-group">
+    <div>
+      <div class="toggle-label-text">Hands Visibly Soiled?</div>
+      <div class="slider-desc" style="margin-bottom:0">Blood, body fluids, or organic matter present. Mandates soap & water per WHO/CDC.</div>
+    </div>
+    <label class="toggle-switch" aria-label="Toggle visible soil">
+      <input type="checkbox" id="toggle-soiled">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div class="recommendation-box" id="rec-box">
+    <div class="rec-title" id="rec-title">📋 Clinical Recommendation</div>
+    <div class="rec-text" id="rec-text">Loading recommendation…</div>
+    <div class="rec-rationale" id="rec-rationale"></div>
+  </div>
+
+  <!-- Dynamic Metric -->
+  <div style="background:#f8fafc;border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;margin-bottom:1rem;font-size:.75rem;">
+    <div style="font-weight:600;color:var(--text-secondary);margin-bottom:.3rem;">Estimated Bacterial Reduction</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--primary);" id="est-reduction">—</div>
+    <div style="color:var(--text-secondary);margin-top:.2rem;font-size:.7rem;" id="est-method">—</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-group">
+    <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+    <button class="btn btn-export" id="btn-export" aria-label="Export summary to clipboard">📋 Export</button>
+  </div>
+
+  <div style="font-size:.65rem;color:var(--text-secondary);line-height:1.4;border-top:1px solid var(--border);padding-top:.75rem;">
+    <strong>Note:</strong> Thresholds and log reduction estimates are derived from the source document where available. Where specific data points were absent, general clinical knowledge has been used and annotated accordingly. This panel does not replace clinical judgment.
+  </div>
+</aside>
+
+</div>
+
+<script>
+(function(){
+  // DOM references
+  const sliderDuration = document.getElementById('slider-duration');
+  const sliderLogReduction = document.getElementById('slider-logreduction');
+  const sliderFrequency = document.getElementById('slider-frequency');
+  const toggleSurgical = document.getElementById('toggle-surgical');
+  const toggleSoiled = document.getElementById('toggle-soiled');
+
+  const valDuration = document.getElementById('val-duration');
+  const valLogReduction = document.getElementById('val-logreduction');
+  const valFrequency = document.getElementById('val-frequency');
+
+  const recBox = document.getElementById('rec-box');
+  const recTitle = document.getElementById('rec-title');
+  const recText = document.getElementById('rec-text');
+  const recRationale = document.getElementById('rec-rationale');
+  const estReduction = document.getElementById('est-reduction');
+  const estMethod = document.getElementById('est-method');
+
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+
+  // Flowchart steps
+  const flowSurgical = document.getElementById('flow-branch-surgical');
+  const flowNever = document.getElementById('flow-never');
+
+  function getLogReduction(method, duration, isSurgical) {
+    // Based on source document data
+    if (method === 'none') return 0;
+    if (method === 'water') {
+      // From [12]: 10s ≈ 1.93-2.01, 20s ≈ 2.23-2.39
+      // Extrapolated with diminishing returns
+      if (duration <= 10) return 1.97;
+      if (duration <= 20) return 2.31;
+      if (duration <= 30) return 2.50;
+      if (duration <= 60) return 2.70;
+      return 2.80;
+    }
+    if (method === 'soap') {
+      // From [13]: mean 2.19 (1.5-2.87); [14]: 0.6-1.1 at 15s, 1.8-2.8 at 30s
+      if (duration <= 15) return 1.50;
+      if (duration <= 20) return 1.90;
+      if (duration <= 30) return 2.30;
+      if (duration <= 60) return 2.87;
+      return 3.0;
+    }
+    if (method === 'abhr') {
+      // From [13]: mean 3.13 (2.7-3.56)
+      return 3.13;
+    }
+    if (method === 'antiseptic_scrub') {
+      // From [17]: CHG 0.35-2.29 (but surgical context with sustained effect)
+      return isSurgical ? 2.5 : 2.0;
+    }
+    return 0;
+  }
+
+  function update(){
+    const duration = parseInt(sliderDuration.value);
+    const targetLog = parseFloat(sliderLogReduction.value);
+    const frequency = parseInt(sliderFrequency.value);
+    const isSurgical = toggleSurgical.checked;
+    const isSoiled = toggleSoiled.checked;
+
+    valDuration.textContent = duration + 's';
+    valLogReduction.textContent = targetLog.toFixed(1);
+    valFrequency.textContent = frequency;
+
+    // Estimate reduction for different methods
+    const waterRed = getLogReduction('water', duration, isSurgical);
+    const soapRed = getLogReduction('soap', duration, isSurgical);
+    const abhrRed = getLogReduction('abhr', duration, isSurgical);
+
+    // Highlight flowchart
+    if(isSurgical){
+      flowSurgical.classList.add('highlight');
+      flowNever.classList.add('highlight');
+    } else {
+      flowSurgical.classList.remove('highlight');
+      flowNever.classList.remove('highlight');
+    }
+
+    // Determine recommendation
+    let recommendation = '';
+    let rationale = '';
+    let recClass = '';
+    let titleClass = '';
+    let reductionDisplay = '';
+    let methodDisplay = '';
+
+    if (isSurgical) {
+      // Surgical setting
+      if (isSoiled) {
+        // Pre-wash with soap and water, then ABHR or antiseptic
+        recClass = 'alert';
+        titleClass = 'alert';
+        recommendation = '⚠️ SURGICAL + VISIBLE SOIL: Perform pre-wash with soap and water, then proceed with ABHR (preferred) or antimicrobial soap scrub. Plain water is NEVER acceptable for surgical hand preparation.';
+        rationale = 'Source: WHO §13 – "Plain soap is mentioned only for the pre-wash step if hands are visibly soiled, not for the surgical antisepsis itself." Water alone fails to reduce resident flora and may cause paradoxical increase in bacterial counts [8, 17].';
+        reductionDisplay = abhrRed.toFixed(2) + ' log₁₀ (ABHR post-wash)';
+        methodDisplay = 'Pre-wash → ABHR/Antimicrobial soap';
+      } else {
+        recClass = 'alert';
+        titleClass = 'alert';
+        recommendation = '⚠️ SURGICAL SETTING: Use ABHR (preferred) or antimicrobial soap scrub. Plain water and plain soap are CONTRAINDICATED. ABHR achieves ~3.13 log₁₀ reduction with sustained effect.';
+        rationale = 'Source: WHO §13, CDC hierarchy. Water-based washing risks recontamination from tap water biofilms, splash hazards, and dermatitis. Cluster RCTs show no SSI difference between ABHR and traditional scrub [24, 29].';
+        reductionDisplay = abhrRed.toFixed(2) + ' log₁₀ (ABHR)';
+        methodDisplay = 'ABHR or Antimicrobial Soap Scrub';
+      }
+    } else if (isSoiled) {
+      // Ward, visibly soiled
+      if (soapRed >= targetLog) {
+        recClass = 'success';
+        titleClass = 'success';
+        recommendation = '✅ Use SOAP AND WATER for at least ' + duration + ' seconds. Visible soil requires surfactant to emulsify lipid-entrapped pathogens. Plain water is insufficient.';
+        rationale = 'Source: WHO §11.1 – "Water alone is not suitable for cleaning soiled hands; soap or detergent must be applied." Soap achieves ~' + soapRed.toFixed(2) + ' log₁₀ reduction at ' + duration + 's, meeting your threshold of ' + targetLog.toFixed(1) + ' log₁₀.';
+      } else {
+        recClass = 'alert';
+        titleClass = 'alert';
+        recommendation = '⚠️ SOAP AND WATER required, but estimated reduction (~' + soapRed.toFixed(2) + ' log₁₀) may not meet your threshold of ' + targetLog.toFixed(1) + ' log₁₀. Consider increasing duration or following with ABHR.';
+        rationale = 'Systematic review data [13]: soap/water achieves mean 2.19 log₁₀ (95% CI 1.5–2.87). For C. difficile, mechanical friction is paramount – soap removes organic fecal load harboring spores [10].';
+      }
+      reductionDisplay = soapRed.toFixed(2) + ' log₁₀ (Soap & Water)';
+      methodDisplay = 'Soap & Water (' + duration + 's)';
+    } else {
+      // Routine ward, not soiled
+      if (frequency >= 20) {
+        // High frequency – recommend ABHR for skin health
+        recClass = '';
+        titleClass = '';
+        recommendation = '✅ Use ABHR (preferred) for routine hand hygiene. At ' + frequency + ' events/day, water-based washing increases dermatitis risk. ABHR achieves ~3.13 log₁₀ and contains emollients.';
+        rationale = 'Source: CDC hierarchy (ABHR > Antiseptic Soap > Plain Soap > Plain Water). High-frequency water exposure strips skin lipids → irritant contact dermatitis → paradoxically higher bacterial colonization [2, 7]. ABHR has zero water usage and lower skin damage.';
+        reductionDisplay = abhrRed.toFixed(2) + ' log₁₀ (ABHR)';
+        methodDisplay = 'ABHR (preferred) | Soap/water acceptable';
+      } else {
+        if (waterRed >= targetLog) {
+          recClass = '';
+          titleClass = '';
+          recommendation = '✅ ABHR is preferred. Soap and water is acceptable. Estimated water-only reduction (' + waterRed.toFixed(2) + ' log₁₀) meets threshold, but plain water is NOT recommended in any guideline. Use soap for reliable pathogen removal.';
+          rationale = 'Source: CDC – "There is no clinical scenario where washing with water only is an accepted standard of care." While mechanical shear provides some reduction, soap emulsifies lipids and ensures consistent removal [5, 11, 12].';
+        } else {
+          recClass = '';
+          titleClass = '';
+          recommendation = '✅ Use ABHR (preferred) or soap and water. Plain water only achieves ~' + waterRed.toFixed(2) + ' log₁₀, which is BELOW your threshold of ' + targetLog.toFixed(1) + ' log₁₀.';
+          rationale = 'Water alone is insufficient for the specified threshold. Soap adds surfactant action to enhance bacterial removal. ABHR provides the highest reduction (~3.13 log₁₀) and is recommended by both WHO and CDC [13].';
+        }
+        reductionDisplay = waterRed.toFixed(2) + ' log₁₀ (Water only) | ' + soapRed.toFixed(2) + ' (Soap) | ' + abhrRed.toFixed(2) + ' (ABHR)';
+        methodDisplay = 'ABHR (preferred) > Soap > Water (not recommended)';
+      }
+    }
+
+    // Update recommendation box
+    recBox.className = 'recommendation-box' + (recClass ? ' ' + recClass : '');
+    recTitle.className = 'rec-title' + (titleClass ? ' ' + titleClass : '');
+    recTitle.textContent = (recClass === 'alert') ? '⚠️ Clinical Alert' : (recClass === 'success' ? '✅ Recommendation' : '📋 Clinical Recommendation');
+    recText.textContent = recommendation;
+    recRationale.textContent = rationale;
+    estReduction.textContent = reductionDisplay;
+    estMethod.textContent = methodDisplay;
+  }
+
+  // Event listeners
+  [sliderDuration, sliderLogReduction, sliderFrequency].forEach(function(s){
+    s.addEventListener('input', update);
+  });
+  toggleSurgical.addEventListener('change', update);
+  toggleSoiled.addEventListener('change', update);
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    sliderDuration.value = 20;
+    sliderLogReduction.value = 2;
+    sliderFrequency.value = 10;
+    toggleSurgical.checked = false;
+    toggleSoiled.checked = false;
+    update();
+  });
+
+  // Export
+  btnExport.addEventListener('click', function(){
+    var duration = sliderDuration.value;
+    var logRed = sliderLogReduction.value;
+    var freq = sliderFrequency.value;
+    var surgical = toggleSurgical.checked ? 'Yes' : 'No';
+    var soiled = toggleSoiled.checked ? 'Yes' : 'No';
+    var timestamp = new Date().toISOString();
+
+    var text = '=== CLINICAL HAND HYGIENE RECOMMENDATION ===\n' +
+      'Generated: ' + timestamp + '\n\n' +
+      '--- PARAMETER VALUES ---\n' +
+      'Handwashing Duration: ' + duration + ' seconds\n' +
+      'Target Log₁₀ Reduction: ' + logRed + '\n' +
+      'Hand Hygiene Events/Day: ' + freq + '\n' +
+      'Surgical Setting: ' + surgical + '\n' +
+      'Hands Visibly Soiled: ' + soiled + '\n\n' +
+      '--- RECOMMENDATION ---\n' +
+      recText.textContent + '\n\n' +
+      '--- RATIONALE ---\n' +
+      recRationale.textContent + '\n\n' +
+      '--- ESTIMATED BACTERIAL REDUCTION ---\n' +
+      estReduction.textContent + '\n' +
+      estMethod.textContent + '\n\n' +
+      '--- SOURCE ---\n' +
+      'Based on: "Clinical Efficacy and Safety of Aqueous versus Antiseptic Hand Hygiene Protocols"\n' +
+      'Key references: WHO Guidelines on Hand Hygiene (2009), CDC Guideline for Hand Hygiene (2002)\n' +
+      '==========================================';
+
+    navigator.clipboard.writeText(text).then(function(){
+      btnExport.textContent = '✓ Copied!';
+      btnExport.classList.add('copied');
+      setTimeout(function(){
+        btnExport.innerHTML = '📋 Export';
+        btnExport.classList.remove('copied');
+      }, 2000);
+    }).catch(function(){
+      // Fallback
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btnExport.textContent = '✓ Copied!';
+      btnExport.classList.add('copied');
+      setTimeout(function(){
+        btnExport.innerHTML = '📋 Export';
+        btnExport.classList.remove('copied');
+      }, 2000);
+    });
+  });
+
+  // Initial update
+  update();
+})();
+</script>
+
+</body>
+</html>

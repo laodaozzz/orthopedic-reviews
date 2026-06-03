@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heavy Ion Radiotherapy in Non-Malignant Pathologies &amp; Musculoskeletal Radiobiology — Interactive Educational Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg:#f8f9fb;--surface:#ffffff;--surface-alt:#f1f4f8;
+    --text:#1a1d23;--text-secondary:#5a6270;--text-muted:#8a90a0;
+    --primary:#2563eb;--primary-light:#dbeafe;--primary-dark:#1d4ed8;
+    --accent:#7c3aed;--accent-light:#ede9fe;
+    --success:#059669;--success-light:#d1fae5;
+    --warning:#d97706;--warning-light:#fef3c7;
+    --danger:#dc2626;--danger-light:#fee2e2;
+    --info:#0891b2;--info-light:#cffafe;
+    --border:#e2e5eb;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+    --shadow-lg:0 10px 25px rgba(0,0,0,.08),0 4px 10px rgba(0,0,0,.04);
+    --radius:10px;--radius-sm:6px;
+    --header-h:64px;
+  }
+
+  html{scroll-behavior:smooth;font-size:16px}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+  /* HEADER */
+  .site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:var(--header-h);display:flex;align-items:center;padding:0 2rem}
+  .site-header h1{font-size:1.1rem;font-weight:700;color:var(--primary);letter-spacing:-.02em}
+  .site-header span{font-size:.75rem;color:var(--text-muted);margin-left:auto;font-weight:500}
+
+  /* LAYOUT */
+  .layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1400px;margin:0 auto;padding:2rem}
+  @media(max-width:1024px){.layout{grid-template-columns:1fr;padding:1.5rem 1rem}}
+
+  /* MAIN */
+  main{min-width:0}
+  main h2{font-size:1.55rem;font-weight:800;color:var(--text);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--primary);letter-spacing:-.02em}
+  main h2:first-child{margin-top:0}
+  main h3{font-size:1.15rem;font-weight:700;color:var(--primary-dark);margin:1.8rem 0 .6rem}
+  main h4{font-size:1rem;font-weight:600;color:var(--text);margin:1.2rem 0 .4rem}
+  main p{margin-bottom:1rem;color:var(--text-secondary);font-size:.95rem}
+  main ul,main ol{margin:0 0 1rem 1.4rem;color:var(--text-secondary);font-size:.95rem}
+  main li{margin-bottom:.35rem}
+  main strong{color:var(--text);font-weight:600}
+  main em{font-style:italic;color:var(--accent)}
+
+  /* CARDS */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+  .card-accent{border-left:4px solid var(--primary)}
+
+  /* CALLOUT BOXES */
+  .callout{padding:1rem 1.2rem;border-radius:var(--radius-sm);margin:1rem 0;font-size:.9rem}
+  .callout-info{background:var(--info-light);border-left:4px solid var(--info);color:#155e75}
+  .callout-warning{background:var(--warning-light);border-left:4px solid var(--warning);color:#92400e}
+  .callout-danger{background:var(--danger-light);border-left:4px solid var(--danger);color:#991b1b}
+  .callout-success{background:var(--success-light);border-left:4px solid var(--success);color:#065f46}
+  .callout strong{color:inherit}
+
+  /* EVIDENCE BADGE */
+  .ev{display:inline-flex;align-items:center;gap:.25rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:.15rem .5rem;border-radius:99px;vertical-align:middle;margin-left:.3rem}
+  .ev-I{background:#dcfce7;color:#166534}.ev-II{background:#dbeafe;color:#1e40af}.ev-III{background:#fef3c7;color:#92400e}
+  .ev-IV{background:#fee2e2;color:#991b1b}.ev-V{background:#f3e8ff;color:#6b21a8}
+  .ev-NS{background:#f1f5f9;color:#475569}
+
+  /* TABLES */
+  .table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  caption{font-weight:700;font-size:.95rem;padding:.8rem 1rem;text-align:left;background:var(--primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0}
+  thead th{background:var(--surface-alt);font-weight:600;text-align:left;padding:.7rem .8rem;border-bottom:2px solid var(--border);white-space:nowrap;color:var(--text)}
+  tbody td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text-secondary)}
+  tbody tr:hover{background:var(--primary-light)}
+
+  /* SIDEBAR */
+  aside.sidebar{position:sticky;top:calc(var(--header-h) + 1.5rem);align-self:start;max-height:calc(100vh - var(--header-h) - 3rem);overflow-y:auto}
+  @media(max-width:1024px){aside.sidebar{position:static;max-height:none}}
+
+  .sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow-lg);margin-bottom:1.2rem}
+  .sidebar-card h3{font-size:.95rem;font-weight:700;color:var(--primary);margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+  .sidebar-card label{display:block;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+  .sidebar-card .val{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--primary-dark);font-weight:600;float:right}
+
+  input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--border);outline:none;margin:.4rem 0 1rem}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+
+  .rec-box{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-size:.82rem;color:var(--text-secondary);margin-top:.8rem;line-height:1.55}
+  .rec-box .rec-title{font-weight:700;color:var(--text);font-size:.85rem;margin-bottom:.4rem}
+  .rec-box ul{margin:0 0 0 1rem}
+  .rec-box li{margin-bottom:.2rem}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem 1rem;border:none;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+  .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}
+  .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-secondary)}.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+  .btn-group{display:flex;gap:.5rem;margin-top:1rem}
+
+  .toast{position:fixed;bottom:2rem;right:2rem;background:var(--text);color:#fff;padding:.8rem 1.2rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;opacity:0;transform:translateY(10px);transition:all .3s;z-index:999;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+
+  /* CITATIONS */
+  .ref-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-top:2rem}
+  .ref-section h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.8rem}
+  .ref-section ol{font-size:.78rem;color:var(--text-muted);margin-left:1.2rem}
+  .ref-section li{margin-bottom:.3rem;line-height:1.5}
+  .ref-section a{color:var(--primary);text-decoration:none;word-break:break-all}
+  .ref-section a:hover{text-decoration:underline}
+  sup a{color:var(--primary);text-decoration:none;font-weight:600;font-size:.7rem}
+
+  /* UTILITY */
+  .divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+  .tag{display:inline-block;font-size:.7rem;font-weight:600;padding:.15rem .5rem;border-radius:99px;margin-right:.3rem}
+  .tag-blue{background:var(--primary-light);color:var(--primary)}
+  .tag-purple{background:var(--accent-light);color:var(--accent)}
+  .tag-green{background:var(--success-light);color:var(--success)}
+
+  .intro-hero{background:linear-gradient(135deg,#1e3a5f 0%,#2563eb 50%,#7c3aed 100%);color:#fff;border-radius:var(--radius);padding:2rem;margin-bottom:2rem}
+  .intro-hero h2{color:#fff;border-bottom-color:rgba(255,255,255,.3);font-size:1.4rem}
+  .intro-hero p{color:rgba(255,255,255,.85)}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>☢️ Heavy Ion Radiotherapy — Non-Malignant Pathologies &amp; MSK Radiobiology</h1>
+  <span>Interactive Educational Summary</span>
+</header>
+
+<div class="layout">
+
+<!-- ======================== MAIN CONTENT ======================== -->
+<main role="main" aria-label="Main educational content">
+
+  <!-- HERO / INTRO -->
+  <div class="intro-hero">
+    <h2>Comprehensive Analysis of Heavy Ion Radiotherapy in Non-Malignant Pathologies</h2>
+    <p>This interactive summary synthesizes the current clinical paradigms and radiobiological evidence for carbon-ion and heavy-ion therapy in cardiovascular arrhythmias, arteriovenous malformations, functional neurological disorders, aggressive benign neoplasms, and musculoskeletal biology — including implications for space medicine.</p>
+    <p style="font-size:.82rem;margin-top:.8rem;opacity:.8">Source: User-provided research report (73 references). All data, thresholds, and study findings are extracted exclusively from the source document.</p>
+  </div>
+
+  <!-- ===================== PART I: CLINICAL APPLICATIONS ===================== -->
+  <h2 id="part1">Part I — Clinical Applications in Non-Malignant Diseases</h2>
+
+  <!-- 1.1 CARDIOVASCULAR -->
+  <div class="card card-accent">
+    <h3>1.1 Cardiovascular Interventions: Stereotactic Arrhythmia Radioablation (STAR)</h3>
+    <p>Heavy ion radiotherapy is emerging as a <strong>non-invasive alternative</strong> for precise cardiac electrophysiological remodeling in refractory ventricular tachycardia (VT). <span class="ev ev-II">Level II</span><sup><a href="#ref4">[4]</a></sup><sup><a href="#ref10">[10]</a></sup></p>
+
+    <h4>Mechanism of Action</h4>
+    <p>Targeted heavy-ion irradiation (THIR) with carbon ions at 290 MeV/u does <em>not</em> merely create a necrotic scar. Preclinical models in rabbits and dogs with induced myocardial infarction demonstrate that <strong>15 Gy of carbon ions</strong> to the left ventricle:<sup><a href="#ref4">[4]</a></sup></p>
+    <ul>
+      <li><strong>Upregulates Connexin43 (Cx43)</strong> — the essential gap junction protein for intercellular electrical coupling — persistently for ≥1 year</li>
+      <li>Decreases spatial heterogeneity of repolarization</li>
+      <li>Stabilizes the cardiac substrate and attenuates vulnerability to recurrent VT</li>
+      <li>No collateral structural injury to surrounding tissues observed over 1 year</li>
+    </ul>
+
+    <h4>Dosimetric Challenges from Cardiac Motion</h4>
+    <p>Continuous cardiac and respiratory motion causes <strong>target coverage losses of 13.8–19.0%</strong> without motion compensation, and unintended dose spread to the left ventricle and lung regions.<sup><a href="#ref15">[15]</a></sup></p>
+    <div class="callout callout-info">
+      <strong>Critical Planning Requirement:</strong> 4D ECG-gated CT combined with robust optimization. A strict <strong>5-mm isotropic margin</strong> or multi-phase robust optimization limits coverage loss to ~5%.
+    </div>
+    <p>Clinical translation reduces dual antiarrhythmic medication dependency and significantly improves health-related quality of life.<sup><a href="#ref10">[10]</a></sup> <span class="ev ev-II">Level II</span></p>
+  </div>
+
+  <!-- 1.2 AVMs -->
+  <div class="card card-accent">
+    <h3>1.2 Arteriovenous Malformations (AVMs)</h3>
+    <p>Intracranial AVMs are congenital tangles of abnormal vessels without intervening capillary beds, carrying lifelong hemorrhagic stroke risk.<sup><a href="#ref17">[17]</a></sup> For large or irregular AVMs (especially <strong>&gt;10 cm³</strong>) near critical nuclei, heavy-ion stereotactic radiosurgery offers substantial advantages.<sup><a href="#ref3">[3]</a></sup> <span class="ev ev-III">Level III</span></p>
+
+    <h4>Physical &amp; Radiobiological Advantages</h4>
+    <ul>
+      <li>The Bragg peak provides <strong>steep dose falloff</strong> with virtually negligible lateral scatter</li>
+      <li>High ionization density induces <strong>homogeneous radiosensitivity</strong> across disparate nidus cell populations</li>
+      <li>Drives profound <strong>endothelial cell apoptosis → reactive proliferation → luminal thrombosis → nidus obliteration</strong></li>
+    </ul>
+
+    <h4>Ion Selection by Volume (Predictive Binomial Models)</h4>
+    <ul>
+      <li><strong>AVMs &lt;10 cm³:</strong> Light ions (Helium, Lithium) are optimally suited</li>
+      <li><strong>AVMs ≥10 cm³:</strong> Heavier ions (Carbon, Beryllium) provide necessary biological efficacy<sup><a href="#ref3">[3]</a></sup></li>
+    </ul>
+
+    <div class="callout callout-warning">
+      <strong>Adverse Radiation Effects (AREs):</strong> Overall incidence ~<strong>9.3%</strong> (vasogenic edema, necrosis, seizures, memory deficits). Hemorrhage rate ~<strong>12.2%</strong>, particularly in previously ruptured lesions.<sup><a href="#ref18">[18]</a></sup>
+    </div>
+  </div>
+
+  <!-- 1.3 TRIGEMINAL NEURALGIA -->
+  <div class="card card-accent">
+    <h3>1.3 Trigeminal Neuralgia &amp; Functional Neurological Disorders</h3>
+    <p>The goal in trigeminal neuralgia is to disrupt aberrant pain signaling of the fifth cranial nerve <strong>without permanent facial numbness</strong>.<sup><a href="#ref22">[22]</a></sup> <span class="ev ev-II">Level II</span></p>
+
+    <h4>Conventional Radiosurgery Outcomes (Gamma Knife / CyberKnife)</h4>
+    <ul>
+      <li>Early pain relief in <strong>80.5–85.6%</strong> of patients</li>
+      <li>Up to <strong>67%</strong> completely pain-free (BNI Score I) at 3 years</li>
+      <li>Post-treatment facial numbness in <strong>10.2–11%</strong></li>
+      <li>Median pain recurrence time: ~<strong>46 months</strong><sup><a href="#ref22">[22]</a></sup></li>
+    </ul>
+
+    <h4>Heavy Ion Advantages</h4>
+    <p>Carbon ions deliver concentrated ablative dose to the nerve root entry zone with <strong>virtually zero exit dose</strong>, theoretically minimizing collateral brainstem and cranial nerve damage.<sup><a href="#ref23">[23]</a></sup><sup><a href="#ref24">[24]</a></sup></p>
+    <p>Preclinical investigations also demonstrate heavy-ion suppression of seizure activity in epilepsy models, especially when mapped against physiological stress modulators (hyperventilation-induced alkalosis, carbogen adjunct).<sup><a href="#ref20">[20]</a></sup> <span class="ev ev-IV">Level IV</span></p>
+  </div>
+
+  <!-- 1.4 BENIGN NEOPLASMS -->
+  <h3 style="font-size:1.25rem;color:var(--text);margin-top:2rem">1.4 Aggressive Benign Neoplasms &amp; Fibromatoses</h3>
+
+  <div class="card">
+    <h4>Desmoid-Type Fibromatosis</h4>
+    <p>Rare monoclonal fibroblastic proliferations lacking metastatic potential but exhibiting deeply infiltrative local growth. Surgical resection is frequently morbid with high recurrence rates.<sup><a href="#ref27">[27]</a></sup><sup><a href="#ref28">[28]</a></sup></p>
+    <p><strong>CIRT at 50–67.2 GyE</strong> (typically 16 fractions / 4 weeks) results in persistent tumor shrinkage, stabilization, and long-term local control without negative effects on the intestinal tract.<sup><a href="#ref27">[27]</a></sup> <span class="ev ev-IV">Level IV</span></p>
+    <div class="callout callout-danger">
+      <strong>Secondary Malignancy Risk:</strong> Rare but documented — e.g., radiation-induced osteosarcoma in adjacent femur <strong>8 years post-CIRT</strong>. Meticulous dose constraints to surrounding bones are essential.<sup><a href="#ref27">[27]</a></sup>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Giant Cell Tumors of Bone (GCT) &amp; Pigmented Villonodular Synovitis (PVNS)</h4>
+    <p><strong>GCT:</strong> CIRT at 70.4 Gy in 32 fractions achieved <strong>complete progression-free survival &gt;5 years</strong> for a recurrent cervical spine GCT, avoiding paralysis.<sup><a href="#ref30">[30]</a></sup> <span class="ev ev-IV">Level IV</span></p>
+    <p><strong>PVNS:</strong> Post-synovectomy radiation (20–35 Gy, multiple fractions) achieves excellent long-term local control, halting destructive synovial proliferation while preserving joint mobility.<sup><a href="#ref31">[31]</a></sup> <span class="ev ev-IV">Level IV</span></p>
+  </div>
+
+  <div class="card">
+    <h4>Keloids</h4>
+    <p>Surgical excision alone yields unacceptably high recurrence. Integration of immediate postoperative CIRT (<strong>16 GyE in 8 fractions</strong>) achieved:<sup><a href="#ref34">[34]</a></sup></p>
+    <ul>
+      <li><strong>95% overall success and local control rate</strong></li>
+      <li>Zero Grade 3+ toxicity</li>
+      <li>Zero secondary malignancies during multi-year follow-up</li>
+    </ul>
+    <p>First definitive evidence that high-LET therapy can safely and permanently switch off aberrant fibroblastic drive. <span class="ev ev-IV">Level IV</span></p>
+  </div>
+
+  <!-- 1.5 BENIGN INTRACRANIAL TUMORS -->
+  <h3 style="font-size:1.25rem;color:var(--text);margin-top:2rem">1.5 Benign Intracranial Tumors</h3>
+
+  <div class="card">
+    <h4>Benign Meningiomas (WHO Grade I)</h4>
+    <p>For complex skull-base meningiomas where R0 resection is unachievable, CIRT and proton therapy provide exceptional non-invasive control.<sup><a href="#ref37">[37]</a></sup><sup><a href="#ref38">[38]</a></sup></p>
+    <ul>
+      <li><strong>3-year Local Control:</strong> up to 100%</li>
+      <li><strong>5-year Local Control:</strong> 88–91%</li>
+      <li><strong>5-year Overall Survival:</strong> 100%; <strong>8-year OS:</strong> 99%</li>
+      <li>Grade III+ severe late toxicities: <strong>&lt;5%</strong></li>
+    </ul>
+    <p>Late toxicities include radiation-induced cerebral contrast enhancement (RICE), vertigo, and subtle cognitive impairments. <span class="ev ev-II">Level II</span></p>
+  </div>
+
+  <div class="card">
+    <h4>Vestibular Schwannomas</h4>
+    <p>Heavy ion therapy and particle FSRT yield <strong>local control &gt;95%</strong> at 5–7 years.<sup><a href="#ref41">[41]</a></sup></p>
+    <ul>
+      <li><strong>Hearing preservation:</strong> ~65–66% at 3–5 years</li>
+      <li><strong>Facial/trigeminal neuropathy:</strong> only ~2.5–3.2%</li>
+    </ul>
+    <p>High-LET characteristics safely overcome biological resistance of Schwann cells without penalizing adjacent nerve fibers. <span class="ev ev-II">Level II</span></p>
+  </div>
+
+  <!-- TABLE 1 -->
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1 — Clinical Outcomes and Toxicities of Heavy Ion Therapy in Non-Malignant Pathologies</caption>
+      <thead>
+        <tr>
+          <th>Pathology</th>
+          <th>Modality &amp; Typical Dose</th>
+          <th>Primary Efficacy</th>
+          <th>Key Toxicities / Risks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Ventricular Tachycardia</strong></td>
+          <td>CIRT / STAR (15–25 Gy, single fraction)</td>
+          <td>Cx43 upregulation; significant VT episode reduction</td>
+          <td>Cardiac motion reduces coverage 13.8–19%; 5 mm margins + 4D-CT required</td>
+        </tr>
+        <tr>
+          <td><strong>Large AVMs (&gt;10 cm³)</strong></td>
+          <td>Heavy Ion SRS</td>
+          <td>High angiographic obliteration; homogeneous endothelial apoptosis</td>
+          <td>AREs ~9.3%; hemorrhage ~12.2%; ion selection critical</td>
+        </tr>
+        <tr>
+          <td><strong>Desmoid Fibromatosis</strong></td>
+          <td>CIRT (50–67.2 GyE, multi-fraction)</td>
+          <td>Long-term shrinkage and stabilization of inoperable lesions</td>
+          <td>Rare secondary malignancies (e.g., osteosarcoma)</td>
+        </tr>
+        <tr>
+          <td><strong>Giant Cell Tumor (Spine)</strong></td>
+          <td>CIRT (e.g., 70.4 Gy / 32 fx)</td>
+          <td>&gt;5-year progression-free survival; avoids paralysis</td>
+          <td>Minimal with precise spinal cord avoidance</td>
+        </tr>
+        <tr>
+          <td><strong>Keloids</strong></td>
+          <td>Postop CIRT (16 GyE / 8 fx)</td>
+          <td>95% success; absolute prevention of recurrence</td>
+          <td>No Grade 3+ toxicity; no secondary malignancies reported</td>
+        </tr>
+        <tr>
+          <td><strong>Benign Meningioma (Gr I)</strong></td>
+          <td>CIRT / Proton Therapy</td>
+          <td>5-yr LC 88–100%; 5-yr OS 99–100%</td>
+          <td>Gr I/II alopecia, headache; RICE rare; Gr III &lt;5%</td>
+        </tr>
+        <tr>
+          <td><strong>Vestibular Schwannoma</strong></td>
+          <td>FSRT / Particle Therapy</td>
+          <td>5-yr LC &gt;95%; hearing preservation ~65%</td>
+          <td>Trigeminal/facial neuropathy &lt;4%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===================== PART II: RADIOBIOLOGY ===================== -->
+  <h2 id="part2">Part II — Musculoskeletal Radiobiology of Heavy Ions</h2>
+
+  <p>Heavy ions generate <strong>complex, clustered DNA double-strand breaks</strong> highly resistant to standard cellular repair mechanisms (NHEJ and HR), leading to permanent tissue alterations and widespread cellular senescence.<sup><a href="#ref43">[43]</a></sup></p>
+
+  <!-- 2.1 OB-OC AXIS -->
+  <div class="card card-accent">
+    <h3>2.1 The Osteoblast–Osteoclast Axis &amp; RANK/RANKL/OPG Signaling</h3>
+    <p>Bone integrity depends on the coupling of bone-forming <strong>osteoblasts (OBs)</strong> and bone-resorbing <strong>osteoclasts (OCs)</strong>, governed by the <strong>RANK/RANKL/OPG pathway</strong>.<sup><a href="#ref49">[49]</a></sup></p>
+
+    <h4>Dose-Dependent Paradox</h4>
+    <ul>
+      <li><strong>Low-dose irradiation (≤2 Gy):</strong> Stimulates bone formation, accelerates fracture healing via NRF2 upregulation, accelerated OB differentiation, and reduced RANKL/OPG ratio.<sup><a href="#ref9">[9]</a></sup><sup><a href="#ref53">[53]</a></sup> <span class="ev ev-III">Level III</span></li>
+      <li><strong>Low-dose carbon ions:</strong> Suppress osteoclastogenesis while promoting osteogenic/adipogenic differentiation from adipose-derived stem cells — potential hormetic effect.<sup><a href="#ref54">[54]</a></sup></li>
+      <li><strong>High-dose / space-relevant doses:</strong> Catastrophic collapse of homeostasis — permanent OB cell cycle arrest, drastically reduced mineralized matrix deposition, and pathologically accelerated osteoclastogenesis.<sup><a href="#ref52">[52]</a></sup><sup><a href="#ref60">[60]</a></sup> <span class="ev ev-III">Level III</span></li>
+    </ul>
+
+    <h4>GCR-Induced Osteoclastogenic Surge</h4>
+    <p>Simulated GCR exposure drives <strong>mitochondrial metabolic reprogramming</strong> in osteoclast precursors:<sup><a href="#ref59">[59]</a></sup><sup><a href="#ref60">[60]</a></sup></p>
+    <ul>
+      <li>Upregulates <strong>Sirt3</strong> (mitochondrial deacetylase) → elevated mitochondrial ROS</li>
+      <li>Amplifies both mitochondrial and non-mitochondrial respiration</li>
+      <li>Upregulates <strong>CTSK</strong> (Cathepsin K) and <strong>ACP5</strong> (TRAP) — definitive OC differentiation markers</li>
+      <li>No short-term effect on bone formation markers (osteocalcin, RUNX2, ALPL) → <strong>uncoupled, hyperactive resorption</strong></li>
+    </ul>
+
+    <div class="callout callout-info">
+      <strong>Ultra-high clinical doses (15–22.5 Gy):</strong> Heavy ions become fundamentally toxic to osteoclasts, causing a transient massive spike followed by rapid depletion and permanently suppressed maturation.<sup><a href="#ref61">[61]</a></sup>
+    </div>
+  </div>
+
+  <!-- 2.2 OSTEOCYTE SENESCENCE -->
+  <div class="card card-accent">
+    <h3>2.2 Osteocyte Senescence &amp; the SASP Cascade</h3>
+    <p>Osteocytes — the most abundant bone cells — are acutely vulnerable to heavy ion-induced metabolic dysfunction despite their terminally differentiated state.<sup><a href="#ref6">[6]</a></sup><sup><a href="#ref46">[46]</a></sup></p>
+
+    <h4>Molecular Cascade</h4>
+    <ol>
+      <li>Heavy ion exposure → persistent <strong>γ-H2AX foci</strong> (unresolved DNA DSBs)</li>
+      <li>Triggers <strong>Stress-Induced Premature Senescence (SIPS)</strong></li>
+      <li>Upregulation of <strong>p16</strong> and <strong>p21</strong> (CDK inhibitors)</li>
+      <li>Development of <strong>Senescence-Associated Secretory Phenotype (SASP)</strong></li>
+      <li><strong>PI3K/Akt/NF-κB</strong> pathway hyperactivation → p65 nuclear translocation</li>
+      <li>Massive oversecretion of <strong>CCL3</strong> (CC chemokine ligand 3)</li>
+    </ol>
+
+    <p>CCL3 sustains the inflammatory microenvironment via a destructive paracrine feedback loop:<sup><a href="#ref45">[45]</a></sup></p>
+    <ul>
+      <li>Severely downregulates osteogenic differentiation in pre-osteoblasts</li>
+      <li>Enhances osteoclast precursor differentiation</li>
+      <li>Locks bone microenvironment into <strong>chronic, uncompensated resorption</strong></li>
+    </ul>
+
+    <h4>The Role of Sclerostin (SOST)</h4>
+    <p>High-LET radiation heavily upregulates <strong>Sclerostin</strong>, an endogenous inhibitor of <strong>Wnt/β-catenin signaling</strong> that halts new bone formation.<sup><a href="#ref63">[63]</a></sup><sup><a href="#ref65">[65]</a></sup></p>
+
+    <div class="callout callout-success">
+      <strong>Therapeutic Countermeasure:</strong> Weekly administration of <strong>anti-sclerostin monoclonal antibody (Scl-Ab)</strong> effectively blocks trabecular structural deterioration by:<br>
+      • Enhancing Wnt/β-catenin → increasing DNA repair protein Ku70<br>
+      • Reducing γ-H2AX foci<br>
+      • Rescuing osteocytes from radiation-induced apoptosis<br>
+      • Restoring canaliculi network integrity<sup><a href="#ref63">[63]</a></sup>
+    </div>
+  </div>
+
+  <!-- 2.3 STEM CELLS & OSTEOIMMUNOLOGY -->
+  <div class="card card-accent">
+    <h3>2.3 Stem Cell Niche Alterations &amp; Osteoimmunology</h3>
+    <p>High-LET radiation fundamentally alters <strong>bone marrow mesenchymal stem/stromal cells (BM-MSCs)</strong>:<sup><a href="#ref43">[43]</a></sup></p>
+    <ul>
+      <li>Severe mitochondrial dysfunction and cellular senescence</li>
+      <li><strong>Lineage shift:</strong> osteogenesis → adipogenesis (fatty marrow replacement)</li>
+      <li>Diminished structural integrity and hematopoietic-supportive capacity</li>
+    </ul>
+
+    <h4>Dendritic Cell Hyperactivation</h4>
+    <p>Heavy ion radiation hyperactivates <strong>dendritic cells (DCs)</strong> via NF-κB, forcing maturation into inflammatory mDCs that release pro-inflammatory cytokines → oxidative stress → paralysis of BMSC migratory and osteogenic capabilities.<sup><a href="#ref67">[67]</a></sup> This is a primary driver of <strong>osteoradionecrosis of the jaw (ORNJ)</strong>.</p>
+
+    <div class="callout callout-success">
+      <strong>Innovative Countermeasure — Vitamin D3-Induced Tolerogenic DCs:</strong><br>
+      • VitD3 induces <strong>tolerogenic dendritic cells (tolDCs)</strong> resistant to radiation<br>
+      • Suppresses NF-κB transcription, preventing DC maturation under irradiation<br>
+      • Encapsulated in <strong>GelMA hydrogels</strong> and transplanted into irradiated defects<br>
+      • Imparts anti-inflammatory "bystander effect" → restores BMSC osteogenic capacity → flawless bone repair<sup><a href="#ref67">[67]</a></sup>
+    </div>
+  </div>
+
+  <!-- TABLE 2 -->
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2 — Molecular Drivers of Radiation-Induced Musculoskeletal Damage</caption>
+      <thead>
+        <tr>
+          <th>Cellular Target</th>
+          <th>Biological Response</th>
+          <th>Molecular / Epigenetic Mechanisms</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Osteoclasts (OCs)</strong></td>
+          <td>Accelerated differentiation &amp; hyper-resorption; transient spike then depletion at ultra-high doses</td>
+          <td>Sirt3, CTSK, ACP5 upregulation; elevated mitochondrial ROS; metabolic rewiring</td>
+        </tr>
+        <tr>
+          <td><strong>Osteoblasts (OBs)</strong></td>
+          <td>Permanent cell cycle arrest; suppressed matrix deposition</td>
+          <td>Wnt/β-catenin inhibition via Sclerostin; decreased NRF2; unrepairable clustered DNA breaks</td>
+        </tr>
+        <tr>
+          <td><strong>Osteocytes (OCYs)</strong></td>
+          <td>SIPS; irreversible canaliculi damage</td>
+          <td>PI3K/Akt/NF-κB activation; CCL3 SASP oversecretion; SOST elevation</td>
+        </tr>
+        <tr>
+          <td><strong>BM-MSCs</strong></td>
+          <td>Loss of regenerative capacity; osteogenesis → adipogenesis shift</td>
+          <td>Clustered DNA lesions; oxidative stress; inflammatory cytokine bombardment</td>
+        </tr>
+        <tr>
+          <td><strong>Dendritic Cells (DCs)</strong></td>
+          <td>Hyperactivation → inflammatory mDCs</td>
+          <td>NF-κB activation; massive pro-inflammatory cytokine release disrupting stem cell niche</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 2.4 SPACE MEDICINE -->
+  <h2 id="space">Part III — Space Medicine: GCR &amp; Microgravity</h2>
+
+  <div class="card card-accent">
+    <h3>2.4 Galactic Cosmic Radiation &amp; Musculoskeletal Degradation</h3>
+    <p>Deep space travel exposes astronauts to continuous GCR flux — high-energy protons and HZE particles (O, Si, Fe) — combined with microgravity mechanical unloading.<sup><a href="#ref5">[5]</a></sup><sup><a href="#ref7">[7]</a></sup></p>
+
+    <h4>Muscle Effects</h4>
+    <ul>
+      <li>Mechanical unloading alone induces <strong>19–35% muscle mass reduction</strong> (gastrocnemius, quadriceps)<sup><a href="#ref7">[7]</a></sup></li>
+      <li>GCR does not necessarily exacerbate gross cross-sectional area loss beyond microgravity</li>
+      <li>However, heavy ions deeply damage the muscular microenvironment: massive oxidative stress, widespread fibrosis, and <strong>severely reduced satellite cell regenerative capacity</strong> — fundamentally impairing long-term myogenesis<sup><a href="#ref70">[70]</a></sup></li>
+    </ul>
+
+    <h4>Skeletal Effects — Synergistic Degradation</h4>
+    <ul>
+      <li>Microgravity initiates bone loss; HZE particles <strong>massively accelerate trabecular microarchitecture destruction</strong><sup><a href="#ref5">[5]</a></sup></li>
+      <li>Sirt3-mediated osteoclastogenesis + SASP-mediated osteocyte senescence = dual-front attack</li>
+      <li>Trabecular bone volume fraction (BV/TV) and mineral density plummet with combined HLS + GCR</li>
+    </ul>
+
+    <h4>Systemic Effects Beyond MSK</h4>
+    <p>⁵⁶Fe heavy ion irradiation causes <strong>chronic senescence and SASP activation in Lgr5+ intestinal stem cells</strong> persisting up to 1 year — impairing nutrient absorption and barrier function, complicating deep-space mission survivability.<sup><a href="#ref73">[73]</a></sup> <span class="ev ev-III">Level III</span></p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CONCLUSION -->
+  <h2 id="conclusion">Conclusion &amp; Future Directions</h2>
+  <div class="card" style="background:linear-gradient(135deg,#f0f4ff,#faf5ff);border-color:var(--primary)">
+    <p>Heavy ion radiotherapy operates at the vanguard of medical physics and molecular biology. The <strong>exquisitely precise dosimetric profiles</strong> of carbon ions provide paradigm-shifting utility in managing non-malignant pathologies — from transmural cardiac electrophysiological reprogramming to sub-millimetric AVM obliteration and definitive control of aggressive benign neoplasms.</p>
+    <p>The <strong>immense biological potency</strong> of high-LET radiation necessitates rigorous understanding of collateral molecular mechanisms — osteocyte senescence, PI3K/Akt/NF-κB hyperactivation, CCL3/sclerostin oversecretion, and catastrophic osteoclastogenic surge.</p>
+    <p><strong>The future lies in synthesizing macroscopic physical precision with microscopic biological modulation:</strong></p>
+    <ul>
+      <li>Advanced 4D-optimized treatment planning to mitigate anatomical uncertainties</li>
+      <li><strong>Sclerostin-neutralizing antibodies</strong> to intercept radiation-induced bone loss</li>
+      <li><strong>Vitamin D3-induced tolerogenic dendritic cells</strong> (GelMA-encapsulated) for immune-mediated bone repair</li>
+      <li>Expansion of clinical horizons on Earth while safeguarding astronaut physiology in deep space</li>
+    </ul>
+  </div>
+
+  <!-- REFERENCES -->
+  <div class="ref-section" id="references">
+    <h3>References (from source document)</h3>
+    <ol>
+      <li id="ref1">Carbon Ion Radiotherapy: A Review of Clinical Experiences and Preclinical Research. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5483885/" target="_blank">PMC5483885</a></li>
+      <li id="ref2">Carbon Ion Therapy: A Modern Review of an Emerging Technology. <a href="https://www.frontiersin.org/journals/oncology/articles/10.3389/fonc.2020.00082/full" target="_blank">Frontiers in Oncology 2020</a></li>
+      <li id="ref3">Clinical and radiobiological advantages of single-dose stereotactic heavy ion therapy. <a href="https://pubmed.ncbi.nlm.nih.gov/19392591/" target="_blank">PMID 19392591</a></li>
+      <li id="ref4">The Potential Application of Heavy Ion Beams in the Treatment of Cardiac Arrhythmias. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6871596/" target="_blank">PMC6871596</a></li>
+      <li id="ref5">Combined Effects of Simulated Microgravity and Radiation Exposure on Osteoclast Cell Fusion. <a href="https://www.mdpi.com/1422-0067/18/11/2443" target="_blank">IJMS 2017</a></li>
+      <li id="ref6">Ionizing Radiation and Bone Loss: Space Exploration and Clinical Therapy Applications. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3401480/" target="_blank">PMC3401480</a></li>
+      <li id="ref7">Simulated space radiation sensitizes bone but not muscle to catabolic effects of mechanical unloading. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5540592/" target="_blank">PMC5540592</a></li>
+      <li id="ref8">The Influence of Radiation on Bone and Bone Cells — Differential Effects on Osteoclasts and Osteoblasts. <a href="https://www.mdpi.com/1422-0067/21/17/6377" target="_blank">IJMS 2020</a></li>
+      <li id="ref9">The Influence of Radiation on Bone and Bone Cells — ResearchGate. <a href="https://www.researchgate.net/publication/344140681" target="_blank">ResearchGate 2020</a></li>
+      <li id="ref10">Phase I/II Trial of Electrophysiology-Guided Noninvasive Cardiac Radioablation for VT. <a href="https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.118.038261" target="_blank">Circulation</a></li>
+      <li id="ref15">Robustness evaluation of carbon ion radiotherapy for ventricular tachycardia. <a href="https://pubmed.ncbi.nlm.nih.gov/41767109/" target="_blank">PMID 41767109</a></li>
+      <li id="ref17">Radiation Therapy for Arteriovenous Malformation — Alliance Cancer Care. <a href="https://alliancecancercare.com/wp-content/uploads/Arteriovenous-Malformation-Fact-Sheet-ACC.pdf" target="_blank">ACC PDF</a></li>
+      <li id="ref18">Outcomes following SRS for high-grade brain AVMs: systematic review and meta-analysis. <a href="https://pubmed.ncbi.nlm.nih.gov/39919274/" target="_blank">PMID 39919274</a></li>
+      <li id="ref20">Radiation Therapy for Non-Malignant CNS Tumors, Disorders, and Illnesses. <a href="https://pure.johnshopkins.edu/en/publications/radiation-therapy-for-non-malignant-central-nervous-system-tumors/" target="_blank">Johns Hopkins</a></li>
+      <li id="ref22">Clinical outcomes after SRS for idiopathic trigeminal neuralgia. <a href="https://pubmed.ncbi.nlm.nih.gov/11147887/" target="_blank">PMID 11147887</a></li>
+      <li id="ref23">Exploring the Impact of Advanced Radiosurgery on Trigeminal Neuralgia. <a href="https://www.accuray.com/blog/exploring-the-impact-of-advanced-radiosurgery-on-trigeminal-neuralgia/" target="_blank">Accuray Blog</a></li>
+      <li id="ref24">Trigeminal neuralgia treatment outcomes following Gamma Knife radiosurgery. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4052001/" target="_blank">PMC4052001</a></li>
+      <li id="ref27">Secondary Osteosarcoma After Carbon-Ion Radiotherapy for Desmoid-Type Fibromatosis. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11574559/" target="_blank">PMC11574559</a></li>
+      <li id="ref28">Carbon ion radiotherapy for desmoid tumor of the abdominal wall. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5022152/" target="_blank">PMC5022152</a></li>
+      <li id="ref30">Giant cell tumor of the cervical spine treated by CIRT: A case report. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8519221/" target="_blank">PMC8519221</a></li>
+      <li id="ref31">Outcome following radiation treatment for high-risk PVNS. <a href="https://pubmed.ncbi.nlm.nih.gov/7790264/" target="_blank">PMID 7790264</a></li>
+      <li id="ref34">Postoperative Carbon Ion Radiotherapy for Keloids: 16 Cases and Literature Review. <a href="https://pubmed.ncbi.nlm.nih.gov/25860782/" target="_blank">PMID 25860782</a></li>
+      <li id="ref37">The Efficacy and Safety of Carbon Ion Radiotherapy for Meningiomas. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8185343/" target="_blank">PMC8185343</a></li>
+      <li id="ref38">Long-term outcomes and toxicity of radiotherapy for WHO Grade II/III meningiomas. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12552385/" target="_blank">PMC12552385</a></li>
+      <li id="ref41">The Recent Management of Vestibular Schwannoma Radiotherapy: A Narrative Review. <a href="https://www.mdpi.com/2077-0383/13/6/1611" target="_blank">JCM 2024</a></li>
+      <li id="ref43">Ionizing Radiation-Induced Senescence of BM-MSCs: Mechanisms and Therapeutic Strategies. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12939758/" target="_blank">PMC12939758</a></li>
+      <li id="ref45">Oversecretion of CCL3 by Irradiation-Induced Senescent Osteocytes Mediates Bone Homeostasis Imbalance. <a href="https://www.mdpi.com/2073-4409/14/4/249" target="_blank">Cells 2025</a></li>
+      <li id="ref46">Oversecretion of CCL3 by Irradiation-Induced Senescent Osteocytes. <a href="https://pubmed.ncbi.nlm.nih.gov/39996722/" target="_blank">PMID 39996722</a></li>
+      <li id="ref49">The RANK–RANKL–OPG System: A Multifaceted Regulator. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10608105/" target="_blank">PMC10608105</a></li>
+      <li id="ref52">The Influence of Radiation on Bone — Differential Effects on OCs and OBs. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7504528/" target="_blank">PMC7504528</a></li>
+      <li id="ref53">Ionizing Radiation to Enhance Proliferation and Differentiation via NRF2 Pathway. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12382644/" target="_blank">PMC12382644</a></li>
+      <li id="ref54">Different effects of carbon ion and gamma-irradiation on RANKL in MC3T3-E1 cells. <a href="https://pubmed.ncbi.nlm.nih.gov/17415477/" target="_blank">PMID 17415477</a></li>
+      <li id="ref59">Ionizing Radiation Activates Mitochondrial Function in Osteoclasts. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8775597/" target="_blank">PMC8775597</a></li>
+      <li id="ref60">Simulated Galactic Cosmic Rays Modify Mitochondrial Metabolism in Osteoclasts. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8583929/" target="_blank">PMC8583929</a></li>
+      <li id="ref61">Changes in osteoclasts after irradiation with carbon ion particles. <a href="https://pubmed.ncbi.nlm.nih.gov/13680258/" target="_blank">PMID 13680258</a></li>
+      <li id="ref63">Suppression of Sclerostin Alleviates Radiation-Induced Bone Loss. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5476363/" target="_blank">PMC5476363</a></li>
+      <li id="ref65">Localized sclerostin accumulation in osteocyte lacunar-canalicular system. <a href="https://www.frontiersin.org/journals/cell-and-developmental-biology/articles/10.3389/fcell.2025.1562764/full" target="_blank">Frontiers 2025</a></li>
+      <li id="ref67">Ionizing radiation-mediated dendritic cell maturation exacerbates bone injury. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12275270/" target="_blank">PMC12275270</a></li>
+      <li id="ref70">Radiation-induced impairment of skeletal muscle regeneration. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12441890/" target="_blank">PMC12441890</a></li>
+      <li id="ref73">Effects of High-LET Heavy Ion Radiation on Intestinal Stem Cells. <a href="https://www.mdpi.com/2072-6694/16/19/3392" target="_blank">Cancers 2024</a></li>
+    </ol>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-top:.8rem"><em>Note: Reference numbers correspond to the original source document's citation list. Some intermediate references (e.g., 11–14, 16, 19, 21, 25–26, 29, 32–33, 35–36, 39–40, 42, 44, 47–48, 50–51, 55–58, 62, 64, 66, 68–69, 71–72) are present in the original document but not directly cited in the summary text above.</em></p>
+  </div>
+
+</main>
+
+<!-- ======================== SIDEBAR ======================== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive parameter controls and clinical recommendations">
+
+  <!-- SLIDER CARD -->
+  <div class="sidebar-card">
+    <h3>⚙️ Clinical Parameter Explorer</h3>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:1rem">Adjust parameters below to explore real-time clinical implications based on source evidence.</p>
+
+    <!-- Slider 1: Dose -->
+    <label for="doseSlider">Radiation Dose (RBE-weighted GyE) <span class="val" id="doseVal">50</span></label>
+    <input type="range" id="doseSlider" min="0" max="80" value="50" step="0.5" aria-label="Radiation dose in GyE">
+
+    <!-- Slider 2: Volume -->
+    <label for="volSlider">Target Volume (cm³) <span class="val" id="volVal">10</span></label>
+    <input type="range" id="volSlider" min="0" max="30" value="10" step="0.5" aria-label="Target volume in cubic centimeters">
+
+    <!-- Slider 3: Follow-up -->
+    <label for="fuSlider">Follow-up Duration (years) <span class="val" id="fuVal">3</span></label>
+    <input type="range" id="fuSlider" min="0" max="10" value="3" step="1" aria-label="Follow-up duration in years">
+
+    <!-- PATHOLOGY SELECTOR -->
+    <label for="pathSelect" style="margin-top:.8rem">Target Pathology</label>
+    <select id="pathSelect" style="width:100%;padding:.45rem .6rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:.82rem;font-family:inherit;color:var(--text);background:#fff;margin-bottom:1rem">
+      <option value="vt">Ventricular Tachycardia (STAR)</option>
+      <option value="avm">Arteriovenous Malformation</option>
+      <option value="desmoid">Desmoid Fibromatosis</option>
+      <option value="gct">Giant Cell Tumor (Spine)</option>
+      <option value="keloid">Keloid</option>
+      <option value="meningioma">Benign Meningioma</option>
+      <option value="schwannoma">Vestibular Schwannoma</option>
+      <option value="msk_bone">MSK Radiobiology (Bone Loss)</option>
+      <option value="space">Space Medicine (GCR)</option>
+    </select>
+
+    <!-- RECOMMENDATION BOX -->
+    <div class="rec-box" id="recBox" aria-live="polite">
+      <div class="rec-title">📋 Clinical Recommendation</div>
+      <div id="recContent">Adjust parameters to see recommendations.</div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="btn-group">
+      <button class="btn btn-primary" id="copyBtn" aria-label="Copy current assessment to clipboard">📋 Copy</button>
+      <button class="btn btn-outline" id="resetBtn" aria-label="Reset all sliders to defaults">↺ Reset</button>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE CARD -->
+  <div class="sidebar-card">
+    <h3>📊 Quick Reference Thresholds</h3>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:.6rem">Key thresholds from source document:</p>
+    <ul style="font-size:.8rem;color:var(--text-secondary);margin-left:1rem;list-style:disc">
+      <li><strong>AVM volume &gt;10 cm³</strong> → Carbon/Beryllium ions preferred<sup><a href="#ref3">[3]</a></sup></li>
+      <li><strong>VT:</strong> 15 Gy single-fraction CIRT reprograms Cx43<sup><a href="#ref4">[4]</a></sup></li>
+      <li><strong>Cardiac motion margin:</strong> 5 mm isotropic limits coverage loss to ~5%<sup><a href="#ref15">[15]</a></sup></li>
+      <li><strong>Desmoid:</strong> 50–67.2 GyE in 16 fractions<sup><a href="#ref27">[27]</a></sup></li>
+      <li><strong>Keloid:</strong> 16 GyE in 8 fractions postop<sup><a href="#ref34">[34]</a></sup></li>
+      <li><strong>Meningioma 5-yr LC:</strong> 88–100%<sup><a href="#ref37">[37]</a></sup></li>
+      <li><strong>Schwannoma hearing preservation:</strong> ~65%<sup><a href="#ref41">[41]</a></sup></li>
+      <li><strong>OSTEORADIONECROSIS dose:</strong> ≥15 Gy locally ablative<sup><a href="#ref61">[61]</a></sup></li>
+    </ul>
+    <p style="font-size:.72rem;color:var(--text-muted);margin-top:.5rem"><em>⚠ All thresholds extracted from the source document.</em></p>
+  </div>
+
+  <!-- EVIDENCE SUMMARY CARD -->
+  <div class="sidebar-card">
+    <h3>🔬 Evidence Quality Summary</h3>
+    <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+      <p><span class="ev ev-II">Level II</span> — STAR for VT, Meningioma outcomes, Schwannoma outcomes, TN outcomes</p>
+      <p><span class="ev ev-III">Level III</span> — AVM obliteration data, low-dose hormesis, GCR osteoclastogenesis, intestinal stem cell damage</p>
+      <p><span class="ev ev-IV">Level IV</span> — Desmoid/GCT/Keloid case series, TN preclinical models</p>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-top:.5rem"><em>Note: Evidence levels are inferred from study designs described in the source document, as explicit grading was not provided.</em></p>
+    </div>
+  </div>
+
+</aside>
+
+</div><!-- /layout -->
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">Copied to clipboard!</div>
+
+<script>
+(function(){
+  const doseSlider = document.getElementById('doseSlider');
+  const volSlider  = document.getElementById('volSlider');
+  const fuSlider   = document.getElementById('fuSlider');
+  const doseVal    = document.getElementById('doseVal');
+  const volVal     = document.getElementById('volVal');
+  const fuVal      = document.getElementById('fuVal');
+  const pathSelect = document.getElementById('pathSelect');
+  const recContent = document.getElementById('recContent');
+  const copyBtn    = document.getElementById('copyBtn');
+  const resetBtn   = document.getElementById('resetBtn');
+  const toast      = document.getElementById('toast');
+
+  function getVals(){
+    return {
+      dose: parseFloat(doseSlider.value),
+      vol:  parseFloat(volSlider.value),
+      fu:   parseInt(fuSlider.value),
+      path: pathSelect.value
+    };
+  }
+
+  function update(){
+    doseVal.textContent = doseSlider.value;
+    volVal.textContent  = volSlider.value;
+    fuVal.textContent   = fuSlider.value;
+    generateRec();
+  }
+
+  function generateRec(){
+    const {dose, vol, fu, path} = getVals();
+    let html = '';
+
+    switch(path){
+      case 'vt': {
+        if(dose < 10){ html = '<p>⚠️ <strong>Subtherapeutic dose.</strong> Source documents 15 Gy single-fraction as effective Cx43 upregulation threshold.<sup>[4]</sup> Consider dose escalation.</p>'; }
+        else if(dose >= 15 && dose <= 25){
+          html = '<p>✅ <strong>Therapeutic range.</strong> 15 Gy carbon ions expected to upregulate Cx43, improve electrical conductivity, and reduce VT episodes.<sup>[4]</sup></p>';
+          html += '<ul><li>Requires <strong>4D ECG-gated CT</strong> planning</li><li><strong>5 mm isotropic margin</strong> recommended to limit coverage loss to ~5%<sup>[15]</sup></li><li>Monitor for collateral lung/LV dose</li></ul>';
+        } else {
+          html = '<p>⚠️ <strong>Higher than standard STAR doses.</strong> Source documents 15–25 Gy range. Dose >25 Gy may increase OAR toxicity risk. Confirm with institutional protocol.</p>';
+        }
+        break;
+      }
+      case 'avm': {
+        html = '<p><strong>AVM Analysis (Volume: ' + vol + ' cm³, Dose: ' + dose + ' GyE, Follow-up: ' + fu + ' years):</strong></p>';
+        if(vol < 10){
+          html += '<p>✅ Volume &lt;10 cm³: <strong>Light ions (Helium, Lithium)</strong> are optimally suited per predictive binomial models.<sup>[3]</sup></p>';
+        } else {
+          html += '<p>✅ Volume ≥10 cm³: <strong>Heavier ions (Carbon, Beryllium)</strong> provide necessary biological efficacy for larger malformations.<sup>[3]</sup></p>';
+        }
+        if(dose > 0){
+          html += '<p>High-LET radiation drives homogeneous endothelial apoptosis → luminal thrombosis → nidus obliteration.<sup>[3]</sup></p>';
+          html += '<p>⚠️ <strong>ARE risk ~9.3%; Hemorrhage risk ~12.2%</strong> (especially previously ruptured lesions).<sup>[18]</sup></p>';
+        }
+        if(fu >= 3){
+          html += '<p>At ' + fu + '-year follow-up: expect progressive nidus obliteration. Angiographic confirmation recommended.</p>';
+        }
+        break;
+      }
+      case 'desmoid': {
+        html = '<p><strong>Desmoid Fibromatosis (Dose: ' + dose + ' GyE, Follow-up: ' + fu + ' years):</strong></p>';
+        if(dose >= 50 && dose <= 67.2){
+          html += '<p>✅ <strong>Within therapeutic range</strong> (50–67.2 GyE). Expected: persistent tumor shrinkage, stabilization of fibroblastic proliferation, long-term local control.<sup>[27]</sup></p>';
+        } else if(dose < 50){
+          html += '<p>⚠️ <strong>Below typical therapeutic range.</strong> Source documents 50–67.2 GyE in 16 fractions/4 weeks. Response may be suboptimal.</p>';
+        } else {
+          html += '<p>⚠️ <strong>Above typical range.</strong> May increase secondary malignancy risk. Rare osteosarcoma documented 8 years post-CIRT.<sup>[27]</sup></p>';
+        }
+        html += '<p>📋 <strong>Critical:</strong> Meticulous dose constraints to surrounding bone essential to minimize secondary malignancy risk.</p>';
+        break;
+      }
+      case 'gct': {
+        html = '<p><strong>Giant Cell Tumor — Spine (Dose: ' + dose + ' GyE, Follow-up: ' + fu + ' years):</strong></p>';
+        if(dose >= 60 && dose <= 75){
+          html += '<p>✅ <strong>Effective range.</strong> 70.4 Gy in 32 fractions reported as achieving &gt;5-year progression-free survival for recurrent cervical spine GCT.<sup>[30]</sup></p>';
+        } else if(dose < 60){
+          html += '<p>⚠️ May be insufficient for durable local control. Source reports 70.4 Gy/32 fx as effective dose.</p>';
+        }
+        html += '<p>📋 Precise dosimetric avoidance of spinal cord is paramount.</p>';
+        break;
+      }
+      case 'keloid': {
+        html = '<p><strong>Keloid — Postoperative CIRT (Dose: ' + dose + ' GyE, Follow-up: ' + fu + ' years):</strong></p>';
+        if(dose === 16 || (dose >= 14 && dose <= 18)){
+          html += '<p>✅ <strong>Standard protocol range.</strong> 16 GyE in 8 fractions achieves 95% success/local control with zero Grade 3+ toxicity.<sup>[34]</sup></p>';
+        } else if(dose < 14){
+          html += '<p>⚠️ Below documented protocol (16 GyE/8 fx). Efficacy may be reduced.</p>';
+        } else {
+          html += '<p>⚠️ Above documented protocol. Limited data on higher doses for keloids specifically.</p>';
+        }
+        if(fu >= 2){
+          html += '<p>At ' + fu + '-year follow-up: no secondary malignancies reported in medium-term data.<sup>[34]</sup></p>';
+        }
+        break;
+      }
+      case 'meningioma': {
+        html = '<p><strong>Benign Meningioma (Dose: ' + dose + ' GyE, Follow-up: ' + fu + ' years):</strong></p>';
+        if(fu <= 3){
+          html += '<p>✅ At 3 years: Local control up to <strong>100%</strong>.<sup>[37]</sup></p>';
+        } else if(fu <= 5){
+          html += '<p>✅ At 5 years: Local control <strong>88–91%</strong>, Overall Survival <strong>~100%</strong>.<sup>[37][38]</sup></p>';
+        } else {
+          html += '<p>At ' + fu + ' years: PFS ~60.2% at 8 years. OS 99% at 8 years. Grade III+ toxicity &lt;5%.<sup>[38]</sup></p>';
+        }
+        html += '<p>⚠️ Monitor for: RICE, vertigo, subtle cognitive changes.</p>';
+        break;
+      }
+      case 'schwannoma': {
+        html = '<p><strong>Vestibular Schwannoma (Dose: ' + dose + ' GyE, Follow-up: ' + fu + ' years):</strong></p>';
+        html += '<p>✅ Local control <strong>&gt;95%</strong> at 5–7 years with particle FSRT.<sup>[41]</sup></p>';
+        if(fu >= 3){
+          html += '<p>At ' + fu + '-year follow-up: Hearing preservation ~65–66%. Facial/trigeminal neuropathy &lt;4%.</p>';
+        }
+        html += '<p>📋 Goal: tumor growth arrest + maximal cranial nerve function preservation.</p>';
+        break;
+      }
+      case 'msk_bone': {
+        html = '<p><strong>MSK Radiobiology — Bone Response (Dose: ' + dose + ' GyE):</strong></p>';
+        if(dose <= 2){
+          html += '<p>✅ <strong>Low-dose / hormetic zone.</strong> Stimulates bone formation, accelerates fracture healing. NRF2 ↑, RANKL/OPG ratio ↓.<sup>[9][53]</sup></p>';
+          html += '<p>Carbon ions at low dose: suppress osteoclastogenesis, promote osteogenic differentiation.<sup>[54]</sup></p>';
+        } else if(dose <= 14){
+          html += '<p>⚠️ <strong>Intermediate zone.</strong> Progressive osteoblast impairment. Early osteocyte senescence with SASP (CCL3). Sclerostin upregulation begins suppressing Wnt/β-catenin.<sup>[45][63]</sup></p>';
+          html += '<p>Consider <strong>anti-sclerostin antibody (Scl-Ab)</strong> as protective countermeasure.</p>';
+        } else {
+          html += '<p>🔴 <strong>High-dose / ablative zone (≥15 Gy).</strong> Catastrophic cascade:</p>';
+          html += '<ul><li>Osteocyte SIPS + SASP (CCL3 oversecretion)<sup>[45]</sup></li><li>Sclerostin surge → Wnt blockade<sup>[63]</sup></li>';
+          html += '<li>Osteoclast transient spike then depletion<sup>[61]</sup></li>';
+          html += '<li>BM-MSC senescence → adipogenic shift<sup>[43]</sup></li>';
+          html += '<li>DC hyperactivation → ORNJ risk<sup>[67]</sup></li></ul>';
+          html += '<p>📋 <strong>Countermeasures:</strong> Scl-Ab, VitD3-tolDCs in GelMA hydrogels.</p>';
+        }
+        break;
+      }
+      case 'space': {
+        html = '<p><strong>Space Medicine — GCR Exposure (Dose: ' + dose + ' cGy equivalent, Duration: ' + fu + ' years mission):</strong></p>';
+        html += '<p>Combined effects of GCR + microgravity:<sup>[5][7]</sup></p>';
+        html += '<ul><li><strong>Muscle:</strong> 19–35% mass reduction from unloading; GCR damages satellite cell regenerative capacity</li>';
+        html += '<li><strong>Bone:</strong> Sirt3-mediated OC surge + SASP osteocyte senescence = dual-front attack on trabecular architecture</li>';
+        html += '<li><strong>Intestine:</strong> Lgr5+ stem cell senescence persists ≥1 year<sup>[73]</sup></li></ul>';
+        if(fu >= 2){
+          html += '<p>⚠️ At ' + fu + '-year mission duration: cumulative GCR dose significantly increases fracture risk and muscle atrophy. Countermeasure protocols essential.</p>';
+        }
+        html += '<p>📋 <strong>Future countermeasures:</strong> Scl-Ab, VitD3-tolDCs, antioxidant protocols, exercise countermeasures.</p>';
+        break;
+      }
+    }
+
+    recContent.innerHTML = html;
+  }
+
+  // Event listeners
+  doseSlider.addEventListener('input', update);
+  volSlider.addEventListener('input', update);
+  fuSlider.addEventListener('input', update);
+  pathSelect.addEventListener('change', update);
+
+  // Reset
+  resetBtn.addEventListener('click', function(){
+    doseSlider.value = 50;
+    volSlider.value = 10;
+    fuSlider.value = 3;
+    pathSelect.value = 'vt';
+    update();
+  });
+
+  // Copy
+  copyBtn.addEventListener('click', function(){
+    const {dose, vol, fu, path} = getVals();
+    const pathNames = {vt:'Ventricular Tachycardia',avm:'Arteriovenous Malformation',desmoid:'Desmoid Fibromatosis',gct:'Giant Cell Tumor',keloid:'Keloid',meningioma:'Benign Meningioma',schwannoma:'Vestibular Schwannoma',msk_bone:'MSK Radiobiology',space:'Space Medicine'};
+    const timestamp = new Date().toISOString();
+    const recText = recContent.innerText || recContent.textContent;
+
+    const text = [
+      '=== Heavy Ion Radiotherapy Clinical Assessment ===',
+      'Date/Time: ' + timestamp,
+      '',
+      'Pathology: ' + (pathNames[path] || path),
+      'Radiation Dose: ' + dose + ' GyE',
+      'Target Volume: ' + vol + ' cm³',
+      'Follow-up Duration: ' + fu + ' years',
+      '',
+      '--- Clinical Recommendation ---',
+      recText,
+      '',
+      '--- Evidence Basis ---',
+      'All data extracted from source document: "Comprehensive Analysis of Heavy Ion Radiotherapy in Non-Malignant Pathologies and Musculoskeletal Radiobiology" (73 references).',
+      'Evidence levels inferred from study designs in source document.',
+      '',
+      'Generated by Interactive Educational Summary'
+    ].join('\n');
+
+    navigator.clipboard.writeText(text).then(function(){
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+    });
+  });
+
+  // Initialize
+  update();
+})();
+</script>
+
+</body>
+</html>

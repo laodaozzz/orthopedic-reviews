@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intraoperative Anatomical Landmarks and Bearing-Specific Positioning in THA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --primary-dark: #0e2f44;
+  --accent: #e74c3c;
+  --accent-light: #fadbd8;
+  --success: #27ae60;
+  --success-light: #d5f5e3;
+  --warning: #f39c12;
+  --warning-light: #fef9e7;
+  --info: #2980b9;
+  --info-light: #ebf5fb;
+  --gray-50: #f8f9fa;
+  --gray-100: #ecf0f1;
+  --gray-200: #d5dbdb;
+  --gray-300: #aab7b8;
+  --gray-500: #5d6d7e;
+  --gray-700: #2c3e50;
+  --gray-900: #1c2833;
+  --sidebar-width: 360px;
+  --header-height: 60px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-700);
+  background: var(--gray-50);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  color: var(--gray-900);
+  line-height: 1.3;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  color: #fff;
+  padding: 0 24px;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,0,0,.15);
+}
+
+header h1 {
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+header .subtitle {
+  font-size: .75rem;
+  opacity: .8;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap: 0;
+  min-height: calc(100vh - var(--header-height));
+}
+
+main {
+  padding: 32px 40px 60px;
+  max-width: 900px;
+  overflow-y: auto;
+}
+
+aside {
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  background: #fff;
+  border-left: 1px solid var(--gray-200);
+  padding: 24px 20px;
+  box-shadow: -2px 0 12px rgba(0,0,0,.04);
+}
+
+aside::-webkit-scrollbar { width: 5px; }
+aside::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+
+h1.page-title {
+  font-size: 1.75rem;
+  margin-bottom: 8px;
+  color: var(--primary-dark);
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 12px;
+}
+
+h2 {
+  font-size: 1.4rem;
+  margin-top: 40px;
+  margin-bottom: 16px;
+  color: var(--primary-dark);
+  border-left: 4px solid var(--primary);
+  padding-left: 12px;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin-top: 28px;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+h4 {
+  font-size: 1rem;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  color: var(--gray-700);
+}
+
+p { margin-bottom: 14px; }
+
+.lead {
+  font-size: 1.05rem;
+  color: var(--gray-500);
+  border-left: 3px solid var(--warning);
+  padding-left: 14px;
+  margin-bottom: 24px;
+}
+
+/* Evidence badges */
+.badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .3px;
+  vertical-align: middle;
+  margin-left: 6px;
+  text-transform: uppercase;
+}
+.badge-loe-1 { background: var(--success-light); color: var(--success); border: 1px solid var(--success); }
+.badge-loe-2 { background: #d4efdf; color: #1e8449; border: 1px solid #1e8449; }
+.badge-loe-3 { background: var(--warning-light); color: #b7950b; border: 1px solid #b7950b; }
+.badge-loe-4 { background: #fdebd0; color: #ca6f1e; border: 1px solid #ca6f1e; }
+.badge-loe-5 { background: #fadbd8; color: #c0392b; border: 1px solid #c0392b; }
+.badge-na { background: var(--gray-100); color: var(--gray-500); border: 1px solid var(--gray-300); }
+
+/* Callout boxes */
+.callout {
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-left: 4px solid;
+}
+.callout-info { background: var(--info-light); border-color: var(--info); }
+.callout-warning { background: var(--warning-light); border-color: var(--warning); }
+.callout-danger { background: var(--accent-light); border-color: var(--accent); }
+.callout-success { background: var(--success-light); border-color: var(--success); }
+
+.callout strong { display: block; margin-bottom: 4px; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 20px 0; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+  background: #fff;
+}
+
+table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 600;
+  font-size: .9rem;
+  padding: 10px 14px 6px;
+  color: var(--primary-dark);
+  font-family: 'Source Serif 4', serif;
+}
+
+thead th {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--gray-100);
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) { background: var(--gray-50); }
+tbody tr:hover { background: #eaf2f8; }
+
+/* Lists */
+ul, ol { margin: 0 0 14px 20px; }
+li { margin-bottom: 6px; }
+
+/* Sidebar controls */
+.sidebar-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.sidebar-section:last-child { border-bottom: none; }
+
+.sidebar-section h3 {
+  font-size: .95rem;
+  margin-top: 0;
+  margin-bottom: 14px;
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slider-group { margin-bottom: 18px; }
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.slider-value {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary);
+  background: var(--info-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+  min-width: 48px;
+  text-align: center;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--gray-200);
+  outline: none;
+  transition: background .2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  transition: transform .15s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: .65rem;
+  color: var(--gray-300);
+  margin-top: 2px;
+  padding: 0 2px;
+}
+
+/* Bearing toggle */
+.toggle-group {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border: 2px solid var(--gray-200);
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .75rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all .2s;
+  color: var(--gray-500);
+}
+
+.toggle-btn.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(26,82,118,.25);
+}
+
+.toggle-btn:hover:not(.active) {
+  border-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Recommendation panel */
+.rec-panel {
+  background: #fff;
+  border: 2px solid var(--gray-200);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 12px;
+  transition: border-color .3s;
+}
+
+.rec-panel.optimal { border-color: var(--success); background: linear-gradient(135deg, #fff 0%, var(--success-light) 100%); }
+.rec-panel.caution { border-color: var(--warning); background: linear-gradient(135deg, #fff 0%, var(--warning-light) 100%); }
+.rec-panel.danger { border-color: var(--accent); background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%); }
+
+.rec-status {
+  font-weight: 700;
+  font-size: .95rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rec-detail {
+  font-size: .8rem;
+  line-height: 1.5;
+  color: var(--gray-700);
+}
+
+.rec-detail p { margin-bottom: 6px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-outline { background: transparent; border: 2px solid var(--gray-200); color: var(--gray-700); }
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+.btn-group { display: flex; gap: 8px; margin-top: 16px; }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--gray-900);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: .85rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all .3s;
+  z-index: 9999;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* References */
+.references {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 2px solid var(--gray-200);
+}
+.references h2 { border-left: none; font-size: 1.2rem; }
+.references ol { font-size: .82rem; line-height: 1.8; }
+.references li { color: var(--gray-500); }
+.references a { color: var(--primary-light); text-decoration: none; }
+.references a:hover { text-decoration: underline; }
+
+/* Limitations note */
+.limitation-note {
+  background: #fef9e7;
+  border: 1px dashed var(--warning);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: .82rem;
+  color: #7d6608;
+  margin: 14px 0;
+}
+
+/* Formula display */
+.formula-block {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-family: 'Courier New', monospace;
+  font-size: .95rem;
+  text-align: center;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+/* Algorithm steps */
+.algo-step {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: flex-start;
+}
+
+.algo-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.algo-content { flex: 1; }
+.algo-content strong { color: var(--gray-900); }
+
+/* Study cards */
+.study-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  transition: box-shadow .2s;
+}
+.study-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+
+.study-card h4 {
+  font-size: .9rem;
+  margin: 0 0 6px;
+  color: var(--primary-dark);
+}
+
+.study-card .study-meta {
+  font-size: .75rem;
+  color: var(--gray-300);
+  margin-bottom: 6px;
+}
+
+.study-card p { font-size: .85rem; margin: 0; }
+
+/* Section divider */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gray-200), transparent);
+  margin: 32px 0;
+}
+
+/* CA calculator */
+.ca-display {
+  background: var(--gray-50);
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.ca-big-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.ca-subtitle {
+  font-size: .7rem;
+  color: var(--gray-500);
+  margin-top: 2px;
+}
+
+.ca-row {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.ca-mini {
+  flex: 1;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+}
+
+.ca-mini .num {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gray-700);
+}
+
+.ca-mini .lbl {
+  font-size: .65rem;
+  color: var(--gray-300);
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    position: relative;
+    top: 0;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid var(--gray-200);
+    box-shadow: 0 -2px 12px rgba(0,0,0,.04);
+  }
+  main { padding: 24px 20px 40px; max-width: 100%; }
+}
+
+@media (max-width: 600px) {
+  header h1 { font-size: .95rem; }
+  main { padding: 16px 14px 32px; }
+  h1.page-title { font-size: 1.3rem; }
+  h2 { font-size: 1.15rem; }
+  .toggle-group { flex-direction: column; }
+  .btn-group { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Intraoperative Landmarks &amp; Bearing-Specific Positioning in THA</h1>
+    <div class="subtitle">Exhaustive Analysis — TAL, Combined Anteversion &amp; Tribological Optimization</div>
+  </div>
+</header>
+
+<div class="container">
+<main>
+
+<h1 class="page-title">Comprehensive Educational Summary</h1>
+<p class="lead">This document synthesizes current evidence on acetabular component positioning in Total Hip Arthroplasty, covering the Transverse Acetabular Ligament (TAL), the validity of the Lewinnek safe zone, Combined Anteversion (CA) techniques, and bearing-specific target angles for Ceramic-on-Ceramic (CoC) and Polyethylene (CoP) bearings.</p>
+
+<!-- ============ SECTION 1 ============ -->
+<h2>1. Introduction: The Challenge of Acetabular Positioning</h2>
+
+<p>The orientation of the acetabular cup is one of the most critical determinants of success in Total Hip Arthroplasty (THA). Malpositioning is a potent catalyst for mechanical failure, serving as the primary etiology for dislocation — the leading cause of early revision surgery — and significantly contributing to accelerated bearing wear, component impingement, range-of-motion limitation, and aseptic loosening. <span class="badge badge-loe-1">Level I</span></p>
+
+<p>Since Lewinnek et al. defined the widely adopted "safe zone" (inclination 40° ± 10°, anteversion 15° ± 10°) in 1978, this framework has dictated surgical teaching and practice for nearly half a century. However, the persistence of instability and the emergence of advanced bearing surfaces — specifically Ceramic-on-Ceramic (CoC) and Highly Cross-Linked Polyethylene (HXLPE) — have precipitated a critical re-evaluation of these boundaries. The modern arthroplasty landscape is undergoing a paradigm shift from generic, population-based "safe zones" toward <strong>patient-specific functional targets</strong> that account for:</p>
+
+<ul>
+  <li><strong>Spinopelvic mobility</strong> — dynamic pelvic tilt during functional activities</li>
+  <li><strong>Combined Anteversion</strong> — the cumulative rotational profile of both components</li>
+  <li><strong>Tribological requirements</strong> — bearing-specific geometric tolerances</li>
+  <li><strong>Internal anatomical landmarks</strong> — particularly the Transverse Acetabular Ligament (TAL)</li>
+</ul>
+
+<div class="callout callout-info">
+  <strong>Clinical Imperative</strong>
+  In hard-on-hard bearings (CoC), deviations of mere degrees can lead to "edge loading" — where the femoral head articulates with the liner rim — causing stripe wear, audible squeaking, and even catastrophic component fracture. In hard-on-soft bearings (CoP), cup malposition leads to eccentric loading, rim impingement, particulate debris generation, osteolysis, and aseptic loosening. <span class="badge badge-loe-1">Level I</span>
+</div>
+
+<!-- ============ SECTION 2 ============ -->
+<h2>2. The Transverse Acetabular Ligament (TAL)</h2>
+
+<h3>2.1 Anatomy and Surgical Relevance</h3>
+<p>The Transverse Acetabular Ligament is a robust, fibrous band bridging the acetabular notch, structurally continuous with the labrum but distinct in composition. Unlike the labrum — frequently degenerated, torn, or ossified in the arthritic hip — the TAL is often preserved even in advanced osteoarthritis, positioning it as a potentially invaluable landmark for determining "native" acetabular version. <span class="badge badge-loe-3">Level III</span></p>
+
+<h3>2.2 Archbold's Classification for TAL Visibility</h3>
+<p>To standardize intraoperative assessment, Archbold et al. proposed a classification grading the TAL based on visibility and required dissection: <span class="badge badge-loe-3">Level III</span></p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 1 — Archbold's TAL Classification System</caption>
+<thead>
+  <tr><th>Grade</th><th>Description</th><th>Surgical Implication</th></tr>
+</thead>
+<tbody>
+  <tr><td><strong>Grade 1</strong></td><td>TAL clearly visible upon initial exposure</td><td>Direct use as landmark; no additional dissection</td></tr>
+  <tr><td><strong>Grade 2</strong></td><td>Covered by soft tissue (pulvinar/capsule) but palpable</td><td>Routine soft tissue clearance reveals ligament</td></tr>
+  <tr><td><strong>Grade 3</strong></td><td>Obscured by osteophytes; requires osteotomy or reaming</td><td>Rate-limiting step; specific technique required</td></tr>
+  <tr><td><strong>Grade 4</strong></td><td>Absent or destructed (rare)</td><td>Alternative landmarks required</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.3 Surgical Techniques for TAL Exposure</h3>
+
+<h4>Chisel vs. Reamer Technique</h4>
+<p>A comparative study evaluated two methods for exposing the TAL in Grade 3 hips. The <strong>reamer technique</strong> achieved a TAL identification rate of <strong>94.2%</strong> (49/52 hips) compared to only <strong>54.1%</strong> (26/48 hips) with the chisel technique. The technique involves using a small-diameter reamer (e.g., 38 mm) directed inferomedially to "peel" away the osteophytic curtain while protecting the soft tissues of the notch. <span class="badge badge-loe-2">Level II</span></p>
+
+<h4>TAL Suction Retractor</h4>
+<p>A novel, low-cost technique uses a thoracic suction catheter taped to a blunt Hohmann retractor, placed inferior to the TAL on the posterior ischial surface. This dual-function device retracts soft tissues and provides continuous suction at the dependent point, maintaining ligament visibility during reaming and trial reduction. <span class="badge badge-loe-4">Level IV</span></p>
+
+<h3>2.4 TAL Reliability: The Osteonecrosis vs. Osteoarthritis Divide</h3>
+
+<div class="callout callout-danger">
+  <strong>Critical Dichotomy</strong>
+  The TAL's reliability as a positioning guide varies dramatically between Osteonecrosis (ON) and Osteoarthritis (OA), particularly OA secondary to developmental dysplasia of the hip (DDH). In dysplastic hips, blindly following the TAL can lead to catastrophic malpositioning. <span class="badge badge-loe-2">Level II</span>
+</div>
+
+<div class="table-wrap">
+<table>
+<caption>Table 2 — TAL Anteversion by Pathology (CT-based analysis, 160 hips)</caption>
+<thead>
+  <tr><th>Parameter</th><th>Osteonecrosis (ON)</th><th>Osteoarthritis (OA)</th></tr>
+</thead>
+<tbody>
+  <tr><td><strong>Mean TAL Anteversion</strong></td><td>6.2° (95% CI: 3.8–7.5)</td><td>16° (95% CI: 14–18)</td></tr>
+  <tr><td><strong>Range</strong></td><td>Narrow (low variance)</td><td>−12° to 35°</td></tr>
+  <tr><td><strong>Gender Difference</strong></td><td>Not significant</td><td>Females: 20°; Males: 7°</td></tr>
+  <tr><td><strong>Outlier Rate (>10° from target)</strong></td><td>Low</td><td>39% of cases</td></tr>
+  <tr><td><strong>Reliability as Landmark</strong></td><td>Highly reliable</td><td>Unreliable in dysplasia</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-warning">
+  <strong>The "Dysplasia Trap"</strong>
+  If a surgeon blindly aligns the acetabular cup with the TAL in a female patient with dysplastic OA, they are likely to place the cup in ~20° of anteversion. Combined with an anteverted femoral stem (common in dysplasia), cumulative anteversion could exceed 50–60°, leading to anterior instability and posterior impingement. The TAL should <em>not</em> be used as the sole guide in dysplastic OA — it must be cross-referenced with Combined Anteversion techniques. <span class="badge badge-loe-2">Level II</span>
+</div>
+
+<h3>2.5 TAL and Inclination</h3>
+<p>While the TAL controls version relatively well in normal hips, it offers <strong>little guidance for inclination</strong>. The TAL lies in a transverse plane and cannot determine the correct abduction angle relative to the longitudinal axis. This results in high rates of inclination outliers, particularly for less experienced surgeons. However, the TAL remains the <strong>gold standard</strong> for defining the <strong>inferior limit</strong> of acetabular preparation, ensuring the native center of rotation is restored. <span class="badge badge-loe-2">Level II</span></p>
+
+<div class="section-divider"></div>
+
+<!-- ============ SECTION 3 ============ -->
+<h2>3. The Lewinnek Safe Zone: Reappraisal</h2>
+
+<h3>3.1 Original Definition</h3>
+<p>The Lewinnek safe zone (1978) defined targets of <strong>inclination 40° ± 10°</strong> and <strong>anteversion 15° ± 10°</strong> based on a retrospective review of only 300 hips with 9 dislocations — a sample size considered inadequate by modern standards. <span class="badge badge-loe-3">Level III</span></p>
+
+<h3>3.2 The "Safe Zone" Fallacy</h3>
+
+<div class="callout callout-danger">
+  <strong>Landmark Finding: Abdel et al. (Level III)</strong>
+  In a cohort of <strong>9,784 primary THAs</strong> with 206 dislocations, <strong>58% of dislocated cups were "perfectly" positioned within Lewinnek's safe zone</strong>. Specifically, 84% of dislocated cups met safe-zone inclination criteria, and 69% met anteversion criteria. Being in the "safe zone" is not a proxy for stability. <span class="badge badge-loe-3">Level III</span>
+</div>
+
+<h3>3.3 Methodological Confusion</h3>
+<p>A systematic review of 147 articles citing Lewinnek revealed that only <strong>11%</strong> actually measured cup position according to the original supine radiographic definition. There are three geometrically distinct definitions of anteversion:</p>
+
+<ul>
+  <li><strong>Radiographic Anteversion (RA):</strong> Measured on AP radiographs (Lewinnek's original)</li>
+  <li><strong>Operative Anteversion (OA):</strong> Angle of the insertion handle relative to the sagittal plane</li>
+  <li><strong>Anatomic Anteversion (AA):</strong> Measured on CT relative to the true acetabular rim</li>
+</ul>
+
+<div class="formula-block">
+  sin(RA) = sin(OA) × cos(OI)
+</div>
+
+<p>For a cup with 45° inclination, an <em>operative</em> anteversion of 20° corresponds to a <em>radiographic</em> anteversion of approximately 14°. If a surgeon aims for 15° operative anteversion, the resulting radiographic anteversion may be as low as 11° — risking posterior instability. <span class="badge badge-loe-1">Level I</span></p>
+
+<h3>3.4 The Shift to Modern Metrics</h3>
+<p>The failure of the Lewinnek safe zone has catalyzed adoption of:</p>
+<ol>
+  <li><strong>Combined Anteversion (CA)</strong> — integrating femoral and acetabular version</li>
+  <li><strong>Functional Safe Zones</strong> — targets adjusted for dynamic pelvic tilt</li>
+  <li><strong>Bearing-Specific Targets</strong> — tighter tolerances for CoC versus CoP</li>
+</ol>
+
+<div class="section-divider"></div>
+
+<!-- ============ SECTION 4 ============ -->
+<h2>4. Combined Anteversion (CA): The Functional Metric</h2>
+
+<p>Combined Anteversion posits that stability is determined not by the cup alone but by the <em>sum</em> of acetabular cup anteversion and femoral stem anteversion. A deficiency on one side can be compensated by excess on the other, provided the total falls within a physiological range. <span class="badge badge-loe-2">Level II</span></p>
+
+<h3>4.1 Mathematical Definitions</h3>
+
+<h4>Ranawat/Dorr Definition</h4>
+<div class="formula-block">
+  CA<sub>Ranawat</sub> = Cup AV + Stem AV<br>
+  Target: 25°–50° (ideal: 35°–45°)
+</div>
+<p>Gender specifics: Ranawat suggested ~45° for women and 20°–30° for men to account for differences in joint laxity. The <strong>"Ranawat Sign"</strong> is an intraoperative maneuver: the leg is placed in 0° extension and internally rotated 45°; if the femoral head base is coplanar with the cup face, CA is estimated at 45°. <span class="badge badge-loe-3">Level III</span></p>
+
+<h4>Widmer Definition</h4>
+<div class="formula-block">
+  CA<sub>Widmer</sub> = Cup AV + (0.7 × Stem AV)<br>
+  Target: 37.3° ± 10°
+</div>
+<p>Widmer's finite element modeling demonstrated that cup anteversion has a more potent effect on flexion clearance than stem anteversion (coefficient 1.0 vs 0.7). This means relying solely on the simple sum (Ranawat) might lead to impingement if cup version is low and stem version is high, even if the sum is "normal." <span class="badge badge-loe-2">Level II</span></p>
+
+<h3>4.2 The "Stem-First" Technique</h3>
+<p>With cementless press-fit stems, the stem version is largely dictated by the native femoral canal anatomy. This constraint has given rise to the <strong>"Stem-First" technique</strong>:</p>
+
+<div class="algo-step">
+  <div class="algo-num">1</div>
+  <div class="algo-content"><strong>Prepare Femur First</strong> — Broach and seat trial stem; measure resultant stem anteversion relative to the transepicondylar axis</div>
+</div>
+<div class="algo-step">
+  <div class="algo-num">2</div>
+  <div class="algo-content"><strong>Calculate Required Cup Version</strong> — Using the formula: Cup AV = Target CA − (0.7 × Stem AV)</div>
+</div>
+<div class="algo-step">
+  <div class="algo-num">3</div>
+  <div class="algo-content"><strong>Position Cup</strong> — Impact the cup to the calculated patient-specific angle rather than a generic 15°</div>
+</div>
+
+<div class="callout callout-success">
+  <strong>Clinical Evidence</strong>
+  Retrospective reviews comparing the stem-first CA technique against standard placement reported a dislocation rate of only <strong>0.4%</strong> in the CA group versus <strong>2.5%</strong> in the standard group. Notably, the CA technique resulted in wider variability of individual component angles (more "outliers" by Lewinnek), but the combined system was optimized. <span class="badge badge-loe-3">Level III</span>
+</div>
+
+<h3>4.3 Functional CA and Spinopelvic Mobility</h3>
+<p>Static CA measurements fail to account for dynamic pelvic tilt during daily activities:</p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 3 — Pelvic Dynamics and Functional Targets</caption>
+<thead>
+  <tr><th>Parameter</th><th>Standing</th><th>Sitting</th></tr>
+</thead>
+<tbody>
+  <tr><td><strong>Normal Pelvic Tilt</strong></td><td>Anterior tilt (extension) — <em>decreases</em> functional AV</td><td>Posterior tilt (flexion) — <em>increases</em> functional AV</td></tr>
+  <tr><td><strong>Stiff Spine Pathology</strong></td><td colspan="2">&lt;10° change in pelvic tilt from standing to sitting (spinal fusion, AS, severe DDD)</td></tr>
+  <tr><td><strong>Standing CA Target</strong></td><td colspan="2">30°–50°</td></tr>
+  <tr><td><strong>Sitting CA Target</strong></td><td colspan="2">45°–65°</td></tr>
+  <tr><td><strong>Ideal Functional CA Average</strong></td><td colspan="2">35°–55°</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Functional CA correlates strongly (R² = 0.39) with impingement-free ROM (vROM score), while static supine measurements show virtually no correlation (R² = 0.02). In stiff-spine patients, surgeons must manually increase cup anteversion and inclination to simulate the posterior tilt the spine cannot provide. <span class="badge badge-loe-2">Level II</span></p>
+
+<div class="section-divider"></div>
+
+<!-- ============ SECTION 5 ============ -->
+<h2>5. Bearing-Specific Target Angles</h2>
+
+<p>The choice of bearing surface dictates the geometric margin of error. Polyethylene is relatively forgiving; ceramics are brittle and intolerant of edge loading. <span class="badge badge-loe-1">Level I</span></p>
+
+<h3>5.1 Ceramic-on-Ceramic (CoC)</h3>
+
+<p>CoC bearings offer near-zero wear rates and biological inertness but introduce unique failure modes:</p>
+
+<ul>
+  <li><strong>Edge Loading:</strong> Contact patch migrates to the liner rim, generating stripe wear. Caused by steep inclination (>45–50°), microseparation, or version extremes. <span class="badge badge-loe-2">Level II</span></li>
+  <li><strong>Squeaking:</strong> Multifactorial acoustic phenomenon affecting 0.7–20% of CoC hips. Strongly correlated with malposition — CoC cups placed outside 35°–45° inclination and 15°–35° anteversion were <strong>29 times more likely to squeak</strong>. <span class="badge badge-loe-2">Level II</span></li>
+  <li><strong>Component Fracture:</strong> Catastrophic failure from cumulative edge-loading stress exceeding material strength.</li>
+</ul>
+
+<div class="callout callout-danger">
+  <strong>CoC Target Angles</strong>
+  <strong>Inclination:</strong> 40°–45° (strictly &lt;45° preferred). &gt;45° is a critical risk factor.<br>
+  <strong>Anteversion:</strong> 20°–25°. Avoid &lt;15° (posterior edge loading in flexion) and &gt;35° (anterior edge loading in extension).<br>
+  <em>Precision is paramount. The forgiveness of CoC is effectively zero. Navigation/robotics highly recommended.</em>
+</div>
+
+<h3>5.2 Ceramic-on-Polyethylene (CoP) / Metal-on-Polyethylene (MoP)</h3>
+
+<p>HXLPE, the most common bearing globally, deforms slightly under load, providing greater tolerance to edge loading.</p>
+
+<ul>
+  <li><strong>Wear:</strong> Linearly correlated with contact stress. Wear rates increase significantly when inclination exceeds 55° (from 0.135 mm/yr at &lt;50° to 0.403 mm/yr at &gt;60°). <span class="badge badge-loe-2">Level II</span></li>
+  <li><strong>Anteversion Sensitivity:</strong> Anterior instability linked to operative anteversion &gt;31°; posterior instability linked to &lt;19°. The safe zone for anteversion is <em>narrower</em> than for inclination. <span class="badge badge-loe-3">Level III</span></li>
+</ul>
+
+<div class="callout callout-info">
+  <strong>CoP Target Angles</strong>
+  <strong>Inclination:</strong> 40°–50° (avoid &gt;55°).<br>
+  <strong>Anteversion:</strong> 15°–25° (sensitive for stability — avoid extremes).
+</div>
+
+<h3>5.3 Comparative Table: Bearing-Specific Targets</h3>
+
+<div class="table-wrap">
+<table>
+<caption>Table 4 — Target Angles by Bearing Couple</caption>
+<thead>
+  <tr><th>Parameter</th><th>Ceramic-on-Ceramic (CoC)</th><th>Ceramic/Metal-on-Polyethylene</th></tr>
+</thead>
+<tbody>
+  <tr><td><strong>Primary Risk</strong></td><td>Squeaking, Fracture, Stripe Wear</td><td>Dislocation, Poly Wear</td></tr>
+  <tr><td><strong>Tolerance</strong></td><td>Low (Brittle, Hard-on-Hard)</td><td>Moderate (Deformable)</td></tr>
+  <tr><td><strong>Target Inclination</strong></td><td><strong>40°–45°</strong> (strict &lt;45°)</td><td><strong>40°–50°</strong> (avoid &gt;55°)</td></tr>
+  <tr><td><strong>Target Anteversion</strong></td><td><strong>20°–25°</strong></td><td><strong>15°–25°</strong></td></tr>
+  <tr><td><strong>Combined Anteversion</strong></td><td>37° (Widmer)</td><td>25°–50° (Ranawat)</td></tr>
+  <tr><td><strong>Edge Loading Consequence</strong></td><td>Squeaking, catastrophic failure</td><td>Accelerated wear, rim deformation</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============ SECTION 6 ============ -->
+<h2>6. Operative vs. Radiographic Definitions: The Conversion Problem</h2>
+
+<p>A pervasive source of error is the confusion between Murray's three reference frames for acetabular orientation. Surgeons view the cup intraoperatively using the "Operative" definition, but outcomes are reported using the "Radiographic" definition. <span class="badge badge-loe-1">Level I</span></p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 5 — Murray's Definitions of Acetabular Orientation</caption>
+<thead>
+  <tr><th>Definition</th><th>Inclination</th><th>Anteversion</th></tr>
+</thead>
+<tbody>
+  <tr><td><strong>Radiographic (RI / RA)</strong></td><td colspan="2">Measured on AP radiograph; X-ray beam ⊥ coronal plane. Used by Lewinnek.</td></tr>
+  <tr><td><strong>Operative (OI / OA)</strong></td><td colspan="2">Angle of cup introducer relative to patient's body axis. What the surgeon sets.</td></tr>
+  <tr><td><strong>Anatomic (AI / AA)</strong></td><td colspan="2">True 3D angles relative to pelvic cardinal axes (APP). Measured on CT.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="formula-block">
+  tan(RI) = tan(OI) / cos(OA)<br>
+  sin(RA) = sin(OA) × cos(OI)
+</div>
+
+<p><strong>Key rule:</strong> Radiographic anteversion is <em>always lower</em> than operative anteversion. To achieve 15° RA with 40° RI, the surgeon must aim for approximately <strong>20° OA</strong> and <strong>42° OI</strong>. If the mechanical guide is set to 15° OA (matching Lewinnek), the resulting RA will be approximately 11° — potentially causing posterior dislocation. <span class="badge badge-loe-1">Level I</span></p>
+
+<div class="section-divider"></div>
+
+<!-- ============ SECTION 7 ============ -->
+<h2>7. Synthesis: Integrated Surgical Algorithms</h2>
+
+<h3>7.1 The Dysplastic Hip Algorithm</h3>
+
+<div class="algo-step">
+  <div class="algo-num">1</div>
+  <div class="algo-content"><strong>Identify TAL</strong> — Use to define the native inferior limit and depth, restoring the center of rotation</div>
+</div>
+<div class="algo-step">
+  <div class="algo-num">2</div>
+  <div class="algo-content"><strong>Assess Version</strong> — If TAL appears excessively anteverted (&gt;20–25°), do NOT align cup face to it. Pivot to Combined Anteversion technique.</div>
+</div>
+<div class="algo-step">
+  <div class="algo-num">3</div>
+  <div class="algo-content"><strong>Stem-First</strong> — Broach femur, measure stem version</div>
+</div>
+<div class="algo-step">
+  <div class="algo-num">4</div>
+  <div class="algo-content"><strong>Calculate Cup Target</strong> — Use Widmer formula: Cup AV = 37 − (0.7 × Stem AV). Place cup to calculated angle, ignoring TAL orientation if necessary.</div>
+</div>
+
+<h3>7.2 The Ceramic-on-Ceramic Algorithm</h3>
+
+<div class="algo-step">
+  <div class="algo-num">1</div>
+  <div class="algo-content"><strong>Strict Inclination Control</strong> — Aim for 40°. Accept 35°, but never exceed 45°.</div>
+</div>
+<div class="algo-step">
+  <div class="algo-num">2</div>
+  <div class="algo-content"><strong>Avoid Microseparation</strong> — Ensure precise restoration of offset and leg length to maintain myofascial tension</div>
+</div>
+<div class="algo-step">
+  <div class="algo-num">3</div>
+  <div class="algo-content"><strong>Navigation</strong> — Strongly consider CAS or robotics; manual guide variance (±10°) exceeds CoC safety margin</div>
+</div>
+
+<h3>7.3 General Hierarchical Approach</h3>
+<ol>
+  <li><strong>Analyze the Spine</strong> — Is it stiff? → Target higher anteversion/inclination</li>
+  <li><strong>Select the Bearing</strong> — Is it CoC? → Target strictly &lt;45° inclination</li>
+  <li><strong>Prepare the Stem</strong> — What is femoral version? → Calculate cup version using CA</li>
+  <li><strong>Reference the Anatomy</strong> — Use TAL for depth and version confirmation (unless dysplastic)</li>
+</ol>
+
+<div class="section-divider"></div>
+
+<!-- ============ SECTION 8 ============ -->
+<h2>8. Landmark Studies Summary</h2>
+
+<div class="study-card">
+  <h4>Study 1 — TAL Reliability in 160 Hips (CT Simulation)</h4>
+  <div class="study-meta">Archbold et al. · CT-based computer simulation · Level II</div>
+  <p>Mean TAL anteversion: 6.2° in ON vs. 16° in OA (range −12° to 35°). Gender dimorphism in OA (females 20°, males 7°). 39% of OA hips deviated &gt;10° from target when TAL-guided.</p>
+</div>
+
+<div class="study-card">
+  <h4>Study 2 — Dislocation Analysis in 9,784 THAs</h4>
+  <div class="study-meta">Abdel et al. · Retrospective cohort · Level III</div>
+  <p>58% of 206 dislocated cups were within Lewinnek's safe zone. 84% met inclination criteria; 69% met anteversion criteria. Safe zone has poor sensitivity for identifying at-risk hips.</p>
+</div>
+
+<div class="study-card">
+  <h4>Study 3 — CoC Squeaking Risk (2,406 Patients)</h4>
+  <div class="study-meta">Multi-center analysis · Level II</div>
+  <p>CoC bearings outside 35°–45° inclination and 15°–35° anteversion were 29× more likely to squeak. Edge loading from fluid film disruption identified as primary mechanism.</p>
+</div>
+
+<div class="study-card">
+  <h4>Study 4 — Polyethylene Wear and Inclination</h4>
+  <div class="study-meta">Wear analysis with digitized radiographs · Level II</div>
+  <p>Linear wear rates: 0.135 mm/yr at inclination &lt;50°; 0.403 mm/yr at &gt;60°. High inclination reduces contact area, increasing contact stress exponentially.</p>
+</div>
+
+<div class="study-card">
+  <h4>Study 5 — Combined Anteversion Technique Dislocation Rates</h4>
+  <div class="study-meta">Retrospective comparative study · Level III</div>
+  <p>CA technique: 0.4% dislocation vs. 2.5% standard technique. Despite wider individual component variability, the combined system was optimized, demonstrating superiority of CA over individual component targeting.</p>
+</div>
+
+<div class="study-card">
+  <h4>Study 6 — Functional CA and Impingement-Free ROM</h4>
+  <div class="study-meta">Simulation study with vROM scoring · Level II</div>
+  <p>Functional CA correlated strongly with impingement-free ROM (R² = 0.39), while static Lewinnek measurements showed negligible correlation (R² = 0.02). Standing CA target: 30°–50°; Sitting CA target: 45°–65°.</p>
+</div>
+
+<div class="limitation-note">
+  <strong>Note on Evidence Coverage:</strong> This summary covers 6 key studies identified in the source document. The source references 35 studies total; the landmark studies above represent those with the highest level of evidence and most direct clinical impact on positioning strategy. Other referenced studies address specific technical aspects (reamer technique, suction retractor, navigation accuracy, etc.) as noted in-text.
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ============ REFERENCES ============ -->
+<div class="references">
+<h2>References (from Source Document)</h2>
+<ol>
+  <li>Archbold et al. "Is the transverse acetabular ligament a reliable cup orientation guide? Computer simulation in 160 hips." <em>Acta Orthopaedica</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3488173/" target="_blank">PMC3488173</a></li>
+  <li>"Cup placement in primary total hip arthroplasty." <em>EFORT Open Reviews</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9257731/" target="_blank">PMC9257731</a></li>
+  <li>"A novel method for evaluating combined component anteversion." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10449991/" target="_blank">PMC10449991</a></li>
+  <li>Abdel et al. "What Safe Zone? The Vast Majority of Dislocated THAs Are Within the Lewinnek Safe Zone." <em>J Arthroplasty</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4709312/" target="_blank">PMC4709312</a></li>
+  <li>"Current Concepts in Acetabular Positioning in Total Hip Arthroplasty." <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5525519/" target="_blank">PMC5525519</a></li>
+  <li>"Application of transverse acetabular ligament in total hip arthroplasty: a systematic review."</li>
+  <li>"The transverse acetabular ligament: an aid to orientation of the acetabular component during primary total hip replacement."</li>
+  <li>"Exposing the transverse acetabular ligament in the presence of large floor osteophytes." <a href="https://www.ovid.com/journals/hipint/" target="_blank">Ovid</a></li>
+  <li>"TAL suction retractor: a simple technique for visualising the TAL during THR." <a href="https://map.amegroups.org/article/view/6273/html" target="_blank">AME Groups</a></li>
+  <li>Archbold et al. "TAL as cup orientation guide" (ResearchGate). <a href="https://www.researchgate.net/publication/230847609" target="_blank">ResearchGate</a></li>
+  <li>"TAL reliability — Acta Orthopaedica." <a href="https://actaorthop.org/actao/article/view/10853" target="_blank">Acta Orthop</a></li>
+  <li>"Acetabular Component Positioning Using the TAL." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12063036/" target="_blank">PMC12063036</a></li>
+  <li>"Cup Position Alone Does Not Predict Risk of Dislocation." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4270833/" target="_blank">PMC4270833</a></li>
+  <li>Abdel et al. (Orthobullets summary). <a href="https://www.orthobullets.com/evidence/26150264" target="_blank">Orthobullets</a></li>
+  <li>"Cup placement without navigation or robotics." <a href="https://eor.bioscientifica.com/downloadpdf/view/journals/eor/7/6/EOR-22-0025.pdf" target="_blank">EFORT</a></li>
+  <li>"Lewinnek Safe Zone References are Frequently Misquoted." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7701843/" target="_blank">PMC7701843</a></li>
+  <li>"Imaging and Navigation Measurement of Acetabular Component Position." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2600979/" target="_blank">PMC2600979</a></li>
+  <li>"Safe zone for femoral and acetabular sided version." <a href="https://www.droracle.ai/articles/25389" target="_blank">Dr.Oracle</a></li>
+  <li>"Impact of Prosthetic Angle Variations in CA Technique on Surgical Failure Rates in DDH." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12146111/" target="_blank">PMC12146111</a></li>
+  <li>"Impact of functional combined anteversion on hip range of motion." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8558443/" target="_blank">PMC8558443</a></li>
+  <li>"DAA THA Reliably Achieves Safe Zones for CA." <a href="https://www.researchgate.net/publication/343817390" target="_blank">ResearchGate</a></li>
+  <li>"Combined Anteversion Technique with Accelerometer-Based Navigation." <a href="https://upload.orthobullets.com/journalclub/pubmed_central/37745971.pdf" target="_blank">Orthobullets</a></li>
+  <li>"Novel method for evaluating combined component anteversion." <a href="https://www.researchgate.net/publication/369169685" target="_blank">ResearchGate</a></li>
+  <li>"Roles of combined femoral and acetabular anteversion." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11145975/" target="_blank">PMC11145975</a></li>
+  <li>"CA of THA implanted with image-free cup navigation." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3626304/" target="_blank">PMC3626304</a></li>
+  <li>"CA Technique for Acetabular Component Anteversion." <a href="https://www.researchgate.net/publication/5322107" target="_blank">ResearchGate</a></li>
+  <li>"CA technique reduced dislocation in cementless THA." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3890140/" target="_blank">PMC3890140</a></li>
+  <li>"Hip Squeaking after CoC THA." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4976577/" target="_blank">PMC4976577</a></li>
+  <li>"Ceramic on Ceramic." <a href="https://musculoskeletalkey.com/ceramic-on-ceramic/" target="_blank">Musculoskeletal Key</a></li>
+  <li>"Squeaking Hips." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2899857/" target="_blank">PMC2899857</a></li>
+  <li>"Correlation of Cup Inclination with Liner Wear for MoP." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6584387/" target="_blank">PMC6584387</a></li>
+  <li>"Safe Zone Range for Cup Anteversion Is Narrower Than for Inclination." <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6259696/" target="_blank">PMC6259696</a></li>
+  <li>"Relationship of Cup Inclination and Anteversion in Coronal/Sagittal Plane." <em>JBJS</em>. <a href="https://hub.jbjs.org/" target="_blank">JBJS</a></li>
+  <li>"Ceramic–Ceramic Hip Implants: Investigation of Squeaking." <a href="https://www.mdpi.com/2075-4442/12/12/438" target="_blank">MDPI</a></li>
+</ol>
+</div>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside aria-label="Interactive Clinical Decision Support Panel">
+  <div class="sidebar-section">
+    <h3>⚙️ Bearing Selection</h3>
+    <div class="toggle-group">
+      <button class="toggle-btn active" data-bearing="coc" onclick="setBearing('coc')">Ceramic-on-Ceramic</button>
+      <button class="toggle-btn" data-bearing="cop" onclick="setBearing('cop')">Poly (CoP/MoP)</button>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>📐 Component Angles</h3>
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Cup Inclination</span>
+        <span class="slider-value" id="inc-value">40°</span>
+      </div>
+      <input type="range" id="inc-slider" min="20" max="70" value="40" step="1" oninput="updateAll()" aria-label="Cup Inclination Angle">
+      <div class="slider-ticks"><span>20°</span><span>40°</span><span>60°</span><span>70°</span></div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Cup Anteversion (Radiographic)</span>
+        <span class="slider-value" id="av-value">15°</span>
+      </div>
+      <input type="range" id="av-slider" min="-10" max="45" value="15" step="1" oninput="updateAll()" aria-label="Cup Anteversion">
+      <div class="slider-ticks"><span>−10°</span><span>10°</span><span>25°</span><span>45°</span></div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Femoral Stem Anteversion</span>
+        <span class="slider-value" id="stem-value">15°</span>
+      </div>
+      <input type="range" id="stem-slider" min="-5" max="40" value="15" step="1" oninput="updateAll()" aria-label="Femoral Stem Anteversion">
+      <div class="slider-ticks"><span>−5°</span><span>15°</span><span>30°</span><span>40°</span></div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>🦴 Pathology</h3>
+    <div class="toggle-group">
+      <button class="toggle-btn active" data-path="on" onclick="setPath('on')">Osteonecrosis</button>
+      <button class="toggle-btn" data-path="oa" onclick="setPath('oa')">OA / Dysplasia</button>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>📊 Combined Anteversion</h3>
+    <div class="ca-display">
+      <div class="ca-big-number" id="ca-ranawat">30°</div>
+      <div class="ca-subtitle">Ranawat (Cup + Stem)</div>
+    </div>
+    <div class="ca-row">
+      <div class="ca-mini">
+        <div class="num" id="ca-widmer">25.5°</div>
+        <div class="lbl">Widmer</div>
+      </div>
+      <div class="ca-mini">
+        <div class="num" id="ca-status">—</div>
+        <div class="lbl">Status</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>📋 Clinical Recommendation</h3>
+    <div class="rec-panel" id="rec-panel">
+      <div class="rec-status" id="rec-status">
+        <span id="rec-icon">✅</span>
+        <span id="rec-title">Optimal Position</span>
+      </div>
+      <div class="rec-detail" id="rec-detail">
+        <p>Adjust sliders to see real-time recommendations.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="exportSummary()" aria-label="Export Summary">
+        📋 Copy Summary
+      </button>
+      <button class="btn btn-outline" onclick="resetSliders()" aria-label="Reset Sliders">
+        ↺ Reset
+      </button>
+    </div>
+  </div>
+</aside>
+
+</div>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+// State
+let bearing = 'coc';
+let pathology = 'on';
+
+function setBearing(b) {
+  bearing = b;
+  document.querySelectorAll('[data-bearing]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.bearing === b);
+  });
+  updateAll();
+}
+
+function setPath(p) {
+  pathology = p;
+  document.querySelectorAll('[data-path]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.path === p);
+  });
+  updateAll();
+}
+
+function getValues() {
+  return {
+    inc: parseInt(document.getElementById('inc-slider').value),
+    av: parseInt(document.getElementById('av-slider').value),
+    stem: parseInt(document.getElementById('stem-slider').value)
+  };
+}
+
+function updateAll() {
+  const v = getValues();
+
+  // Update display values
+  document.getElementById('inc-value').textContent = v.inc + '°';
+  document.getElementById('av-value').textContent = v.av + '°';
+  document.getElementById('stem-value').textContent = v.stem + '°';
+
+  // CA calculations
+  const caRanawat = v.av + v.stem;
+  const caWidmer = v.av + (0.7 * v.stem);
+
+  document.getElementById('ca-ranawat').textContent = caRanawat.toFixed(0) + '°';
+  document.getElementById('ca-widmer').textContent = caWidmer.toFixed(1) + '°';
+
+  // Determine status
+  let caOk = false;
+  if (caRanawat >= 25 && caRanawat <= 50) {
+    document.getElementById('ca-status').textContent = '✅';
+    caOk = true;
+  } else if (caRanawat >= 20 && caRanawat <= 55) {
+    document.getElementById('ca-status').textContent = '⚠️';
+  } else {
+    document.getElementById('ca-status').textContent = '❌';
+  }
+
+  // Color CA display
+  const caDisplay = document.querySelector('.ca-display');
+  if (caRanawat >= 25 && caRanawat <= 50) {
+    caDisplay.style.borderColor = '#27ae60';
+  } else if (caRanawat >= 20 && caRanawat <= 55) {
+    caDisplay.style.borderColor = '#f39c12';
+  } else {
+    caDisplay.style.borderColor = '#e74c3c';
+  }
+
+  // Recommendation logic
+  const panel = document.getElementById('rec-panel');
+  const icon = document.getElementById('rec-icon');
+  const title = document.getElementById('rec-title');
+  const detail = document.getElementById('rec-detail');
+
+  let issues = [];
+  let warnings = [];
+  let recs = [];
+
+  // Bearing-specific checks
+  if (bearing === 'coc') {
+    if (v.inc > 45) issues.push(`Inclination ${v.inc}° exceeds CoC limit of 45° — high risk of edge loading & squeaking`);
+    else if (v.inc > 42) warnings.push(`Inclination ${v.inc}° near upper CoC limit (45°) — monitor closely`);
+    else if (v.inc < 35) warnings.push(`Inclination ${v.inc}° below recommended CoC range (35°–45°)`);
+    else recs.push(`Inclination ${v.inc}° within CoC target (35°–45°)`);
+
+    if (v.av < 15) issues.push(`Anteversion ${v.av}° below CoC minimum (15°) — risk of posterior edge loading in flexion`);
+    else if (v.av > 35) issues.push(`Anteversion ${v.av}° exceeds CoC maximum (35°) — risk of anterior edge loading`);
+    else if (v.av >= 15 && v.av <= 25) recs.push(`Anteversion ${v.av}° within optimal CoC range (15°–25°)`);
+    else recs.push(`Anteversion ${v.av}° acceptable for CoC (15°–35°)`);
+
+  } else {
+    if (v.inc > 55) issues.push(`Inclination ${v.av}° exceeds CoP threshold of 55° — accelerated wear risk (0.403 mm/yr)`);
+    else if (v.inc > 50) warnings.push(`Inclination ${v.inc}° above optimal CoP range (40°–50°) — wear increases`);
+    else if (v.inc < 35) warnings.push(`Inclination ${v.inc}° below recommended range (35°–50°)`);
+    else recs.push(`Inclination ${v.inc}° within CoP target (40°–50°)`);
+
+    if (v.av > 31) issues.push(`Anteversion ${v.av}° exceeds 31° — anterior instability risk (Level III evidence)`);
+    else if (v.av < 10) issues.push(`Anteversion ${v.av}° below 10° — posterior instability risk`);
+    else if (v.av < 15) warnings.push(`Anteversion ${v.av}° near lower limit — ensure adequate soft tissue tension`);
+    else if (v.av >= 15 && v.av <= 25) recs.push(`Anteversion ${v.av}° within CoP stability zone (15°–25°)`);
+    else recs.push(`Anteversion ${v.av}° acceptable for CoP`);
+  }
+
+  // CA check
+  if (caRanawat < 25) issues.push(`Combined Anteversion (Ranawat) ${caRanawat}° below 25° — high dislocation risk`);
+  else if (caRanawat > 50) issues.push(`Combined Anteversion (Ranawat) ${caRanawat}° exceeds 50° — impingement risk`);
+  else recs.push(`Combined Anteversion ${caRanawat}° within functional safe zone (25°–50°)`);
+
+  // Widmer check
+  if (caWidmer < 27 || caWidmer > 47) warnings.push(`Widmer CA ${caWidmer.toFixed(1)}° outside ideal (27°–47°)`);
+
+  // Pathology check
+  if (pathology === 'oa' && v.av > 20) {
+    warnings.push(`In OA/dysplasia hips, high anteversion may reflect pathological remodeling — cross-reference with TAL`);
+  }
+
+  // Build recommendation text
+  panel.className = 'rec-panel';
+  if (issues.length > 0) {
+    panel.classList.add('danger');
+    icon.textContent = '⛔';
+    title.textContent = 'Critical Issues Detected';
+  } else if (warnings.length > 0) {
+    panel.classList.add('caution');
+    icon.textContent = '⚠️';
+    title.textContent = 'Caution Advised';
+  } else {
+    panel.classList.add('optimal');
+    icon.textContent = '✅';
+    title.textContent = 'Within Target Range';
+  }
+
+  let html = '';
+  if (issues.length > 0) {
+    html += '<p><strong>Issues:</strong></p><ul>';
+    issues.forEach(i => html += `<li style="color:#c0392b;">${i}</li>`);
+    html += '</ul>';
+  }
+  if (warnings.length > 0) {
+    html += '<p><strong>Warnings:</strong></p><ul>';
+    warnings.forEach(w => html += `<li style="color:#b7950b;">${w}</li>`);
+    html += '</ul>';
+  }
+  if (recs.length > 0) {
+    html += '<p><strong>Assessment:</strong></p><ul>';
+    recs.forEach(r => html += `<li style="color:#1e8449;">${r}</li>`);
+    html += '</ul>';
+  }
+
+  // Bearing-specific recommendation
+  if (bearing === 'coc') {
+    html += '<p style="margin-top:8px;"><strong>CoC Guidance:</strong> Ensure precise offset restoration to prevent microseparation. Navigation/robotics recommended. Tolerance is effectively zero.</p>';
+  } else {
+    html += '<p style="margin-top:8px;"><strong>CoP Guidance:</strong> Polyethylene is more forgiving but punishes inclination >55° and anteversion extremes. Monitor for impingement.</p>';
+  }
+
+  // TAL guidance
+  if (pathology === 'oa') {
+    html += '<p><strong>TAL Note:</strong> In OA/dysplasia hips, TAL reflects pathological anatomy (mean AV 16°, range −12° to 35°). Use TAL for depth only; rely on CA for version. <em>[Source: CT study of 160 hips]</em></p>';
+  } else {
+    html += '<p><strong>TAL Note:</strong> In ON hips, TAL is reliable (mean AV 6.2°). Safe to use for version guidance if inclination is separately managed. <em>[Source: CT study of 160 hips]</em></p>';
+  }
+
+  detail.innerHTML = html;
+}
+
+function resetSliders() {
+  document.getElementById('inc-slider').value = 40;
+  document.getElementById('av-slider').value = 15;
+  document.getElementById('stem-slider').value = 15;
+  setBearing('coc');
+  setPath('on');
+  updateAll();
+}
+
+function exportSummary() {
+  const v = getValues();
+  const caR = v.av + v.stem;
+  const caW = (v.av + 0.7 * v.stem).toFixed(1);
+  const ts = new Date().toLocaleString();
+
+  let bearingName = bearing === 'coc' ? 'Ceramic-on-Ceramic' : 'Polyethylene (CoP/MoP)';
+  let pathName = pathology === 'on' ? 'Osteonecrosis' : 'OA / Dysplasia';
+
+  let status = 'WITHIN TARGET';
+  let issues = [];
+  if (bearing === 'coc') {
+    if (v.inc > 45) { issues.push(`Inclination ${v.inc}° exceeds CoC limit 45°`); status = 'CRITICAL'; }
+    if (v.av < 15 || v.av > 35) { issues.push(`Anteversion ${v.av}° outside CoC range 15°–35°`); status = 'CRITICAL'; }
+  } else {
+    if (v.inc > 55) { issues.push(`Inclination ${v.inc}° exceeds CoP wear threshold 55°`); status = 'CRITICAL'; }
+    if (v.av > 31) { issues.push(`Anteversion ${v.av}° exceeds anterior instability threshold 31°`); status = 'CRITICAL'; }
+    if (v.av < 10) { issues.push(`Anteversion ${v.av}° below posterior stability minimum`); status = 'CRITICAL'; }
+  }
+  if (caR < 25 || caR > 50) { issues.push(`CA (Ranawat) ${caR}° outside safe zone 25°–50°`); status = 'CRITICAL'; }
+  if (issues.length > 0 && status !== 'CRITICAL') status = 'CAUTION';
+
+  let text = `THA ACETABULAR POSITIONING SUMMARY
+========================================
+Timestamp: ${ts}
+Bearing: ${bearingName}
+Pathology: ${pathName}
+
+COMPONENT ANGLES:
+  Cup Inclination (Radiographic): ${v.inc}°
+  Cup Anteversion (Radiographic): ${v.av}°
+  Femoral Stem Anteversion: ${v.stem}°
+
+COMBINED ANTEVERSION:
+  Ranawat (Cup + Stem): ${caR}°
+  Widmer (Cup + 0.7×Stem): ${caW}°
+
+TARGET RANGES:
+  CoC: Inc 35°–45° / AV 15°–25° / CA ~37° (Widmer)
+  CoP: Inc 40°–50° / AV 15°–25° / CA 25°–50° (Ranawat)
+
+STATUS: ${status}
+${issues.length > 0 ? 'ISSUES:\n  - ' + issues.join('\n  - ') : 'All parameters within recommended ranges.'}
+
+RATIONALE:
+  Source: "Intraoperative Anatomical Landmarks and Bearing-Specific
+  Positioning in Total Hip Arthroplasty" — synthesis of 35 referenced studies.
+  Lewinnek safe zone (40°±10° inc, 15°±10° av) has poor sensitivity
+  (58% of dislocations within zone). Combined Anteversion is superior.
+  TAL reliable in ON (mean AV 6.2°) but unreliable in OA/dysplasia
+  (mean AV 16°, range −12° to 35°).
+
+Generated by THA Positioning Decision Support Tool`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Summary copied to clipboard!');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Summary copied to clipboard!');
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Initialize
+updateAll();
+</script>
+
+</body>
+</html>

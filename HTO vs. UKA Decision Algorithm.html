@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTO vs UKA: Evidence-Based Decision Algorithm for Medial Compartment Knee OA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2b6cb0;
+            --accent: #e53e3e;
+            --accent-green: #38a169;
+            --accent-amber: #d69e2e;
+            --bg: #f7fafc;
+            --bg-card: #ffffff;
+            --text: #1a202c;
+            --text-muted: #4a5568;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1), 0 6px 10px rgba(0,0,0,0.08);
+            --radius: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+
+        header h1 {
+            font-family: 'Source Serif 4', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            font-weight: 700;
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.3;
+        }
+
+        header p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            max-width: 1200px;
+            margin: 0.3rem auto 0;
+            font-weight: 300;
+        }
+
+        .layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            padding: 2rem 1.5rem;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        aside {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        section {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            color: var(--primary-light);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .evidence-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+            margin-left: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .ev-1 { background: #c6f6d5; color: #22543d; }
+        .ev-2 { background: #fefcbf; color: #744210; }
+        .ev-3 { background: #feebc8; color: #7b341e; }
+        .ev-4 { background: #fed7d7; color: #9b2c2c; }
+        .ev-5 { background: #e2e8f0; color: #4a5568; }
+        .ev-na { background: #e2e8f0; color: #4a5568; }
+
+        .callout {
+            border-left: 4px solid var(--primary-light);
+            background: #ebf8ff;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-size: 0.95rem;
+        }
+
+        .callout.warning {
+            border-left-color: var(--accent-amber);
+            background: #fffff0;
+        }
+
+        .callout.danger {
+            border-left-color: var(--accent);
+            background: #fff5f5;
+        }
+
+        .callout.success {
+            border-left-color: var(--accent-green);
+            background: #f0fff4;
+        }
+
+        .callout strong { display: block; margin-bottom: 0.25rem; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.88rem;
+        }
+
+        caption {
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        thead th {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 0.6rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.82rem;
+        }
+
+        tbody td {
+            padding: 0.65rem 0.6rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tbody tr:nth-child(even) { background: #f7fafc; }
+        tbody tr:hover { background: #edf2f7; }
+
+        .sidebar-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .sidebar-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin: 0 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .slider-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+            color: var(--text);
+        }
+
+        .slider-group label span {
+            font-weight: 800;
+            color: var(--primary-light);
+            font-size: 1rem;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+            margin: 0.5rem 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
+            border: 2px solid var(--primary-light);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .result-box.recommend-hto {
+            background: linear-gradient(135deg, #fefcbf, #fefce8);
+            border-color: var(--accent-amber);
+        }
+
+        .result-box.recommend-uka {
+            background: linear-gradient(135deg, #c6f6d5, #f0fff4);
+            border-color: var(--accent-green);
+        }
+
+        .result-box.recommend-grey {
+            background: linear-gradient(135deg, #feebc8, #fffaf0);
+            border-color: #ed8936;
+        }
+
+        .result-box h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .result-box p {
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .result-box p:last-child { margin-bottom: 0; }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-reset {
+            background: #e2e8f0;
+            color: var(--text);
+        }
+
+        .btn-reset:hover { background: #cbd5e0; }
+
+        .btn-export {
+            background: var(--primary);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-export:hover { background: var(--primary-light); }
+
+        .algo-step {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .algo-number {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .algo-content { flex: 1; }
+        .algo-content h4 { font-size: 0.95rem; margin-bottom: 0.25rem; color: var(--primary); }
+        .algo-content p { font-size: 0.88rem; margin-bottom: 0; }
+
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.35rem; font-size: 0.95rem; }
+
+        .ref-section {
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .ref-section ol {
+            padding-left: 1.5rem;
+        }
+
+        .ref-section li {
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .ref-section a {
+            color: var(--primary-light);
+            word-break: break-all;
+        }
+
+        .citation {
+            color: var(--primary-light);
+            font-size: 0.75rem;
+            vertical-align: super;
+            font-weight: 600;
+            cursor: help;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .toggle {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .toggle input { opacity: 0; width: 0; height: 0; }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #cbd5e0;
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle input:checked + .toggle-slider { background: var(--accent-green); }
+        .toggle input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+        .toggle-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .study-card {
+            background: #f7fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .study-card h4 {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .study-card p {
+            font-size: 0.82rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        .limitation-note {
+            background: #feebc8;
+            border: 1px solid #ed8936;
+            border-radius: var(--radius);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            color: #7b341e;
+        }
+
+        .limitation-note strong { display: block; margin-bottom: 0.2rem; }
+
+        .toc {
+            background: #f7fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toc h3 { margin-top: 0; font-size: 0.95rem; }
+        .toc ol { margin: 0.5rem 0 0 1.25rem; font-size: 0.85rem; }
+        .toc li { margin-bottom: 0.3rem; }
+        .toc a { color: var(--primary-light); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+
+        .icon { font-size: 1.2rem; }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            aside {
+                position: static;
+                max-height: none;
+                order: -1;
+            }
+            section { padding: 1.25rem; }
+            header { padding: 1.25rem 1rem; }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .flowchart-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--primary-light);
+            margin: 0.25rem 0;
+        }
+
+        strong { color: var(--primary); }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HTO vs UKA: Evidence-Based Decision Algorithm for Medial Compartment Knee Osteoarthritis</h1>
+        <p>Comprehensive Interactive Summary — Based on ESSKA, ISAKOS, and UK KOG Consensus Guidelines &amp; 2024–2025 Meta-Analyses</p>
+    </header>
+
+    <div class="layout">
+        <main>
+            <!-- Table of Contents -->
+            <section>
+                <nav class="toc" aria-label="Table of Contents">
+                    <h3>📋 Table of Contents</h3>
+                    <ol>
+                        <li><a href="#pathophysiology">Pathophysiology &amp; Biomechanical Complexity</a></li>
+                        <li><a href="#radiographic">Radiographic Thresholds &amp; Anatomy of Varus Deformity</a></li>
+                        <li><a href="#akuma">AKUMA Framework &amp; the Clinical "Grey Zone"</a></li>
+                        <li><a href="#cartilage">Cartilage Wear Severity: The Bone-on-Bone Paradigm</a></li>
+                        <li><a href="#demographics">Demographics, Physical Demands &amp; Return to Sport</a></li>
+                        <li><a href="#outcomes">Comparative Clinical Outcomes &amp; Complications</a></li>
+                        <li><a href="#survivorship">Long-Term Survivorship &amp; Revision Arthroplasty</a></li>
+                        <li><a href="#algorithm">Synthesis of Guidelines &amp; Decision Algorithm</a></li>
+                        <li><a href="#studies">Key Studies Summary</a></li>
+                        <li><a href="#references">References</a></li>
+                    </ol>
+                </nav>
+            </section>
+
+            <!-- Section 1: Pathophysiology -->
+            <section id="pathophysiology">
+                <h2>1. Pathophysiology &amp; Biomechanical Complexity</h2>
+                <p>Medial compartment knee osteoarthritis (OA) is characterized by a self-propagating cycle of biomechanical degradation. As the structural integrity of the medial articular cartilage and the medial meniscus fails, the joint space narrows, causing the mechanical axis of the lower extremity to shift medially. This medial shift increases the adduction moment and eccentric load transferred across the medial tibial plateau. The resulting concentration of focal mechanical stress accelerates cartilage apoptosis, subchondral bone sclerosis, and further joint space collapse, exacerbating varus malalignment in a continuous destructive feedback loop.<sup class="citation" title="Reference 1">1</sup></p>
+
+                <p>For decades, total knee arthroplasty (TKA) was the definitive surgical intervention for end-stage disease. However, TKA application in younger, active patients with isolated medial disease has been associated with suboptimal patient-reported outcome measures (PROMs), restricted high-impact activity, perception of an "unnatural" joint, and premature sacrifice of pristine lateral cartilage, patellofemoral cartilage, and cruciate ligaments.<sup class="citation" title="Reference 2">2</sup></p>
+
+                <p>Two primary modalities now dominate treatment of isolated medial compartment OA:</p>
+
+                <div class="callout">
+                    <strong>High Tibial Osteotomy (HTO)</strong>
+                    A joint-preserving, extra-articular realignment procedure that reorients the coronal alignment of the lower extremity. By creating controlled valgus alignment, HTO unloads the pathological medial compartment, shifting the mechanical weight-bearing axis laterally to redistribute contact stresses across the preserved lateral compartment.<sup class="citation" title="Reference 1">1</sup>
+                    <span class="evidence-badge ev-2">Level II Evidence</span>
+                </div>
+
+                <div class="callout">
+                    <strong>Unicompartmental Knee Arthroplasty (UKA)</strong>
+                    An intra-articular focal resurfacing procedure that resects damaged medial articular cartilage and underlying subchondral bone, replacing these with metallic and polyethylene prosthetic constructs. UKA preserves anterior/posterior cruciate ligaments and lateral/patellofemoral compartments.<sup class="citation" title="Reference 1">1</sup>
+                    <span class="evidence-badge ev-2">Level II Evidence</span>
+                </div>
+
+                <p>Modernization of surgical technologies has disrupted traditional boundaries. Angle-stable locking plate fixators and digital planning for medial opening-wedge HTO (MOWHTO) have facilitated earlier weight-bearing and reduced non-union rates.<sup class="citation" title="Reference 7">7</sup> Concurrently, highly cross-linked polyethylene and advanced UKA designs have radically improved implant survivorship in younger demographics. This has created significantly overlapping indications—a complex clinical "grey zone."<sup class="citation" title="Reference 8">8</sup></p>
+            </section>
+
+            <!-- Section 2: Radiographic Thresholds -->
+            <section id="radiographic">
+                <h2>2. Radiographic Thresholds &amp; Anatomy of Varus Deformity</h2>
+                <p>The precise anatomical locus of the varus deformity is the most critical deterministic variable. A varus knee can stem from intra-articular cartilage loss, extra-articular metaphyseal bowing, lateral soft-tissue laxity, or a combination. Matching the surgical intervention to the exact anatomical source is the cornerstone of contemporary joint preservation guidelines.<sup class="citation" title="Reference 8">8</sup></p>
+
+                <h3>Distinguishing Intra-articular from Extra-articular Deformity</h3>
+
+                <div class="callout danger">
+                    <strong>⚠ Critical Clinical Principle</strong>
+                    UKA operates by replacing absent medial cartilage—it can only correct <em>intra-articular</em> varus. Attempting UKA in severe extra-articular tibial varus forces impossible biomechanical compromise: either under-correction (leaving pathological mechanical varus causing rapid polyethylene wear) or over-resection with extensive soft tissue release (destabilizing the knee and guaranteeing premature failure).<sup class="citation" title="Reference 10">10</sup>
+                </div>
+
+                <div class="callout danger">
+                    <strong>⚠ HTO on Purely Intra-articular Deformity</strong>
+                    Performing HTO on a patient with purely intra-articular varus (normal bone, severe cartilage/meniscal loss) creates a secondary extra-articular deformity, resulting in unphysiologic joint line obliquity (JLO). This increases pathological coronal shear forces, strains the ACL, and accelerates lateral/patellofemoral compartment degeneration.<sup class="citation" title="Reference 14">14, 15</sup>
+                </div>
+
+                <h3>Medial Proximal Tibial Angle (MPTA)</h3>
+                <p>The MPTA represents the medial angle between the mechanical axis of the tibia and the tangential line of the tibial plateau. In a healthy, anatomically neutral knee, the physiological MPTA ranges from <strong>85° to 90°</strong>.<sup class="citation" title="Reference 11">11</sup></p>
+
+                <ul>
+                    <li><strong>MPTA &lt; 85°:</strong> Indicates structural, extra-articular varus deformity within the proximal metaphyseal bone → <em>HTO is indicated</em>.<sup class="citation" title="Reference 16">16</sup></li>
+                    <li><strong>MPTA &gt; 85°:</strong> Indicates structurally normal proximal tibia → varus is driven by intra-articular cartilage loss or lateral ligamentous laxity → <em>UKA is indicated</em>.<sup class="citation" title="Reference 16">16</sup></li>
+                </ul>
+
+                <div class="callout warning">
+                    <strong>⚠ Joint Line Obliquity Warning</strong>
+                    Performing HTO on a knee with normal MPTA (e.g., 87°) pushes the postoperative MPTA into excessive valgus (&gt;93°–94°), creating catastrophic shear joint line obliquity. Retrospective studies with 5-year follow-up confirm patients with MPTA &gt;80° have excellent outcomes following UKA.<sup class="citation" title="Reference 16">16</sup>
+                </div>
+
+                <h3>Joint Line Convergence Angle (JLCA)</h3>
+                <p>The JLCA is formed by the convergence of tangential lines of the distal femoral condyles and proximal tibial plateau. Normal physiological JLCA is <strong>0° to 2°</strong>.<sup class="citation" title="Reference 11">11</sup></p>
+
+                <ul>
+                    <li><strong>JLCA &gt; 3°–5° (correctable on valgus stress):</strong> Varus driven by intra-articular space loss and lateral soft-tissue stretch → <em>UKA indicated</em>. Implant insertion re-tensions lateral ligaments, parallels the joint line.<sup class="citation" title="Reference 16">16</sup></li>
+                    <li><strong>JLCA &lt; 2° (rigid) with extra-articular deformity &gt; 5°–10°:</strong> Varus driven by fixed bony bowing → <em>HTO strictly indicated</em>.<sup class="citation" title="Reference 10">10</sup></li>
+                </ul>
+
+                <h3>Comparative Radiographic Thresholds</h3>
+                <table>
+                    <caption>Table 1: Radiographic Decision Parameters for HTO vs UKA Selection</caption>
+                    <thead>
+                        <tr>
+                            <th>Measurement</th>
+                            <th>Physiological Range</th>
+                            <th>HTO Threshold</th>
+                            <th>UKA Threshold</th>
+                            <th>Biomechanical Implication</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MPTA</strong></td>
+                            <td>85°–90°<sup class="citation">11</sup></td>
+                            <td>&lt; 85°<sup class="citation">16</sup></td>
+                            <td>&gt; 85°<sup class="citation">16</sup></td>
+                            <td>&lt;85° = fixed extra-articular metaphyseal bowing requiring bony correction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JLCA</strong></td>
+                            <td>0°–2°<sup class="citation">11</sup></td>
+                            <td>&lt; 2° (rigid)<sup class="citation">16</sup></td>
+                            <td>&gt; 3°–5° (correctable)<sup class="citation">16</sup></td>
+                            <td>High JLCA = varus driven by cartilage loss and lateral laxity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extra-articular Deformity</strong></td>
+                            <td>0°</td>
+                            <td>&gt; 5°–10°<sup class="citation">10</sup></td>
+                            <td>&lt; 5°<sup class="citation">18</sup></td>
+                            <td>Large bowing cannot be managed by UKA without severe ligamentous imbalance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>mLDFA</strong></td>
+                            <td>85°–90°<sup class="citation">11</sup></td>
+                            <td>Normal (85°–90°)</td>
+                            <td>Normal (85°–90°)</td>
+                            <td>Abnormal mLDFA = femoral deformity requiring DFO, not HTO/UKA</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Section 3: AKUMA Framework -->
+            <section id="akuma">
+                <h2>3. The AKUMA Framework &amp; Clinical "Grey Zone"</h2>
+                <p>The AKUMA framework integrates the Hip-Knee-Ankle (HKA) angle, MPTA, mLDFA, JLCA, and proportional calculations of deformity distribution to categorize patients into three groups:<sup class="citation" title="Reference 8">8</sup></p>
+
+                <div class="algo-step">
+                    <div class="algo-number">1</div>
+                    <div class="algo-content">
+                        <h4>Osteotomy Group</h4>
+                        <p>Dominant extra-articular tibial deformities necessitating structural bony realignment.</p>
+                    </div>
+                </div>
+                <div class="algo-step">
+                    <div class="algo-number">2</div>
+                    <div class="algo-content">
+                        <h4>UKA Group</h4>
+                        <p>Dominant intra-articular deformities with anatomically normal extra-articular bony architecture.</p>
+                    </div>
+                </div>
+                <div class="algo-step">
+                    <div class="algo-number">3</div>
+                    <div class="algo-content">
+                        <h4>Grey Zone Group</h4>
+                        <p>Overlapping features of both intra-articular cartilage loss and moderate extra-articular deformity. Neither procedure is anatomically perfect; both may be technically feasible depending on functional goals.</p>
+                    </div>
+                </div>
+
+                <h3>Mid-Term Outcomes for HTO in the AKUMA Grey Zone</h3>
+                <p>Multicenter retrospective evaluation of grey-zone patients who underwent HTO (average follow-up 8.0 years) reveals highly stratified outcomes:<sup class="citation" title="Reference 8">8</sup></p>
+
+                <table>
+                    <caption>Table 2: AKUMA Grey-Zone Outcome Metrics for HTO</caption>
+                    <thead>
+                        <tr>
+                            <th>Outcome Metric</th>
+                            <th>Success Threshold</th>
+                            <th>Success Rate</th>
+                            <th>Primary Predictive Variable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pain &amp; Basic Function</strong></td>
+                            <td>WOMAC ≥ 80</td>
+                            <td>72.0%<sup class="citation">8</sup></td>
+                            <td>Preoperative OA burden; Ahlbäck Grade 3 drastically lowers odds (OR = 0.20)<sup class="citation">19</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Return to Impact Sport</strong></td>
+                            <td>Tegner ≥ 5</td>
+                            <td>6.8%<sup class="citation">8</sup></td>
+                            <td>Greater LDFA and high patient priority for sport<sup class="citation">19</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Symptom-Free Athletic Function</strong></td>
+                            <td>Modified Weiss ≥ 6</td>
+                            <td>7.5%<sup class="citation">8</sup></td>
+                            <td>Lower preop MPTA, lower LDFA, higher TEAD%<sup class="citation">19</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout warning">
+                    <strong>⚠ Clinical Implication for Grey-Zone Patients</strong>
+                    While HTO can salvage a grey-zone knee for daily activities, surgeons must set highly conservative expectations regarding return to impact sports. In grey-zone patients who prioritize high athletic function, a simple HTO may not suffice. If an isolated proximal tibial correction cannot achieve a physiological joint line without inducing over-correction, the surgeon should pivot to Double Level Osteotomy (DLO), addressing both femur and tibia.<sup class="citation" title="Reference 21">21</sup>
+                </div>
+            </section>
+
+            <!-- Section 4: Cartilage Severity -->
+            <section id="cartilage">
+                <h2>4. Cartilage Wear Severity &amp; the "Bone-on-Bone" Paradigm</h2>
+                <h3>UKA and the Necessity of End-Stage Disease</h3>
+                <p>The Oxford Criteria strictly mandate full-thickness, bone-on-bone anteromedial OA (Kellgren-Lawrence Grade 4 or Ahlbäck Grade III/IV) for UKA.<sup class="citation" title="Reference 22">22</sup> Performing UKA in partial-thickness cartilage loss (KL Grade 2 or 3) results in significantly poorer PROMs, higher unexplained postoperative pain, and elevated early revision rates.</p>
+
+                <div class="callout danger">
+                    <strong>⚠ Biomechanical Rationale for "Bone-on-Bone" Requirement</strong>
+                    In partial cartilage preservation, the MCL has not fully contracted. Inserting a standard UKA construct acts as a mechanical wedge—over-tensions the MCL, forces unphysiologic valgus, alters patellofemoral tracking, and shifts immense load onto the pristine lateral compartment. This iatrogenic over-stuffing induces rapid, painful lateral compartment degeneration.<sup class="citation" title="Reference 23">23</sup>
+                </div>
+
+                <h3>HTO and Disease Severity Tolerance</h3>
+                <p>HTO is optimally indicated for early-to-moderate disease (KL Grade 2–3, Ahlbäck I–II).<sup class="citation" title="Reference 22">22</sup> The UK Knee Osteotomy Consensus Group (KOG) clarified that bone-on-bone OA is not an absolute contraindication for HTO, based on the observation that unloading can induce fibrocartilage formation.<sup class="citation" title="Reference 22">22</sup></p>
+
+                <div class="callout danger">
+                    <strong>⚠ Long-Term Caution</strong>
+                    In long-term follow-up averaging 16 years, <strong>74% of HTOs performed on Ahlbäck Grade 3 knees ultimately failed</strong> and required revision to TKA.<sup class="citation" title="Reference 27">27</sup> While technically permissible, the algorithm dictates that UKA provides far superior, predictable longevity for patients with isolated bone-on-bone pathology.<sup class="citation" title="Reference 10">10</sup>
+                </div>
+
+                <h3>Disease Severity Decision Matrix</h3>
+                <table>
+                    <caption>Table 3: Cartilage Wear Severity and Procedure Selection</caption>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>HTO</th>
+                            <th>UKA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Optimal Grade</strong></td>
+                            <td>KL 2–3, Ahlbäck I–II<sup class="citation">22</sup></td>
+                            <td>KL 4, Ahlbäck III–IV (bone-on-bone)<sup class="citation">22</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Partial-thickness disease</strong></td>
+                            <td>Preferred</td>
+                            <td>Contraindicated—poor outcomes<sup class="citation">22</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bone-on-bone disease</strong></td>
+                            <td>Permitted by KOG but 74% failure at 16 years<sup class="citation">27</sup></td>
+                            <td>Gold standard indication<sup class="citation">10</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>MCL status</strong></td>
+                            <td>Flexible; HTO unloads without replacing</td>
+                            <td>Must be adapted to bone-on-bone; overstuffing risk if partial loss<sup class="citation">23</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Section 5: Demographics & RTS -->
+            <section id="demographics">
+                <h2>5. Demographics, Physical Demands &amp; Return to Sport</h2>
+                <p>The transition from chronological age to physiological demand and activity expectations represents a massive evolution in the algorithm. Chronological age alone is an insufficient and deeply flawed standalone metric.<sup class="citation" title="Reference 4">4</sup></p>
+
+                <h3>Age &amp; Comorbidities</h3>
+                <ul>
+                    <li>UKA can yield excellent mid-term survival, superior early functional scores, and rapid pain relief in patients <strong>under 60</strong>.<sup class="citation" title="Reference 16">16</sup></li>
+                    <li>In the "early elderly" cohort (65–74 years), UKA consistently demonstrates lower complication profile, superior early mobilization, and reduced operative burden vs HTO.<sup class="citation" title="Reference 6">6</sup></li>
+                    <li>Advanced age is an independent risk factor for early HTO revision. Biological healing capacity of metaphyseal bone diminishes with age, increasing delayed union/non-union risk.<sup class="citation" title="Reference 23">23</sup></li>
+                    <li>International consensus <strong>strongly favors UKA</strong> in the older demographic due to immediate weight-bearing, rapid rehabilitation, and shorter hospital stay (often outpatient).<sup class="citation" title="Reference 18">18</sup></li>
+                </ul>
+
+                <h3>The Return to Sport Paradox</h3>
+                <p>According to 2024–2025 meta-analyses (2,673 patients), the pooled relative risk for overall return to sport favors UKA (RR: 1.42, 95% CI: 1.20–1.67, p&lt;0.001).<sup class="citation" title="Reference 35">35</sup></p>
+
+                <div class="callout">
+                    <strong>The Paradox Explained</strong>
+                    <ul>
+                        <li><strong>UKA:</strong> Faster RTS (weeks to months) for low-to-moderate impact activities (cycling, swimming, golf). However, Tegner scores gradually decline over 2 years (mean: 2.78).<sup class="citation" title="Reference 35">35</sup></li>
+                        <li><strong>HTO:</strong> Prolonged rehabilitation (&gt;6–9 months) but ultimately sustains higher functional ceiling. Tegner scores maintained at 4.25 over 2 years. &gt;50% of appropriately selected UKA patients can return to high-impact sports, but HTO remains dominant for sustaining intense athletic performance.<sup class="citation" title="Reference 35, 37">35, 37</sup></li>
+                    </ul>
+                </div>
+
+                <h3>Kneeling Ability</h3>
+                <p>A frequently overlooked functional variable. UKA patients frequently report discomfort or inability to kneel due to prosthetic components and capsular tensioning. MOWHTO patients demonstrate <strong>significantly superior postoperative kneeling ability</strong> as native tibiofemoral and patellofemoral articulations are preserved.<sup class="citation" title="Reference 39">39</sup></p>
+
+                <table>
+                    <caption>Table 4: Functional &amp; Demographic Comparison</caption>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>HTO</th>
+                            <th>UKA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Age Preference</strong></td>
+                            <td>&lt; 60 years<sup class="citation">23</sup></td>
+                            <td>&gt; 60 years<sup class="citation">6</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Early Pain Relief</strong></td>
+                            <td>Gradual; depends on bone healing<sup class="citation">36</sup></td>
+                            <td>Rapid; immediate weight-bearing<sup class="citation">36</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time to RTS</strong></td>
+                            <td>Prolonged (&gt;6–9 months)<sup class="citation">35</sup></td>
+                            <td>Shorter, accelerated<sup class="citation">35</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Max Maintained Activity</strong></td>
+                            <td>High impact (Tegner &gt;5); heavy labor<sup class="citation">35</sup></td>
+                            <td>Low-to-moderate impact (Tegner &lt;5)<sup class="citation">35</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kneeling Ability</strong></td>
+                            <td>Excellent (native joint preserved)<sup class="citation">39</sup></td>
+                            <td>Limited, often painful<sup class="citation">39</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Section 6: Clinical Outcomes -->
+            <section id="outcomes">
+                <h2>6. Comparative Clinical Outcomes &amp; Complications</h2>
+                <p>Meta-analyses published in 2024–2025, encompassing upwards of 56,686 pooled patients, provide definitive comparisons.<sup class="citation" title="Reference 41">41</sup></p>
+
+                <h3>Functional Outcome Scores</h3>
+                <ul>
+                    <li><strong>UKA superiority:</strong> Reduced postoperative pain (MD = −0.33; 95% CI: −0.64 to −0.03; p = 0.03),<sup class="citation">42</sup> superior KSS and HSS scores (MD = 2.63; 95% CI: 0.52–4.74; p = 0.01).<sup class="citation">3</sup></li>
+                    <li><strong>HTO superiority:</strong> Superior KSS <em>Function</em> scores (MD = 3.74; 95% CI: 1.37–6.11),<sup class="citation">3</sup> preserved or improved ROM (+8.6° average).<sup class="citation">3</sup></li>
+                </ul>
+
+                <h3>Complication Profiles</h3>
+                <div class="callout danger">
+                    <strong>⚠ Stark Difference in Complication Rates</strong>
+                    <ul>
+                        <li>Overall complication risk favors UKA: RR = 0.37 (95% CI: 0.25–0.54; p&lt;0.0001).<sup class="citation">42</sup></li>
+                        <li>Odds of complication nearly <strong>5× higher</strong> following HTO: OR = 4.88 (95% CI: 2.92–6.86).<sup class="citation">32</sup></li>
+                    </ul>
+                </div>
+
+                <table>
+                    <caption>Table 5: Comparative Clinical Outcomes</caption>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>HTO</th>
+                            <th>UKA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Postoperative Pain Reduction</strong></td>
+                            <td>Good; higher early pain from bone healing</td>
+                            <td>Superior (MD = −0.33)<sup class="citation">42</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Overall Complication Risk</strong></td>
+                            <td>High (OR = 4.88)<sup class="citation">32</sup></td>
+                            <td>Low (RR = 0.37)<sup class="citation">42</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Operative Time</strong></td>
+                            <td>~112 min<sup class="citation">42</sup></td>
+                            <td>~90 min<sup class="citation">42</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>ROM</strong></td>
+                            <td>Preserved/improved (+8.6°)<sup class="citation">40</sup></td>
+                            <td>Slightly restricted at max flexion<sup class="citation">32</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Primary Complication Types</strong></td>
+                            <td>Hinge fracture, non-union, hardware irritation, DVT<sup class="citation">1</sup></td>
+                            <td>Aseptic loosening, bearing dislocation, lateral OA progression<sup class="citation">1</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Setting</strong></td>
+                            <td>Inpatient; prolonged rehab</td>
+                            <td>Outpatient-capable; rapid recovery<sup class="citation">18</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Section 7: Survivorship -->
+            <section id="survivorship">
+                <h2>7. Long-Term Survivorship &amp; Revision Arthroplasty Burden</h2>
+                <h3>10- and 15-Year Survivorship</h3>
+                <ul>
+                    <li><strong>UKA:</strong> 83.5% survivorship at 10 years; 81.9% at 15 years with strict selection.<sup class="citation">25</sup> Primary revision driver: aseptic loosening (83.4% of revisions).<sup class="citation">45</sup></li>
+                    <li><strong>HTO:</strong> Excellent 5-year survivorship (&gt;97.2%),<sup class="citation">17</sup> but declining to 56%–82% at 10 years and ~61% at 15 years.<sup class="citation">25</sup></li>
+                </ul>
+
+                <h3>Conversion to Total Knee Arthroplasty</h3>
+                <p>The most profound paradigm shift concerns the <em>consequences</em> of eventual failure. Meta-analyses (11 studies, 10,045 patients) demonstrate that converting HTO to TKA is significantly safer and functionally superior.<sup class="citation" title="Reference 25">25</sup></p>
+
+                <table>
+                    <caption>Table 6: Revision TKA Outcomes — HTO-TKA vs UKA-TKA</caption>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>HTO → TKA</th>
+                            <th>UKA → TKA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Bone Stock</strong></td>
+                            <td>Fully preserved (extra-articular)<sup class="citation">1</sup></td>
+                            <td>Severely compromised (intra-articular resection)<sup class="citation">1</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Operative Time</strong></td>
+                            <td>Shorter (MD = −9.15 min)<sup class="citation">25</sup></td>
+                            <td>Longer; complex revision environment<sup class="citation">25</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Revision Implant Need</strong></td>
+                            <td>Minimal (OR = 0.11)<sup class="citation">25</sup></td>
+                            <td>Extremely high; stems/cones mandatory<sup class="citation">25</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Post-Revision Function</strong></td>
+                            <td>Superior (MD = 3.35 KSS points)<sup class="citation">48</sup></td>
+                            <td>Inferior<sup class="citation">48</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Re-Revision Risk</strong></td>
+                            <td>Baseline standard risk</td>
+                            <td>Dangerously elevated (HR 2.3–2.7)<sup class="citation">50</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout success">
+                    <strong>✅ Key Strategic Insight for Young Patients</strong>
+                    A UKA at age 45 commits the patient to a highly complex, bone-depleted, high-risk revision TKA by age 60. An HTO at age 45 may fail slightly earlier, but preserves bone stock, ensuring the inevitable TKA behaves like a primary joint replacement with standard longevity.<sup class="citation" title="Reference 1">1</sup>
+                </div>
+            </section>
+
+            <!-- Section 8: Algorithm -->
+            <section id="algorithm">
+                <h2>8. Integrated Decision-Making Algorithm</h2>
+                <p>Synthesized from ESSKA/ISAKOS consensus directives (2024–2025), the UK KOG, and the Vipulendran algorithm:<sup class="citation" title="Reference 22, 23">22, 23</sup></p>
+
+                <div class="algo-step">
+                    <div class="algo-number">1</div>
+                    <div class="algo-content">
+                        <h4>ACL Integrity Assessment</h4>
+                        <p>UKA requires an intact ACL. If ACL-deficient with manageable tibial slope, <strong>HTO is favored</strong>—it can neutralize anterior tibial translation and stabilize the knee while unloading the medial compartment.<sup class="citation" title="Reference 4">4</sup></p>
+                    </div>
+                </div>
+
+                <div class="algo-step">
+                    <div class="algo-number">2</div>
+                    <div class="algo-content">
+                        <h4>Disease Severity &amp; Deformity Locus — The UKA Pathway</h4>
+                        <p>If bone-on-bone OA (Ahlbäck III/IV, KL 4) + intact cruciates + purely intra-articular deformity (MPTA &gt;85°, JLCA &gt;3° correctable) + low-moderate demand (Tegner &lt;5) → <strong>UKA</strong>.<sup class="citation" title="Reference 4">4</sup></p>
+                    </div>
+                </div>
+
+                <div class="algo-step">
+                    <div class="algo-number">3</div>
+                    <div class="algo-content">
+                        <h4>Disease Severity &amp; Deformity Locus — The HTO Pathway</h4>
+                        <p>If physiologically young (&lt;60), partial-thickness wear (Ahlbäck I/II), measurable metaphyseal bowing (MPTA &lt;85°) → <strong>MOWHTO</strong>.<sup class="citation" title="Reference 10">10</sup></p>
+                    </div>
+                </div>
+
+                <div class="algo-step">
+                    <div class="algo-number">4</div>
+                    <div class="algo-content">
+                        <h4>Resolving the AKUMA Grey Zone</h4>
+                        <p>If mixed, borderline features → pivot to <strong>patient-specific athletic expectations</strong>:
+                        <br>• Priority = rapid pain relief, swift return to work, low-impact activity → <strong>UKA</strong>
+                        <br>• Priority = return to high-impact sports (Tegner &gt;5), or preserving bone stock for uncomplicated future TKA → <strong>HTO</strong><sup class="citation" title="Reference 1">1</sup></p>
+                    </div>
+                </div>
+
+                <h3>ESSKA &amp; ISAKOS Specific Directives</h3>
+                <ul>
+                    <li><strong>ESSKA (2024):</strong> HTO recommended when MPTA &lt;85°. Postoperative JLO must not exceed 5°.<sup class="citation">54</sup> Prior HTO is not an absolute contraindication for UKA, but over-corrected valgus makes UKA absolutely contraindicated.<sup class="citation">56</sup></li>
+                    <li><strong>ISAKOS:</strong> Both HTO and UKA are equally viable for delaying TKA. Choice driven by shared decision-making on long-term physical expectations. HTO for young, high-demand patients (Tegner &gt;5); UKA for aging populations (&gt;60) with lower demands.<sup class="citation" title="Reference 46, 35">46, 35</sup></li>
+                </ul>
+
+                <h3>Decision Flowchart Summary</h3>
+                <div style="background:#f7fafc; padding:1.25rem; border-radius:var(--radius); border:1px solid var(--border); font-size:0.9rem;">
+                    <p><strong>Step 1:</strong> ACL intact? → No → Consider HTO (can stabilize ACL-deficient knee)</p>
+                    <div class="flowchart-arrow">↓</div>
+                    <p><strong>Step 2:</strong> Bone-on-bone (Ahlbäck III/IV)? → Yes + MPTA &gt;85° + Tegner &lt;5 → <strong style="color:var(--accent-green)">UKA</strong></p>
+                    <div class="flowchart-arrow">↓</div>
+                    <p><strong>Step 3:</strong> Partial wear (Ahlbäck I/II) + MPTA &lt;85° + age &lt;60 → <strong style="color:var(--accent-amber)">HTO (MOWHTO)</strong></p>
+                    <div class="flowchart-arrow">↓</div>
+                    <p><strong>Step 4:</strong> Grey Zone (mixed features) → <strong>Shared Decision:</strong></p>
+                    <p style="margin-left:2rem;">• Fast recovery, low demand → <strong style="color:var(--accent-green)">UKA</strong></p>
+                    <p style="margin-left:2rem;">• High sport demand, bone stock preservation → <strong style="color:var(--accent-amber)">HTO</strong></p>
+                </div>
+            </section>
+
+            <!-- Section 9: Key Studies -->
+            <section id="studies">
+                <h2>9. Key Studies Summary</h2>
+                <div class="limitation-note">
+                    <strong>📋 Note on Evidence Base</strong>
+                    The source document references multiple meta-analyses, registry studies, and consensus guidelines. Below are the most impactful studies identified in the source. The source did not provide explicit Level of Evidence classifications for each individual study; levels are inferred from study design.
+                </div>
+
+                <div class="study-card">
+                    <h4>1. Meta-Analysis: HTO vs UKA for Medial Knee OA (56,000+ patients)</h4>
+                    <p><strong>Design:</strong> Systematic review &amp; meta-analysis <span class="evidence-badge ev-1">Level I</span><br>
+                    <strong>Key Finding:</strong> UKA achieves superior pain reduction, lower overall complication rates (RR = 0.37), and shorter operative time. HTO preserves ROM and demonstrates superior KSS Function scores.<sup class="citation">41, 42</sup></p>
+                </div>
+
+                <div class="study-card">
+                    <h4>2. Meta-Analysis: Return to Sport After UKA vs HTO (2,673 patients)</h4>
+                    <p><strong>Design:</strong> Meta-analysis &amp; meta-regression <span class="evidence-badge ev-1">Level I</span><br>
+                    <strong>Key Finding:</strong> UKA achieves faster RTS (RR = 1.42). However, HTO sustains higher long-term activity levels (Tegner 4.25 vs 2.78 at 2 years).<sup class="citation">35</sup></p>
+                </div>
+
+                <div class="study-card">
+                    <h4>3. AKUMA Grey-Zone Outcomes Study (8.0-year follow-up)</h4>
+                    <p><strong>Design:</strong> Multicenter retrospective cohort <span class="evidence-badge ev-3">Level III</span><br>
+                    <strong>Key Finding:</strong> 72.0% grey-zone HTO patients achieve WOMAC ≥80 for daily function, but only 6.8% return to Tegner ≥5. Ahlbäck Grade 3 is a strong negative predictor (OR = 0.20).<sup class="citation">8, 19</sup></p>
+                </div>
+
+                <div class="study-card">
+                    <h4>4. Comparative Outcomes of Revision TKA: HTO-TKA vs UKA-TKA (10,045 patients)</h4>
+                    <p><strong>Design:</strong> Systematic review &amp; meta-analysis (11 studies) <span class="evidence-badge ev-1">Level I</span><br>
+                    <strong>Key Finding:</strong> HTO-TKA requires fewer revision implants (OR = 0.11), shorter operative time (MD = −9.15 min), superior function, and drastically lower re-revision risk (HR 2.3–2.7 for UKA-TKA).<sup class="citation">25, 48, 50</sup></p>
+                </div>
+
+                <div class="study-card">
+                    <h4>5. ESSKA Formal Consensus on Osteotomy (2024)</h4>
+                    <p><strong>Design:</strong> Formal consensus guideline <span class="evidence-badge ev-5">Level V</span><br>
+                    <strong>Key Finding:</strong> HTO mandated when MPTA &lt;85°. Postoperative JLO must not exceed 5°. Prior HTO not absolute contraindication for UKA.<sup class="citation">7, 54, 56</sup></p>
+                </div>
+
+                <div class="study-card">
+                    <h4>6. KOG Statement on HTO in Bone-on-Bone OA</h4>
+                    <p><strong>Design:</strong> Consensus statement <span class="evidence-badge ev-5">Level V</span><br>
+                    <strong>Key Finding:</strong> Bone-on-bone OA is not an absolute contraindication for HTO, but long-term data shows 74% failure rate at 16 years for Ahlbäck Grade 3.<sup class="citation">22, 27</sup></p>
+                </div>
+
+                <div class="study-card">
+                    <h4>7. Kneeling Ability: MOWHTO vs UKA (2025 ISAKOS)</h4>
+                    <p><strong>Design:</strong> Comparative clinical study <span class="evidence-badge ev-3">Level III</span><br>
+                    <strong>Key Finding:</strong> MOWHTO patients demonstrate significantly superior postoperative kneeling ability compared to UKA.<sup class="citation">39</sup></p>
+                </div>
+            </section>
+
+            <!-- Section 10: References -->
+            <section id="references" class="ref-section">
+                <h2>10. References</h2>
+                <p><em>Derived from the source document's reference list:</em></p>
+                <ol>
+                    <li id="ref1">High Tibial Osteotomy (HTO), Unicompartmental Knee Arthroplasty (UKA), and Proximal Fibular Osteotomy (PFO) for Medial-Compartment Knee Osteoarthritis: A Narrative Review. <em>MDPI J Clin Med.</em> 2025;14(21):7882. <a href="https://www.mdpi.com/2077-0383/14/21/7882" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref2">AO Foundation. Unicompartmental knee arthroplasty versus high tibial osteotomy. <a href="https://www.aofoundation.org/recon/clinical-library-and-tools/scientific-articles/08_2_preview_unicompartmental-knee-arthroplasty-versus-high-tibial-osteotomy" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref3">High tibial osteotomy vs unicompartmental knee arthroplasty: comprehensive meta-analysis with patient-specific stratification. <em>ResearchGate.</em> 2025. <a href="https://www.researchgate.net/publication/401209383" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref4">HTO vs UKA for medial compartment arthrosis: a review of the literature. <em>PMC.</em> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2958284/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref5">UNIKORN: a study protocol of a randomized controlled trial (UKA vs HTO). <em>PMC.</em> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10074655/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref6">Comparison of HTO and UKA in unicompartmental osteoarthritis: a meta-analysis. <em>ResearchGate.</em> <a href="https://www.researchgate.net/publication/236053806" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref7">ESSKA Formal Consensus: Osteotomy around the painful degenerative varus knee. 2022. <a href="https://cdn.ymaws.com/www.esska.org/resource/resmgr/docs/consensus_projects/osteotomyconsensuscomp2022.pdf" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref8">Reliable pain and function outcomes but limited sport performance after HTO in the grey zone. <em>PMC.</em> 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12850611/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref10">Critical considerations in selection between knee osteotomy and UKA in younger patients. <em>Orthop Innov.</em> <a href="https://www.orthopaedicinnovation.co.uk/knee-osteotomy-unicompartmental-knee-arthroplasty-in-younger-patients-with-varus-alignment-and-early-stage-knee-osteoarthritis/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref11">Adult Limb Deformity &amp; Correction. <em>Orthobullets.</em> <a href="https://www.orthobullets.com/recon/422974/adult-limb-deformity-and-correction" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref16">How to choose treatment for patients eligible for both UKA and HTO? <em>PMC.</em> 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12988496/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref17">HTO vs UKA vs TKA. <a href="https://orthopedie-lyon-croix-rousse.fr/images/publications/UKA%20vs%20HTO%20vs%20TKA%20pr%C3%A9sent%C3%A9.pdf" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref22">HTO vs UKA for KL grade 3–4 knee OA in younger patients. <em>PMC.</em> 2023. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10598142/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref23">Osteotomy vs unicompartmental arthroplasty: an algorithm for anteromedial knee OA. <em>ResearchGate.</em> <a href="https://www.researchgate.net/publication/369961352" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref25">Comparative outcomes of revision TKA: systematic review &amp; meta-analysis of HTO vs UKA. <em>PMC.</em> 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12341320/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref27">High tibial osteotomy. <em>PMC.</em> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4596221/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref32">UKA is superior to HTO for medial unicompartmental OA: systematic review &amp; meta-analysis. <em>PMC.</em> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9333480/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref35">From Pain to Performance: Comparative Meta-Analysis of RTS After UKA and HTO. <em>2025 ISAKOS Congress.</em> <a href="https://www.isakos.com/2025/Abstract/18859" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref39">Comparison of Postoperative Kneeling Between UKA and MOWHTO. <em>2025 ISAKOS Congress.</em> <a href="https://www.isakos.com/2025/Abstract/20331" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref41">Comparison of UKA vs HTO for medial knee OA. <em>PubMed.</em> 2025. <a href="https://pubmed.ncbi.nlm.nih.gov/40694375/" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref46">Conversion to TKA Following HTO and UKA: Propensity-Matched Analysis. <em>ISAKOS.</em> <a href="https://www.isakos.com/GlobalLink/Abstract/8118" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref50">Long-Term Outcomes After Conversion of HTO to TKA in a US Population. <em>ResearchGate.</em> <a href="https://www.researchgate.net/publication/398899983" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref54">Surgical strategy and complication management of osteotomy: ESSKA Part II. <em>ResearchGate.</em> <a href="https://www.researchgate.net/publication/380744726" target="_blank" rel="noopener">Link</a></li>
+                    <li id="ref56">The Unicompartmental Knee Arthroplasty Manual. <em>ESSKA.</em> <a href="https://www.esska.org/news/694486/The-Unicompartmental-Knee-Arthroplasty-Manual.htm" target="_blank" rel="noopener">Link</a></li>
+                </ol>
+            </section>
+        </main>
+
+        <!-- Sidebar -->
+        <aside aria-label="Interactive Clinical Decision Tool">
+            <div class="sidebar-card">
+                <h3>🔬 Interactive Decision Tool</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">Adjust parameters to receive real-time algorithmic recommendations based on the source document.</p>
+
+                <div class="slider-group">
+                    <label>
+                        Medial Proximal Tibial Angle (MPTA)
+                        <span id="mpta-value">87°</span>
+                    </label>
+                    <input type="range" id="mpta-slider" min="75" max="95" value="87" step="0.5" aria-label="MPTA in degrees">
+                    <div class="slider-labels">
+                        <span>75°</span>
+                        <span>85° threshold</span>
+                        <span>95°</span>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <label>
+                        Patient Age
+                        <span id="age-value">55 yr</span>
+                    </label>
+                    <input type="range" id="age-slider" min="25" max="85" value="55" step="1" aria-label="Patient age in years">
+                    <div class="slider-labels">
+                        <span>25 yr</span>
+                        <span>60 yr threshold</span>
+                        <span>85 yr</span>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <label>
+                        Preop Tegner Activity Scale
+                        <span id="tegner-value">4</span>
+                    </label>
+                    <input type="range" id="tegner-slider" min="0" max="10" value="4" step="1" aria-label="Tegner Activity Scale">
+                    <div class="slider-labels">
+                        <span>0 (sedentary)</span>
+                        <span>5 (competitive sport)</span>
+                        <span>10 (elite)</span>
+                    </div>
+                </div>
+
+                <div class="toggle-group">
+                    <label class="toggle" aria-label="Bone-on-bone OA toggle">
+                        <input type="checkbox" id="bonOnBone" aria-label="Bone-on-bone medial OA (Ahlbäck III/IV)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Bone-on-bone OA (Ahlbäck III/IV)</span>
+                </div>
+
+                <div class="toggle-group">
+                    <label class="toggle" aria-label="ACL intact toggle">
+                        <input type="checkbox" id="aclIntact" checked aria-label="ACL intact">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">ACL Intact</span>
+                </div>
+
+                <div id="result-container" class="result-box" aria-live="polite">
+                    <h4>⏳ Adjust parameters above</h4>
+                    <p>The recommendation will update automatically based on the decision algorithm from the source document.</p>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn-reset" onclick="resetSliders()" aria-label="Reset all parameters">↺ Reset</button>
+                    <button class="btn-export" onclick="exportRecommendation()" aria-label="Copy recommendation to clipboard">📋 Copy Report</button>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>📖 Quick Reference Thresholds</h3>
+                <div style="font-size:0.82rem; line-height:1.6;">
+                    <p><strong>MPTA &lt;85°</strong> → HTO indicated (extra-articular deformity)</p>
+                    <p><strong>MPTA &gt;85°</strong> → UKA indicated (intra-articular loss)</p>
+                    <p><strong>Age &lt;60</strong> → Lean HTO for high-demand</p>
+                    <p><strong>Age &gt;60</strong> → Lean UKA for rapid recovery</p>
+                    <p><strong>Tegner &gt;5</strong> → HTO sustains higher activity ceiling</p>
+                    <p><strong>Bone-on-bone + normal MPTA</strong> → UKA gold standard</p>
+                    <p><strong>ACL deficient</strong> → Favors HTO</p>
+                </div>
+                <p style="font-size:0.7rem; color:var(--text-muted); margin-top:0.75rem; border-top:1px solid var(--border); padding-top:0.5rem;">
+                    Thresholds derived from source document. ESSKA/ISAKOS/KOG consensus guidelines.
+                </p>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>⚠ Source Limitations</h3>
+                <p style="font-size:0.82rem; color:var(--text-muted);">
+                    This tool is based exclusively on the provided source document. Specific data gaps:
+                </p>
+                <ul style="font-size:0.8rem; color:var(--text-muted); margin-left:1rem; margin-top:0.5rem;">
+                    <li>Explicit LoE for each individual study not specified in source — badges inferred from study design</li>
+                    <li>JLCA and mLDFA slider thresholds not included as standalone sliders due to space — integrated into logic below</li>
+                    <li>Individual patient-level data not available; algorithm uses population-level thresholds</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <div class="toast" id="toast">✅ Report copied to clipboard</div>
+
+    <script>
+        const mptaSlider = document.getElementById('mpta-slider');
+        const ageSlider = document.getElementById('age-slider');
+        const tegnerSlider = document.getElementById('tegner-slider');
+        const bonOnBone = document.getElementById('bonOnBone');
+        const aclIntact = document.getElementById('aclIntact');
+        const resultContainer = document.getElementById('result-container');
+
+        function updateRecommendation() {
+            const mpta = parseFloat(mptaSlider.value);
+            const age = parseInt(ageSlider.value);
+            const tegner = parseInt(tegnerSlider.value);
+            const isBoneOnBone = bonOnBone.checked;
+            const isAclIntact = aclIntact.checked;
+
+            document.getElementById('mpta-value').textContent = mpta + '°';
+            document.getElementById('age-value').textContent = age + ' yr';
+            document.getElementById('tegner-value').textContent = tegner;
+
+            let recommendation = '';
+            let rationale = '';
+            let procedure = '';
+            let confidence = '';
+            let cls = '';
+
+            // Step 1: ACL assessment
+            if (!isAclIntact) {
+                procedure = 'HTO';
+                recommendation = '⚡ <strong style="font-size:1.1rem;">High Tibial Osteotomy (HTO)</strong>';
+                rationale = 'ACL-deficient knee: HTO can neutralize anterior tibial translation and stabilize the knee while unloading the medial compartment. UKA requires intact ACL to prevent eccentric polyethylene wear and early failure.';
+                confidence = 'High — ACL deficiency strongly favors HTO per Vipulendran algorithm.';
+                cls = 'recommend-hto';
+            }
+            // Step 2: UKA pathway (bone-on-bone + normal MPTA + low demand)
+            else if (isBoneOnBone && mpta > 85 && tegner < 5) {
+                procedure = 'UKA';
+                recommendation = '✅ <strong style="font-size:1.1rem;">Unicompartmental Knee Arthroplasty (UKA)</strong>';
+                rationale = 'Bone-on-bone OA (Ahlbäck III/IV) with purely intra-articular deformity (MPTA >85°) and low-moderate activity demand (Tegner <5). UKA maximizes early pain relief and implant longevity.';
+                if (age < 50) {
+                    rationale += ' ⚠ Patient is young (<50); ensure shared decision-making regarding long-term revision burden.';
+                }
+                confidence = 'High — meets Oxford Criteria and ESSKA/ISAKOS consensus for UKA.';
+                cls = 'recommend-uka';
+            }
+            // Step 3: HTO pathway (partial wear + extra-articular deformity + young)
+            else if (!isBoneOnBone && mpta < 85 && age < 60) {
+                procedure = 'HTO';
+                recommendation = '🔶 <strong style="font-size:1.1rem;">Medial Opening Wedge High Tibial Osteotomy (MOWHTO)</strong>';
+                rationale = 'Partial-thickness medial disease with measurable extra-articular tibial bowing (MPTA <85°) in a physiologically young patient. HTO directly corrects the structural bone flaw, preserves remaining joint tissues, and enables high-impact return to sport.';
+                confidence = 'High — strict indication per ESSKA guidelines (MPTA <85°) and KOG consensus.';
+                cls = 'recommend-hto';
+            }
+            // Grey zone scenarios
+            else if (isBoneOnBone && mpta > 85 && tegner >= 5) {
+                // Bone-on-bone but high demand — grey zone
+                procedure = 'GREY ZONE';
+                recommendation = '🔄 <strong style="font-size:1.1rem;">Grey Zone — Shared Decision Required</strong>';
+                rationale = 'Bone-on-bone OA with normal MPTA (intra-articular) but HIGH activity demand (Tegner ≥5). UKA is anatomically correct but may not meet athletic expectations. Consider: (1) UKA with conservative sport expectations, or (2) If patient prioritizes high-impact sport, consider HTO with understanding of 74% long-term failure risk at Ahlbäck Grade 3.';
+                if (age > 60) {
+                    rationale += ' Age >60 further favors UKA despite high demand.';
+                }
+                confidence = 'Moderate — grey zone per AKUMA framework; shared decision-making essential.';
+                cls = 'recommend-grey';
+            }
+            else if (!isBoneOnBone && mpta >= 85 && mpta <= 90 && age < 60) {
+                // Partial wear, normal MPTA, young — grey zone leaning UKA
+                procedure = 'GREY ZONE';
+                recommendation = '🔄 <strong style="font-size:1.1rem;">Grey Zone — Consider UKA with Caution</strong>';
+                rationale = 'Partial-thickness disease with normal MPTA (purely intra-articular). UKA traditionally requires bone-on-bone disease (Oxford Criteria). Performing UKA in partial cartilage loss risks overstuffing, MCL over-tensioning, and early failure. HTO may be preferable to offload until bone-on-bone stage, especially if patient is young and active.';
+                confidence = 'Low-Moderate — conflicting criteria. Oxford Criteria favor waiting for bone-on-bone before UKA.';
+                cls = 'recommend-grey';
+            }
+            else if (!isBoneOnBone && mpta >= 85 && age >= 60) {
+                procedure = 'UKA (cautious)';
+                recommendation = '⚠ <strong style="font-size:1.1rem;">UKA Considered — Verify Disease Severity</strong>';
+                rationale = 'Normal MPTA (>85°) and age ≥60 favor UKA, BUT partial-thickness disease (not bone-on-bone) is a relative contraindication per Oxford Criteria. Verify Ahlbäck/KL grade on imaging. If true bone-on-bone confirmed, proceed with UKA. If partial loss, consider conservative management or HTO to bridge to bone-on-bone stage.';
+                confidence = 'Moderate — depends on actual cartilage grade confirmation.';
+                cls = 'recommend-grey';
+            }
+            else if (isBoneOnBone && mpta < 85) {
+                // Bone-on-bone but extra-articular deformity — complex
+                if (age < 60 && tegner >= 5) {
+                    procedure = 'HTO (with caution)';
+                    recommendation = '🔶 <strong style="font-size:1.1rem;">HTO with Significant Caveats</strong>';
+                    rationale = 'Extra-articular deformity (MPTA <85°) mandates bony correction, BUT bone-on-bone disease increases HTO failure risk (74% at 16 years for Ahlbäck Grade 3). In a young, high-demand patient, HTO may be chosen to preserve bone stock for future TKA. Exhaustive shared decision-making required regarding high failure likelihood.';
+                    confidence = 'Low — anatomically appropriate but evidence warns of poor long-term durability.';
+                    cls = 'recommend-hto';
+                } else {
+                    procedure = 'GREY ZONE — Complex';
+                    recommendation = '🔄 <strong style="font-size:1.1rem;">Complex Grey Zone — Consider DLO</strong>';
+                    rationale = 'Bone-on-bone disease + extra-articular deformity creates a complex scenario. Single-level HTO has high failure risk in advanced OA. Consider Double Level Osteotomy (DLO) if the combined deformity warrants it. UKA is contraindicated due to MPTA <85°. For older/low-demand patients, early TKA may be most appropriate.';
+                    confidence = 'Low — complex case requiring specialist evaluation.';
+                    cls = 'recommend-grey';
+                }
+            }
+            else if (!isBoneOnBone && mpta < 85 && age >= 60) {
+                // Partial disease, extra-articular, older
+                procedure = 'HTO (selected) or UKA (preferred)';
+                recommendation = '🔄 <strong style="font-size:1.1rem;">Shared Decision — Age Favors UKA, Anatomy Favors HTO</strong>';
+                rationale = 'Extra-articular deformity (MPTA <85°) anatomically mandates HTO, but age ≥60 increases HTO complication risk (delayed healing, non-union). If the extra-articular deformity is moderate (5°–10°) and disease is early, HTO remains reasonable in fit elderly patients. Otherwise, consider whether combined correction or TKA is more appropriate.';
+                confidence = 'Moderate — conflicting age and anatomical indications.';
+                cls = 'recommend-grey';
+            }
+            else {
+                // Default fallback
+                procedure = 'Individualized';
+                recommendation = '🔄 <strong style="font-size:1.1rem;">Individualized Decision Required</strong>';
+                rationale = 'The combination of parameters entered falls into a nuanced zone. Please apply the full AKUMA framework with complete radiographic measurements (JLCA, mLDFA, TEAD%) and patient-specific functional goals. Consult the integrated Vipulendran algorithm in the main content.';
+                confidence = 'Variable — requires complete radiographic workup.';
+                cls = 'recommend-grey';
+            }
+
+            resultContainer.className = 'result-box ' + cls;
+            resultContainer.innerHTML = recommendation +
+                '<p><strong>Rationale:</strong> ' + rationale + '</p>' +
+                '<p><strong>Algorithm Confidence:</strong> ' + confidence + '</p>' +
+                '<p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem;">Based on source document thresholds. Not a substitute for clinical judgment.</p>';
+        }
+
+        function resetSliders() {
+            mptaSlider.value = 87;
+            ageSlider.value = 55;
+            tegnerSlider.value = 4;
+            bonOnBone.checked = false;
+            aclIntact.checked = true;
+            updateRecommendation();
+        }
+
+        function exportRecommendation() {
+            const mpta = mptaSlider.value + '°';
+            const age = ageSlider.value + ' yr';
+            const tegner = tegnerSlider.value;
+            const bob = bonOnBone.checked ? 'Yes' : 'No';
+            const acl = aclIntact.checked ? 'Yes' : 'No';
+            const resultText = resultContainer.innerText;
+            const timestamp = new Date().toISOString();
+
+            const report = [
+                '═══════════════════════════════════════════════',
+                '  HTO vs UKA CLINICAL DECISION REPORT',
+                '  Generated: ' + timestamp,
+                '═══════════════════════════════════════════════',
+                '',
+                'INPUT PARAMETERS:',
+                '  • Medial Proximal Tibial Angle (MPTA): ' + mpta,
+                '  • Patient Age: ' + age,
+                '  • Preop Tegner Activity Scale: ' + tegner,
+                '  • Bone-on-bone OA (Ahlbäck III/IV): ' + bob,
+                '  • ACL Intact: ' + acl,
+                '',
+                'ALGORITHMIC RECOMMENDATION:',
+                resultText,
+                '',
+                '───────────────────────────────────────────────',
+                'RADIOMIC DECISION THRESHOLDS (from source):',
+                '  • MPTA <85° → Extra-articular deformity → HTO',
+                '  • MPTA >85° → Intra-articular loss → UKA',
+                '  • Age <60 + high demand → Favor HTO',
+                '  • Age >60 + low demand → Favor UKA',
+                '  • Bone-on-bone + normal MPTA → UKA gold standard',
+                '  • ACL deficient → Favors HTO',
+                '',
+                'EVIDENCE BASE: ESSKA 2024, ISAKOS 2025,',
+                'UK KOG Consensus, AKUMA Framework,',
+                'Meta-analyses (56,000+ patients)',
+                '═══════════════════════════════════════════════'
+            ].join('\n');
+
+            navigator.clipboard.writeText(report).then(function() {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(function() {
+                    toast.classList.remove('show');
+                }, 2500);
+            }).catch(function() {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = report;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(function() {
+                    toast.classList.remove('show');
+                }, 2500);
+            });
+        }
+
+        // Attach event listeners
+        mptaSlider.addEventListener('input', updateRecommendation);
+        ageSlider.addEventListener('input', updateRecommendation);
+        tegnerSlider.addEventListener('input', updateRecommendation);
+        bonOnBone.addEventListener('change', updateRecommendation);
+        aclIntact.addEventListener('change', updateRecommendation);
+
+        // Initial call
+        updateRecommendation();
+    </script>
+</body>
+</html>

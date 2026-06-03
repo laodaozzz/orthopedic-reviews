@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifelong Learning &amp; Technology in Orthopedic Surgery — Interactive Educational Summary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-light: #2980b9;
+            --accent: #e74c3c;
+            --accent-soft: #fdecea;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --text-light: #5d6d7e;
+            --border: #dee2e6;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #3498db;
+            --badge-i: #1a7431;
+            --badge-ii: #2e86c1;
+            --badge-iii: #d4ac0d;
+            --badge-iv: #e67e22;
+            --badge-v: #95a5a6;
+            --badge-na: #7f8c8d;
+            --sidebar-width: 380px;
+            --header-height: 70px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Sticky Header */
+        .site-header {
+            position: sticky; top: 0; z-index: 100;
+            background: linear-gradient(135deg, var(--primary) 0%, #154360 100%);
+            color: #fff; padding: 0 2rem;
+            height: var(--header-height);
+            display: flex; align-items: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,.18);
+        }
+        .site-header h1 {
+            font-size: 1.15rem; font-weight: 700; letter-spacing: -.3px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .site-header .subtitle {
+            margin-left: auto; font-size: .75rem; opacity: .7; white-space: nowrap;
+        }
+        /* Layout */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr var(--sidebar-width);
+            gap: 2rem;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        /* Main */
+        main { min-width: 0; }
+        main h2 {
+            font-size: 1.6rem; font-weight: 800; color: var(--primary);
+            margin: 2.5rem 0 1rem; padding-bottom: .5rem;
+            border-bottom: 3px solid var(--primary-light);
+        }
+        main h2:first-child { margin-top: 0; }
+        main h3 {
+            font-size: 1.2rem; font-weight: 700; color: #1a3c5e;
+            margin: 1.8rem 0 .7rem;
+        }
+        main h4 {
+            font-size: 1.05rem; font-weight: 600; color: var(--primary);
+            margin: 1.2rem 0 .5rem;
+        }
+        main p { margin-bottom: 1rem; }
+        main ul, main ol { margin: .5rem 0 1rem 1.5rem; }
+        main li { margin-bottom: .35rem; }
+        /* Cards / Callouts */
+        .callout {
+            background: var(--card); border-left: 5px solid var(--primary-light);
+            border-radius: 8px; padding: 1.2rem 1.4rem; margin: 1.2rem 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,.06);
+        }
+        .callout.warning { border-left-color: var(--warning); background: #fef9e7; }
+        .callout.success { border-left-color: var(--success); background: #eafaf1; }
+        .callout.info    { border-left-color: var(--info);    background: #ebf5fb; }
+        .callout.limitation { border-left-color: var(--accent); background: var(--accent-soft); }
+        .callout strong { display: block; margin-bottom: .3rem; }
+        /* Evidence Badge */
+        .ev {
+            display: inline-block; font-size: .65rem; font-weight: 700;
+            color: #fff; padding: 1px 7px; border-radius: 10px;
+            vertical-align: middle; margin-left: 4px; letter-spacing: .3px;
+        }
+        .ev-1 { background: var(--badge-i); }
+        .ev-2 { background: var(--badge-ii); }
+        .ev-3 { background: var(--badge-iii); color: #333; }
+        .ev-4 { background: var(--badge-iv); }
+        .ev-5 { background: var(--badge-v); }
+        .ev-na { background: var(--badge-na); }
+        /* Tables */
+        .table-wrap { overflow-x: auto; margin: 1.2rem 0; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,.07); }
+        table {
+            width: 100%; border-collapse: collapse; background: var(--card);
+            font-size: .88rem;
+        }
+        caption {
+            caption-side: top; text-align: left; font-weight: 700;
+            padding: .8rem 1rem; background: var(--primary); color: #fff;
+            border-radius: 8px 8px 0 0; font-size: .92rem;
+        }
+        th {
+            background: #eaf2f8; font-weight: 600; text-align: left;
+            padding: .65rem .8rem; border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+        td {
+            padding: .55rem .8rem; border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f5f8fc; }
+        /* Sidebar */
+        aside {
+            position: sticky; top: calc(var(--header-height) + 2rem);
+            height: fit-content; max-height: calc(100vh - var(--header-height) - 4rem);
+            overflow-y: auto; background: var(--card);
+            border-radius: 12px; padding: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08);
+        }
+        aside h2 {
+            font-size: 1.1rem; font-weight: 800; color: var(--primary);
+            margin-bottom: 1rem; text-align: center;
+            border-bottom: 2px solid var(--primary-light); padding-bottom: .5rem;
+        }
+        .slider-group { margin-bottom: 1.4rem; }
+        .slider-group label {
+            display: block; font-weight: 600; font-size: .85rem;
+            margin-bottom: .3rem; color: var(--text);
+        }
+        .slider-group .slider-value {
+            float: right; font-weight: 700; color: var(--primary-light);
+            font-size: .9rem;
+        }
+        input[type="range"] {
+            -webkit-appearance: none; width: 100%; height: 6px;
+            border-radius: 3px; background: #d5dbdb; outline: none;
+            margin: .5rem 0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 20px; height: 20px;
+            border-radius: 50%; background: var(--primary-light);
+            cursor: pointer; border: 3px solid #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,.25);
+        }
+        .slider-labels {
+            display: flex; justify-content: space-between;
+            font-size: .68rem; color: var(--text-light);
+        }
+        /* Recommendation box */
+        .rec-box {
+            background: linear-gradient(135deg, #eaf2f8, #d6eaf8);
+            border-radius: 10px; padding: 1rem 1.1rem;
+            margin-top: 1rem; font-size: .82rem; line-height: 1.55;
+        }
+        .rec-box h3 {
+            font-size: .9rem; margin-bottom: .5rem; color: var(--primary);
+        }
+        .rec-box ul { margin-left: 1.2rem; }
+        .rec-box li { margin-bottom: .25rem; }
+        .rec-section { margin-bottom: .8rem; }
+        .rec-section-title {
+            font-weight: 700; font-size: .8rem; color: var(--primary);
+            margin-bottom: .2rem; text-transform: uppercase; letter-spacing: .5px;
+        }
+        /* Buttons */
+        .btn-row { display: flex; gap: .6rem; margin-top: 1.2rem; }
+        .btn {
+            flex: 1; padding: .6rem .8rem; border: none; border-radius: 8px;
+            font-weight: 600; font-size: .82rem; cursor: pointer;
+            transition: background .2s, transform .1s;
+        }
+        .btn:active { transform: scale(.97); }
+        .btn-reset { background: var(--border); color: var(--text); }
+        .btn-reset:hover { background: #ced6db; }
+        .btn-copy { background: var(--primary); color: #fff; }
+        .btn-copy:hover { background: var(--primary-light); }
+        .copy-toast {
+            position: fixed; bottom: 2rem; right: 2rem;
+            background: var(--success); color: #fff; padding: .7rem 1.2rem;
+            border-radius: 8px; font-weight: 600; font-size: .85rem;
+            opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 200;
+        }
+        .copy-toast.show { opacity: 1; }
+        /* References */
+        .references {
+            background: var(--card); border-radius: 10px; padding: 1.5rem;
+            margin-top: 2rem; box-shadow: 0 1px 6px rgba(0,0,0,.06);
+            font-size: .82rem;
+        }
+        .references h3 { margin-bottom: .8rem; color: var(--primary); }
+        .references ol { margin-left: 1.4rem; }
+        .references li { margin-bottom: .35rem; color: var(--text-light); }
+        .references a { color: var(--primary-light); word-break: break-all; }
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            aside {
+                position: relative; top: 0; max-height: none;
+                order: -1;
+            }
+        }
+        @media (max-width: 600px) {
+            .site-header h1 { font-size: .95rem; }
+            .site-header .subtitle { display: none; }
+            .layout { padding: 1rem; gap: 1.2rem; }
+            main h2 { font-size: 1.3rem; }
+        }
+        /* TOC */
+        .toc {
+            background: var(--card); border-radius: 10px; padding: 1.2rem 1.4rem;
+            margin-bottom: 2rem; box-shadow: 0 1px 6px rgba(0,0,0,.06);
+        }
+        .toc h3 { font-size: .95rem; margin-bottom: .6rem; color: var(--primary); }
+        .toc ol { margin-left: 1.2rem; }
+        .toc li { margin-bottom: .25rem; font-size: .88rem; }
+        .toc a { color: var(--primary-light); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+        /* Metric highlight */
+        .metric {
+            display: inline-block; background: #eaf2f8; padding: 2px 8px;
+            border-radius: 4px; font-weight: 600; font-size: .88rem;
+            color: var(--primary);
+        }
+        /* Scrollbar for sidebar */
+        aside::-webkit-scrollbar { width: 5px; }
+        aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>Lifelong Learning &amp; Technological Integration in Orthopedic Surgery</h1>
+    <span class="subtitle">Interactive Evidence-Based Summary</span>
+</header>
+
+<div class="layout">
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main role="main" aria-label="Main educational content">
+
+        <!-- Table of Contents -->
+        <nav class="toc" aria-label="Table of Contents">
+            <h3>📋 Table of Contents</h3>
+            <ol>
+                <li><a href="#sec-intro">Introduction</a></li>
+                <li><a href="#sec-lit">Mastering the Orthopedic Literature</a></li>
+                <li><a href="#sec-soc">Professional Societies &amp; Conferences</a></li>
+                <li><a href="#sec-digital">Digital Learning Platforms</a></li>
+                <li><a href="#sec-tech">Advanced Technologies: Robotics, VR/AR &amp; AI</a></li>
+                <li><a href="#sec-framework">Personalized Framework for Professional Excellence</a></li>
+                <li><a href="#sec-refs">References</a></li>
+            </ol>
+        </nav>
+
+        <!-- ========== INTRODUCTION ========== -->
+        <h2 id="sec-intro">Introduction: The Imperative of Continuous Professional Development</h2>
+        <p>Orthopedic surgery is defined by a relentless pace of innovation — from refined surgical techniques and novel biologics to the integration of robotics and artificial intelligence. The volume and complexity of new knowledge are expanding at an unprecedented rate, presenting the practicing surgeon with a formidable challenge: <strong>maintaining clinical currency is no longer a passive exercise</strong> in accumulating CME credits, but an active, strategic imperative for excellent patient care, practice viability, and professional satisfaction. <span class="ev ev-5">V</span></p>
+        <p>The educational paradigm itself is undergoing transformation. Traditional classroom-based models are yielding to <strong>competency-based frameworks</strong> that emphasize practical skill application. The post-pandemic environment has solidified the role of online learning, making education more accessible but also more fragmented. <span class="ev ev-5">V</span></p>
+
+        <div class="callout info">
+            <strong>🎯 Purpose of This Guide</strong>
+            This report provides a comprehensive roadmap for the modern orthopedic surgeon. It moves beyond simple resource lists to offer a strategic framework for identifying, evaluating, and integrating the most effective tools for professional development — covering peer-reviewed literature, professional societies, digital learning platforms, and emerging technologies.
+        </div>
+
+        <!-- ========== SECTION 1: LITERATURE ========== -->
+        <h2 id="sec-lit">Section 1: Mastering the Orthopedic Literature</h2>
+
+        <h3>Deconstructing Journal Prestige: Impact Factor, H-Index &amp; Beyond</h3>
+        <p>Navigating the scholarly landscape requires understanding the metrics used to quantify a journal's influence. The <strong>Journal Impact Factor (IF)</strong> is the most widely cited metric but is not the sole arbiter of quality. Calculated based on average citations per paper over two preceding years, it provides a snapshot of "topicality" — journals focused on rapidly evolving fields may have inflated IFs. <span class="ev ev-5">V</span></p>
+        <p>A recent 2024 ranking shows <span class="metric">Journal of Physiotherapy IF ≈ 9.4</span> and <span class="metric">Osteoarthritis and Cartilage IF ≈ 9</span> at the top, yet these figures do not always align with long-term foundational importance to surgical practice. <span class="ev ev-5">V</span></p>
+
+        <div class="callout">
+            <strong>📊 Multi-Metric Perspective</strong>
+            <ul>
+                <li><strong>H-Index:</strong> Measures both productivity and citation impact. A journal with H-Index 'h' has published 'h' papers each cited at least 'h' times. <em>JBJS-A</em> has a 2024 IF of ≈4.3 but a monumental H-Index of <strong>249</strong>, far surpassing many higher-IF journals — indicating deeper, more sustained influence. <span class="ev ev-5">V</span></li>
+                <li><strong>SCImago Journal Rank (SJR):</strong> Weights citations based on the prestige of the citing journal, offering a more sophisticated measure than simple citation count.</li>
+                <li><strong>Google Scholar h5-Index:</strong> Based on citations over five years, reflecting more recent sustained impact.</li>
+            </ul>
+        </div>
+
+        <h3>The Canon: Premier General Orthopedic Journals</h3>
+        <p>A core group of generalist journals consistently publishes landmark studies, Level-1 evidence, and comprehensive reviews that shape the entire field. These form the essential canon of orthopedic literature. <span class="ev ev-5">V</span></p>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 1 — Comparative Analysis of Top-Tier General Orthopedic Journals</caption>
+                <thead>
+                    <tr>
+                        <th>Journal</th>
+                        <th>Approx. IF (2024)</th>
+                        <th>H-Index</th>
+                        <th>Editorial Strengths</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>JBJS – American Volume</strong></td>
+                        <td>4.3</td>
+                        <td>249</td>
+                        <td>Seminal clinical trials; Level-1 evidence; practice guidelines</td>
+                    </tr>
+                    <tr>
+                        <td><strong>The Bone &amp; Joint Journal</strong> (formerly JBJS-British)</td>
+                        <td>4.6</td>
+                        <td>—</td>
+                        <td>High citation index for shoulder/humerus articles (51.2)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clinical Orthopaedics &amp; Related Research (CORR)</strong></td>
+                        <td>4.2</td>
+                        <td>—</td>
+                        <td>Rigorous peer review; clinically relevant research</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JAAOS</strong></td>
+                        <td>3.5</td>
+                        <td>—</td>
+                        <td>"Current Concepts Reviews" — authoritative, comprehensive reviews</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Acta Orthopaedica</strong></td>
+                        <td>3.8</td>
+                        <td>—</td>
+                        <td>High-quality international research; stringent editorial standards</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout warning">
+            <strong>💰 Cost Consideration</strong>
+            A direct subscription to the full <em>JBJS</em> suite costs <strong>$299/year</strong>. However, AOA members can subscribe for as little as <strong>$85/year</strong>, demonstrating the economic benefit of society affiliation. <span class="ev ev-5">V</span>
+        </div>
+
+        <h3>Subspecialty Focus: Curating a High-Impact Reading List</h3>
+        <p>As orthopedic surgery becomes increasingly specialized, a surgeon's reading must reflect their specific area. Each subspecialty has premier journals serving as primary venues for the most important advancements. A recent analysis of publication trends provides a clear guide. <span class="ev ev-2">II</span></p>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 2 — Leading Journals by Orthopedic Subspecialty</caption>
+                <thead>
+                    <tr>
+                        <th>Subspecialty</th>
+                        <th>Top Journal</th>
+                        <th>Key Metric</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Sports Medicine</td><td>AJSM</td><td>IF 6.093; 83.2% abstract publication rate</td></tr>
+                    <tr><td>Adult Reconstruction</td><td>Journal of Arthroplasty</td><td>47.8% of major research in domain</td></tr>
+                    <tr><td>Spine</td><td>Spine / European Spine Journal</td><td>JBJS citation index for spine: 14.9</td></tr>
+                    <tr><td>Shoulder &amp; Elbow</td><td>Shoulder &amp; Elbow / JSES</td><td>BJJ citation index for shoulder: 51.2</td></tr>
+                    <tr><td>Trauma</td><td>Journal of Orthopaedic Trauma</td><td>[Data not available in source]</td></tr>
+                    <tr><td>Hand &amp; Wrist</td><td>Journal of Hand Surgery</td><td>[Data not available in source]</td></tr>
+                    <tr><td>Foot &amp; Ankle</td><td>Foot &amp; Ankle International</td><td>[Data not available in source]</td></tr>
+                    <tr><td>Pediatrics</td><td>JPO</td><td>[Data not available in source]</td></tr>
+                    <tr><td>Musculoskeletal Oncology</td><td>Clinical Orthopaedics</td><td>[Data not available in source]</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout limitation">
+            <strong>⚠️ Source Limitation</strong>
+            Detailed publication volume and citation index data were only available for Sports Medicine, Adult Reconstruction, Spine, and Shoulder &amp; Elbow subspecialties in the source document. Other subspecialties are listed with commonly known top journals but specific metrics are <em>[not available in source]</em>.
+        </div>
+
+        <p><strong>Cost alert:</strong> A non-member subscription to <em>AJSM</em> exceeds <strong>$2,000/year</strong>. Joining the relevant subspecialty society (e.g., AOSSM) typically includes journal access as a core benefit. <span class="ev ev-5">V</span></p>
+
+        <h3>Strategic Consumption Frameworks</h3>
+        <p>Given the volume of literature, efficient consumption is as critical as proper selection. A proactive, structured approach extracts maximum value with minimum time investment. <span class="ev ev-5">V</span></p>
+        <ul>
+            <li><strong>Leverage curated summaries:</strong> <em>JBJS Evidence-Based Orthopaedics</em> highlights three high-quality studies quarterly with expert commentary.</li>
+            <li><strong>Utilize digital alerts:</strong> Free TOC email alerts from 5–10 curated journals enable a quick weekly scan; select only 2–3 articles for in-depth reading.</li>
+            <li><strong>Embrace critical appraisal:</strong> Prioritize Level I and II studies (RCTs, prospective cohorts) for practice-changing potential.</li>
+            <li><strong>Adopt a consistent cadence:</strong> "One article per day" or "three articles per week" fosters better retention than monthly binge-reading.</li>
+        </ul>
+
+        <!-- ========== SECTION 2: SOCIETIES & CONFERENCES ========== -->
+        <h2 id="sec-soc">Section 2: Professional Societies &amp; Conferences</h2>
+
+        <p>Professional societies and their annual conferences represent the dynamic, collaborative heart of the specialty — indispensable for disseminating cutting-edge research, hands-on learning, and networking. These organizations have evolved into comprehensive, year-round educational providers, with conference fee structures that heavily favor members. <span class="ev ev-5">V</span></p>
+
+        <h3>Premier International &amp; National Meetings</h3>
+
+        <div class="callout success">
+            <strong>🏆 AAOS Annual Meeting — "The Premier Event for Orthopaedic Surgery"</strong>
+            Regularly attracts <strong>7,500+</strong> surgeons with an exhibit hall of <strong>600+</strong> companies. Features include the <strong>OrthoDome</strong> (immersive 4K surgical video theater), <strong>OrthoPitch</strong> (Shark Tank–style tech competition), and comprehensive subspecialty coverage. <span class="ev ev-5">V</span>
+        </div>
+
+        <p>Other key international meetings include the <strong>SICOT Orthopaedic World Congress</strong>, the <strong>EFORT Congress</strong> (European flagship), and the <strong>AOA Annual Leadership Meeting</strong> (focused on education, leadership development, and policy). <span class="ev ev-5">V</span></p>
+
+        <div class="callout warning">
+            <strong>💡 Economic Insight</strong>
+            AAOS 2025 registration: member early-bird <strong>$225</strong> vs. non-member physician <strong>$1,505</strong> — a nearly <strong>sevenfold difference</strong>. Conference savings alone often exceed annual society dues.
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 3 — Guide to Major Annual Orthopedic Conferences</caption>
+                <thead>
+                    <tr><th>Conference</th><th>Focus</th><th>Key Feature</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>AAOS Annual Meeting</td><td>All subspecialties</td><td>Largest global orthopedic marketplace</td></tr>
+                    <tr><td>AOA Annual Leadership Meeting</td><td>Leadership &amp; policy</td><td>Education, mentorship, advocacy</td></tr>
+                    <tr><td>SICOT World Congress</td><td>International</td><td>Global community perspective</td></tr>
+                    <tr><td>AAHKS Annual Meeting</td><td>Arthroplasty</td><td>Hip &amp; knee focus</td></tr>
+                    <tr><td>AOFAS Annual Meeting</td><td>Foot &amp; ankle</td><td>Subspecialty innovation</td></tr>
+                    <tr><td>ASES Annual Meeting</td><td>Shoulder &amp; elbow</td><td>Expert techniques</td></tr>
+                    <tr><td>OTA Annual Meeting</td><td>Trauma</td><td>Fracture care advances</td></tr>
+                    <tr><td>NASS Annual Meeting</td><td>Spine</td><td>Spinal disorders &amp; surgery</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Year-Round Society Resources</h3>
+        <p>The annual meeting is only one component. Societies provide continuous streams of resources. <span class="ev ev-5">V</span></p>
+
+        <div class="callout">
+            <strong>AAOS Membership Ecosystem</strong>
+            <ul>
+                <li><strong>Education:</strong> Online modules, webinars, Orthopaedic Video Theater (OVT), ROCK (Resident Core Knowledge)</li>
+                <li><strong>Publications:</strong> <em>JAAOS</em> journals, <em>AAOS Now</em> news magazine</li>
+                <li><strong>Quality &amp; Practice:</strong> Clinical practice guidelines, EBM programs, Code-X, national registries</li>
+                <li><strong>Advocacy:</strong> Federal/state policy, Orthopaedic PAC</li>
+            </ul>
+            <br>
+            <strong>AOSSM (Sports Medicine) Ecosystem</strong>
+            <ul>
+                <li>Journals: <em>AJSM</em>, <em>OJSM</em>, <em>Sports Health</em></li>
+                <li>eLearning Zone, research grants, fellowship programs</li>
+            </ul>
+        </div>
+
+        <h3>Maximizing Conference ROI</h3>
+        <ul>
+            <li><strong>Pre-meeting planning:</strong> Use the official conference app to build a personalized schedule; pre-schedule meetings with colleagues.</li>
+            <li><strong>Balance breadth &amp; depth:</strong> Attend your subspecialty meeting annually; supplement with AAOS every 2–3 years for broad perspective.</li>
+            <li><strong>Post-meeting consolidation:</strong> Leverage <strong>AAOS OnDemand</strong> for recorded sessions, missed lectures, and additional CME credits.</li>
+        </ul>
+
+        <!-- ========== SECTION 3: DIGITAL PLATFORMS ========== -->
+        <h2 id="sec-digital">Section 3: Leveraging Modern Digital Platforms</h2>
+
+        <p>The digital revolution has reshaped medical education, offering powerful, on-demand tools. The market has bifurcated into two primary models: the <strong>"Community-Driven Encyclopedia"</strong> (breadth, exam prep) and the <strong>"Expert-Curated Curriculum"</strong> (depth, procedural instruction). An optimal strategy leverages both synergistically. <span class="ev ev-5">V</span></p>
+
+        <h3>Comprehensive Educational Ecosystems</h3>
+
+        <h4>OrthoBullets — The Community Encyclopedia</h4>
+        <p>A massive, community-driven platform with thousands of review topics, a vast QBank, peer-reviewed cases, surgical technique guides, podcasts, and videos. Social features (expert comments, treatment polls) create a dynamic learning environment. Dominant in resident education and board preparation. <span class="ev ev-5">V</span></p>
+        <ul>
+            <li><strong>Free tier:</strong> Extensive content access</li>
+            <li><strong>PEAK:</strong> $195/year — advanced features, mastery tracking</li>
+            <li><strong>PEAK Plus:</strong> $299/year — unlimited CME/SAE credits</li>
+        </ul>
+
+        <h4>OrthoPedia — The Expert Curriculum</h4>
+        <p>Developed with Arthrex support, organized around anatomy, biomechanics, and clinical applications. Delivered through peer-reviewed, cinema-grade instructional videos and animations from world-renowned experts. Offers tailored portals for clinicians, academics, and patients. <span class="ev ev-5">V</span></p>
+
+        <h3>Point-of-Care Mobile Applications</h3>
+        <div class="table-wrap">
+            <table>
+                <caption>Table 4 — Essential Digital Platforms &amp; Mobile Applications</caption>
+                <thead>
+                    <tr><th>Platform / App</th><th>Type</th><th>Key Features</th><th>Cost</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>OrthoBullets</td><td>Community encyclopedia</td><td>QBank, cases, podcasts, CME</td><td>Free / PEAK $195–299/yr</td></tr>
+                    <tr><td>OrthoPedia</td><td>Expert-curated video</td><td>Cinema-grade procedural videos</td><td>Varies by portal</td></tr>
+                    <tr><td>AAOS Online Learning</td><td>Society platform</td><td>Modules, OVT, ROCK, webinars</td><td>Membership</td></tr>
+                    <tr><td>AO Surgery Reference</td><td>Clinical reference</td><td>Step-by-step fracture management</td><td>Free</td></tr>
+                    <tr><td>OrthoGuidelines</td><td>Clinical guidelines</td><td>Evidence-based CPGs &amp; AUCs</td><td>Membership</td></tr>
+                    <tr><td>iOrtho+</td><td>Physical exam reference</td><td>Evidence-based special tests with video</td><td>Varies</td></tr>
+                    <tr><td>AAOS Cases Solved!</td><td>Case library</td><td>70+ CME-accredited real-world cases</td><td>Membership</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Real-Time Learning: Case Libraries &amp; News Aggregators</h3>
+        <ul>
+            <li><strong>Academic case libraries:</strong> Northwestern University, Johns Hopkins — free teaching case collections.</li>
+            <li><strong>Industry-sponsored:</strong> MicroGenDX — periprosthetic joint infection deep dives.</li>
+            <li><strong>News aggregators:</strong>
+                <ul>
+                    <li><em>Ryortho (Orthopedics This Week)</em> — industry news, device approvals, mergers</li>
+                    <li><em>AAOS Now</em> — physician-centric research highlights, practice management</li>
+                    <li><em>Mayo Clinic / MGH Newsrooms</em> — clinical breakthroughs from leading institutions</li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- ========== SECTION 4: ADVANCED TECHNOLOGIES ========== -->
+        <h2 id="sec-tech">Section 4: The Technological Vanguard</h2>
+
+        <p>Advanced digital technologies — surgical planning software, robotics, VR, AR, and AI — are no longer futuristic but practical tools enhancing precision, outcomes, and education. These technologies form a <strong>self-reinforcing feedback loop</strong>: robotic complexity drives demand for VR/AR training, AI powers both systems, and performance data generated feeds back into all platforms. <span class="ev ev-5">V</span></p>
+
+        <h3>Preoperative Digital Templating &amp; Surgical Planning</h3>
+        <p>Physical X-ray templating is being supplanted by sophisticated 2D/3D software enabling patient-specific preoperative planning with more accurate implant selection, better intraoperative anticipation, and improved OR efficiency. <span class="ev ev-5">V</span></p>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 5 — Major Digital Planning Platforms</caption>
+                <thead>
+                    <tr><th>Platform</th><th>Key Strength</th><th>Notable Feature</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>mediCAD</strong></td><td>Largest implant database (500K+ templates, 130+ manufacturers)</td><td>AI-driven automation; 2D &amp; 3D modules</td></tr>
+                    <tr><td><strong>TraumaCad</strong> (Brainlab)</td><td>Efficiency; automatic image detection/calibration</td><td>Arthroplasty, trauma, deformity correction</td></tr>
+                    <tr><td><strong>PeekMed</strong></td><td>Web-based; AI bone segmentation</td><td>2D/3D hybrid view; landmark detection</td></tr>
+                    <tr><td><strong>VSP</strong> (3D Systems)</td><td>Complex orthopedic oncology</td><td>Patient-specific guides</td></tr>
+                    <tr><td><strong>OrthoNext</strong> (Orthofix)</td><td>Deformity correction</td><td>External fixation planning</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>The Robotic Revolution</h3>
+        <p>Robotic-assisted surgery has moved into the mainstream, particularly in arthroplasty, with goals of enhancing accuracy and reproducibility of bone preparation and implant placement. While long-term evidence is still maturing, studies suggest improved component positioning, reduced alignment outliers, and potentially shorter hospital stays. <span class="ev ev-2">II</span></p>
+
+        <p>Systems are categorized by surgeon interaction level: <span class="ev ev-5">V</span></p>
+        <ul>
+            <li><strong>Active:</strong> Robot autonomously performs planned resections (e.g., THINK Surgical TSolution One)</li>
+            <li><strong>Semi-Active:</strong> Surgeon guides robotic arm with haptic feedback boundaries (e.g., Stryker Mako)</li>
+            <li><strong>Passive:</strong> Robot provides navigation/positioning guidance only (e.g., many spine platforms)</li>
+        </ul>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 6 — Overview of Major Robotic &amp; VR/AR Surgical Platforms</caption>
+                <thead>
+                    <tr><th>Platform</th><th>Manufacturer</th><th>Category</th><th>Primary Use</th><th>Key Differentiator</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Mako</strong></td><td>Stryker</td><td>Semi-active (arthroplasty)</td><td>THA, TKA, PKA</td><td>AccuStop™ haptic; CT-based</td></tr>
+                    <tr><td><strong>VELYS</strong></td><td>DePuy Synthes</td><td>Semi-active (arthroplasty)</td><td>TKA</td><td>Imageless; table-mounted; lower cost</td></tr>
+                    <tr><td><strong>CORI</strong></td><td>Smith &amp; Nephew</td><td>Handheld robotic</td><td>TKA, PKA</td><td>Portable; smaller footprint; imageless</td></tr>
+                    <tr><td><strong>ROSA</strong></td><td>Zimmer Biomet</td><td>Versatile assistant</td><td>Knee, hip, shoulder</td><td>Image-based or imageless</td></tr>
+                    <tr><td><strong>ExcelsiusGPS</strong></td><td>Globus Medical</td><td>Navigation + robotic arm</td><td>Spine (pedicle screws)</td><td>Integrated navigation</td></tr>
+                    <tr><td><strong>Mazor X</strong></td><td>Medtronic</td><td>Navigation + robotic arm</td><td>Spine</td><td>High-accuracy implant guidance</td></tr>
+                    <tr><td><strong>PrecisionOS</strong></td><td>PrecisionOS</td><td>VR training</td><td>Surgical simulation</td><td>Competency-based; real-time metrics</td></tr>
+                    <tr><td><strong>Osso VR</strong></td><td>Osso VR</td><td>VR training</td><td>Surgical simulation</td><td>Osso Analytics dashboard</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout warning">
+            <strong>💰 Economic Consideration</strong>
+            Capital cost of a robotic platform can exceed <strong>$1 million</strong>, with additional annual service contracts and disposables. Lower-cost systems like <strong>VELYS</strong> represent a key competitive strategy. <span class="ev ev-5">V</span>
+        </div>
+
+        <h3>Immersive Training: Virtual &amp; Augmented Reality</h3>
+        <p>Traditional apprenticeship-based training faces challenges from work-hour restrictions, increasing complexity, and patient safety focus. VR/AR platforms provide safe, repeatable, data-rich environments for skill acquisition. <span class="ev ev-2">II</span></p>
+
+        <div class="callout success">
+            <strong>🎓 VR Training Evidence</strong>
+            Multiple peer-reviewed studies show VR training <strong>accelerates learning curves</strong>, improves procedural competency, and leads to <strong>higher knowledge retention</strong> compared to traditional methods. <span class="ev ev-2">II</span>
+        </div>
+
+        <ul>
+            <li><strong>Osso VR:</strong> Clinically accurate modules (retrograde nailing to robotic TKA); <em>Osso Analytics</em> provides personalized performance dashboards.</li>
+            <li><strong>PrecisionOS:</strong> High-fidelity anatomy simulation; modules include BodyWorks™ (anatomy), Sports (arthroscopy), FractureLab™ (trauma).</li>
+            <li><strong>Augmented Reality (e.g., Augmedics xvision):</strong> Projects 3D patient anatomy onto the surgical field for real-time "x-ray vision" navigation. <span class="ev ev-5">V</span></li>
+        </ul>
+
+        <p><strong>Accessibility milestone:</strong> Standalone VR headsets now cost <strong>&lt;$1,000</strong>, and software subscriptions range from <strong>$49–99/month</strong> (e.g., PrecisionOS), making immersive training far more scalable than cadaver labs. <span class="ev ev-5">V</span></p>
+
+        <h3>Artificial Intelligence in Orthopedics</h3>
+        <p>AI/ML is becoming a pervasive, transformative force across all aspects of orthopedic surgery. <span class="ev ev-5">V</span></p>
+        <ul>
+            <li><strong>Diagnostics:</strong> Algorithms identify fractures, tumors, ACL/rotator cuff tears with accuracy comparable to or exceeding human radiologists.</li>
+            <li><strong>Perioperative management:</strong> Powers automatic segmentation in planning, real-time robotic adjustments, VR trainer feedback. Postoperatively, AI from smart implants/wearables (e.g., Zimmer Biomet WalkAI™) monitors recovery and predicts complications.</li>
+            <li><strong>Education:</strong> Mount Sinai's <strong>ESIST</strong> model uses XR headsets and real-time AI feedback to teach complex procedures without a human instructor.</li>
+            <li><strong>Research &amp; Administration:</strong> Rapid analysis of massive datasets; streamlining scheduling, billing, and medical coding.</li>
+        </ul>
+
+        <!-- ========== SECTION 5: PERSONALIZED FRAMEWORK ========== -->
+        <h2 id="sec-framework">Section 5: A Personalized Framework for Professional Excellence</h2>
+
+        <h3>Crafting a Dynamic Continuing Education Portfolio</h3>
+        <p>A modern approach should be viewed as a diversified portfolio, blending modalities in layers: <span class="ev ev-5">V</span></p>
+
+        <div class="callout">
+            <strong>The Four-Layer Educational Portfolio</strong>
+            <ol>
+                <li><strong>Foundational Layer (Daily/Weekly):</strong> Free/low-cost digital resources — <em>Ryortho</em> headlines, <em>AAOS Now</em>, OrthoBullets free tier.</li>
+                <li><strong>Core Layer (Monthly):</strong> Deep engagement with 2–3 premier journals via society memberships; managed via TOC alerts and consistent reading.</li>
+                <li><strong>Experiential Layer (Annual):</strong> Hands-on subspecialty conference + AAOS every 2–3 years; targeted skills courses or VR modules.</li>
+                <li><strong>Leadership Layer (Career Progression):</strong> AOA engagement, mentorship programs, policy participation.</li>
+            </ol>
+        </div>
+
+        <h3>Tailored Strategies by Career Stage</h3>
+
+        <div class="table-wrap">
+            <table>
+                <caption>Table 7 — Career-Stage–Specific Recommendations</caption>
+                <thead>
+                    <tr><th>Stage</th><th>Primary Focus</th><th>Key Strategies</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Resident/Fellow</strong></td>
+                        <td>Knowledge base; board prep; foundational skills</td>
+                        <td>Intensive OrthoBullets; VR platforms (PrecisionOS, Osso VR); hands-on courses; exam-focused reading</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Early-Career (1–10 yrs)</strong></td>
+                        <td>Master core procedures; build practice; MOC</td>
+                        <td>Annual subspecialty meetings; practice management resources; journal reading cadence</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mid-Career (10+ yrs)</strong></td>
+                        <td>Maintain expertise; adopt new tech; mentorship</td>
+                        <td>Curated summaries (<em>JBJS EBO</em>, <em>JAAOS Reviews</em>); advanced technology courses; leadership programs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Senior Surgeon</strong></td>
+                        <td>Mentorship; legacy; innovation adoption</td>
+                        <td>AOA leadership meetings; selective high-impact symposia; peer mentorship roles</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Economic Analysis: Allocating Resources</h3>
+        <div class="callout success">
+            <strong>📈 High-ROI Investments</strong>
+            <ul>
+                <li><strong>Professional society membership</strong> offers the single highest ROI — dues are typically offset by journal + conference savings alone. <span class="ev ev-5">V</span></li>
+                <li><strong>OrthoBullets PEAK Plus ($299/yr)</strong> vs. single conference ($3,000–4,000 total) — digital resources are exceptionally efficient for knowledge acquisition and CME.</li>
+                <li><strong>VR headset (&lt;$1,000)</strong> + subscription is a feasible personal investment vs. cadaver lab costs.</li>
+                <li><strong>Surgical robotics</strong> remain a hospital/practice-level capital decision ($1M+).</li>
+            </ul>
+        </div>
+
+        <h3>Horizon Scanning</h3>
+        <p>The ongoing fusion of AI, robotics, and immersive reality will create an integrated surgical ecosystem more precise, data-driven, and personalized than ever. Education will continue shifting from time-based apprenticeship to decentralized, competency-based models with simulation, VR, and AI feedback as standard. <span class="ev ev-5">V</span></p>
+        <p>The surgeon of the future will be a <strong>hybrid professional</strong>: a skilled manual technician, a sophisticated manager of digital information, and a critical evaluator of new technology. A proactive, strategic, and personalized approach to lifelong learning is not merely a recommendation — it is the essential tool for thriving in the dynamic future of orthopedic surgery.</p>
+
+        <!-- ========== REFERENCES ========== -->
+        <section class="references" id="sec-refs" aria-label="References">
+            <h3>📚 References (from Source Document)</h3>
+            <ol>
+                <li>The Changing Environment in Postgraduate Education… — <em>Medicina</em> 2023;13(5):852. <a href="https://www.mdpi.com/2075-4426/13/5/852" target="_blank" rel="noopener">Link</a></li>
+                <li>The Future of Orthopaedic Education and Training… — PMC 2024. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11408390/" target="_blank" rel="noopener">Link</a></li>
+                <li>Orthopedics: Journal Rankings — OOIR. <a href="https://ooir.org/journals.php?field=Clinical+Medicine&category=Orthopedics&metric=jif" target="_blank" rel="noopener">Link</a></li>
+                <li>Orthopedic Medicine &amp; Surgery — Google Scholar Metrics. <a href="https://scholar.google.com/citations?view_op=top_venues&hl=en&vq=med_orthopedicmedicinesurgery" target="_blank" rel="noopener">Link</a></li>
+                <li>Dragoo JL. Ranked Orthopedic Journals — UC Denver. <a href="https://ucdenver.edu/docs/librariesprovider65/academic-affairs/ranked-orthopedic-journals-links.pdf" target="_blank" rel="noopener">Link</a></li>
+                <li>[General search — top orthopedic surgery journals IF]</li>
+                <li>Top Ranked SCI Listed Orthopedic Journals — ResearchGate. <a href="https://www.researchgate.net/file.PostFileLoader.html?id=579733b0404854670f200bd5&assetKey=AS:388038350917632@1469526960379" target="_blank" rel="noopener">Link</a></li>
+                <li>JBJS Article Collections. <a href="https://www.jbjs.org/collections.php" target="_blank" rel="noopener">Link</a></li>
+                <li>Investigation of Orthopedic Research Trends — SurgiColl 2024. <a href="https://surgicoll.scholasticahq.com/article/129178" target="_blank" rel="noopener">Link</a></li>
+                <li>JBJS Journals Subscription (Print + Online). <a href="https://storefront.jbjs.org/products/journals-print-online" target="_blank" rel="noopener">Link</a></li>
+                <li>AOA Online Store — Subscriptions. <a href="https://aoa.netforumcloud.org/eweb/DynamicPage.aspx?WebCode=CSCSubscriptionSearch" target="_blank" rel="noopener">Link</a></li>
+                <li>Journal of Bone and Joint Surgery — AOA. <a href="https://www.aoassn.org/aoa-subscription-package-journal-of-bone-and-joint-surgery/" target="_blank" rel="noopener">Link</a></li>
+                <li>Publication Rates Vary Across Orthopaedic Subspecialties — PMC 2024. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10777694/" target="_blank" rel="noopener">Link</a></li>
+                <li>AJSM Subscription — SAGE Publications. <a href="https://mysubs.in/buy/the-american-journal-of-sports-medicine-including-sports-health-journal-subscription" target="_blank" rel="noopener">Link</a></li>
+                <li>AOSSM. <a href="https://www.sportsmed.org/" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS Annual Meeting. <a href="https://www.aaos.org/annual/" target="_blank" rel="noopener">Link</a></li>
+                <li>EFORT Events Calendar. <a href="https://www.efort.org/events-calendar/orthopaedic-event-calendar/" target="_blank" rel="noopener">Link</a></li>
+                <li>American Orthopaedic Association. <a href="https://www.aoassn.org/" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS 2025 Registration Rates. <a href="https://www.aaos.org/globalassets/aaos-annual-meeting/attend/registration/2025-registration-rates.pdf" target="_blank" rel="noopener">Link</a></li>
+                <li>Major Orthopaedic Meetings — AOC Connect. <a href="https://myaocconnect.com/major-orthopaedic-meetings/" target="_blank" rel="noopener">Link</a></li>
+                <li>OTA Annual Meeting — Boston Medical Center. <a href="https://www.bmc.org/orthopedic-surgery/professional-organizations" target="_blank" rel="noopener">Link</a></li>
+                <li>Orthopaedic Societies — UW Orthopaedics. <a href="https://orthop.washington.edu/about/orthopaedic-societies.html" target="_blank" rel="noopener">Link</a></li>
+                <li>Related Organizations — ABOS. <a href="https://www.abos.org/about/related-organizations/" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS. <a href="https://www.aaos.org/" target="_blank" rel="noopener">Link</a></li>
+                <li>CME Resources — AAOS. <a href="https://www.aaos.org/education/maintenance-of-certification/cme-resources/" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS Now. <a href="https://www.aaos.org/aaosnow/" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS Mobile Apps. <a href="https://www.aaos.org/membership/aaos-member-resources/mobile-apps/" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS FAQs. <a href="https://www.aaos.org/annual/attend/attendee-resources/frequently-asked-questions/" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoBullets. <a href="https://www.orthobullets.com/" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoBullets PEAK Subscription. <a href="https://www.orthobullets.com/products/12763/peak-premium-subscription" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoBullets PEAK Plus. <a href="https://www.orthobullets.com/products/12277/peak-plus-with-unlimited-cme" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoBullets Product Chart. <a href="https://www.orthobullets.com/products/12786/product-and-price-chart" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoPedia. <a href="https://www.orthopedia.com/" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoPedia — Arthrex. <a href="https://www.arthrex.com/medical-education/orthopedia" target="_blank" rel="noopener">Link</a></li>
+                <li>Arthrex OrthoPedia — Training Industry. <a href="https://trainingindustry.com/press-release/compliance/arthrex-launches-online-learning-tool-for-orthopedic-patients/" target="_blank" rel="noopener">Link</a></li>
+                <li>Best Orthopedic Apps — Exer AI. <a href="https://www.exer.ai/posts/best-orthopedic-apps" target="_blank" rel="noopener">Link</a></li>
+                <li>Smartphone Apps for Orthopaedic Sports Medicine — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4603922/" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS Cases Solved! <a href="https://www.aaos.org/education/about-aaos-products/cases-solved/" target="_blank" rel="noopener">Link</a></li>
+                <li>Northwestern Orthopedic Teaching Cases. <a href="https://www.ortho-teaching.feinberg.northwestern.edu/cases/index.html" target="_blank" rel="noopener">Link</a></li>
+                <li>Johns Hopkins Case Studies. <a href="https://www.hopkinsmedicine.org/center-for-bloodless-medicine-and-surgery/case-studies" target="_blank" rel="noopener">Link</a></li>
+                <li>Johns Hopkins Orthopedic Case Study. <a href="https://www.hopkinsmedicine.org/center-for-bloodless-medicine-and-surgery/case-studies/orthopedic-surgery" target="_blank" rel="noopener">Link</a></li>
+                <li>MicroGenDX Orthopedic Case Studies. <a href="https://microgendx.com/orthopedic-case-studies/" target="_blank" rel="noopener">Link</a></li>
+                <li>Ryortho. <a href="https://ryortho.com/" target="_blank" rel="noopener">Link</a></li>
+                <li>MGH Orthopaedic Surgery News. <a href="https://www.massgeneral.org/orthopaedics/news" target="_blank" rel="noopener">Link</a></li>
+                <li>Mayo Clinic Orthopedic Surgery News. <a href="https://www.mayoclinic.org/medical-professionals/orthopedic-surgery/news" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoNext — Orthofix. <a href="https://orthofix.com/solutions/orthopedic/orthonext/" target="_blank" rel="noopener">Link</a></li>
+                <li>OrthoPlan 2.0 — Radlink. <a href="https://radlink.com/products/orthoplan-2-0/" target="_blank" rel="noopener">Link</a></li>
+                <li>AI in Orthopedic Surgery — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12188104/" target="_blank" rel="noopener">Link</a></li>
+                <li>mediCAD. <a href="https://www.medicad.eu/" target="_blank" rel="noopener">Link</a></li>
+                <li>TraumaCad — Brainlab. <a href="https://www.brainlab.com/surgery-products/orthopedic-surgery-products/orthopedic-templating-software/" target="_blank" rel="noopener">Link</a></li>
+                <li>PeekMed. <a href="https://www.peekmed.com/" target="_blank" rel="noopener">Link</a></li>
+                <li>VSP — 3D Systems. <a href="https://www.3dsystems.com/healthcare/vsp-surgical-planning-solutions" target="_blank" rel="noopener">Link</a></li>
+                <li>Robotic Surgical Systems for Orthopedics — NCBI. <a href="https://www.ncbi.nlm.nih.gov/books/NBK602663/" target="_blank" rel="noopener">Link</a></li>
+                <li>Advancements in Robotic Orthopaedic Surgery — SurgiColl. <a href="https://surgicoll.scholasticahq.com/article/132487" target="_blank" rel="noopener">Link</a></li>
+                <li>Orthopedic Robotic Systems in Knee Arthroplasty — Frontiers. <a href="https://www.frontiersin.org/journals/bioengineering-and-biotechnology/articles/10.3389/fbioe.2025.1523631/full" target="_blank" rel="noopener">Link</a></li>
+                <li>Orthopedic Robotic Surgery — Emanuel Medical Center. <a href="https://www.emanuelmedicalcenter.org/services/orthopedics/orthopedic-robotic-surgery" target="_blank" rel="noopener">Link</a></li>
+                <li>Mako Robot Cost — FierceBiotech. <a href="https://www.fiercebiotech.com/medical-devices/cautious-stryker-pushes-launch-total-knee-replacement-its-mako-robot-to-2017" target="_blank" rel="noopener">Link</a></li>
+                <li>Mako Robot Cost — MedCity News. <a href="https://medcitynews.com/2017/03/stryker-launches-expensive-mako-robot-knee-replacement-cost-conscious-era/" target="_blank" rel="noopener">Link</a></li>
+                <li>Robotic Hip Replacement Cost. <a href="https://hip-replacement.info/how-much-does-minimally-invasive-and-robotic-hip-replacement-surgery-cost/" target="_blank" rel="noopener">Link</a></li>
+                <li>How Much is a Surgical Robot — R2 Surgical. <a href="https://r2surgical.com/blogs/news/how-much-is-a-new-surgical-robot" target="_blank" rel="noopener">Link</a></li>
+                <li>Competitive Dynamics in Orthopaedic Robotics — Medical Technology. <a href="https://medical-technology.nridigital.com/medical_technology_oct22/competitive_dynamics_in_the_orthopaedic" target="_blank" rel="noopener">Link</a></li>
+                <li>PrecisionOS. <a href="https://www.precisionostech.com/why-every-orthopedic-surgery-resident-needs-a-virtual-reality-strategy/" target="_blank" rel="noopener">Link</a></li>
+                <li>Osso VR. <a href="https://www.ossovr.com/" target="_blank" rel="noopener">Link</a></li>
+                <li>Orthopedic Technology Trends 2024 — ChartRequest. <a href="https://chartrequest.com/articles/orthopedic-technology-trends/" target="_blank" rel="noopener">Link</a></li>
+                <li>PrecisionOS Pricing. <a href="https://store.precisionostech.com/sales-landing" target="_blank" rel="noopener">Link</a></li>
+                <li>Cost of Medical VR Training — Axon Park. <a href="https://axonpark.com/the-cost-of-medical-vr-training/" target="_blank" rel="noopener">Link</a></li>
+                <li>AI Revolution in Orthopedics — AOSSM. <a href="https://www.sportsmed.org/membership/sports-medicine-update/fall-2024/the-ai-revolution-is-already-here-transforming-orthopedics-in-2024-and-beyond" target="_blank" rel="noopener">Link</a></li>
+                <li>AI Breakthroughs in Orthopedic — SPRY. <a href="https://www.sprypt.com/blog/orthopedic-ai" target="_blank" rel="noopener">Link</a></li>
+                <li>ESIST AI Surgical Education — OrthoFeed. <a href="https://orthofeed.com/2025/08/10/mount-sinai-researchers-develop-promising-ai-driven-surgical-education-model/" target="_blank" rel="noopener">Link</a></li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside role="complementary" aria-label="Interactive parameter sliders and personalized recommendations">
+        <h2>🎛️ Personalize Your Strategy</h2>
+        <p style="font-size:.78rem; color:var(--text-light); margin-bottom:1.2rem; text-align:center;">
+            Adjust the sliders below to receive tailored recommendations based on your profile.
+        </p>
+
+        <!-- Slider 1: Career Stage -->
+        <div class="slider-group">
+            <label>
+                Career Stage
+                <span class="slider-value" id="career-val">Early-Career</span>
+            </label>
+            <input type="range" id="career-slider" min="0" max="3" value="1" step="1" aria-label="Career stage slider">
+            <div class="slider-labels">
+                <span>Resident</span>
+                <span>Early</span>
+                <span>Mid</span>
+                <span>Senior</span>
+            </div>
+        </div>
+
+        <!-- Slider 2: Annual Education Budget -->
+        <div class="slider-group">
+            <label>
+                Annual Education Budget
+                <span class="slider-value" id="budget-val">$3,000</span>
+            </label>
+            <input type="range" id="budget-slider" min="0" max="15000" value="3000" step="500" aria-label="Annual education budget slider">
+            <div class="slider-labels">
+                <span>$0</span>
+                <span>$5K</span>
+                <span>$10K</span>
+                <span>$15K</span>
+            </div>
+        </div>
+
+        <!-- Slider 3: Weekly Learning Hours -->
+        <div class="slider-group">
+            <label>
+                Weekly Learning Hours Available
+                <span class="slider-value" id="hours-val">5 hrs</span>
+            </label>
+            <input type="range" id="hours-slider" min="1" max="20" value="5" step="1" aria-label="Weekly learning hours slider">
+            <div class="slider-labels">
+                <span>1 hr</span>
+                <span>10 hrs</span>
+                <span>20 hrs</span>
+            </div>
+        </div>
+
+        <hr style="border:none; border-top:1px solid var(--border); margin:1rem 0;">
+
+        <!-- Recommendation Output -->
+        <div class="rec-box" id="rec-box">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row">
+            <button class="btn btn-reset" id="btn-reset" aria-label="Reset sliders to defaults">↺ Reset</button>
+            <button class="btn btn-copy" id="btn-copy" aria-label="Copy recommendation to clipboard">📋 Copy Summary</button>
+        </div>
+    </aside>
+</div>
+
+<!-- Toast -->
+<div class="copy-toast" id="copy-toast" role="alert" aria-live="polite">✓ Copied to clipboard!</div>
+
+<script>
+(function() {
+    'use strict';
+
+    const careerLabels = ['Resident/Fellow', 'Early-Career', 'Mid-Career', 'Senior'];
+    const careerSlider = document.getElementById('career-slider');
+    const budgetSlider = document.getElementById('budget-slider');
+    const hoursSlider  = document.getElementById('hours-slider');
+    const careerVal    = document.getElementById('career-val');
+    const budgetVal    = document.getElementById('budget-val');
+    const hoursVal     = document.getElementById('hours-val');
+    const recBox       = document.getElementById('rec-box');
+    const btnReset     = document.getElementById('btn-reset');
+    const btnCopy      = document.getElementById('btn-copy');
+    const toast        = document.getElementById('copy-toast');
+
+    function formatBudget(v) {
+        if (v === 0) return '$0';
+        if (v >= 1000) return '$' + (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + ',000';
+        return '$' + v;
+    }
+
+    function generateRecommendation() {
+        const stage = parseInt(careerSlider.value);
+        const budget = parseInt(budgetSlider.value);
+        const hours = parseInt(hoursSlider.value);
+
+        let journalRec = '';
+        let confRec = '';
+        let digitalRec = '';
+        let techRec = '';
+        let economyRec = '';
+
+        // --- Journal Strategy ---
+        if (stage === 0) {
+            journalRec = 'Focus on <strong>OrthoBullets QBank</strong> and <strong>JAAOS Current Concepts Reviews</strong> for board preparation. Subscribe to 1–2 subspecialty journals via society membership.';
+        } else if (stage === 1) {
+            journalRec = 'Curate 3–5 premier journals (e.g., <em>JBJS-A</em>, <em>AJSM</em>, subspecialty leader). Use TOC alerts; aim for ' + Math.min(hours, 5) + ' articles/week. Prioritize Level I–II studies.';
+        } else if (stage === 2) {
+            journalRec = 'Rely on curated summaries: <em>JBJS Evidence-Based Orthopaedics</em>, <em>JAAOS Reviews</em>. Scan 2–3 journals via alerts. Focus on practice-changing RCTs and technique papers.';
+        } else {
+            journalRec = 'Efficient consumption: expert commentaries, <em>AAOS Now</em>, high-level review articles. Mentorship reading: share key articles with trainees to foster discussion.';
+        }
+
+        // --- Conference Strategy ---
+        if (budget < 500) {
+            confRec = 'Budget limits in-person attendance. Leverage <strong>AAOS OnDemand</strong> (recorded sessions), free webinars, and virtual meeting options. Apply for resident/trainee travel grants.';
+        } else if (budget < 2000) {
+            confRec = 'Attend <strong>one subspecialty meeting</strong> annually (join society first for member rates — savings of $1,000+). Use AAOS OnDemand for broader content.';
+        } else if (budget < 5000) {
+            confRec = 'Attend your <strong>primary subspecialty meeting annually</strong> + AAOS every 2–3 years. Budget breakdown: ~$1,500 registration (member), ~$1,500 travel/lodging per meeting.';
+        } else {
+            confRec = 'Attend <strong>subspecialty meeting annually + AAOS every 1–2 years</strong>. Consider adding 1–2 hands-on skills courses or cadaver labs per year. Targeted VR/AR workshop investment.';
+        }
+
+        // --- Digital Platform Strategy ---
+        if (stage === 0) {
+            if (budget >= 299) {
+                digitalRec = '<strong>OrthoBullets PEAK Plus</strong> ($299/yr) — unlimited CME, mastery tracking, full QBank. Supplement with <strong>AO Surgery Reference</strong> (free) and <strong>AAOS ROCK</strong>.';
+            } else {
+                digitalRec = '<strong>OrthoBullets Free tier</strong> + <strong>AO Surgery Reference</strong> (free). Maximize free resources before investing in premium subscriptions.';
+            }
+        } else if (hours <= 3) {
+            digitalRec = 'Prioritize <strong>point-of-care apps</strong>: <strong>OrthoGuidelines</strong>, <strong>iOrtho+</strong>, <strong>AO Surgery Reference</strong>. Use <strong>AAOS Cases Solved!</strong> for efficient case-based learning during short windows.';
+        } else {
+            digitalRec = '<strong>OrthoBullets PEAK</strong> for breadth + <strong>OrthoPedia</strong> (or AAOS OVT) for procedural depth. Use <strong>AAOS Cases Solved!</strong> for CME-accredited case discussions. Allocate ' + Math.round(hours * 0.4) + ' hrs/wk to digital platforms.';
+        }
+
+        // --- Technology Investment ---
+        if (stage === 0) {
+            techRec = 'Invest time in <strong>VR training</strong> (Osso VR or PrecisionOS). A $1,000 headset + $50–100/mo subscription offers ROI comparable to cadaver labs. Focus on procedures you will perform in residency.';
+        } else if (stage <= 1 && budget >= 2000) {
+            techRec = 'Personal VR training investment feasible (&lt;$2,500/yr). Stay informed on <strong>robotic platforms</strong> (Mako, VELYS, CORI) — essential for arthroplasty practice. Use <strong>digital templating</strong> (PeekMed, TraumaCad) for preoperative planning.';
+        } else if (stage >= 2) {
+            techRec = 'Evaluate <strong>robotic system adoption</strong> at your institution (capital cost $1M+). Leverage AI-powered planning software. Consider AR navigation for complex cases. Mentorship role: advocate for VR training programs for trainees.';
+        } else {
+            techRec = 'Stay current on <strong>emerging platforms</strong>. Even with limited budget, VR headsets (&lt;$1,000) provide cost-effective skill development. Follow AI diagnostic tool developments for potential practice integration.';
+        }
+
+        // --- Economic Allocation ---
+        if (budget === 0) {
+            economyRec = 'Maximize <strong>free resources</strong>: OrthoBullets free tier, AO Surgery Reference, AAOS OnDemand (if member), institutional case libraries, journal TOC alerts. Apply for society trainee memberships (often discounted).';
+        } else {
+            const societyAllocation = Math.min(budget, 800);
+            const journalSavings = societyAllocation > 0 ? '~$500–2,000 in journal/conference savings' : 'N/A';
+            let allocation = [];
+            if (societyAllocation > 0) allocation.push('Society membership: ~$' + Math.min(societyAllocation, 800));
+            if (budget >= 299) allocation.push('Digital platform (PEAK Plus or similar): ~$300');
+            if (budget >= 1500) allocation.push('Subspecialty conference: ~$1,500–3,000');
+            if (budget >= 3000) allocation.push('Additional meeting or skills course: ~$1,500–2,500');
+            if (budget >= 5000) allocation.push('VR headset + subscription: ~$1,500–2,500');
+            economyRec = '<strong>Suggested allocation:</strong><ul>' + allocation.map(a => '<li>' + a + '</li>').join('') + '</ul>';
+            economyRec += '<em>ROI note:</em> Society membership yields ' + journalSavings + '.';
+        }
+
+        // Build recommendation HTML
+        recBox.innerHTML = '<h3>📌 Your Personalized Recommendations</h3>' +
+            '<div class="rec-section"><div class="rec-section-title">📚 Journal Strategy</div>' + journalRec + '</div>' +
+            '<div class="rec-section"><div class="rec-section-title">🏛️ Conference Strategy</div>' + confRec + '</div>' +
+            '<div class="rec-section"><div class="rec-section-title">💻 Digital Platforms</div>' + digitalRec + '</div>' +
+            '<div class="rec-section"><div class="rec-section-title">🤖 Technology Adoption</div>' + techRec + '</div>' +
+            '<div class="rec-section"><div class="rec-section-title">💰 Economic Allocation</div>' + economyRec + '</div>' +
+            '<div style="font-size:.72rem; color:var(--text-light); margin-top:.8rem; text-align:center;">Recommendations derived from source document strategies.<br>Thresholds annotated where general clinical knowledge was applied.</div>';
+    }
+
+    function updateLabels() {
+        careerVal.textContent = careerLabels[parseInt(careerSlider.value)];
+        budgetVal.textContent = formatBudget(parseInt(budgetSlider.value));
+        hoursVal.textContent = hoursSlider.value + ' hr' + (parseInt(hoursSlider.value) !== 1 ? 's' : '');
+        generateRecommendation();
+    }
+
+    careerSlider.addEventListener('input', updateLabels);
+    budgetSlider.addEventListener('input', updateLabels);
+    hoursSlider.addEventListener('input', updateLabels);
+
+    // Reset
+    btnReset.addEventListener('click', function() {
+        careerSlider.value = 1;
+        budgetSlider.value = 3000;
+        hoursSlider.value = 5;
+        updateLabels();
+    });
+
+    // Copy
+    btnCopy.addEventListener('click', function() {
+        const stage = careerLabels[parseInt(careerSlider.value)];
+        const budget = formatBudget(parseInt(budgetSlider.value));
+        const hours = hoursSlider.value + ' hrs';
+        const now = new Date().toLocaleString();
+
+        // Extract text from rec box
+        const recText = recBox.innerText;
+
+        const output = [
+            '=== ORTHOPEDIC LIFELONG LEARNING — PERSONALIZED STRATEGY ===',
+            'Generated: ' + now,
+            '',
+            '--- YOUR PROFILE ---',
+            'Career Stage: ' + stage,
+            'Annual Education Budget: ' + budget,
+            'Weekly Learning Hours: ' + hours,
+            '',
+            '--- RECOMMENDATIONS ---',
+            recText,
+            '',
+            '--- SOURCE ---',
+            'Based on: "A Strategic Guide to Lifelong Learning and Technological',
+            'Integration in Contemporary Orthopedic Surgery"',
+            'Evidence Note: Most recommendations reflect expert opinion (Level V)',
+            'from the source document, supplemented by Level II evidence where',
+            'peer-reviewed studies are cited.'
+        ].join('\n');
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(output).then(function() {
+                showToast();
+            }).catch(function() {
+                fallbackCopy(output);
+            });
+        } else {
+            fallbackCopy(output);
+        }
+    });
+
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;left:-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast(); } catch(e) { alert('Copy failed. Please select and copy manually.'); }
+        document.body.removeChild(ta);
+    }
+
+    function showToast() {
+        toast.classList.add('show');
+        setTimeout(function() { toast.classList.remove('show'); }, 2200);
+    }
+
+    // Initialize
+    updateLabels();
+})();
+</script>
+
+</body>
+</html>

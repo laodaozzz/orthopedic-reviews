@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Externalized Locking Plate: Supercutaneous Plating in Orthopedic Trauma</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #e53e3e;
+            --accent-light: #feb2b2;
+            --success: #38a169;
+            --success-light: #c6f6d5;
+            --warning: #d69e2e;
+            --warning-light: #fefcbf;
+            --gray-50: #f7fafc;
+            --gray-100: #edf2f7;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e0;
+            --gray-600: #718096;
+            --gray-700: #4a5568;
+            --gray-800: #2d3748;
+            --gray-900: #1a202c;
+            --sidebar-width: 340px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+            max-width: 1200px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr var(--sidebar-width);
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        aside {
+            position: relative;
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 120px;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border: 1px solid var(--gray-200);
+        }
+
+        .sidebar-sticky h2 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--gray-700);
+            margin-bottom: 0.3rem;
+        }
+
+        .slider-group .range-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin-bottom: 0.4rem;
+        }
+
+        .slider-group .current-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--gray-200);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(229,62,62,0.4);
+        }
+
+        .threshold-info {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-style: italic;
+            margin-top: 0.2rem;
+        }
+
+        .recommendation-box {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-box.risk-low {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .recommendation-box.risk-moderate {
+            border-color: var(--warning);
+            background: var(--warning-light);
+        }
+
+        .recommendation-box.risk-high {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .recommendation-box h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-800);
+        }
+
+        .recommendation-box p {
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .sidebar-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.6rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-reset:hover { background: var(--gray-300); }
+
+        .btn-export {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-export:hover { background: var(--primary-light); }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gray-900);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Main content styles */
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid var(--gray-200);
+        }
+
+        .content-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .content-section h3 {
+            font-size: 1.1rem;
+            color: var(--primary-light);
+            margin-top: 1.5rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .content-section h4 {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-section p {
+            margin-bottom: 0.8rem;
+            text-align: justify;
+        }
+
+        .content-section ul, .content-section ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.4rem;
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+            margin-left: 0.3rem;
+        }
+
+        .ev-1 { background: #276749; color: white; }
+        .ev-2 { background: #2c5282; color: white; }
+        .ev-3 { background: #975a16; color: white; }
+        .ev-4 { background: #744210; color: white; }
+        .ev-5 { background: #9b2c2c; color: white; }
+        .ev-na { background: var(--gray-300); color: var(--gray-700); }
+
+        .callout {
+            border-left: 4px solid;
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .callout-key {
+            border-color: var(--accent);
+            background: #fff5f5;
+        }
+
+        .callout-pearl {
+            border-color: var(--success);
+            background: #f0fff4;
+        }
+
+        .callout-warning {
+            border-color: var(--warning);
+            background: #fffff0;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table caption {
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .data-table thead th {
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 0.8rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .data-table tbody td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background: var(--gray-50);
+        }
+
+        .data-table tbody tr:hover {
+            background: #ebf8ff;
+        }
+
+        .study-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .study-card h4 {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .study-card p {
+            font-size: 0.82rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .study-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.4rem;
+        }
+
+        .study-tag {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .ref-section {
+            font-size: 0.82rem;
+            color: var(--gray-600);
+        }
+
+        .ref-section ol {
+            margin-left: 1.2rem;
+        }
+
+        .ref-section li {
+            margin-bottom: 0.3rem;
+        }
+
+        .executive-highlight {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1.2rem;
+            background: var(--gray-50);
+            border-radius: 10px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .metric-card .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .metric-card .metric-label {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin-top: 0.2rem;
+        }
+
+        .toc {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toc h3 {
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        .toc ol {
+            margin-left: 1.2rem;
+        }
+
+        .toc li {
+            margin-bottom: 0.2rem;
+            font-size: 0.85rem;
+        }
+
+        .toc a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .algo-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        .algo-number {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .algo-content {
+            flex: 1;
+            padding-top: 0.3rem;
+        }
+
+        footer {
+            background: var(--gray-900);
+            color: var(--gray-300);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            aside {
+                order: -1;
+            }
+            .sidebar-sticky {
+                position: relative;
+                top: 0;
+            }
+            header h1 { font-size: 1.2rem; }
+            .content-section { padding: 1.2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .executive-highlight {
+                grid-template-columns: 1fr 1fr;
+            }
+            .data-table { font-size: 0.75rem; }
+            .data-table thead th, .data-table tbody td { padding: 0.4rem; }
+        }
+
+        /* Print */
+        @media print {
+            header { position: relative; }
+            .sidebar-sticky { position: relative; top: 0; }
+            aside { display: none; }
+            .layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>The Externalized Locking Plate: Supercutaneous Plating in Orthopedic Trauma</h1>
+    <p>A Comprehensive Evidence-Based Educational Summary | Interactive Clinical Decision Tool</p>
+</header>
+
+<div class="layout">
+<main>
+
+    <!-- Table of Contents -->
+    <div class="content-section">
+        <div class="toc">
+            <h3>📑 Table of Contents</h3>
+            <ol>
+                <li><a href="#exec-summary">Executive Summary &amp; Key Metrics</a></li>
+                <li><a href="#evolution">Evolution of Biological Fixation</a></li>
+                <li><a href="#indications">Indications &amp; Clinical Scenarios</a></li>
+                <li><a href="#biomechanics">Biomechanical Characterization</a></li>
+                <li><a href="#outcomes">Clinical Outcomes &amp; Evidence Synthesis</a></li>
+                <li><a href="#technique">Surgical Technique &amp; Pearls</a></li>
+                <li><a href="#comparative">Comparative Analysis</a></li>
+                <li><a href="#landmark-studies">Landmark Studies</a></li>
+                <li><a href="#limitations">Limitations &amp; Contraindications</a></li>
+                <li><a href="#future">Future Directions</a></li>
+                <li><a href="#conclusions">Key Takeaways</a></li>
+                <li><a href="#references">References</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 1. Executive Summary -->
+    <section id="exec-summary" class="content-section">
+        <h2>1. Executive Summary</h2>
+        <p>
+            The management of complex fractures complicated by severe soft tissue compromise, infection, or non-union represents one of the most arduous challenges in modern orthopedic trauma surgery. Traditional treatment algorithms have relied heavily on a dichotomy between <strong>internal fixation</strong>—which offers superior mechanical stability and patient comfort but carries high risks of infection in compromised tissue envelopes—and <strong>external fixation</strong>, which prioritizes soft tissue biology but is often associated with pin tract infections, joint stiffness, and poor patient tolerance.
+        </p>
+        <p>
+            <strong>"Supercutaneous Plating"</strong>, also referred to as <em>Externalized Locking Plating (ELP)</em>, <em>Supracutaneous Plating</em>, or the <em>Locking Plate External Fixator (LPEF)</em>, has emerged as a hybrid technique that bridges this gap. This technique utilizes standard internal locking compression plates (LCPs) applied externally to the limb, secured via locking screws that pass through the skin into the bone. This configuration leverages the angular stability of locking head screws to provide a stable mechanical construct without the bulk of traditional external fixators or the devascularization associated with internal plating. <span class="evidence-badge ev-2">Level II</span>
+        </p>
+
+        <div class="executive-highlight">
+            <div class="metric-card">
+                <div class="metric-value">88–94%</div>
+                <div class="metric-label">Union Rate in High-Risk Cohorts</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6–12%</div>
+                <div class="metric-label">Superficial Pin Tract Infection Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">94%</div>
+                <div class="metric-label">Deep Infection Clearance Rate</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">15–20 mm</div>
+                <div class="metric-label">Optimal Plate-to-Skin Distance</div>
+            </div>
+        </div>
+
+        <div class="callout callout-key">
+            <strong>🔑 Key Principle</strong>
+            Supercutaneous plating effectively decouples the mechanical benefits of locking plate technology from the biological costs of internal placement. By moving the "internal fixator" to an "external" position, surgeons can achieve stable, comfortable, and biologically friendly fixation for the most challenging limb salvage cases.
+        </div>
+    </section>
+
+    <!-- 2. Evolution -->
+    <section id="evolution" class="content-section">
+        <h2>2. Evolution of Biological Fixation</h2>
+        <p>
+            The history of fracture management has been defined by a pendulum swing between mechanical stability and biological preservation. In the mid-20th century, the <strong>Arbeitsgemeinschaft für Osteosynthesefragen (AO)</strong> pioneered the principles of anatomic reduction and rigid internal fixation. While this revolutionized the treatment of simple fractures, the extensive soft tissue dissection required to place plates directly on the bone often proved disastrous in high-energy trauma, leading to high rates of necrosis and osteomyelitis. <span class="evidence-badge ev-na">Historical</span>
+        </p>
+        <p>
+            This failure of "mechanical" fixation in compromised hosts led to the rise of "biological" fixation, primarily through external fixators. Devices like the Ilizarov frame or monolateral rail fixators allowed surgeons to stabilize bone from a distance, preserving the delicate hematoma and periosteal blood supply critical for healing. Yet, these devices introduced their own morbidity: pin tract infections (20–50%), tethering of muscles leading to joint stiffness, and significant psychological and physical burdens on patients.
+        </p>
+        <p>
+            The introduction of the <strong>Locking Compression Plate (LCP)</strong> in the early 2000s marked a paradigm shift. By locking the screw head into the plate, the implant functioned as an "internal fixator," eliminating the need for the plate to compress the periosteum. It was a short intellectual leap for trauma surgeons to realize that if an LCP functions mechanically as an internal fixator, it could also function physically as an external fixator if placed outside the skin. <span class="evidence-badge ev-2">Level II–III</span> <sup>[1]</sup>
+        </p>
+
+        <div class="callout callout-pearl">
+            <strong>💡 Conceptual Synthesis</strong>
+            Supercutaneous plating represents not a novel device, but a novel application of existing technology. It synthesizes the low-profile comfort of plating with the biological safety of external fixation—occupying the vital middle ground between the nail and the frame.
+        </div>
+    </section>
+
+    <!-- 3. Indications -->
+    <section id="indications" class="content-section">
+        <h2>3. Indications &amp; Clinical Scenarios</h2>
+        <p>
+            The versatility of the externalized locking plate allows it to be deployed across a spectrum of pathology, from acute trauma to chronic reconstructive challenges. The literature identifies distinct clinical scenarios where this technique offers tangible advantages over conventional methods.
+        </p>
+
+        <h3>3.1 Infected Non-Unions and Chronic Osteomyelitis</h3>
+        <p>
+            This represents the <strong>most robust and frequent indication</strong> for supercutaneous plating in the literature. Managing an infected non-union requires a two-pronged approach: eradication of infection and stabilization of the bone. Internal fixation is often contraindicated due to the presence of biofilm and active bacteria, while traditional external fixators are poorly tolerated for the long durations required. <span class="evidence-badge ev-3">Level III</span> <sup>[3]</sup>
+        </p>
+        <ul>
+            <li><strong>Biofilm Avoidance:</strong> Unlike intramedullary nails, the screws do not traverse the medullary canal, preventing longitudinal spread of bacteria.</li>
+            <li><strong>Plastic Surgery Access:</strong> The low profile (~20 mm off skin) simplifies application of VAC devices or rotation of muscle flaps.</li>
+            <li><strong>Definitive Potential:</strong> The construct is often stable enough to remain in place until bony union, sparing the patient a secondary conversion procedure.</li>
+        </ul>
+
+        <h3>3.2 Acute High-Energy Tibial Fractures (Gustilo-Anderson Types II, IIIA, IIIB)</h3>
+        <p>
+            The subcutaneous nature of the anteromedial tibia makes it uniquely vulnerable to soft tissue stripping. Supercutaneous plating avoids an incision over the fracture site, preserving periosteal blood supply and adhering to the principles of "minimally invasive osteosynthesis." <span class="evidence-badge ev-3">Level III</span> <sup>[4, 5]</span>
+        </p>
+        <ul>
+            <li><strong>Metadiaphyseal Fractures:</strong> At the junction of shaft and joint (distal tibia/pilon), difficult to treat with IMNs due to the wide canal. An anatomically contoured LCP allows multiple locking screws in the short metaphyseal fragment. <sup>[6]</sup></li>
+            <li><strong>Polytrauma Patients:</strong> Speed of application makes it attractive for Damage Control Orthopedics—rapid stabilization without the physiological hit of canal reaming.</li>
+        </ul>
+
+        <h3>3.3 Septic Arthritis and Joint Arthrodesis</h3>
+        <p>
+            When a joint is destroyed by infection, the goal is often fusion. Supercutaneous plating across the knee or ankle provides a rigid, low-profile alternative that permits the patient to remain mobile and potentially weight-bear sooner than with traditional frames. <span class="evidence-badge ev-4">Level IV</span> <sup>[7]</sup>
+        </p>
+
+        <h3>3.4 Pediatric Trauma and Physeal Sparing</h3>
+        <p>
+            The technique has been described in pediatric populations. The primary advantage is the ability to place pins strategically to avoid the physis under fluoroscopic guidance. The lightweight nature of the plate is better tolerated by smaller patients, and removal in clinic avoids a second anesthetic induction. <span class="evidence-badge ev-4">Level IV</span> <sup>[8]</sup>
+        </p>
+
+        <h3>3.5 Veterinary Applications as Translational Models</h3>
+        <p>
+            Robust adoption in veterinary orthopedics (bovine, feline, canine fractures) provides "proof of concept" for its mechanical viability, as postoperative weight-bearing restriction is impossible in animals. Studies on bovine metatarsal fractures <sup>[7]</sup> and feline tibial fractures <sup>[9]</sup> demonstrate that the construct can withstand significant physiological loads and lead to union. <span class="evidence-badge ev-3">Level III (Translational)</span>
+        </p>
+    </section>
+
+    <!-- 4. Biomechanics -->
+    <section id="biomechanics" class="content-section">
+        <h2>4. Biomechanical Characterization</h2>
+        <p>
+            To understand the efficacy of supercutaneous plating, one must analyze it not as a plate, but as a structural beam. The biomechanics differ fundamentally from both internal plating and traditional external fixation.
+        </p>
+
+        <h3>4.1 The Cantilever Beam Effect and Axial Stiffness</h3>
+        <p>
+            The defining biomechanical feature is the offset from the bone. In engineering terms, this creates a <strong>cantilever beam</strong> where the screws function as the beams. The bending moment (<em>M</em>) exerted on the screws is the product of the axial load (<em>F</em>) and the distance from the bone to the plate (<em>d</em>). Since stiffness is inversely proportional to the cube of the length in cantilever bending, even small increases in "plate elevation" can drastically reduce axial stiffness. <span class="evidence-badge ev-2">Level II</span> <sup>[1, 10]</sup>
+        </p>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ Clinical Consequence: Double-Edged Sword</strong>
+            <ul>
+                <li><strong>Positive:</strong> Reduced axial stiffness promotes "dynamization" and interfragmentary motion, stimulating callus formation (secondary bone healing).</li>
+                <li><strong>Negative:</strong> In heavy patients or large bone defects, the construct may be too flexible, leading to screw bending or fatigue failure.</li>
+            </ul>
+        </div>
+
+        <h3>4.2 Torsional Stiffness and Rotational Control</h3>
+        <p>
+            While axial stiffness may be lower, <strong>torsional stiffness is a distinct strength</strong>. The plate acts as a broad "shear wall." Biomechanical studies demonstrate that externalized LCPs exhibit significantly higher torsional stiffness than unilateral external fixators.
+            <span class="evidence-badge ev-2">Level II</span> <sup>[12, 13]</sup>
+        </p>
+        <ul>
+            <li>Externalized stainless steel LCP: <strong>0.686 Nm/degree</strong></li>
+            <li>Standard unilateral external fixator: <strong>0.512 Nm/degree</strong></li>
+        </ul>
+
+        <h3>4.3 The Screw-Plate Interface</h3>
+        <p>
+            In supercutaneous plating, the weak link shifts to the <strong>screw-bone interface</strong>. Bicortical fixation is mandatory to distribute the load across both cortices, effectively doubling the resistance to toggling. <span class="evidence-badge ev-2">Level II</span> <sup>[14, 15]</sup>
+        </p>
+
+        <h3>4.4 Material Science: Titanium vs. Stainless Steel</h3>
+        <ul>
+            <li><strong>Titanium (Ti-6Al-4V):</strong> Lower modulus (~110 GPa). More flexible, promoting more callus but potentially risking deformation under load.</li>
+            <li><strong>Stainless Steel (316L):</strong> Stiffer and more fatigue-resistant (~200 GPa). Biomechanically preferable for heavy patients or femoral applications. <sup>[13]</sup></li>
+        </ul>
+
+        <!-- Biomechanical Comparison Table -->
+        <table class="data-table">
+            <caption>Table 1: Biomechanical Comparison of Fixation Constructs</caption>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Externalized Locking Plate (LCP)</th>
+                    <th>Unilateral External Fixator (Type IA)</th>
+                    <th>Internal Locking Plate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Axial Stiffness</strong></td>
+                    <td>Low to Moderate (Highly dependent on offset)</td>
+                    <td>Moderate to High (Adjustable)</td>
+                    <td>High (Load sharing with bone)</td>
+                </tr>
+                <tr>
+                    <td><strong>Torsional Stiffness</strong></td>
+                    <td><strong>High</strong> (0.64–0.69 Nm/deg)</td>
+                    <td>Moderate (0.51 Nm/deg)</td>
+                    <td>Very High</td>
+                </tr>
+                <tr>
+                    <td><strong>Bending Stiffness</strong></td>
+                    <td>Moderate</td>
+                    <td>High (Bar diameter dependent)</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td><strong>Failure Mode</strong></td>
+                    <td>Screw Bending / Loosening</td>
+                    <td>Clamp Slippage / Bar Bending</td>
+                    <td>Plate Breakage / Screw Pullout</td>
+                </tr>
+                <tr>
+                    <td><strong>Working Length</strong></td>
+                    <td>Fixed by screw holes</td>
+                    <td>Adjustable</td>
+                    <td>Fixed by screw holes</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-size:0.8rem; color:var(--gray-600); font-style:italic;">Source data: Ang et al. <sup>[12]</sup>; comparative biomechanical studies <sup>[10, 13]</sup></p>
+    </section>
+
+    <!-- 5. Clinical Outcomes -->
+    <section id="outcomes" class="content-section">
+        <h2>5. Clinical Outcomes &amp; Evidence Synthesis</h2>
+        <p>
+            The body of evidence has grown from sporadic case reports to sizable prospective cohorts. A synthesis of the literature from the last decade reveals consistent themes regarding union, infection, and patient quality of life.
+        </p>
+
+        <h3>5.1 Union Rates and Healing Dynamics</h3>
+        <p>
+            Healing is predominantly by <strong>secondary intention</strong>. The formation of bridging callus is a hallmark of the technique, driven by the interfragmentary motion allowed by the plate's elasticity. <span class="evidence-badge ev-3">Level III</span> <sup>[3, 4, 5]</sup>
+        </p>
+        <ul>
+            <li>Infected non-unions (n=19): <strong>88% union rate</strong> <sup>[3]</sup></li>
+            <li>High-energy tibial fractures (n=18): <strong>94.7% union rate</strong> <sup>[4]</sup></li>
+            <li>Distal tibial fractures: <strong>90% union rate</strong>, mean time to union 12.1 weeks <sup>[5]</sup></li>
+        </ul>
+
+        <h3>5.2 Infection Profile</h3>
+        <p>
+            The most compelling argument for supercutaneous plating is its infection profile. <span class="evidence-badge ev-3">Level III</span>
+        </p>
+        <ul>
+            <li><strong>Pin Tract Infections:</strong> Superficial infection rates as low as 6.6% <sup>[5]</sup> to 12% <sup>[17]</sup>, compared to 20–50% with conventional external fixators.</li>
+            <li><strong>Deep Infection Clearance:</strong> 94% in cases of active osteomyelitis <sup>[3]</sup>.</li>
+            <li><strong>Mechanism:</strong> The locking screw does not toggle, and the lack of bulky clamps against the skin prevents moisture/bacteria trapping.</li>
+        </ul>
+
+        <h3>5.3 Complications</h3>
+        <ul>
+            <li><strong>Screw Loosening:</strong> Most frequent mechanical complication (up to 31% in some series). Rarely leads to catastrophic failure—often results in "auto-dynamization" <sup>[3]</sup>.</li>
+            <li><strong>Malalignment:</strong> Low rates but notable in early learning curve cases. The LCP fixes the bone exactly as held during drilling—imperfect reduction is maintained. <sup>[3]</sup></li>
+            <li><strong>Re-fracture:</strong> Risk after plate removal if callus is not fully mature. Cautious protection after frame removal is essential. <sup>[3]</sup></li>
+        </ul>
+
+        <h3>5.4 Patient Tolerance and Quality of Life</h3>
+        <p>
+            Quality of life is a major differentiator. The supercutaneous plate, sitting only ~20 mm off the skin, can be concealed under loose-fitting trousers. Patients report less interference with walking and sleeping. <span class="evidence-badge ev-3">Level III</span> <sup>[3, 18]</sup>
+        </p>
+        <ul>
+            <li>Pain scores: <strong>NRS 0 at rest, 2 while walking</strong> <sup>[3]</sup></li>
+            <li>Device is monolateral, preventing it from hitting the contralateral leg during gait.</li>
+        </ul>
+    </section>
+
+    <!-- 6. Surgical Technique -->
+    <section id="technique" class="content-section">
+        <h2>6. Surgical Technique &amp; Pearls</h2>
+        <p>
+            The application of a supercutaneous plate is technically demanding, requiring the visualization skills of internal fixation combined with the planning of external fixation. <sup>[6, 19, 21]</sup>
+        </p>
+
+        <h3>6.1 Pre-Operative Planning</h3>
+        <ul>
+            <li><strong>Tibia:</strong> The <em>LISS-DF (Less Invasive Stabilization System – Distal Femur)</em> plate is a workhorse. Its curvature matches the proximal tibial metaphysis and shaft.</li>
+            <li><strong>Distal Tibia:</strong> The <em>3.5 mm LCP Distal Tibia Metaphyseal Plate</em> is ideal for pilon fractures.</li>
+            <li><strong>Length Rule:</strong> Plate ratio of <strong>2:1 or 3:1</strong> (plate length to fracture length).</li>
+        </ul>
+
+        <h3>6.2 The "Reduction First" Rule</h3>
+        <div class="callout callout-key">
+            <strong>🔑 Critical Principle</strong>
+            Locking screws lock the bone <em>in situ</em>. They cannot be used to pull the bone to the plate (unlike non-locking screws). Use a temporary external fixator, distractor, or pointed reduction clamps to achieve and hold reduction. Confirm alignment in AP and lateral views <strong>before drilling a single hole</strong>.
+        </div>
+
+        <h3>6.3 The "Safety Zone": Plate-to-Skin Distance</h3>
+        <p>
+            This is the <strong>critical variable</strong> that determines success or failure. <span class="evidence-badge ev-2">Level II</span> <sup>[19, 21]</sup>
+        </p>
+        <ul>
+            <li><strong>Optimal Range: 15 mm to 20 mm (1.5–2.0 cm)</strong></li>
+            <li><em>Why &gt; 15 mm?</em> Allows for post-operative swelling without skin necrosis; allows space for cleaning.</li>
+            <li><em>Why &lt; 30 mm?</em> Minimizes the cantilever moment arm. Beyond 30 mm, stiffness drops dramatically, risking screw breakage.</li>
+            <li><strong>Pearl:</strong> Use a spacer intra-operatively (large needle holder or stack of sterile gauze pads of known thickness) between skin and plate while inserting first screws.</li>
+        </ul>
+
+        <h3>6.4 Screw Insertion and Configuration</h3>
+        <div class="algo-step">
+            <div class="algo-number">1</div>
+            <div class="algo-content">Fix the plate to the bone with K-wires through pin holes at the desired offset.</div>
+        </div>
+        <div class="algo-step">
+            <div class="algo-number">2</div>
+            <div class="algo-content">Insert a screw in the most proximal and most distal hole first—secures the "working length."</div>
+        </div>
+        <div class="algo-step">
+            <div class="algo-number">3</div>
+            <div class="algo-content">Check alignment again (AP, lateral, mechanical axis via cable technique).</div>
+        </div>
+        <div class="algo-step">
+            <div class="algo-number">4</div>
+            <div class="algo-content">Insert remaining screws. Aim for <strong>3–4 bicortical locking screws per main fragment</strong>. Leave empty holes to distribute strain ("dot-dash" pattern).</div>
+        </div>
+        <div class="algo-step">
+            <div class="algo-number">5</div>
+            <div class="algo-content">Place a <strong>"drop screw"</strong> just below the fracture line in the distal fragment to minimize shear forces. <sup>[19]</sup></div>
+        </div>
+
+        <h3>6.5 Soft Tissue Management</h3>
+        <ul>
+            <li>Use a scalpel to <strong>release any skin tension</strong> around the screw shaft after insertion—"tented" skin will necrose.</li>
+            <li>Apply simple, dry dressing around the screw base. The gap between plate and skin facilitates easy daily cleaning.</li>
+        </ul>
+    </section>
+
+    <!-- 7. Comparative Analysis -->
+    <section id="comparative" class="content-section">
+        <h2>7. Comparative Analysis</h2>
+
+        <table class="data-table">
+            <caption>Table 2: Supercutaneous Plating vs. Standard Modalities</caption>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Supercutaneous Plating (LCP)</th>
+                    <th>Standard External Fixator (Monolateral)</th>
+                    <th>Internal Fixation (MIPO/ORIF)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Biomechanics</strong></td>
+                    <td>High Torsional / Low-Mod Axial</td>
+                    <td>Mod Torsional / High Axial</td>
+                    <td>High Axial / High Torsional</td>
+                </tr>
+                <tr>
+                    <td><strong>Soft Tissue Impact</strong></td>
+                    <td>Minimal (Percutaneous)</td>
+                    <td>Minimal (Percutaneous)</td>
+                    <td>High (Dissection/stripping)</td>
+                </tr>
+                <tr>
+                    <td><strong>Adjustability</strong></td>
+                    <td><strong>None</strong> (Fixed once locked)</td>
+                    <td>High (Clamps adjustable)</td>
+                    <td>Low (Fixed once plated)</td>
+                </tr>
+                <tr>
+                    <td><strong>Patient Comfort</strong></td>
+                    <td><strong>High</strong> (Low profile, concealable)</td>
+                    <td>Low (Bulky, hits other leg)</td>
+                    <td>High (Internal)</td>
+                </tr>
+                <tr>
+                    <td><strong>Pin Tract Infection</strong></td>
+                    <td>Low (6–12%)</td>
+                    <td>High (20–50%)</td>
+                    <td>N/A</td>
+                </tr>
+                <tr>
+                    <td><strong>Deep Infection Risk</strong></td>
+                    <td>Very Low</td>
+                    <td>Low</td>
+                    <td>High (in compromised tissue)</td>
+                </tr>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>High (Implants)</td>
+                    <td>Low–Moderate (Reusable)</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td><strong>Removal</strong></td>
+                    <td>Outpatient (No anesthesia)</td>
+                    <td>Outpatient (No anesthesia)</td>
+                    <td>Operating Room (Anesthesia)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-size:0.8rem; color:var(--gray-600); font-style:italic;">Source: Literature synthesis from references [3, 4, 5, 10, 13, 17, 18]</p>
+
+        <h3>Economic and Logistical Considerations</h3>
+        <p>
+            While the upfront cost of a locking plate and screws is higher than reusable external fixator components, the "Total Cost of Care" argument favors supercutaneous plating in specific scenarios: it eliminates second surgeries (definitive treatment), reduces readmissions for pin site infections, and removal does not require OR time or an anesthesia team.
+        </p>
+    </section>
+
+    <!-- 8. Landmark Studies -->
+    <section id="landmark-studies" class="content-section">
+        <h2>8. Landmark Studies Summary</h2>
+        <p style="font-size:0.85rem; color:var(--gray-600); margin-bottom:1rem;">
+            The following key studies are identified from the source document. <strong>Note:</strong> The source primarily contains Level III–IV evidence (case series, retrospective cohorts, biomechanical studies). No large-scale randomized controlled trials (Level I) were identified in the provided document.
+        </p>
+
+        <div class="study-card">
+            <h4>Study 1: Supercutaneous LCP for Infected Non-Unions &amp; Open Fractures <sup>[3]</sup></h4>
+            <p><strong>Design:</strong> Retrospective case series | <strong>Level III</strong></p>
+            <p>Reported 88% union rate in infected non-unions (n=19), 94% deep infection clearance, and superficial pin tract infection rate of 6.6%. Median pain scores: NRS 0 at rest, 2 walking. Screw loosening in 31%—rarely catastrophic.</p>
+            <div class="study-meta">
+                <span class="study-tag">Infected Non-Union</span>
+                <span class="study-tag">n = 19</span>
+                <span class="study-tag">Level III</span>
+            </div>
+        </div>
+
+        <div class="study-card">
+            <h4>Study 2: Single-Stage Externalized Locked Plating for Unstable Meta-Diaphyseal Tibial Fractures <sup>[4]</sup></h4>
+            <p><strong>Design:</strong> Prospective cohort | <strong>Level III</strong></p>
+            <p>Prospective cohort of high-energy tibial fractures (n=18) demonstrating a 94.7% union rate with supercutaneous plating as definitive fixation.</p>
+            <div class="study-meta">
+                <span class="study-tag">Tibial Fractures</span>
+                <span class="study-tag">n = 18</span>
+                <span class="study-tag">Level III</span>
+            </div>
+        </div>
+
+        <div class="study-card">
+            <h4>Study 3: External Fixation Using Locking Plates in Challenging Tibial Fractures <sup>[5]</sup></h4>
+            <p><strong>Design:</strong> Case series | <strong>Level IV</strong></p>
+            <p>Distal tibial fractures: 90% union rate, mean time to union 12.1 weeks. Pin tract infection rate reported as low as 6.6%.</p>
+            <div class="study-meta">
+                <span class="study-tag">Distal Tibia</span>
+                <span class="study-tag">Level IV</span>
+                <span class="study-tag">90% Union</span>
+            </div>
+        </div>
+
+        <div class="study-card">
+            <h4>Study 4: Biomechanical Comparison – Externalized LCP vs. Type IA External Fixator <sup>[10, 11]</sup></h4>
+            <p><strong>Design:</strong> In vitro biomechanical study | <strong>Level II</strong></p>
+            <p>Compared axial and torsional stiffness of externalized LCP vs. unilateral external fixator on composite bone models. Demonstrated higher torsional stiffness for LCP (0.686 vs. 0.512 Nm/deg) but lower axial stiffness dependent on plate elevation.</p>
+            <div class="study-meta">
+                <span class="study-tag">Biomechanical</span>
+                <span class="study-tag">In Vitro</span>
+                <span class="study-tag">Level II</span>
+            </div>
+        </div>
+
+        <div class="study-card">
+            <h4>Study 5: Supracutaneous LCP for Grade I &amp; II Open Distal Tibial Fractures <sup>[17]</sup></h4>
+            <p><strong>Design:</strong> Prospective evaluation | <strong>Level III</strong></p>
+            <p>Prospective evaluation showing 12% superficial infection rate with use of supracutaneous locking compression plate as an external fixator for Grade I and II open distal tibial fractures.</p>
+            <div class="study-meta">
+                <span class="study-tag">Open Fractures</span>
+                <span class="study-tag">Prospective</span>
+                <span class="study-tag">Level III</span>
+            </div>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ Evidence Gap</strong>
+            Only 5 key studies are highlighted from the source document. The evidence base primarily consists of Level III–IV studies (case series, retrospective/prospective cohorts) and Level II biomechanical studies. <strong>No Level I randomized controlled trials (RCTs) were identified in the provided source.</strong> Future high-quality RCTs comparing supercutaneous plating to standard external fixation and internal fixation are needed.
+        </div>
+    </section>
+
+    <!-- 9. Limitations -->
+    <section id="limitations" class="content-section">
+        <h2>9. Limitations &amp; Contraindications</h2>
+
+        <h3>Absolute and Relative Contraindications</h3>
+        <ul>
+            <li><strong>Morbid Obesity:</strong> Thick subcutaneous fat requires plate elevation &gt;40 mm, creating excessive lever arm that exceeds mechanical limits of screws. <sup>[3]</sup></li>
+            <li><strong>Severe Osteoporosis:</strong> Screw pullout strength is the limiting factor—screws may cut out rapidly under cantilever load. <sup>[15]</sup></li>
+            <li><strong>Complex Deformity Correction:</strong> Not suitable for gradual deformity correction (e.g., bone transport). Ring fixators remain the gold standard.</li>
+            <li><strong>Critical Size Defects (&gt;20 mm):</strong> Generally require bone grafting or transport. The plate can bridge the defect but puts immense strain on the construct if healing is prolonged. <sup>[4]</sup></li>
+        </ul>
+
+        <h3>Troubleshooting</h3>
+        <ul>
+            <li><strong>Screw Loosening:</strong> Remove if causing pain/drainage. If healing is progressing, construct usually remains stable. Exchange for larger diameter screw if needed.</li>
+            <li><strong>Skin Impingement (&lt;10 mm):</strong> Emergency—skin necrosis requires plate elevation or soft tissue release. Prevention (15–20 mm offset) is the only cure.</li>
+            <li><strong>Knee Stiffness:</strong> Avoid placing screws too close to pes anserinus or patellar tendon. Careful placement with knee flexed during surgery.</li>
+        </ul>
+    </section>
+
+    <!-- 10. Future Directions -->
+    <section id="future" class="content-section">
+        <h2>10. Future Directions</h2>
+        <p>The field of externalized plating is evolving. Current research focuses on:</p>
+        <ul>
+            <li><strong>Antibiotic Coatings:</strong> Integration of antibiotic-impregnated cement coatings on the plate surface for local delivery of high-dose antimicrobials in infected non-unions. <sup>[22]</sup></li>
+            <li><strong>3D Printed Guides:</strong> Patient-specific instrumentation (PSI) to guide screw insertion and ensure perfect reduction and offset, lowering the technical barrier to entry.</li>
+            <li><strong>Dedicated Systems:</strong> Development of plates specifically designed for external use, with adjustable offsets or variable-angle locking mechanisms more robust than current internal plates.</li>
+        </ul>
+    </section>
+
+    <!-- 11. Conclusions -->
+    <section id="conclusions" class="content-section">
+        <h2>11. Key Takeaways for the Clinician</h2>
+        <div class="callout callout-pearl">
+            <strong>✅ Summary of Evidence-Based Recommendations</strong>
+            <ol>
+                <li><strong>Indication:</strong> Consider for infected non-unions and high-grade open tibial fractures where soft tissue is the limiting factor. <span class="evidence-badge ev-3">Level III</span></li>
+                <li><strong>Technique:</strong> Respect the biomechanics—use <strong>bicortical screws</strong>, maintain a <strong>15–20 mm offset</strong>, and achieve <strong>perfect reduction</strong> before locking. <span class="evidence-badge ev-2">Level II</span></li>
+                <li><strong>Expected Healing:</strong> Union by secondary intention (callus formation). <span class="evidence-badge ev-3">Level III</span></li>
+                <li><strong>Patient Experience:</strong> Expect comfortable patients who can wear trousers and sleep well. Pain scores typically NRS 0 at rest. <span class="evidence-badge ev-3">Level III</span></li>
+                <li><strong>Complication Management:</strong> Expect occasional loose screws (auto-dynamization). Deep infection is rare. <span class="evidence-badge ev-3">Level III</span></li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 12. References -->
+    <section id="references" class="content-section">
+        <h2>12. References</h2>
+        <div class="ref-section">
+            <ol>
+                <li>Locked plating as an external fixator in treating tibial fractures. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5728942/" target="_blank">PMC5728942</a></li>
+                <li>Locking Plate Fixators for Infected Extra-articular Long Bone Fractures without Bone Loss. <em>JOCR</em>. <a href="https://jocr.co.in/wp/2025/11/locking-plate-fixators-for-infected-extra-articular-long-bone-fractures-without-bone-loss/" target="_blank">Link</a></li>
+                <li>Supercutaneous locking compression plate in the treatment of infected non-union and open fracture of the leg. <em>ResearchGate</em>. <a href="https://www.researchgate.net/publication/353696713" target="_blank">Link</a></li>
+                <li>Single-Stage Externalized Locked Plating for Treatment of Unstable Meta-Diaphyseal Tibial Fractures. <em>MDPI JCM</em>. <a href="https://www.mdpi.com/2077-0383/12/4/1600" target="_blank">Link</a></li>
+                <li>Low Profile, High Impact: External Fixation using Locking Plates in Challenging Tibial Fractures. <em>NIH/JOCR</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12422642/" target="_blank">PMC12422642</a></li>
+                <li>Low Profile, High Impact: External Fixation using Locking Plates (Technical Note). <em>JOCR</em>. <a href="https://jocr.co.in/wp/wp-content/uploads/71-8366-10.13107jocr.2025.v15.i09.6132-382-386-1.pdf" target="_blank">PDF</a></li>
+                <li>Supercutaneous plating for traumatic compound metatarsal bone fracture in bovines. <em>Pharma Innovation J</em>. <a href="https://www.thepharmajournal.com/archives/2022/vol11issue10S/PartW/S-11-10-172-879.pdf" target="_blank">PDF</a></li>
+                <li>The management of open tibial fractures in children. <em>ResearchGate</em>. <a href="https://www.researchgate.net/publication/316620150" target="_blank">Link</a></li>
+                <li>Supracutaneous plating using a locking plate for tibial fracture in a cat. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5432146/" target="_blank">PMC5432146</a></li>
+                <li>The In Vitro Biomechanics of Locking Plates Used in a Supercutaneous Fashion Compared to a Type Ia External Skeletal Fixator. <em>ResearchGate</em>. <a href="https://www.researchgate.net/publication/398272472" target="_blank">Link</a></li>
+                <li>The In Vitro Biomechanics of Locking Plates... <em>Thieme</em>. <a href="https://www.thieme-connect.com/products/ejournals/abstract/10.1055/a-2738-5771" target="_blank">Link</a></li>
+                <li>Investigating the biomechanical function of the plate-type external fixator. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7047408/" target="_blank">PMC7047408</a></li>
+                <li>Externalised locking compression plate as an alternative to the unilateral external fixator. <em>ResearchGate</em>. <a href="https://www.researchgate.net/publication/316248125" target="_blank">Link</a></li>
+                <li>Metaphyseal locking compression plate as an external fixator. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3427449/" target="_blank">PMC3427449</a></li>
+                <li>Age-related optimisation of screw placement for reduced loosening risk. <em>ResearchGate</em>. <a href="https://www.researchgate.net/publication/294424370" target="_blank">Link</a></li>
+                <li>Low Profile, High Impact (ResearchGate). <a href="https://www.researchgate.net/publication/395361262" target="_blank">Link</a></li>
+                <li>Supracutaneous LCP as an External Fixator for Grade I and II Open Distal Tibial Fractures. <em>JCCP</em>. <a href="https://jccpractice.com/article/supracutaneous-locking-compression-plate-as-an-external-fixator-for-grade-i-and-ii-open-distal-tibial-fractures-a-prospective-evaluation-1523/" target="_blank">Link</a></li>
+                <li>Supracutaneous LCP as external fixator in compound metaphyseal and diaphyseal fractures of tibia. <em>IJOS</em>. <a href="https://www.orthopaper.com/archives/2020/vol6issue3/PartJ/6-3-75-462.pdf" target="_blank">PDF</a></li>
+                <li>A Technical Note on Safe Definitive Externalized... <em>Trakia J Sci</em>. <a href="https://tjs.trakia-uni.bg/index.php/tjs/article/download/9/15" target="_blank">PDF</a></li>
+                <li>A Study on the Role of External Locking Plate in Stabilization of Compound Tibial Fractures. <em>JEBMH</em>. <a href="https://www.jebmh.com/articles/a-study-on-the-role-of-external-locking-plate-in-stabilization-of-compound-tibial-fractures.pdf.pdf" target="_blank">PDF</a></li>
+                <li>Supracutaneous LCP for Grade I &amp; II Compound Fracture Distal Tibia. <em>SCIRP</em>. <a href="https://www.scirp.org/journal/paperinformation?paperid=32755" target="_blank">Link</a></li>
+                <li>Antimicrobial Mechanisms of Antibiotic-impregnated Cement-coated Locking Plates. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10628616/" target="_blank">PMC10628616</a></li>
+            </ol>
+        </div>
+    </section>
+
+</main>
+
+<aside>
+    <div class="sidebar-sticky" role="complementary" aria-label="Interactive Clinical Decision Tool">
+        <h2>🎛️ Interactive Decision Tool</h2>
+        <p style="font-size:0.78rem; color:var(--gray-600); margin-bottom:1rem;">
+            Adjust parameters below to see real-time clinical recommendations.
+        </p>
+
+        <!-- Slider 1: Plate-to-Skin Distance -->
+        <div class="slider-group">
+            <label for="plateDistance">Plate-to-Skin Distance (mm)</label>
+            <div class="range-display">
+                <span>5 mm</span>
+                <span class="current-value" id="distanceValue">17 mm</span>
+                <span>50 mm</span>
+            </div>
+            <input type="range" id="plateDistance" min="5" max="50" value="17" step="1" aria-label="Plate to skin distance in millimeters">
+            <div class="threshold-info">
+                Source recommendation: 15–20 mm <sup>[6, 19]</sup>
+            </div>
+        </div>
+
+        <!-- Slider 2: Screws Per Fragment -->
+        <div class="slider-group">
+            <label for="screwCount">Screws Per Main Fragment</label>
+            <div class="range-display">
+                <span>1</span>
+                <span class="current-value" id="screwValue">3</span>
+                <span>8</span>
+            </div>
+            <input type="range" id="screwCount" min="1" max="8" value="3" step="1" aria-label="Number of screws per main bone fragment">
+            <div class="threshold-info">
+                Source recommendation: 3–4 bicortical screws <sup>[14, 19]</sup>
+            </div>
+        </div>
+
+        <!-- Slider 3: Bone Defect Size -->
+        <div class="slider-group">
+            <label for="defectSize">Bone Defect Size (mm)</label>
+            <div class="range-display">
+                <span>0 mm</span>
+                <span class="current-value" id="defectValue">5 mm</span>
+                <span>50 mm</span>
+            </div>
+            <input type="range" id="defectSize" min="0" max="50" value="5" step="1" aria-label="Bone defect size in millimeters">
+            <div class="threshold-info">
+                Critical size defect: &gt;20 mm (requires graft/transport) <sup>[4]</sup>
+            </div>
+        </div>
+
+        <!-- Recommendation Box -->
+        <div class="recommendation-box risk-low" id="recommendationBox">
+            <h3>📋 Clinical Recommendation</h3>
+            <p id="recommendationText">Loading parameters...</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="sidebar-buttons">
+            <button class="btn btn-reset" id="resetBtn" aria-label="Reset all parameters to default">↺ Reset</button>
+            <button class="btn btn-export" id="exportBtn" aria-label="Export current assessment to clipboard">📋 Export</button>
+        </div>
+    </div>
+</aside>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<footer>
+    <p>Educational Resource for Orthopedic Trauma Training | Based on provided clinical document | Not for direct patient care decisions</p>
+    <p style="margin-top:0.3rem;">Evidence levels derived from source document study designs. Always consult current guidelines and institutional protocols.</p>
+</footer>
+
+<script>
+(function() {
+    // Elements
+    const plateDistance = document.getElementById('plateDistance');
+    const screwCount = document.getElementById('screwCount');
+    const defectSize = document.getElementById('defectSize');
+    const distanceValue = document.getElementById('distanceValue');
+    const screwValue = document.getElementById('screwValue');
+    const defectValue = document.getElementById('defectValue');
+    const recommendationBox = document.getElementById('recommendationBox');
+    const recommendationText = document.getElementById('recommendationText');
+    const resetBtn = document.getElementById('resetBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const toast = document.getElementById('toast');
+
+    function updateRecommendation() {
+        const d = parseInt(plateDistance.value);
+        const s = parseInt(screwCount.value);
+        const def = parseInt(defectSize.value);
+
+        distanceValue.textContent = d + ' mm';
+        screwValue.textContent = s;
+        defectValue.textContent = def + ' mm';
+
+        let riskLevel = 'risk-low';
+        let messages = [];
+        let warnings = [];
+        let okPoints = [];
+
+        // Distance analysis
+        if (d >= 15 && d <= 20) {
+            okPoints.push('✓ Plate-to-skin distance is within optimal range (15–20 mm). Provides adequate soft tissue clearance while maintaining construct stiffness. <sup>[19]</sup>');
+        } else if (d < 15 && d >= 10) {
+            warnings.push('⚠ Plate-to-skin distance (' + d + ' mm) is below optimal range. Risk of skin impingement and necrosis with post-operative swelling. Consider increasing to ≥15 mm. <sup>[19]</sup>');
+        } else if (d < 10) {
+            riskLevel = 'risk-high';
+            warnings.push('🔴 CRITICAL: Plate-to-skin distance (' + d + ' mm) is dangerously low. High risk of skin necrosis and wound complications. Emergency soft tissue release may be required. <sup>[19]</sup>');
+        } else if (d > 20 && d <= 30) {
+            warnings.push('⚠ Plate-to-skin distance (' + d + ' mm) exceeds optimal range. Cantilever moment arm increased, reducing axial stiffness. Monitor for screw fatigue. <sup>[1]</sup>');
+        } else if (d > 30) {
+            riskLevel = riskLevel === 'risk-high' ? 'risk-high' : 'risk-moderate';
+            warnings.push('🔴 Plate-to-skin distance (' + d + ' mm) is excessive. Dramatically reduced axial stiffness creates high risk of screw bending/fatigue failure. Not recommended. <sup>[1, 10]</sup>');
+        }
+
+        // Screw count analysis
+        if (s >= 3 && s <= 4) {
+            okPoints.push('✓ Screw density (' + s + ' per fragment) meets source recommendation. Adequate fixation for most clinical scenarios. <sup>[14]</sup>');
+        } else if (s < 3) {
+            warnings.push('⚠ Screw count (' + s + ' per fragment) is below minimum recommendation. Insufficient fixation strength under cantilever loading. Risk of construct failure. Aim for ≥3 bicortical screws per fragment.');
+            if (riskLevel !== 'risk-high') riskLevel = 'risk-moderate';
+        } else {
+            okPoints.push('✓ High screw density (' + s + ' per fragment) provides robust fixation. Consider leaving empty holes in "dot-dash" pattern to distribute strain. <sup>[14]</sup>');
+        }
+
+        // Defect size analysis
+        if (def === 0) {
+            okPoints.push('✓ No bone defect present. Apposition of bone ends favorable for primary healing support.');
+        } else if (def <= 10) {
+            okPoints.push('✓ Small defect (' + def + ' mm). Manageable with standard supercutaneous plating technique. Consider autograft if healing is delayed.');
+        } else if (def <= 20) {
+            warnings.push('⚠ Moderate bone defect (' + def + ' mm). Close to critical threshold. Bone grafting recommended. Monitor closely for delayed union. <sup>[4]</sup>');
+            if (riskLevel !== 'risk-high') riskLevel = 'risk-moderate';
+        } else {
+            riskLevel = 'risk-high';
+            warnings.push('🔴 CRITICAL: Bone defect (' + def + ' mm) exceeds critical size threshold (>20 mm). Supercutaneous plating alone is insufficient. Bone grafting, vascularized flap, or bone transport with ring fixator required. High risk of fatigue failure with prolonged healing. <sup>[4]</sup>');
+        }
+
+        // Construct overall recommendation
+        let rec = '';
+        if (riskLevel === 'risk-low') {
+            rec = '<strong>Risk Level: LOW</strong> — Parameters are within recommended ranges for supercutaneous plating. ';
+            rec += 'Proceed with standard technique: ensure bicortical locking screws, confirm reduction before locking, and plan for secondary bone healing (callus formation). ';
+            rec += 'Expected union rate: 88–94% in high-risk cohorts. <sup>[3, 4]</sup>';
+        } else if (riskLevel === 'risk-moderate') {
+            rec = '<strong>Risk Level: MODERATE</strong> — One or more parameters are outside optimal range. ';
+            rec += 'Technique may still be viable with modifications: consider augmenting fixation, adding bone graft, or accepting closer monitoring. ';
+            rec += 'Discuss with senior surgeon. Be prepared for potential complications including screw loosening and delayed union.';
+        } else {
+            rec = '<strong>Risk Level: HIGH</strong> — Critical parameters are outside safe limits. ';
+            rec += 'Supercutaneous plating in current configuration carries unacceptable risk of failure. ';
+            rec += 'Consider: (1) adjusting plate offset to 15–20 mm, (2) using ring fixator for bone transport if defect >20 mm, (3) alternative fixation strategy. ';
+            rec += 'Consult multidisciplinary team before proceeding.';
+        }
+
+        // Combine
+        let html = rec + '<br><br>';
+        if (okPoints.length > 0) {
+            html += '<div style="margin-bottom:0.4rem;">' + okPoints.join('<br>') + '</div>';
+        }
+        if (warnings.length > 0) {
+            html += '<div style="color:#9b2c2c;">' + warnings.join('<br>') + '</div>';
+        }
+
+        recommendationText.innerHTML = html;
+
+        // Update box class
+        recommendationBox.className = 'recommendation-box ' + riskLevel;
+    }
+
+    // Event listeners
+    plateDistance.addEventListener('input', updateRecommendation);
+    screwCount.addEventListener('input', updateRecommendation);
+    defectSize.addEventListener('input', updateRecommendation);
+
+    // Reset
+    resetBtn.addEventListener('click', function() {
+        plateDistance.value = 17;
+        screwCount.value = 3;
+        defectSize.value = 5;
+        updateRecommendation();
+    });
+
+    // Export
+    exportBtn.addEventListener('click', function() {
+        const d = parseInt(plateDistance.value);
+        const s = parseInt(screwCount.value);
+        const def = parseInt(defectSize.value);
+        const now = new Date().toISOString();
+
+        let text = 'SUPERCUTANEOUS PLATING – CLINICAL ASSESSMENT\n';
+        text += '=' .repeat(50) + '\n';
+        text += 'Timestamp: ' + now + '\n\n';
+        text += 'PARAMETERS:\n';
+        text += '  Plate-to-Skin Distance: ' + d + ' mm (Source: 15–20 mm recommended)\n';
+        text += '  Screws Per Fragment: ' + s + ' (Source: 3–4 recommended)\n';
+        text += '  Bone Defect Size: ' + def + ' mm (Source: >20 mm = critical size defect)\n\n';
+
+        // Risk assessment
+        let risk = 'LOW';
+        if (d < 10 || d > 30 || s < 3 || def > 20) risk = 'HIGH';
+        else if (d < 15 || d > 20 || s < 3 || def > 10) risk = 'MODERATE';
+
+        text += 'RISK LEVEL: ' + risk + '\n\n';
+        text += 'CLINICAL NOTES:\n';
+
+        if (d >= 15 && d <= 20) text += '  [✓] Plate offset within optimal range\n';
+        else if (d < 15) text += '  [!] Plate offset too low – risk of skin necrosis\n';
+        else text += '  [!] Plate offset high – reduced axial stiffness\n';
+
+        if (s >= 3 && s <= 4) text += '  [✓] Adequate screw density\n';
+        else text += '  [!] Screw density outside recommended range\n';
+
+        if (def <= 20) text += '  [✓] Defect within manageable range\n';
+        else text += '  [!] Critical size defect – bone graft/transport required\n';
+
+        text += '\nRECOMMENDATION:\n';
+        text += '  Expected union rate: 88–94% (high-risk cohorts)\n';
+        text += '  Expected infection rate: 6–12% (superficial)\n';
+        text += '  Healing type: Secondary intention (callus formation)\n';
+
+        text += '\nSOURCE: "The Externalized Locking Plate: A Comprehensive\n';
+        text += 'Analysis of Supercutaneous Plating in Orthopedic Trauma"\n';
+        text += '=' .repeat(50) + '\n';
+
+        navigator.clipboard.writeText(text).then(function() {
+            showToast('Assessment copied to clipboard!');
+        }).catch(function() {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('Assessment copied to clipboard!');
+        });
+    });
+
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(function() {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    // Initial call
+    updateRecommendation();
+})();
+</script>
+</body>
+</html>

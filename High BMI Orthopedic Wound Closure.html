@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence-Based Subcutaneous Fat Closure in High-BMI Orthopedic Surgery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8fafb;--surface:#ffffff;--text:#1a2332;--muted:#64748b;--accent:#0f62fe;
+  --accent-light:#e8f0fe;--success:#16a34a;--warning:#ea580c;--danger:#dc2626;
+  --border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.1);--radius:10px;--radius-sm:6px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* Layout */
+.app-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);color:#fff;padding:2rem 2rem 1.5rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.app-header h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;max-width:1400px;margin:0 auto}
+.app-header p{font-size:.85rem;color:#94a3b8;margin-top:.35rem;max-width:1400px;margin-left:auto;margin-right:auto}
+.layout{display:grid;grid-template-columns:1fr 360px;gap:2rem;max-width:1400px;margin:2rem auto;padding:0 2rem;align-items:start}
+.main-content{min-width:0}
+.sidebar{position:sticky;top:120px;max-height:calc(100vh - 140px);overflow-y:auto;padding-bottom:2rem}
+
+/* Cards & Sections */
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:2rem;margin-bottom:1.5rem;border:1px solid var(--border)}
+.card h2{font-size:1.35rem;font-weight:700;color:var(--text);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--accent)}
+.card h3{font-size:1.1rem;font-weight:600;color:#334155;margin:1.5rem 0 .6rem}
+.card h4{font-size:1rem;font-weight:600;color:#475569;margin:1.2rem 0 .4rem}
+.card p,.card li{font-size:.92rem;color:#334155;line-height:1.75}
+.card ul,.card ol{padding-left:1.5rem;margin:.6rem 0}
+.card li{margin-bottom:.4rem}
+
+/* Evidence Badge */
+.ev{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:4px;vertical-align:middle;margin-left:4px;letter-spacing:.03em}
+.ev-1{background:#dcfce7;color:#166534}.ev-2{background:#dbeafe;color:#1e40af}
+.ev-3{background:#fef3c7;color:#92400e}.ev-4{background:#fce7f3;color:#9d174d}
+.ev-5{background:#f1f5f9;color:#475569}.ev-na{background:#f1f5f9;color:#64748b}
+
+/* Callout */
+.callout{border-left:4px solid var(--accent);background:var(--accent-light);padding:1rem 1.2rem;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:1.2rem 0;font-size:.9rem}
+.callout.warning{border-left-color:var(--warning);background:#fff7ed}
+.callout.danger{border-left-color:var(--danger);background:#fef2f2}
+.callout.success{border-left-color:var(--success);background:#f0fdf4}
+.callout strong{display:block;margin-bottom:.2rem;font-size:.85rem}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius-sm);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead{background:#f1f5f9}
+th{padding:.7rem .8rem;text-align:left;font-weight:600;color:#475569;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--border)}
+td{padding:.65rem .8rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.caption{font-size:.8rem;color:var(--muted);font-style:italic;margin-top:.4rem}
+
+/* Sidebar Controls */
+.ctrl-panel{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;margin-bottom:1.5rem}
+.ctrl-header{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;padding:1rem 1.2rem;font-weight:700;font-size:.95rem}
+.ctrl-body{padding:1.2rem}
+.slider-group{margin-bottom:1.5rem}
+.slider-group:last-of-type{margin-bottom:0}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem}
+.slider-label span:first-child{font-weight:600;font-size:.85rem;color:var(--text)}
+.slider-label .val{font-weight:700;font-size:1.05rem;color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:#e2e8f0;outline:none;margin:.4rem 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(15,98,254,.4)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:none;box-shadow:0 2px 6px rgba(15,98,254,.4)}
+.threshold-info{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+
+/* Recommendation Box */
+.rec-box{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-lg);border:2px solid var(--accent);overflow:hidden}
+.rec-header{background:var(--accent);color:#fff;padding:.8rem 1.2rem;font-weight:700;font-size:.9rem}
+.rec-body{padding:1.2rem;font-size:.85rem;line-height:1.65}
+.rec-body ul{padding-left:1.2rem;margin:.5rem 0}
+.rec-body li{margin-bottom:.35rem}
+.rec-item{padding:.6rem .8rem;background:#f8fafc;border-radius:var(--radius-sm);margin-bottom:.6rem;border-left:3px solid var(--accent)}
+.rec-item.warn{border-left-color:var(--warning);background:#fffbeb}
+.rec-item.ok{border-left-color:var(--success);background:#f0fdf4}
+.risk-badge{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:.05em}
+.risk-low{background:#dcfce7;color:#166534}.risk-mid{background:#fef3c7;color:#92400e}.risk-high{background:#fecaca;color:#991b1b}.risk-vhigh{background:#fca5a5;color:#7f1d1d}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border:none;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-reset{background:#f1f5f9;color:#475569;border:1px solid var(--border)}.btn-reset:hover{background:#e2e8f0}
+.btn-copy{background:var(--accent);color:#fff}.btn-copy:hover{background:#0052cc}
+.btn-row{display:flex;gap:.6rem;margin-top:1rem}
+
+/* TOC */
+.toc{background:#f8fafc;border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem 1.2rem;margin-bottom:1.5rem}
+.toc-title{font-weight:700;font-size:.85rem;margin-bottom:.5rem;color:var(--text)}
+.toc ol{padding-left:1.2rem;font-size:.82rem;color:var(--muted)}
+.toc li{margin-bottom:.25rem}
+.toc a{color:var(--accent);text-decoration:none}.toc a:hover{text-decoration:underline}
+
+/* Algorithm Box */
+.algo-box{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:2px solid #86efac;border-radius:var(--radius);padding:1.2rem;margin:1.2rem 0}
+.algo-step{display:flex;gap:.8rem;margin-bottom:.8rem;align-items:flex-start}
+.algo-num{flex-shrink:0;width:28px;height:28px;background:var(--success);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}
+.algo-text{font-size:.88rem;line-height:1.6}
+
+/* References */
+.ref-section{font-size:.8rem;color:var(--muted);line-height:1.7}
+.ref-section ol{padding-left:1.5rem}
+.ref-section li{margin-bottom:.4rem}
+
+/* Responsive */
+@media(max-width:960px){
+  .layout{grid-template-columns:1fr;padding:0 1rem}
+  .sidebar{position:static;max-height:none}
+  .app-header{padding:1.5rem 1rem 1rem}
+  .app-header h1{font-size:1.2rem}
+  .card{padding:1.4rem}
+}
+@media(max-width:600px){
+  .app-header h1{font-size:1.05rem}
+  table{font-size:.75rem}
+  th,td{padding:.45rem .5rem}
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar{width:5px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+
+/* Print */
+@media print{
+  .sidebar,.ctrl-panel,.rec-box,.btn-row,.toc{display:none!important}
+  .layout{grid-template-columns:1fr}
+  .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .app-header{position:static;background:#fff;color:#000;border-bottom:2px solid #000}
+}
+
+/* Tooltip */
+.footnote{cursor:help;border-bottom:1px dotted var(--muted)}
+
+/* Animated highlight */
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(15,98,254,.4)}70%{box-shadow:0 0 0 8px rgba(15,98,254,0)}100%{box-shadow:0 0 0 0 rgba(15,98,254,0)}}
+.pulse{animation:pulse 1.5s 1}
+
+/* Copy notification */
+.copy-toast{position:fixed;bottom:2rem;right:2rem;background:#16a34a;color:#fff;padding:.7rem 1.2rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;opacity:0;transform:translateY(10px);transition:all .3s;z-index:999;pointer-events:none}
+.copy-toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <h1>Evidence-Based Best Practices for Subcutaneous Fat Closure in High-BMI Orthopedic Surgery</h1>
+  <p>A Comprehensive Interactive Clinical Review &middot; Synthesized from Peer-Reviewed Literature</p>
+</header>
+
+<div class="layout">
+<main class="main-content">
+
+<!-- Table of Contents -->
+<nav class="toc" aria-label="Table of Contents">
+  <div class="toc-title">📑 Table of Contents</div>
+  <ol>
+    <li><a href="#s1">The Challenge of Wound Healing in High-BMI Patients</a></li>
+    <li><a href="#s2">Pathophysiological Basis for Wound Complications</a></li>
+    <li><a href="#s3">Foundational Principles of Multilayer Closure</a></li>
+    <li><a href="#s4">Evidence-Based Appraisal of Subcutaneous Fat Closure</a></li>
+    <li><a href="#s5">Suture Techniques for Fat Obliteration</a></li>
+    <li><a href="#s6">Advanced Tension-Reducing Methodologies</a></li>
+    <li><a href="#s7">Suture Material Selection</a></li>
+    <li><a href="#s8">Adjunctive Therapies for High-Risk Wounds</a></li>
+    <li><a href="#s9">Synthesis &amp; Best Practice Recommendations</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- Section 1 -->
+<section class="card" id="s1">
+  <h2>1. The Challenge of Wound Healing in High-BMI Orthopedic Patients</h2>
+
+  <h3>1.1 Epidemiology of Obesity in the Orthopedic Population</h3>
+  <p>The escalating global prevalence of obesity (BMI ≥ 30 kg/m²) has profound implications for musculoskeletal health and orthopedic surgery practice. Adiposity exerts a direct and deleterious effect on the musculoskeletal system, contributing to the pathogenesis of numerous conditions, most notably <strong>osteoarthritis</strong>.<span class="ev ev-1">Level I</span> <sup>[1,2]</sup></p>
+
+  <p>This creates a challenging clinical paradox: the patient population with the highest demand for major reconstructive procedures such as <strong>total joint arthroplasty (TJA)</strong> is concurrently at the greatest risk for devastating postoperative complications. While institutions such as the AAOS have historically recommended a <strong>BMI threshold of &lt; 40 kg/m²</strong> for elective procedures, this approach is increasingly recognized as insufficient.<span class="ev ev-3">Level III</span> <sup>[4]</sup></p>
+
+  <div class="callout">
+    <strong>⚖️ Clinical Paradox</strong>
+    Weight reduction programs have limited long-term success for many patients. Withholding life-altering procedures from those in greatest need presents a significant ethical and clinical dilemma. The focus must evolve towards developing specialized techniques that safely accommodate this growing demographic.
+  </div>
+
+  <h3>1.2 Quantifying the Risk: BMI as a Predictor of Complications</h3>
+  <p>The statistical association between elevated BMI and postoperative wound complications is extensively documented in large-scale database studies:<span class="ev ev-3">Level III</span> <sup>[3]</sup></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1. BMI-Stratified Risk of Wound Complications After TJA</caption>
+      <thead>
+        <tr><th>BMI Category</th><th>Infection Risk (vs. Normal Weight)</th><th>PJI Hazard Ratio</th><th>Dehiscence Hazard Ratio</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Normal (&lt; 25)</td><td>Baseline</td><td>1.0</td><td>1.0</td></tr>
+        <tr><td>Overweight (25–30)</td><td>Slightly elevated</td><td>[Not specified in source]</td><td>[Not specified in source]</td></tr>
+        <tr><td>Obese (&gt; 30)</td><td><strong>8.5× greater</strong></td><td>[Not specified in source]</td><td>[Not specified in source]</td></tr>
+        <tr><td>Severely Obese (&gt; 35)</td><td><strong>18.7× greater</strong></td><td>[Not specified in source]</td><td>[Not specified in source]</td></tr>
+        <tr><td>Morbidly Obese (&gt; 40)</td><td><strong>32.7× greater</strong></td><td><strong>3.71</strong></td><td><strong>3.91</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="caption">Source: Medicare database analysis and large-scale cohort studies cited in the review <sup>[1,3]</sup></p>
+  </div>
+
+  <p>A critical insight from the literature is that <strong>prepatellar subcutaneous fat thickness</strong> may be a more accurate predictor of wound complications than overall BMI in TKA, highlighting the importance of local anatomical factors.<span class="ev ev-3">Level III</span> <sup>[3]</sup> Comprehensive risk calculators integrating BMI with comorbidities provide a more nuanced assessment.<span class="ev ev-3">Level III</span> <sup>[3]</sup></p>
+
+  <h3>1.3 Economic and Clinical Burden</h3>
+  <p>Wound complications in this population represent a significant source of morbidity and economic burden:<span class="ev ev-5">Expert Opinion</span> <sup>[4,6]</sup></p>
+  <ul>
+    <li>Increased length of hospital stay and unplanned readmissions</li>
+    <li>Greater need for subsequent surgical interventions</li>
+    <li>PJI following TJA increases <strong>one-year mortality risk</strong></li>
+    <li>Financial costs from prolonged hospitalization, imaging, antibiotics, and revision surgeries</li>
+    <li>Many complications are <strong>potentially preventable</strong> through optimized technique and perioperative management</li>
+  </ul>
+</section>
+
+<!-- Section 2 -->
+<section class="card" id="s2">
+  <h2>2. Pathophysiological Basis for Increased Wound Complications</h2>
+
+  <div class="callout warning">
+    <strong>🧬 The Pathophysiological Triad</strong>
+    The increased risk is attributable to three interrelated factors: compromised biology, adverse mechanical forces, and heightened bacterial challenge. An effective closure technique must be multi-modal, designed to simultaneously address all three components.
+  </div>
+
+  <h3>2.1 Unique Biology of Adipose Tissue</h3>
+  <p>Subcutaneous adipose tissue in obese individuals presents a fundamentally challenging surgical environment:<span class="ev ev-5">Expert Opinion</span> <sup>[9,11]</sup></p>
+  <ul>
+    <li><strong>Poor vascularity</strong> → local tissue hypoxia → impaired fibroblast proliferation and collagen synthesis</li>
+    <li><strong>Impaired immune cell function</strong> → diminished capacity to combat bacterial contamination</li>
+    <li><strong>Mechanical fragility</strong> → tissue lacks inherent tensile strength; prone to "cutting-through" with sutures</li>
+    <li><strong>Fat necrosis risk</strong> → sutures under tension cause ischemia → necrotic tissue serves as avascular nidus for bacteria</li>
+  </ul>
+
+  <h3>2.2 The Pro-Inflammatory State</h3>
+  <p>Modern understanding recognizes adipose tissue as a <strong>dynamic endocrine organ</strong> producing bioactive signaling molecules (adipokines).<span class="ev ev-5">Expert Review</span> <sup>[13]</sup></p>
+  <ul>
+    <li>In obesity: <strong>pro-inflammatory adipokines upregulated</strong> (leptin, resistin) and <strong>anti-inflammatory adipokines downregulated</strong> (adiponectin)</li>
+    <li>Creates chronic, low-grade, <strong>systemic pro-inflammatory state</strong></li>
+    <li>Prolongs and amplifies the initial inflammatory phase of wound healing</li>
+    <li>Leads to excessive protease activity, degradation of extracellular matrix, impaired proliferative phase</li>
+    <li>Often compounded by comorbidities such as <strong>type 2 diabetes mellitus</strong></li>
+  </ul>
+
+  <h3>2.3 Mechanical Factors: Dead Space and Wound Tension</h3>
+  <p>The surgical challenges are profoundly mechanical:<span class="ev ev-5">Expert Opinion</span> <sup>[6,11,12]</sup></p>
+  <ul>
+    <li><strong>Dead space</strong>: Surgical incision through thick fat creates substantial potential space between deep fascia and dermis. This space fills with serous fluid or blood, creating an ideal culture medium for bacteria.</li>
+    <li><strong>Wound tension</strong>: Heavy adipose tissue flaps exert constant tensile force on the suture line, compromising blood supply to skin edges, causing ischemia, necrosis, and dehiscence.</li>
+  </ul>
+
+  <div class="callout danger">
+    <strong>⚠️ Vicious Cycle</strong>
+    High tension exacerbates poor perfusion → fluid collections in un-obliterated dead space → bacteria overwhelm locally compromised immune response → infection and wound failure.
+  </div>
+</section>
+
+<!-- Section 3 -->
+<section class="card" id="s3">
+  <h2>3. Foundational Principles of Multilayer Wound Closure</h2>
+
+  <h3>3.1 Meticulous Tissue Handling and Hemostasis</h3>
+  <p>Gentle tissue handling is paramount in obese patients. Rough handling, excessive retraction, or indiscriminate electrocautery damages the already compromised vasculature, extending the zone of tissue necrosis.<span class="ev ev-5">Expert Consensus</span> <sup>[6]</sup></p>
+  <p>Careful and complete <strong>hemostasis</strong> is a non-negotiable prerequisite — failure to control bleeding directly leads to hematoma formation, a primary precursor to dehiscence and SSI.</p>
+
+  <h3>3.2 Layer-by-Layer Anatomic Restoration</h3>
+  <p>Wound closure must restore normal anatomic planes: <strong>deep fascia → subcutaneous layers → dermis</strong> as distinct structures.<span class="ev ev-5">Expert Consensus</span> <sup>[6]</sup> This re-establishes structural integrity, allows appropriate tissue gliding, and contributes to cosmetically acceptable scarring.</p>
+
+  <h3>3.3 Tension Management and Dead Space Obliteration</h3>
+  <p>These are the <strong>most critical mechanical goals</strong> in high-BMI surgery:<span class="ev ev-5">Expert Consensus</span> <sup>[6]</sup></p>
+  <ul>
+    <li>Watertight closure leaving no potential space for fluid accumulation</li>
+    <li>Deeper, stronger tissues bear the tension of closure, allowing superficial layers to be gently approximated</li>
+  </ul>
+
+  <div class="callout warning">
+    <strong>📊 Practice Gap Identified</strong>
+    A national survey of orthopedic surgeons in Spain revealed: 87% affirmed wound closure impacts outcomes, yet there was <strong>no consensus on the best method</strong>. Closure was performed by a resident in ~50% of cases. The most common technique was simple interrupted Vicryl — a significant disconnect between accepted principles and actual practice.<span class="ev ev-2">Level II</span> <sup>[7]</sup>
+  </div>
+</section>
+
+<!-- Section 4 -->
+<section class="card" id="s4">
+  <h2>4. Evidence-Based Appraisal of Subcutaneous Fat Closure</h2>
+
+  <h3>4.1 Rationale for Subcutaneous Suturing</h3>
+  <p>The primary rationale is mechanical: <strong>obliterate dead space</strong> to prevent seroma/hematoma formation and reduce wound breakdown and infection risk.<span class="ev ev-1">Level I</span> <sup>[12]</sup></p>
+  <p>A randomized study in elective laparotomy demonstrated that subcutaneous sutures significantly reduced superficial SSI, hematoma, seroma, and total wound dehiscence vs. no subcutaneous closure.<span class="ev ev-1">Level I</span> <sup>[12]</sup></p>
+
+  <p><strong>Counterargument:</strong> Sutures through poorly perfused tissue can cause further ischemic injury, fat necrosis, and potentially increase complication risk through foreign body reaction.<span class="ev ev-1">Level I</span> <sup>[12]</sup></p>
+
+  <h3>4.2 Evidence from Obstetrics — The Landmark Meta-Analysis</h3>
+  <div class="callout success">
+    <strong>🏆 Pivotal Finding (Evidence Level I)</strong>
+    A landmark meta-analysis of RCTs in cesarean delivery found that for patients with <strong>subcutaneous fat thickness &gt; 2 cm</strong>, active suture closure resulted in a <strong>34% decrease in wound disruption risk</strong> (composite: infection, hematoma, seroma, separation). This was driven largely by significant reduction in seroma formation. For fat thickness ≤ 2 cm, suture closure provided <strong>no clinical benefit</strong>.<sup>[20]</sup>
+  </div>
+
+  <h3>4.3 The Critical Threshold: When Is Closure Indicated?</h3>
+  <p>Based on strong analogous evidence from obstetrics, <strong>routine suture closure of the subcutaneous layer should be the standard of care when subcutaneous fat depth exceeds 2 cm</strong> (measured from deep fascia to dermis).<span class="ev ev-1">Level I</span> <sup>[20]</sup></p>
+
+  <div class="callout">
+    <strong>📐 Number Needed to Treat (NNT) = 16.2</strong>
+    A surgeon would need to close the subcutaneous layer in approximately <strong>16 patients with &gt; 2 cm of fat to prevent one significant wound disruption</strong>. This powerful statistic underscores the clinical effectiveness of the intervention.<sup>[20]</sup>
+  </div>
+</section>
+
+<!-- Section 5 -->
+<section class="card" id="s5">
+  <h2>5. Suture Techniques for Subcutaneous Fat Closure</h2>
+
+  <h3>5.1 Conventional Approaches</h3>
+  <h4>Interrupted Suturing</h4>
+  <p>Point-by-point approximation with individual knots. An Egyptian study in obese women undergoing cesarean section found interrupted technique superior to continuous technique, with reductions in wound gapping, seroma, erythema, and infection.<span class="ev ev-2">Level II</span> <sup>[21]</sup></p>
+
+  <h4>Continuous Suturing</h4>
+  <p>Running stitch approximates tissue along the incision length. Provides continuous line of closure but can create a "purse-string" effect potentially compromising perfusion. Evidence is conflicting — some studies show lower SSI rates than interrupted technique.<span class="ev ev-3">Level III</span> <sup>[22]</sup></p>
+
+  <h3>5.2 Barbed Sutures</h3>
+  <p>Feature tissue-anchoring barbs for knotless fixation. Proposed benefits: faster closure, even tension distribution, more watertight seal.<span class="ev ev-2">Level II</span> <sup>[2]</sup></p>
+
+  <div class="callout danger">
+    <strong>⚠️ Caution — Level I Evidence of Harm</strong>
+    A prospective RCT by Matzkin et al. in TKA/THA found barbed sutures decreased closure time by 9.7 minutes and saved $549/case, BUT were associated with <strong>increased frequency and severity of wound complications</strong>. A plastic surgery review also found higher wound separation rates.<span class="ev ev-1">Level I</span> <sup>[25,28]</sup>
+  </div>
+
+  <h3>5.3 Quilting Sutures — A Novel Application for Orthopedics</h3>
+  <p>Also known as <strong>progressive tension sutures</strong>, this technique from plastic/reconstructive surgery directly addresses both dead space and tension:<span class="ev ev-2">Level II</span> <sup>[29,30]</sup></p>
+  <ul>
+    <li>Multiple spaced absorbable sutures tack the subcutaneous flap to the underlying deep fascia</li>
+    <li>Completely obliterates dead space by physically adhering tissue planes</li>
+    <li>Distributes tensile forces across entire flap surface, away from skin incision</li>
+    <li>Consistently shown to significantly reduce seroma in abdominoplasty and mastectomy</li>
+    <li>High BMI is an independent risk factor for seroma — quilting is a significant protective factor in this population<span class="ev ev-2">Level II</span> <sup>[31]</sup></li>
+  </ul>
+
+  <div class="callout">
+    <strong>🔬 Critical Finding</strong>
+    The complete absence of quilting sutures in orthopedic literature represents a <strong>major opportunity for practice improvement</strong>. The mechanical principles are directly applicable to high-BMI orthopedic wound closure, particularly in TJA and spine surgery. The orthopedic community should adopt and formally study this technique.
+  </div>
+
+  <!-- Comparative Table -->
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2. Comparative Analysis of Subcutaneous Suture Techniques</caption>
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th>Mechanism</th>
+          <th>Dead Space Obliteration</th>
+          <th>Tension Distribution</th>
+          <th>Time/Cost Impact</th>
+          <th>Key Evidence</th>
+          <th>Concerns</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Interrupted (Conventional)</strong></td>
+          <td>Point-by-point with individual knots</td>
+          <td>Moderate; gaps between sutures</td>
+          <td>Focal; concentrated at knots</td>
+          <td>Baseline standard</td>
+          <td><sup>[7]</sup></td>
+          <td>Knots as foreign body nidus; inconsistent tension <sup>[6]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Continuous (Conventional)</strong></td>
+          <td>Running stitch along incision</td>
+          <td>Good; continuous closure line</td>
+          <td>Can create purse-string effect</td>
+          <td>Generally faster</td>
+          <td><sup>[22]</sup></td>
+          <td>Conflicting evidence on infection risk vs. interrupted <sup>[21]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Barbed (Bidirectional)</strong></td>
+          <td>Knotless fixation via tissue-anchoring barbs</td>
+          <td>Excellent; continuous watertight seal</td>
+          <td>Even distribution along suture line</td>
+          <td>Significantly faster; lower cost <sup>[23]</sup></td>
+          <td><sup>[2]</sup></td>
+          <td><strong>Level I evidence of increased wound complications in TJA</strong> <sup>[25]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Quilting Sutures</strong></td>
+          <td>Tacks flap to deep fascia; eliminates dead space</td>
+          <td><strong>Excellent; eliminates entire dead space</strong></td>
+          <td><strong>Excellent; tension transferred to entire flap</strong></td>
+          <td>Modestly increases operative time <sup>[31]</sup></td>
+          <td><sup>[30,31]</sup></td>
+          <td>Lacks orthopedic-specific data; requires meticulous technique</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="caption">Evidence synthesized from orthopedic and analogous surgical literature. References are from the source document.</p>
+  </div>
+</section>
+
+<!-- Section 6 -->
+<section class="card" id="s6">
+  <h2>6. Advanced Tension-Reducing Suture Methodologies</h2>
+
+  <h3>6.1 Retention Sutures for High-Tension Wounds (TKA)</h3>
+  <p>Retention suturing provides a powerful <strong>external support system</strong> to reinforce primary wound closure. The technique uses heavy, non-absorbable monofilament suture (#1 Ethilon) on a straight needle with "far-far" bites passing deep through subcutaneous tissue. <strong>Bolsters</strong> (sterile infant feeding tube or rubber tubing) are placed under suture loops to prevent skin cutting.<span class="ev ev-3">Case Series</span> <sup>[11]</sup></p>
+
+  <div class="callout success">
+    <strong>📈 Remarkable Results</strong>
+    In a study of 27 obese TKA patients: <strong>zero instances</strong> of wound dehiscence, persistent discharge, localized skin necrosis, or suture cut-through over 14-month follow-up. This technique directly counteracts the tendency of sutures to necrose fat under pressure.<span class="ev ev-3">Level III</span> <sup>[11]</sup>
+  </div>
+
+  <h3>6.2 Multilayer Mattress Stitches for Complex Closures (Spine)</h3>
+  <p>For deep wounds in posterior spine surgery, the multilayer mattress stitch achieves synergistic closure of deep and superficial layers with a single robust suture:<span class="ev ev-3">Level III</span> <sup>[33]</sup></p>
+  <ul>
+    <li>Thick monofilament suture passed in vertical mattress fashion incorporating full tissue thickness</li>
+    <li>Introduced ~4 cm from wound margin, passes through skin, entire subcutaneous fat, and takes a bite of paravertebral muscle/fascia</li>
+    <li>Reversed for a smaller superficial bite closer to wound edge</li>
+    <li>Silicone drain often used as bolster under superficial loop</li>
+    <li>Successfully used in patients with BMI &gt; 36.4 kg/m² <sup>[33]</sup></li>
+  </ul>
+  <p>Force is effectively redirected from skin to deep musculofascial layer — a powerful tool for stable, tension-free closure in deep spinal wounds.</p>
+</section>
+
+<!-- Section 7 -->
+<section class="card" id="s7">
+  <h2>7. Suture Material Selection</h2>
+
+  <h3>7.1 Monofilament vs. Braided</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3. Suture Material Properties Relevant to High-BMI Closure</caption>
+      <thead>
+        <tr><th>Property</th><th>Monofilament</th><th>Braided</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Structure</td><td>Single strand</td><td>Multiple filaments woven together</td></tr>
+        <tr><td>Bacterial Adherence</td><td><strong>Lower</strong> — smooth, non-porous surface <sup>[34]</sup></td><td>Higher — interstices create wicking effect <sup>[34]</sup></td></tr>
+        <tr><td>Handling</td><td>Less pliable; memory</td><td><strong>Superior</strong> handling and knot security</td></tr>
+        <tr><td>Infection Risk</td><td><strong>Theoretically lower</strong> in compromised tissue</td><td>Capillarity can sequester bacteria <sup>[6]</sup></td></tr>
+        <tr><td>Recommended Use</td><td><strong>Preferred for subcutaneous closure in high-BMI patients</strong></td><td>Commonly used but may increase infection risk</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>7.2 Absorption Profile</h3>
+  <p>Wound healing in obese patients may be delayed due to poor vascularity and chronic inflammation. Sutures must maintain strength for a sufficient duration:<span class="ev ev-5">Expert Opinion</span> <sup>[34]</sup></p>
+  <ul>
+    <li><strong>Rapidly absorbable</strong> (e.g., Monocryl) — may lose tensile strength too quickly for slow-healing patients</li>
+    <li><strong>Slowly absorbable</strong> (e.g., PDS) — retain strength longer; preferred for deep, tension-bearing layers</li>
+    <li>For subcutaneous layer: a suture with <strong>prolonged strength retention</strong> is theoretically advantageous</li>
+  </ul>
+
+  <h3>7.3 Antimicrobial-Coated Sutures</h3>
+  <p>The use of <strong>triclosan-coated sutures</strong> over non-antimicrobial-coated sutures is identified by an expert panel as a key intervention associated with lower wound complication and SSI rates.<span class="ev ev-5">Expert Consensus</span> <sup>[8]</sup> Local elution creates a zone of inhibition preventing bacterial adherence during the vulnerable post-closure period.</p>
+
+  <div class="callout success">
+    <strong>✅ Material Recommendation</strong>
+    The optimal choice for subcutaneous closure in high-BMI patients is likely a <strong>slowly absorbable, antimicrobial-coated monofilament suture</strong> (e.g., triclosan-coated PDS), addressing both biological and mechanical challenges.
+  </div>
+</section>
+
+<!-- Section 8 -->
+<section class="card" id="s8">
+  <h2>8. Adjunctive Therapies for High-Risk Wound Management</h2>
+
+  <h3>8.1 Prophylactic Incisional Negative Pressure Wound Therapy (NPWT)</h3>
+  <p>NPWT involves a sealed dressing over the closed incision connected to a vacuum pump applying sub-atmospheric pressure. Mechanisms include:<span class="ev ev-5">Expert Review</span> <sup>[38,39]</sup></p>
+  <ul>
+    <li>Active removal of excess fluid and inflammatory exudate</li>
+    <li>Reduction of edema; prevention of seroma/hematoma</li>
+    <li>Increased local blood flow and tissue oxygenation</li>
+    <li>Mechanical splinting of wound edges; protection from external contamination</li>
+  </ul>
+
+  <div class="callout success">
+    <strong>📊 Compelling Evidence — 360 Obese TKA Patients</strong>
+    NPWT group vs. standard dressing:<br>
+    • Wound dehiscence: <strong>3.33% vs. 9.52%</strong> (50% reduction)<br>
+    • Overall SSI: <strong>11.33% vs. 25.24%</strong> (more than halved)<br>
+    • Deep PJI: <strong>4.0% vs. 10.0%</strong><br>
+    • Significantly fewer returns to OR for wound-related reasons<br>
+    • Primary adverse effect: increased skin blistering (manageable)<span class="ev ev-2">Level II</span> <sup>[39]</sup>
+  </div>
+
+  <h3>8.2 The Controversial Role of Subcutaneous Drains</h3>
+  <p>Evidence is <strong>highly conflicting</strong> and context-dependent:<span class="ev ev-1">Level I–III</span></p>
+  <ul>
+    <li><strong>Supportive (abdominal/spine):</strong> Reduces seroma in obese abdominal surgery <sup>[49]</sup>; may reduce SSI in obese lumbar discectomy <sup>[51]</sup></li>
+    <li><strong>Against (TJA):</strong> Systematic review found drains do NOT reduce hematoma in arthroplasty; associated with increased blood loss, transfusion requirements, and potential retrograde bacterial conduit <sup>[52]</sup></li>
+  </ul>
+
+  <div class="callout warning">
+    <strong>📋 Evidence Gap</strong>
+    The powerful fluid-management capabilities of NPWT may represent a safer and more effective alternative to drains in many high-risk arthroplasty cases. A particularly promising strategy: <strong>combining quilting sutures (internal dead space elimination) with NPWT (fine-tuning fluid management and external splinting)</strong> — warrants formal clinical investigation.
+  </div>
+
+  <h3>8.3 Adjunctive Therapies Summary</h3>
+  <div class="table-wrap">
+    <table>
+      <caption>Table 4. Evidence Summary of Adjunctive Wound Management Therapies</caption>
+      <thead>
+        <tr><th>Therapy</th><th>Mechanism</th><th>Benefit Evidence</th><th>Risks</th><th>LOE</th><th>Indications</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Prophylactic Incisional NPWT</strong></td>
+          <td>Removes exudate; increases perfusion; mechanical splinting <sup>[38]</sup></td>
+          <td>Significantly reduces dehiscence, SSI, PJI in obese TKA <sup>[39]</sup></td>
+          <td>Skin blistering <sup>[39]</sup></td>
+          <td><span class="ev ev-2">II</span></td>
+          <td>Strongly recommended for BMI &gt; 35 in TJA; option for high-risk trauma <sup>[45]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>Subcutaneous Drains</strong></td>
+          <td>Evacuates hematoma/seroma from dead space <sup>[48]</sup></td>
+          <td>Reduces seroma in abdominal surgery <sup>[49]</sup>; may reduce SSI in spine <sup>[51]</sup></td>
+          <td>No benefit in TJA hematoma; ↑ blood loss; retrograde infection risk <sup>[50,52]</sup></td>
+          <td><span class="ev ev-4">Conflicting</span></td>
+          <td>Not routine in TJA; consider case-by-case in large dead space (complex spine)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>8.4 Emerging Technologies</h3>
+  <ul>
+    <li><strong>Bipolar sealant devices:</strong> Achieve meticulous hemostasis during dissection; useful in heavier patients to minimize blood loss and hematoma risk <sup>[2]</sup></li>
+    <li><strong>Advanced skin closure systems (e.g., DERMABOND PRINEO):</strong> Combine liquid adhesive with self-adhering mesh; provide additional tensile strength and microbial barrier; simplify postoperative care <sup>[6]</sup></li>
+  </ul>
+</section>
+
+<!-- Section 9 -->
+<section class="card" id="s9">
+  <h2>9. Synthesis &amp; Evidence-Based Best Practice Recommendations</h2>
+
+  <h3>9.1 Multi-faceted Strategy for TJA (TKA/THA)</h3>
+  <p>For high-risk patients (BMI &gt; 35 kg/m², subcutaneous fat &gt; 2 cm, or major comorbidities):</p>
+
+  <h4>Intraoperative Layered Closure:</h4>
+  <ol>
+    <li><strong>Deep Fascia:</strong> Slowly absorbable, antimicrobial-coated monofilament suture (e.g., triclosan-coated PDS) <sup>[8]</sup></li>
+    <li><strong>Subcutaneous Layer (if depth &gt; 2 cm):</strong>
+      <ul>
+        <li><em>Recommendation 1:</em> <strong>Quilting sutures</strong> — most effective method for dead space elimination and tension distribution <sup>[30]</sup></li>
+        <li><em>Recommendation 2 (TKA):</em> <strong>Retention sutures</strong> with bolsters — exceptional effectiveness preventing dehiscence <sup>[11]</sup></li>
+      </ul>
+    </li>
+    <li><strong>Skin Layer:</strong> <strong>Absorbable subcuticular sutures</strong> — meta-analysis demonstrates significantly higher infection risk with staples <span class="ev ev-1">Level I</span> <sup>[53]</sup></li>
+  </ol>
+
+  <h4>Post-Closure Adjunctive Therapy:</h4>
+  <ol>
+    <li><em>Recommendation 3:</em> <strong>Prophylactic incisional NPWT</strong> immediately following skin closure for 3–7 days <sup>[39]</sup></li>
+  </ol>
+
+  <h3>9.2 Specific Considerations</h3>
+  <h4>Spine Surgery:</h4>
+  <ul>
+    <li><strong>Multilayer mattress stitch</strong> is particularly valuable for deep wounds with high tension <sup>[33]</sup></li>
+    <li>Subcutaneous drain may be more justifiable in complex multi-level fusions <sup>[51]</sup></li>
+    <li>Skin closure: conflicting evidence — sutures favored in arthroplasty, but one study found lower SSI with staples in obese lumbar fusion <sup>[54]</sup></li>
+  </ul>
+
+  <h4>Trauma Surgery:</h4>
+  <ul>
+    <li>Principles of meticulous debridement, tension-free closure, and dead space management are paramount</li>
+    <li><strong>Prophylactic NPWT strongly indicated</strong> for high-risk closed incisions after fracture fixation <sup>[45]</sup></li>
+  </ul>
+
+  <h3>9.3 Decision Algorithm</h3>
+  <div class="algo-box">
+    <div class="algo-step"><div class="algo-num">1</div><div class="algo-text"><strong>Assess Risk:</strong> Is BMI &gt; 30 kg/m² or are major risk factors present (diabetes, smoking, malnutrition)? → If yes, manage as high-risk patient.</div></div>
+    <div class="algo-step"><div class="algo-num">2</div><div class="algo-text"><strong>Measure Intraoperative Fat Depth:</strong> After fascial closure, measure subcutaneous fat. <strong>Is depth &gt; 2 cm?</strong> → If yes, mandatory subcutaneous closure. If no, closure optional with no clear benefit.<sup>[20]</sup></div></div>
+    <div class="algo-step"><div class="algo-num">3</div><div class="algo-text"><strong>Select Technique by Procedure &amp; Risk:</strong>
+      <ul>
+        <li><strong>TKA/THA (BMI 30–39):</strong> Coated monofilament fascia → Quilting sutures → Subcuticular skin → NPWT</li>
+        <li><strong>TKA/THA (BMI ≥ 40):</strong> Coated monofilament fascia → Quilting + Retention sutures (TKA) → Subcuticular skin → NPWT</li>
+        <li><strong>Complex Spine (high BMI):</strong> Coated monofilament fascia → Multilayer mattress or Quilting sutures → Consider drain + NPWT → Subcuticular suture or staples</li>
+        <li><strong>High-Risk Trauma:</strong> Layered closure with dead space management → NPWT strongly recommended</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- References -->
+<section class="card ref-section" id="refs">
+  <h2>References</h2>
+  <ol>
+    <li>Information statement: obesity and musculoskeletal care. American Academy of Orthopaedic Surgeons.</li>
+    <li>Operative Techniques to Reduce Hip and Knee Arthroplasty Wound Complications. <em>PMC</em>.</li>
+    <li>Clinical Faceoff: Should Orthopaedic Surgeons Have Strict BMI Cutoffs for Performing Primary TKA and THA? <em>PMC</em>.</li>
+    <li>Obesity — American Academy of Orthopaedic Surgeons.</li>
+    <li>Impact of Obesity and Preoperative Knee Subcutaneous Fat Indices as Predictors of Postoperative Functional Outcomes Following TKA. <em>PMC</em>.</li>
+    <li>Wound Closure in Orthopaedic Surgery. Ethicon / J&J MedTech.</li>
+    <li>Consensus document on the management of wound closure in orthopaedic surgery. <em>PMC</em>.</li>
+    <li>Orthopaedic Experts Identify Best Practices for Wound Closure and Dressing Management in TKA and THA. Johnson & Johnson.</li>
+    <li>Obesity and Surgical Wound Healing: A Current Review. University of South Florida Digital Commons.</li>
+    <li>Challenges of wound management in bariatric patients. <em>Wounds UK</em>.</li>
+    <li>Retention Stitches: A Concept of Wound Closure of Knee Arthroplasty in Obese Patients. <em>PMC</em>.</li>
+    <li>A Prospective Study of Sutured Versus Non-sutured Subcutaneous Fat Tissue in Laparotomy Wound Closure. <em>PMC</em>.</li>
+    <li>Understanding wound healing in obesity. <em>PMC</em>.</li>
+    <li>Metabolic aspects of surgical subcutaneous fat removal. <em>PMC</em>.</li>
+    <li>Risks and remedies when your surgical patient is obese. <em>MDedge</em>.</li>
+    <li>Risks and remedies when your surgical patient is obese. <em>MDedge</em>.</li>
+    <li>Obesity and total joint arthroplasty. <em>Mayo Clinic</em>.</li>
+    <li>Study of the relation between subcutaneous wound drainage after midline sternotomy and SSI in obese patients. <em>Termedia</em>.</li>
+    <li>The Effect of Quilting Sutures on the Tension Required to Advance the Abdominal Flap in Abdominoplasty. <em>PubMed</em>.</li>
+    <li>Suture Closure of Subcutaneous Fat and Wound Disruption After Cesarean Delivery: A Meta-Analysis. <em>Obstet Gynecol</em>.</li>
+    <li>Effect of subcutaneous tissue closure technique in cesarean section on postoperative wound complications in obese Egyptian women. <em>PubMed</em>.</li>
+    <li>Investigation of Continuous Versus Interrupted Subcutaneous Fat Closure in Reducing SSI. <em>ClinicalTrials.gov NCT05856968</em>.</li>
+    <li>Is There an Advantage to Knotless Barbed Suture in TKA Wound Closure? <em>PMC</em>.</li>
+    <li>The Use of Barbed Sutures in THA: A Systematic Review. <em>PMC</em>.</li>
+    <li>Matzkin et al. Barbed versus traditional sutures: closure time, cost, and wound related outcomes in total joint arthroplasty. <em>PubMed</em>.</li>
+    <li>Barbed Versus Traditional Sutures. <em>Premier Surgical / ResearchGate</em>.</li>
+    <li>Barbed Sutures and Wound Complications in Plastic Surgery: An Analysis of Outcomes. <em>Oxford Academic / Aesthet Surg J</em>.</li>
+    <li>Barbed Sutures and Wound Complications in Plastic Surgery. <em>Oxford Academic</em>.</li>
+    <li>Umbilical Quilting Suture Technique during Single-Port Laparoscopic Surgery. <em>PMC</em>.</li>
+    <li>Use of Quilting Sutures During Abdominoplasty to Prevent Seroma Formation. <em>Aesthet Surg J / Oxford Academic</em>.</li>
+    <li>Quilting suture is better than conventional suture with drain in preventing seroma formation after mastectomy. <em>PMC</em>.</li>
+    <li>Quilting suture is better than conventional suture with drain in preventing seroma formation. <em>d-nb.info</em>.</li>
+    <li>Multilayer Mattress Stitches for Complicated Wounds in Spine Surgery. <em>PMC</em>.</li>
+    <li>Advances and Techniques in Subcuticular Suturing for Abdominal Wall Closure. <em>PMC</em>.</li>
+    <li>Comparison of suture material and technique of closure of subcutaneous fat and skin in caesarean section. <em>ResearchGate</em>.</li>
+    <li>Sutures versus staples for wound closure in orthopaedic surgery: a pilot RCT. <em>PMC</em>.</li>
+    <li>Lab 6: Incision Closure. <em>WCVM / University of Saskatchewan</em>.</li>
+    <li>Negative Pressure Wound Therapy Post Arthroplasty. <em>Physiopedia</em>.</li>
+    <li>Negative pressure wound therapy reduces the incidence of postoperative wound dehiscence and SSI after TKA in patients with obesity. <em>ResearchGate</em>.</li>
+    <li>The application of negative pressure wound therapy in orthopedics: current concepts. <em>ResearchGate</em>.</li>
+    <li>Incisional NPWT Use on Orthopaedic Lower Extremity Trauma: An Updated Systematic Review. <em>MDPI</em>.</li>
+    <li>Review Period Report. AAOS SSI CPG.</li>
+    <li>Negative pressure wound therapy for surgical wounds healing by primary closure. <em>PMC (Cochrane)</em>.</li>
+    <li>Perioperative Management of the Obese Parturient. <em>UW Medicine</em>.</li>
+    <li>Prevention of SSI After Major Extremity Trauma. AAOS CPG.</li>
+    <li>Single use NPWT system in the management of knee arthroplasty. <em>PMC</em>.</li>
+    <li>Negative pressure wound therapy for management of the surgical incision in orthopaedic surgery. PICO resource.</li>
+    <li>Reducing SSI by Placing Subcutaneous Drain in Obese Patients. <em>YouTube</em>.</li>
+    <li>Role of subcutaneous drains in obese patients undergoing elective cholecystectomy. <em>PubMed</em>.</li>
+    <li>The Use of Surgical Drains in Orthopedics. <em>ResearchGate</em>.</li>
+    <li>Effectiveness of Surgical Drains in Obese Patients Undergoing Lumbar Discectomy. <em>PMC</em>.</li>
+    <li>Surgical drains following arthroplasty: a systematic review. <em>ResearchGate</em>.</li>
+    <li>Sutures versus staples for skin closure in orthopaedic surgery: meta-analysis. <em>BMJ</em>.</li>
+    <li>A Comparative Study of Wound Infections Following Wound Closure Using Staples and Absorbable Sutures Among Obese Patients Undergoing Lumbar Fusion Surgery. <em>ResearchGate</em>.</li>
+    <li>Incisional Vacuum-Assisted Wound Closure in Morbidly Obese Patients Undergoing Acetabular Fracture Surgery. <em>MDedge</em>.</li>
+  </ol>
+</section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" aria-label="Interactive Clinical Decision Panel">
+
+  <!-- Slider Panel -->
+  <div class="ctrl-panel">
+    <div class="ctrl-header">🎛️ Clinical Parameters</div>
+    <div class="ctrl-body">
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Body Mass Index (BMI)</span>
+          <span class="val" id="bmiVal">35 kg/m²</span>
+        </div>
+        <input type="range" id="bmiSlider" min="20" max="60" step="0.5" value="35" aria-label="BMI slider">
+        <div class="threshold-info">
+          <span style="color:#16a34a">20</span> · 
+          <span style="color:#92400e">30 (obese)</span> · 
+          <span style="color:#dc2626">40 (morbidly obese)</span> · 
+          <span style="color:#7f1d1d">60</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Subcutaneous Fat Depth</span>
+          <span class="val" id="fatVal">2.5 cm</span>
+        </div>
+        <input type="range" id="fatSlider" min="0.5" max="8" step="0.1" value="2.5" aria-label="Subcutaneous fat depth slider">
+        <div class="threshold-info">
+          <span style="color:#16a34a">0.5</span> · 
+          <span style="color:#dc2626">2.0 cm (closure threshold)</span> · 
+          <span style="color:#7f1d1d">8.0</span>
+        </div>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Wound Tension Level</span>
+          <span class="val" id="tensionVal">Moderate</span>
+        </div>
+        <input type="range" id="tensionSlider" min="1" max="5" step="1" value="3" aria-label="Wound tension level slider">
+        <div class="threshold-info">
+          <span style="color:#16a34a">1 (minimal)</span> · 
+          <span style="color:#92400e">3 (moderate)</span> · 
+          <span style="color:#dc2626">5 (extreme)</span>
+        </div>
+        <p class="threshold-info" style="margin-top:6px;font-style:italic">Assessed clinically: based on tissue bulk, incision location, and retraction forces. <em>Not a measured threshold from source — based on clinical judgment.</em></p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-reset" onclick="resetSliders()" aria-label="Reset all sliders">↺ Reset</button>
+        <button class="btn btn-copy" onclick="copyReport()" aria-label="Copy clinical report to clipboard">📋 Copy Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div class="rec-box" id="recBox">
+    <div class="rec-header">📊 Real-Time Clinical Recommendation</div>
+    <div class="rec-body" id="recBody">
+      <!-- Populated by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Quick Reference -->
+  <div class="ctrl-panel" style="margin-top:1.5rem">
+    <div class="ctrl-header">📖 Quick Reference</div>
+    <div class="ctrl-body" style="font-size:.82rem;line-height:1.6">
+      <p><strong>Closure Indication:</strong> Subcutaneous fat &gt; 2 cm → mandatory layered closure <sup>[20]</sup></p>
+      <p style="margin-top:.6rem"><strong>Preferred Technique:</strong> Quilting sutures (dead space + tension) <sup>[30]</sup></p>
+      <p style="margin-top:.6rem"><strong>Suture Material:</strong> Slowly absorbable antimicrobial-coated monofilament <sup>[8]</sup></p>
+      <p style="margin-top:.6rem"><strong>Adjunct for BMI &gt; 35:</strong> Prophylactic NPWT (3–7 days) <sup>[39]</sup></p>
+      <p style="margin-top:.6rem"><strong>TKA-specific:</strong> Consider retention sutures with bolsters <sup>[11]</sup></p>
+      <p style="margin-top:.6rem"><strong>Skin Closure:</strong> Subcuticular sutures preferred over staples <sup>[53]</sup></p>
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<!-- Toast -->
+<div class="copy-toast" id="toast">✓ Report copied to clipboard</div>
+
+<script>
+(function(){
+  const bmiSlider = document.getElementById('bmiSlider');
+  const fatSlider = document.getElementById('fatSlider');
+  const tensionSlider = document.getElementById('tensionSlider');
+  const bmiVal = document.getElementById('bmiVal');
+  const fatVal = document.getElementById('fatVal');
+  const tensionVal = document.getElementById('tensionVal');
+  const recBody = document.getElementById('recBody');
+
+  const tensionLabels = ['','Minimal','Low','Moderate','High','Extreme'];
+
+  function getRiskCategory(bmi, fat, tension){
+    let score = 0;
+    if(bmi >= 40) score += 3;
+    else if(bmi >= 35) score += 2;
+    else if(bmi >= 30) score += 1;
+    if(fat > 2) score += 1;
+    if(fat > 4) score += 1;
+    if(tension >= 4) score += 1;
+    if(tension >= 5) score += 1;
+    if(score >= 5) return {label:'Very High',cls:'risk-vhigh'};
+    if(score >= 3) return {label:'High',cls:'risk-high'};
+    if(score >= 2) return {label:'Moderate',cls:'risk-mid'};
+    return {label:'Standard',cls:'risk-low'};
+  }
+
+  function update(){
+    const bmi = parseFloat(bmiSlider.value);
+    const fat = parseFloat(fatSlider.value);
+    const tension = parseInt(tensionSlider.value);
+
+    bmiVal.textContent = bmi.toFixed(1) + ' kg/m²';
+    fatVal.textContent = fat.toFixed(1) + ' cm';
+    tensionVal.textContent = tensionLabels[tension];
+
+    const risk = getRiskCategory(bmi, fat, tension);
+    const needsClosure = fat > 2;
+    const isObese = bmi >= 30;
+    const isMorbid = bmi >= 40;
+    const isHighRisk = bmi >= 35;
+
+    let html = '';
+
+    // Risk badge
+    html += '<div class="rec-item">';
+    html += '<strong>Overall Risk Assessment: <span class="risk-badge ' + risk.cls + '">' + risk.label + '</span></strong>';
+    html += '<br><small style="color:#64748b">BMI: ' + bmi.toFixed(1) + ' · Fat: ' + fat.toFixed(1) + ' cm · Tension: ' + tensionLabels[tension] + '</small>';
+    html += '</div>';
+
+    // Subcutaneous closure decision
+    if(needsClosure){
+      html += '<div class="rec-item ok">';
+      html += '<strong>✅ Subcutaneous Closure: INDICATED</strong>';
+      html += '<br>Fat depth (' + fat.toFixed(1) + ' cm) exceeds 2 cm threshold. Layered subcutaneous closure is mandatory to obliterate dead space. (NNT ≈ 16) <sup>[20]</sup>';
+      html += '</div>';
+    } else {
+      html += '<div class="rec-item">';
+      html += '<strong>ℹ️ Subcutaneous Closure: OPTIONAL</strong>';
+      html += '<br>Fat depth (' + fat.toFixed(1) + ' cm) does not exceed 2 cm threshold. Routine subcutaneous closure provides no clear benefit per meta-analysis. <sup>[20]</sup>';
+      html += '</div>';
+    }
+
+    // Technique recommendations
+    html += '<div class="rec-item">';
+    html += '<strong>🔧 Recommended Techniques:</strong><ul>';
+
+    // Fascia
+    html += '<li><strong>Fascia:</strong> Slowly absorbable antimicrobial-coated monofilament suture (e.g., triclosan-coated PDS) <sup>[8]</sup></li>';
+
+    // Subcutaneous
+    if(needsClosure){
+      html += '<li><strong>Subcutaneous:</strong> Quilting sutures (progressive tension sutures tacking flap to deep fascia)';
+      if(tension >= 4 && !isMorbid) html += ' + consider retention sutures with bolsters for high tension';
+      if(isMorbid || (tension >= 4 && isHighRisk)) html += ' + <strong>retention sutures with external bolsters strongly recommended</strong>';
+      html += ' <sup>[30,11]</sup></li>';
+    }
+
+    // Skin
+    html += '<li><strong>Skin:</strong> Absorbable subcuticular sutures (preferred over staples per meta-analysis) <sup>[53]</sup></li>';
+    html += '</ul></div>';
+
+    // Adjunctive therapy
+    if(isHighRisk || isMorbid){
+      html += '<div class="rec-item warn">';
+      html += '<strong>🛡️ Adjunctive Therapy: NPWT RECOMMENDED</strong>';
+      html += '<br>Prophylactic incisional NPWT for 3–7 days post-closure. Reduces SSI by >50% in obese TKA patients (11.3% vs. 25.2%). <sup>[39]</sup>';
+      if(isMorbid) html += '<br><strong>At BMI ≥ 40, NPWT is strongly indicated as a critical risk-mitigation measure.</strong>';
+      html += '</div>';
+    } else if(isObese){
+      html += '<div class="rec-item">';
+      html += '<strong>🛡️ Adjunctive Therapy: Consider NPWT</strong>';
+      html += '<br>Prophylactic NPWT may be beneficial for patients with BMI 30–34 with additional risk factors. <sup>[39]</sup>';
+      html += '</div>';
+    }
+
+    // Special notes
+    if(tension >= 4){
+      html += '<div class="rec-item warn">';
+      html += '<strong>⚡ High Tension Alert</strong>';
+      html += '<br>Extreme wound tension increases risk of dehiscence and ischemic necrosis. Force-redirection techniques (quilting + retention sutures) are essential. External bolsters prevent suture cut-through. <sup>[11]</sup>';
+      html += '</div>';
+    }
+
+    if(isObese){
+      html += '<div style="font-size:.75rem;color:#64748b;margin-top:.6rem">';
+      html += '⚕️ <em>Note: Evidence thresholds are from source document. Tension level is a clinical assessment parameter — not a measured threshold from the source.</em>';
+      html += '</div>';
+    }
+
+    recBody.innerHTML = html;
+  }
+
+  function resetSliders(){
+    bmiSlider.value = 35;
+    fatSlider.value = 2.5;
+    tensionSlider.value = 3;
+    update();
+  }
+
+  window.resetSliders = resetSliders;
+
+  function copyReport(){
+    const bmi = parseFloat(bmiSlider.value).toFixed(1);
+    const fat = parseFloat(fatSlider.value).toFixed(1);
+    const tension = tensionLabels[parseInt(tensionSlider.value)];
+    const risk = getRiskCategory(parseFloat(bmi), parseFloat(fat), parseInt(tensionSlider.value));
+    const needsClosure = parseFloat(fat) > 2;
+
+    let text = 'CLINICAL DECISION REPORT\n';
+    text += '========================\n';
+    text += 'Topic: Subcutaneous Fat Closure in High-BMI Orthopedic Surgery\n';
+    text += 'Timestamp: ' + new Date().toISOString() + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  BMI: ' + bmi + ' kg/m²\n';
+    text += '  Subcutaneous Fat Depth: ' + fat + ' cm\n';
+    text += '  Wound Tension Level: ' + tension + '\n\n';
+    text += 'RISK ASSESSMENT: ' + risk.label + '\n\n';
+    text += 'SUBCUTANEOUS CLOSURE: ' + (needsClosure ? 'INDICATED (depth > 2 cm)' : 'OPTIONAL (depth ≤ 2 cm)') + '\n';
+    text += '  Source: Meta-analysis of RCTs in cesarean delivery [Ref 20]\n\n';
+    text += 'RECOMMENDED TECHNIQUES:\n';
+    text += '  1. Fascia: Slowly absorbable antimicrobial-coated monofilament suture [Ref 8]\n';
+    if(needsClosure) text += '  2. Subcutaneous: Quilting sutures ± retention sutures (if high tension/BMI ≥ 40) [Ref 30,11]\n';
+    text += '  3. Skin: Absorbable subcuticular sutures [Ref 53]\n\n';
+
+    if(parseFloat(bmi) >= 35){
+      text += 'ADJUNCTIVE THERAPY: Prophylactic incisional NPWT for 3-7 days [Ref 39]\n';
+      text += '  Evidence: 50% reduction in dehiscence, >50% reduction in SSI in obese TKA\n\n';
+    }
+
+    text += 'RATIONALE:\n';
+    text += '  High-BMI patients face pathophysiological triad: compromised vascularity,\n';
+    text += '  chronic inflammation, and mechanical forces (dead space + tension).\n';
+    text += '  Evidence supports multi-modal, protocolized closure strategy.\n\n';
+    text += 'EVIDENCE LEVELS: I (Meta-analysis of RCTs), II (Prospective RCT/Cohort),\n';
+    text += '  III (Case series), V (Expert opinion). Refer to source document for details.\n';
+
+    navigator.clipboard.writeText(text).then(function(){
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+    }).catch(function(){
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+    });
+  }
+
+  window.copyReport = copyReport;
+
+  bmiSlider.addEventListener('input', update);
+  fatSlider.addEventListener('input', update);
+  tensionSlider.addEventListener('input', update);
+
+  update();
+})();
+</script>
+</body>
+</html>

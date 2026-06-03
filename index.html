@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orthopedic Literature Navigator</title>
+  <style>
+    :root {
+      --bg: #f0f2f5;
+      --card-bg: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #64748b;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* === HEADER === */
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+      animation: pulse 8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+      letter-spacing: 2px;
+    }
+    .hero .subtitle {
+      font-size: 1rem;
+      opacity: 0.85;
+      position: relative;
+    }
+
+    /* === STATS === */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      max-width: 1200px;
+      margin: -1.5rem auto 0;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .stat-icon { font-size: 1.8rem; }
+    .stat-info { flex: 1; min-width: 0; }
+    .stat-name { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+    .stat-count { font-size: 1.3rem; font-weight: 700; }
+    .stat-bar { height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 4px; overflow: hidden; }
+    .stat-bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+
+    /* === SEARCH === */
+    .search-wrapper {
+      max-width: 600px;
+      margin: 2rem auto 0;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 2;
+    }
+    .search-box {
+      width: 100%;
+      padding: 0.85rem 1.2rem 0.85rem 3rem;
+      border: 2px solid transparent;
+      border-radius: 50px;
+      font-size: 1rem;
+      background: var(--card-bg);
+      box-shadow: var(--shadow-lg);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box:focus { border-color: #667eea; }
+    .search-icon {
+      position: absolute;
+      left: 2.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .search-result-count {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+      min-height: 1.2em;
+    }
+
+    /* === NAV TABS === */
+    .nav-bar {
+      max-width: 1200px;
+      margin: 1.5rem auto 0;
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      position: relative;
+      z-index: 2;
+    }
+    .nav-bar::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      flex-shrink: 0;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--card-bg);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .nav-tab:hover { background: #e8eaed; }
+    .nav-tab.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+    }
+    .nav-tab .badge {
+      display: inline-block;
+      background: rgba(0,0,0,0.1);
+      border-radius: 50px;
+      padding: 0 6px;
+      font-size: 0.75rem;
+      margin-left: 4px;
+    }
+    .nav-tab.active .badge { background: rgba(255,255,255,0.25); }
+
+    /* === SECTIONS === */
+    .main-content {
+      max-width: 1200px;
+      margin: 1.5rem auto 3rem;
+      padding: 0 1.5rem;
+    }
+    .category-section { display: none; }
+    .category-section.active { display: block; }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .section-header h2 { font-size: 1.4rem; font-weight: 700; }
+    .section-count { font-size: 0.9rem; color: var(--text-secondary); }
+
+    /* === CARD GRID === */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
+    }
+    .card {
+      display: block;
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: var(--text);
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .card:hover {
+      transform: translateX(3px);
+      box-shadow: var(--shadow-lg);
+      border-left-color: #667eea;
+    }
+    .card-title {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card.hidden { display: none; }
+
+    /* === BACK TO TOP === */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 100;
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: auto; }
+    .back-to-top:hover { transform: translateY(-3px); }
+
+    /* === NO RESULTS === */
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      display: none;
+    }
+    .no-results.visible { display: block; }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.6rem; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .card-grid { grid-template-columns: 1fr; }
+      .nav-bar { padding: 0 1rem; }
+      .main-content { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>Orthopedic Literature Navigator</h1>
+    <p class="subtitle">633 Orthopedic Articles · Browse by Specialty</p>
+  </div>
+
+  <div class="stats-row">
+
+        <div class="stat-card" style="--accent:#4f46e5">
+          <div class="stat-icon">🦴</div>
+          <div class="stat-info">
+            <div class="stat-name">Spine Surgery</div>
+            <div class="stat-count">82</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:13%;background:#4f46e5"></div></div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#0891b2">
+          <div class="stat-icon">🦿</div>
+          <div class="stat-info">
+            <div class="stat-name">Joint Surgery</div>
+            <div class="stat-count">167</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:26%;background:#0891b2"></div></div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#d946ef">
+          <div class="stat-icon">✋</div>
+          <div class="stat-info">
+            <div class="stat-name">Hand &amp; Foot Surgery</div>
+            <div class="stat-count">76</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:12%;background:#d946ef"></div></div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#ea580c">
+          <div class="stat-icon">🔧</div>
+          <div class="stat-info">
+            <div class="stat-name">Orthopedic Trauma</div>
+            <div class="stat-count">153</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:24%;background:#ea580c"></div></div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#dc2626">
+          <div class="stat-icon">🔬</div>
+          <div class="stat-info">
+            <div class="stat-name">Bone Tumor</div>
+            <div class="stat-count">16</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:3%;background:#dc2626"></div></div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#16a34a">
+          <div class="stat-icon">👶</div>
+          <div class="stat-info">
+            <div class="stat-name">Pediatric Orthopedics</div>
+            <div class="stat-count">9</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:1%;background:#16a34a"></div></div>
+          </div>
+        </div>
+        <div class="stat-card" style="--accent:#6b7280">
+          <div class="stat-icon">📋</div>
+          <div class="stat-info">
+            <div class="stat-name">Other</div>
+            <div class="stat-count">130</div>
+            <div class="stat-bar"><div class="stat-bar-fill" style="width:21%;background:#6b7280"></div></div>
+          </div>
+        </div>
+  </div>
+
+  <div class="search-wrapper">
+    <span class="search-icon">&#128269;</span>
+    <input class="search-box" type="text" placeholder="Search article titles..." id="searchInput" autocomplete="off">
+    <div class="search-result-count" id="searchResultCount"></div>
+  </div>
+
+  <div class="nav-bar">
+      <button class="nav-tab active" data-target="cat-0">🦴 Spine Surgery <span class="badge">82</span></button>
+      <button class="nav-tab" data-target="cat-1">🦿 Joint Surgery <span class="badge">167</span></button>
+      <button class="nav-tab" data-target="cat-2">✋ Hand &amp; Foot Surgery <span class="badge">76</span></button>
+      <button class="nav-tab" data-target="cat-3">🔧 Orthopedic Trauma <span class="badge">153</span></button>
+      <button class="nav-tab" data-target="cat-4">🔬 Bone Tumor <span class="badge">16</span></button>
+      <button class="nav-tab" data-target="cat-5">👶 Pediatric Orthopedics <span class="badge">9</span></button>
+      <button class="nav-tab" data-target="cat-6">📋 Other <span class="badge">130</span></button>
+  </div>
+
+  <div class="main-content">
+
+    <section class="category-section active" id="cat-0">
+      <div class="section-header">
+        <h2>🦴 Spine Surgery</h2>
+        <span class="section-count">82 articles</span>
+      </div>
+      <div class="card-grid">
+          <a class="card" href="Advanced Vertebral Augmentation Techniques.html" target="_blank"><span class="card-title">Advanced Vertebral Augmentation Techniques</span></a>
+          <a class="card" href="AS Literature Review_ Spine & Surgery.html" target="_blank"><span class="card-title">AS Literature Review_ Spine & Surgery</span></a>
+          <a class="card" href="AS Literature Review_ Spine & Surgery(1).html" target="_blank"><span class="card-title">AS Literature Review_ Spine & Surgery(1)</span></a>
+          <a class="card" href="Biomechanics of Pedicle Fractures and Fixation.html" target="_blank"><span class="card-title">Biomechanics of Pedicle Fractures and Fixation</span></a>
+          <a class="card" href="Biportal Endoscopic Spine Surgery Transition.html" target="_blank"><span class="card-title">Biportal Endoscopic Spine Surgery Transition</span></a>
+          <a class="card" href="Cervical Endoscopic Surgery Review.html" target="_blank"><span class="card-title">Cervical Endoscopic Surgery Review</span></a>
+          <a class="card" href="Cervical Radiculopathy and Interscapular Pain.html" target="_blank"><span class="card-title">Cervical Radiculopathy and Interscapular Pain</span></a>
+          <a class="card" href="Cervical Spondylosis Syndromes_ Diagnosis and Treatment(1).html" target="_blank"><span class="card-title">Cervical Spondylosis Syndromes_ Diagnosis and Treatment(1)</span></a>
+          <a class="card" href="Cervical Spondylotic Myelopathy_ Pathophysiology-Symptom Correlation.html" target="_blank"><span class="card-title">Cervical Spondylotic Myelopathy_ Pathophysiology-Symptom Correlation</span></a>
+          <a class="card" href="CRP_ESR Kinetics Post-Spinal Surgery_.html" target="_blank"><span class="card-title">CRP_ESR Kinetics Post-Spinal Surgery_</span></a>
+          <a class="card" href="CSM Differential Diagnosis_ Mimics and Herniation.html" target="_blank"><span class="card-title">CSM Differential Diagnosis_ Mimics and Herniation</span></a>
+          <a class="card" href="CSM Differential Diagnosis_ Mimics and Overlap.html" target="_blank"><span class="card-title">CSM Differential Diagnosis_ Mimics and Overlap</span></a>
+          <a class="card" href="CT Cage Fusion and Osseointegration Assessment.html" target="_blank"><span class="card-title">CT Cage Fusion and Osseointegration Assessment</span></a>
+          <a class="card" href="Deep Spinal SSI_ Hardware Management Review.html" target="_blank"><span class="card-title">Deep Spinal SSI_ Hardware Management Review</span></a>
+          <a class="card" href="Dropped Head Syndrome Case Report Analysis.html" target="_blank"><span class="card-title">Dropped Head Syndrome Case Report Analysis</span></a>
+          <a class="card" href="EBM Review_ OVCF and PVP.html" target="_blank"><span class="card-title">EBM Review_ OVCF and PVP</span></a>
+          <a class="card" href="EBM Review_ Postoperative CSF Leak Management.html" target="_blank"><span class="card-title">EBM Review_ Postoperative CSF Leak Management</span></a>
+          <a class="card" href="ERAS Protocols for Vertebral Augmentation.html" target="_blank"><span class="card-title">ERAS Protocols for Vertebral Augmentation</span></a>
+          <a class="card" href="Freehand Cervical Screws in Ankylosing Spondylitis.html" target="_blank"><span class="card-title">Freehand Cervical Screws in Ankylosing Spondylitis</span></a>
+          <a class="card" href="Infectious Spondylitis Post-Vertebroplasty Management.html" target="_blank"><span class="card-title">Infectious Spondylitis Post-Vertebroplasty Management</span></a>
+          <a class="card" href="IONM Educational Resources for Spine Surgery.html" target="_blank"><span class="card-title">IONM Educational Resources for Spine Surgery</span></a>
+          <a class="card" href="IONM in UBE Spine Surgery.html" target="_blank"><span class="card-title">IONM in UBE Spine Surgery</span></a>
+          <a class="card" href="Low Back Pain_ Radiculopathy vs. Piriformis.html" target="_blank"><span class="card-title">Low Back Pain_ Radiculopathy vs. Piriformis</span></a>
+          <a class="card" href="Lumbar Drainage_ Infection and Tear_.html" target="_blank"><span class="card-title">Lumbar Drainage_ Infection and Tear_</span></a>
+          <a class="card" href="Lumbar Facet Joint Degeneration Review.html" target="_blank"><span class="card-title">Lumbar Facet Joint Degeneration Review</span></a>
+          <a class="card" href="Lumbar Fusion SSI_ Hardware Removal Decision.html" target="_blank"><span class="card-title">Lumbar Fusion SSI_ Hardware Removal Decision</span></a>
+          <a class="card" href="Lumbar Laminectomy_ Techniques and Complications.html" target="_blank"><span class="card-title">Lumbar Laminectomy_ Techniques and Complications</span></a>
+          <a class="card" href="Lumbar Lordosis Restoration for ASD_PJK.html" target="_blank"><span class="card-title">Lumbar Lordosis Restoration for ASD_PJK</span></a>
+          <a class="card" href="Lumbar Pedicle Screw Placement Techniques.html" target="_blank"><span class="card-title">Lumbar Pedicle Screw Placement Techniques</span></a>
+          <a class="card" href="Lumbar Retrolisthesis Open Reduction Techniques.html" target="_blank"><span class="card-title">Lumbar Retrolisthesis Open Reduction Techniques</span></a>
+          <a class="card" href="Lumbar Retrolisthesis Reduction Techniques.html" target="_blank"><span class="card-title">Lumbar Retrolisthesis Reduction Techniques</span></a>
+          <a class="card" href="Lumbar Spinal Stenosis Guidelines and Reviews.html" target="_blank"><span class="card-title">Lumbar Spinal Stenosis Guidelines and Reviews</span></a>
+          <a class="card" href="Lumbar Spine Infection Management Review.html" target="_blank"><span class="card-title">Lumbar Spine Infection Management Review</span></a>
+          <a class="card" href="Lumbar Spine Infection Management Review(1).html" target="_blank"><span class="card-title">Lumbar Spine Infection Management Review(1)</span></a>
+          <a class="card" href="Lumbar Spine Surgery Complication Minimization.html" target="_blank"><span class="card-title">Lumbar Spine Surgery Complication Minimization</span></a>
+          <a class="card" href="Lumbar Spondylolisthesis Surgical Guidance.html" target="_blank"><span class="card-title">Lumbar Spondylolisthesis Surgical Guidance</span></a>
+          <a class="card" href="Minimally Invasive Lumbar Discitis Treatment.html" target="_blank"><span class="card-title">Minimally Invasive Lumbar Discitis Treatment</span></a>
+          <a class="card" href="MRSA Spine Infection Treatment Protocols.html" target="_blank"><span class="card-title">MRSA Spine Infection Treatment Protocols</span></a>
+          <a class="card" href="Multilevel Spinal Stenosis_ Surgical Guidelines.html" target="_blank"><span class="card-title">Multilevel Spinal Stenosis_ Surgical Guidelines</span></a>
+          <a class="card" href="NPWT Discontinuation and Closure Timing.html" target="_blank"><span class="card-title">NPWT Discontinuation and Closure Timing</span></a>
+          <a class="card" href="NPWT for Spinal Infections Review_.html" target="_blank"><span class="card-title">NPWT for Spinal Infections Review_</span></a>
+          <a class="card" href="OPLL Pathogenesis_ Signaling Pathways Review.html" target="_blank"><span class="card-title">OPLL Pathogenesis_ Signaling Pathways Review</span></a>
+          <a class="card" href="Ortho Trauma to Spine MISS Pathway.html" target="_blank"><span class="card-title">Ortho Trauma to Spine MISS Pathway</span></a>
+          <a class="card" href="Orthopedic Case Discussion Platforms Guide.html" target="_blank"><span class="card-title">Orthopedic Case Discussion Platforms Guide</span></a>
+          <a class="card" href="Orthopedic Trauma Spine Training Plan.html" target="_blank"><span class="card-title">Orthopedic Trauma Spine Training Plan</span></a>
+          <a class="card" href="OVCF_ Pathophysiology, Staging, and PVP vs. PKP.html" target="_blank"><span class="card-title">OVCF_ Pathophysiology, Staging, and PVP vs. PKP</span></a>
+          <a class="card" href="Perioperative Stroke After Lumbar Fusion.html" target="_blank"><span class="card-title">Perioperative Stroke After Lumbar Fusion</span></a>
+          <a class="card" href="PKP Research Advances Since 2023.html" target="_blank"><span class="card-title">PKP Research Advances Since 2023</span></a>
+          <a class="card" href="Postoperative Cervical Laminoplasty Complications.html" target="_blank"><span class="card-title">Postoperative Cervical Laminoplasty Complications</span></a>
+          <a class="card" href="Postoperative Infection After Vertebroplasty Literature Review.html" target="_blank"><span class="card-title">Postoperative Infection After Vertebroplasty Literature Review</span></a>
+          <a class="card" href="Postoperative Paraplegia Management Protocols.html" target="_blank"><span class="card-title">Postoperative Paraplegia Management Protocols</span></a>
+          <a class="card" href="Postoperative Spinal Infection Antibiotic Duration_.html" target="_blank"><span class="card-title">Postoperative Spinal Infection Antibiotic Duration_</span></a>
+          <a class="card" href="Postoperative Spinal Infection Antibiotic Duration_(1).html" target="_blank"><span class="card-title">Postoperative Spinal Infection Antibiotic Duration_(1)</span></a>
+          <a class="card" href="PVP Pitfalls Literature Review.html" target="_blank"><span class="card-title">PVP Pitfalls Literature Review</span></a>
+          <a class="card" href="Pyogenic Spondylodiscitis_ Recent Advances.html" target="_blank"><span class="card-title">Pyogenic Spondylodiscitis_ Recent Advances</span></a>
+          <a class="card" href="Spinal Cord Injury Literature Review.html" target="_blank"><span class="card-title">Spinal Cord Injury Literature Review</span></a>
+          <a class="card" href="Spinal Disc Degeneration MRI Grading.html" target="_blank"><span class="card-title">Spinal Disc Degeneration MRI Grading</span></a>
+          <a class="card" href="Spinal Fracture Differential Diagnosis and Management.html" target="_blank"><span class="card-title">Spinal Fracture Differential Diagnosis and Management</span></a>
+          <a class="card" href="Spinal Fracture-Dislocation Reduction Techniques.html" target="_blank"><span class="card-title">Spinal Fracture-Dislocation Reduction Techniques</span></a>
+          <a class="card" href="Spinal Fusion SSI Antibiotic Protocols.html" target="_blank"><span class="card-title">Spinal Fusion SSI Antibiotic Protocols</span></a>
+          <a class="card" href="Spinal Injury Management Evidence.html" target="_blank"><span class="card-title">Spinal Injury Management Evidence</span></a>
+          <a class="card" href="Spinal Pathology MRI Differential Diagnosis.html" target="_blank"><span class="card-title">Spinal Pathology MRI Differential Diagnosis</span></a>
+          <a class="card" href="Spinal SSI Debridement Guidelines Summary.html" target="_blank"><span class="card-title">Spinal SSI Debridement Guidelines Summary</span></a>
+          <a class="card" href="Spinal SSI_ Advancements, Gaps, Trends.html" target="_blank"><span class="card-title">Spinal SSI_ Advancements, Gaps, Trends</span></a>
+          <a class="card" href="Spinal Tuberculosis Surgery_ Radiological Outcomes.html" target="_blank"><span class="card-title">Spinal Tuberculosis Surgery_ Radiological Outcomes</span></a>
+          <a class="card" href="Spine Biomechanics_ Pedicle Screw Fixation.html" target="_blank"><span class="card-title">Spine Biomechanics_ Pedicle Screw Fixation</span></a>
+          <a class="card" href="Spine FLS_ Bone Health Optimization Framework.html" target="_blank"><span class="card-title">Spine FLS_ Bone Health Optimization Framework</span></a>
+          <a class="card" href="Spine Fusion Cage Biomechanics Research.html" target="_blank"><span class="card-title">Spine Fusion Cage Biomechanics Research</span></a>
+          <a class="card" href="Spine Surgery C-Arms and Navigation.html" target="_blank"><span class="card-title">Spine Surgery C-Arms and Navigation</span></a>
+          <a class="card" href="Spine Surgery Literature Review Request.html" target="_blank"><span class="card-title">Spine Surgery Literature Review Request</span></a>
+          <a class="card" href="Spine Surgery Research Trends 2025-2026.html" target="_blank"><span class="card-title">Spine Surgery Research Trends 2025-2026</span></a>
+          <a class="card" href="Spine Surgery Research Trends Analysis.html" target="_blank"><span class="card-title">Spine Surgery Research Trends Analysis</span></a>
+          <a class="card" href="Subaxial Cervical Spine Dislocation Surgery.html" target="_blank"><span class="card-title">Subaxial Cervical Spine Dislocation Surgery</span></a>
+          <a class="card" href="Surgical Sequence for Tandem Stenosis_.html" target="_blank"><span class="card-title">Surgical Sequence for Tandem Stenosis_</span></a>
+          <a class="card" href="Thoracic Spine Fracture Complications Management.html" target="_blank"><span class="card-title">Thoracic Spine Fracture Complications Management</span></a>
+          <a class="card" href="Thoracolumbar Fracture Surgical Techniques Overview.html" target="_blank"><span class="card-title">Thoracolumbar Fracture Surgical Techniques Overview</span></a>
+          <a class="card" href="Thoracolumbar Inferior Endplate Fracture Reduction.html" target="_blank"><span class="card-title">Thoracolumbar Inferior Endplate Fracture Reduction</span></a>
+          <a class="card" href="UBE Spinal Surgery Research Review.html" target="_blank"><span class="card-title">UBE Spinal Surgery Research Review</span></a>
+          <a class="card" href="Vertebral Augmentation_ Unilateral vs. Bilateral.html" target="_blank"><span class="card-title">Vertebral Augmentation_ Unilateral vs. Bilateral</span></a>
+          <a class="card" href="Vertebroplasty Pain_ Etiology, AVF, Diagnosis.html" target="_blank"><span class="card-title">Vertebroplasty Pain_ Etiology, AVF, Diagnosis</span></a>
+          <a class="card" href="Vertebroplasty_Kyphoplasty Research Topics.html" target="_blank"><span class="card-title">Vertebroplasty_Kyphoplasty Research Topics</span></a>
+          <a class="card" href="Writing Medical Research Discussions.html" target="_blank"><span class="card-title">Writing Medical Research Discussions</span></a>
+      </div>
+    </section>
+    <section class="category-section" id="cat-1">
+      <div class="section-header">
+        <h2>🦿 Joint Surgery</h2>
+        <span class="section-count">167 articles</span>
+      </div>
+      <div class="card-grid">
+          <a class="card" href="AC Joint Dislocation_ Hook Plate Management.html" target="_blank"><span class="card-title">AC Joint Dislocation_ Hook Plate Management</span></a>
+          <a class="card" href="AC Joint Infection Management Review.html" target="_blank"><span class="card-title">AC Joint Infection Management Review</span></a>
+          <a class="card" href="Accelerating Shoulder Arthroscopy Learning Curve.html" target="_blank"><span class="card-title">Accelerating Shoulder Arthroscopy Learning Curve</span></a>
+          <a class="card" href="ACL Non-Operative Management Protocol Comparison.html" target="_blank"><span class="card-title">ACL Non-Operative Management Protocol Comparison</span></a>
+          <a class="card" href="ACL Reconstruction Evidence Review.html" target="_blank"><span class="card-title">ACL Reconstruction Evidence Review</span></a>
+          <a class="card" href="ACL Reconstruction Femoral Tunnel Techniques.html" target="_blank"><span class="card-title">ACL Reconstruction Femoral Tunnel Techniques</span></a>
+          <a class="card" href="ACL Reconstruction Graft Choice Comparison.html" target="_blank"><span class="card-title">ACL Reconstruction Graft Choice Comparison</span></a>
+          <a class="card" href="ACL Reconstruction_ Isolated vs. Combined.html" target="_blank"><span class="card-title">ACL Reconstruction_ Isolated vs. Combined</span></a>
+          <a class="card" href="ACL Repair vs Reconstruction Review.html" target="_blank"><span class="card-title">ACL Repair vs Reconstruction Review</span></a>
+          <a class="card" href="ACLR Infection Management Literature Review.html" target="_blank"><span class="card-title">ACLR Infection Management Literature Review</span></a>
+          <a class="card" href="ACLR Synthetic Graft Complications Review.html" target="_blank"><span class="card-title">ACLR Synthetic Graft Complications Review</span></a>
+          <a class="card" href="Adolescent Patellar Instability Surgical Review.html" target="_blank"><span class="card-title">Adolescent Patellar Instability Surgical Review</span></a>
+          <a class="card" href="Adolescent Proximal Humerus Fracture Fixation(1).html" target="_blank"><span class="card-title">Adolescent Proximal Humerus Fracture Fixation(1)</span></a>
+          <a class="card" href="Ankle Arthrodesis_ Arthroscopic vs. Open.html" target="_blank"><span class="card-title">Ankle Arthrodesis_ Arthroscopic vs. Open</span></a>
+          <a class="card" href="Ankle Arthroplasty in RA Patients.html" target="_blank"><span class="card-title">Ankle Arthroplasty in RA Patients</span></a>
+          <a class="card" href="Ankle Arthroplasty in RA Patients(1).html" target="_blank"><span class="card-title">Ankle Arthroplasty in RA Patients(1)</span></a>
+          <a class="card" href="Arthroplasty for Fracture Surgeons_.html" target="_blank"><span class="card-title">Arthroplasty for Fracture Surgeons_</span></a>
+          <a class="card" href="Arthroplasty for Fracture Surgeons_(1).html" target="_blank"><span class="card-title">Arthroplasty for Fracture Surgeons_(1)</span></a>
+          <a class="card" href="Arthroplasty Templating Tutorial Synthesis.html" target="_blank"><span class="card-title">Arthroplasty Templating Tutorial Synthesis</span></a>
+          <a class="card" href="Arthroscopic Lateral Meniscus Tear Management.html" target="_blank"><span class="card-title">Arthroscopic Lateral Meniscus Tear Management</span></a>
+          <a class="card" href="Arthroscopic Superior Capsular Reconstruction Guide.html" target="_blank"><span class="card-title">Arthroscopic Superior Capsular Reconstruction Guide</span></a>
+          <a class="card" href="Arthroscopy Anesthesia Literature Review.html" target="_blank"><span class="card-title">Arthroscopy Anesthesia Literature Review</span></a>
+          <a class="card" href="Arthroscopy for Arthroplasty Complications.html" target="_blank"><span class="card-title">Arthroscopy for Arthroplasty Complications</span></a>
+          <a class="card" href="Bilateral Total Knee Arthroplasty Comparison.html" target="_blank"><span class="card-title">Bilateral Total Knee Arthroplasty Comparison</span></a>
+          <a class="card" href="CC Ligament Reconstruction Techniques.html" target="_blank"><span class="card-title">CC Ligament Reconstruction Techniques</span></a>
+          <a class="card" href="Charcot Knee Arthroplasty Literature Review.html" target="_blank"><span class="card-title">Charcot Knee Arthroplasty Literature Review</span></a>
+          <a class="card" href="Chronic Syndesmotic Instability_ Diagnosis and Treatment.html" target="_blank"><span class="card-title">Chronic Syndesmotic Instability_ Diagnosis and Treatment</span></a>
+          <a class="card" href="Chronic Terrible Triad Elbow Injury Surgery.html" target="_blank"><span class="card-title">Chronic Terrible Triad Elbow Injury Surgery</span></a>
+          <a class="card" href="Chronic Terrible Triad Elbow Surgery.html" target="_blank"><span class="card-title">Chronic Terrible Triad Elbow Surgery</span></a>
+          <a class="card" href="Clinical Research Topics_ Rotator Cuff Injuries.html" target="_blank"><span class="card-title">Clinical Research Topics_ Rotator Cuff Injuries</span></a>
+          <a class="card" href="Coronoid Fracture Management Review.html" target="_blank"><span class="card-title">Coronoid Fracture Management Review</span></a>
+          <a class="card" href="CSD in Modern TKA Review.html" target="_blank"><span class="card-title">CSD in Modern TKA Review</span></a>
+          <a class="card" href="CSD in THA Literature Review.html" target="_blank"><span class="card-title">CSD in THA Literature Review</span></a>
+          <a class="card" href="DAA THA Literature & Data Synthesis.html" target="_blank"><span class="card-title">DAA THA Literature & Data Synthesis</span></a>
+          <a class="card" href="Deltoid Rupture Management Literature Review.html" target="_blank"><span class="card-title">Deltoid Rupture Management Literature Review</span></a>
+          <a class="card" href="Dermal Grafts for Rotator Cuff Tears.html" target="_blank"><span class="card-title">Dermal Grafts for Rotator Cuff Tears</span></a>
+          <a class="card" href="Direct Anterior Approach THA Review.html" target="_blank"><span class="card-title">Direct Anterior Approach THA Review</span></a>
+          <a class="card" href="Distal Humerus Fracture Surgical Approaches.html" target="_blank"><span class="card-title">Distal Humerus Fracture Surgical Approaches</span></a>
+          <a class="card" href="Dr. Neer II_ Shoulder Surgery Pioneer.html" target="_blank"><span class="card-title">Dr. Neer II_ Shoulder Surgery Pioneer</span></a>
+          <a class="card" href="Elbow Osteoarthritis Arthroscopic Release Summary.html" target="_blank"><span class="card-title">Elbow Osteoarthritis Arthroscopic Release Summary</span></a>
+          <a class="card" href="Elbow Osteoarthritis_ EBM Presentation Synthesis.html" target="_blank"><span class="card-title">Elbow Osteoarthritis_ EBM Presentation Synthesis</span></a>
+          <a class="card" href="Elbow Osteoarthritis_ EBM Presentation Synthesis(1).html" target="_blank"><span class="card-title">Elbow Osteoarthritis_ EBM Presentation Synthesis(1)</span></a>
+          <a class="card" href="Elbow Rehabilitation Protocols Comparison.html" target="_blank"><span class="card-title">Elbow Rehabilitation Protocols Comparison</span></a>
+          <a class="card" href="Elbow Trauma Surgical Playbook.html" target="_blank"><span class="card-title">Elbow Trauma Surgical Playbook</span></a>
+          <a class="card" href="Emerging Arthroplasty Innovations_ FDA Breakthroughs.html" target="_blank"><span class="card-title">Emerging Arthroplasty Innovations_ FDA Breakthroughs</span></a>
+          <a class="card" href="Endoscopic Ischial Bursitis_Hamstring Cyst.html" target="_blank"><span class="card-title">Endoscopic Ischial Bursitis_Hamstring Cyst</span></a>
+          <a class="card" href="Epicondylitis EBM Literature Synthesis.html" target="_blank"><span class="card-title">Epicondylitis EBM Literature Synthesis</span></a>
+          <a class="card" href="ETO in Revision Total Hip Arthroplasty.html" target="_blank"><span class="card-title">ETO in Revision Total Hip Arthroplasty</span></a>
+          <a class="card" href="ETO in Revision Total Hip Arthroplasty(1).html" target="_blank"><span class="card-title">ETO in Revision Total Hip Arthroplasty(1)</span></a>
+          <a class="card" href="Fat Pad Preservation in Knee and Elbow Surgery.html" target="_blank"><span class="card-title">Fat Pad Preservation in Knee and Elbow Surgery</span></a>
+          <a class="card" href="FB-UKA Gap Balancing Techniques.html" target="_blank"><span class="card-title">FB-UKA Gap Balancing Techniques</span></a>
+          <a class="card" href="FEA in Reverse Shoulder Arthroplasty.html" target="_blank"><span class="card-title">FEA in Reverse Shoulder Arthroplasty</span></a>
+          <a class="card" href="FEA of Glenoid Tilt in Shoulder Arthroplasty.html" target="_blank"><span class="card-title">FEA of Glenoid Tilt in Shoulder Arthroplasty</span></a>
+          <a class="card" href="FEA of Scapular Notching in RSA.html" target="_blank"><span class="card-title">FEA of Scapular Notching in RSA</span></a>
+          <a class="card" href="Femoral Head AVN_ Diagnosis & Management.html" target="_blank"><span class="card-title">Femoral Head AVN_ Diagnosis & Management</span></a>
+          <a class="card" href="Femoral Neck Fracture Fixation Comparison.html" target="_blank"><span class="card-title">Femoral Neck Fracture Fixation Comparison</span></a>
+          <a class="card" href="Femoral Neck Fracture Fixation Stability.html" target="_blank"><span class="card-title">Femoral Neck Fracture Fixation Stability</span></a>
+          <a class="card" href="Femoral Neck Fracture Fixation Strategies.html" target="_blank"><span class="card-title">Femoral Neck Fracture Fixation Strategies</span></a>
+          <a class="card" href="Femoral Neck Fracture Management Review.html" target="_blank"><span class="card-title">Femoral Neck Fracture Management Review</span></a>
+          <a class="card" href="Femoral Neck Fracture Screw Fixation.html" target="_blank"><span class="card-title">Femoral Neck Fracture Screw Fixation</span></a>
+          <a class="card" href="Fifth Metatarsal Fracture Research.html" target="_blank"><span class="card-title">Fifth Metatarsal Fracture Research</span></a>
+          <a class="card" href="Frozen Shoulder Cohort Study Search.html" target="_blank"><span class="card-title">Frozen Shoulder Cohort Study Search</span></a>
+          <a class="card" href="Fungal Knee PJI Revision Arthroplasty Protocol.html" target="_blank"><span class="card-title">Fungal Knee PJI Revision Arthroplasty Protocol</span></a>
+          <a class="card" href="Geriatric Hip Fracture Delirium Management.html" target="_blank"><span class="card-title">Geriatric Hip Fracture Delirium Management</span></a>
+          <a class="card" href="Geriatric Hip Fracture Management Guidelines.html" target="_blank"><span class="card-title">Geriatric Hip Fracture Management Guidelines</span></a>
+          <a class="card" href="Glenohumeral Osteoarthritis Management Review.html" target="_blank"><span class="card-title">Glenohumeral Osteoarthritis Management Review</span></a>
+          <a class="card" href="Glenohumeral Osteoarthritis_ Primary vs. Secondary.html" target="_blank"><span class="card-title">Glenohumeral Osteoarthritis_ Primary vs. Secondary</span></a>
+          <a class="card" href="Glenoid Fracture Fixation_ Arthroscopic vs. Open.html" target="_blank"><span class="card-title">Glenoid Fracture Fixation_ Arthroscopic vs. Open</span></a>
+          <a class="card" href="GLP-1 RAs in Elderly Hip Fracture.html" target="_blank"><span class="card-title">GLP-1 RAs in Elderly Hip Fracture</span></a>
+          <a class="card" href="GLP-1 RAs in Elderly Hip Fracture(1).html" target="_blank"><span class="card-title">GLP-1 RAs in Elderly Hip Fracture(1)</span></a>
+          <a class="card" href="Hand Arthroplasty_ A Clinical Review.html" target="_blank"><span class="card-title">Hand Arthroplasty_ A Clinical Review</span></a>
+          <a class="card" href="High Tibial Osteotomy for Knee OA.html" target="_blank"><span class="card-title">High Tibial Osteotomy for Knee OA</span></a>
+          <a class="card" href="Hip Arthroplasty Cemented Stem Research.html" target="_blank"><span class="card-title">Hip Arthroplasty Cemented Stem Research</span></a>
+          <a class="card" href="Hip Arthroplasty Cup Positioning Evidence.html" target="_blank"><span class="card-title">Hip Arthroplasty Cup Positioning Evidence</span></a>
+          <a class="card" href="Hip Arthroplasty Depression Management.html" target="_blank"><span class="card-title">Hip Arthroplasty Depression Management</span></a>
+          <a class="card" href="Hip Arthroplasty Indications and GI Complications.html" target="_blank"><span class="card-title">Hip Arthroplasty Indications and GI Complications</span></a>
+          <a class="card" href="Hip Fracture Management Comparison.html" target="_blank"><span class="card-title">Hip Fracture Management Comparison</span></a>
+          <a class="card" href="Hip Fracture Surgery Complications Review.html" target="_blank"><span class="card-title">Hip Fracture Surgery Complications Review</span></a>
+          <a class="card" href="Hip Fracture_AVN_ Preservation vs. Arthroplasty.html" target="_blank"><span class="card-title">Hip Fracture_AVN_ Preservation vs. Arthroplasty</span></a>
+          <a class="card" href="Hip Nail Comparison_ Biomechanics, Surgery, Outcomes.html" target="_blank"><span class="card-title">Hip Nail Comparison_ Biomechanics, Surgery, Outcomes</span></a>
+          <a class="card" href="Hip Preservation Surgery Resources.html" target="_blank"><span class="card-title">Hip Preservation Surgery Resources</span></a>
+          <a class="card" href="HTO Osteoarthritis Literature Review.html" target="_blank"><span class="card-title">HTO Osteoarthritis Literature Review</span></a>
+          <a class="card" href="HTO vs. UKA Decision Algorithm.html" target="_blank"><span class="card-title">HTO vs. UKA Decision Algorithm</span></a>
+          <a class="card" href="Humeral Nonunion Management Review.html" target="_blank"><span class="card-title">Humeral Nonunion Management Review</span></a>
+          <a class="card" href="Iatrogenic Nerve Injury in Humeral Fractures.html" target="_blank"><span class="card-title">Iatrogenic Nerve Injury in Humeral Fractures</span></a>
+          <a class="card" href="Intraoperative Hip Fluid Diagnosis and Management.html" target="_blank"><span class="card-title">Intraoperative Hip Fluid Diagnosis and Management</span></a>
+          <a class="card" href="Irreducible Intertrochanteric Fractures_ Reduction Techniques.html" target="_blank"><span class="card-title">Irreducible Intertrochanteric Fractures_ Reduction Techniques</span></a>
+          <a class="card" href="John Insall_ Knee Arthroplasty Innovations.html" target="_blank"><span class="card-title">John Insall_ Knee Arthroplasty Innovations</span></a>
+          <a class="card" href="Knee Arthroplasty vs. Osteotomy Comparison.html" target="_blank"><span class="card-title">Knee Arthroplasty vs. Osteotomy Comparison</span></a>
+          <a class="card" href="Knee Arthroscopy Training for Novices.html" target="_blank"><span class="card-title">Knee Arthroscopy Training for Novices</span></a>
+          <a class="card" href="Knee Osteoarthritis Exercise Protocol Review.html" target="_blank"><span class="card-title">Knee Osteoarthritis Exercise Protocol Review</span></a>
+          <a class="card" href="Knee Osteoarthritis Research Advances.html" target="_blank"><span class="card-title">Knee Osteoarthritis Research Advances</span></a>
+          <a class="card" href="Latissimus Dorsi Transfer for Elbow Flexion.html" target="_blank"><span class="card-title">Latissimus Dorsi Transfer for Elbow Flexion</span></a>
+          <a class="card" href="Lisfranc Injury With Metatarsal Fractures.html" target="_blank"><span class="card-title">Lisfranc Injury With Metatarsal Fractures</span></a>
+          <a class="card" href="Managing Complex Pediatric Knee Deformity.html" target="_blank"><span class="card-title">Managing Complex Pediatric Knee Deformity</span></a>
+          <a class="card" href="Managing Proximal Humerus Fractures in Epilepsy.html" target="_blank"><span class="card-title">Managing Proximal Humerus Fractures in Epilepsy</span></a>
+          <a class="card" href="Meniscal Centralization EBM Review.html" target="_blank"><span class="card-title">Meniscal Centralization EBM Review</span></a>
+          <a class="card" href="MMPRT Management_ Research Hotspots.html" target="_blank"><span class="card-title">MMPRT Management_ Research Hotspots</span></a>
+          <a class="card" href="MPFL Reconstruction Literature Review.html" target="_blank"><span class="card-title">MPFL Reconstruction Literature Review</span></a>
+          <a class="card" href="MPFL Reconstruction_ Femoral Fixation Guide.html" target="_blank"><span class="card-title">MPFL Reconstruction_ Femoral Fixation Guide</span></a>
+          <a class="card" href="MRI Predictors of Bankart Repair Failure.html" target="_blank"><span class="card-title">MRI Predictors of Bankart Repair Failure</span></a>
+          <a class="card" href="MRI Predicts Bankart Repair Failure.html" target="_blank"><span class="card-title">MRI Predicts Bankart Repair Failure</span></a>
+          <a class="card" href="Orthopedic Arthroscopy Learning Resources.html" target="_blank"><span class="card-title">Orthopedic Arthroscopy Learning Resources</span></a>
+          <a class="card" href="Orthopedic Skin Prep_ Arthroplasty vs. Fracture.html" target="_blank"><span class="card-title">Orthopedic Skin Prep_ Arthroplasty vs. Fracture</span></a>
+          <a class="card" href="Orthopedic Surgeon Arthroscopy Learning Path.html" target="_blank"><span class="card-title">Orthopedic Surgeon Arthroscopy Learning Path</span></a>
+          <a class="card" href="Orthopedic Trauma Leadership KPIs and Trends.html" target="_blank"><span class="card-title">Orthopedic Trauma Leadership KPIs and Trends</span></a>
+          <a class="card" href="OTT ACL Reconstruction in Immature Patients.html" target="_blank"><span class="card-title">OTT ACL Reconstruction in Immature Patients</span></a>
+          <a class="card" href="Patellar Fracture Fixation Techniques Analysis_.html" target="_blank"><span class="card-title">Patellar Fracture Fixation Techniques Analysis_</span></a>
+          <a class="card" href="Patellar Fracture Fixation Techniques Review.html" target="_blank"><span class="card-title">Patellar Fracture Fixation Techniques Review</span></a>
+          <a class="card" href="Patellar Fracture ORIF Infection Management.html" target="_blank"><span class="card-title">Patellar Fracture ORIF Infection Management</span></a>
+          <a class="card" href="Patellar Inferior Pole Avulsion Repair_.html" target="_blank"><span class="card-title">Patellar Inferior Pole Avulsion Repair_</span></a>
+          <a class="card" href="PCL Tibial Avulsion Fracture Literature Review.html" target="_blank"><span class="card-title">PCL Tibial Avulsion Fracture Literature Review</span></a>
+          <a class="card" href="PCL Tibial Avulsion Fracture Management.html" target="_blank"><span class="card-title">PCL Tibial Avulsion Fracture Management</span></a>
+          <a class="card" href="Pediatric ACL Reconstruction Review.html" target="_blank"><span class="card-title">Pediatric ACL Reconstruction Review</span></a>
+          <a class="card" href="Pediatric Olecranon-Capitellum Fracture Surgery.html" target="_blank"><span class="card-title">Pediatric Olecranon-Capitellum Fracture Surgery</span></a>
+          <a class="card" href="Pediatric Patellar Instability Surgery Comparison.html" target="_blank"><span class="card-title">Pediatric Patellar Instability Surgery Comparison</span></a>
+          <a class="card" href="Pediatric Radial Head Dislocation vs. Fracture.html" target="_blank"><span class="card-title">Pediatric Radial Head Dislocation vs. Fracture</span></a>
+          <a class="card" href="Pediatric Supracondylar Humerus Nerve Injury.html" target="_blank"><span class="card-title">Pediatric Supracondylar Humerus Nerve Injury</span></a>
+          <a class="card" href="Pediatric Transient Synovitis of the Hip.html" target="_blank"><span class="card-title">Pediatric Transient Synovitis of the Hip</span></a>
+          <a class="card" href="PFNA Blade Placement and Femoral Trabeculae.html" target="_blank"><span class="card-title">PFNA Blade Placement and Femoral Trabeculae</span></a>
+          <a class="card" href="PFNA Surgical Technique Guide.html" target="_blank"><span class="card-title">PFNA Surgical Technique Guide</span></a>
+          <a class="card" href="PFNA vs. Hemiarthroplasty Outcomes.html" target="_blank"><span class="card-title">PFNA vs. Hemiarthroplasty Outcomes</span></a>
+          <a class="card" href="Posterior Shoulder Dislocation_ Management & Advances.html" target="_blank"><span class="card-title">Posterior Shoulder Dislocation_ Management & Advances</span></a>
+          <a class="card" href="Postoperative Delirium in Elderly Hip Fractures.html" target="_blank"><span class="card-title">Postoperative Delirium in Elderly Hip Fractures</span></a>
+          <a class="card" href="Preventing Hip Arthroplasty Dislocation Strategies.html" target="_blank"><span class="card-title">Preventing Hip Arthroplasty Dislocation Strategies</span></a>
+          <a class="card" href="Preventing Proximal Humerus Fracture Failure.html" target="_blank"><span class="card-title">Preventing Proximal Humerus Fracture Failure</span></a>
+          <a class="card" href="Proximal Humeral Nailing_ Pearls, Pitfalls.html" target="_blank"><span class="card-title">Proximal Humeral Nailing_ Pearls, Pitfalls</span></a>
+          <a class="card" href="Proximal Humerus Architecture and Morphometrics.html" target="_blank"><span class="card-title">Proximal Humerus Architecture and Morphometrics</span></a>
+          <a class="card" href="Proximal Humerus Fracture-Dislocation Comparison.html" target="_blank"><span class="card-title">Proximal Humerus Fracture-Dislocation Comparison</span></a>
+          <a class="card" href="Proximal Humerus ORIF Failure Review.html" target="_blank"><span class="card-title">Proximal Humerus ORIF Failure Review</span></a>
+          <a class="card" href="Reverse Shoulder Arthroplasty for Fractures.html" target="_blank"><span class="card-title">Reverse Shoulder Arthroplasty for Fractures</span></a>
+          <a class="card" href="Reverse Shoulder Arthroplasty Tuberosity Management.html" target="_blank"><span class="card-title">Reverse Shoulder Arthroplasty Tuberosity Management</span></a>
+          <a class="card" href="Revision ACL Reconstruction Review.html" target="_blank"><span class="card-title">Revision ACL Reconstruction Review</span></a>
+          <a class="card" href="Revision Total Hip Arthroplasty Techniques Review.html" target="_blank"><span class="card-title">Revision Total Hip Arthroplasty Techniques Review</span></a>
+          <a class="card" href="Revision Total Knee Arthroplasty Techniques.html" target="_blank"><span class="card-title">Revision Total Knee Arthroplasty Techniques</span></a>
+          <a class="card" href="Rotator Cuff Infection Clinical Guide.html" target="_blank"><span class="card-title">Rotator Cuff Infection Clinical Guide</span></a>
+          <a class="card" href="Rotator Cuff Repair Perioperative Orders.html" target="_blank"><span class="card-title">Rotator Cuff Repair Perioperative Orders</span></a>
+          <a class="card" href="Rotator Cuff Repair Rehabilitation Protocol.html" target="_blank"><span class="card-title">Rotator Cuff Repair Rehabilitation Protocol</span></a>
+          <a class="card" href="Rotator Cuff Surgery Review 2019-2026.html" target="_blank"><span class="card-title">Rotator Cuff Surgery Review 2019-2026</span></a>
+          <a class="card" href="Rotator Cuff Tear Arthropathy Lecture Synthesis.html" target="_blank"><span class="card-title">Rotator Cuff Tear Arthropathy Lecture Synthesis</span></a>
+          <a class="card" href="Rotator Cuff Tear Etiology and Pathogenesis.html" target="_blank"><span class="card-title">Rotator Cuff Tear Etiology and Pathogenesis</span></a>
+          <a class="card" href="Rotator Cuff Tear Treatment Guidelines.html" target="_blank"><span class="card-title">Rotator Cuff Tear Treatment Guidelines</span></a>
+          <a class="card" href="Semitendinosus Rupture During ACL Harvest_.html" target="_blank"><span class="card-title">Semitendinosus Rupture During ACL Harvest_</span></a>
+          <a class="card" href="Shoulder and Elbow Surgery Evolution.html" target="_blank"><span class="card-title">Shoulder and Elbow Surgery Evolution</span></a>
+          <a class="card" href="Shoulder Arthroscopy Resident Training Resources.html" target="_blank"><span class="card-title">Shoulder Arthroscopy Resident Training Resources</span></a>
+          <a class="card" href="Shoulder Fracture-Dislocation Reduction Risks.html" target="_blank"><span class="card-title">Shoulder Fracture-Dislocation Reduction Risks</span></a>
+          <a class="card" href="Sports Medicine Arthroscopy Learning Roadmap.html" target="_blank"><span class="card-title">Sports Medicine Arthroscopy Learning Roadmap</span></a>
+          <a class="card" href="Stiff TKA Management Review.html" target="_blank"><span class="card-title">Stiff TKA Management Review</span></a>
+          <a class="card" href="Subtrochanteric Fractures_ IMN Management Review.html" target="_blank"><span class="card-title">Subtrochanteric Fractures_ IMN Management Review</span></a>
+          <a class="card" href="Surgical Management of Degenerative Meniscal Tears.html" target="_blank"><span class="card-title">Surgical Management of Degenerative Meniscal Tears</span></a>
+          <a class="card" href="Suture Anchors and Interference Screws.html" target="_blank"><span class="card-title">Suture Anchors and Interference Screws</span></a>
+          <a class="card" href="Tarsal Avulsion Fractures_ EBM Review.html" target="_blank"><span class="card-title">Tarsal Avulsion Fractures_ EBM Review</span></a>
+          <a class="card" href="THA for Septic Arthritis Sequelae.html" target="_blank"><span class="card-title">THA for Septic Arthritis Sequelae</span></a>
+          <a class="card" href="THA Radiographic Evaluation Guidelines.html" target="_blank"><span class="card-title">THA Radiographic Evaluation Guidelines</span></a>
+          <a class="card" href="TKA Gap Balancing Literature Review.html" target="_blank"><span class="card-title">TKA Gap Balancing Literature Review</span></a>
+          <a class="card" href="TKA in Medically Complex Patients.html" target="_blank"><span class="card-title">TKA in Medically Complex Patients</span></a>
+          <a class="card" href="TKA Rehabilitation Protocol Evidence Synthesis.html" target="_blank"><span class="card-title">TKA Rehabilitation Protocol Evidence Synthesis</span></a>
+          <a class="card" href="Trapezium Vascular Anatomy and Osteoarthritis.html" target="_blank"><span class="card-title">Trapezium Vascular Anatomy and Osteoarthritis</span></a>
+          <a class="card" href="UKA Bearing Type Comparison Evidence.html" target="_blank"><span class="card-title">UKA Bearing Type Comparison Evidence</span></a>
+          <a class="card" href="UKA Failure, Revision, and Prevention.html" target="_blank"><span class="card-title">UKA Failure, Revision, and Prevention</span></a>
+          <a class="card" href="UKA vs. TKA_ Indications and Selection.html" target="_blank"><span class="card-title">UKA vs. TKA_ Indications and Selection</span></a>
+          <a class="card" href="Ulnar Nerve Injury After Rotator Cuff Repair.html" target="_blank"><span class="card-title">Ulnar Nerve Injury After Rotator Cuff Repair</span></a>
+          <a class="card" href="Valgus TKA_ Management and Technology.html" target="_blank"><span class="card-title">Valgus TKA_ Management and Technology</span></a>
+          <a class="card" href="Vancomycin Prophylaxis in Total Joint Arthroplasty.html" target="_blank"><span class="card-title">Vancomycin Prophylaxis in Total Joint Arthroplasty</span></a>
+          <a class="card" href="Wrist Arthroscopy Advancements_ 2020-2025.html" target="_blank"><span class="card-title">Wrist Arthroscopy Advancements_ 2020-2025</span></a>
+          <a class="card" href="Wrist Arthroscopy Training Resource Guide.html" target="_blank"><span class="card-title">Wrist Arthroscopy Training Resource Guide</span></a>
+          <a class="card" href="Zero-Cost Arthroplasty Research Topics.html" target="_blank"><span class="card-title">Zero-Cost Arthroplasty Research Topics</span></a>
+      </div>
+    </section>
+    <section class="category-section" id="cat-2">
+      <div class="section-header">
+        <h2>✋ Hand &amp; Foot Surgery</h2>
+        <span class="section-count">76 articles</span>
+      </div>
+      <div class="card-grid">
+          <a class="card" href="Achilles Tendon Gap Outcomes Research.html" target="_blank"><span class="card-title">Achilles Tendon Gap Outcomes Research</span></a>
+          <a class="card" href="Acute Ankle Sprain Management Guidelines.html" target="_blank"><span class="card-title">Acute Ankle Sprain Management Guidelines</span></a>
+          <a class="card" href="Adolescent Ankle Fracture Fixation Outcomes.html" target="_blank"><span class="card-title">Adolescent Ankle Fracture Fixation Outcomes</span></a>
+          <a class="card" href="Advanced Briefing_ Cubital Tunnel Syndrome.html" target="_blank"><span class="card-title">Advanced Briefing_ Cubital Tunnel Syndrome</span></a>
+          <a class="card" href="Ankle Arthrodesis_ Outcomes and Risk Factors.html" target="_blank"><span class="card-title">Ankle Arthrodesis_ Outcomes and Risk Factors</span></a>
+          <a class="card" href="Ankle Fracture Approaches_ Evidence Synthesis.html" target="_blank"><span class="card-title">Ankle Fracture Approaches_ Evidence Synthesis</span></a>
+          <a class="card" href="Ankle Fracture MCS Widening Management.html" target="_blank"><span class="card-title">Ankle Fracture MCS Widening Management</span></a>
+          <a class="card" href="Ankle Fracture Research_ Inpatient Data.html" target="_blank"><span class="card-title">Ankle Fracture Research_ Inpatient Data</span></a>
+          <a class="card" href="Ankle Fracture Surgical Approach Analysis.html" target="_blank"><span class="card-title">Ankle Fracture Surgical Approach Analysis</span></a>
+          <a class="card" href="Ankle ORIF Reduction Quality Review.html" target="_blank"><span class="card-title">Ankle ORIF Reduction Quality Review</span></a>
+          <a class="card" href="Ankle Radiograph Interpretation Guide.html" target="_blank"><span class="card-title">Ankle Radiograph Interpretation Guide</span></a>
+          <a class="card" href="AP Ankle Radiograph Evaluation Guide.html" target="_blank"><span class="card-title">AP Ankle Radiograph Evaluation Guide</span></a>
+          <a class="card" href="ATFL Rupture Management Guidelines.html" target="_blank"><span class="card-title">ATFL Rupture Management Guidelines</span></a>
+          <a class="card" href="ATFL Rupture_ Operative vs. Conservative Treatment.html" target="_blank"><span class="card-title">ATFL Rupture_ Operative vs. Conservative Treatment</span></a>
+          <a class="card" href="ATFL Rupture_ Operative vs. Non-Operative Treatment.html" target="_blank"><span class="card-title">ATFL Rupture_ Operative vs. Non-Operative Treatment</span></a>
+          <a class="card" href="ATFL Rupture_ Repair vs. Conservative Outcomes.html" target="_blank"><span class="card-title">ATFL Rupture_ Repair vs. Conservative Outcomes</span></a>
+          <a class="card" href="ATFL Tear Surgical Indications_ EBM Analysis.html" target="_blank"><span class="card-title">ATFL Tear Surgical Indications_ EBM Analysis</span></a>
+          <a class="card" href="Bioabsorbable Screws in Foot Surgery.html" target="_blank"><span class="card-title">Bioabsorbable Screws in Foot Surgery</span></a>
+          <a class="card" href="Bone Regeneration_ Tissue Engineering & Microsurgery_.html" target="_blank"><span class="card-title">Bone Regeneration_ Tissue Engineering & Microsurgery_</span></a>
+          <a class="card" href="Brachial Plexus Block Complication Analysis.html" target="_blank"><span class="card-title">Brachial Plexus Block Complication Analysis</span></a>
+          <a class="card" href="Brachial Plexus Injury After Clavicle ORIF.html" target="_blank"><span class="card-title">Brachial Plexus Injury After Clavicle ORIF</span></a>
+          <a class="card" href="Brachial Plexus Injury Learning Resources.html" target="_blank"><span class="card-title">Brachial Plexus Injury Learning Resources</span></a>
+          <a class="card" href="CAI Lower Limb Biomechanics Review_.html" target="_blank"><span class="card-title">CAI Lower Limb Biomechanics Review_</span></a>
+          <a class="card" href="Calcaneal Fracture AAPO Deep Dive.html" target="_blank"><span class="card-title">Calcaneal Fracture AAPO Deep Dive</span></a>
+          <a class="card" href="Calcaneal Fracture Fixation Review.html" target="_blank"><span class="card-title">Calcaneal Fracture Fixation Review</span></a>
+          <a class="card" href="Calcaneal Fracture Fixation Techniques Comparison.html" target="_blank"><span class="card-title">Calcaneal Fracture Fixation Techniques Comparison</span></a>
+          <a class="card" href="Calcaneal Fracture Surgical Techniques Explained.html" target="_blank"><span class="card-title">Calcaneal Fracture Surgical Techniques Explained</span></a>
+          <a class="card" href="Carpal Tunnel Surgery Comparison Review.html" target="_blank"><span class="card-title">Carpal Tunnel Surgery Comparison Review</span></a>
+          <a class="card" href="Diabetic Foot Amputation_ CTA & Microcirculation.html" target="_blank"><span class="card-title">Diabetic Foot Amputation_ CTA & Microcirculation</span></a>
+          <a class="card" href="Dynamic vs. Rigid Syndesmotic Fixation.html" target="_blank"><span class="card-title">Dynamic vs. Rigid Syndesmotic Fixation</span></a>
+          <a class="card" href="EIP Tendon Repair_ Technique and Rehabilitation.html" target="_blank"><span class="card-title">EIP Tendon Repair_ Technique and Rehabilitation</span></a>
+          <a class="card" href="Endoscopic Foot Surgery Techniques.html" target="_blank"><span class="card-title">Endoscopic Foot Surgery Techniques</span></a>
+          <a class="card" href="Endoscopic Plantar Fascia Release Guidelines.html" target="_blank"><span class="card-title">Endoscopic Plantar Fascia Release Guidelines</span></a>
+          <a class="card" href="Endoscopic Plantar Fasciotomy Techniques Compared.html" target="_blank"><span class="card-title">Endoscopic Plantar Fasciotomy Techniques Compared</span></a>
+          <a class="card" href="Extensor Tendon Graft Tensioning Guidelines.html" target="_blank"><span class="card-title">Extensor Tendon Graft Tensioning Guidelines</span></a>
+          <a class="card" href="Flap Designs_ Surgical Techniques, Biomechanics, Applications.html" target="_blank"><span class="card-title">Flap Designs_ Surgical Techniques, Biomechanics, Applications</span></a>
+          <a class="card" href="Foot & Ankle Learning Roadmap.html" target="_blank"><span class="card-title">Foot & Ankle Learning Roadmap</span></a>
+          <a class="card" href="Foot and Ankle Disorders_ EBM Framework.html" target="_blank"><span class="card-title">Foot and Ankle Disorders_ EBM Framework</span></a>
+          <a class="card" href="Foucher Flap Thumb Reconstruction Guide.html" target="_blank"><span class="card-title">Foucher Flap Thumb Reconstruction Guide</span></a>
+          <a class="card" href="Ganglion Cyst Etiology and Treatment Review.html" target="_blank"><span class="card-title">Ganglion Cyst Etiology and Treatment Review</span></a>
+          <a class="card" href="Gastrocnemius Recession Research Topics.html" target="_blank"><span class="card-title">Gastrocnemius Recession Research Topics</span></a>
+          <a class="card" href="Grant Justification_ MIS Calcaneal Fractures.html" target="_blank"><span class="card-title">Grant Justification_ MIS Calcaneal Fractures</span></a>
+          <a class="card" href="Hallucal Ganglion Cysts_ FHL Communication.html" target="_blank"><span class="card-title">Hallucal Ganglion Cysts_ FHL Communication</span></a>
+          <a class="card" href="Hallux Valgus Non-Operative Management Review.html" target="_blank"><span class="card-title">Hallux Valgus Non-Operative Management Review</span></a>
+          <a class="card" href="Hallux Valgus Surgical Advancements Comparison.html" target="_blank"><span class="card-title">Hallux Valgus Surgical Advancements Comparison</span></a>
+          <a class="card" href="Hand Hygiene Efficacy Comparison.html" target="_blank"><span class="card-title">Hand Hygiene Efficacy Comparison</span></a>
+          <a class="card" href="Hand Joint Reconstruction Review_.html" target="_blank"><span class="card-title">Hand Joint Reconstruction Review_</span></a>
+          <a class="card" href="Hand Surgery Evidence Search.html" target="_blank"><span class="card-title">Hand Surgery Evidence Search</span></a>
+          <a class="card" href="Hand Surgery Training Curriculum Guide.html" target="_blank"><span class="card-title">Hand Surgery Training Curriculum Guide</span></a>
+          <a class="card" href="ITCL Role in Pediatric Flatfoot Surgery.html" target="_blank"><span class="card-title">ITCL Role in Pediatric Flatfoot Surgery</span></a>
+          <a class="card" href="Lisfranc Injury Surgical Management Review.html" target="_blank"><span class="card-title">Lisfranc Injury Surgical Management Review</span></a>
+          <a class="card" href="Lisfranc Injury Surgical Management Review(1).html" target="_blank"><span class="card-title">Lisfranc Injury Surgical Management Review(1)</span></a>
+          <a class="card" href="Maisonneuve Fracture Diagnosis and Management.html" target="_blank"><span class="card-title">Maisonneuve Fracture Diagnosis and Management</span></a>
+          <a class="card" href="Microsurgery_ Applications, Frontiers, Analysis_.html" target="_blank"><span class="card-title">Microsurgery_ Applications, Frontiers, Analysis_</span></a>
+          <a class="card" href="Minimally Invasive Calcaneal Fracture Surgery.html" target="_blank"><span class="card-title">Minimally Invasive Calcaneal Fracture Surgery</span></a>
+          <a class="card" href="Minimally Invasive Calcaneal Fracture Treatment.html" target="_blank"><span class="card-title">Minimally Invasive Calcaneal Fracture Treatment</span></a>
+          <a class="card" href="Neglected Calcaneal Fractures_ Management Strategies.html" target="_blank"><span class="card-title">Neglected Calcaneal Fractures_ Management Strategies</span></a>
+          <a class="card" href="Nerve Entrapment EBM Literature Review.html" target="_blank"><span class="card-title">Nerve Entrapment EBM Literature Review</span></a>
+          <a class="card" href="Orthopedic Microsurgery Training Pathway.html" target="_blank"><span class="card-title">Orthopedic Microsurgery Training Pathway</span></a>
+          <a class="card" href="Orthopedic Reconstructive Microsurgery Potential.html" target="_blank"><span class="card-title">Orthopedic Reconstructive Microsurgery Potential</span></a>
+          <a class="card" href="Pediatric Ankle Fractures_ Classification and Management.html" target="_blank"><span class="card-title">Pediatric Ankle Fractures_ Classification and Management</span></a>
+          <a class="card" href="Pediatric Distal Phalanx SH-II Fracture Review.html" target="_blank"><span class="card-title">Pediatric Distal Phalanx SH-II Fracture Review</span></a>
+          <a class="card" href="Pediatric Foot and Ankle Surgery Overview.html" target="_blank"><span class="card-title">Pediatric Foot and Ankle Surgery Overview</span></a>
+          <a class="card" href="Pediatric vs. Adult Ankle Injury Review.html" target="_blank"><span class="card-title">Pediatric vs. Adult Ankle Injury Review</span></a>
+          <a class="card" href="Perforator Flap Surgery History Overview.html" target="_blank"><span class="card-title">Perforator Flap Surgery History Overview</span></a>
+          <a class="card" href="Plantar Fasciitis_ Recent Evidence Updates.html" target="_blank"><span class="card-title">Plantar Fasciitis_ Recent Evidence Updates</span></a>
+          <a class="card" href="Posterolateral Ankle Fracture Approach.html" target="_blank"><span class="card-title">Posterolateral Ankle Fracture Approach</span></a>
+          <a class="card" href="Robot-Assisted Calcaneal Fracture Research.html" target="_blank"><span class="card-title">Robot-Assisted Calcaneal Fracture Research</span></a>
+          <a class="card" href="Surgical Management of Neglected Achilles Ruptures.html" target="_blank"><span class="card-title">Surgical Management of Neglected Achilles Ruptures</span></a>
+          <a class="card" href="Talocalcaneal Coalition Surgical Management.html" target="_blank"><span class="card-title">Talocalcaneal Coalition Surgical Management</span></a>
+          <a class="card" href="Trapezium VBGs_ Scaphoid, Kienböck_s Review.html" target="_blank"><span class="card-title">Trapezium VBGs_ Scaphoid, Kienböck_s Review</span></a>
+          <a class="card" href="Trapezium VBGs_ Scaphoid, Kienböck_s Review(1).html" target="_blank"><span class="card-title">Trapezium VBGs_ Scaphoid, Kienböck_s Review(1)</span></a>
+          <a class="card" href="Triquetrum Vascularity and Clinical Implications.html" target="_blank"><span class="card-title">Triquetrum Vascularity and Clinical Implications</span></a>
+          <a class="card" href="TTBT for Ischemia and Diabetic Foot.html" target="_blank"><span class="card-title">TTBT for Ischemia and Diabetic Foot</span></a>
+          <a class="card" href="TTT for Diabetic Foot Ulcers.html" target="_blank"><span class="card-title">TTT for Diabetic Foot Ulcers</span></a>
+          <a class="card" href="Turf Toe Surgery_ Reconstruction vs. Arthrodesis.html" target="_blank"><span class="card-title">Turf Toe Surgery_ Reconstruction vs. Arthrodesis</span></a>
+      </div>
+    </section>
+    <section class="category-section" id="cat-3">
+      <div class="section-header">
+        <h2>🔧 Orthopedic Trauma</h2>
+        <span class="section-count">153 articles</span>
+      </div>
+      <div class="card-grid">
+          <a class="card" href="3D Printed Biomaterials for Bone Defects.html" target="_blank"><span class="card-title">3D Printed Biomaterials for Bone Defects</span></a>
+          <a class="card" href="Acetabular Dome Impaction Fracture Management.html" target="_blank"><span class="card-title">Acetabular Dome Impaction Fracture Management</span></a>
+          <a class="card" href="Acetabular Fracture Classification Explained.html" target="_blank"><span class="card-title">Acetabular Fracture Classification Explained</span></a>
+          <a class="card" href="Advancements in High Tibial Osteotomy.html" target="_blank"><span class="card-title">Advancements in High Tibial Osteotomy</span></a>
+          <a class="card" href="Antibiotic Guidelines for Orthopedic Infections.html" target="_blank"><span class="card-title">Antibiotic Guidelines for Orthopedic Infections</span></a>
+          <a class="card" href="AO Fracture Guidelines Summary.html" target="_blank"><span class="card-title">AO Fracture Guidelines Summary</span></a>
+          <a class="card" href="AO Fracture Management Implant Application.html" target="_blank"><span class="card-title">AO Fracture Management Implant Application</span></a>
+          <a class="card" href="AO Fracture Management Preoperative Planning.html" target="_blank"><span class="card-title">AO Fracture Management Preoperative Planning</span></a>
+          <a class="card" href="AO Fracture Management Preoperative Planning(1).html" target="_blank"><span class="card-title">AO Fracture Management Preoperative Planning(1)</span></a>
+          <a class="card" href="AO Fracture Reduction Soft Tissue Preservation.html" target="_blank"><span class="card-title">AO Fracture Reduction Soft Tissue Preservation</span></a>
+          <a class="card" href="AO Trauma Curriculum Roadmap for Surgeons.html" target="_blank"><span class="card-title">AO Trauma Curriculum Roadmap for Surgeons</span></a>
+          <a class="card" href="AO_OTA Classification_ 2018 vs. 2007.html" target="_blank"><span class="card-title">AO_OTA Classification_ 2018 vs. 2007</span></a>
+          <a class="card" href="ASGL for Limb Salvage Review.html" target="_blank"><span class="card-title">ASGL for Limb Salvage Review</span></a>
+          <a class="card" href="Bone Transport for Osteomyelitis Outcomes.html" target="_blank"><span class="card-title">Bone Transport for Osteomyelitis Outcomes</span></a>
+          <a class="card" href="Cephalomedullary Nails for ITF Fractures.html" target="_blank"><span class="card-title">Cephalomedullary Nails for ITF Fractures</span></a>
+          <a class="card" href="CHG Wipes for Orthopedic SSI Prevention.html" target="_blank"><span class="card-title">CHG Wipes for Orthopedic SSI Prevention</span></a>
+          <a class="card" href="Clavicle Fracture Fixation_ A Review.html" target="_blank"><span class="card-title">Clavicle Fracture Fixation_ A Review</span></a>
+          <a class="card" href="Colles Fracture Reduction Techniques & Parameters.html" target="_blank"><span class="card-title">Colles Fracture Reduction Techniques & Parameters</span></a>
+          <a class="card" href="Complex Pilon Fracture Management Review.html" target="_blank"><span class="card-title">Complex Pilon Fracture Management Review</span></a>
+          <a class="card" href="Cryotherapy in Orthopedic Trauma.html" target="_blank"><span class="card-title">Cryotherapy in Orthopedic Trauma</span></a>
+          <a class="card" href="DAIR for PJI and FRI.html" target="_blank"><span class="card-title">DAIR for PJI and FRI</span></a>
+          <a class="card" href="Distal Clavicle ORIF Outcomes Defense.html" target="_blank"><span class="card-title">Distal Clavicle ORIF Outcomes Defense</span></a>
+          <a class="card" href="Distal Radius Fracture Reduction Guide.html" target="_blank"><span class="card-title">Distal Radius Fracture Reduction Guide</span></a>
+          <a class="card" href="Distal Radius Fracture Reduction Techniques.html" target="_blank"><span class="card-title">Distal Radius Fracture Reduction Techniques</span></a>
+          <a class="card" href="Distal Radius Fractures_ Immobilization Duration.html" target="_blank"><span class="card-title">Distal Radius Fractures_ Immobilization Duration</span></a>
+          <a class="card" href="Distal Radius Malunion Osteotomy Comparison.html" target="_blank"><span class="card-title">Distal Radius Malunion Osteotomy Comparison</span></a>
+          <a class="card" href="DVT Management in Tibial Plateau Fractures.html" target="_blank"><span class="card-title">DVT Management in Tibial Plateau Fractures</span></a>
+          <a class="card" href="Elderly ITF Nonunion_ DAPT & Salvage.html" target="_blank"><span class="card-title">Elderly ITF Nonunion_ DAPT & Salvage</span></a>
+          <a class="card" href="Enhancing Orthopedic Trauma Competency.html" target="_blank"><span class="card-title">Enhancing Orthopedic Trauma Competency</span></a>
+          <a class="card" href="ESIN for Pediatric Forearm Fractures.html" target="_blank"><span class="card-title">ESIN for Pediatric Forearm Fractures</span></a>
+          <a class="card" href="Exposed Hardware Management in Fractures.html" target="_blank"><span class="card-title">Exposed Hardware Management in Fractures</span></a>
+          <a class="card" href="External Fixation for Ollier_s Disease Deformity.html" target="_blank"><span class="card-title">External Fixation for Ollier_s Disease Deformity</span></a>
+          <a class="card" href="Extremity Fracture Surgical Indications.html" target="_blank"><span class="card-title">Extremity Fracture Surgical Indications</span></a>
+          <a class="card" href="Femoral Fracture Treatment Advances Review.html" target="_blank"><span class="card-title">Femoral Fracture Treatment Advances Review</span></a>
+          <a class="card" href="Femoral Intramedullary Nailing_ Pearls, Pitfalls.html" target="_blank"><span class="card-title">Femoral Intramedullary Nailing_ Pearls, Pitfalls</span></a>
+          <a class="card" href="Femoral Nailing_ Advances and Complications.html" target="_blank"><span class="card-title">Femoral Nailing_ Advances and Complications</span></a>
+          <a class="card" href="Femoral Trabeculae and Screw Placement.html" target="_blank"><span class="card-title">Femoral Trabeculae and Screw Placement</span></a>
+          <a class="card" href="Femur Fracture Hoffa Fixation Outcomes.html" target="_blank"><span class="card-title">Femur Fracture Hoffa Fixation Outcomes</span></a>
+          <a class="card" href="Femur Fracture Nail Systems EBM.html" target="_blank"><span class="card-title">Femur Fracture Nail Systems EBM</span></a>
+          <a class="card" href="Finding AO Trauma Education Resources.html" target="_blank"><span class="card-title">Finding AO Trauma Education Resources</span></a>
+          <a class="card" href="Forearm Crush Injury Management Protocol.html" target="_blank"><span class="card-title">Forearm Crush Injury Management Protocol</span></a>
+          <a class="card" href="Forearm Deformity Correction in Ollier_s Disease.html" target="_blank"><span class="card-title">Forearm Deformity Correction in Ollier_s Disease</span></a>
+          <a class="card" href="Forearm Injury Extension Deficit Diagnosis.html" target="_blank"><span class="card-title">Forearm Injury Extension Deficit Diagnosis</span></a>
+          <a class="card" href="Fracture Blister Management in Trauma.html" target="_blank"><span class="card-title">Fracture Blister Management in Trauma</span></a>
+          <a class="card" href="Fracture Management Guidelines Synthesis.html" target="_blank"><span class="card-title">Fracture Management Guidelines Synthesis</span></a>
+          <a class="card" href="Fracture Management_ Risk and Complications.html" target="_blank"><span class="card-title">Fracture Management_ Risk and Complications</span></a>
+          <a class="card" href="Fracture Nonunion_ Diagnosis and Treatment Advances.html" target="_blank"><span class="card-title">Fracture Nonunion_ Diagnosis and Treatment Advances</span></a>
+          <a class="card" href="Fracture Reduction_ Acceptable vs. Anatomical.html" target="_blank"><span class="card-title">Fracture Reduction_ Acceptable vs. Anatomical</span></a>
+          <a class="card" href="Fracture Stability and Bone Healing Review.html" target="_blank"><span class="card-title">Fracture Stability and Bone Healing Review</span></a>
+          <a class="card" href="Fracture Stability and Bone Healing Review(1).html" target="_blank"><span class="card-title">Fracture Stability and Bone Healing Review(1)</span></a>
+          <a class="card" href="Fracture-Related Infection Research Advances.html" target="_blank"><span class="card-title">Fracture-Related Infection Research Advances</span></a>
+          <a class="card" href="Frosch Approach_ Trauma Literature Review.html" target="_blank"><span class="card-title">Frosch Approach_ Trauma Literature Review</span></a>
+          <a class="card" href="Geriatric Distal Femur Fracture Management.html" target="_blank"><span class="card-title">Geriatric Distal Femur Fracture Management</span></a>
+          <a class="card" href="Growth Rod Fracture in EOS Management.html" target="_blank"><span class="card-title">Growth Rod Fracture in EOS Management</span></a>
+          <a class="card" href="Hans Willenegger_s Stability Fights Infection.html" target="_blank"><span class="card-title">Hans Willenegger_s Stability Fights Infection</span></a>
+          <a class="card" href="High BMI Orthopedic Wound Closure.html" target="_blank"><span class="card-title">High BMI Orthopedic Wound Closure</span></a>
+          <a class="card" href="Hydrogen Peroxide in Orthopedic Wounds.html" target="_blank"><span class="card-title">Hydrogen Peroxide in Orthopedic Wounds</span></a>
+          <a class="card" href="Iatrogenic Radial Nerve Palsy Review.html" target="_blank"><span class="card-title">Iatrogenic Radial Nerve Palsy Review</span></a>
+          <a class="card" href="IMN Dynamization Guideline Research.html" target="_blank"><span class="card-title">IMN Dynamization Guideline Research</span></a>
+          <a class="card" href="Inkscape Tibial Fracture Illustration Workflow.html" target="_blank"><span class="card-title">Inkscape Tibial Fracture Illustration Workflow</span></a>
+          <a class="card" href="Intramedullary Nail Removal in Young Adults.html" target="_blank"><span class="card-title">Intramedullary Nail Removal in Young Adults</span></a>
+          <a class="card" href="Kirschner Wire Techniques and Complications.html" target="_blank"><span class="card-title">Kirschner Wire Techniques and Complications</span></a>
+          <a class="card" href="LCP Screw Selection and Biomechanics.html" target="_blank"><span class="card-title">LCP Screw Selection and Biomechanics</span></a>
+          <a class="card" href="Limb Salvage Strategies for Mangled Extremities.html" target="_blank"><span class="card-title">Limb Salvage Strategies for Mangled Extremities</span></a>
+          <a class="card" href="Long Bone Diaphyseal Fracture Management.html" target="_blank"><span class="card-title">Long Bone Diaphyseal Fracture Management</span></a>
+          <a class="card" href="Lower Limb Degloving Injury Management.html" target="_blank"><span class="card-title">Lower Limb Degloving Injury Management</span></a>
+          <a class="card" href="Managing Complex Crush Injury Bleeding.html" target="_blank"><span class="card-title">Managing Complex Crush Injury Bleeding</span></a>
+          <a class="card" href="Managing Deep Tibial Fracture Infection.html" target="_blank"><span class="card-title">Managing Deep Tibial Fracture Infection</span></a>
+          <a class="card" href="Open Fracture Debridement_ H2O2 vs. Saline.html" target="_blank"><span class="card-title">Open Fracture Debridement_ H2O2 vs. Saline</span></a>
+          <a class="card" href="Open Fracture Irrigation Guidelines.html" target="_blank"><span class="card-title">Open Fracture Irrigation Guidelines</span></a>
+          <a class="card" href="Open Fracture Irrigation_ Historical vs. EBM.html" target="_blank"><span class="card-title">Open Fracture Irrigation_ Historical vs. EBM</span></a>
+          <a class="card" href="Open Fracture Management Guidelines.html" target="_blank"><span class="card-title">Open Fracture Management Guidelines</span></a>
+          <a class="card" href="Open Fracture Management_ AO Principles.html" target="_blank"><span class="card-title">Open Fracture Management_ AO Principles</span></a>
+          <a class="card" href="Open Wound Irrigation Solutions Analysis.html" target="_blank"><span class="card-title">Open Wound Irrigation Solutions Analysis</span></a>
+          <a class="card" href="Optimizing Screw Configuration in Osteosynthesis.html" target="_blank"><span class="card-title">Optimizing Screw Configuration in Osteosynthesis</span></a>
+          <a class="card" href="Orthopaedic Trauma Year in Review.html" target="_blank"><span class="card-title">Orthopaedic Trauma Year in Review</span></a>
+          <a class="card" href="Orthopedic C-Arm Fluoroscopy Guide.html" target="_blank"><span class="card-title">Orthopedic C-Arm Fluoroscopy Guide</span></a>
+          <a class="card" href="Orthopedic Debridement Guidelines Overview.html" target="_blank"><span class="card-title">Orthopedic Debridement Guidelines Overview</span></a>
+          <a class="card" href="Orthopedic DVT Prevention, Management, and IVC Filters.html" target="_blank"><span class="card-title">Orthopedic DVT Prevention, Management, and IVC Filters</span></a>
+          <a class="card" href="Orthopedic External Fixation Education Guide.html" target="_blank"><span class="card-title">Orthopedic External Fixation Education Guide</span></a>
+          <a class="card" href="Orthopedic Fracture Education Resources.html" target="_blank"><span class="card-title">Orthopedic Fracture Education Resources</span></a>
+          <a class="card" href="Orthopedic Fracture Treatment Technologies Explained.html" target="_blank"><span class="card-title">Orthopedic Fracture Treatment Technologies Explained</span></a>
+          <a class="card" href="Orthopedic Hardware Removal Infection Management.html" target="_blank"><span class="card-title">Orthopedic Hardware Removal Infection Management</span></a>
+          <a class="card" href="Orthopedic Hemorrhage Management Algorithm.html" target="_blank"><span class="card-title">Orthopedic Hemorrhage Management Algorithm</span></a>
+          <a class="card" href="Orthopedic Hemorrhage Management Hierarchy.html" target="_blank"><span class="card-title">Orthopedic Hemorrhage Management Hierarchy</span></a>
+          <a class="card" href="Orthopedic Infection Control Protocols.html" target="_blank"><span class="card-title">Orthopedic Infection Control Protocols</span></a>
+          <a class="card" href="Orthopedic Medications_ Precautions and Pitfalls.html" target="_blank"><span class="card-title">Orthopedic Medications_ Precautions and Pitfalls</span></a>
+          <a class="card" href="Orthopedic Osteotomy Tool Comparison.html" target="_blank"><span class="card-title">Orthopedic Osteotomy Tool Comparison</span></a>
+          <a class="card" href="Orthopedic Screws and Plates Overview.html" target="_blank"><span class="card-title">Orthopedic Screws and Plates Overview</span></a>
+          <a class="card" href="Orthopedic Skin Closure Best Practices_.html" target="_blank"><span class="card-title">Orthopedic Skin Closure Best Practices_</span></a>
+          <a class="card" href="Orthopedic Skin Closure Best Practices_(1).html" target="_blank"><span class="card-title">Orthopedic Skin Closure Best Practices_(1)</span></a>
+          <a class="card" href="Orthopedic Soft Tissue Release Techniques.html" target="_blank"><span class="card-title">Orthopedic Soft Tissue Release Techniques</span></a>
+          <a class="card" href="Orthopedic SSI Risk Factors Prioritization.html" target="_blank"><span class="card-title">Orthopedic SSI Risk Factors Prioritization</span></a>
+          <a class="card" href="Orthopedic Trauma Glycemic Management & Ketosis.html" target="_blank"><span class="card-title">Orthopedic Trauma Glycemic Management & Ketosis</span></a>
+          <a class="card" href="Orthopedic Trauma Radiographic Evaluation Resources.html" target="_blank"><span class="card-title">Orthopedic Trauma Radiographic Evaluation Resources</span></a>
+          <a class="card" href="Orthopedic Trauma Reduction Criteria Review.html" target="_blank"><span class="card-title">Orthopedic Trauma Reduction Criteria Review</span></a>
+          <a class="card" href="Orthopedic Trauma Surgeon Mastery Roadmap.html" target="_blank"><span class="card-title">Orthopedic Trauma Surgeon Mastery Roadmap</span></a>
+          <a class="card" href="Orthopedic Trauma Video Resources.html" target="_blank"><span class="card-title">Orthopedic Trauma Video Resources</span></a>
+          <a class="card" href="Orthopedic Wound Care Guidelines.html" target="_blank"><span class="card-title">Orthopedic Wound Care Guidelines</span></a>
+          <a class="card" href="Orthoplastic Approach_ Open Fractures Review.html" target="_blank"><span class="card-title">Orthoplastic Approach_ Open Fractures Review</span></a>
+          <a class="card" href="Osteomyelitis and PJI Resources 2020-2025.html" target="_blank"><span class="card-title">Osteomyelitis and PJI Resources 2020-2025</span></a>
+          <a class="card" href="Osteomyelitis Defect Management Techniques Comparison.html" target="_blank"><span class="card-title">Osteomyelitis Defect Management Techniques Comparison</span></a>
+          <a class="card" href="Osteomyelitis Drainage Technique Inquiry.html" target="_blank"><span class="card-title">Osteomyelitis Drainage Technique Inquiry</span></a>
+          <a class="card" href="Osteoporosis Advancements_ Diagnosis and Treatment.html" target="_blank"><span class="card-title">Osteoporosis Advancements_ Diagnosis and Treatment</span></a>
+          <a class="card" href="Pediatric Distal Radius Fracture Guideline.html" target="_blank"><span class="card-title">Pediatric Distal Radius Fracture Guideline</span></a>
+          <a class="card" href="Pediatric Distal Tibia Physeal Fractures.html" target="_blank"><span class="card-title">Pediatric Distal Tibia Physeal Fractures</span></a>
+          <a class="card" href="Pediatric Forearm Fracture Management Literature Search.html" target="_blank"><span class="card-title">Pediatric Forearm Fracture Management Literature Search</span></a>
+          <a class="card" href="Pediatric Limb Overgrowth After Fractures.html" target="_blank"><span class="card-title">Pediatric Limb Overgrowth After Fractures</span></a>
+          <a class="card" href="Pelvic and Acetabular Fracture Management.html" target="_blank"><span class="card-title">Pelvic and Acetabular Fracture Management</span></a>
+          <a class="card" href="Pelvic Ring Injury Screw Placement Guide.html" target="_blank"><span class="card-title">Pelvic Ring Injury Screw Placement Guide</span></a>
+          <a class="card" href="Pelvic Trauma Management Literature Review.html" target="_blank"><span class="card-title">Pelvic Trauma Management Literature Review</span></a>
+          <a class="card" href="Percutaneous Pelvic Fracture Fixation Techniques.html" target="_blank"><span class="card-title">Percutaneous Pelvic Fracture Fixation Techniques</span></a>
+          <a class="card" href="Periosteal Stripping in Fracture Surgery.html" target="_blank"><span class="card-title">Periosteal Stripping in Fracture Surgery</span></a>
+          <a class="card" href="Periosteal Stripping in Fracture Surgery(1).html" target="_blank"><span class="card-title">Periosteal Stripping in Fracture Surgery(1)</span></a>
+          <a class="card" href="Periprosthetic Femur Fracture Management Algorithms.html" target="_blank"><span class="card-title">Periprosthetic Femur Fracture Management Algorithms</span></a>
+          <a class="card" href="Periprosthetic Fractures_ Management Pearls.html" target="_blank"><span class="card-title">Periprosthetic Fractures_ Management Pearls</span></a>
+          <a class="card" href="Perren_s Orthopedic Trauma Contributions.html" target="_blank"><span class="card-title">Perren_s Orthopedic Trauma Contributions</span></a>
+          <a class="card" href="Perren_s Strain Theory_ Fracture Healing.html" target="_blank"><span class="card-title">Perren_s Strain Theory_ Fracture Healing</span></a>
+          <a class="card" href="PFNA Biomechanics and Design Rationale.html" target="_blank"><span class="card-title">PFNA Biomechanics and Design Rationale</span></a>
+          <a class="card" href="PJI and FRI Guidelines Search.html" target="_blank"><span class="card-title">PJI and FRI Guidelines Search</span></a>
+          <a class="card" href="PJI Guidelines_ Diagnosis and Management.html" target="_blank"><span class="card-title">PJI Guidelines_ Diagnosis and Management</span></a>
+          <a class="card" href="PJI Management_ DAIR vs. Revision.html" target="_blank"><span class="card-title">PJI Management_ DAIR vs. Revision</span></a>
+          <a class="card" href="Plate Over-bending for Fracture Compression.html" target="_blank"><span class="card-title">Plate Over-bending for Fracture Compression</span></a>
+          <a class="card" href="PMMA Bone Cement Kinetics Analysis.html" target="_blank"><span class="card-title">PMMA Bone Cement Kinetics Analysis</span></a>
+          <a class="card" href="PMMA Rods vs. Fibular Grafts.html" target="_blank"><span class="card-title">PMMA Rods vs. Fibular Grafts</span></a>
+          <a class="card" href="Polytrauma Management Guidelines Overview.html" target="_blank"><span class="card-title">Polytrauma Management Guidelines Overview</span></a>
+          <a class="card" href="Polytrauma Stabilization in Resource-Limited Settings.html" target="_blank"><span class="card-title">Polytrauma Stabilization in Resource-Limited Settings</span></a>
+          <a class="card" href="Polytrauma, TB, and Orthopedic Surgery.html" target="_blank"><span class="card-title">Polytrauma, TB, and Orthopedic Surgery</span></a>
+          <a class="card" href="Preventing Iatrogenic Nerve Injury in Extremity Surgery.html" target="_blank"><span class="card-title">Preventing Iatrogenic Nerve Injury in Extremity Surgery</span></a>
+          <a class="card" href="Preventing Orthopaedic Surgical Site Infections.html" target="_blank"><span class="card-title">Preventing Orthopaedic Surgical Site Infections</span></a>
+          <a class="card" href="Proximal Clavicle Fracture Management Review.html" target="_blank"><span class="card-title">Proximal Clavicle Fracture Management Review</span></a>
+          <a class="card" href="Psychosocial Factors in Distal Radius Fracture Recovery.html" target="_blank"><span class="card-title">Psychosocial Factors in Distal Radius Fracture Recovery</span></a>
+          <a class="card" href="Rotational Malalignment Assessment in Fractures.html" target="_blank"><span class="card-title">Rotational Malalignment Assessment in Fractures</span></a>
+          <a class="card" href="SPECT_CT Fracture Nonunion Diagnosis.html" target="_blank"><span class="card-title">SPECT_CT Fracture Nonunion Diagnosis</span></a>
+          <a class="card" href="SSI Wound Closure EBM Review.html" target="_blank"><span class="card-title">SSI Wound Closure EBM Review</span></a>
+          <a class="card" href="Supercutaneous Plating Literature Review.html" target="_blank"><span class="card-title">Supercutaneous Plating Literature Review</span></a>
+          <a class="card" href="Surgical Draping_ Asepsis and Infection Control.html" target="_blank"><span class="card-title">Surgical Draping_ Asepsis and Infection Control</span></a>
+          <a class="card" href="Tibial Bone Defect Management Guidelines.html" target="_blank"><span class="card-title">Tibial Bone Defect Management Guidelines</span></a>
+          <a class="card" href="Tibial Nailing Approaches_ Clinical Outcomes Comparison.html" target="_blank"><span class="card-title">Tibial Nailing Approaches_ Clinical Outcomes Comparison</span></a>
+          <a class="card" href="Tibial Pilon Fracture Management Principles.html" target="_blank"><span class="card-title">Tibial Pilon Fracture Management Principles</span></a>
+          <a class="card" href="Tibial Pilon Fracture Management Strategies.html" target="_blank"><span class="card-title">Tibial Pilon Fracture Management Strategies</span></a>
+          <a class="card" href="Tibial Pilon Fracture Surgical Reduction Overview.html" target="_blank"><span class="card-title">Tibial Pilon Fracture Surgical Reduction Overview</span></a>
+          <a class="card" href="Tibial Plateau Fracture Management and Weight-Bearing.html" target="_blank"><span class="card-title">Tibial Plateau Fracture Management and Weight-Bearing</span></a>
+          <a class="card" href="Tibial Plateau Fracture Management Evidence.html" target="_blank"><span class="card-title">Tibial Plateau Fracture Management Evidence</span></a>
+          <a class="card" href="Tibial Plateau Fracture Surgery Analysis.html" target="_blank"><span class="card-title">Tibial Plateau Fracture Surgery Analysis</span></a>
+          <a class="card" href="Tibial Plateau Fracture Surgical Approaches.html" target="_blank"><span class="card-title">Tibial Plateau Fracture Surgical Approaches</span></a>
+          <a class="card" href="TIMERS Wound Assessment Framework Guide.html" target="_blank"><span class="card-title">TIMERS Wound Assessment Framework Guide</span></a>
+          <a class="card" href="Trauma Care System Guidelines and Standards.html" target="_blank"><span class="card-title">Trauma Care System Guidelines and Standards</span></a>
+          <a class="card" href="Trauma Case Presentation & EBM Guide.html" target="_blank"><span class="card-title">Trauma Case Presentation & EBM Guide</span></a>
+          <a class="card" href="Trauma Fracture Education Video Resources.html" target="_blank"><span class="card-title">Trauma Fracture Education Video Resources</span></a>
+          <a class="card" href="Trauma Learning Path For Sports Surgeon.html" target="_blank"><span class="card-title">Trauma Learning Path For Sports Surgeon</span></a>
+          <a class="card" href="Triple Pelvic Osteotomy Clinical Resources.html" target="_blank"><span class="card-title">Triple Pelvic Osteotomy Clinical Resources</span></a>
+          <a class="card" href="Wound Care Guidelines & Management.html" target="_blank"><span class="card-title">Wound Care Guidelines & Management</span></a>
+      </div>
+    </section>
+    <section class="category-section" id="cat-4">
+      <div class="section-header">
+        <h2>🔬 Bone Tumor</h2>
+        <span class="section-count">16 articles</span>
+      </div>
+      <div class="card-grid">
+          <a class="card" href="Acrometastasis_ Diagnosis, Treatment, Prognosis.html" target="_blank"><span class="card-title">Acrometastasis_ Diagnosis, Treatment, Prognosis</span></a>
+          <a class="card" href="Bone Turnover Markers in Osteoporosis Management.html" target="_blank"><span class="card-title">Bone Turnover Markers in Osteoporosis Management</span></a>
+          <a class="card" href="Collagen Peptides for Bone Health.html" target="_blank"><span class="card-title">Collagen Peptides for Bone Health</span></a>
+          <a class="card" href="Orthopedic Genomics_ NGS and scRNA-seq Applications.html" target="_blank"><span class="card-title">Orthopedic Genomics_ NGS and scRNA-seq Applications</span></a>
+          <a class="card" href="Orthopedic IVD Biomarkers and Trends_.html" target="_blank"><span class="card-title">Orthopedic IVD Biomarkers and Trends_</span></a>
+          <a class="card" href="Orthopedic Osteoporosis Research Summary.html" target="_blank"><span class="card-title">Orthopedic Osteoporosis Research Summary</span></a>
+          <a class="card" href="Osteoporosis Pharmacological Treatment Guidelines_.html" target="_blank"><span class="card-title">Osteoporosis Pharmacological Treatment Guidelines_</span></a>
+          <a class="card" href="Osteoporosis Prevention Lifestyle Review.html" target="_blank"><span class="card-title">Osteoporosis Prevention Lifestyle Review</span></a>
+          <a class="card" href="Osteoporosis QI and Research Topics.html" target="_blank"><span class="card-title">Osteoporosis QI and Research Topics</span></a>
+          <a class="card" href="Osteoporosis Treatment Strategies Comparison.html" target="_blank"><span class="card-title">Osteoporosis Treatment Strategies Comparison</span></a>
+          <a class="card" href="Osteoporosis_ Trends, Needs, and Research.html" target="_blank"><span class="card-title">Osteoporosis_ Trends, Needs, and Research</span></a>
+          <a class="card" href="Pediatric Bone Lesions_ Guidelines and Frontiers.html" target="_blank"><span class="card-title">Pediatric Bone Lesions_ Guidelines and Frontiers</span></a>
+          <a class="card" href="scRNA-seq GCTB Literature Review.html" target="_blank"><span class="card-title">scRNA-seq GCTB Literature Review</span></a>
+          <a class="card" href="scRNA-seq GCTB Literature Review(1).html" target="_blank"><span class="card-title">scRNA-seq GCTB Literature Review(1)</span></a>
+          <a class="card" href="scRNA-seq GCTB Literature Review(2).html" target="_blank"><span class="card-title">scRNA-seq GCTB Literature Review(2)</span></a>
+          <a class="card" href="SGLT2 Inhibitors, Bone Health, T2DM.html" target="_blank"><span class="card-title">SGLT2 Inhibitors, Bone Health, T2DM</span></a>
+      </div>
+    </section>
+    <section class="category-section" id="cat-5">
+      <div class="section-header">
+        <h2>👶 Pediatric Orthopedics</h2>
+        <span class="section-count">9 articles</span>
+      </div>
+      <div class="card-grid">
+          <a class="card" href="DDH and Coxa Valga_ Orthopedic Overview.html" target="_blank"><span class="card-title">DDH and Coxa Valga_ Orthopedic Overview</span></a>
+          <a class="card" href="EBM AIS Prevention Guidelines.html" target="_blank"><span class="card-title">EBM AIS Prevention Guidelines</span></a>
+          <a class="card" href="Juvenile Femoral Condyle OCD Rehabilitation.html" target="_blank"><span class="card-title">Juvenile Femoral Condyle OCD Rehabilitation</span></a>
+          <a class="card" href="Orthopedic Spasticity Management Literature.html" target="_blank"><span class="card-title">Orthopedic Spasticity Management Literature</span></a>
+          <a class="card" href="Pediatric DDH_ Literature Review & Surgery.html" target="_blank"><span class="card-title">Pediatric DDH_ Literature Review & Surgery</span></a>
+          <a class="card" href="Pediatric Genu Varum_Valgum Guidelines.html" target="_blank"><span class="card-title">Pediatric Genu Varum_Valgum Guidelines</span></a>
+          <a class="card" href="Pediatric Orthopedics for Primary Care.html" target="_blank"><span class="card-title">Pediatric Orthopedics for Primary Care</span></a>
+          <a class="card" href="Ponseti Method_ Complications and Complex Cases.html" target="_blank"><span class="card-title">Ponseti Method_ Complications and Complex Cases</span></a>
+          <a class="card" href="Walking Age DDH Treatment Controversies.html" target="_blank"><span class="card-title">Walking Age DDH Treatment Controversies</span></a>
+      </div>
+    </section>
+    <section class="category-section" id="cat-6">
+      <div class="section-header">
+        <h2>📋 Other</h2>
+        <span class="section-count">130 articles</span>
+      </div>
+      <div class="card-grid">
+          <a class="card" href="AAOS CTS Guideline Deep Dive.html" target="_blank"><span class="card-title">AAOS CTS Guideline Deep Dive</span></a>
+          <a class="card" href="AI in Academic Literature Reviews.html" target="_blank"><span class="card-title">AI in Academic Literature Reviews</span></a>
+          <a class="card" href="AI in Orthopedic Medical Education.html" target="_blank"><span class="card-title">AI in Orthopedic Medical Education</span></a>
+          <a class="card" href="AI Research Platform Comparison Matrix.html" target="_blank"><span class="card-title">AI Research Platform Comparison Matrix</span></a>
+          <a class="card" href="AMC Orthopedic Management Evidence Summary.html" target="_blank"><span class="card-title">AMC Orthopedic Management Evidence Summary</span></a>
+          <a class="card" href="ASAD_ Evidence-Based Clinical Insights.html" target="_blank"><span class="card-title">ASAD_ Evidence-Based Clinical Insights</span></a>
+          <a class="card" href="Asphalt Abrasion and Tattooing Management Protocol.html" target="_blank"><span class="card-title">Asphalt Abrasion and Tattooing Management Protocol</span></a>
+          <a class="card" href="Becoming an Expert Orthopedic Nurse.html" target="_blank"><span class="card-title">Becoming an Expert Orthopedic Nurse</span></a>
+          <a class="card" href="Blood Management in Orthopedic Surgery.html" target="_blank"><span class="card-title">Blood Management in Orthopedic Surgery</span></a>
+          <a class="card" href="Bone Union Disorders_ Diagnosis and Management.html" target="_blank"><span class="card-title">Bone Union Disorders_ Diagnosis and Management</span></a>
+          <a class="card" href="Chronic Pain Assessment and Intervention Guide.html" target="_blank"><span class="card-title">Chronic Pain Assessment and Intervention Guide</span></a>
+          <a class="card" href="Corticosteroid Injections_ Orthopedic Evidence Update.html" target="_blank"><span class="card-title">Corticosteroid Injections_ Orthopedic Evidence Update</span></a>
+          <a class="card" href="Crowding, Halitosis, and Orthodontic Health.html" target="_blank"><span class="card-title">Crowding, Halitosis, and Orthodontic Health</span></a>
+          <a class="card" href="Diabetic Perioperative Glycemic Management Pathway.html" target="_blank"><span class="card-title">Diabetic Perioperative Glycemic Management Pathway</span></a>
+          <a class="card" href="Differentiating Dizziness_ CGD, BPPV, Vestibular.html" target="_blank"><span class="card-title">Differentiating Dizziness_ CGD, BPPV, Vestibular</span></a>
+          <a class="card" href="Dropped Surgical Instrument Sterilization Protocol.html" target="_blank"><span class="card-title">Dropped Surgical Instrument Sterilization Protocol</span></a>
+          <a class="card" href="Drug-Induced Fundus Toxicity Guidelines.html" target="_blank"><span class="card-title">Drug-Induced Fundus Toxicity Guidelines</span></a>
+          <a class="card" href="Exercise for Weight Management and Musculoskeletal Health.html" target="_blank"><span class="card-title">Exercise for Weight Management and Musculoskeletal Health</span></a>
+          <a class="card" href="FAI Clinical Update for Surgeons.html" target="_blank"><span class="card-title">FAI Clinical Update for Surgeons</span></a>
+          <a class="card" href="Femoral Trabeculae-Blade Biomechanics Study.html" target="_blank"><span class="card-title">Femoral Trabeculae-Blade Biomechanics Study</span></a>
+          <a class="card" href="Fixing iPhone Stuck on Apple Logo.html" target="_blank"><span class="card-title">Fixing iPhone Stuck on Apple Logo</span></a>
+          <a class="card" href="Gait Analysis in Orthopedics.html" target="_blank"><span class="card-title">Gait Analysis in Orthopedics</span></a>
+          <a class="card" href="Geriatric Exercise, Injury, Fall Prevention.html" target="_blank"><span class="card-title">Geriatric Exercise, Injury, Fall Prevention</span></a>
+          <a class="card" href="German Orthopedic Hospital Management Overview.html" target="_blank"><span class="card-title">German Orthopedic Hospital Management Overview</span></a>
+          <a class="card" href="GLP-1 Agonists, Orthopedics, GI Risks.html" target="_blank"><span class="card-title">GLP-1 Agonists, Orthopedics, GI Risks</span></a>
+          <a class="card" href="Gout in Orthopedic Surgery.html" target="_blank"><span class="card-title">Gout in Orthopedic Surgery</span></a>
+          <a class="card" href="Gout_ Guidelines, Treatment, Orthopedics.html" target="_blank"><span class="card-title">Gout_ Guidelines, Treatment, Orthopedics</span></a>
+          <a class="card" href="Growth Factors in Limb Ischemia Treatment.html" target="_blank"><span class="card-title">Growth Factors in Limb Ischemia Treatment</span></a>
+          <a class="card" href="Heavy Ion Therapy Non-Cancer Applications.html" target="_blank"><span class="card-title">Heavy Ion Therapy Non-Cancer Applications</span></a>
+          <a class="card" href="Heavy Ion Therapy Non-Cancer Applications(1).html" target="_blank"><span class="card-title">Heavy Ion Therapy Non-Cancer Applications(1)</span></a>
+          <a class="card" href="Heavy Silicone Oil Removal Techniques.html" target="_blank"><span class="card-title">Heavy Silicone Oil Removal Techniques</span></a>
+          <a class="card" href="Implant Failure_ Revision vs. Conservative Management.html" target="_blank"><span class="card-title">Implant Failure_ Revision vs. Conservative Management</span></a>
+          <a class="card" href="Index MCP Reconstruction Options Review.html" target="_blank"><span class="card-title">Index MCP Reconstruction Options Review</span></a>
+          <a class="card" href="iPhone 15 Battery Drain Solutions.html" target="_blank"><span class="card-title">iPhone 15 Battery Drain Solutions</span></a>
+          <a class="card" href="Japanese Orthopedic Books Research.html" target="_blank"><span class="card-title">Japanese Orthopedic Books Research</span></a>
+          <a class="card" href="JBJS Website Learning Resources for Doctors.html" target="_blank"><span class="card-title">JBJS Website Learning Resources for Doctors</span></a>
+          <a class="card" href="Lateral DAA Femoral Exposure Guide.html" target="_blank"><span class="card-title">Lateral DAA Femoral Exposure Guide</span></a>
+          <a class="card" href="Learning Systematic Reviews for Clinicians.html" target="_blank"><span class="card-title">Learning Systematic Reviews for Clinicians</span></a>
+          <a class="card" href="LHBT And ACHA Orthopedic Literature.html" target="_blank"><span class="card-title">LHBT And ACHA Orthopedic Literature</span></a>
+          <a class="card" href="LHBT Translational Research Directions.html" target="_blank"><span class="card-title">LHBT Translational Research Directions</span></a>
+          <a class="card" href="LLMs in Orthopedic Surgery Literature.html" target="_blank"><span class="card-title">LLMs in Orthopedic Surgery Literature</span></a>
+          <a class="card" href="Lower Back Pain Differential Diagnosis Review.html" target="_blank"><span class="card-title">Lower Back Pain Differential Diagnosis Review</span></a>
+          <a class="card" href="Lower Limb Weakness Differential Diagnosis.html" target="_blank"><span class="card-title">Lower Limb Weakness Differential Diagnosis</span></a>
+          <a class="card" href="Male Masturbation_ Effects and Frequencies.html" target="_blank"><span class="card-title">Male Masturbation_ Effects and Frequencies</span></a>
+          <a class="card" href="Micro-CT Contrast Agents Comparison.html" target="_blank"><span class="card-title">Micro-CT Contrast Agents Comparison</span></a>
+          <a class="card" href="Mimics Orthopedic Preoperative Planning Workflow_.html" target="_blank"><span class="card-title">Mimics Orthopedic Preoperative Planning Workflow_</span></a>
+          <a class="card" href="MOWHTO_ Evidence-Based Clinical Review.html" target="_blank"><span class="card-title">MOWHTO_ Evidence-Based Clinical Review</span></a>
+          <a class="card" href="MSCs in Orthopedics_ A Review.html" target="_blank"><span class="card-title">MSCs in Orthopedics_ A Review</span></a>
+          <a class="card" href="MSKI Research Advances 2020-2025 Review.html" target="_blank"><span class="card-title">MSKI Research Advances 2020-2025 Review</span></a>
+          <a class="card" href="Müller_s Orthopedic Contributions Explored.html" target="_blank"><span class="card-title">Müller_s Orthopedic Contributions Explored</span></a>
+          <a class="card" href="Obese Orthopedic Surgery Management Strategies.html" target="_blank"><span class="card-title">Obese Orthopedic Surgery Management Strategies</span></a>
+          <a class="card" href="Optimizing Orthopedic Surgery_ Evidence-Based Strategies.html" target="_blank"><span class="card-title">Optimizing Orthopedic Surgery_ Evidence-Based Strategies</span></a>
+          <a class="card" href="Ortho Resident Learning Roadmap & Reading.html" target="_blank"><span class="card-title">Ortho Resident Learning Roadmap & Reading</span></a>
+          <a class="card" href="Orthobullets Popularity Analysis.html" target="_blank"><span class="card-title">Orthobullets Popularity Analysis</span></a>
+          <a class="card" href="Orthopaedics Textbook_ Wheeless_ Introduction_.html" target="_blank"><span class="card-title">Orthopaedics Textbook_ Wheeless_ Introduction_</span></a>
+          <a class="card" href="Orthopedic 3D Anatomy Software Guide.html" target="_blank"><span class="card-title">Orthopedic 3D Anatomy Software Guide</span></a>
+          <a class="card" href="Orthopedic Biomechanics Learning Resources.html" target="_blank"><span class="card-title">Orthopedic Biomechanics Learning Resources</span></a>
+          <a class="card" href="Orthopedic Bone Biology and Healing.html" target="_blank"><span class="card-title">Orthopedic Bone Biology and Healing</span></a>
+          <a class="card" href="Orthopedic Care Under Payment Models.html" target="_blank"><span class="card-title">Orthopedic Care Under Payment Models</span></a>
+          <a class="card" href="Orthopedic Clinical Research Plan.html" target="_blank"><span class="card-title">Orthopedic Clinical Research Plan</span></a>
+          <a class="card" href="Orthopedic Coding for Accurate Reimbursement.html" target="_blank"><span class="card-title">Orthopedic Coding for Accurate Reimbursement</span></a>
+          <a class="card" href="Orthopedic EBM Learning Resources.html" target="_blank"><span class="card-title">Orthopedic EBM Learning Resources</span></a>
+          <a class="card" href="Orthopedic ED Rotation Resource Guide.html" target="_blank"><span class="card-title">Orthopedic ED Rotation Resource Guide</span></a>
+          <a class="card" href="Orthopedic Engineering Research Topics.html" target="_blank"><span class="card-title">Orthopedic Engineering Research Topics</span></a>
+          <a class="card" href="Orthopedic FEA Publication Trends Analysis.html" target="_blank"><span class="card-title">Orthopedic FEA Publication Trends Analysis</span></a>
+          <a class="card" href="Orthopedic FEA Research Workflow Guide.html" target="_blank"><span class="card-title">Orthopedic FEA Research Workflow Guide</span></a>
+          <a class="card" href="Orthopedic Guidelines Search and Categorization.html" target="_blank"><span class="card-title">Orthopedic Guidelines Search and Categorization</span></a>
+          <a class="card" href="Orthopedic Incision Guidelines_ Evidence Review.html" target="_blank"><span class="card-title">Orthopedic Incision Guidelines_ Evidence Review</span></a>
+          <a class="card" href="Orthopedic Learning Strategies and Resources.html" target="_blank"><span class="card-title">Orthopedic Learning Strategies and Resources</span></a>
+          <a class="card" href="Orthopedic Limb Reconstruction Textbooks.html" target="_blank"><span class="card-title">Orthopedic Limb Reconstruction Textbooks</span></a>
+          <a class="card" href="Orthopedic Malpractice_ Causes, Stages, Prevention.html" target="_blank"><span class="card-title">Orthopedic Malpractice_ Causes, Stages, Prevention</span></a>
+          <a class="card" href="Orthopedic Medical Bone & Electrodiagnosis Resources.html" target="_blank"><span class="card-title">Orthopedic Medical Bone & Electrodiagnosis Resources</span></a>
+          <a class="card" href="Orthopedic Multimodal Pain Management Review.html" target="_blank"><span class="card-title">Orthopedic Multimodal Pain Management Review</span></a>
+          <a class="card" href="Orthopedic Nurse Night Shift Essentials.html" target="_blank"><span class="card-title">Orthopedic Nurse Night Shift Essentials</span></a>
+          <a class="card" href="Orthopedic Nursing EBM Clinical Guide.html" target="_blank"><span class="card-title">Orthopedic Nursing EBM Clinical Guide</span></a>
+          <a class="card" href="Orthopedic Nursing_ Knowledge, Skills, Development.html" target="_blank"><span class="card-title">Orthopedic Nursing_ Knowledge, Skills, Development</span></a>
+          <a class="card" href="Orthopedic On-Call Preparation Guide.html" target="_blank"><span class="card-title">Orthopedic On-Call Preparation Guide</span></a>
+          <a class="card" href="Orthopedic OR Device Rep Skills.html" target="_blank"><span class="card-title">Orthopedic OR Device Rep Skills</span></a>
+          <a class="card" href="Orthopedic Perioperative Fluid ABG Guide.html" target="_blank"><span class="card-title">Orthopedic Perioperative Fluid ABG Guide</span></a>
+          <a class="card" href="Orthopedic Record Keeping Standards_.html" target="_blank"><span class="card-title">Orthopedic Record Keeping Standards_</span></a>
+          <a class="card" href="Orthopedic Research Database Comparison.html" target="_blank"><span class="card-title">Orthopedic Research Database Comparison</span></a>
+          <a class="card" href="Orthopedic Research Guide for Surgeons.html" target="_blank"><span class="card-title">Orthopedic Research Guide for Surgeons</span></a>
+          <a class="card" href="Orthopedic Resident Learning Strategies.html" target="_blank"><span class="card-title">Orthopedic Resident Learning Strategies</span></a>
+          <a class="card" href="Orthopedic Risk Mitigation Strategies.html" target="_blank"><span class="card-title">Orthopedic Risk Mitigation Strategies</span></a>
+          <a class="card" href="Orthopedic Rongeur Selection and Use.html" target="_blank"><span class="card-title">Orthopedic Rongeur Selection and Use</span></a>
+          <a class="card" href="Orthopedic Sketching Software Recommendations.html" target="_blank"><span class="card-title">Orthopedic Sketching Software Recommendations</span></a>
+          <a class="card" href="Orthopedic Sleep Product Selection_.html" target="_blank"><span class="card-title">Orthopedic Sleep Product Selection_</span></a>
+          <a class="card" href="Orthopedic Surgeon App Review 2024-2025.html" target="_blank"><span class="card-title">Orthopedic Surgeon App Review 2024-2025</span></a>
+          <a class="card" href="Orthopedic Surgeon Interview Coaching.html" target="_blank"><span class="card-title">Orthopedic Surgeon Interview Coaching</span></a>
+          <a class="card" href="Orthopedic Surgeon Occupational Hazards Review.html" target="_blank"><span class="card-title">Orthopedic Surgeon Occupational Hazards Review</span></a>
+          <a class="card" href="Orthopedic Surgeon Tech Transition Plan.html" target="_blank"><span class="card-title">Orthopedic Surgeon Tech Transition Plan</span></a>
+          <a class="card" href="Orthopedic Surgeon_s Continuous Learning.html" target="_blank"><span class="card-title">Orthopedic Surgeon_s Continuous Learning</span></a>
+          <a class="card" href="Orthopedic Surgeon_s Non-Operative Pathway.html" target="_blank"><span class="card-title">Orthopedic Surgeon_s Non-Operative Pathway</span></a>
+          <a class="card" href="Orthopedic Surgery and Sexual Health.html" target="_blank"><span class="card-title">Orthopedic Surgery and Sexual Health</span></a>
+          <a class="card" href="Orthopedic Surgery Complication Management Guidelines.html" target="_blank"><span class="card-title">Orthopedic Surgery Complication Management Guidelines</span></a>
+          <a class="card" href="Orthopedic Surgery Pioneers and Innovations.html" target="_blank"><span class="card-title">Orthopedic Surgery Pioneers and Innovations</span></a>
+          <a class="card" href="Orthopedic Surgery Retraction and Closure.html" target="_blank"><span class="card-title">Orthopedic Surgery Retraction and Closure</span></a>
+          <a class="card" href="Orthopedic Surgery_s Paradigm Shifts.html" target="_blank"><span class="card-title">Orthopedic Surgery_s Paradigm Shifts</span></a>
+          <a class="card" href="Orthopedic Surgical Drainage_ A Review.html" target="_blank"><span class="card-title">Orthopedic Surgical Drainage_ A Review</span></a>
+          <a class="card" href="Orthopedics_ TCA Cycle, Mitochondria.html" target="_blank"><span class="card-title">Orthopedics_ TCA Cycle, Mitochondria</span></a>
+          <a class="card" href="Orthoplastic Surgery Training Roadmap.html" target="_blank"><span class="card-title">Orthoplastic Surgery Training Roadmap</span></a>
+          <a class="card" href="Patient Positioning Complications and Prevention.html" target="_blank"><span class="card-title">Patient Positioning Complications and Prevention</span></a>
+          <a class="card" href="Perioperative Antidepressants and Orthopedic Outcomes.html" target="_blank"><span class="card-title">Perioperative Antidepressants and Orthopedic Outcomes</span></a>
+          <a class="card" href="Perioperative Antithrombotic Management Guidelines.html" target="_blank"><span class="card-title">Perioperative Antithrombotic Management Guidelines</span></a>
+          <a class="card" href="Perioperative Hypertension in Orthopedic Surgery.html" target="_blank"><span class="card-title">Perioperative Hypertension in Orthopedic Surgery</span></a>
+          <a class="card" href="Physician Burnout_ Causes and Solutions.html" target="_blank"><span class="card-title">Physician Burnout_ Causes and Solutions</span></a>
+          <a class="card" href="Power Tool Injury Reconstruction Strategies.html" target="_blank"><span class="card-title">Power Tool Injury Reconstruction Strategies</span></a>
+          <a class="card" href="prompt.html" target="_blank"><span class="card-title">prompt</span></a>
+          <a class="card" href="PRP Orthopedics_ Guidelines and Evidence.html" target="_blank"><span class="card-title">PRP Orthopedics_ Guidelines and Evidence</span></a>
+          <a class="card" href="PT Skills for Acute Orthopedic Rehab.html" target="_blank"><span class="card-title">PT Skills for Acute Orthopedic Rehab</span></a>
+          <a class="card" href="PTOA_ Bone Necrosis and Chondrolysis.html" target="_blank"><span class="card-title">PTOA_ Bone Necrosis and Chondrolysis</span></a>
+          <a class="card" href="Publishing SCI Papers Without Funding.html" target="_blank"><span class="card-title">Publishing SCI Papers Without Funding</span></a>
+          <a class="card" href="Reducing Orthopedic Diagnostic Errors.html" target="_blank"><span class="card-title">Reducing Orthopedic Diagnostic Errors</span></a>
+          <a class="card" href="Research Directions for Low-Resource Orthopedics.html" target="_blank"><span class="card-title">Research Directions for Low-Resource Orthopedics</span></a>
+          <a class="card" href="Rockwood_s Orthopedic Legacy Research_.html" target="_blank"><span class="card-title">Rockwood_s Orthopedic Legacy Research_</span></a>
+          <a class="card" href="Shingles Diagnosis and Management for Orthopedics.html" target="_blank"><span class="card-title">Shingles Diagnosis and Management for Orthopedics</span></a>
+          <a class="card" href="South Korean Orthopedic Textbooks.html" target="_blank"><span class="card-title">South Korean Orthopedic Textbooks</span></a>
+          <a class="card" href="Sports Medicine Surgeon_s Anatomy Resources.html" target="_blank"><span class="card-title">Sports Medicine Surgeon_s Anatomy Resources</span></a>
+          <a class="card" href="Stroke Patients_ Orthopedic Surgery Management.html" target="_blank"><span class="card-title">Stroke Patients_ Orthopedic Surgery Management</span></a>
+          <a class="card" href="Surgeon Cardiovascular Risk Analysis.html" target="_blank"><span class="card-title">Surgeon Cardiovascular Risk Analysis</span></a>
+          <a class="card" href="Surgeon vs. Radiologist_ Imaging Interpretation.html" target="_blank"><span class="card-title">Surgeon vs. Radiologist_ Imaging Interpretation</span></a>
+          <a class="card" href="Surgeon-Anesthesiologist Collaboration in Orthopedics.html" target="_blank"><span class="card-title">Surgeon-Anesthesiologist Collaboration in Orthopedics</span></a>
+          <a class="card" href="Surgeon-Nurse Collaboration Strategies.html" target="_blank"><span class="card-title">Surgeon-Nurse Collaboration Strategies</span></a>
+          <a class="card" href="Surgeon_s Knowledge Management System.html" target="_blank"><span class="card-title">Surgeon_s Knowledge Management System</span></a>
+          <a class="card" href="Surgeon_s Mastery_ AI, PKM, Practice.html" target="_blank"><span class="card-title">Surgeon_s Mastery_ AI, PKM, Practice</span></a>
+          <a class="card" href="Surgical Tips & Tricks Books.html" target="_blank"><span class="card-title">Surgical Tips & Tricks Books</span></a>
+          <a class="card" href="Tourniquet Use in Orthopedic Surgery.html" target="_blank"><span class="card-title">Tourniquet Use in Orthopedic Surgery</span></a>
+          <a class="card" href="VBG Donor Site Analysis for Reconstruction.html" target="_blank"><span class="card-title">VBG Donor Site Analysis for Reconstruction</span></a>
+          <a class="card" href="VBG Donor Site Morbidity Review.html" target="_blank"><span class="card-title">VBG Donor Site Morbidity Review</span></a>
+          <a class="card" href="Zero-Cost Orthopedic Research Pathways.html" target="_blank"><span class="card-title">Zero-Cost Orthopedic Research Pathways</span></a>
+      </div>
+    </section>
+    <div class="no-results" id="noResults">No matching articles found. Please try different keywords.</div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" title="Back to top">&#8679;</button>
+
+  <script>
+    // Tab switching
+    const tabs = document.querySelectorAll('.nav-tab');
+    const sections = document.querySelectorAll('.category-section');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).classList.add('active');
+        document.getElementById('searchInput').value = '';
+        document.querySelectorAll('.card.hidden').forEach(c => c.classList.remove('hidden'));
+        document.getElementById('noResults').classList.remove('visible');
+        document.getElementById('searchResultCount').textContent = '';
+      });
+    });
+
+    // Stat card click -> switch tab
+    document.querySelectorAll('.stat-card').forEach((card, i) => {
+      card.addEventListener('click', () => { tabs[i].click(); });
+    });
+
+    // Search
+    const searchInput = document.getElementById('searchInput');
+    const noResults = document.getElementById('noResults');
+    const searchResultCount = document.getElementById('searchResultCount');
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      const activeSection = document.querySelector('.category-section.active');
+      if (!q) {
+        activeSection.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
+        noResults.classList.remove('visible');
+        searchResultCount.textContent = '';
+        return;
+      }
+      let shown = 0;
+      activeSection.querySelectorAll('.card').forEach(c => {
+        const match = c.textContent.toLowerCase().includes(q);
+        c.classList.toggle('hidden', !match);
+        if (match) shown++;
+      });
+      noResults.classList.toggle('visible', shown === 0);
+      searchResultCount.textContent = shown > 0 ? `Found ${shown} matching article(s)` : '';
+    });
+
+    // Back to top
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      btt.classList.toggle('visible', window.scrollY > 400);
+    });
+    btt.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDH &amp; Coxa Valga – Interactive Educational Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f9fa;--card:#ffffff;--primary:#1a5276;--primary-light:#2980b9;
+  --accent:#c0392b;--accent-light:#e74c3c;--green:#27ae60;--amber:#f39c12;
+  --text:#2c3e50;--text-light:#5d6d7e;--border:#dce1e8;--badge-i:#27ae60;
+  --badge-ii:#2ecc71;--badge-iii:#f1c40f;--badge-iv:#e67e22;--badge-v:#e74c3c;
+  --shadow:0 2px 12px rgba(0,0,0,.07);--radius:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  font-family:'Inter',system-ui,sans-serif;color:var(--text);
+  background:var(--bg);line-height:1.7;
+}
+h1,h2,h3,h4{font-family:'Source Serif 4',Georgia,serif;color:var(--primary);line-height:1.3;}
+h1{font-size:2rem;margin:.5rem 0 1rem;}
+h2{font-size:1.55rem;margin:2.2rem 0 .8rem;padding-bottom:.35rem;border-bottom:2px solid var(--border);}
+h3{font-size:1.2rem;margin:1.5rem 0 .5rem;color:var(--primary-light);}
+h4{font-size:1.05rem;margin:1.2rem 0 .4rem;}
+p{margin:.7rem 0;text-align:justify;}
+strong{color:var(--primary);}
+ul,ol{margin:.5rem 0 .5rem 1.5rem;}
+li{margin:.3rem 0;}
+a{color:var(--primary-light);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* Layout */
+.wrapper{
+  display:grid;grid-template-columns:1fr 340px;gap:24px;
+  max-width:1280px;margin:0 auto;padding:20px 24px;
+}
+.main-content{min-width:0;}
+.sidebar{
+  position:sticky;top:20px;align-self:start;
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:22px;max-height:calc(100vh - 40px);overflow-y:auto;
+}
+@media(max-width:900px){
+  .wrapper{grid-template-columns:1fr;}
+  .sidebar{position:static;max-height:none;}
+}
+
+/* Header */
+.site-header{
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:#fff;padding:28px 24px;text-align:center;
+}
+.site-header h1{color:#fff;font-size:1.7rem;margin:0;}
+.site-header p{color:rgba(255,255,255,.85);font-size:.95rem;margin-top:4px;}
+
+/* Cards */
+.card{
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:24px;margin-bottom:20px;
+}
+
+/* Evidence badge */
+.ev{
+  display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;
+  border-radius:12px;color:#fff;vertical-align:middle;margin-left:4px;
+}
+.ev-1{background:var(--badge-i);}
+.ev-2{background:var(--badge-ii);}
+.ev-3{background:var(--badge-iii);}
+.ev-4{background:var(--badge-iv);}
+.ev-5{background:var(--badge-v);}
+.ev-na{background:#95a5a6;}
+
+/* Callout */
+.callout{
+  border-left:4px solid var(--primary-light);background:#eaf2f8;
+  padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;
+  margin:1rem 0;font-size:.93rem;
+}
+.callout.warn{border-left-color:var(--amber);background:#fef9e7;}
+.callout.crit{border-left-color:var(--accent);background:#fdedec;}
+
+/* Table */
+.table-wrap{overflow-x:auto;margin:1rem 0;}
+table{
+  width:100%;border-collapse:collapse;font-size:.88rem;
+}
+caption{
+  text-align:left;font-weight:600;font-size:.95rem;padding:6px 0;
+  color:var(--primary);
+}
+th{
+  background:var(--primary);color:#fff;padding:10px 12px;
+  text-align:left;font-weight:600;
+}
+td{padding:9px 12px;border-bottom:1px solid var(--border);}
+tr:nth-child(even){background:#f7f9fc;}
+tr:hover{background:#eaf2f8;}
+
+/* Sidebar controls */
+.sidebar h3{font-size:1.05rem;margin-top:0;color:var(--primary);}
+.slider-group{margin-bottom:18px;}
+.slider-group label{display:block;font-weight:600;font-size:.85rem;margin-bottom:4px;}
+.slider-group .range-row{display:flex;align-items:center;gap:8px;}
+.slider-group input[type=range]{flex:1;accent-color:var(--primary-light);}
+.slider-group .val{
+  min-width:52px;text-align:center;font-weight:700;font-size:.95rem;
+  background:#eaf2f8;border-radius:6px;padding:3px 6px;color:var(--primary);
+}
+.slider-group .bounds{font-size:.75rem;color:var(--text-light);margin-top:2px;}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 16px;
+  border:none;border-radius:6px;font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:background .2s;
+}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-light);}
+.btn-outline{background:transparent;border:1.5px solid var(--primary);color:var(--primary);}
+.btn-outline:hover{background:var(--primary);color:#fff;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:var(--accent-light);}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+
+/* Recommendation box */
+#recommendation{
+  background:#eaf2f8;border-radius:var(--radius);padding:14px;
+  margin-top:16px;font-size:.88rem;line-height:1.55;
+}
+#recommendation h4{margin:0 0 6px;color:var(--primary);}
+#recommendation .rec-severity{
+  display:inline-block;font-weight:700;padding:2px 10px;border-radius:12px;
+  color:#fff;margin-bottom:6px;font-size:.8rem;
+}
+.sev-normal{background:var(--green);}
+.sev-borderline{background:var(--amber);}
+.sev-mild{background:#e67e22;}
+.sev-severe{background:var(--accent);}
+
+/* Reference list */
+.ref-list{font-size:.82rem;color:var(--text-light);}
+.ref-list li{margin-bottom:4px;}
+
+/* Sticky header */
+.sticky-hdr{
+  position:sticky;top:0;z-index:100;
+  background:var(--primary);color:#fff;
+  padding:10px 24px;font-weight:600;font-size:.95rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sticky-hdr span{font-size:.78rem;font-weight:400;opacity:.8;}
+
+/* Utility */
+.italic{font-style:italic;}
+.small{font-size:.85rem;color:var(--text-light);}
+.mt-1{margin-top:1rem;}
+.mb-1{margin-bottom:1rem;}
+.text-center{text-align:center;}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>The Interplay of Developmental Dysplasia of the Hip &amp; Coxa Valga</h1>
+  <p>Interactive Evidence-Based Educational Summary &mdash; Pathomechanics, Diagnosis &amp; Management</p>
+</header>
+
+<div class="sticky-hdr">
+  DDH &amp; Coxa Valga Educational Module
+  <span>Source-based review</span>
+</div>
+
+<div class="wrapper">
+
+<!-- ======================== MAIN CONTENT ======================== -->
+<main class="main-content" role="main">
+
+<!-- INTRODUCTION -->
+<div class="card">
+<h2>Introduction &amp; Scope</h2>
+<p>This educational module synthesises the key findings of the provided review document on the pathophysiology, diagnosis, and surgical management of <strong>Developmental Dysplasia of the Hip (DDH)</strong> and its mechanically-induced secondary deformity, <strong>Coxa Valga</strong>. All content, thresholds, and study summaries are extracted directly from the source document. Where the source lacks explicit evidence grading, the level of evidence is annotated accordingly.</p>
+<div class="callout warn">
+<strong>Source Limitation Note:</strong> The provided document is a narrative review and does not assign formal Oxford Level of Evidence (I–V) grades to individual claims. Where evidence levels are indicated below, they have been <em>inferred from the study designs cited in the document</em> and are clearly labelled "(inferred)". The document does not contain five landmark RCTs; available key studies are summarised with transparent limitation notes.
+</div>
+</div>
+
+<!-- SECTION 1: EMBRYOLOGY -->
+<div class="card">
+<h2>1. Embryology &amp; Postnatal Development of the Hip Joint</h2>
+
+<h3>1.1 Embryological Formation</h3>
+<p>The hip joint originates from a condensation of primitive mesenchymal cells in the developing limb bud. By the <strong>sixth week</strong> of gestation, cartilaginous precursors (anlagen) of the ilium, ischium, pubis, and femur are outlined.<span class="ev ev-na" title="Review-level synthesis">(Review)</span></p>
+<p>A pivotal event occurs around the <strong>seventh week</strong>: a cleft forms via programmed cell death (apoptosis) within the mesenchymal inter-zone between femoral and pelvic cartilaginous models, creating the primordial joint cavity and establishing the ball-and-socket architecture.<span class="ev ev-na" title="Review-level synthesis">(Review)</span></p>
+<p>By the <strong>eleventh week</strong>, the hip joint is macroscopically identifiable with a spherical cartilaginous femoral head, a cup-shaped acetabulum, and rudimentary stabilising structures (labrum, ligamentum teres, transverse acetabular ligament). At this stage, the joint is fully formed in cartilage and dislocation can theoretically occur for the first time.</p>
+<p>The acetabulum is formed from the convergence of three pelvic bones at the <strong>triradiate cartilage</strong> (Y-shaped junction), which serves as the primary growth centre for the developing socket. Ossification of the femoral shaft begins around the eighth week, but the femoral head, neck, and trochanters remain cartilaginous until well after birth.</p>
+
+<h3>1.2 Postnatal Ossification &amp; Growth of the Proximal Femur</h3>
+<p>At birth, the proximal femur is <strong>almost entirely cartilaginous</strong>. The secondary ossification centre of the capital femoral epiphysis does not typically appear on radiographs until <strong>4–6 months</strong> of postnatal life — a critical milestone marking the transition from ultrasound to radiographic assessment.</p>
+<p>Three distinct physes govern proximal femoral growth:</p>
+<ul>
+  <li><strong>Capital femoral physis</strong> — longitudinal growth of the femoral neck</li>
+  <li><strong>Trochanteric physis</strong> — development of the greater trochanter</li>
+  <li><strong>Femoral neck isthmus</strong> — lateral width of the neck</li>
+</ul>
+<p>A critical parameter is the <strong>caput-collum-diaphyseal (CCD) angle</strong> (neck-shaft angle, NSA). In the neonate, this angle averages approximately <strong>150°</strong>. Through normal muscle forces and weight-bearing, it progressively decreases (physiological varusization) to the adult range of <strong>125–135°</strong> by skeletal maturity.</p>
+
+<h3>1.3 Acetabular Development</h3>
+<p>The triradiate cartilage contributes approximately <strong>70%</strong> of acetabular expansion in diameter and depth; the remaining <strong>30%</strong> comes from appositional growth at the acetabular rim (acetabular ring epiphysis). This growth centre begins to fuse around <strong>11 years in girls</strong> and <strong>12 years in boys</strong>, after which the socket's capacity for intrinsic remodelling diminishes significantly.</p>
+
+<h3>1.4 The Imperative of Concentric Reduction</h3>
+<div class="callout">
+<strong>Key Principle — Mutual Induction:</strong> Normal, congruent growth of the femoral head and acetabulum are reciprocally linked. The femoral head acts as a dynamic <em>mold</em>, providing mechanical stimulus for acetabular deepening. Without concentric contact ("containment"), the acetabulum remains shallow and dysplastic. This is the "use it or lose it" paradigm of hip development.
+</div>
+</div>
+
+<!-- SECTION 2: PATHOPHYSIOLOGY -->
+<div class="card">
+<h2>2. Pathophysiology of DDH</h2>
+<p>DDH is the most common orthopaedic disorder in newborns. The term "developmental" is preferred because the condition can evolve and manifest at any point during infancy and early childhood.</p>
+
+<h3>2.1 The Spectrum of DDH</h3>
+<div class="table-wrap">
+<table>
+<caption>Table 1 — The DDH Pathological Spectrum</caption>
+<thead>
+<tr><th>Stage</th><th>Definition</th><th>Key Feature</th><th>Source Ref</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Dysplasia</strong></td><td>Abnormal shape/orientation of joint components (typically shallow acetabulum)</td><td>May be clinically stable but radiologically abnormal</td><td>[18,19]</td></tr>
+<tr><td><strong>Subluxation</strong></td><td>Partial displacement of femoral head from acetabulum</td><td>Loss of concentric reduction; superolateral riding of femoral head</td><td>[18]</td></tr>
+<tr><td><strong>Dislocation</strong></td><td>Complete loss of articular contact</td><td>Femoral head displaced entirely from socket (usually superiorly/posteriorly)</td><td>[18]</td></tr>
+<tr><td><strong>Instability</strong></td><td>Clinically detectable laxity</td><td>Positive Barlow (dislocatable) or Ortolani (reducible) test</td><td>[6,19]</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.2 Etiology &amp; Risk Factors</h3>
+<div class="table-wrap">
+<table>
+<caption>Table 2 — Risk Factors for DDH</caption>
+<thead>
+<tr><th>Category</th><th>Risk Factor</th><th>Detail</th><th>Source Ref</th></tr>
+</thead>
+<tbody>
+<tr><td rowspan="2"><strong>Genetic/Hormonal</strong></td><td>Family history</td><td>Risk ↑ to 12% (one parent), 36% (parent + sibling)</td><td>[19]</td></tr>
+<tr><td>Female sex</td><td>4–6× more common; attributed to maternal relaxin/estrogen sensitivity → ligamentous laxity</td><td>[7]</td></tr>
+<tr><td rowspan="4"><strong>Mechanical/Intrauterine</strong></td><td>First-born infant</td><td>Tighter uterus limits fetal movement</td><td>[6]</td></tr>
+<tr><td>Breech presentation</td><td>Especially frank breech; sustained hip extension</td><td>[6]</td></tr>
+<tr><td>Left hip predominance</td><td>~3× more common; left occiput anterior position forces left hip adduction</td><td>[17]</td></tr>
+<tr><td>Oligohydramnios / multiples</td><td>Restricted fetal space</td><td>[7]</td></tr>
+<tr><td><strong>Postnatal</strong></td><td>Swaddling in extension/adduction</td><td>Counteracts natural flexed/abducted posture</td><td>[17]</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.3 Pathoanatomic Changes</h3>
+<p><strong>Acetabular Changes:</strong> The socket fails to deepen and remains shallow with increased roof obliquity. In chronic dislocation, a fibrocartilaginous "false acetabulum" (neoacetabulum) may form on the iliac wing.</p>
+<p><strong>Soft-Tissue Changes:</strong></p>
+<ul>
+  <li><strong>Joint capsule</strong> — stretched, lax, redundant; may become hourglass-shaped due to iliopsoas tendon constriction</li>
+  <li><strong>Labrum</strong> — may hypertrophy or become inverted into the joint ("limbus"), creating a mechanical block to reduction</li>
+  <li><strong>Pulvinar</strong> — hypertrophied fibrofatty tissue filling the acetabulum</li>
+  <li><strong>Ligamentum teres</strong> — elongated and thickened, obstructing reduction</li>
+</ul>
+<div class="callout crit">
+<strong>Self-Perpetuating Cycle:</strong> Initial instability → failure of acetabular deepening → worse containment → greater displacement → secondary soft-tissue obstructions → potentially irreducible dislocation. This reframing of DDH as a <em>progressive disease process</em> is essential for understanding the rationale for early intervention.
+</div>
+</div>
+
+<!-- SECTION 3: COXA VALGA -->
+<div class="card">
+<h2>3. Development of Coxa Valga in the Dysplastic Hip</h2>
+
+<h3>3.1 Definition</h3>
+<p><strong>Coxa Valga</strong> is defined as a pathological increase in the neck-shaft angle (NSA / CCD angle). In older children/adolescents, an NSA <strong>&gt; 140°</strong> is considered pathologically valgus. Coxa Valga is characteristic of DDH and various neuromuscular conditions (e.g., cerebral palsy).</p>
+
+<h3>3.2 Mechanobiological Basis — The Hueter-Volkmann Law</h3>
+<p>The <strong>Hueter-Volkmann law</strong> states that sustained compression <em>inhibits</em> physeal growth, while reduced compression <em>accelerates</em> it. In DDH:</p>
+<ol>
+  <li><strong>Altered joint mechanics:</strong> Femoral head is subluxated superolaterally, shifting the joint reaction force vector</li>
+  <li><strong>Asymmetric stress distribution:</strong> Medial physis experiences high octahedral shear stress (growth promoter); lateral physis experiences high hydrostatic compressive stress (growth inhibitor)</li>
+  <li><strong>Differential physeal growth:</strong> Medial side grows faster than lateral side</li>
+  <li><strong>Valgus deformity:</strong> Progressive increase in NSA; normal varusisation is arrested and reversed</li>
+  <li><strong>Potential premature physeal closure</strong> in severe cases (high Tönnis angle, large Reimer's migration index)</li>
+</ol>
+
+<h3>3.3 Concomitant Deformity: Femoral Anteversion</h3>
+<p>DDH frequently coexists with <strong>excessive femoral anteversion</strong> (angle of femoral neck relative to condyles in the transverse plane). The combination of valgus + anteversion creates a highly unstable mechanical situation, often manifesting as an <strong>in-toeing gait</strong>. This deformity typically requires a derotational component added to the varus osteotomy for true 3D stability.</p>
+</div>
+
+<!-- SECTION 4: DIAGNOSIS -->
+<div class="card">
+<h2>4. Diagnostic Evaluation</h2>
+
+<h3>4.1 Clinical Examination</h3>
+
+<h4>Newborn &amp; Infant</h4>
+<div class="table-wrap">
+<table>
+<caption>Table 3 — Clinical Signs of DDH by Age Group</caption>
+<thead>
+<tr><th>Sign / Maneuver</th><th>Description</th><th>Age</th><th>Source Ref</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Barlow test</strong></td><td>Adduction + posterior force → palpable "clunk" (hip exits acetabulum). Positive = dislocatable hip.</td><td>Neonate</td><td>[6,22]</td></tr>
+<tr><td><strong>Ortolani test</strong></td><td>Abduction + anterior traction → "clunk" of reduction. Positive = dislocated but reducible hip.</td><td>Neonate</td><td>[6]</td></tr>
+<tr><td><strong>Asymmetric skin folds</strong></td><td>Thigh or gluteal fold asymmetry</td><td>Infant</td><td>[17]</td></tr>
+<tr><td><strong>Galeazzi sign</strong></td><td>Supine, hips/knees flexed → difference in knee height (femoral shortening)</td><td>Infant</td><td>[17]</td></tr>
+<tr><td><strong>Limited hip abduction</strong></td><td>Passive abduction &lt; 60–75°. Most reliable sign after 3 months.</td><td>&gt;3 months</td><td>[17,18]</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Walking Child</h4>
+<ul>
+  <li><strong>Trendelenburg gait</strong> (unilateral) — pelvis drops to swing side due to abductor insufficiency</li>
+  <li><strong>Waddling gait</strong> (bilateral) — bilateral abductor insufficiency</li>
+  <li>Persistent limited hip abduction, positive Galeazzi sign</li>
+  <li>Prominent greater trochanter, lumbar hyperlordosis possible</li>
+  <li>Ortolani/Barlow typically <em>negative</em> due to established contractures</li>
+</ul>
+
+<h3>4.2 Imaging — Age-Stratified Approach</h3>
+
+<h4>Ultrasound (Birth to 4–6 Months)</h4>
+<p>Imaging modality of choice before ossific nucleus appearance.</p>
+<ul>
+  <li><strong>Graf method (static):</strong> Alpha angle ≥ 60° normal; Beta angle &lt; 55° normal</li>
+  <li><strong>Harcke method (dynamic):</strong> Real-time stress testing during ultrasound — direct visualization of subluxation/dislocation</li>
+</ul>
+
+<h4>Radiography (After 4–6 Months)</h4>
+<p>Standard AP pelvis radiograph with reference lines and angular measurements:</p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 4 — Key Radiographic Parameters for DDH &amp; Coxa Valga</caption>
+<thead>
+<tr><th>Parameter</th><th>Technique</th><th>Normal</th><th>Pathological</th><th>Ref</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Acetabular Index (AI) / Tönnis Angle</strong></td><td>Hilgenreiner's line to acetabular roof</td><td>&lt; 30° (birth), &lt; 22° (1 yr), &lt; 10° (adult)</td><td>&gt; 22° after 1 yr; &gt; 10–14° adult</td><td>[22]</td></tr>
+<tr><td><strong>CE Angle (Wiberg)</strong></td><td>Vertical through femoral head center to lateral acetabular edge</td><td>&gt; 25° (normal); 20–25° (borderline). Reliable &gt; 5 yr</td><td>&lt; 20° = dysplasia</td><td>[18]</td></tr>
+<tr><td><strong>NSA / CCD Angle</strong></td><td>Femoral neck axis to femoral shaft axis</td><td>~150° (neonate), 125–135° (adult)</td><td>&gt; 140° = Coxa Valga</td><td>[11,12]</td></tr>
+<tr><td><strong>Shenton's Line</strong></td><td>Arc: medial femoral neck to superior obturator foramen</td><td>Unbroken smooth arc</td><td>Broken = subluxation/dislocation</td><td>[22]</td></tr>
+<tr><td><strong>Reimer's Migration Index</strong></td><td>% femoral head lateral to Perkin's line</td><td>&lt; 33%</td><td>&gt; 33% = subluxation; &gt; 100% = dislocation</td><td>[36]</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>Advanced Imaging</h4>
+<ul>
+  <li><strong>MRI:</strong> Best for cartilaginous/soft-tissue visualisation; confirm concentric reduction in spica cast; identify soft-tissue blocks (inverted labrum, pulvinar, capsular constriction)</li>
+  <li><strong>CT:</strong> Superior bony detail; preoperative 3D planning for osteotomies; measure femoral anteversion and acetabular version</li>
+</ul>
+</div>
+
+<!-- SECTION 5: SURGICAL MANAGEMENT -->
+<div class="card">
+<h2>5. Principles of Surgical Management</h2>
+
+<h3>5.1 Goals of Surgery</h3>
+<ol>
+  <li>Achieve <strong>concentric reduction</strong> (closed or open)</li>
+  <li>Maintain <strong>stable reduction</strong> (osteotomies to address bony deformities)</li>
+  <li>Promote <strong>normal development</strong> (reduced femoral head as template for acetabular remodelling)</li>
+  <li>Prevent <strong>long-term sequelae</strong> (osteoarthritis)</li>
+</ol>
+
+<h3>5.2 Femoral Surgery: Varus Derotation Osteotomy (VDRO)</h3>
+<p><strong>Indications:</strong> NSA &gt; 140° (Coxa Valga) and/or excessive femoral anteversion compromising stability.</p>
+<p><strong>Technique:</strong></p>
+<ul>
+  <li>Intertrochanteric/subtrochanteric osteotomy</li>
+  <li><strong>Varus correction:</strong> Medially based wedge resected → NSA reduced to ~110–120°</li>
+  <li><strong>Derotation:</strong> Distal fragment internally rotated to correct anteversion</li>
+  <li>Fixed with pediatric hip plate and screws</li>
+</ul>
+<p><strong>Biomechanical effect:</strong> Femoral head directed more medially/inferiorly → increased containment; improved abductor lever arm.</p>
+
+<h3>5.3 Pelvic Surgery: Salter vs. Dega Osteotomies</h3>
+<div class="table-wrap">
+<table>
+<caption>Table 5 — Comparative Summary: Salter vs. Dega Osteotomy</caption>
+<thead>
+<tr><th>Feature</th><th>Salter Innominate Osteotomy</th><th>Dega Acetabuloplasty</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td>Redirectional (complete transiliac)</td><td>Reshaping (incomplete transiliac)</td></tr>
+<tr><td><strong>Age range</strong></td><td>18 months – 6 years</td><td>Wider age range; especially &gt; 4 years</td></tr>
+<tr><td><strong>Mechanism</strong></td><td>Distal fragment rotated anterolaterally using pubic symphysis as hinge</td><td>Acetabular fragment levered downward/outward using triradiate cartilage as hinge</td></tr>
+<tr><td><strong>Coverage improved</strong></td><td>Anterolateral</td><td>Multiplanar (including posterior)</td></tr>
+<tr><td><strong>Volume change</strong></td><td>Does not change acetabular shape/volume</td><td>Actively reshapes acetabulum, reduces volume</td></tr>
+<tr><td><strong>Fixation</strong></td><td>Kirschner wires + bone graft</td><td>Bone graft wedge</td></tr>
+<tr><td><strong>Evidence</strong></td><td>Level IV–V (case series, retrospective studies — inferred from source [64,66,69])</td><td>Level IV–V (case series, retrospective studies — inferred from source [66,67,69])</td></tr>
+<tr><td><strong>Reported advantage</strong></td><td>Excellent for younger children with milder dysplasia</td><td>Greater AI correction; possibly lower complication rate [69]</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+<strong>Evidence Limitation:</strong> The source document does not include RCTs comparing Salter vs. Dega osteotomies. Comparative evidence is drawn from retrospective case series and expert synthesis (Level IV–V, inferred).
+</div>
+
+<h3>5.4 Combined &amp; Staged Procedures</h3>
+<p>In many children of walking age, a <strong>single-stage combined procedure</strong> is preferred: anterior open reduction + pelvic osteotomy (Salter or Dega) + VDRO via separate lateral approach. In high dislocations, a <strong>femoral shortening osteotomy</strong> may be added to the VDRO to relax soft tissues and reduce the risk of avascular necrosis.</p>
+</div>
+
+<!-- SECTION 6: OUTCOMES -->
+<div class="card">
+<h2>6. Long-Term Outcomes &amp; Complications</h2>
+
+<h3>6.1 Avascular Necrosis (AVN)</h3>
+<p>The most devastating complication. Incidence ranges from <strong>6% to 63%</strong> depending on age, severity, and treatment type (source ref [9]).</p>
+<p><strong>Prevention strategies:</strong></p>
+<ul>
+  <li>Gentle, tension-free reduction</li>
+  <li>Femoral shortening osteotomy when significant force required</li>
+  <li>Post-reduction immobilization in "human position" (90–100° flexion, 40–50° abduction)</li>
+  <li>Abduction limited to &lt; 55° ("safe zone" of Ramsey)</li>
+</ul>
+
+<h4>Kalamchi &amp; MacEwen AVN Classification</h4>
+<div class="table-wrap">
+<table>
+<caption>Table 6 — Kalamchi &amp; MacEwen AVN Classification</caption>
+<thead>
+<tr><th>Type</th><th>Injury Site</th><th>Consequence</th></tr>
+</thead>
+<tbody>
+<tr><td>I</td><td>Ossific nucleus only; physis spared</td><td>Possible femoral head deformity; good growth prognosis</td></tr>
+<tr><td>II</td><td>Lateral physis</td><td>Lateral growth arrest → progressive <strong>Coxa Valga</strong>, short femoral neck</td></tr>
+<tr><td>III</td><td>Central physis</td><td>Central growth arrest → <strong>Coxa Breva</strong>, varus deformity</td></tr>
+<tr><td>IV</td><td>Entire physis + epiphysis</td><td>Complete growth arrest → severe limb length discrepancy</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>6.2 Residual Dysplasia &amp; Progression to Osteoarthritis</h3>
+<p>Long-term follow-up (45+ years) demonstrates a direct correlation between residual dysplasia and OA risk:</p>
+<div class="table-wrap">
+<table>
+<caption>Table 7 — OA Risk Based on Residual Dysplasia (CE Angle)</caption>
+<thead>
+<tr><th>CE Angle</th><th>Hip Status</th><th>OA Risk</th><th>Source Ref</th></tr>
+</thead>
+<tbody>
+<tr><td>&gt; 20°</td><td>Good correction</td><td>5%</td><td>[79]</td></tr>
+<tr><td>10–19°</td><td>Mild dysplasia, no subluxation</td><td>22%</td><td>[79]</td></tr>
+<tr><td>&lt; 10° / MI &gt; 33%</td><td>Residual subluxation</td><td>80%</td><td>[79]</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>6.3 Hip Survivorship &amp; THA Conversion</h3>
+<p>A large retrospective study (mean follow-up 30.5 years) found <strong>20% of surgically treated hips</strong> required total hip arthroplasty (THA).<span class="ev ev-4" title="Inferred Level IV: Retrospective cohort">(IV, inferred)</span></p>
+<p><strong>Key predictors of THA conversion:</strong></p>
+<ul>
+  <li><strong>Age at treatment:</strong> Patients treated after age 4 had 50% survivorship at 35 years vs. 85% for those treated earlier</li>
+  <li><strong>Severity of deformity:</strong> Need for femoral osteotomy = significant risk factor; 57% of hips requiring both pelvic + femoral osteotomies progressed to THA</li>
+  <li><strong>Previous failed treatment</strong> = higher THA risk</li>
+</ul>
+<div class="callout crit">
+<strong>Critical Insight from Source:</strong> For many patients with late-diagnosed DDH, THA in middle adulthood is a <em>common and expected outcome</em>. The primary objective of childhood surgery is better framed as long-term <strong>hip preservation</strong> — a "lifeboat" to delay, rather than definitively prevent, end-stage arthritis.
+</div>
+</div>
+
+<!-- SECTION 7: KEY STUDIES -->
+<div class="card">
+<h2>7. Summary of Key Studies Referenced in the Source</h2>
+<div class="callout warn">
+<strong>Limitation Note:</strong> The source document is a narrative review and does not isolate specific RCTs. The following studies are the most frequently cited or data-rich references in the source. Formal evidence grading has been <em>inferred</em> from study design descriptions.
+</div>
+<div class="table-wrap">
+<table>
+<caption>Table 8 — Key Studies from the Source Document</caption>
+<thead>
+<tr><th>#</th><th>Study / Source</th><th>Design (Inferred)</th><th>Key Finding</th><th>Evidence Level</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Residual hip dysplasia as a risk factor for OA in 45 years follow-up [79]</td>
+<td>Long-term retrospective cohort</td>
+<td>CE angle &lt; 10° → 80% OA risk; CE &gt; 20° → 5% OA risk</td>
+<td><span class="ev ev-4">IV</span> (inferred)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Predictors of THA following pediatric surgical reconstruction [81]</td>
+<td>Retrospective cohort (mean 30.5 yr FU)</td>
+<td>20% THA rate; age &gt; 4 and femoral osteotomy as risk factors</td>
+<td><span class="ev ev-4">IV</span> (inferred)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Mechanobiological predictions of growth front morphology in DDH [42,43]</td>
+<td>Finite element modeling study</td>
+<td>Octahedral shear stress promotes growth; hydrostatic compression inhibits growth — explains Coxa Valga development</td>
+<td><span class="ev ev-5">V</span> (inferred)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Dega versus Salter osteotomy for DDH [69]</td>
+<td>Retrospective comparative</td>
+<td>Dega may provide greater AI correction and lower complication rate</td>
+<td><span class="ev ev-4">IV</span> (inferred)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Proximal femoral growth disturbance in DDH [9,10,74]</td>
+<td>Narrative review / retrospective analysis</td>
+<td>AVN incidence 6–63%; Type II AVN leads to Coxa Valga</td>
+<td><span class="ev ev-5">V</span> (inferred)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="small">Evidence gap: No RCTs identified in the source document comparing surgical techniques or management strategies for DDH with Coxa Valga.</p>
+</div>
+
+<!-- SECTION 8: CONCLUSION -->
+<div class="card">
+<h2>8. Conclusion</h2>
+<p>The relationship between DDH and Coxa Valga exemplifies how <strong>abnormal mechanical forces dictate pathological skeletal development</strong>. DDH disrupts the fundamental principle of mutual induction between femoral head and acetabulum. The resulting instability creates an asymmetric loading environment across the proximal femoral physis, where — governed by mechanotransduction principles — medial physeal growth is accelerated while lateral growth is inhibited, producing the progressive valgus deformity.</p>
+<p>Diagnosis is age-stratified: ultrasound in infants, radiography in older children. Surgical management must address the 3D deformity on both sides of the joint (femoral VDRO + pelvic osteotomy) to achieve concentric, stable reduction. Long-term outcomes, however, must be viewed with realism: <strong>AVN remains a significant risk</strong>, and even successful surgery may only <em>delay</em> rather than prevent the eventual need for total hip arthroplasty.</p>
+</div>
+
+<!-- REFERENCES -->
+<div class="card">
+<h2>References (Derived from Source Document)</h2>
+<ol class="ref-list">
+  <li>[1] DergiPark — Natural history of acetabular development in DDH.</li>
+  <li>[2] Biomedres — Hip Joint: Embryology, Anatomy and Biomechanics.</li>
+  <li>[3,5] Musculoskeletal Key; UNAM — Hip Anatomy and Biomechanics.</li>
+  <li>[6,16] ResearchGate/PMC — DDH: Etiology, Diagnosis, and Management.</li>
+  <li>[7] SlideShare — DDH and coxa valga/vara.</li>
+  <li>[9,10,74] ResearchGate/PMC — Proximal femoral growth disturbance in DDH.</li>
+  <li>[11] NCBI MedGen — Coxa valga (Concept Id: C0239137).</li>
+  <li>[12] Radiopaedia — Coxa valga.</li>
+  <li>[14] HSS — Treatment for DDH.</li>
+  <li>[17] CHOP — Developmental dysplasia of the hip.</li>
+  <li>[18] Orthobullets — DDH.</li>
+  <li>[19] AAFP — Developmental Dysplasia of the Hip.</li>
+  <li>[20] RACGP — Update on management of infant/toddler DDH.</li>
+  <li>[22] Radiopaedia — Developmental dysplasia of the hip.</li>
+  <li>[32,38] PMC — Growth Plate Mechanics and Mechanobiology.</li>
+  <li>[36,37] PMC/ResearchGate — Effect of hip dysplasia on femoral head growth plate.</li>
+  <li>[42,43] ResearchGate/PubMed — Mechanobiological predictions in DDH.</li>
+  <li>[56,65] PMC/EFORT — Pelvic osteotomies in hip dysplasia.</li>
+  <li>[67] PMC — Dega pelvic osteotomy: indications, results, complications.</li>
+  <li>[69] ResearchGate — Dega versus Salter osteotomy.</li>
+  <li>[73] PMC — AVN of the femoral head following DDH management.</li>
+  <li>[79] PMC — Residual hip dysplasia as a risk factor for OA (45-year follow-up).</li>
+  <li>[81] MDPI/JCM — Predictors of THA following pediatric surgical reconstruction.</li>
+</ol>
+</div>
+
+</main>
+
+<!-- ======================== SIDEBAR ======================== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical parameter assessment">
+<h3>🔬 Clinical Parameter Assessment</h3>
+<p class="small" style="margin-bottom:14px;">Adjust the sliders below to evaluate the current hip parameters. Recommendations are derived from thresholds in the source document (or annotated general thresholds where the source is silent).</p>
+
+<!-- Slider 1: NSA -->
+<div class="slider-group">
+  <label for="nsa-slider">Neck-Shaft Angle (NSA)</label>
+  <div class="range-row">
+    <input type="range" id="nsa-slider" min="100" max="170" value="130" step="1">
+    <div class="val" id="nsa-val">130°</div>
+  </div>
+  <div class="bounds">Normal adult: 125–135° | Coxa Valga: &gt; 140°</div>
+</div>
+
+<!-- Slider 2: Acetabular Index -->
+<div class="slider-group">
+  <label for="ai-slider">Acetabular Index (AI / Tönnis)</label>
+  <div class="range-row">
+    <input type="range" id="ai-slider" min="0" max="50" value="15" step="1">
+    <div class="val" id="ai-val">15°</div>
+  </div>
+  <div class="bounds">Normal (1 yr): &lt; 22° | Dysplasia: &gt; 22° (after 1 yr)</div>
+</div>
+
+<!-- Slider 3: CE Angle -->
+<div class="slider-group">
+  <label for="ce-slider">Center-Edge Angle (CE, Wiberg)</label>
+  <div class="range-row">
+    <input type="range" id="ce-slider" min="-10" max="50" value="30" step="1">
+    <div class="val" id="ce-val">30°</div>
+  </div>
+  <div class="bounds">Normal: &gt; 25° | Borderline: 20–25° | Dysplasia: &lt; 20°</div>
+</div>
+
+<!-- Recommendation -->
+<div id="recommendation">
+  <h4>📋 Real-Time Clinical Assessment</h4>
+  <div id="rec-severity" class="rec-severity sev-normal">Normal</div>
+  <div id="rec-text">
+    All parameters are within normal ranges. Routine surveillance per standard care.
+  </div>
+  <div id="rec-rationale" class="small" style="margin-top:8px;"></div>
+</div>
+
+<div class="btn-row">
+  <button class="btn btn-primary" id="reset-btn" type="button">↺ Reset</button>
+  <button class="btn btn-accent" id="copy-btn" type="button">📋 Copy Report</button>
+</div>
+
+<div id="copy-status" class="small mt-1" style="min-height:18px;"></div>
+</aside>
+
+</div><!-- .wrapper -->
+
+<!-- Footer -->
+<footer style="text-align:center;padding:24px;font-size:.82rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:20px;">
+  Educational module generated from the source document: <em>"The Interplay of Developmental Dysplasia of the Hip and Coxa Valga: Pathomechanics, Diagnosis, and Management."</em> Content is exclusive to the provided review. Thresholds for interactive sliders are derived from source data where available and annotated otherwise.
+</footer>
+
+<script>
+(function(){
+  // Elements
+  const nsaSlider = document.getElementById('nsa-slider');
+  const aiSlider  = document.getElementById('ai-slider');
+  const ceSlider  = document.getElementById('ce-slider');
+  const nsaVal    = document.getElementById('nsa-val');
+  const aiVal     = document.getElementById('ai-val');
+  const ceVal     = document.getElementById('ce-val');
+  const recDiv    = document.getElementById('recommendation');
+  const recSev    = document.getElementById('rec-severity');
+  const recText   = document.getElementById('rec-text');
+  const recRat    = document.getElementById('rec-rationale');
+  const resetBtn  = document.getElementById('reset-btn');
+  const copyBtn   = document.getElementById('copy-btn');
+  const copyStat  = document.getElementById('copy-status');
+
+  function update(){
+    const nsa = +nsaSlider.value;
+    const ai  = +aiSlider.value;
+    const ce  = +ceSlider.value;
+
+    nsaVal.textContent = nsa + '°';
+    aiVal.textContent  = ai + '°';
+    ceVal.textContent  = ce + '°';
+
+    let severity = 0; // 0 normal, 1 borderline, 2 mild/moderate, 3 severe
+    let findings = [];
+    let rationale = [];
+
+    // NSA assessment
+    if(nsa > 140){
+      severity = Math.max(severity, 3);
+      findings.push('Coxa Valga (NSA ' + nsa + '° &gt; 140°)');
+      rationale.push('NSA &gt; 140° indicates pathological Coxa Valga per source [11,12]. Consider VDRO if surgical candidate.');
+    } else if(nsa > 135){
+      severity = Math.max(severity, 1);
+      findings.push('NSA mildly elevated (' + nsa + '°)');
+      rationale.push('NSA 135–140° is at upper limit of normal. Monitor for progression.');
+    } else if(nsa >= 125){
+      // normal
+    } else if(nsa >= 115){
+      severity = Math.max(severity, 1);
+      findings.push('NSA mildly low (' + nsa + '°, mild coxa vara)');
+      rationale.push('NSA below 125° may indicate coxa vara — not typical of DDH. Evaluate for other pathology. [Source does not specify coxa vara thresholds]');
+    } else {
+      severity = Math.max(severity, 2);
+      findings.push('Coxa Vara (NSA ' + nsa + '°)');
+      rationale.push('Significantly low NSA. Not characteristic of DDH/Coxa Valga pattern. [Threshold based on general knowledge]');
+    }
+
+    // AI assessment — assume >1 year old child
+    if(ai > 30){
+      severity = Math.max(severity, 3);
+      findings.push('Severe acetabular dysplasia (AI ' + ai + '°)');
+      rationale.push('AI &gt; 30° indicates severe dysplasia. Pelvic osteotomy likely indicated [22,56].');
+    } else if(ai > 22){
+      severity = Math.max(severity, 2);
+      findings.push('Acetabular dysplasia (AI ' + ai + '° &gt; 22°)');
+      rationale.push('AI &gt; 22° after age 1 is pathological per source [22]. Further imaging and surgical consultation recommended.');
+    } else if(ai > 14){
+      severity = Math.max(severity, 1);
+      findings.push('AI at upper normal range (' + ai + '°)');
+      rationale.push('AI 14–22° may be borderline, especially in older children. Clinical correlation advised. [Source notes &lt; 10° normal in adults]');
+    }
+
+    // CE assessment — assume >5 years old
+    if(ce < 0){
+      severity = Math.max(severity, 3);
+      findings.push('Severe subluxation (CE ' + ce + '°)');
+      rationale.push('CE &lt; 0° indicates significant subluxation/dislocation. Migration index likely &gt; 100%. 80% OA risk per source [79].');
+    } else if(ce < 10){
+      severity = Math.max(severity, 3);
+      findings.push('Residual subluxation (CE ' + ce + '°)');
+      rationale.push('CE &lt; 10° = high OA risk (80% per source [79]). Urgent surgical correction recommended.');
+    } else if(ce < 20){
+      severity = Math.max(severity, 2);
+      findings.push('Acetabular dysplasia (CE ' + ce + '°)');
+      rationale.push('CE &lt; 20° indicates dysplasia per source [18]. 22% OA risk per [79]. Consider pelvic osteotomy.');
+    } else if(ce < 25){
+      severity = Math.max(severity, 1);
+      findings.push('Borderline CE angle (' + ce + '°)');
+      rationale.push('CE 20–25° is borderline. Monitor; low OA risk (~5%) if maintained [79].');
+    }
+
+    // Update UI
+    recSev.className = 'rec-severity';
+    let sevLabel = '';
+    if(severity === 0){ sevLabel = 'Normal'; recSev.classList.add('sev-normal'); }
+    else if(severity === 1){ sevLabel = 'Borderline'; recSev.classList.add('sev-borderline'); }
+    else if(severity === 2){ sevLabel = 'Dysplastic'; recSev.classList.add('sev-mild'); }
+    else { sevLabel = 'Severe / Action Required'; recSev.classList.add('sev-severe'); }
+    recSev.textContent = sevLabel;
+
+    if(findings.length === 0){
+      recText.innerHTML = 'All parameters are within normal ranges. Routine surveillance per standard clinical practice.';
+    } else {
+      recText.innerHTML = '<strong>Findings:</strong><br>• ' + findings.join('<br>• ');
+    }
+
+    recRat.innerHTML = rationale.length ? '<strong>Rationale (source-based):</strong><br>' + rationale.join('<br>') : '';
+  }
+
+  [nsaSlider, aiSlider, ceSlider].forEach(function(s){ s.addEventListener('input', update); });
+
+  resetBtn.addEventListener('click', function(){
+    nsaSlider.value = 130;
+    aiSlider.value  = 15;
+    ceSlider.value  = 30;
+    update();
+    copyStat.textContent = '';
+  });
+
+  copyBtn.addEventListener('click', function(){
+    const nsa = nsaSlider.value;
+    const ai  = aiSlider.value;
+    const ce  = ceSlider.value;
+    const now = new Date().toLocaleString();
+
+    let text = '=== DDH & Coxa Valga — Clinical Parameter Report ===\n';
+    text += 'Timestamp: ' + now + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Neck-Shaft Angle (NSA): ' + nsa + '°\n';
+    text += '  Acetabular Index (AI): ' + ai + '°\n';
+    text += '  Center-Edge Angle (CE): ' + ce + '°\n\n';
+    text += 'ASSESSMENT: ' + recSev.textContent + '\n\n';
+
+    // gather text content of findings and rationale
+    const findingsEl = recText;
+    const ratEl = recRat;
+    text += findingsEl.textContent.trim() + '\n';
+    if(ratEl.textContent.trim()){
+      text += '\n' + ratEl.textContent.trim() + '\n';
+    }
+
+    text += '\n---\nSource: "The Interplay of Developmental Dysplasia of the Hip and Coxa Valga" (review document)\n';
+    text += 'Note: Evidence levels are inferred from study design; source document is a narrative review without formal Oxford grading.\n';
+
+    navigator.clipboard.writeText(text).then(function(){
+      copyStat.textContent = '✓ Report copied to clipboard!';
+      copyStat.style.color = 'var(--green)';
+      setTimeout(function(){ copyStat.textContent = ''; }, 3000);
+    }).catch(function(){
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      copyStat.textContent = '✓ Report copied to clipboard!';
+      copyStat.style.color = 'var(--green)';
+      setTimeout(function(){ copyStat.textContent = ''; }, 3000);
+    });
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>

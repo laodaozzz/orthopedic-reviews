@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI in Orthopedic Medical Education: Interactive Evidence Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-light: #e8eefb;
+  --primary-dark: #103380;
+  --accent: #0891b2;
+  --accent-light: #ecfeff;
+  --success: #059669;
+  --success-light: #ecfdf5;
+  --warning: #d97706;
+  --warning-light: #fffbeb;
+  --danger: #dc2626;
+  --danger-light: #fef2f2;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --sidebar-width: 340px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* HEADER */
+.site-header {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--accent) 100%);
+  color: white;
+  padding: 2.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+.site-header h1 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+.site-header .subtitle {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-top: 0.35rem;
+  font-weight: 400;
+}
+.header-meta {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+  flex-wrap: wrap;
+}
+.header-meta span { display: flex; align-items: center; gap: 0.35rem; }
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap: 2rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem;
+  align-items: start;
+}
+
+/* MAIN CONTENT */
+.main-content { min-width: 0; }
+
+/* SIDEBAR */
+.sidebar {
+  position: sticky;
+  top: 110px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.sidebar-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+}
+.sidebar-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* SLIDERS */
+.slider-group { margin-bottom: 1.25rem; }
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+.slider-label span:first-child {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.slider-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--primary) 0%, var(--primary) var(--pct, 50%), #e2e8f0 var(--pct, 50%));
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  cursor: grab;
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  cursor: grab;
+}
+.slider-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* RECOMMENDATION BOX */
+.reco-box {
+  background: linear-gradient(135deg, var(--accent-light), var(--primary-light));
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+.reco-box h4 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.reco-box p {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.reco-strength {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+.reco-strength.strong { background: var(--success-light); color: var(--success); }
+.reco-strength.moderate { background: var(--warning-light); color: var(--warning); }
+.reco-strength.weak { background: var(--danger-light); color: var(--danger); }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+}
+.btn-outline:hover { background: var(--primary-light); }
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* CONTENT ELEMENTS */
+.content-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+}
+.content-card h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.content-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.content-card p {
+  margin-bottom: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+.content-card ul, .content-card ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+.content-card li {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.content-card strong { color: var(--primary-dark); }
+
+/* EVIDENCE BADGE */
+.ev-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 0.3rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.ev-badge.ev-1 { background: #dbeafe; color: #1e40af; }
+.ev-badge.ev-2 { background: #d1fae5; color: #065f46; }
+.ev-badge.ev-3 { background: #fef3c7; color: #92400e; }
+.ev-badge.ev-4 { background: #fce7f3; color: #9d174d; }
+.ev-badge.ev-5 { background: #f1f5f9; color: #475569; }
+.ev-badge.ev-ns { background: #f1f5f9; color: #64748b; }
+
+/* CALLOUT BOX */
+.callout {
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+  margin: 1.25rem 0;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.callout p { margin-bottom: 0; }
+.callout.info { background: var(--primary-light); border-left: 4px solid var(--primary); }
+.callout.warning { background: var(--warning-light); border-left: 4px solid var(--warning); }
+.callout.success { background: var(--success-light); border-left: 4px solid var(--success); }
+.callout.danger { background: var(--danger-light); border-left: 4px solid var(--danger); }
+.callout-title {
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+.callout.info .callout-title { color: var(--primary); }
+.callout.warning .callout-title { color: var(--warning); }
+.callout.success .callout-title { color: var(--success); }
+.callout.danger .callout-title { color: var(--danger); }
+
+/* TABLES */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+caption {
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: #f1f5f9;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f8fafc; }
+.highlight-cell {
+  background: var(--success-light);
+  font-weight: 700;
+  color: var(--success);
+}
+.model-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* PHASE TIMELINE */
+.phase-timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+.phase-item {
+  text-align: center;
+  padding: 1rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  border: 2px solid var(--border);
+  transition: all 0.2s;
+}
+.phase-item:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
+.phase-num {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.phase-name {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 0.25rem;
+}
+.phase-desc {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+/* CITATION REFERENCES */
+.ref-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--border);
+}
+.ref-list {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: ref-counter;
+}
+.ref-list li {
+  counter-increment: ref-counter;
+  margin-bottom: 0.35rem;
+  padding-left: 2rem;
+  position: relative;
+}
+.ref-list li::before {
+  content: "[" counter(ref-counter) "]";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--primary);
+}
+sup a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.7em;
+}
+sup a:hover { text-decoration: underline; }
+
+/* TOAST NOTIFICATION */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--primary-dark);
+  color: white;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(120%);
+  opacity: 0;
+  transition: all 0.35s ease;
+  z-index: 999;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* CHECKLIST */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+.checklist li {
+  padding: 0.5rem 0 0.5rem 2rem;
+  position: relative;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.checklist li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  color: var(--success);
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+/* LIMITATION BADGE */
+.limitation-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background: #fef3c7;
+  color: #92400e;
+  margin-bottom: 0.5rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .sidebar-card { margin-bottom: 0; }
+}
+@media (max-width: 640px) {
+  .sidebar { grid-template-columns: 1fr; }
+  .content-card { padding: 1.25rem; }
+  .phase-timeline { grid-template-columns: repeat(2, 1fr); }
+  .site-header { padding: 1.5rem 1rem; }
+}
+
+/* ANIMATED INSIGHT CARDS */
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.insight-card {
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--white);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.insight-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.insight-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.insight-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+.insight-source {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  font-style: italic;
+}
+
+/* PROMPT TEMPLATE CARD */
+.prompt-card {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  margin: 1rem 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  overflow-x: auto;
+  position: relative;
+}
+.prompt-card::before {
+  content: "PROMPT TEMPLATE";
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+/* MOBILE HEADER TOGGLE */
+.sidebar-toggle {
+  display: none;
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+@media (max-width: 1024px) {
+  .sidebar-toggle { display: block; }
+  .sidebar.collapsed { display: none; }
+}
+
+/* HIGHLIGHT BOX */
+.highlight-box {
+  background: linear-gradient(135deg, #ede9fe, #dbeafe);
+  border: 1px solid #c7d2fe;
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+}
+.highlight-box h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+/* SAMR LEVEL INDICATOR */
+.samr-levels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.samr-level {
+  padding: 0.75rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+}
+.samr-level.s { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+.samr-level.a { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+.samr-level.m { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
+.samr-level.r { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+.samr-level .samr-letter {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 0.15rem;
+}
+
+/* SCROLL INDICATOR */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  z-index: 200;
+  transition: width 0.1s linear;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="site-header" role="banner">
+  <h1>Artificial Intelligence in Orthopedic Medical Education</h1>
+  <p class="subtitle">Evidence-Based Reform Strategies &amp; Low-Cost Generative Applications in Residency Training</p>
+  <div class="header-meta">
+    <span>📋 Interactive Evidence Summary</span>
+    <span>📚 51 Source References</span>
+    <span>🩺 Orthopedic Residency Focus</span>
+    <span id="timestamp"></span>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content" role="main">
+
+    <!-- SECTION: EXECUTIVE OVERVIEW -->
+    <section class="content-card" id="sec-overview">
+      <h2>📊 Executive Overview</h2>
+      <p>The integration of generative Artificial Intelligence into orthopedic graduate and residency training represents the most significant educational paradigm shift since the establishment of the modern residency structure. This document synthesizes current evidence on how <strong>Large Language Models (LLMs)</strong>—including GPT-4, Claude, Gemini, and Perplexity—can bridge the deliberate practice gap created by ACGME duty hour restrictions and limited faculty resources.</p>
+
+      <div class="insight-grid">
+        <div class="insight-card">
+          <div class="insight-num" style="color:var(--primary);">10,000</div>
+          <div class="insight-label">Hours required for surgical expertise</div>
+          <div class="insight-source">Deliberate practice estimate</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num" style="color:var(--danger);">2,500–3,000</div>
+          <div class="insight-label">Average clinical hours during residency</div>
+          <div class="insight-source">U.S. resident average</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num" style="color:var(--success);">69.9%</div>
+          <div class="insight-label">Best LLM score on 2022 OITE</div>
+          <div class="insight-source">Google Gemini performance</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num" style="color:var(--accent);">0.31–5%</div>
+          <div class="insight-label">VSP hallucination rate</div>
+          <div class="insight-source">With calibrated prompts</div>
+        </div>
+      </div>
+
+      <p>The source document demonstrates that commercially available, <strong>"off-the-shelf" LLMs</strong> offer low-cost, high-impact applications ranging from Case-Based Learning (CBL) and virtual standardized patients (VSPs) to cognitive surgical planning simulations and clinical documentation training.<sup><a href="#ref6">6</a></sup> These tools democratize world-class medical education, extending capabilities to resource-limited settings and developing nations.<sup><a href="#ref12">12</a></sup></p>
+
+      <div class="callout info">
+        <div class="callout-title">Key Finding from Source</div>
+        <p>The average medical resident completes only <strong>25–30%</strong> of the estimated 10,000 hours of deliberate practice required to achieve surgical expertise. Generative AI provides a scalable, on-demand mechanism to help close this critical gap without further burdening attending faculty.<sup><a href="#ref1">1</a></sup></p>
+      </div>
+    </section>
+
+    <!-- SECTION: STRUCTURAL FRAMEWORKS -->
+    <section class="content-card" id="sec-frameworks">
+      <h2>🏗️ Structural Frameworks for Educational Reform</h2>
+
+      <h3>The FACETS Framework</h3>
+      <p>The <strong>FACETS framework</strong> ensures AI integration remains pedagogically grounded and aligned with specific competency milestones. It evaluates six dimensions before deploying any AI tool in a residency setting:<sup><a href="#ref8">8</a></sup></p>
+
+      <div class="phase-timeline">
+        <div class="phase-item">
+          <span class="phase-num">F</span>
+          <span class="phase-name">Form</span>
+          <span class="phase-desc">AI tool manifestation</span>
+        </div>
+        <div class="phase-item">
+          <span class="phase-num">A</span>
+          <span class="phase-name">Application</span>
+          <span class="phase-desc">Pedagogical purpose</span>
+        </div>
+        <div class="phase-item">
+          <span class="phase-num">C</span>
+          <span class="phase-name">Context</span>
+          <span class="phase-desc">Setting & audience</span>
+        </div>
+        <div class="phase-item">
+          <span class="phase-num">E</span>
+          <span class="phase-name">Environment</span>
+          <span class="phase-desc">Instructional mode</span>
+        </div>
+        <div class="phase-item">
+          <span class="phase-num">T</span>
+          <span class="phase-name">Technology</span>
+          <span class="phase-desc">Computational architecture</span>
+        </div>
+        <div class="phase-item">
+          <span class="phase-num">S</span>
+          <span class="phase-name">SAMR Level</span>
+          <span class="phase-desc">Transformative impact</span>
+        </div>
+      </div>
+
+      <h3>The SAMR Model in Orthopedic AI Education</h3>
+      <p>The SAMR model is particularly instructive for evaluating how AI fundamentally alters the educational task:<sup><a href="#ref8">8</a></sup></p>
+
+      <div class="samr-levels">
+        <div class="samr-level s">
+          <span class="samr-letter">S</span>
+          Substitution
+          <br><small>Reading digital PDF instead of textbook</small>
+        </div>
+        <div class="samr-level a">
+          <span class="samr-letter">A</span>
+          Augmentation
+          <br><small>AI defines biomechanical terms instantly</small>
+        </div>
+        <div class="samr-level m">
+          <span class="samr-letter">M</span>
+          Modification
+          <br><small>AI generates customized quiz from errors</small>
+        </div>
+        <div class="samr-level r">
+          <span class="samr-letter">R</span>
+          Redefinition
+          <br><small>Socratic dialogue with multi-trauma AI avatar</small>
+        </div>
+      </div>
+
+      <p><strong>Redefinition</strong>—the ultimate goal—occurs when the resident engages in a dynamic, spoken Socratic dialogue with an AI avatar simulating a complex multi-trauma patient, a task entirely inconceivable prior to generative AI.<sup><a href="#ref8">8</a></sup></p>
+
+      <h3>Patient-Reported Outcomes (PRO) Curriculum Integration</h3>
+      <p>A vital component of modern orthopedic reform is the systemic inclusion of <strong>Patient-Reported Outcomes (PRO)</strong>, essential for assessing treatment efficacy in elective joint surgeries such as TKA and THA.<sup><a href="#ref15">15</a></sup></p>
+
+      <div class="callout success">
+        <div class="callout-title">Study Evidence — Controlled Pilot Trial</div>
+        <p>In a rigorously controlled study (experimental n=25 vs. control n=25), residents exposed to a structured PRO curriculum scored significantly higher on comprehensive knowledge assessments (<strong>70.56 ± 5.89 vs. 58.68 ± 4.72, p &lt; 0.001</strong>). The experimental cohort also reported deeper impact on medical cognition (3.80 ± 0.41 vs. 3.48 ± 0.59, p = 0.03) and greater satisfaction.<sup><a href="#ref15">15</a></sup></p>
+      </div>
+
+      <h3>Global Health Equity and Resource-Limited Settings</h3>
+      <p>The scalability of low-cost, off-the-shelf generative AI has profound implications for global orthopedic education. Internet-accessible LLMs require nothing more than a smartphone or basic computer, functioning as a <strong>"great equalizer"</strong> in medical didactics.<sup><a href="#ref13">13</a></sup> By utilizing free or low-cost LLM interfaces, orthopedic residency programs in resource-limited settings (e.g., Vietnam, various African nations) can facilitate simulated registries, advanced case-based learning, and AI-driven formative feedback—activities previously requiring fellowship-trained faculty.<sup><a href="#ref12">12</a></sup></p>
+    </section>
+
+    <!-- SECTION: OITE BENCHMARKING -->
+    <section class="content-card" id="sec-oite">
+      <h2>🧪 Benchmarking LLMs: The Orthopaedic In-Training Examination</h2>
+
+      <p>The <strong>Orthopaedic In-Training Examination (OITE)</strong> serves as the premier benchmark for assessing resident academic progress. Recent studies have evaluated how commercially available LLMs perform on this standardized metric.<sup><a href="#ref16">16</a></sup></p>
+
+      <div class="limitation-tag">⚠ Evidence from 2022 OITE (206 questions) and 2018–2022 dataset (1,165 questions)</div>
+
+      <div class="table-wrapper">
+        <table id="oiteTable">
+          <caption>Table 1: Comparative Performance of Major LLMs on the 2022 OITE<sup><a href="#ref5">5</a></sup></caption>
+          <thead>
+            <tr>
+              <th>Large Language Model</th>
+              <th>Overall Accuracy</th>
+              <th>Questions Correct</th>
+              <th>Equivalent Resident Level</th>
+              <th>Status at Threshold</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row-gemini">
+              <td><span class="model-tag">Google Gemini</span></td>
+              <td>69.9%</td>
+              <td>144 / 206</td>
+              <td>Approaching PGY-4 / PGY-5</td>
+              <td class="status-cell">—</td>
+            </tr>
+            <tr id="row-claude">
+              <td><span class="model-tag">Claude (Anthropic)</span></td>
+              <td>68.0%</td>
+              <td>140 / 206</td>
+              <td>Approaching PGY-4 / PGY-5</td>
+              <td class="status-cell">—</td>
+            </tr>
+            <tr id="row-gpt4">
+              <td><span class="model-tag">ChatGPT-4</span></td>
+              <td>62.6%</td>
+              <td>129 / 206</td>
+              <td>PGY-2 / PGY-3</td>
+              <td class="status-cell">—</td>
+            </tr>
+            <tr id="row-gpt35">
+              <td><span class="model-tag">ChatGPT-3.5</span></td>
+              <td>58.3%</td>
+              <td>120 / 206</td>
+              <td>PGY-1</td>
+              <td class="status-cell">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-title">Extended Dataset (2018–2022)</div>
+        <p>Another study using 1,165 questions found that <strong>Bing AI GPT-4.0 scored 80.0%</strong>, significantly outperforming ChatGPT-3.5 (55.0%) and the average human orthopedic resident performance (62.1%).<sup><a href="#ref16">16</a></sup></p>
+      </div>
+
+      <h3>Cognitive Stratification by Question Type</h3>
+      <p>The 2022 OITE study categorized questions into three types:<sup><a href="#ref5">5</a></sup></p>
+      <ul>
+        <li><strong>Type A</strong> (recall of facts, 31.6%): Gemini achieved <strong>76.9%</strong> accuracy</li>
+        <li><strong>Type B</strong> (diagnosis & analysis, 20.4%): Claude achieved <strong>70.7%</strong> accuracy</li>
+        <li><strong>Type C</strong> (management & treatment, 44.7%): Gemini scored <strong>67.4%</strong></li>
+      </ul>
+
+      <div class="callout warning">
+        <div class="callout-title">The Knowledge Implementation Gap</div>
+        <p>When assessed using the Buckwalter taxonomy, ChatGPT demonstrated adequate basic recall (Taxonomy 1: 54%) and interpretation (Taxonomy 2: 51%), but performance dropped significantly on application and problem-solving scenarios (Taxonomy 3: <strong>34%</strong>).<sup><a href="#ref7">7</a></sup> This indicates a persistent gap in implementing knowledge within nuanced, multivariate clinical scenarios.</p>
+      </div>
+
+      <h3>The Multimodal Gap: Visual Diagnostics</h3>
+      <p>Orthopedics is an inherently visual specialty. In the 2022 OITE, <strong>38.8%</strong> of questions contained images. LLM accuracy plummeted from <strong>65.9%</strong> on text-only questions to <strong>34.1%</strong> on image-dependent questions.<sup><a href="#ref5">5</a></sup></p>
+
+      <div class="callout danger">
+        <div class="callout-title">Critical Limitation</div>
+        <p>While providing text descriptions of imaging findings inflated ChatGPT's accuracy from 69.1% to 77.8%,<sup><a href="#ref17">17</a></sup> real-world clinical practice requires independent interpretation of raw visual data. Current low-cost LLMs cannot natively perform complex computer vision tasks on orthopedic radiographs without bespoke convolutional neural networks (CNNs).<sup><a href="#ref5">5</a></sup></p>
+      </div>
+    </section>
+
+    <!-- SECTION: COMPARATIVE TABLE OF AI CAPABILITIES -->
+    <section class="content-card" id="sec-capabilities">
+      <h2>⚖️ Comparative Analysis of AI Tool Capabilities</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 2: Comparative Capabilities of AI Tools in Orthopedic Education Domains</caption>
+          <thead>
+            <tr>
+              <th>Educational Domain</th>
+              <th>Text-Based LLMs</th>
+              <th>RAG-Augmented Systems</th>
+              <th>VR/AI Simulators</th>
+              <th>Ambient AI Scribes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Case-Based Learning</strong></td>
+              <td class="highlight-cell">Excellent</td>
+              <td class="highlight-cell">Excellent</td>
+              <td>Good</td>
+              <td>Not applicable</td>
+            </tr>
+            <tr>
+              <td><strong>Visual/Radiographic Dx</strong></td>
+              <td style="color:var(--danger); font-weight:600;">Poor (34.1%)</td>
+              <td>Moderate</td>
+              <td class="highlight-cell">Excellent</td>
+              <td>Not applicable</td>
+            </tr>
+            <tr>
+              <td><strong>Surgical Planning (Geometric)</strong></td>
+              <td style="color:var(--danger); font-weight:600;">Poor (RMSE 2.96)</td>
+              <td>Moderate</td>
+              <td class="highlight-cell">Excellent</td>
+              <td>Not applicable</td>
+            </tr>
+            <tr>
+              <td><strong>History-Taking / VSP</strong></td>
+              <td class="highlight-cell">Excellent</td>
+              <td class="highlight-cell">Excellent</td>
+              <td>Good</td>
+              <td>Not applicable</td>
+            </tr>
+            <tr>
+              <td><strong>Patient Education</strong></td>
+              <td class="highlight-cell">Good–Excellent</td>
+              <td class="highlight-cell">Excellent</td>
+              <td>Moderate</td>
+              <td>Not applicable</td>
+            </tr>
+            <tr>
+              <td><strong>Documentation / Scribing</strong></td>
+              <td>Good</td>
+              <td>Good</td>
+              <td>Not applicable</td>
+              <td class="highlight-cell">Excellent</td>
+            </tr>
+            <tr>
+              <td><strong>Cost (Typical)</strong></td>
+              <td>Free – $20/mo</td>
+              <td>Requires dev effort</td>
+              <td>$50K–$250K+</td>
+              <td>$39–$600+/mo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION: SOCRATIC AI & CBL -->
+    <section class="content-card" id="sec-socratic">
+      <h2>🎓 Revolutionizing Case-Based Learning with Socratic AI</h2>
+
+      <p>Generative AI fundamentally democratizes CBL by functioning as an <strong>adaptive, on-demand Socratic tutor, available 24/7</strong>.<sup><a href="#ref1">1</a></sup> Rather than passively reading a case report, the resident interacts with the AI to uncover the clinical picture piece by piece through progressive disclosure.</p>
+
+      <h3>Architecture of Socratic Case Processing</h3>
+      <p>The underlying architecture relies on five interconnected components:<sup><a href="#ref1">1</a></sup></p>
+
+      <ol>
+        <li><strong>Case Processing Pipeline:</strong> Narrative cases are ingested by the LLM and broken down into structured educational vectors, identifying key teaching opportunities and common diagnostic pitfalls.</li>
+        <li><strong>Knowledge Representation Framework:</strong> Clinical data points are mapped into a semantic network. Elements are classified by diagnostic significance (e.g., open fracture = "high specificity"; generalized effusion = "low specificity").</li>
+        <li><strong>Phase Management System:</strong> The encounter is structured across five sequential clinical reasoning phases—<strong>History → Physical Examination → Testing → Management → Discussion</strong>.</li>
+        <li><strong>Socratic AI Agent:</strong> Instead of providing answers, the system uses the Socratic method. If a resident suggests immediate MRI for a routine meniscus tear, the AI prompts: <em>"What specific physical examination maneuvers should be performed first to support this hypothesis?"</em></li>
+        <li><strong>Adaptive Guidance Levels:</strong> The LLM dynamically adjusts feedback based on perceived skill level—direct corrective guidance for PGY-1 interns; subtle nudges for PGY-4 residents.</li>
+      </ol>
+
+      <h3>RAG-Enhanced Architectures (MedTutor)</h3>
+      <p>Systems like <strong>MedTutor</strong> utilize Retrieval-Augmented Generation to query localized knowledge bases, medical textbooks, and academic literature via PubMed and Semantic Scholar APIs.<sup><a href="#ref23">23</a></sup> Retrieved evidence is filtered using state-of-the-art reranking models, after which the LLM generates educational content and MCQs directly related to the case. Expert evaluations found outputs of <strong>exceptional clinical and educational value</strong>, free from the hallucinations that plague standard LLMs.<sup><a href="#ref23">23</a></sup></p>
+
+      <div class="highlight-box">
+        <h4>🔑 Key Pedagogical Advantage</h4>
+        <p>When a resident utilizing an LLM for self-directed study encounters a hallucinated surgical approach or anatomical anomaly without verification, <strong>negative educational reinforcement</strong> occurs.<sup><a href="#ref4">4</a></sup> RAG architectures mitigate this by grounding outputs in verified medical literature.</p>
+      </div>
+    </section>
+
+    <!-- SECTION: PROMPT ENGINEERING -->
+    <section class="content-card" id="sec-prompt">
+      <h2>✍️ Prompt Engineering as a Core Residency Competency</h2>
+
+      <p>The efficacy of an off-the-shelf LLM is heavily dependent on the precision, structure, and context of the input prompt. Minor semantic changes in prompt wording can dramatically alter the depth, accuracy, and educational utility of the output.<sup><a href="#ref6">6</a></sup></p>
+
+      <h3>Template 1: Step-by-Step Mastery (Zero-Shot)</h3>
+      <div class="prompt-card">You are an expert orthopedic attending surgeon. Break down the surgical approach for a Total Hip Arthroplasty (THA) via the direct anterior approach into a structured learning plan for a PGY-1 resident. For each step, include: 1. Anatomical landmarks and internervous planes. 2. A practical example of a common surgical pitfall. 3. A brief quiz question to test understanding. Format your response in numbered steps.</div>
+
+      <h3>Template 2: Chain-of-Thought (CoT) for MCQ Generation</h3>
+      <p>Studies utilizing models like OpenBioLLM-70B have demonstrated that Chain-of-Thought prompting yields the <strong>highest clinical alignment (quality scores &gt;90.4)</strong> for generating board-style MCQs.<sup><a href="#ref26">26</a></sup></p>
+      <div class="prompt-card">You are a medical education specialist. Before generating the final question, first outline your step-by-step clinical reasoning for the following orthopedic topic: [TOPIC]. Then, based on that reasoning, create one ABOS-style multiple-choice question with 5 options (A–E), specifying the correct answer and a 2-sentence explanation for each distractor.</div>
+
+      <h3>Template 3: Problem → Solution → Practice</h3>
+      <div class="prompt-card">Teach me about periprosthetic joint infection (PJI) following Total Knee Arthroplasty using a problem-based approach. For each key concept, provide: 1. The clinical presentation and diagnostic criteria. 2. The evidence-based surgical solution (e.g., DAIR vs. two-stage revision). 3. A brief practice scenario requiring a clinical decision from me.</div>
+
+      <h3>Template 4: Contextual Prompting for RAG Emulation</h3>
+      <div class="prompt-card">Using ONLY the provided text pasted below regarding the European Bone and Joint Infection Society (EBJIS) guidelines for Septic Arthritis, generate a 3-part interactive case study detailing patient presentation, synovial fluid aspiration results, and the required surgical intervention.</div>
+
+      <div class="callout warning">
+        <div class="callout-title">Comparative Model Note</div>
+        <p>When managing septic arthritis, while ChatGPT and Claude provided greater content depth, <strong>Perplexity AI</strong> scored significantly higher in providing valid, verifiable reference support.<sup><a href="#ref27">27</a></sup> Educators training residents in evidence-based medicine should prioritize internet-grounded models for literature synthesis.</p>
+      </div>
+    </section>
+
+    <!-- SECTION: VIRTUAL STANDARDIZED PATIENTS -->
+    <section class="content-card" id="sec-vsp">
+      <h2>🤖 Virtual Standardized Patients (VSPs) in Joint Surgery Training</h2>
+
+      <p>Standardized patients (human actors) are invaluable for teaching history-taking and communication, but maintaining robust SP programs is logistically complex and expensive.<sup><a href="#ref28">28</a></sup> Generative AI provides a scalable, low-cost alternative through VSPs.</p>
+
+      <p>Platforms such as <strong>SimConverse</strong>, <strong>PCS Spark</strong>, and the <strong>AI Patient Actor</strong> app allow trainees to interview digital avatars using natural language.<sup><a href="#ref28">28</a></sup> Unlike static branching scenarios, the resident must actively navigate the conversation, asking targeted questions to uncover mechanism of injury, pain characteristics, and pertinent medical history.<sup><a href="#ref31">31</a></sup></p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 3: VSP System Performance Metrics (from Source Document)</caption>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Diagnostic dialogue top-k accuracy</td>
+              <td class="highlight-cell">0.45 – 0.98</td>
+              <td>LLM-based VSP systems<sup><a href="#ref10">10</a></sup></td>
+            </tr>
+            <tr>
+              <td>Hallucination rate (calibrated prompts)</td>
+              <td>0.31% – 5%</td>
+              <td>Multi-agent architectures<sup><a href="#ref32">32</a></sup></td>
+            </tr>
+            <tr>
+              <td>System Usability Scale (SUS) score</td>
+              <td class="highlight-cell">≥ 80</td>
+              <td>Trainee acceptance<sup><a href="#ref32">32</a></sup></td>
+            </tr>
+            <tr>
+              <td>Authenticity perception</td>
+              <td>Highly authentic</td>
+              <td>Trainee evaluations<sup><a href="#ref10">10</a></sup></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Advanced platforms like <strong>Convai</strong> allow educators to construct "no-code" lifelike virtual avatars with custom narratives.<sup><a href="#ref33">33</a></sup> Emerging research explores integrating generative AI with realistic holographic displays and haptic feedback, allowing residents to interact with a 3D projection while practicing physical examination maneuvers.<sup><a href="#ref29">29</a></sup></p>
+    </section>
+
+    <!-- SECTION: SURGICAL PLANNING -->
+    <section class="content-card" id="sec-planning">
+      <h2>🔧 Cognitive Rehearsal and Surgical Planning Training</h2>
+
+      <h3>Geometric Limitations of Raw LLMs</h3>
+      <p>A rigorous study testing ChatGPT 3.0's ability to mathematically plan a <strong>Medial Opening Wedge High Tibial Osteotomy (MOWHTO)</strong> exposed severe limitations.<sup><a href="#ref35">35</a></sup> When provided with MPTA and JLCA metrics, the AI's recommendations yielded a <strong>Root Mean Square Error (RMSE) of 2.96</strong>—indicating very poor model fit and high clinical inaccuracy compared to fellowship-trained surgeons.</p>
+
+      <div class="callout danger">
+        <div class="callout-title">Clinical Warning</div>
+        <p>Standard language models operate by predicting the next probable token in a sequence rather than performing mathematical computations. They lack the spatial logic and geometric optimization algorithms necessary for complex osteotomy planning.<sup><a href="#ref35">35</a></sup> <strong>Relying on generic LLMs for calculating precise surgical angles or component sizing is strongly discouraged.</strong></p>
+      </div>
+
+      <h3>Free Visual Templating + AI Workflow</h3>
+      <p>Programs lacking expensive commercial software can utilize free templating platforms like <strong>Detroit Bone Setter</strong>: acetabular component within one size of actual implant 43.1% of the time; femoral component 72.3%.<sup><a href="#ref11">11</a></sup> Generative AI then streamlines the cognitive and administrative workflow.</p>
+
+      <p><strong>SurgeryLLM</strong> addresses standard LLM limitations by incorporating context-specific guidelines via RAG. In simulated scenarios, it demonstrated superior accuracy in identifying abnormal pre-operative labs, flagging missing investigations, and aligning recommendations with established guidelines.<sup><a href="#ref37">37</a></sup></p>
+
+      <h3>AI-Augmented VR Simulators</h3>
+      <p>For institutions with simulation budgets, platforms by <strong>VirtaMed</strong>, <strong>PrecisionOS</strong>, and <strong>OSSimTech</strong> provide hyper-realistic digital twins and haptic feedback.<sup><a href="#ref38">38</a></sup> Machine learning algorithms assess learner movements in real-time, providing quantitative performance metrics on precision, speed, and tissue handling—enabling objective judgments of technical skills.<sup><a href="#ref13">13</a></sup></p>
+    </section>
+
+    <!-- SECTION: AMBIENT AI SCRIBES -->
+    <section class="content-card" id="sec-scribes">
+      <h2>📝 Automating the Orthopedic Workflow</h2>
+
+      <h3>AI-Generated Discharge Summaries</h3>
+      <p>ChatGPT-4 generated complex discharge documents <strong>10 times faster</strong> than manual methods with comparable quality. Crucially, the AI exhibited fewer instances of incorrect clinical data (4 events) compared to human physicians (6 events).<sup><a href="#ref42">42</a></sup></p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 4: Comparative Costs of Generative AI Medical Scribes for Orthopedic Practices<sup><a href="#ref44">44</a></sup></caption>
+          <thead>
+            <tr>
+              <th>Tool</th>
+              <th>Est. Monthly Cost/Provider</th>
+              <th>Target Orthopedic Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Freed AI</strong></td>
+              <td>$39 – $119</td>
+              <td>Low-cost entry; simple ambient scribing</td>
+            </tr>
+            <tr>
+              <td><strong>DeepCura</strong></td>
+              <td>$129</td>
+              <td>Mid-tier; solid accuracy-affordability balance</td>
+            </tr>
+            <tr>
+              <td><strong>Abridge</strong></td>
+              <td>~$208</td>
+              <td>Strong summarization; multi-specialty mobile-first</td>
+            </tr>
+            <tr>
+              <td><strong>Suki AI</strong></td>
+              <td>$199 – $399</td>
+              <td>Voice-first workflows; EHR integration</td>
+            </tr>
+            <tr>
+              <td><strong>Nuance DAX / DeepScribe</strong></td>
+              <td>$350 – $600+</td>
+              <td>Enterprise-grade; complex MSK case handling</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Tools trained on orthopedic terminology can capture nuanced details—specific ranges of motion, degrees of laxity, and provocative testing results (Lachman, pivot-shift tests)—ensuring residents learn comprehensive documentation synthesis.<sup><a href="#ref44">44</a></sup></p>
+    </section>
+
+    <!-- SECTION: PATIENT EDUCATION -->
+    <section class="content-card" id="sec-patient-ed">
+      <h2>🗣️ Preoperative Joint Surgery Education &amp; Patient Communication</h2>
+
+      <p>A crucial, often under-taught competency is communicating complex surgical concepts at appropriate health literacy levels.<sup><a href="#ref47">47</a></sup></p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 5: LLM Performance in Patient Education for THA/TKA<sup><a href="#ref48">48</a></sup></caption>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Score</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mean Accuracy</td>
+              <td class="highlight-cell">4.26 / 5</td>
+              <td>120 common Google-searched questions</td>
+            </tr>
+            <tr>
+              <td>Mean Comprehensiveness</td>
+              <td>3.79 / 5</td>
+              <td>Content depth evaluation</td>
+            </tr>
+            <tr>
+              <td>Acceptable as sole source</td>
+              <td style="color:var(--warning); font-weight:600;">59.2%</td>
+              <td>Reading level too high initially</td>
+            </tr>
+            <tr>
+              <td>Flesch-Kincaid Grade (initial)</td>
+              <td>12.15</td>
+              <td>College-level reading required</td>
+            </tr>
+            <tr>
+              <td>Flesch-Kincaid Grade (simplified prompt)</td>
+              <td class="highlight-cell">11.14 (p=0.029)</td>
+              <td>Significant improvement with prompt engineering</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>A pilot RCT found that ChatGPT-assisted informed consent for TKA <strong>significantly reduced perioperative anxiety</strong> and improved satisfaction with preoperative education.<sup><a href="#ref47">47</a></sup></p>
+
+      <p>When evaluating materials for Superior Capsule Reconstruction, Gemini's outputs were rated significantly higher in educational quality and satisfaction, while ChatGPT produced text with higher readability metrics (easier to understand).<sup><a href="#ref49">49</a></sup></p>
+
+      <div class="callout warning">
+        <div class="callout-title">Teaching Point</div>
+        <p>LLMs often <strong>fail to proactively discuss alternative conservative treatments</strong> or risks of forgoing surgery.<sup><a href="#ref49">49</a></sup> Utilizing LLMs for patient communication requires residents to actively identify and correct the AI's omissions regarding comprehensive informed consent.</p>
+      </div>
+    </section>
+
+    <!-- SECTION: ETHICS -->
+    <section class="content-card" id="sec-ethics">
+      <h2>⚖️ Ethical Constraints, Governance &amp; Future Outlook</h2>
+
+      <h3>Algorithmic Bias and Artificial Hallucinations</h3>
+      <p>"Artificial hallucinations"—the generation of confident yet entirely fabricated medical information—pose the foremost risk.<sup><a href="#ref7">7</a></sup> Models like ChatGPT and Claude have a documented propensity to fabricate academic citations.<sup><a href="#ref7">7</a></sup> Because models are trained on uncurated internet datasets rather than exclusively on peer-reviewed literature, they are susceptible to algorithmic bias and may reflect historical health disparities.<sup><a href="#ref4">4</a></sup></p>
+
+      <h3>The Human-in-the-Loop (HITL) Imperative</h3>
+      <p>AI deployment in residency training must enforce a strict <strong>Human-in-the-Loop paradigm</strong>.<sup><a href="#ref8">8</a></sup> Faculty must review AI-generated case studies for accuracy and debrief residents after VSP interactions to ensure the AI did not reward flawed clinical reasoning.<sup><a href="#ref8">8</a></sup></p>
+
+      <h3>Data Privacy</h3>
+      <p>Inputting real patient data into public commercial LLMs risks violating <strong>HIPAA</strong> or regional data protection laws.<sup><a href="#ref20">20</a></sup> Programs must enforce policies requiring complete de-identification of all clinical data before prompt engineering, or invest in secure enterprise-level API access.<sup><a href="#ref5">5</a></sup></p>
+
+      <h3>Cognitive Over-Reliance</h3>
+      <p>If AI instantly provides accurate diagnoses, residents may bypass the arduous cognitive struggle necessary for long-term retention.<sup><a href="#ref4">4</a></sup> Curriculum design must leverage AI to <strong>increase cognitive friction, not eliminate it</strong>. Socratic AI frameworks ensure the technology functions as a cognitively rigorous sparring partner.<sup><a href="#ref1">1</a></sup></p>
+
+      <div class="checklist">
+        <li>Implement AI literacy training for all residents and faculty</li>
+        <li>Enforce strict HIPAA-compliant data de-identification policies</li>
+        <li>Maintain Human-in-the-Loop oversight for all AI-generated educational content</li>
+        <li>Use multi-model/ensemble approaches to leverage distinct strengths</li>
+        <li>Prefer internet-grounded models (Perplexity) for evidence-based training</li>
+        <li>Pair LLMs with free visual templating tools for surgical planning</li>
+        <li>Design prompts to increase cognitive friction, not eliminate challenge</li>
+        <li>Regularly audit AI outputs for hallucinations and algorithmic bias</li>
+      </div>
+    </section>
+
+    <!-- SECTION: REFERENCES -->
+    <section class="content-card" id="sec-references">
+      <h2>📚 References</h2>
+      <p class="limitation-tag">References extracted directly from the source document (51 total; selected key references listed below)</p>
+      <ol class="ref-list">
+        <li id="ref1">Socratic AI: An Adaptive Tutor for Clinical Case Based Learning. <em>medRxiv</em>, 2025.</li>
+        <li id="ref2">A Video Teaching Tool Is Effective for Training Residents in Hip Arthroplasty Templating. <em>PMC</em>, 2023.</li>
+        <li id="ref3">The current status and future prospects of artificial intelligence education in residency training. <em>Frontiers in Education</em>, 2025.</li>
+        <li id="ref4">Artificial Intelligence in Orthopaedic and Trauma Surgery Education: Applications, Ethics, and Future Perspectives. <em>PMC</em>, 2025.</li>
+        <li id="ref5">Artificial Intelligence Large Language Models Are Nearly Equivalent to Fourth Year Orthopaedic Residents on the OITE. <em>J Orthop Educ Innov</em>, 2025.</li>
+        <li id="ref6">Prompt Engineering in Clinical Practice: Tutorial for Clinicians. <em>PMC</em>, 2025.</li>
+        <li id="ref7">Application of ChatGPT for Orthopedic Surgeries and Patient Care. <em>PMC/NIH</em>, 2024.</li>
+        <li id="ref8">Artificial Intelligence in Medical Education. <em>JMIR Medical Education</em>, 2026.</li>
+        <li id="ref10">Large Language Model–Based Patient Simulation to Foster Communication Skills. <em>PMC</em>, 2025.</li>
+        <li id="ref11">Free Hip Arthroplasty Templating Software – Does it Work? <em>PMC/NIH</em>, 2023.</li>
+        <li id="ref12">Optimizing orthopedic education in resource-limited settings. <em>J Musculoskelet Surg Res</em>, 2025.</li>
+        <li id="ref13">Artificial Intelligence (AI) as a Catalyst for Orthopedic Residency. <em>PMC</em>, 2025.</li>
+        <li id="ref15">Bridging the educational gap: integrating patient-reported outcome into orthopedic residency training. <em>PMC</em>, 2025.</li>
+        <li id="ref16">Artificial Intelligence in Orthopaedic Education: A Comparative Analysis. <em>Jefferson Digital Commons</em>, 2025.</li>
+        <li id="ref17">Performance of Two AI Generative Language Models on the OITE. <em>Orthopedics</em>, 2024.</li>
+        <li id="ref20">Artificial Intelligence in Orthopedic Surgery: A Practical Overview. <em>SurgiColl</em>, 2025.</li>
+        <li id="ref23">MedTutor: A Retrieval-Augmented LLM System for Case-Based Medical Education. <em>EMNLP Demos</em>, 2025.</li>
+        <li id="ref26">Prompt Engineering Strategies for Generating Medical Case-Based MCQs with LLMs. <em>MDPI</em>, 2025.</li>
+        <li id="ref27">Comparative evaluation of LLM-based chatbots in a septic arthritis scenario. <em>PMC</em>, 2025.</li>
+        <li id="ref28">Students Master Patient Assessments with Simulated Preparation. <em>Villanova University</em>, 2025.</li>
+        <li id="ref29">The Evolution From Standardized to Virtual Patients in Medical Education. <em>PMC/NIH</em>, 2024.</li>
+        <li id="ref31">AI Patient Actor Platform. <em>Geisel School of Medicine at Dartmouth</em>, 2025.</li>
+        <li id="ref32">Large Language Model–Based Virtual Patient Systems for History-Taking. <em>JMIR</em>, 2026.</li>
+        <li id="ref33">Utilizing generative conversational AI to create simulated patient encounters. <em>Oxford Academic</em>, 2024.</li>
+        <li id="ref35">Pre-operative Planning of High Tibial Osteotomy With ChatGPT. <em>PMC</em>, 2023.</li>
+        <li id="ref37">SurgeryLLM: Revolutionizing Surgical Decision-Making with AI. <em>Yale School of Medicine</em>, 2025.</li>
+        <li id="ref38">VirtaMed: Leading Surgical Simulators for Medical Education. 2025.</li>
+        <li id="ref42">ChatGPT-4 generates orthopedic discharge documents faster than humans. <em>PMC</em>, 2024.</li>
+        <li id="ref44">The 5 Best AI Medical Scribes for Orthopedics. <em>DeepScribe</em>, 2026.</li>
+        <li id="ref47">ChatGPT's role in alleviating anxiety in TKA consent process: a RCT pilot. <em>PMC</em>, 2025.</li>
+        <li id="ref48">Is ChatGPT a trusted source of information for THA/TKA patients? <em>PMC</em>, 2024.</li>
+        <li id="ref49">Evaluating LLMs for Preoperative Patient Education in SCR. <em>JMIR Periop Med</em>, 2025.</li>
+        <li id="ref50">Can AI Models Appropriately Recommend Knee Arthroplasty Surgeons? <em>PMC</em>, 2025.</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar" role="complementary" aria-label="Interactive Clinical Parameters">
+
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar panels">📊 Show Interactive Controls</button>
+
+    <!-- Slider 1: OITE Threshold -->
+    <div class="sidebar-card">
+      <h3>🎯 OITE Performance Threshold</h3>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Adjust the passing accuracy threshold to classify AI models vs. resident levels.</p>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>OITE Accuracy Threshold</span>
+          <span class="slider-value" id="oiteDisplay">65%</span>
+        </div>
+        <input type="range" id="oiteSlider" min="40" max="90" value="65" step="1"
+               aria-label="OITE Accuracy Threshold"
+               aria-valuemin="40" aria-valuemax="90" aria-valuenow="65">
+        <div class="slider-hint">PGY-1 avg ≈ 55% · PGY-5 avg ≈ 73%<br>Threshold based on general residency benchmarks — not a single cutoff from source.</div>
+      </div>
+      <div class="reco-box" id="oiteReco">
+        <h4>Model Classification</h4>
+        <p id="oiteRecoText">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Slider 2: Hallucination Rate -->
+    <div class="sidebar-card">
+      <h3>🔍 VSP Hallucination Tolerance</h3>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Set your acceptable hallucination rate for Virtual Standardized Patient systems.</p>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Max Acceptable Rate</span>
+          <span class="slider-value" id="hallDisplay">3.0%</span>
+        </div>
+        <input type="range" id="hallSlider" min="0" max="10" value="3" step="0.1"
+               aria-label="Maximum acceptable hallucination rate"
+               aria-valuemin="0" aria-valuemax="10" aria-valuenow="3">
+        <div class="slider-hint">Calibrated VSP systems: 0.31–5%<br>Based on source document data.<sup><a href="#ref32">32</a></sup></div>
+      </div>
+      <div class="reco-box" id="hallReco">
+        <h4>Deployment Recommendation</h4>
+        <p id="hallRecoText">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Slider 3: Readability Grade Level -->
+    <div class="sidebar-card">
+      <h3>📖 Patient Education Readability</h3>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">Set the target Flesch-Kincaid grade level for AI-generated patient materials.</p>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Target Grade Level</span>
+          <span class="slider-value" id="readDisplay">8th</span>
+        </div>
+        <input type="range" id="readSlider" min="5" max="16" value="8" step="1"
+               aria-label="Target Flesch-Kincaid reading grade level"
+               aria-valuemin="5" aria-valuemax="16" aria-valuenow="8">
+        <div class="slider-hint">LLM default: ~12.15 (college level)<br>Simplified: ~11.14 (p=0.029)<sup><a href="#ref48">48</a></sup></div>
+      </div>
+      <div class="reco-box" id="readReco">
+        <h4>Content Strategy</h4>
+        <p id="readRecoText">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="sidebar-card">
+      <h3>⚡ Actions</h3>
+      <div class="btn-group">
+        <button class="btn btn-outline" id="resetBtn" aria-label="Reset all sliders to defaults">↺ Reset Defaults</button>
+        <button class="btn btn-primary" id="copyBtn" aria-label="Copy current summary to clipboard">📋 Copy Summary</button>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Timestamp
+  document.getElementById('timestamp').textContent = '📅 Generated: ' + new Date().toLocaleString('en-US', {
+    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+
+  // Progress bar
+  const progressBar = document.getElementById('progressBar');
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  });
+
+  // Sidebar toggle (mobile)
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('sidebar');
+  sidebarToggle.addEventListener('click', function() {
+    sidebar.classList.toggle('collapsed');
+    sidebarToggle.textContent = sidebar.classList.contains('collapsed')
+      ? '📊 Show Interactive Controls' : '✕ Hide Controls';
+  });
+
+  // Slider references
+  const oiteSlider = document.getElementById('oiteSlider');
+  const oiteDisplay = document.getElementById('oiteDisplay');
+  const oiteRecoText = document.getElementById('oiteRecoText');
+  const oiteReco = document.getElementById('oiteReco');
+
+  const hallSlider = document.getElementById('hallSlider');
+  const hallDisplay = document.getElementById('hallDisplay');
+  const hallRecoText = document.getElementById('hallRecoText');
+  const hallReco = document.getElementById('hallReco');
+
+  const readSlider = document.getElementById('readSlider');
+  const readDisplay = document.getElementById('readDisplay');
+  const readRecoText = document.getElementById('readRecoText');
+  const readReco = document.getElementById('readReco');
+
+  // OITE data from source
+  const oiteModels = [
+    { name: 'Google Gemini', pct: 69.9, level: 'Approaching PGY-4/PGY-5' },
+    { name: 'Claude (Anthropic)', pct: 68.0, level: 'Approaching PGY-4/PGY-5' },
+    { name: 'ChatGPT-4', pct: 62.6, level: 'PGY-2/PGY-3' },
+    { name: 'ChatGPT-3.5', pct: 58.3, level: 'PGY-1' }
+  ];
+
+  function updateSliderBg(slider) {
+    const min = parseFloat(slider.min);
+    const max = parseFloat(slider.max);
+    const val = parseFloat(slider.value);
+    const pct = ((val - min) / (max - min)) * 100;
+    slider.style.setProperty('--pct', pct + '%');
+  }
+
+  function updateOITE() {
+    const threshold = parseFloat(oiteSlider.value);
+    oiteDisplay.textContent = threshold + '%';
+    updateSliderBg(oiteSlider);
+
+    // Update table
+    const rows = ['row-gemini', 'row-claude', 'row-gpt4', 'row-gpt35'];
+    oiteModels.forEach(function(m, i) {
+      const cell = document.getElementById(rows[i]).querySelector('.status-cell');
+      if (m.pct >= threshold) {
+        cell.innerHTML = '<span style="color:var(--success); font-weight:700;">✓ PASSES</span>';
+        cell.classList.add('highlight-cell');
+      } else {
+        cell.innerHTML = '<span style="color:var(--danger); font-weight:700;">✗ Below</span>';
+        cell.classList.remove('highlight-cell');
+      }
+    });
+
+    // Recommendation
+    const passing = oiteModels.filter(function(m) { return m.pct >= threshold; });
+    let text = '';
+    if (passing.length === 0) {
+      text = 'No off-the-shelf LLM meets this threshold. Consider using RAG-augmented or multi-model ensemble approaches.';
+    } else if (passing.length <= 2) {
+      text = '<strong>' + passing.length + ' of 4</strong> models pass: ' + passing.map(function(m) { return m.name; }).join(', ') + '. Use these for high-stakes didactic applications.';
+    } else {
+      text = '<strong>' + passing.length + ' of 4</strong> models pass: ' + passing.map(function(m) { return m.name; }).join(', ') + '. Multiple viable options for standard educational use.';
+    }
+    oiteRecoText.innerHTML = text;
+
+    const strength = passing.length >= 3 ? 'strong' : passing.length >= 1 ? 'moderate' : 'weak';
+    const strengthLabel = passing.length >= 3 ? 'Strong' : passing.length >= 1 ? 'Moderate' : 'Weak';
+    let badge = oiteReco.querySelector('.reco-strength');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'reco-strength';
+      oiteReco.appendChild(badge);
+    }
+    badge.className = 'reco-strength ' + strength;
+    badge.textContent = strengthLabel + ' AI Adoption Confidence';
+  }
+
+  function updateHall() {
+    const val = parseFloat(hallSlider.value);
+    hallDisplay.textContent = val.toFixed(1) + '%';
+    updateSliderBg(hallSlider);
+
+    let text = '';
+    let strength = '';
+    let strengthLabel = '';
+    if (val <= 1) {
+      text = 'Very strict tolerance. Deploy only with <strong>multi-agent architectures</strong> and calibrated role-playing prompts (0.31% achievable). Mandatory HITL debriefing required after every session.';
+      strength = 'strong';
+      strengthLabel = 'High Safety';
+    } else if (val <= 5) {
+      text = 'Aligns with documented calibrated VSP performance (0.31–5%). <strong>Suitable for standard residency training.</strong> Implement regular quality audits and provide residents with verification training.';
+      strength = 'moderate';
+      strengthLabel = 'Acceptable';
+    } else {
+      text = 'Permissive tolerance. <strong>Higher risk of negative educational reinforcement.</strong> Only acceptable for low-stakes practice sessions. Ensure faculty review of AI outputs and explicit hallucination awareness training.';
+      strength = 'weak';
+      strengthLabel = 'Elevated Risk';
+    }
+    hallRecoText.innerHTML = text;
+
+    let badge = hallReco.querySelector('.reco-strength');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'reco-strength';
+      hallReco.appendChild(badge);
+    }
+    badge.className = 'reco-strength ' + strength;
+    badge.textContent = strengthLabel;
+  }
+
+  function updateRead() {
+    const val = parseFloat(readSlider.value);
+    const suffix = (val === 1) ? 'st' : (val === 2) ? 'nd' : (val === 3) ? 'rd' : 'th';
+    readDisplay.textContent = val + suffix;
+    updateSliderBg(readSlider);
+
+    let text = '';
+    let strength = '';
+    let strengthLabel = '';
+
+    if (val <= 6) {
+      text = 'Elementary level. Excellent for low health-literacy populations. Prompt: <em>"Explain at a 5th-grade reading level using everyday language."</em> May oversimplify complex surgical concepts—review for clinical accuracy.';
+      strength = 'strong';
+      strengthLabel = 'Highly Accessible';
+    } else if (val <= 9) {
+      text = 'Middle-school level. Strong balance of accessibility and clinical accuracy. Recommended for general patient education materials. Source data shows this range achieves the best acceptability ratio.';
+      strength = 'strong';
+      strengthLabel = 'Optimal Range';
+    } else if (val <= 12) {
+      text = 'High-school to college level. Close to LLM default output (~12.15). Suitable for educated patients but <strong>only 59.2% acceptable</strong> as sole source for general populations.<sup><a href="#ref48">48</a></sup> Consider simplifying.';
+      strength = 'moderate';
+      strengthLabel = 'Moderate Accessibility';
+    } else {
+      text = 'Post-graduate level. Too complex for most patient populations. Use only for <strong>resident-to-resident educational materials</strong>, not patient-facing content. LLM output at this level often contains dense medical jargon.';
+      strength = 'weak';
+      strengthLabel = 'Too Complex for Patients';
+    }
+    readRecoText.innerHTML = text;
+
+    let badge = readReco.querySelector('.reco-strength');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'reco-strength';
+      readReco.appendChild(badge);
+    }
+    badge.className = 'reco-strength ' + strength;
+    badge.textContent = strengthLabel;
+  }
+
+  // Event listeners
+  oiteSlider.addEventListener('input', updateOITE);
+  hallSlider.addEventListener('input', updateHall);
+  readSlider.addEventListener('input', updateRead);
+
+  // Initialize
+  updateOITE();
+  updateHall();
+  updateRead();
+
+  // Reset
+  document.getElementById('resetBtn').addEventListener('click', function() {
+    oiteSlider.value = 65;
+    hallSlider.value = 3;
+    readSlider.value = 8;
+    updateOITE();
+    updateHall();
+    updateRead();
+    showToast('All parameters reset to defaults.');
+  });
+
+  // Copy/Export
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    const now = new Date().toLocaleString('en-US');
+    const oiteVal = oiteSlider.value + '%';
+    const hallVal = parseFloat(hallSlider.value).toFixed(1) + '%';
+    const readVal = readSlider.value;
+
+    const passing = oiteModels.filter(function(m) { return m.pct >= parseFloat(oiteSlider.value); });
+    const passingList = passing.length > 0
+      ? passing.map(function(m) { return '  - ' + m.name + ' (' + m.pct + '%, ' + m.level + ')'; }).join('\n')
+      : '  - None meet threshold';
+
+    const summary =
+      '═══════════════════════════════════════\n' +
+      'AI IN ORTHOPEDIC MEDICAL EDUCATION\n' +
+      'Interactive Parameter Summary\n' +
+      '═══════════════════════════════════════\n\n' +
+      'Timestamp: ' + now + '\n\n' +
+      '── PARAMETER VALUES ──────────────────\n' +
+      '1. OITE Accuracy Threshold: ' + oiteVal + '\n' +
+      '   Models Passing: \n' + passingList + '\n\n' +
+      '2. VSP Hallucination Tolerance: ' + hallVal + '\n\n' +
+      '3. Patient Education Target Grade Level: ' + readVal + '\n\n' +
+      '── KEY FINDINGS FROM SOURCE ──────────\n' +
+      '• Best LLM (Gemini) scored 69.9% on 2022 OITE\n' +
+      '• VSP systems achieve 0.31-5% hallucination rate with calibrated prompts\n' +
+      '• LLM default readability: ~12.15 grade level\n' +
+      '• Raw LLMs unsuitable for geometric surgical planning (RMSE 2.96)\n' +
+      '• ChatGPT-4 generates discharge docs 10x faster than humans\n' +
+      '• PRO curriculum: 70.56 vs 58.68 knowledge scores (p<0.001)\n\n' +
+      '── CURRENT RECOMMENDATIONS ───────────\n' +
+      'OITE: ' + oiteRecoText.textContent + '\n\n' +
+      'VSP: ' + hallRecoText.textContent + '\n\n' +
+      'Readability: ' + readRecoText.textContent + '\n\n' +
+      '═══════════════════════════════════════\n' +
+      'Source: AI in Orthopedic Medical Education Research Report\n' +
+      'Disclaimer: Thresholds derived from source document data;\n' +
+      'some benchmarks annotated as general clinical knowledge.\n' +
+      '═══════════════════════════════════════';
+
+    navigator.clipboard.writeText(summary).then(function() {
+      showToast('✓ Summary copied to clipboard!');
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = summary;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Summary copied to clipboard!');
+    });
+  });
+
+  // Toast
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }
+})();
+</script>
+</body>
+</html>

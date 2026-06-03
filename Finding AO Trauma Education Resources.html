@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Architectures for Orthopedic Trauma Education</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #c53030;
+            --accent-light: #fc8181;
+            --bg: #f7fafc;
+            --surface: #ffffff;
+            --text: #1a202c;
+            --text-muted: #4a5568;
+            --border: #e2e8f0;
+            --badge-i: #276749;
+            --badge-ii: #2b6cb0;
+            --badge-iii: #b7791f;
+            --badge-iv: #9b2c2c;
+            --badge-v: #553c9a;
+            --callout-blue: #ebf8ff;
+            --callout-green: #f0fff4;
+            --callout-yellow: #fffff0;
+            --callout-red: #fff5f5;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .sticky-header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .sticky-header h1 {
+            font-size: 1.1rem; font-weight: 600; letter-spacing: 0.02em;
+        }
+        .sticky-header span { font-size: 0.8rem; opacity: 0.8; }
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        main { min-width: 0; }
+        aside {
+            position: sticky; top: 70px;
+            align-self: start;
+            max-height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        h2 {
+            color: var(--primary);
+            font-size: 1.55rem;
+            margin-bottom: 14px;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 8px;
+        }
+        h3 {
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            margin: 18px 0 10px;
+        }
+        h4 {
+            color: var(--text);
+            font-size: 1.05rem;
+            margin: 14px 0 8px;
+        }
+        p { margin-bottom: 12px; }
+        ul, ol { margin: 0 0 14px 22px; }
+        li { margin-bottom: 6px; }
+        strong { color: var(--primary); }
+        .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            vertical-align: middle;
+            margin-left: 6px;
+            letter-spacing: 0.03em;
+        }
+        .badge-i { background: var(--badge-i); }
+        .badge-ii { background: var(--badge-ii); }
+        .badge-iii { background: var(--badge-iii); }
+        .badge-iv { background: var(--badge-iv); }
+        .badge-v { background: var(--badge-v); }
+        .badge-na { background: #718096; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0 18px;
+            font-size: 0.92rem;
+        }
+        caption {
+            text-align: left;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        tr:nth-child(even) td { background: #f9fafb; }
+        .callout {
+            border-left: 4px solid;
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            margin: 14px 0;
+            font-size: 0.94rem;
+        }
+        .callout-blue { background: var(--callout-blue); border-color: #3182ce; }
+        .callout-green { background: var(--callout-green); border-color: #38a169; }
+        .callout-yellow { background: var(--callout-yellow); border-color: #d69e2e; }
+        .callout-red { background: var(--callout-red); border-color: #e53e3e; }
+        .callout strong { display: block; margin-bottom: 4px; }
+        /* Sidebar */
+        .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        .sidebar-card h3 { color: var(--accent); font-size: 1rem; margin: 0 0 14px; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; }
+        label.slider-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .slider-value {
+            float: right;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 4px 0 12px;
+            accent-color: var(--accent);
+        }
+        .rec-box {
+            background: #edf2f7;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 10px;
+            font-size: 0.88rem;
+            min-height: 140px;
+        }
+        .rec-box h4 { margin: 0 0 8px; color: var(--accent); font-size: 0.92rem; }
+        .btn-row { display: flex; gap: 8px; margin-top: 12px; }
+        .btn {
+            flex: 1;
+            padding: 9px 0;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .btn-reset { background: var(--border); color: var(--text); }
+        .btn-copy { background: var(--primary); color: white; }
+        .btn:hover { opacity: 0.85; }
+        .citation { font-size: 0.8rem; color: var(--text-muted); }
+        .ref-section { font-size: 0.88rem; }
+        .ref-section li { margin-bottom: 8px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0; }
+        .stat-card { background: #edf2f7; border-radius: 8px; padding: 14px; text-align: center; }
+        .stat-card .num { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+        .stat-card .lbl { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+        .limitation-note {
+            background: #fefcbf;
+            border: 1px dashed #d69e2e;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+        @media (max-width: 960px) {
+            .layout { grid-template-columns: 1fr; }
+            aside { position: static; max-height: none; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="sticky-header" role="banner">
+    <h1>Orthopedic Trauma Education: Digital Architectures &amp; Evidence-Based Courseware</h1>
+    <span>Interactive Educational Summary — Source Document Analysis</span>
+</header>
+
+<div class="layout">
+<main role="main">
+
+<!-- INTRODUCTION -->
+<section class="card" id="intro">
+    <h2>1. Introduction: The Modern Orthopedic Educational Ecosystem</h2>
+    <p>Orthopedic trauma education has undergone a profound, multi-generational transformation—evolving from purely didactic, apprenticeship-based models rooted in the mid-twentieth century into highly integrated, <strong>digital-first learning ecosystems</strong>. At the epicenter of this pedagogical shift is the dissemination of standardized fracture management principles, a movement originally pioneered and continually refined by the <strong>Arbeitsgemeinschaft für Osteosynthesefragen (AO Foundation)</strong>.<span class="badge badge-na">Source §1</span></p>
+    <p>The modern orthopedic surgeon, resident, and medical educator must navigate a fragmented but resource-rich digital landscape to access contemporary pedagogical tools—editable slide decks, cinema-grade surgical technique videos, and competency-based courseware. These materials are critical not only for individual continuous medical education (CME) but also for institutional training of the next generation of trauma surgeons facing increasingly complex polytrauma and geriatric fragility fractures.<span class="badge badge-na">Source §1</span></p>
+
+    <div class="callout callout-blue">
+        <strong>Key Thesis of Source Document</strong>
+        The most valuable, editable materials—specifically PowerPoint (PPT) and PDF slide decks—are often safeguarded behind proprietary organizational paywalls, academic domain restrictions, or specialized faculty portals. Retrieving them demands strategic acumen and advanced Boolean search methodology.<span class="badge badge-na">Source §1</span>
+    </div>
+</section>
+
+<!-- AO FOUNDATION -->
+<section class="card" id="ao">
+    <h2>2. The AO Foundation: Genesis &amp; Digital Infrastructure</h2>
+    <p>The AO Foundation remains the <strong>undisputed global vanguard for trauma education</strong>, establishing the structural, biological, and biomechanical principles that govern modern fracture fixation. Understanding the digital footprint of the AO Foundation is the foundational step in locating related courseware, as their terminology, classification systems, and pedagogical structures have been universally adopted by academic orthopedic departments worldwide.<span class="badge badge-na">Source §2</span></p>
+
+    <h3>2.1 The Four Pillars of AO Pedagogy</h3>
+    <p>The bedrock of all AO educational materials is the reinforcement of four guiding principles of fracture fixation. These form the conceptual framework for every presentation hosted on the platform:<span class="badge badge-na">Source §2.1</span></p>
+    <ol>
+        <li><strong>Anatomic Reduction</strong> of fracture fragments, particularly concerning intra-articular fractures where joint congruity is paramount to preventing post-traumatic arthrosis.<span class="badge badge-na">Source [4]</span></li>
+        <li><strong>Stable Fixation</strong> designed to ensure proper healing while simultaneously allowing surrounding muscular and tendinous tissue to move, glide, and strengthen.<span class="badge badge-na">Source [4]</span></li>
+        <li><strong>Atraumatic Surgical Techniques</strong> to preserve the delicate blood supply to bone fragments and surrounding soft tissue, minimizing iatrogenic soft-tissue damage.<span class="badge badge-na">Source [4]</span></li>
+        <li><strong>Early, Pain-Free Mobilization</strong>, returning the patient to functional baseline as safely and expeditiously as possible.<span class="badge badge-na">Source [4]</span></li>
+    </ol>
+
+    <h3>2.2 Open-Access Clinical Libraries &amp; Interactive Tools</h3>
+    <p>For clinicians operating without explicit faculty access credentials, the <strong>AO Clinical Library</strong> offers substantial open-access alternatives:<span class="badge badge-na">Source §2.2</span></p>
+    <ul>
+        <li><strong>AO Surgery Reference</strong> — a comprehensive, continually updated online repository structuring content following the AO/OTA Fracture and Dislocation Classification system. Covers adult, pediatric, and periprosthetic fractures.<span class="badge badge-na">Source [7,8]</span></li>
+        <li><strong>AO Video Hub</strong> — hundreds of recorded course lectures, practical lab exercise instructions, and interactive webcasts. Webcasts are defined as interactive live broadcasts from the anatomical laboratory; webinars are interactive live broadcasts of lectures on predefined clinical topics.<span class="badge badge-na">Source [7,10]</span></li>
+        <li><strong>E-Learning Modules</strong> — interactive learning for basic procedures using 3D animations and radiographic overlays.<span class="badge badge-na">Source [3,12]</span></li>
+        <li><strong>AO Trauma Orthogeriatrics App</strong> — a free mobile application optimizing care for older adults with fragility fractures.<span class="badge badge-na">Source [7]</span></li>
+    </ul>
+</section>
+
+<!-- MODULAR CURRICULUM -->
+<section class="card" id="modules">
+    <h2>3. AO Trauma Courseware: Modular Architecture</h2>
+    <p>Recent structural adaptations emphasize <strong>blended learning architectures</strong>, intelligently merging online asynchronous self-study with intensive, in-person practical laboratories and small-group discussions. A recent iteration of the Blended Basic Principles course required 4–5 weeks of self-study pre-recorded lectures and online assessments prior to a 3-day in-person practical lab.<span class="badge badge-na">Source [4]</span></p>
+
+    <table>
+        <caption>Table 1. Modular Architecture of AO Trauma Courses (Source: Document §3)</caption>
+        <thead>
+            <tr><th>Pedagogical Level</th><th>Module</th><th>Primary Focus Areas</th></tr>
+        </thead>
+        <tbody>
+            <tr><td rowspan="5"><strong>Basic Principles</strong></td><td>Module 1: General Principles</td><td>Fracture healing fundamentals, cellular bone biology, absolute vs. relative stability</td></tr>
+            <tr><td>Module 2: Biomechanics</td><td>Stability and complex biomechanics of bone healing</td></tr>
+            <tr><td>Module 3: Diaphyseal Fractures</td><td>Shaft fracture treatment algorithms, advanced soft-tissue management</td></tr>
+            <tr><td>Module 4: Articular Fractures</td><td>Joint fracture management, anatomic reduction, absolute stability</td></tr>
+            <tr><td>Module 5: Proximal Femur</td><td>Proximal femoral fracture fixation strategies and complications</td></tr>
+            <tr><td rowspan="4"><strong>Advanced Principles</strong></td><td>Module 1: Review &amp; Innovations</td><td>Critical review of basics with exploration of newly developed surgical techniques</td></tr>
+            <tr><td>Module 2: Upper Limb</td><td>Complex humerus, forearm, and elbow fracture decision-making</td></tr>
+            <tr><td>Module 3: Lower Limb</td><td>Distal femur, bicondylar tibial plateau, severe distal tibial (pilon) fractures</td></tr>
+            <tr><td>Module 4: Polytrauma &amp; Pelvis</td><td>Multidisciplinary polytrauma management, pelvic ring and acetabular reconstruction</td></tr>
+        </tbody>
+    </table>
+    <p class="citation">Sources: [13] Basic Principles modules; [14] ORP course; [15] Advanced Principles course.</p>
+
+    <div class="callout callout-green">
+        <strong>ACGME Alignment</strong>
+        This courseware directly aligns with ACGME competencies and specialty-specific Milestones programs, making these slide decks highly desirable for North American residency directors aiming to maintain accreditation standards.<span class="badge badge-na">Source [4]</span>
+    </div>
+
+    <h3>3.1 Specialized Curricula</h3>
+    <p>The AO also delivers specialized iterations for distinct sub-disciplines:<span class="badge badge-na">Source §3</span></p>
+    <ul>
+        <li><strong>Hand &amp; Wrist Fractures</strong> — modules on extraarticular fractures, carpal injuries, lag screw fixation of metacarpal shafts, headless compression screw fixation for scaphoid fractures.<span class="badge badge-na">Source [16]</span></li>
+        <li><strong>Fracture Care in Older Adults</strong> — orthogeriatric co-management combining case-based evidence lectures with internal medicine physicians to address systemic care issues inherent in fragility fractures.<span class="badge badge-na">Source [17]</span></li>
+    </ul>
+</section>
+
+<!-- FACULTY RESOURCE CENTER -->
+<section class="card" id="frc">
+    <h2>4. The AO Faculty Resource Center</h2>
+    <p>For established educators and residency program directors seeking direct access to downloadable, high-resolution slide decks (PPT/PDF), the <strong>AO Trauma Faculty Resource Center</strong> represents the definitive, albeit restricted, repository. Access to the underlying digital asset management system (internally called <strong>Widen</strong>) is strictly limited to logged-in, verified faculty members.<span class="badge badge-na">Source §4, [18]</span></p>
+
+    <h3>4.1 What the Resource Center Contains</h3>
+    <p>Within the Widen system, educators can navigate to "Tools → Search Teaching Materials" to retrieve:<span class="badge badge-na">Source [9]</span></p>
+    <ul>
+        <li>Raw, fully editable <strong>PowerPoint presentations</strong></li>
+        <li>Native <strong>procedural videos</strong> and high-fidelity case discussion recordings</li>
+        <li>Complete, pre-packaged <strong>course modules</strong> with program templates, approved syllabi, standard consensus-based lectures, and vetted case presentations peer-reviewed by the AO Education Institute</li>
+    </ul>
+
+    <h3>4.2 Faculty Presentation Guidelines</h3>
+    <p>The slide decks are governed by rigorous presentation guidelines:<span class="badge badge-na">Source [19]</span></p>
+    <ul>
+        <li>Faculty must <strong>demonstrate enthusiasm and passion</strong> for the topic to motivate participants and build rapport.</li>
+        <li>Guidelines mandate <strong>Microsoft PowerPoint "Presenter View"</strong> with a two-monitor setup: primary monitor displays slides with hidden clinical notes; secondary monitor projects only high-resolution images and text to participants.</li>
+        <li>If a dual-monitor setup is unavailable, faculty are instructed to <strong>print the lecture with integrated notes</strong> to prevent omission of complex biomechanical data.</li>
+    </ul>
+
+    <div class="callout callout-yellow">
+        <strong>Global Pedagogical Standardization</strong>
+        The strict version control ensures that an AO Basic Principles course delivered in North America maintains the exact same pedagogical standards, visual aids, and biomechanical dogma as an equivalent course delivered in Europe, Southern Africa, or the Asia Pacific region.<span class="badge badge-na">Source [3,9]</span>
+    </div>
+</section>
+
+<!-- OTA -->
+<section class="card" id="ota">
+    <h2>5. Orthopaedic Trauma Association (OTA) Online</h2>
+    <p>The OTA Online platform serves as the <strong>premier North American aggregator</strong> of contemporary clinical research, peer-reviewed presentations, and highly accessible slide decks. It is specifically architected to provide peer-reviewed content and scientific forums supporting musculoskeletal research, surgeon education, and public health awareness.<span class="badge badge-na">Source §5, [20]</span></p>
+
+    <h3>5.1 Core Curriculum Lectures</h3>
+    <p>The <strong>OTA Core Curriculum Lectures</strong> represent arguably the highest-yield resource for downloadable, editable slide decks. This digital syllabus is explicitly designed to support and standardize orthopaedic trauma resident education across varying institutional environments. The presentations were purposefully created for direct use by educators and permit extensive modification and institutional customization.<span class="badge badge-na">Source [20]</span></p>
+    <p>The only stipulation: proper credit must be given to both the original member-author and the OTA when talks are presented, even if slides have been significantly modified.<span class="badge badge-na">Source [20]</span></p>
+
+    <table>
+        <caption>Table 2. OTA Core Curriculum Categories (Source: Document §5.1)</caption>
+        <thead>
+            <tr><th>Category</th><th>Primary Focus Areas</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Fracture Healing &amp; General</strong></td><td>Biomechanics, bone repair biology, systemic trauma response, absolute vs. relative stability</td></tr>
+            <tr><td><strong>Lower Extremity</strong></td><td>Hip, Femur, Tibia, Foot, Ankle trauma management</td></tr>
+            <tr><td><strong>Upper Extremity</strong></td><td>Clavicle, Humerus, Forearm, Hand fracture fixation</td></tr>
+            <tr><td><strong>Pelvis &amp; Acetabulum</strong></td><td>Complex ring injuries, emergent stabilization, intra-articular approaches</td></tr>
+            <tr><td><strong>Special Populations</strong></td><td>Pediatrics and Geriatric fragility fractures</td></tr>
+            <tr><td><strong>Special Issues &amp; Research</strong></td><td>Complication management, deep infection, evidence-based practice</td></tr>
+        </tbody>
+    </table>
+    <p class="citation">Source: [20] — OTA Online educational platform. Project directed by Lisa Cannada, MD, John Hagedorn, MD, and Samir Mehta, MD.</p>
+
+    <h3>5.2 FractureBook &amp; Interactive Webinars</h3>
+    <p>The <strong>OTA FractureBook</strong>, edited by Anna N. Miller, MD, FIOTA, is an online textbook platform designed to bypass the static limitations of paper publishing, allowing real-time updates and inclusion of high-definition multimedia directly referenceable during presentations.<span class="badge badge-na">Source [20]</span></p>
+    <p>The OTA also hosts <strong>"Education Wednesdays"</strong> with upcoming and on-demand webinars for CME credit, and the informal, case-based <strong>"Fracture Night"</strong> sessions (typically 8:00 PM CT on the first three Wednesdays of each month). Fracture Night sessions are purposely not recorded and do not offer CME, fostering a candid, psychologically safe environment for discussing complex or failed cases.<span class="badge badge-na">Source [20]</span></p>
+</section>
+
+<!-- EVIDENCE FROM OTA JOURNALS -->
+<section class="card" id="evidence">
+    <h2>6. Evidence-Based Medicine &amp; Recent Research Cited</h2>
+    <p>A fundamental component of contemporary orthopedic presentation is the rigorous citation of recent, high-impact clinical trials and meta-analyses. The OTA curates these through its <strong>Evidence-Based Medicine Resource List</strong>, vetted by the OTA EBQVS Committee, including OTA "Choose Wisely" recommendations, ACS TQIP Best Practices Guidelines, and AAOS CPGs.<span class="badge badge-na">Source [20]</span></p>
+
+    <div class="limitation-note">
+        <strong>⚠ Evidence Note:</strong> The source document is primarily a <em>narrative review and resource guide</em> rather than a systematic review or clinical trial report. The studies cited below are referenced within the document but are not the document's own primary research findings. Evidence levels for individual claims were not specified in the source document.
+    </div>
+
+    <table>
+        <caption>Table 3. Key Research Findings Referenced in the Source Document</caption>
+        <thead>
+            <tr><th>Study/Topic</th><th>Key Finding</th><th>Source Ref</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Epidemiological Modeling (Albany Medical Center, n = 4,097)</td>
+                <td>Weather patterns predict orthopaedic trauma volume; consults spike during hot summer weekends and drop during rainfall</td>
+                <td>[20]</td>
+            </tr>
+            <tr>
+                <td>LC1 Pelvic Ring Injury – Surgical vs. Non-Surgical (Multicenter, JOT)</td>
+                <td>Surgical treatment mortality: <strong>5.2%</strong> vs. Non-surgical: <strong>15.6%</strong></td>
+                <td>[20]</td>
+            </tr>
+            <tr>
+                <td>Intraoperative 3D Fluoroscopy in Acetabular Surgery</td>
+                <td>Unplanned return surgeries reduced from <strong>15.5%</strong> to <strong>0%</strong> without extending operative time</td>
+                <td>[20]</td>
+            </tr>
+            <tr>
+                <td>AI in Imaging Interpretation (ChatGPT 5, Grok 3, Claude 4.5)</td>
+                <td>Cutting-edge comparison of large language models in analyzing orthopedic trauma imaging (ongoing research)</td>
+                <td>[20]</td>
+            </tr>
+            <tr>
+                <td>Psychiatric Disorders in Orthopaedic Polytrauma</td>
+                <td>31.3% prevalence of psychiatric disorders; identified by orthopaedic surgeons in only <strong>10%</strong> of cases</td>
+                <td>[20]</td>
+            </tr>
+            <tr>
+                <td>Medicaid Access Barrier Study (Major U.S. Cities)</td>
+                <td>Only <strong>17.8%</strong> of in-network clinicians reachable and accepting new patients; wait times up to 6 months</td>
+                <td>[20]</td>
+            </tr>
+            <tr>
+                <td>Poster-to-Publication Rate (OTA Annual Meeting, 2017–2023)</td>
+                <td>1,186 posters → 688 full publications = <strong>58%</strong> publication rate (peak 67.6% in 2019)</td>
+                <td>[26]</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- COMPARATIVE PLATFORM TABLE -->
+<section class="card" id="platforms">
+    <h2>7. Comparative Analysis: Digital Education Platforms</h2>
+    <table>
+        <caption>Table 4. Comparative Overview of Orthopedic Trauma Education Platforms</caption>
+        <thead>
+            <tr>
+                <th>Platform</th>
+                <th>Content Type</th>
+                <th>Access Model</th>
+                <th>Key Strengths</th>
+                <th>Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>AO Foundation / AO Trauma</strong></td>
+                <td>Courseware, slide decks, videos, Surgery Reference, e-learning</td>
+                <td>Open-access (library, reference); faculty-restricted (Widen/FRC)</td>
+                <td>Global standard for fracture principles; modular curriculum; blended learning architecture</td>
+                <td>[3,4,7,9]</td>
+            </tr>
+            <tr>
+                <td><strong>OTA Online</strong></td>
+                <td>Core Curriculum slide decks, FractureBook, video library (~300 procedures), webinars, Meetings On-Demand</td>
+                <td>Member login required for native files; CME tracking integrated</td>
+                <td>Freely modifiable presentations; highest-yield editable PPTs; integrated evidence-based resources</td>
+                <td>[20]</td>
+            </tr>
+            <tr>
+                <td><strong>AAOS</strong></td>
+                <td>Orthopaedic Video Theater, CPGs, OnDemand Symposia, Annual Meeting archives</td>
+                <td>Members &amp; pay-per-view (OnDemand symposia)</td>
+                <td>Massive Annual Meeting archives; CPG integration; peer-reviewed surgical video library</td>
+                <td>[21,22,23]</td>
+            </tr>
+            <tr>
+                <td><strong>Orthobullets</strong></td>
+                <td>6,115+ review topics, 31,064+ board questions, 6,659+ videos, 7,353 article PDFs</td>
+                <td>Freemium (basic free; PASS/Enterprise paid)</td>
+                <td>55M+ unique visitors; 542K+ registered providers; structured topic flow mimics presentation architecture</td>
+                <td>[2]</td>
+            </tr>
+            <tr>
+                <td><strong>OrthoPedia.com</strong></td>
+                <td>Cinema-grade surgical video &amp; animation library organized by anatomy and biomechanics</td>
+                <td>Open-access</td>
+                <td>Bridges gap between static textbook diagrams and 3D surgical reality</td>
+                <td>[1]</td>
+            </tr>
+            <tr>
+                <td><strong>Orthoclips.com</strong></td>
+                <td>Narrated, live-annotated video didactic presentations</td>
+                <td>Open-access</td>
+                <td>Dedicated modules on AO doctrines (basic principles, pelvic fractures, distal femur); cites OTA &amp; AONA sources</td>
+                <td>[27]</td>
+            </tr>
+            <tr>
+                <td><strong>Academic .edu Repositories</strong></td>
+                <td>Resident lecture series, CVs, handbooks, grand rounds</td>
+                <td>Often publicly accessible via direct URL</td>
+                <td>Reveals actual implementation of AO principles in training programs; hidden curriculum architecture</td>
+                <td>[29–35]</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- SEARCH STRATEGIES -->
+<section class="card" id="search">
+    <h2>8. Advanced Information Retrieval Strategies</h2>
+    <p>Because a substantial portion of the highest-value courseware is locked behind member portals, discovering publicly accessible slide decks requires the application of <strong>advanced Boolean operators and specialized search syntax</strong> (commonly referred to as Google Dorks).<span class="badge badge-na">Source §8</span></p>
+
+    <h3>8.1 Filetype Operators for Primary Source Documents</h3>
+    <p>The most direct strategy to isolate presentation materials is the <code>filetype:</code> operator, restricting results to <code>.pdf</code>, <code>.ppt</code>, or <code>.pptx</code> extensions:<span class="badge badge-na">Source §8.1</span></p>
+    <div class="callout callout-blue">
+        <strong>Example Query</strong>
+        <code>site:aofoundation.org filetype:pdf "trauma principles" OR "fracture management"</code><br>
+        This forces the search engine to index only PDF documents on the AO Foundation's servers containing core course phrases.
+    </div>
+    <p>Results from this approach include retrieval of:<span class="badge badge-na">Source [14,16,17,19]</span></p>
+    <ul>
+        <li>The "AO Trauma Management of Hand and Wrist Fractures" course flyer with specific lab exercises</li>
+        <li>"Basic Principles of Fracture Management for ORP" syllabi covering cellular bone biology and soft-tissue management</li>
+        <li>Internal faculty guidelines on presentation structure and dual-monitor requirements</li>
+        <li>"Fracture Care in Older Adults" curriculum documents</li>
+    </ul>
+
+    <h3>8.2 Mining Academic .edu Domains</h3>
+    <p>Targeting <code>.edu</code> domains with orthopedic keywords surfaces raw presentation materials reflecting actual training program implementation:<span class="badge badge-na">Source §8.2</span></p>
+    <div class="callout callout-blue">
+        <strong>Example Query</strong>
+        <code>site:edu filetype:pdf "AO Trauma" AND "resident lecture series"</code>
+    </div>
+    <p>Key findings from this methodology include:<span class="badge badge-na">Source [29–35]</span></p>
+    <ul>
+        <li><strong>University of Virginia</strong> resident handbook: minimum of 1 hour weekly devoted to formal didactic presentations in basic sciences, supplemented by subspecialty conferences and pathology lectures</li>
+        <li><strong>Faculty CVs from Stanford, University of Washington, UC Irvine</strong> — revealing deep integration with AO Trauma North America and the OTA, including Instructional Course Lectures at AAOS Annual Meetings</li>
+        <li><strong>UCSF research archives</strong> — showing how AO Trauma North America Resident Research Grants fund translational research that subsequently populates academic grand rounds</li>
+        <li><strong>Brown University archives</strong> — historical, specialized combat trauma lectures on periarticular fractures, bone loss management, and war casualty amputation principles</li>
+    </ul>
+</section>
+
+<!-- PEDAGOGY OF SLIDE DECKS -->
+<section class="card" id="pedagogy">
+    <h2>9. Standardized Anatomy of a Trauma Slide Deck</h2>
+    <p>Analysis of materials from the AO, OTA, AAOS, and academic domains reveals a highly standardized pedagogical architecture governing orthopedic trauma slide decks:<span class="badge badge-na">Source §9</span></p>
+    <ol>
+        <li><strong>Epidemiology &amp; Mechanism of Injury (MOI)</strong> — demographic realities contrasted with energetic vs. low-energy mechanisms (e.g., MVC vs. geriatric falls).</li>
+        <li><strong>Anatomy &amp; Surgical Approaches</strong> — detailed illustrations, increasingly supplemented by 3D software (e.g., Primal Pictures Anatomy.tv via AO membership).</li>
+        <li><strong>Classification Systems</strong> — the AO/OTA Fracture and Dislocation Classification as the global lingua franca.<span class="badge badge-na">Source [7]</span></li>
+        <li><strong>Indications for Operative vs. Nonoperative Management</strong> — evidence-based thresholds from JOT, OTA International, or AAOS CPGs.</li>
+        <li><strong>Biomechanical Principles &amp; Fixation Strategy</strong> — absolute stability (lag screws, rigid compression plating for articular surfaces) vs. relative stability (intramedullary nailing, bridge plating for diaphyseal comminution).<span class="badge badge-na">Source [4]</span></li>
+        <li><strong>Surgical Technique &amp; Execution</strong> — HD radiographic overlays, fluoroscopic images, embedded procedural videos, MIPO techniques for soft-tissue preservation.<span class="badge badge-na">Source [20,36]</span></li>
+        <li><strong>Complications, Outcomes &amp; Post-Operative Care</strong> — management of malunion, nonunion, deep infection, hardware failure; evidence-based rehabilitation and weight-bearing protocols.</li>
+    </ol>
+
+    <div class="callout callout-red">
+        <strong>Learning from Failures</strong>
+        Recognizing that learning from surgical failures is as critical as celebrating successes, premium slide decks universally address complication management as a non-negotiable concluding component.<span class="badge badge-na">Source [36]</span>
+    </div>
+</section>
+
+<!-- MENTAL HEALTH INTEGRATION -->
+<section class="card" id="psych">
+    <h2>10. Integration of Psychiatric &amp; Holistic Recovery Data</h2>
+    <p>Perhaps the most significant recent evolution in orthopedic trauma courseware is the integration of psychiatric and holistic recovery data. The OTA's <strong>Patient Mental Wellness Literature Resources</strong> document a paradigm shift toward addressing the psychological sequelae of major trauma.<span class="badge badge-na">Source §10, [20]</span></p>
+
+    <div class="grid-2">
+        <div class="stat-card">
+            <div class="num">31.3%</div>
+            <div class="lbl">Prevalence of psychiatric disorders in orthopaedic polytrauma patients</div>
+        </div>
+        <div class="stat-card">
+            <div class="num">10%</div>
+            <div class="lbl">Rate of identification by orthopaedic surgeons</div>
+        </div>
+        <div class="stat-card">
+            <div class="num">17.8%</div>
+            <div class="lbl">Medicaid in-network clinicians reachable &amp; accepting patients</div>
+        </div>
+        <div class="stat-card">
+            <div class="num">6 mo</div>
+            <div class="lbl">Maximum wait times for Medicaid-enrolled patients</div>
+        </div>
+    </div>
+
+    <p>Modern presentations now feature slides on the efficacy of <strong>Cognitive Behavioral Therapy (CBT)</strong> and mindfulness in reducing PTSD, depression, and anxiety in recovering trauma patients. Trauma presentations advocate for <strong>integrated delivery-of-care (IntCare) models</strong> and specialized programs like the <strong>Trauma Survivors Network (TSN)</strong> to promote comprehensive psychosocial recovery alongside fracture union.<span class="badge badge-na">Source [20]</span></p>
+</section>
+
+<!-- SYNTHESES -->
+<section class="card" id="synthesis">
+    <h2>11. Synthesis &amp; Future Directions</h2>
+    <p>A synthesis of data from the source document suggests several profound trends:<span class="badge badge-na">Source §11</span></p>
+    <ol>
+        <li><strong>Democratization of elite educational materials</strong> — While formal AO courses remain financially restricted, the proliferation of open-access journals (OTA International), the freely modifiable OTA Core Curriculum, and user-driven platforms (Orthobullets) ensures that a resident in a resource-limited setting accesses the same biomechanical principles as one at a premier institution.</li>
+        <li><strong>Dynamic multimedia superseding static slides</strong> — The integration of live surgical webcasts, interactive 3D fluoroscopy data, mobile apps, and the OTA's FractureBook (continuously updated, multimedia-rich) indicates that point-of-care learning is beginning to replace retrospective classroom didactics.</li>
+        <li><strong>AI-driven adaptive courseware</strong> — As platforms begin using AI and large language models to analyze imaging and predict outcomes, future courseware will likely become highly algorithmic, dynamically tailoring content to individual knowledge gaps.</li>
+        <li><strong>Psychological recovery as standard curriculum</strong> — Future slide decks will treat psychological recovery with the same rigorous, evidence-based approach currently applied to mechanical bone fixation.</li>
+    </ol>
+
+    <div class="callout callout-green">
+        <strong>Overarching Conclusion</strong>
+        By mastering the complex educational informatics landscape described in this source document, educators can ensure that the timeless AO principles—anatomic reduction, stable fixation, soft-tissue preservation, and early mobilization—are propagated using the most advanced, visually sophisticated, and rigorously evidence-based digital tools available.<span class="badge badge-na">Source §11</span>
+    </div>
+</section>
+
+<!-- REFERENCES -->
+<section class="card" id="refs">
+    <h2>References</h2>
+    <p><em>All references are derived directly from the source document's Works Cited section.</em></p>
+    <ol class="ref-section">
+        <li>[1] OrthoPedia.com — Orthopedic Educational Video and Animation Library. <em>orthopedia.com</em></li>
+        <li>[2] Orthobullets. <em>orthobullets.com</em> — 55M+ unique visitors; 835M views; 542K+ registered providers; 6,115+ topics; 31,064+ board questions.</li>
+        <li>[3] AO Trauma Education. <em>aofoundation.org/trauma/education</em></li>
+        <li>[4] AO Trauma NA Blended Course — Basic Principles of Fracture Management. <em>events.aona.org</em></li>
+        <li>[5] AO Trauma NA Blended Course — Basic Principles (alternate iteration). <em>events.aona.org</em></li>
+        <li>[6] Guidelines AO Trauma — Nomenclature of Educational Activities. <em>images.aofoundation.org</em></li>
+        <li>[7] AO Trauma Clinical Library and Tools. <em>aofoundation.org/trauma/clinical-library-and-tools</em></li>
+        <li>[8] The AO Surgery Reference. <em>aofoundation.org/our-services-and-resources/ao-surgery-reference</em></li>
+        <li>[9] Services and Resources — AO Foundation (Faculty Resource Center / Widen). <em>aofoundation.org/what-we-do/education/services-and-resources</em></li>
+        <li>[10] Videos and Webinars — AO Foundation. <em>aofoundation.org/trauma/clinical-library-and-tools/videos-and-webinars</em></li>
+        <li>[11] Privileges — AO Foundation (myAO, AO PEER, AMBOSS). <em>aofoundation.org/trauma/membership/privileges</em></li>
+        <li>[12] E-learning — AO Foundation. <em>aofoundation.org/trauma/clinical-library-and-tools/e-learning</em></li>
+        <li>[13] AO Trauma Online Course — Basic Principles Essentials. <em>aofoundation.org</em></li>
+        <li>[14] AO Trauma Course — Basic Principles for ORP (PDF). <em>media.aofoundation.org</em></li>
+        <li>[15] AO Trauma Course — Advanced Principles of Fracture Management. <em>aofoundation.org</em></li>
+        <li>[16] AO Trauma Course — Management of Hand and Wrist Fractures (PDF). <em>media.aofoundation.org</em></li>
+        <li>[17] AO Trauma Course — Fracture Care in Older Adults (PDF). <em>media.aofoundation.org</em></li>
+        <li>[18] Tools &amp; Resources — AO Foundation (Widen Asset Management). <em>aofoundation.org/aona</em></li>
+        <li>[19] AO Trauma Course — Advances in Operative Fracture Management (Faculty Guidelines). <em>images.aofoundation.org</em></li>
+        <li>[20] Orthopaedic Trauma Association: Home / OTA Online. <em>education.ota.org</em></li>
+        <li>[21] Trauma Education Resources — AAOS. <em>aaos.org/education/specialty-resources/trauma</em></li>
+        <li>[22] Education Archives Annual Meeting — AAOS. <em>aaos.org/annual</em></li>
+        <li>[23] AAOS Course OnDemand: AAOS/OTA Orthopaedic Trauma Update. <em>ams.aaos.org</em></li>
+        <li>[24] AAOS Saturday Evening Lectures (YouTube). <em>youtube.com</em></li>
+        <li>[25] Abstracts Accepted for Presentation — Publication Rate Analysis. <em>PMC6754218</em></li>
+        <li>[26] Publication Rates of OTA Posters 2017–2023. <em>Journal of Orthopaedic Experience &amp; Innovation</em></li>
+        <li>[27] Video Lectures — OrthoClips. <em>orthoclips.com</em></li>
+        <li>[28] Ophthalmology OKAP and Board Review — AAO (comparative discipline). <em>aao.org</em></li>
+        <li>[29] UVA Department of Orthopaedic Surgery — Resident Handbook (PDF). <em>med.virginia.edu</em></li>
+        <li>[30] University of Washington Orthopaedics — Discoveries 2017 (PDF). <em>orthop.washington.edu</em></li>
+        <li>[31] David J. Wright CV — UC Irvine (PDF). <em>orthopaedicsurgery.uci.edu</em></li>
+        <li>[32] Julius A. Bishop CV — Stanford University. <em>cap.stanford.edu</em></li>
+        <li>[33] UCSF Department of Orthopaedic Surgery — Research Report 2020 (PDF). <em>orthosurgery.ucsf.edu</em></li>
+        <li>[34] Temple University Journal of Orthopaedic Surgery &amp; Sports Medicine (PDF). <em>medicine.temple.edu</em></li>
+        <li>[35] Roman Artym Hayda CV — Brown University (PDF). <em>vivo.brown.edu</em></li>
+        <li>[36] AO Trauma Books and e-books. <em>aofoundation.org/trauma/clinical-library-and-tools/journals-and-publications/books-and-e-books</em></li>
+    </ol>
+</section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside role="complementary" aria-label="Interactive Educational Navigator">
+    <div class="sidebar-card">
+        <h3>🎓 Educational Navigator</h3>
+        <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:14px; text-align:center;">
+            Adjust parameters below to identify the most relevant resources and pedagogical strategies for your needs.
+        </p>
+
+        <label class="slider-label">
+            Learner Level
+            <span class="slider-value" id="levelVal">Basic Resident (PGY 1–2)</span>
+        </label>
+        <input type="range" id="levelSlider" min="0" max="4" value="0" step="1" aria-label="Learner Level">
+        <p style="font-size:0.78rem; color:var(--text-muted); margin-top:-8px; margin-bottom:10px;">
+            0 = Medical Student | 1 = Basic Resident | 2 = Senior Resident | 3 = Fellow | 4 = Attending/Faculty
+        </p>
+
+        <label class="slider-label">
+            Anatomical Focus
+            <span class="slider-value" id="regionVal">General / All Regions</span>
+        </label>
+        <input type="range" id="regionSlider" min="0" max="5" value="0" step="1" aria-label="Anatomical Focus">
+
+        <label class="slider-label">
+            Preferred Content Format
+            <span class="slider-value" id="formatVal">Slide Decks (PPT/PDF)</span>
+        </label>
+        <input type="range" id="formatSlider" min="0" max="3" value="0" step="1" aria-label="Content Format Preference">
+
+        <div class="rec-box" id="recBox">
+            <h4>📋 Personalized Recommendations</h4>
+            <div id="recContent">Adjust the sliders above to generate tailored educational resource recommendations based on your learning profile.</div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn btn-reset" id="resetBtn" aria-label="Reset sliders">Reset</button>
+            <button class="btn btn-copy" id="copyBtn" aria-label="Copy recommendations to clipboard">Copy Summary</button>
+        </div>
+        <p id="copyMsg" style="font-size:0.78rem; color:var(--badge-i); text-align:center; margin-top:6px; display:none;">
+            ✅ Copied to clipboard!
+        </p>
+    </div>
+
+    <div class="sidebar-card">
+        <h3>ℹ️ Source Limitations</h3>
+        <ul style="font-size:0.82rem; color:var(--text-muted);">
+            <li>Source document is a <strong>narrative review / resource guide</strong>, not a systematic review or clinical trial.</li>
+            <li>No primary clinical thresholds (e.g., specific fracture angles, lab values) were provided — interactive parameters above are derived from the document's described <strong>educational levels and platform taxonomy</strong>.</li>
+            <li>Specific RCTs with sample sizes and p-values are <strong>not the primary focus</strong> of this source. Referenced studies are cited as examples of what educators might include in slide decks.</li>
+            <li>Evidence levels (I–V) were <strong>not specified</strong> in the source document for individual claims; badges are marked "Source §" accordingly.</li>
+        </ul>
+    </div>
+</aside>
+</div>
+
+<script>
+(function() {
+    const levels = [
+        'Medical Student',
+        'Basic Resident (PGY 1–2)',
+        'Senior Resident (PGY 3–4)',
+        'Fellow (Subspecialty)',
+        'Attending / Faculty Educator'
+    ];
+
+    const regions = [
+        'General / All Regions',
+        'Upper Extremity (Clavicle, Humerus, Forearm, Hand)',
+        'Lower Extremity (Hip, Femur, Tibia, Foot, Ankle)',
+        'Pelvis & Acetabulum',
+        'Spine & Axial Skeleton',
+        'Special Populations (Pediatrics, Geriatrics)'
+    ];
+
+    const formats = [
+        'Slide Decks (PPT/PDF)',
+        'Surgical Video Libraries',
+        'Interactive E-Learning & 3D Models',
+        'Live Webinars & Case Discussions'
+    ];
+
+    function getRecommendations(lv, rg, fm) {
+        let recs = [];
+
+        // Level-based
+        if (lv === 0) {
+            recs.push('<strong>Orthobullets</strong> foundational topics and board-review questions (6,115+ topics, 31,064+ questions) [Ref 2].');
+            recs.push('<strong>AO Surgery Reference</strong> for step-by-step algorithms on common fractures [Ref 7,8].');
+            recs.push('Introductory OTA Core Curriculum: "Fracture Healing & General" category [Ref 20].');
+        } else if (lv === 1) {
+            recs.push('<strong>AO Trauma Basic Principles</strong> blended course — Modules 1–5 covering general principles, biomechanics, diaphyseal/articular/proximal femur fractures [Ref 4,13,14].');
+            recs.push('<strong>OTA Core Curriculum Lectures</strong> — freely modifiable slide decks for direct resident education [Ref 20].');
+            recs.push('Orthobullets PASS training platform for structured topic review [Ref 2].');
+        } else if (lv === 2) {
+            recs.push('<strong>AO Trauma Advanced Principles</strong> course — upper/lower limb, polytrauma, pelvis modules [Ref 15].');
+            recs.push('OTA "Fracture Night" interactive Zoom case discussions (Wednesdays, 8 PM CT) [Ref 20].');
+            recs.push('OTA Meetings On-Demand for cutting-edge research presentations ($650 non-members; free for select members) [Ref 20].');
+        } else if (lv === 3) {
+            recs.push('<strong>Specialized AO courses</strong>: Hand & Wrist Fractures [Ref 16], Fracture Care in Older Adults [Ref 17].');
+            recs.push('OTA video library (~300 procedures) with granular anatomic/topic filtering [Ref 20].');
+            recs.push('AAOS OnDemand Symposia: AAOS/OTA Trauma Update in Tactics & Techniques [Ref 23].');
+        } else {
+            recs.push('<strong>AO Faculty Resource Center</strong> (Widen) — editable PPTs, vetted case presentations, Faculty Support Packages [Ref 9,18].');
+            recs.push('Faculty presentation guidelines — dual-monitor Presenter View requirements, nomenclature standards [Ref 6,19].');
+            recs.push('OTA FractureBook — continuously updated online textbook for integration with your own slide decks [Ref 20].');
+            recs.push('Boolean search strategies for mining academic .edu repositories and AO/OTA internal materials [Source §8].');
+        }
+
+        // Region-based
+        if (rg === 1) {
+            recs.push('<strong>Upper Extremity focus:</strong> AO Advanced Module 2 [Ref 15]; OTA Upper Extremity Core Curriculum [Ref 20]; OTA video: Volar Approach to Radius [Ref 20].');
+        } else if (rg === 2) {
+            recs.push('<strong>Lower Extremity focus:</strong> AO Basic Module 3 (Diaphyseal) & Module 4 (Articular) [Ref 13]; AO Advanced Module 3 [Ref 15]; OTA Lower Extremity Core Curriculum [Ref 20].');
+        } else if (rg === 3) {
+            recs.push('<strong>Pelvis & Acetabulum focus:</strong> AO Advanced Module 4 [Ref 15]; OTA Pelvis & Acetabulum Core Curriculum [Ref 20]; 3D Fluoroscopy study — 15.5% → 0% return surgeries [Ref 20]; LC1 surgical mortality data (5.2% vs 15.6%) [Ref 20].');
+        } else if (rg === 4) {
+            recs.push('<strong>Spine/Axial focus:</strong> AO Surgery Reference spine section (occipitocervical injuries, etc.) [Ref 8]; Orthoclips dedicated spine modules [Ref 27].');
+        } else if (rg === 5) {
+            recs.push('<strong>Special Populations:</strong> AO "Fracture Care in Older Adults" course [Ref 17]; OTA Special Populations Core Curriculum [Ref 20]; AO Trauma Orthogeriatrics App (free mobile) [Ref 7]; OTA psychiatric integration resources (31.3% prevalence, 10% identification rate) [Ref 20].');
+        }
+
+        // Format-based
+        if (fm === 0) {
+            recs.push('<strong>Slide Deck priority:</strong> OTA Core Curriculum (most accessible editable PPTs) [Ref 20] → AO Faculty Resource Center (highest quality, faculty-restricted) [Ref 9] → Boolean filetype: searches on .edu and .org domains [Source §8].');
+        } else if (fm === 1) {
+            recs.push('<strong>Video priority:</strong> OTA surgical video library (~300 procedures) [Ref 20]; AO Video Hub (webcasts, webinars) [Ref 7,10]; OrthoPedia cinema-grade library [Ref 1]; Orthoclips narrated didactics [Ref 27]; AAOS Orthopaedic Video Theater [Ref 21].');
+        } else if (fm === 2) {
+            recs.push('<strong>Interactive priority:</strong> AO e-learning modules with 3D animations [Ref 3,12]; AO Surgery Reference interactive algorithms [Ref 8]; Orthobullets with 6,659+ videos integrated [Ref 2].');
+        } else {
+            recs.push('<strong>Live/Discussion priority:</strong> OTA "Fracture Night" — informal, case-based, non-recorded Zoom sessions [Ref 20]; OTA "Education Wednesdays" webinars with CME [Ref 20]; AAOS Annual Meeting OnDemand with speaker video + slides [Ref 22,23].');
+        }
+
+        // Mental health note if geriatrics
+        if (rg === 5) {
+            recs.push('<strong>Integrated Care Note:</strong> Modern curricula advocate IntCare models and Trauma Survivors Network (TSN) for comprehensive psychosocial recovery. Medicaid access barriers: only 17.8% of clinicians reachable, waits up to 6 months [Ref 20].');
+        }
+
+        return recs;
+    }
+
+    function updateDisplay() {
+        var lv = parseInt(document.getElementById('levelSlider').value);
+        var rg = parseInt(document.getElementById('regionSlider').value);
+        var fm = parseInt(document.getElementById('formatSlider').value);
+
+        document.getElementById('levelVal').textContent = levels[lv];
+        document.getElementById('regionVal').textContent = regions[rg];
+        document.getElementById('formatVal').textContent = formats[fm];
+
+        var recs = getRecommendations(lv, rg, fm);
+        var html = '<ul style="margin-left:16px;">';
+        recs.forEach(function(r) { html += '<li style="margin-bottom:8px;">' + r + '</li>'; });
+        html += '</ul>';
+        document.getElementById('recContent').innerHTML = html;
+    }
+
+    document.getElementById('levelSlider').addEventListener('input', updateDisplay);
+    document.getElementById('regionSlider').addEventListener('input', updateDisplay);
+    document.getElementById('formatSlider').addEventListener('input', updateDisplay);
+
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        document.getElementById('levelSlider').value = 0;
+        document.getElementById('regionSlider').value = 0;
+        document.getElementById('formatSlider').value = 0;
+        updateDisplay();
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', function() {
+        var lv = levels[parseInt(document.getElementById('levelSlider').value)];
+        var rg = regions[parseInt(document.getElementById('regionSlider').value)];
+        var fm = formats[parseInt(document.getElementById('formatSlider').value)];
+        var recs = getRecommendations(
+            parseInt(document.getElementById('levelSlider').value),
+            parseInt(document.getElementById('regionSlider').value),
+            parseInt(document.getElementById('formatSlider').value)
+        );
+
+        var text = 'ORTHOPEDIC TRAUMA EDUCATION — PERSONALIZED RESOURCE SUMMARY\n';
+        text += '=' .repeat(60) + '\n';
+        text += 'Timestamp: ' + new Date().toISOString() + '\n\n';
+        text += 'LEARNER LEVEL: ' + lv + '\n';
+        text += 'ANATOMICAL FOCUS: ' + rg + '\n';
+        text += 'PREFERRED FORMAT: ' + fm + '\n\n';
+        text += 'RECOMMENDED RESOURCES:\n';
+        recs.forEach(function(r, i) {
+            // Strip HTML tags for plain text
+            var clean = r.replace(/<[^>]*>/g, '');
+            text += (i + 1) + '. ' + clean + '\n';
+        });
+        text += '\n' + '-'.repeat(60) + '\n';
+        text += 'Source: "Strategic Architectures for Orthopedic Trauma Education" (narrative review).\n';
+        text += 'Note: All recommendations are derived exclusively from the source document.\n';
+        text += 'Evidence levels were not specified in the source; individual claim badges reference source sections.\n';
+
+        navigator.clipboard.writeText(text).then(function() {
+            var msg = document.getElementById('copyMsg');
+            msg.style.display = 'block';
+            setTimeout(function() { msg.style.display = 'none'; }, 2500);
+        }).catch(function() {
+            // Fallback
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            var msg = document.getElementById('copyMsg');
+            msg.style.display = 'block';
+            setTimeout(function() { msg.style.display = 'none'; }, 2500);
+        });
+    });
+
+    // Initial display
+    updateDisplay();
+})();
+</script>
+</body>
+</html>

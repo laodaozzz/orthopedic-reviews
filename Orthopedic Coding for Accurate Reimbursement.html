@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optimizing Orthopedic Reimbursement: Documentation, ICD-10 &amp; MS-DRG Guide</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f8f9fa;--card:#fff;--text:#212529;--muted:#6c757d;--accent:#0d6efd;--accent-dark:#0a58ca;--success:#198754;--warning:#ffc107;--danger:#dc3545;--info:#0dcaf0;--border:#dee2e6;--radius:8px;--shadow:0 2px 12px rgba(0,0,0,.08);--sidebar-w:340px;--header-h:72px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1a237e,#0d47a1);color:#fff;padding:16px 24px;display:flex;align-items:center;gap:16px;min-height:var(--header-h);box-shadow:0 2px 16px rgba(0,0,0,.18)}
+.site-header h1{font-size:clamp(1rem,2.2vw,1.35rem);font-weight:700;line-height:1.3;flex:1}
+.site-header .badge-chip{background:rgba(255,255,255,.18);padding:4px 12px;border-radius:20px;font-size:.75rem;white-space:nowrap}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr var(--sidebar-w);gap:24px;max-width:1400px;margin:0 auto;padding:24px 20px 80px}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}.sidebar{position:relative!important;top:auto!important;max-height:none!important;order:-1}}
+
+/* Main content */
+.main-content{min-width:0}
+.main-content h2{font-size:1.5rem;color:#1a237e;margin:40px 0 16px;padding-bottom:8px;border-bottom:3px solid var(--accent)}
+.main-content h3{font-size:1.2rem;color:#283593;margin:28px 0 12px}
+.main-content h4{font-size:1.05rem;color:#3949ab;margin:20px 0 8px}
+.main-content p{margin:10px 0}
+.main-content ul,.main-content ol{margin:10px 0 10px 24px}
+.main-content li{margin:4px 0}
+.main-content strong{color:#1a237e}
+
+/* Evidence badge */
+.ev{display:inline-block;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;vertical-align:middle;margin-left:6px;white-space:nowrap}
+.ev-i{background:#c8e6c9;color:#2e7d32}.ev-ii{background:#dcedc8;color:#558b2f}.ev-iii{background:#fff9c4;color:#f9a825}.ev-iv{background:#ffe0b2;color:#ef6c00}.ev-v{background:#ffcdd2;color:#c62828}.ev-nr{background:#e0e0e0;color:#616161}
+
+/* Callout */
+.callout{border-left:4px solid var(--accent);background:#e8f0fe;padding:16px 20px;border-radius:0 var(--radius) var(--radius) 0;margin:20px 0;font-size:.95rem}
+.callout.warn{border-left-color:var(--warning);background:#fff8e1}
+.callout.danger{border-left-color:var(--danger);background:#fce4ec}
+.callout.success{border-left-color:var(--success);background:#e8f5e9}
+.callout-title{font-weight:700;margin-bottom:4px}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:20px 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+table caption{background:#1a237e;color:#fff;padding:10px 16px;text-align:left;font-weight:700;font-size:.95rem}
+th{background:#e8eaf6;color:#1a237e;padding:10px 14px;text-align:left;font-weight:600;position:sticky;top:0}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:nth-child(even){background:#f5f5f5}
+tr:hover{background:#e3f2fd}
+
+/* Card */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin:20px 0}
+
+/* Sidebar */
+.sidebar{position:sticky;top:calc(var(--header-h) + 24px);max-height:calc(100vh - var(--header-h) - 48px);overflow-y:auto;align-self:start}
+.sidebar-inner{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.sidebar h3{font-size:1rem;color:#1a237e;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sidebar h3 svg{width:20px;height:20px}
+.sidebar label{display:block;font-size:.85rem;font-weight:600;margin:12px 0 4px;color:#37474f}
+.sidebar .slider-val{font-size:1.3rem;font-weight:700;color:var(--accent);margin-bottom:4px}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+select{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:.9rem;background:#fff;cursor:pointer}
+.toggle-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.toggle-row label{margin:0;flex:1;font-size:.85rem}
+.switch{position:relative;width:44px;height:24px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;inset:0;background:#ccc;border-radius:24px;transition:.3s;cursor:pointer}
+.switch .slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.switch input:checked+.slider{background:var(--accent)}
+.switch input:checked+.slider::before{transform:translateX(20px)}
+
+/* Result box */
+.result-box{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;border-radius:var(--radius);padding:16px;margin:16px 0;font-size:.9rem}
+.result-box .label{opacity:.75;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.result-box .value{font-size:1.6rem;font-weight:800;margin:4px 0}
+.result-box .sub{font-size:.8rem;opacity:.85}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:none;border-radius:var(--radius);font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{background:var(--accent-dark)}
+.btn-outline{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}.btn-outline:hover{background:var(--accent);color:#fff}
+.btn-sm{padding:6px 12px;font-size:.78rem}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+
+/* Recommendation panel */
+.reco-panel{background:#f1f8e9;border:2px solid #aed581;border-radius:var(--radius);padding:16px;margin:12px 0;font-size:.88rem;min-height:80px}
+.reco-panel h4{color:#33691e;margin-bottom:8px;font-size:.9rem}
+.reco-panel p{margin:4px 0}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:#323232;color:#fff;padding:14px 24px;border-radius:var(--radius);font-size:.9rem;z-index:999;opacity:0;transform:translateY(20px);transition:.3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* Summary block */
+.summary-block{background:#fff3e0;border:1px solid #ffe0b2;border-radius:var(--radius);padding:16px;margin:16px 0;font-size:.9rem}
+
+/* References */
+.ref-section{counter-reset:ref}
+.ref-section li{counter-increment:ref;font-size:.82rem;margin:6px 0;line-height:1.5}
+.ref-section li::marker{content:counter(ref) ". ";font-weight:700;color:var(--accent)}
+
+/* Print */
+@media print{.sidebar,.site-header,.btn-group,.toast{display:none!important}.layout{grid-template-columns:1fr!important}body{font-size:11pt}}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.main-content>section{animation:fadeUp .5s ease both}
+.main-content>section:nth-child(2){animation-delay:.1s}
+.main-content>section:nth-child(3){animation-delay:.2s}
+.main-content>section:nth-child(4){animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" role="banner">
+  <div style="width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+    <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+  </div>
+  <h1>Optimizing Orthopedic Inpatient Reimbursement:<br>Documentation, ICD-10 &amp; MS-DRG Alignment</h1>
+  <span class="badge-chip">Interactive Clinical Education</span>
+</header>
+
+<div class="layout">
+<!-- ========== MAIN CONTENT ========== -->
+<main class="main-content" role="main">
+
+<!-- PART I -->
+<section id="part1">
+<h2>Part I — The Foundation of Orthopedic Inpatient Reimbursement</h2>
+
+<p>The financial viability of an orthopedic service line within an inpatient facility is inextricably linked to a complex, data-driven process that translates clinical care into financial reimbursement. This process, governed by the <strong>Medicare Severity–Diagnosis Related Group (MS-DRG)</strong> system, is a sequential value chain where the integrity of each step is wholly dependent on the accuracy of the preceding one. An error, omission, or lack of specificity at the initial stage of clinical documentation creates a cascade of negative consequences, ultimately leading to inaccurate DRG assignment, diminished reimbursement, and flawed quality reporting.</p>
+
+<div class="callout">
+  <div class="callout-title">Key Principle</div>
+  Understanding the reimbursement pathway is not merely an administrative exercise; it is a <strong>strategic imperative</strong> for ensuring that a hospital is compensated appropriately for the complexity and quality of the orthopedic care it provides.
+</div>
+
+<h3>1.1 From Clinical Encounter to Billable Code: The Reimbursement Value Chain</h3>
+
+<p>The reimbursement cycle begins at the patient's bedside with the orthopedic surgeon's clinical assessment and documentation. This initial narrative is the raw material from which all subsequent financial outcomes are derived. The first and most critical transformation is the translation of diagnostic statements and procedural descriptions into the standardized languages of <strong>ICD-10-CM</strong> (diagnoses) and <strong>ICD-10-PCS</strong> (inpatient procedures).<sup class="ev ev-nr">[1]</sup></p>
+
+<p>Central to this process is the selection of the <strong>Principal Diagnosis</strong>. According to the Uniform Hospital Discharge Data Set (UHDDS), the principal diagnosis is defined as:</p>
+
+<blockquote class="callout success">
+  <em>"That condition established after study to be chiefly responsible for occasioning the admission of the patient to the hospital for care."</em> — UHDDS Definition
+</blockquote>
+
+<p>This single diagnosis holds immense power, as it is the <strong>primary determinant</strong> of the case's initial categorization within the MS-DRG system. The responsibility for accurately identifying this condition falls to the inpatient coder, who must review the entire medical record—including the history and physical, progress notes, imaging reports, and discharge summary—to determine the true underlying cause of the admission.<sup class="ev ev-nr">[1]</sup> The coder's ability to perform this function accurately is entirely contingent upon the clarity, consistency, and completeness of the physician's documentation.<sup class="ev ev-nr">[3]</sup></p>
+
+<h3>1.2 The MS-DRG Grouper Demystified: Logic and Hierarchy</h3>
+
+<p>Once clinical information has been converted into ICD-10 codes, these codes are fed into a sophisticated software algorithm known as the <strong>"grouper."</strong> This grouper applies a hierarchical logic to assign the inpatient stay to a single MS-DRG from over 750 possibilities.<sup class="ev ev-nr">[1]</sup> The logic follows a distinct, multi-step pathway:</p>
+
+<h4>Step 1: Major Diagnostic Category (MDC) Assignment</h4>
+<p>The first and most crucial step is assigning the case to one of <strong>25 Major Diagnostic Categories (MDCs)</strong> based almost exclusively on the Principal Diagnosis.<sup class="ev ev-nr">[1]</sup></p>
+<ul>
+  <li><strong>MDC 08:</strong> Diseases &amp; Disorders of the Musculoskeletal System &amp; Connective Tissue — applies to the vast majority of orthopedic cases.<sup class="ev ev-nr">[4]</sup></li>
+  <li><strong>MDC 21:</strong> Injuries, Poisonings &amp; Toxic Effects — for significant trauma cases.</li>
+  <li><strong>MDC 24:</strong> Multiple Significant Trauma.</li>
+  <li><strong>MDC 18:</strong> Infectious &amp; Parasitic Diseases — e.g., septic arthritis.</li>
+</ul>
+<div class="callout danger">
+  <div class="callout-title">Critical Risk</div>
+  An incorrect principal diagnosis can send the entire case down a completely inappropriate and often lower-weighted payment pathway.
+</div>
+
+<h4>Step 2: Surgical vs. Medical Partitioning</h4>
+<p>The grouper analyzes ICD-10-PCS procedure codes. If a qualifying <strong>Operating Room (OR) procedure</strong> is present, the case enters a surgical DRG track; otherwise, a medical DRG track.<sup class="ev ev-nr">[1]</sup></p>
+<p>A <strong>surgical hierarchy</strong> applies: within each MDC, procedures are ranked by resource intensity. If a patient has multiple OR procedures, the case is assigned to the DRG associated with the most resource-intensive procedure.<sup class="ev ev-nr">[5]</sup></p>
+
+<h4>Step 3: Severity Refinement with CC/MCC</h4>
+<p>The grouper scans all secondary diagnosis codes to identify <strong>Complications/Comorbidities (CCs)</strong> or <strong>Major Complications/Comorbidities (MCCs)</strong>.<sup class="ev ev-nr">[5]</sup> This refinement often splits a DRG into a <strong>three-tiered "triplet":</strong></p>
+<ol>
+  <li>With MCC (highest weight)</li>
+  <li>With CC (middle weight)</li>
+  <li>Without CC/MCC (lowest weight)</li>
+</ol>
+
+<h3>1.3 The Financial Equation: Relative Weight and Hospital Base Rate</h3>
+
+<p>Each MS-DRG is assigned a <strong>Relative Weight (RW)</strong> by CMS, representing the average resources required relative to all Medicare patients.<sup class="ev ev-nr">[1]</sup> The final payment formula is:</p>
+
+<div class="card" style="text-align:center;font-size:1.1rem;padding:20px">
+  <strong>Reimbursement = MS-DRG Relative Weight × Hospital-Specific Base Rate</strong>
+</div>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 1 — Illustrative Financial Impact: DRG Tier Shift for Common Orthopedic Procedures</caption>
+  <thead>
+    <tr><th>Procedure</th><th>DRG w/o CC/MCC</th><th>RW (Base)</th><th>DRG w/ CC</th><th>RW (CC)</th><th>DRG w/ MCC</th><th>RW (MCC)</th><th>% Increase (MCC vs Base)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Major Joint Replacement — Lower Extremity</td><td>470</td><td>2.08</td><td>N/A</td><td>N/A</td><td>469</td><td>3.05</td><td><strong>46.6%</strong></td></tr>
+    <tr><td>Revision of Hip or Knee Arthroplasty</td><td>468</td><td>2.66</td><td>467</td><td>3.61</td><td>466</td><td>5.23</td><td><strong>96.6%</strong></td></tr>
+    <tr><td>Spinal Fusion Except Cervical</td><td>460</td><td>2.50</td><td>N/A</td><td>N/A</td><td>459</td><td>4.81</td><td><strong>92.4%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+<p style="font-size:.82rem;color:var(--muted)">Relative Weights are illustrative and based on representative CMS fiscal year data. Actual RWs are updated annually.<sup class="ev ev-nr">[7]</sup></p>
+
+<h4>Illustrative Example: Total Joint Replacement</h4>
+<ul>
+  <li>No comorbidities → <strong>MS-DRG 470</strong> (RW ≈ 2.0) → at $6,000 base rate = <strong>$12,000</strong></li>
+  <li>With documented MCC (e.g., acute respiratory failure) → <strong>MS-DRG 469</strong> (RW ≈ 3.0) → at $6,000 base rate = <strong>$18,000</strong></li>
+</ul>
+<div class="callout success">
+  <div class="callout-title">Financial Impact</div>
+  Accurate documentation and coding of a single secondary diagnosis results in a <strong>$6,000 increase</strong> in reimbursement for the exact same surgical procedure.
+</div>
+
+<h4>Case Mix Index (CMI)</h4>
+<p>The CMI is the average relative weight of all inpatients a hospital treats over a given period.<sup class="ev ev-nr">[1]</sup> A rising CMI indicates treatment of a more complex patient population, justifying higher reimbursement. A declining CMI is a significant red flag and often triggers scrutiny of documentation and coding practices.</p>
+
+<h3>1.4 Causal Relationships and Broader Implications</h3>
+
+<p>The entire MS-DRG system hinges on the <strong>Principal Diagnosis</strong>. A poorly chosen principal diagnosis can route a case into a completely incorrect DRG family from the very beginning. For example:</p>
+
+<div class="summary-block">
+  <strong>Case Example — Septic Arthritis vs. Altered Mental Status:</strong><br>
+  If a patient is admitted with altered mental status and later found to have septic arthritis requiring a washout: selecting "Altered Mental Status" (R-code) as principal diagnosis routes to MDC 01 (Nervous System), potentially resulting in DRG 981 with a vastly different payment profile. The correct choice — "Septic Arthritis of the Hip" (M-code) — would route to MDC 08 and the appropriate surgical DRG.
+</div>
+
+<p>Furthermore, aggregated claim data from millions of inpatient stays is used by CMS to set future payment rates, evaluate hospital quality, and develop value-based care models.<sup class="ev ev-nr">[8]</sup> A systemic failure to accurately capture case complexity has two consequences:</p>
+<ol>
+  <li><strong>Immediate revenue loss</strong> for the hospital.</li>
+  <li><strong>Flawed national data</strong> that can lead to inappropriate downward adjustments of relative weights for higher-severity DRGs — effectively penalizing all hospitals that perform complex orthopedic procedures.</li>
+</ol>
+</section>
+
+<!-- PART II -->
+<section id="part2">
+<h2>Part II — Mastering ICD-10-CM Specificity in Orthopedics</h2>
+
+<p>For orthopedics, mastering ICD-10-CM means understanding two primary chapters: <strong>Chapter 13</strong> for musculoskeletal diseases and <strong>Chapter 19</strong> for injuries. The level of detail required—precise anatomy, laterality, etiology, and phase of care—is far greater than ICD-9-CM.<sup class="ev ev-nr">[8]</sup></p>
+
+<h3>2.1 Navigating Core Orthopedic Chapters</h3>
+
+<div class="card">
+<h4>Chapter 13 (M00–M99): Diseases of the Musculoskeletal System</h4>
+<p>Domain for <strong>chronic, recurrent, or post-healed-injury conditions</strong>.<sup class="ev ev-nr">[11]</sup></p>
+<ul>
+  <li><strong>Site and Laterality:</strong> Must specify exact bone/joint and right/left/bilateral. Example: "Unilateral primary osteoarthritis of the right knee" → M17.11.<sup class="ev ev-nr">[14]</sup></li>
+  <li><strong>Etiology:</strong> Osteoarthritis of the hip is differentiated by cause: primary (M16.1-), post-traumatic (M16.5-), or secondary to dysplasia (M16.3-).<sup class="ev ev-nr">[15]</sup></li>
+</ul>
+</div>
+
+<div class="card">
+<h4>Chapter 19 (S00–T88): Injury, Poisoning &amp; Consequences of External Causes</h4>
+<p>Used for <strong>current, acute injuries</strong> — fractures, dislocations, sprains, lacerations.<sup class="ev ev-nr">[11]</sup></p>
+<p><strong>Key Fracture Documentation Elements:</strong></p>
+<ol>
+  <li><strong>Specific Anatomic Site</strong> — e.g., "shaft of the femur" vs. "neck of the femur"<sup class="ev ev-nr">[17]</sup></li>
+  <li><strong>Laterality</strong> — right or left<sup class="ev ev-nr">[18]</sup></li>
+  <li><strong>Displacement</strong> — displaced or nondisplaced (defaults to displaced if unspecified)<sup class="ev ev-nr">[17]</sup></li>
+  <li><strong>Open vs. Closed</strong> — defaults to closed if unspecified; for open fractures, <strong>Gustilo classification</strong> (Type I, II, IIIA, IIIB, IIIC) is critical<sup class="ev ev-nr">[11]</sup></li>
+</ol>
+<div class="callout warn">
+  <div class="callout-title">Acute vs. Healed Injury</div>
+  Active treatment of an acute fracture → Chapter 19 (e.g., S72.xxxx). Treatment of complications of a healed fracture (malunion, post-traumatic arthritis) → Chapter 13 (e.g., M84.0-, M16.5-).<sup class="ev ev-nr">[12]</sup>
+</div>
+</div>
+
+<h3>2.2 The Critical Seventh Character</h3>
+
+<p>A defining feature of Chapter 19 injury coding is the mandatory <strong>7th character</strong> to convey the episode of care. Misapplication is a frequent and significant coding error.<sup class="ev ev-nr">[20]</sup></p>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 2 — Seventh Character Definitions for Injury Codes</caption>
+  <thead><tr><th>Character</th><th>Meaning</th><th>Clinical Context</th></tr></thead>
+  <tbody>
+    <tr><td><strong>A</strong></td><td>Initial Encounter</td><td>Entire period of <em>active treatment</em> — ED evaluation, surgery, specialist management while injury is actively managed<sup class="ev ev-nr">[16]</sup></td></tr>
+    <tr><td><strong>D</strong></td><td>Subsequent Encounter</td><td>Routine healing/recovery phase — cast changes, removal of fixation, follow-up X-rays<sup class="ev ev-nr">[16]</sup></td></tr>
+    <tr><td><strong>S</strong></td><td>Sequela</td><td>Late effect or complication from a prior injury. Sequela code sequenced first, followed by original injury code with 'S'<sup class="ev ev-nr">[16]</sup></td></tr>
+    <tr><td><strong>G</strong></td><td>Subsequent — Delayed Healing</td><td>Fracture not healing at expected rate<sup class="ev ev-nr">[11]</sup></td></tr>
+    <tr><td><strong>K</strong></td><td>Subsequent — Nonunion</td><td>Fracture has failed to unite; often justifies revision surgery or bone grafting<sup class="ev ev-nr">[11]</sup></td></tr>
+    <tr><td><strong>P</strong></td><td>Subsequent — Malunion</td><td>Fracture healed in abnormal alignment<sup class="ev ev-nr">[11]</sup></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <div class="callout-title">Narrative Arc of the 7th Character</div>
+  A typical fracture progresses: <strong>A</strong> (surgery) → <strong>D</strong> (follow-up) → resolved. A deviation to <strong>K</strong> (nonunion) signifies a clinical turning point that justifies a new, more intensive treatment phase. Failing to update from 'D' to 'K' breaks this narrative link and can lead to claim denials for subsequent, more resource-intensive services.
+</div>
+
+<h3>2.3 Common Errors, Challenges, and Ambiguities</h3>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 3 — Common Orthopedic Coding Errors and Prevention Strategies</caption>
+  <thead><tr><th>Error Type</th><th>Scenario</th><th>Incorrect</th><th>Correct</th><th>Impact</th><th>Prevention</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Incorrect 7th Character</strong><sup class="ev ev-nr">[20]</sup></td>
+      <td>3-month follow-up distal radius fracture; X-ray shows nonunion</td>
+      <td>S52.571D</td>
+      <td>S52.571K</td>
+      <td>Failure to justify medical necessity for revision surgery</td>
+      <td>CDI workflow reviews all follow-up imaging; triggers query if mismatch</td>
+    </tr>
+    <tr>
+      <td><strong>Coding "Suspected" Diagnosis</strong><sup class="ev ev-nr">[20]</sup></td>
+      <td>Knee pain after twisting; assessment: "Rule out ACL tear"</td>
+      <td>S83.511A</td>
+      <td>M25.561 + M25.461 (signs/symptoms)</td>
+      <td>Compliance violation; denials</td>
+      <td>Educate that signs/symptoms coded until definitive diagnosis confirmed</td>
+    </tr>
+    <tr>
+      <td><strong>Missing Laterality</strong><sup class="ev ev-nr">[18]</sup></td>
+      <td>"Osteoarthritis of the knee" but procedure was left TKA</td>
+      <td>M17.9</td>
+      <td>M17.12</td>
+      <td>Payer red flag; denials for unspecified codes</td>
+      <td>Pre-bill review flags unspecified codes; require physician query</td>
+    </tr>
+    <tr>
+      <td><strong>Acute vs. Chronic Miscoding</strong><sup class="ev ev-nr">[19]</sup></td>
+      <td>Chronic rotator cuff tear treated with arthroscopic repair</td>
+      <td>S43.421A</td>
+      <td>M75.121</td>
+      <td>Incorrect MDC/DRG assignment</td>
+      <td>Specialty-specific coding guidelines differentiating acute vs. degenerative</td>
+    </tr>
+    <tr>
+      <td><strong>Failure to Report Complication (T-codes)</strong><sup class="ev ev-nr">[20]</sup></td>
+      <td>Loosening of hip prosthesis 2 years post-op</td>
+      <td>M25.55- + Z96.64-</td>
+      <td>T84.030A</td>
+      <td>Incorrect principal diagnosis and DRG</td>
+      <td>Training on Chapter 19 T-codes for device complications</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>2.4 Broader Implications of Coding Specificity</h3>
+<p>Consistent use of laterality, anatomical site, and the 7th character serves as a <strong>proactive defense against payer audits and recoupments</strong>. Modern payers use data analytics to identify patterns—providers with statistically significant use of "unspecified" codes or illogical 7th-character sequencing are flagged for targeted audits.<sup class="ev ev-nr">[18]</sup> Investing in high-specificity documentation transforms coding from a reactive, claim-by-claim activity into a <strong>proactive strategy for institutional integrity</strong>.</p>
+</section>
+
+<!-- PART III -->
+<section id="part3">
+<h2>Part III — The Strategic Importance of CC/MCC</h2>
+
+<p>The most significant variable in optimizing inpatient reimbursement lies in the comprehensive identification, documentation, and coding of secondary diagnoses that qualify as <strong>CCs</strong> or <strong>MCCs</strong>. For any given orthopedic procedure, the presence or absence of a CC or MCC can result in a payment differential of thousands or tens of thousands of dollars.</p>
+
+<h3>3.1 The Three-Tiered DRG "Triplet" System</h3>
+
+<p>Many DRGs are stratified into:<sup class="ev ev-nr">[6]</sup></p>
+<ol>
+  <li><strong>Base DRG</strong> — without qualifying CCs or MCCs</li>
+  <li><strong>CC-level DRG</strong> — higher weighted</li>
+  <li><strong>MCC-level DRG</strong> — highest weighted</li>
+</ol>
+<p>A single MCC-coded secondary diagnosis is sufficient to shift the case to the highest severity level.<sup class="ev ev-nr">[5]</sup></p>
+
+<div class="callout warn">
+  <div class="callout-title">CC Exclusion List</div>
+  CMS maintains rules preventing a secondary diagnosis from functioning as a CC/MCC if it is considered integral to the principal diagnosis — preventing "double-dipping."<sup class="ev ev-nr">[5]</sup>
+</div>
+
+<h3>3.2 Orthopedic Case Studies in DRG Assignment</h3>
+
+<h4>Case Study 1: Total Knee Arthroplasty (TKA)</h4>
+<div class="card">
+  <p><strong>Scenario A (Base):</strong> 70-year-old, primary OA right knee (M17.11), TKA, unremarkable course → <strong>MS-DRG 470</strong> (w/o MCC, RW 2.08).</p>
+  <p><strong>Scenario B (With MCC):</strong> Same procedure, but post-op day 2 develops acute-on-chronic respiratory failure with hypoxia (J96.21) → <strong>MS-DRG 469</strong> (w/ MCC, RW 3.05).</p>
+  <div class="callout success">
+    <div class="callout-title">Financial Impact</div>
+    At a $7,000 base rate: $14,560 → $21,350 — an increase of <strong>$6,790</strong> for accurately documenting a post-operative complication.
+  </div>
+</div>
+
+<h4>Case Study 2: Revision Lumbar Spinal Fusion</h4>
+<div class="card">
+  <p><strong>Scenario A (Base):</strong> Revision posterior lumbar fusion for pseudarthrosis, otherwise healthy → Base-level spinal fusion DRG.</p>
+  <p><strong>Scenario B (With CC):</strong> Same patient with documented <strong>atrial fibrillation</strong> (I48.91) managed during stay → Mid-level DRG with CC.</p>
+  <p><strong>Scenario C (With MCC):</strong> Same patient with <strong>severe protein-calorie malnutrition</strong> (E43) documented pre-op → Highest-level DRG with MCC.<sup class="ev ev-nr">[24]</sup></p>
+  <div class="callout success">
+    <div class="callout-title">Financial Impact</div>
+    The jump from base-level to MCC-level for complex spinal fusion can increase reimbursement by <strong>over 90%</strong>.
+  </div>
+</div>
+
+<h3>3.3 Common Pitfalls: Missed CC/MCC Opportunities</h3>
+
+<p>The orthopedic patient population, particularly elderly patients, often presents with numerous chronic conditions frequently under-documented by surgeons focused on the musculoskeletal issue:</p>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 4 — Commonly Missed CCs/MCCs in Orthopedic Surgery</caption>
+  <thead><tr><th>Condition</th><th>CC/MCC Level</th><th>Documentation Gap</th><th>Required Documentation</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Malnutrition</strong></td><td>MCC</td><td>"Poor appetite" without specific diagnosis<sup class="ev ev-nr">[25]</sup></td><td>Severe protein-calorie malnutrition (E43) with supporting labs</td></tr>
+    <tr><td><strong>Morbid Obesity</strong></td><td>CC</td><td>Weight recorded but no formal diagnosis<sup class="ev ev-nr">[25]</sup></td><td>Morbid obesity (E66.01) with BMI ≥ 40</td></tr>
+    <tr><td><strong>Acute Blood Loss Anemia</strong></td><td>CC</td><td>Low H/H documented without diagnosis<sup class="ev ev-nr">[26]</sup></td><td>"Acute blood loss anemia" (D62) explicitly stated</td></tr>
+    <tr><td><strong>Encephalopathy</strong></td><td>MCC</td><td>"Confusion" or "delirium" not formally diagnosed</td><td>Encephalopathy diagnosis with specific type</td></tr>
+    <tr><td><strong>Acute Kidney Injury</strong></td><td>CC/MCC</td><td>"Elevated creatinine" only</td><td>Formal AKI diagnosis with staging</td></tr>
+    <tr><td><strong>Atrial Fibrillation</strong></td><td>CC</td><td>Not mentioned in inpatient notes</td><td>Documented and managed during stay</td></tr>
+    <tr><td><strong>Sepsis</strong></td><td>MCC</td><td>Confused with localized infection</td><td>Sepsis criteria met and explicitly documented</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3.4 The Documentation Paradox and Quality Implications</h3>
+
+<div class="callout danger">
+  <div class="callout-title">The Critical Disconnect</div>
+  Many conditions that are <strong>clinically secondary</strong> to the orthopedic surgeon are <strong>fiscally primary</strong> to the hospital. A surgeon's expertise is rightly focused on the surgical procedure, causing "background" conditions like chronic kidney disease, morbid obesity, or malnutrition to be de-emphasized. From a coding perspective, these conditions are of paramount financial importance — they justify higher payment by reflecting increased clinical complexity.
+</div>
+
+<p>In the era of <strong>value-based care</strong>, accurate CC/MCC capture is critical for <strong>risk adjustment</strong> of publicly reported quality metrics — mortality rates, complication rates, readmission rates, and length of stay.<sup class="ev ev-nr">[22]</sup> A hospital that fails to capture its patients' true burden of illness will appear to have worse outcomes than peers with robust documentation, leading to unfair quality penalties and reputational damage.</p>
+</section>
+
+<!-- PART IV -->
+<section id="part4">
+<h2>Part IV — Best Practices for Documentation &amp; Communication</h2>
+
+<h3>4.1 The M.E.A.T. Framework for Audit-Proof Documentation</h3>
+
+<p>For a secondary diagnosis to be legitimately coded, it must be more than a mention in past medical history. The <strong>M.E.A.T.</strong> acronym ensures each diagnosis meets audit standards:<sup class="ev ev-nr">[29]</sup></p>
+
+<div class="card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+  <div style="background:#e8f5e9;padding:16px;border-radius:var(--radius);text-align:center">
+    <div style="font-size:2rem;font-weight:800;color:#2e7d32">M</div>
+    <div style="font-weight:700">Monitored</div>
+    <div style="font-size:.85rem;margin-top:4px">Signs, symptoms, or disease progression tracked</div>
+  </div>
+  <div style="background:#e3f2fd;padding:16px;border-radius:var(--radius);text-align:center">
+    <div style="font-size:2rem;font-weight:800;color:#1565c0">E</div>
+    <div style="font-weight:700">Evaluated</div>
+    <div style="font-size:.85rem;margin-top:4px">Assessed through tests, response to treatment, or exam</div>
+  </div>
+  <div style="background:#fff3e0;padding:16px;border-radius:var(--radius);text-align:center">
+    <div style="font-size:2rem;font-weight:800;color:#e65100">A</div>
+    <div style="font-weight:700">Assessed</div>
+    <div style="font-size:.85rem;margin-top:4px">Considered in physician's thought process</div>
+  </div>
+  <div style="background:#fce4ec;padding:16px;border-radius:var(--radius);text-align:center">
+    <div style="font-size:2rem;font-weight:800;color:#c62828">T</div>
+    <div style="font-weight:700">Treated</div>
+    <div style="font-size:.85rem;margin-top:4px">Medications, therapies, or other treatment rendered</div>
+  </div>
+</div>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 5 — High-Specificity Documentation Examples by Condition</caption>
+  <thead><tr><th>Condition</th><th>Required Elements</th><th>Poor Example</th><th>High-Specificity Example</th></tr></thead>
+  <tbody>
+    <tr><td>Fracture</td><td>Laterality, anatomy, displacement, open/closed, Gustilo, 7th character<sup class="ev ev-nr">[11]</sup></td><td>"Femur fracture"</td><td>"Acute, displaced, open (Gustilo IIIA) transverse fracture of the right femoral shaft, initial encounter"</td></tr>
+    <tr><td>Osteoarthritis</td><td>Laterality, joint, etiology<sup class="ev ev-nr">[14]</sup></td><td>"Knee pain, arthritis"</td><td>"Severe primary osteoarthritis of the left knee, medial compartment, causing debilitating pain"</td></tr>
+    <tr><td>Degenerative Disc Disease</td><td>Spinal region, myelopathy/radiculopathy<sup class="ev ev-nr">[15]</sup></td><td>"Back pain, DDD"</td><td>"Lumbar spondylosis at L4-L5 with neuroforaminal stenosis, causing right-sided radiculopathy"</td></tr>
+    <tr><td>Post-Op Complication</td><td>Linkage to procedure, specific diagnosis, M.E.A.T.<sup class="ev ev-nr">[25]</sup></td><td>"Wound draining"</td><td>"Post-operative seroma of right hip incision, evaluated and treated with sterile dressing change"</td></tr>
+    <tr><td>Comorbidity (Diabetes)</td><td>Type, complications, status, M.E.A.T.<sup class="ev ev-nr">[29]</sup></td><td>"History of diabetes"</td><td>"Type 2 diabetes with hyperglycemia, monitored with frequent glucose checks, treated with sliding scale insulin"</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>4.2 The Compliant Physician Query Process</h3>
+
+<p>The physician query is the formal communication tool for resolving documentation ambiguities.<sup class="ev ev-nr">[30]</sup> An effective query follows <strong>five stages</strong>:<sup class="ev ev-nr">[31]</sup></p>
+
+<ol>
+  <li><strong>Preparation:</strong> Systematic record review to identify conflicting, ambiguous, or incomplete documentation.</li>
+  <li><strong>Development:</strong> Draft a non-leading query. Instead of "Does the patient have acute respiratory failure?" ask "The patient has O₂ saturation of 85% on room air and RR of 28. Can you clarify a more specific diagnosis?"<sup class="ev ev-nr">[32]</sup></li>
+  <li><strong>Querying:</strong> Present timely, respectful query through EHR messaging.<sup class="ev ev-nr">[31]</sup></li>
+  <li><strong>Response Management:</strong> Physician's response becomes permanent part of the record, providing audit trail for code assignment.<sup class="ev ev-nr">[31]</sup></li>
+  <li><strong>Education &amp; Feedback:</strong> Analyze query trends; provide targeted education to prevent recurring gaps.<sup class="ev ev-nr">[31]</sup></li>
+</ol>
+
+<div class="callout danger">
+  <div class="callout-title">Compliance Rule</div>
+  A compliant query must <strong>never mention financial or reimbursement impact</strong> — this could be construed as improper influence on documentation.<sup class="ev ev-nr">[32]</sup>
+</div>
+
+<h3>4.3 Continuous Improvement Framework</h3>
+<ul>
+  <li><strong>Ongoing Education:</strong> Regular training on annual ICD-10/MS-DRG updates and internal documentation trends.<sup class="ev ev-nr">[15]</sup></li>
+  <li><strong>Internal Audits:</strong> Proactive coding audits identify errors and compliance risks before external payers do.<sup class="ev ev-nr">[2]</sup></li>
+  <li><strong>Professional Resources:</strong>
+    <ul>
+      <li><strong>AAPC — COSC credential</strong> (Certified Orthopaedic Surgery Coder): mark of advanced expertise.<sup class="ev ev-nr">[35]</sup></li>
+      <li><strong>AHIMA — CDIP, CCA, CCS credentials</strong> and official code set maintenance.<sup class="ev ev-nr">[39]</sup></li>
+    </ul>
+  </li>
+</ul>
+
+<h2>References</h2>
+<ol class="ref-section">
+  <li>ICD-10 Remix: What the Heck is a DRG and Why Should I Care About Case Mix? — The Hauen Group.</li>
+  <li>Orthopaedic Coding and Billing Mastery: Best Practices for Success — AnnexMed.</li>
+  <li>FY2022 ICD-10-CM Coding Guidelines — CMS.</li>
+  <li>DRG Codes — Diagnosis Related Group Codes List — Codify by AAPC.</li>
+  <li>Defining the Medicare Severity Diagnosis Related Groups (MS-DRGs), Version 42.0 — CMS.</li>
+  <li>Clinical Documentation Improvement — Cook County Health.</li>
+  <li>Large Variation in Listed Chargemaster Price for Total Joint Arthroplasty Among Top Orthopaedic Hospitals — PMC.</li>
+  <li>Here's Why Orthopedic ICD-10-CM Codes Still Matter — ModMed.</li>
+  <li>Z codes 101: What you need to know for clinical documentation — IMO Health.</li>
+  <li>Impact of the Transition to ICD-10 on Medicare Inpatient Hospital — PMC.</li>
+  <li>ICD-10 Musculoskeletal Coding Tips — Amerigroup Providers.</li>
+  <li>Chapter 13: Diseases of the musculoskeletal system (M00–M99) — AAP Publications.</li>
+  <li>Medical Coding Orthopedics — Coding Clarified.</li>
+  <li>Common ICD-10 Codes for Orthopedics — DocVilla.</li>
+  <li>Orthopedic Medical Coding Cheat Sheet — CapMinds.</li>
+  <li>Chapter 19: Injury, Poisoning — MVP Health Care.</li>
+  <li>ICD-10 Coding Basics — CMS.</li>
+  <li>Laterality — ICD-10 Diagnosis Coding — UTMB Health.</li>
+  <li>Chapter 13 Musculoskeletal and Connective Tissue — Cooley Dickinson PHO.</li>
+  <li>5 Common Orthopaedic Coding Mistakes — Rivet Health.</li>
+  <li>Resident Guide ICD-10 — AAOS.</li>
+  <li>The Complete Orthopedic Billing and Coding Cheat Sheet — HIS.</li>
+  <li>ICD-10-CM and CPT Coding Mistakes Can Cost You — ICD10Monitor.</li>
+  <li>Summary for FY 2025 Medicare IPPS — AAOS.</li>
+  <li>Orthopaedic Complications — UC Davis Health.</li>
+  <li>Severity Weighting of Postoperative Adverse Events in Orthopedic Surgery — AJO.</li>
+  <li>Recognising and dealing with complications in orthopaedic surgery — ResearchGate.</li>
+  <li>Surgical Templates for Orthopedic Operative Reports — Healio.</li>
+  <li>Tips for Improving Clinical Documentation — OSP Docs.</li>
+  <li>What is a Physician Query and Why is It Important? — MedTrainer.</li>
+  <li>Five Steps To An Effective Physician Query Process — AGS Health.</li>
+  <li>Query Physicians to Improve Documentation and Dx Coding — AAPC.</li>
+  <li>Clinical Documentation Improvement Toolkit — AHIMA.</li>
+  <li>Orthopedic Billing and Coding Cheat Sheet — Outsource Strategies.</li>
+  <li>Certified Orthopedic Surgery Coder (COSC) Certification — AAPC.</li>
+  <li>COSC Preparation Training Course — AAPC.</li>
+  <li>Coders' Specialty Guide 2026: Orthopedics — AAPC.</li>
+  <li>Intuitive Coder for Orthopedics — Codify by AAPC.</li>
+  <li>AHIMA Certification.</li>
+  <li>Medical Code Set Development and Maintenance — AHIMA.</li>
+</ol>
+
+</section>
+</main>
+
+<!-- ========== SIDEBAR ========== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Reimbursement Calculator">
+<div class="sidebar-inner">
+
+<h3>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h8M8 14h4"/></svg>
+  Interactive Reimbursement Calculator
+</h3>
+
+<!-- Procedure Selector -->
+<label for="procedure-select">Select Procedure / DRG Family</label>
+<select id="procedure-select">
+  <option value="joint" data-base="470" data-base-rw="2.08" data-cc="" data-cc-rw="0" data-mcc="469" data-mcc-rw="3.05">Major Joint Replacement (470/469)</option>
+  <option value="revision" data-base="468" data-base-rw="2.66" data-cc="467" data-cc-rw="3.61" data-mcc="466" data-mcc-rw="5.23">Revision Hip/Knee Arthroplasty (468/467/466)</option>
+  <option value="fusion" data-base="460" data-base-rw="2.50" data-cc="" data-cc-rw="0" data-mcc="459" data-mcc-rw="4.81">Spinal Fusion Except Cervical (460/459)</option>
+  <option value="custom">Custom (Enter Own RW)</option>
+</select>
+
+<!-- Hospital Base Rate -->
+<label for="base-rate-slider">Hospital Base Rate (USD)</label>
+<div class="slider-val" id="base-rate-display">$7,000</div>
+<input type="range" id="base-rate-slider" min="3000" max="15000" step="500" value="7000" aria-label="Hospital Base Rate">
+
+<!-- CC/MCC Toggles -->
+<label>Secondary Diagnosis Severity</label>
+<div class="toggle-row">
+  <label for="toggle-mcc">Has MCC?</label>
+  <div class="switch"><input type="checkbox" id="toggle-mcc"><span class="slider"></span></div>
+</div>
+<div class="toggle-row">
+  <label for="toggle-cc">Has CC (no MCC)?</label>
+  <div class="switch"><input type="checkbox" id="toggle-cc"><span class="slider"></span></div>
+</div>
+
+<!-- Result -->
+<div class="result-box">
+  <div class="label">Assigned MS-DRG</div>
+  <div class="value" id="result-drg">470</div>
+  <div class="label" style="margin-top:8px">Relative Weight</div>
+  <div class="value" id="result-rw">2.08</div>
+  <div class="label" style="margin-top:8px">Estimated Reimbursement</div>
+  <div class="value" id="result-payment">$14,560</div>
+  <div class="sub" id="result-note">Based on illustrative weights from source document</div>
+</div>
+
+<!-- Difference Display -->
+<div id="diff-box" class="summary-block" style="display:none">
+  <strong>Potential Revenue Impact:</strong><br>
+  <span id="diff-amount" style="font-size:1.2rem;font-weight:700;color:var(--success)"></span><br>
+  <span id="diff-pct" style="font-size:.85rem;color:var(--muted)"></span>
+</div>
+
+<!-- Recommendation -->
+<div class="reco-panel">
+  <h4>💡 Documentation Recommendation</h4>
+  <p id="reco-text">Select a procedure and toggle severity to see tailored documentation guidance based on source document best practices.</p>
+</div>
+
+<!-- Buttons -->
+<div class="btn-group">
+  <button class="btn btn-primary btn-sm" onclick="copySummary()">📋 Copy Summary</button>
+  <button class="btn btn-outline btn-sm" onclick="resetCalculator()">↺ Reset</button>
+</div>
+
+</div>
+</aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+(function(){
+  const procSel = document.getElementById('procedure-select');
+  const baseSlider = document.getElementById('base-rate-slider');
+  const baseDisplay = document.getElementById('base-rate-display');
+  const toggleMCC = document.getElementById('toggle-mcc');
+  const toggleCC = document.getElementById('toggle-cc');
+  const resDRG = document.getElementById('result-drg');
+  const resRW = document.getElementById('result-rw');
+  const resPay = document.getElementById('result-payment');
+  const resNote = document.getElementById('result-note');
+  const diffBox = document.getElementById('diff-box');
+  const diffAmt = document.getElementById('diff-amount');
+  const diffPct = document.getElementById('diff-pct');
+  const recoText = document.getElementById('reco-text');
+
+  // Custom RW inputs (hidden by default)
+  let customDiv = null;
+
+  function getCustomRWs(){
+    if(!customDiv){
+      customDiv = document.createElement('div');
+      customDiv.id = 'custom-rw-inputs';
+      customDiv.innerHTML = `
+        <label>Base DRG # <input type="text" id="c-base-drg" value="XXX" style="width:60px;padding:4px;margin-left:4px"></label>
+        <label>Base RW <input type="number" id="c-base-rw" value="2.0" step="0.1" min="0.1" style="width:70px;padding:4px;margin-left:4px"></label>
+        <label>CC DRG # <input type="text" id="c-cc-drg" value="" placeholder="N/A" style="width:60px;padding:4px;margin-left:4px"></label>
+        <label>CC RW <input type="number" id="c-cc-rw" value="0" step="0.1" min="0" style="width:70px;padding:4px;margin-left:4px"></label>
+        <label>MCC DRG # <input type="text" id="c-mcc-drg" value="XXX" style="width:60px;padding:4px;margin-left:4px"></label>
+        <label>MCC RW <input type="number" id="c-mcc-rw" value="3.0" step="0.1" min="0.1" style="width:70px;padding:4px;margin-left:4px"></label>
+      `;
+      customDiv.querySelectorAll('label').forEach(l=>{l.style.cssText='display:block;font-size:.8rem;margin:6px 0'});
+      customDiv.querySelectorAll('input').forEach(i=>{i.style.cssText+='border:1px solid #ccc;border-radius:4px;font-size:.85rem'});
+      procSel.parentNode.insertBefore(customDiv, procSel.nextSibling);
+      customDiv.querySelectorAll('input').forEach(i=>i.addEventListener('input', calculate));
+    }
+  }
+  function hideCustomRWs(){if(customDiv){customDiv.style.display='none'}}
+
+  function getData(){
+    const val = procSel.value;
+    if(val === 'custom'){
+      getCustomRWs();
+      customDiv.style.display = 'block';
+      return {
+        baseDrg: document.getElementById('c-base-drg').value || 'XXX',
+        baseRW: parseFloat(document.getElementById('c-base-rw').value) || 2.0,
+        ccDrg: document.getElementById('c-cc-drg').value || '',
+        ccRW: parseFloat(document.getElementById('c-cc-rw').value) || 0,
+        mccDrg: document.getElementById('c-mcc-drg').value || 'XXX',
+        mccRW: parseFloat(document.getElementById('c-mcc-rw').value) || 3.0,
+        hasCC: document.getElementById('c-cc-rw').value > 0
+      };
+    } else {
+      hideCustomRWs();
+      const opt = procSel.selectedOptions[0];
+      return {
+        baseDrg: opt.dataset.base,
+        baseRW: parseFloat(opt.dataset.baseRw),
+        ccDrg: opt.dataset.cc,
+        ccRW: parseFloat(opt.dataset.ccRw),
+        mccDrg: opt.dataset.mcc,
+        mccRW: parseFloat(opt.dataset.mccRw),
+        hasCC: opt.dataset.cc !== ''
+      };
+    }
+  }
+
+  const recoMap = {
+    joint: {
+      base: "Document all secondary diagnoses using M.E.A.T. criteria. Ensure laterality (right/left) is explicit. Capture any MCC (e.g., acute respiratory failure, sepsis, AKI, encephalopathy) to shift to MS-DRG 469 — a 46.6% reimbursement increase per source data.",
+      cc: "This DRG family has a two-tier structure (with/without MCC). If you have a qualifying CC but no MCC, the case remains in the base DRG. Document thoroughly and focus on identifying any potential MCCs.",
+      mcc: "MS-DRG 469 assigned. Ensure the MCC (e.g., J96.21 respiratory failure) is supported by clinical indicators in progress notes — M.E.A.T. documentation is critical for audit defense."
+    },
+    revision: {
+      base: "Document the specific reason for revision (mechanical loosening, infection, periprosthetic fracture). Capture all CCs (e.g., atrial fibrillation, morbid obesity) and MCCs (e.g., malnutrition, sepsis) using M.E.A.T. framework. A single CC can shift from DRG 468 → 467 (+35.7%); an MCC shifts to 466 (+96.6%).",
+      cc: "MS-DRG 467 assigned (with CC). Verify CC is documented with M.E.A.T. criteria. Assess whether any MCC-level conditions are also present — shifting to DRG 466 would add significant additional reimbursement.",
+      mcc: "MS-DRG 466 assigned (with MCC). This is the highest-paying tier (+96.6% vs. base). Ensure MCC documentation is robust: clinical indicators, treatment rendered, monitoring — all must be present in the record for audit defense."
+    },
+    fusion: {
+      base: "Spinal fusion cases have a large payment differential between tiers. Document all comorbidities aggressively. Common missed MCCs: severe malnutrition (E43), respiratory failure, sepsis. A documented MCC shifts from DRG 460 → 459 (+92.4% per source data).",
+      cc: "This DRG family typically has a two-tier structure. If a CC is documented but no MCC, case remains at base level. Focus documentation efforts on identifying potential MCCs.",
+      mcc: "MS-DRG 459 assigned. This represents a 92.4% increase over base per source data. Ensure all clinical documentation supports the MCC diagnosis with M.E.A.T. criteria — this level is a common audit target."
+    },
+    custom: {
+      base: "Document all secondary diagnoses thoroughly using M.E.A.T. framework. Ensure CCs and MCCs are explicitly diagnosed, not just mentioned. Use the toggle above to see the financial impact of severity documentation.",
+      cc: "A CC is documented. Review whether any MCC-level conditions exist. Even one MCC can significantly increase reimbursement.",
+      mcc: "MCC documented. Verify robust clinical support (M.E.A.T.) in the medical record for audit defense."
+    }
+  };
+
+  function calculate(){
+    const data = getData();
+    const baseRate = parseInt(baseSlider.value);
+    baseDisplay.textContent = '$' + baseRate.toLocaleString();
+
+    let drg, rw, sev = 'base';
+
+    if(toggleMCC.checked){
+      sev = 'mcc';
+      drg = data.mccDrg;
+      rw = data.mccRW;
+      toggleCC.checked = false;
+    } else if(toggleCC.checked && data.hasCC){
+      sev = 'cc';
+      drg = data.ccDrg || data.baseDrg;
+      rw = data.ccRW || data.baseRW;
+    } else {
+      toggleCC.checked = toggleCC.checked && data.hasCC;
+      if(!toggleCC.checked) sev = 'base';
+      drg = data.baseDrg;
+      rw = data.baseRW;
+    }
+
+    const payment = rw * baseRate;
+    resDRG.textContent = drg;
+    resRW.textContent = rw.toFixed(2);
+    resPay.textContent = '$' + payment.toLocaleString(undefined,{maximumFractionDigits:0});
+    resNote.textContent = sev === 'mcc' ? 'Highest severity tier (MCC)' : sev === 'cc' ? 'Mid severity tier (CC)' : 'Base tier (no CC/MCC)';
+
+    // Difference
+    const basePayment = data.baseRW * baseRate;
+    if(payment > basePayment){
+      diffBox.style.display = 'block';
+      const diff = payment - basePayment;
+      const pct = ((diff / basePayment) * 100).toFixed(1);
+      diffAmt.textContent = '+$' + diff.toLocaleString(undefined,{maximumFractionDigits:0});
+      diffPct.textContent = pct + '% increase vs. base DRG ' + data.baseDrg;
+    } else {
+      diffBox.style.display = 'none';
+    }
+
+    // Recommendation
+    const proc = procSel.value;
+    recoText.innerHTML = recoMap[proc] ? recoMap[proc][sev] : recoMap.custom[sev];
+
+    // Mutual exclusivity
+    if(toggleMCC.checked) toggleCC.disabled = true;
+    else toggleCC.disabled = false;
+  }
+
+  procSel.addEventListener('change', calculate);
+  baseSlider.addEventListener('input', calculate);
+  toggleMCC.addEventListener('change', calculate);
+  toggleCC.addEventListener('change', calculate);
+  calculate();
+
+  // Reset
+  window.resetCalculator = function(){
+    procSel.value = 'joint';
+    baseSlider.value = 7000;
+    toggleMCC.checked = false;
+    toggleCC.checked = false;
+    toggleCC.disabled = false;
+    if(customDiv) customDiv.style.display = 'none';
+    calculate();
+  };
+
+  // Copy
+  window.copySummary = function(){
+    const data = getData();
+    const baseRate = parseInt(baseSlider.value);
+    let sev = toggleMCC.checked ? 'MCC' : toggleCC.checked ? 'CC' : 'None';
+    const rw = parseFloat(resRW.textContent);
+    const payment = rw * baseRate;
+    const basePay = data.baseRW * baseRate;
+    const diff = payment - basePay;
+    const pct = diff > 0 ? ((diff/basePay)*100).toFixed(1)+'%' : '0%';
+
+    const text = [
+      '=== ORTHOPEDIC REIMBURSEMENT CALCULATOR SUMMARY ===',
+      'Timestamp: ' + new Date().toLocaleString(),
+      '',
+      'Procedure/DRG Family: ' + procSel.selectedOptions[0].text,
+      'Hospital Base Rate: $' + baseRate.toLocaleString(),
+      'Secondary Diagnosis Severity: ' + sev,
+      '',
+      'Assigned MS-DRG: ' + resDRG.textContent,
+      'Relative Weight: ' + resRW.textContent,
+      'Estimated Reimbursement: $' + payment.toLocaleString(undefined,{maximumFractionDigits:0}),
+      'Revenue Impact vs Base: ' + (diff>0?'+':'') + '$' + diff.toLocaleString(undefined,{maximumFractionDigits:0}) + ' (' + pct + ')',
+      '',
+      'Documentation Guidance:',
+      recoText.textContent,
+      '',
+      'Source: Comprehensive Guide to Optimizing Orthopedic Reimbursement',
+      'Note: Relative weights are illustrative, based on CMS representative fiscal year data.'
+    ].join('\n');
+
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('Summary copied to clipboard!');
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Summary copied to clipboard!');
+    });
+  };
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function(){t.classList.remove('show')}, 2500);
+  }
+})();
+</script>
+</body>
+</html>

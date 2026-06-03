@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Application of Modern Gait Analysis in Orthopedic Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--primary:#1a365d;--primary-light:#2b6cb0;--accent:#e53e3e;--accent-light:#fc8181;
+--bg:#f7fafc;--card:#ffffff;--border:#e2e8f0;--text:#1a202c;--text-muted:#4a5568;
+--evidence-1:#2f855a;--evidence-2:#38a169;--evidence-3:#d69e2e;--evidence-4:#dd6b20;--evidence-5:#e53e3e;
+--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+--shadow-lg:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);
+--radius:8px;--radius-lg:12px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.7}
+h1,h2,h3,h4{font-family:'Merriweather',Georgia,serif;color:var(--primary);line-height:1.3}
+h1{font-size:2rem;margin-bottom:.5rem}
+h2{font-size:1.6rem;margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:3px solid var(--primary-light)}
+h3{font-size:1.25rem;margin:1.8rem 0 .8rem;color:var(--primary-light)}
+h4{font-size:1.1rem;margin:1.2rem 0 .6rem}
+p{margin-bottom:1rem;text-align:justify}
+ul,ol{margin:0 0 1rem 1.5rem}
+li{margin-bottom:.4rem}
+strong{color:var(--primary)}
+a{color:var(--primary-light);text-decoration:none;border-bottom:1px dashed var(--primary-light)}
+a:hover{border-bottom-style:solid}
+
+/* Header */
+.sticky-header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:1rem 2rem;box-shadow:var(--shadow-lg)}
+.sticky-header h1{color:#fff;font-size:1.5rem;margin:0}
+.sticky-header .subtitle{color:rgba(255,255,255,.85);font-size:.85rem;font-weight:400}
+
+/* Layout */
+.page-wrapper{max-width:1400px;margin:0 auto;padding:1.5rem}
+.content-grid{display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start}
+main{background:var(--card);border-radius:var(--radius-lg);padding:2.5rem;box-shadow:var(--shadow)}
+aside{position:sticky;top:80px}
+
+/* Sidebar */
+.sidebar{background:var(--card);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow);border:2px solid var(--border)}
+.sidebar h3{color:var(--accent);margin-top:0;font-size:1.1rem;text-align:center}
+.slider-group{margin-bottom:1.5rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.slider-group:last-of-type{border-bottom:none}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem}
+.slider-label span:first-child{font-weight:600;font-size:.9rem;color:var(--primary)}
+.slider-value{font-weight:700;font-size:1rem;color:var(--accent);background:#fff5f5;padding:2px 10px;border-radius:20px}
+input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:linear-gradient(to right,var(--evidence-1),var(--evidence-3),var(--evidence-5));border-radius:3px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:var(--shadow);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:var(--shadow);cursor:pointer}
+.slider-range-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-muted);margin-top:2px}
+.recommendation-box{background:linear-gradient(135deg,#ebf8ff,#f0fff4);border:2px solid var(--primary-light);border-radius:var(--radius);padding:1rem;margin-top:1rem;min-height:120px}
+.recommendation-box h4{color:var(--primary);margin:0 0 .5rem;font-size:.95rem;font-family:'Inter',sans-serif}
+.recommendation-box p{font-size:.85rem;margin:0;text-align:left;line-height:1.5}
+.btn-group{display:flex;gap:.5rem;margin-top:1rem}
+.btn{flex:1;padding:.6rem;border:none;border-radius:var(--radius);font-weight:600;font-size:.85rem;cursor:pointer;transition:all .2s}
+.btn-reset{background:var(--border);color:var(--text)}
+.btn-reset:hover{background:#cbd5e0}
+.btn-export{background:var(--primary);color:#fff}
+.btn-export:hover{background:var(--primary-light)}
+.btn-export:active{transform:scale(.97)}
+.note-box{background:#fffbeb;border:1px solid #f6e05e;border-radius:var(--radius);padding:.6rem;font-size:.75rem;color:#744210;margin-top:.8rem;line-height:1.4}
+
+/* Evidence badges */
+.evidence{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:700;color:#fff;vertical-align:middle;white-space:nowrap}
+.ev-1{background:var(--evidence-1)}.ev-2{background:var(--evidence-2)}.ev-3{background:var(--evidence-3)}
+.ev-4{background:var(--evidence-4)}.ev-5{background:var(--evidence-5)}.ev-na{background:#a0aec0}
+.sup-ref{font-size:.65rem;vertical-align:super;color:var(--primary-light);font-weight:700;cursor:help}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem;box-shadow:var(--shadow);border-radius:var(--radius);overflow:hidden}
+caption{font-weight:700;font-size:.95rem;padding:.8rem;background:var(--primary);color:#fff;text-align:left}
+th{background:var(--primary-light);color:#fff;padding:.7rem;text-align:left;font-weight:600;font-size:.8rem}
+td{padding:.6rem .7rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:nth-child(even){background:#f7fafc}
+tr:hover{background:#ebf8ff}
+
+/* Callout boxes */
+.callout{border-left:4px solid var(--primary-light);background:#ebf8ff;padding:1rem 1.2rem;margin:1.5rem 0;border-radius:0 var(--radius) var(--radius) 0}
+.callout.warning{border-left-color:var(--accent);background:#fff5f5}
+.callout.success{border-left-color:var(--evidence-1);background:#f0fff4}
+.callout p{margin:0;font-size:.9rem}
+
+/* Lists */
+.findings-list{list-style:none;margin:0 0 1rem;padding:0}
+.findings-list li{padding:.5rem 0 .5rem 1.8rem;position:relative;border-bottom:1px solid #edf2f7}
+.findings-list li::before{content:'▸';position:absolute;left:0;color:var(--accent);font-weight:700}
+
+/* Footer references */
+.references{margin-top:2.5rem;padding-top:1.5rem;border-top:3px solid var(--primary)}
+.references h2{border-bottom:none;margin-top:1rem}
+.ref-list{list-style:none;counter-reset:ref;margin:0;padding:0}
+.ref-list li{counter-increment:ref;padding:.4rem 0 .4rem 2.2rem;position:relative;font-size:.8rem;color:var(--text-muted);border-bottom:1px solid #edf2f7}
+.ref-list li::before{content:'['counter(ref)']';position:absolute;left:0;font-weight:700;color:var(--primary-light)}
+
+/* TOC */
+.toc{background:#f7fafc;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.5rem;margin-bottom:2rem}
+.toc h3{margin-top:0;color:var(--primary)}
+.toc ol{margin:0;padding-left:1.5rem}
+.toc li{margin-bottom:.3rem;font-size:.85rem}
+.toc a{border-bottom:none;color:var(--text);font-weight:500}
+.toc a:hover{color:var(--primary-light)}
+
+/* Pathology cards */
+.path-card{background:#f7fafc;border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin:1rem 0;transition:box-shadow .2s}
+.path-card:hover{box-shadow:var(--shadow-lg)}
+.path-card h4{margin:.5rem 0;color:var(--primary)}
+
+/* Responsive */
+@media(max-width:1024px){
+.content-grid{grid-template-columns:1fr}
+aside{position:static;order:-1}
+main{padding:1.5rem}
+h1{font-size:1.5rem}
+}
+@media(max-width:640px){
+.page-wrapper{padding:.5rem}
+main{padding:1rem}
+.sticky-header{padding:.8rem 1rem}
+.sticky-header h1{font-size:1.2rem}
+h2{font-size:1.3rem}
+.btn-group{flex-direction:column}
+table{font-size:.75rem}
+th,td{padding:.4rem}
+}
+
+/* Print */
+@media print{
+.sticky-header,.sidebar,.btn-group,.toc{display:none!important}
+main{box-shadow:none;padding:0}
+.content-grid{grid-template-columns:1fr}
+body{background:#fff;font-size:11pt}
+}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:.8rem 1.5rem;border-radius:30px;font-size:.85rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#edf2f7}
+::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:4px}
+</style>
+</head>
+<body>
+
+<header class="sticky-header" role="banner">
+<h1>Clinical Application of Modern Gait Analysis in Orthopedic Practice</h1>
+<p class="subtitle">Evidence-Based Report on Diagnosis, Surgical Planning &amp; Outcome Assessment for Lower Limb Pathologies</p>
+</header>
+
+<div class="page-wrapper">
+<div class="content-grid">
+
+<main role="main">
+
+<nav class="toc" aria-label="Table of Contents">
+<h3>Table of Contents</h3>
+<ol>
+<li><a href="#sec-tech">Core Technologies for Data Acquisition</a></li>
+<li><a href="#sec-params">Key Biomechanical Parameters</a></li>
+<li><a href="#sec-oa">Degenerative Joint Disease (OA)</a></li>
+<li><a href="#sec-acl">Traumatic Knee Injuries (ACL)</a></li>
+<li><a href="#sec-deformity">Lower Limb Deformities</a></li>
+<li><a href="#sec-surgical">Integrating into the Surgical Episode</a></li>
+<li><a href="#sec-impl">Clinical Implementation &amp; Future</a></li>
+<li><a href="#sec-refs">References</a></li>
+</ol>
+</nav>
+
+<!-- SECTION 1 -->
+<h2 id="sec-tech">1. The Modern Gait Analysis Laboratory: From Technology to Clinical Metrics</h2>
+
+<p>The systematic study of human locomotion, or <strong>gait analysis</strong>, has evolved from a descriptive art into a quantitative science, offering orthopedic surgeons a powerful tool to augment clinical decision-making. While the experienced clinician's eye remains invaluable, traditional Observational Gait Analysis (OGA) is inherently subjective, with demonstrated <strong>poor-to-moderate inter-rater reliability</strong> and limited accuracy in estimating critical parameters such as joint angles.<sup class="sup-ref">[1–5]</sup> <span class="evidence ev-2">LoE II</span></p>
+
+<p>Modern <strong>Quantitative Gait Analysis (QGA)</strong> transcends these limitations by employing sophisticated instrumentation to capture objective, repeatable, and sensitive data on how a patient moves. A comprehensive QGA typically integrates four primary components: <strong>kinematics</strong> (study of motion), <strong>kinetics</strong> (study of forces causing motion), <strong>spatiotemporal parameters</strong> (time and distance variables), and <strong>dynamic electromyography (EMG)</strong> (muscle activation patterns).<sup class="sup-ref">[1]</sup></p>
+
+<h3>1.1 Kinematics: 3D Optical Motion Capture (OMC)</h3>
+
+<p>The current <strong>"gold standard"</strong> for measuring human movement is the three-dimensional Optical Motion Capture (OMC) system.<sup class="sup-ref">[12,13]</sup> These systems utilize multiple high-speed infrared cameras and small retroreflective markers affixed to anatomical landmarks. Through triangulation, the system calculates the exact 3D position of each marker with <strong>sub-millimeter accuracy at 100–200 Hz</strong>.<sup class="sup-ref">[13]</sup></p>
+
+<p>Emerging <strong>markerless motion capture (MLMC)</strong> systems use deep learning algorithms and standard video cameras to automatically track body segments without markers.<sup class="sup-ref">[6,16,17]</sup> Studies comparing MLMC to OMC show <strong>good to excellent agreement</strong> for spatiotemporal parameters and sagittal plane kinematics, though greater deviations exist in frontal and transverse planes.<sup class="sup-ref">[16]</sup> <span class="evidence ev-2">LoE II</span></p>
+
+<h3>1.2 Kinetics: Force Plates</h3>
+
+<p>Force plates embedded in walkways measure the three-dimensional <strong>Ground Reaction Force (GRF)</strong> vector.<sup class="sup-ref">[1,19]</sup> The GRF is resolved into:</p>
+
+<ul class="findings-list">
+<li><strong>Vertical GRF:</strong> Reflects body weight and vertical acceleration; bimodal "M-shaped" curve with peaks during loading and push-off<sup class="sup-ref">[25]</sup></li>
+<li><strong>Anterior-Posterior GRF:</strong> Represents braking (negative) and propulsive (positive) impulses<sup class="sup-ref">[25]</sup></li>
+<li><strong>Medial-Lateral GRF:</strong> Smallest component; reflects side-to-side balance control</li>
+</ul>
+
+<p>Force plates also measure the <strong>Center of Pressure (CoP)</strong>, whose progression from heel to forefoot provides information about foot mechanics and stability.<sup class="sup-ref">[27,29]</sup></p>
+
+<h3>1.3 Inverse Dynamics: Bridging Kinematics and Kinetics</h3>
+
+<p>Through a computational process known as <strong>inverse dynamics</strong>, combined kinematic and kinetic data are used to calculate the <strong>net internal joint moments</strong> (torques) at the ankle, knee, and hip.<sup class="sup-ref">[25,31,33]</sup> A joint moment represents the net rotational effect of all forces crossing that joint—primarily muscle contractions. By combining joint moment with angular velocity, <strong>joint power</strong> is calculated:<sup class="sup-ref">[33]</sup></p>
+
+<div class="callout success">
+<p><strong>Positive Power (Generation):</strong> Concentric muscle contraction accelerating a segment (e.g., ankle plantarflexors at push-off).<br>
+<strong>Negative Power (Absorption):</strong> Eccentric muscle contraction decelerating a segment (e.g., quadriceps during initial loading).</p>
+</div>
+
+<h3>1.4 Wearable and Portable Technologies</h3>
+
+<p>Logistical barriers of traditional labs have spurred development of accessible technologies:<sup class="sup-ref">[37]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Inertial Measurement Units (IMUs):</strong> Small wearable sensors measuring acceleration and angular velocity. Low cost, portable, ecologically valid—but subject to integration drift and less accurate for kinetics.<sup class="sup-ref">[12,15,40,41]</sup> <span class="evidence ev-2">LoE II</span></li>
+<li><strong>Pressure-sensitive walkways &amp; in-shoe systems:</strong> Dense arrays of pressure/force sensors provide detailed plantar pressure distribution, CoP trajectory, and spatiotemporal parameters—but cannot measure shear GRF components.<sup class="sup-ref">[15,20,21,29]</sup> <span class="evidence ev-3">LoE III</span></li>
+</ul>
+
+<div class="callout">
+<p><strong>Clinical Decision Point:</strong> Lab-based OMC with force plates remains the gold standard for comprehensive biomechanical analysis required for complex surgical planning. Portable technologies are invaluable for routine screening, post-operative monitoring, and rehabilitation tracking.<sup class="sup-ref">[37]</sup></p>
+</div>
+
+<!-- TABLE: Technology Comparison -->
+<table>
+<caption>Table 2: Comparative Overview of Gait Analysis Technologies <span class="evidence ev-na" style="font-weight:400">Derived from source</span></caption>
+<thead>
+<tr><th>Technology</th><th>Data Captured</th><th>Accuracy</th><th>Cost</th><th>Portability</th><th>Clinical Use Case</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>3D OMC + Force Plates</strong></td><td>Full 3D kinematics, kinetics, STPs</td><td>Sub-mm; Gold standard</td><td>High ($100K+)</td><td>Low (dedicated lab)</td><td>Complex surgical planning, research</td></tr>
+<tr><td><strong>Markerless Motion Capture</strong></td><td>3D kinematics, STPs</td><td>Good–Excellent (sagittal); Variable (frontal/transverse)</td><td>Moderate</td><td>Moderate</td><td>Community settings, screening</td></tr>
+<tr><td><strong>IMU-based Systems</strong></td><td>Segment accelerations, estimated kinematics, STPs</td><td>Good for STPs; Moderate for kinematics</td><td>Low</td><td>High</td><td>Rehab monitoring, home assessment</td></tr>
+<tr><td><strong>Pressure Walkways / In-shoe</strong></td><td>Plantar pressure, CoP, vertical GRF, STPs</td><td>Good for pressure distribution</td><td>Low–Moderate</td><td>High</td><td>Fall risk screening, diabetic foot</td></tr>
+</tbody>
+</table>
+
+
+<!-- SECTION 2 -->
+<h2 id="sec-params">2. Key Biomechanical Parameters and Clinical Interpretation</h2>
+
+<h3>2.1 Spatiotemporal Parameters (STPs): The "Vital Signs" of Gait</h3>
+
+<p>STPs describe the timing and distance characteristics of the gait cycle and serve as robust indicators of overall walking ability, efficiency, and stability.<sup class="sup-ref">[2]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Gait Speed:</strong> The most important single indicator of functional capacity. Reduced gait speed is a well-validated biomarker for frailty, functional decline, increased fall risk, cognitive impairment, and all-cause mortality.<sup class="sup-ref">[2,11]</sup> <span class="evidence ev-1">LoE I</span></li>
+<li><strong>Cadence:</strong> Steps per minute; reflects rhythm/pace.<sup class="sup-ref">[24]</sup></li>
+<li><strong>Step/Stride Length:</strong> Reduced lengths are common adaptations to pain, instability, or weakness.<sup class="sup-ref">[11,24]</sup></li>
+<li><strong>Step Width (Base of Support):</strong> Increased width is a compensatory strategy for balance deficits.<sup class="sup-ref">[24]</sup></li>
+<li><strong>Double Support Time:</strong> Prolonged time is hallmark of unstable, cautious gait.<sup class="sup-ref">[24]</sup></li>
+</ul>
+
+<div class="callout warning">
+<p><strong>Critical Insight:</strong> Assessing only mean STP values can obscure crucial indicators. <strong>Gait variability</strong> (stride-to-stride fluctuations) is a sensitive marker of impaired motor control and fall risk.<sup class="sup-ref">[47]</sup> <strong>Gait asymmetry</strong> (left-right differences) is a clear indicator of unilateral pathology.<sup class="sup-ref">[46,47]</sup></p>
+</div>
+
+<h3>2.2 Kinematic Parameters: The "How" of Movement</h3>
+
+<p>Kinematic parameters describe 3D angular displacements of joints throughout the gait cycle. Deviations from normative patterns pinpoint specific mechanical problems:<sup class="sup-ref">[53,57]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Reduced peak knee flexion during swing</strong> → joint stiffness (KOA)<sup class="sup-ref">[53]</sup></li>
+<li><strong>Increased lateral trunk lean</strong> → Duchenne limp (hip abductor weakness)<sup class="sup-ref">[57]</sup></li>
+<li><strong>Reduced knee flexion during loading</strong> → ACL-deficient compensation strategy<sup class="sup-ref">[36]</sup></li>
+</ul>
+
+<h3>2.3 Kinetic Parameters: The "Why" of Movement</h3>
+
+<p>Joint moments provide a non-invasive window into the internal loading environment:<sup class="sup-ref">[25]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Elevated External Knee Adduction Moment (KAM)</strong> → increased medial compartment compressive load (medial KOA)<sup class="sup-ref">[56]</sup></li>
+<li><strong>Reduced Internal Knee Extensor Moment</strong> → quadriceps avoidance / neuromuscular inhibition (ACL injury)<sup class="sup-ref">[36]</sup></li>
+<li><strong>Reduced Hip Abduction Moment (affected) + Increased Contralateral Moments</strong> → mechanism of contralateral overloading (hip OA)<sup class="sup-ref">[58,61]</sup></li>
+</ul>
+
+
+<!-- SECTION 3 -->
+<h2 id="sec-oa">3. Degenerative Joint Disease: Quantifying Osteoarthritis</h2>
+
+<h3>3.1 Gait Signature of Knee Osteoarthritis (KOA)</h3>
+
+<h4>Spatiotemporal and Kinematic Deviations</h4>
+
+<p>Patients with KOA adopt a <strong>"cautious" or "stiffening" gait strategy"</strong>:<sup class="sup-ref">[53]</sup></p>
+
+<ul class="findings-list">
+<li><strong>STPs:</strong> Reduced walking speed, shortened stride length, lower cadence, increased double limb support time<sup class="sup-ref">[48,53]</sup> <span class="evidence ev-2">LoE II</span></li>
+<li><strong>Sagittal Plane:</strong> Reduced flexion-extension ROM; lack of full knee extension during stance ("dynamic flexion contracture"); reduced peak swing-phase knee flexion<sup class="sup-ref">[53]</sup></li>
+<li><strong>Frontal Plane:</strong> Increased knee adduction angle (dynamic varus / "varus thrust") in medial compartment disease<sup class="sup-ref">[53]</sup></li>
+<li><strong>Kinetic Chain:</strong> Reduced knee ROM strongly correlated with concurrent reduction at hip and ankle<sup class="sup-ref">[56]</sup></li>
+</ul>
+
+<h4>Kinetic Biomarkers: The Knee Adduction Moment (KAM)</h4>
+
+<p>The external KAM is the most critical parameter in medial compartment KOA analysis.<sup class="sup-ref">[59]</sup> It serves as a validated surrogate for medial compartment compressive load.<sup class="sup-ref">[60]</sup></p>
+
+<div class="callout success">
+<p><strong>Key Evidence:</strong> A higher peak KAM is strongly correlated with: (1) radiographic severity of medial KOA, (2) rate of disease progression, and (3) level of knee pain.<sup class="sup-ref">[60]</sup> <span class="evidence ev-1">LoE I</span> Both baseline KAM and knee flexion moment (KFM) are independently associated with cartilage changes over a 5-year period.<sup class="sup-ref">[71]</sup></p>
+</div>
+
+<p>The KAM is a <strong>quantifiable therapeutic target</strong>. Interventions designed to reduce it include:<sup class="sup-ref">[60,73]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Gait modifications:</strong> Toe-out positioning, increased trunk sway, cane use<sup class="sup-ref">[60]</sup></li>
+<li><strong>Orthotic interventions:</strong> Valgus knee braces, lateral wedge insoles<sup class="sup-ref">[60]</sup></li>
+<li><strong>Surgical realignment:</strong> High tibial osteotomy (HTO) shifts mechanical axis laterally, reducing the adduction lever arm<sup class="sup-ref">[73]</sup></li>
+</ul>
+
+<h3>3.2 Gait Signature of Hip Osteoarthritis</h3>
+
+<p>The hallmark of unilateral hip OA gait is <strong>asymmetry</strong>, driven by a fundamental strategy to unload the painful joint.<sup class="sup-ref">[61]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Reduced sagittal plane motion:</strong> Less peak hip flexion and notably reduced peak hip extension at terminal stance<sup class="sup-ref">[58]</sup></li>
+<li><strong>Frontal plane trunk lean (Duchenne limp):</strong> Exaggerated lateral lean toward the affected side during stance, shifting center of mass closer to hip center to reduce abductor demand and joint reaction force<sup class="sup-ref">[57]</sup></li>
+<li><strong>Contralateral pelvic drop (Trendelenburg sign):</strong> Weakness of ipsilateral hip abductors leads to excessive contralateral pelvic drop<sup class="sup-ref">[58]</sup></li>
+<li><strong>Contralateral limb overloading:</strong> The "healthy" limb experiences significantly higher peak external knee and hip adduction moments—providing a mechanical explanation for increased contralateral OA risk<sup class="sup-ref">[61]</sup> <span class="evidence ev-2">LoE II</span></li>
+</ul>
+
+<div class="callout warning">
+<p><strong>Clinical Implication:</strong> The degree of trunk lean is strongly related to hip abductor muscle <em>weakness</em>, not solely pain avoidance.<sup class="sup-ref">[58]</sup> Simply performing a THA may not restore normal gait if the underlying muscular deficit is not addressed through targeted rehabilitation.</p>
+</div>
+
+<!-- TABLE: Gait Deviations -->
+<table>
+<caption>Table 1: Key Gait Deviations in Common Lower Limb Pathologies <span class="evidence ev-na" style="font-weight:400">Adapted from source document</span></caption>
+<thead>
+<tr><th>Pathology</th><th>Spatiotemporal Deviations</th><th>Kinematic Deviations</th><th>Kinetic Deviations</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Knee OA</strong></td><td>↓ Speed, ↓ stride length, ↑ double support</td><td>↓ knee F-E ROM; lack of full extension in stance; ↑ knee adduction angle</td><td><strong>↑ Peak KAM</strong>; altered KFM; redistribution to hip/ankle</td></tr>
+<tr><td><strong>Hip OA</strong></td><td>↓ Speed, ↓ stride length (affected), asymmetry</td><td>↓ hip F-E ROM; ↑ trunk lean (Duchenne); ↑ contralateral pelvic drop</td><td>↓ hip abduct. moment (affected); ↑ hip &amp; knee adduct. moments (contralateral)</td></tr>
+<tr><td><strong>ACL Deficiency</strong></td><td>Asymmetry in step length &amp; stance time</td><td>↓ knee flexion during stance (affected)</td><td><strong>↓ Peak knee extensor moment</strong>; reduced power absorption</td></tr>
+<tr><td><strong>Genu Varum</strong></td><td>Often minimal in level walking</td><td>↑ knee adduction angle throughout stance</td><td>↑ mediolateral GRF; ↑ vertical loading rate; ↑ KAM</td></tr>
+<tr><td><strong>Genu Valgum</strong></td><td>↑ step width (waddling)</td><td>↓ knee flexion; ↑ ankle angles (compensatory)</td><td>↓ knee moments (affected); ↓ GRF (affected); ↑ subtalar pronation moment</td></tr>
+</tbody>
+</table>
+
+
+<!-- SECTION 4 -->
+<h2 id="sec-acl">4. Traumatic Knee Injuries: ACL Deficiency and Reconstruction</h2>
+
+<h3>4.1 Biomechanics of the ACL-Deficient Knee</h3>
+
+<p>Following ACL rupture, patients develop adaptive gait patterns to protect the unstable knee:<sup class="sup-ref">[36]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Reduced knee flexion during stance:</strong> Keeps GRF vector closer to knee center, reducing external moment<sup class="sup-ref">[36]</sup></li>
+<li><strong>Decreased internal knee extensor moment:</strong> The most significant and robust kinetic finding<sup class="sup-ref">[36]</sup></li>
+</ul>
+
+<p>EMG-driven musculoskeletal models reveal the dominant strategy is often a <strong>global reduction in muscle force from both quadriceps and hamstrings</strong>—a broad neuromuscular inhibition strategy rather than selective muscle modulation.<sup class="sup-ref">[36]</sup> <span class="evidence ev-2">LoE II</span></p>
+
+<h3>4.2 Post-ACLR: Persistent Deficits</h3>
+
+<p>Despite comprehensive rehabilitation, many patients exhibit persistent gait abnormalities months to years after surgery:<sup class="sup-ref">[36]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Persistent kinetic asymmetries:</strong> Continued reduction in peak knee extensor moment and power absorption of the surgical limb<sup class="sup-ref">[79]</sup></li>
+<li><strong>Compensatory strategies:</strong> Increased reliance on hip extensors (gluteals) of the surgical limb<sup class="sup-ref">[66]</sup></li>
+<li><strong>Bilateral deficits:</strong> Contralateral limb also adopts pathological movement patterns; using it as a "healthy" benchmark is misleading<sup class="sup-ref">[80]</sup></li>
+<li><strong>Task-dependent deficits:</strong> Asymmetries may be subtle during slow walking but become pronounced during fast walking, running, stair negotiation, or landing<sup class="sup-ref">[77]</sup></li>
+</ul>
+
+<h3>4.3 Return-to-Sport (RTS): The Paradigm Shift</h3>
+
+<p>Time-based RTS clearance (e.g., 6–9 months post-surgery) is <strong>inadequate and potentially unsafe</strong>.<sup class="sup-ref">[80,82]</sup> An objective, data-driven RTS assessment should include:<sup class="sup-ref">[80]</sup></p>
+
+<div class="callout success">
+<p><strong>Evidence:</strong> Delaying RTS until at least 9 months post-surgery, and until objective functional milestones are met, has been shown to <strong>reduce re-injury rates by as much as 51% for each month RTS is delayed</strong>.<sup class="sup-ref">[80]</sup> Athletes who fail to meet objective biomechanical criteria have significantly higher re-injury rates.<sup class="sup-ref">[80]</sup> <span class="evidence ev-1">LoE I</span></p>
+</div>
+
+<ul class="findings-list">
+<li>Quadriceps strength symmetry (LSI &gt;90%) as a necessary but insufficient prerequisite<sup class="sup-ref">[80]</sup></li>
+<li>Functional hop testing with 3D analysis to assess landing mechanics (dynamic valgus, shock absorption)<sup class="sup-ref">[80]</sup></li>
+<li>Gait and running analysis for persistent biomechanical asymmetries correlated with kinesiophobia<sup class="sup-ref">[77]</sup></li>
+</ul>
+
+
+<!-- SECTION 5 -->
+<h2 id="sec-deformity">5. Lower Limb Deformities: Corrective Surgical Strategy</h2>
+
+<h3>5.1 Genu Valgum ("Knock-Knees")</h3>
+
+<p>A case study of a 13-year-old with unilateral genu valgum revealed:<sup class="sup-ref">[87,89]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Kinematics:</strong> Decreased knee flexion in both limbs; increased ankle angles (compensatory)<sup class="sup-ref">[87]</sup></li>
+<li><strong>Kinetics:</strong> Lower peak knee moments and reduced GRF on affected limb; increased subtalar pronation moment<sup class="sup-ref">[87,88]</sup></li>
+</ul>
+
+<p><span class="evidence ev-na">Limited evidence: single case study identified in source. General thresholds annotated from common practice.</span></p>
+
+<h3>5.2 Genu Varum ("Bowlegs")</h3>
+
+<p>A study of boys with genu varum during running found:<sup class="sup-ref">[91]</sup></p>
+
+<ul class="findings-list">
+<li>Significantly <strong>higher peak mediolateral GRF</strong> compared to controls<sup class="sup-ref">[91]</sup></li>
+<li>Substantially <strong>greater vertical loading rate</strong>—direct mechanical explanation for accelerated cartilage wear<sup class="sup-ref">[91]</sup></li>
+<li>Biomechanical models predict increased subtalar pronation moment throughout stance<sup class="sup-ref">[88]</sup></li>
+</ul>
+
+<h3>5.3 Gait Analysis in Planning Corrective Osteotomies</h3>
+
+<p>Pre-operative gait analysis plays a transformative role:<sup class="sup-ref">[73,74]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Quantifying dynamic load:</strong> Peak KAM provides direct, objective measure of medial compartment overload; strong correlation with static HKA angle<sup class="sup-ref">[74]</sup></li>
+<li><strong>Identifying true source of deformity:</strong> Personalized musculoskeletal models integrating patient-specific anatomy (CT/MRI) dramatically improve surgical decision-making accuracy<sup class="sup-ref">[98]</sup></li>
+<li><strong>Evaluating outcomes:</strong> Post-operative analysis objectively verifies that biomechanical goals of surgery have been achieved<sup class="sup-ref">[73]</sup></li>
+</ul>
+
+<div class="callout">
+<p><strong>Impact:</strong> Studies show that inclusion of pre-operative gait analysis data <strong>alters the final surgical plan in up to 89% of complex cases</strong>—both cancelling unnecessary procedures and adding procedures to address biomechanical problems not apparent from static examination.<sup class="sup-ref">[105,106]</sup> <span class="evidence ev-2">LoE II</span></p>
+</div>
+
+
+<!-- SECTION 6 -->
+<h2 id="sec-surgical">6. Integrating Gait Analysis into the Surgical Episode of Care</h2>
+
+<h3>6.1 Pre-operative Assessment</h3>
+
+<h4>Establishing an Objective Functional Baseline</h4>
+
+<p>A comprehensive gait analysis establishes a quantitative functional benchmark against which surgical success is measured.<sup class="sup-ref">[7,44]</sup> Critically, a patient's <strong>pre-operative biomechanical status is the single strongest predictor of post-operative biomechanical function</strong>.<sup class="sup-ref">[101]</sup> <span class="evidence ev-2">LoE II</span></p>
+
+<h4>Informing Surgical Strategy</h4>
+
+<ul class="findings-list">
+<li><strong>Total Knee Arthroplasty (TKA):</strong> Dynamic varus/valgus thrust or hyperextension provides evidence of ligamentous instability not fully appreciated on static exam, potentially prompting use of more constrained implant designs<sup class="sup-ref">[102]</sup>. Pre-operative STPs predict functional response to TKA with high accuracy<sup class="sup-ref">[104]</sup></li>
+<li><strong>Corrective Osteotomies:</strong> Dynamic joint loading data determines necessity and ideal magnitude of correction<sup class="sup-ref">[73,74]</sup></li>
+<li><strong>Foot/Ankle Deformities:</strong> Multi-segment foot models reveal the true functional driver of deformity, potentially preventing unnecessary procedures<sup class="sup-ref">[107]</sup></li>
+</ul>
+
+<h3>6.2 Post-operative Outcome Evaluation</h3>
+
+<ul class="findings-list">
+<li><strong>Tracking recovery:</strong> Comparing post-operative parameters to baseline and normative data provides tangible evidence of progress<sup class="sup-ref">[64,110]</sup></li>
+<li><strong>Early complication detection:</strong> Case study of a "smart" TKA implant with embedded sensor transmitted daily gait data; declining metrics at 4.5 weeks prompted early evaluation, diagnosing arthrofibrosis and enabling timely manipulation under anesthesia<sup class="sup-ref">[112]</sup></li>
+<li><strong>Comparing surgical techniques:</strong> Prospective RCTs using gait analysis compare THA approaches (anterior vs. lateral) and ACL reconstruction techniques<sup class="sup-ref">[114,116]</sup></li>
+</ul>
+
+<h3>6.3 Guiding Patient-Specific Rehabilitation</h3>
+
+<h4>Pre-habilitation ("Prehab")</h4>
+
+<p>Pre-operative gait analysis precisely identifies key biomechanical deficits, enabling targeted prehab programs (e.g., gluteus medius strengthening and hip flexor stretching for hip OA patients with abductor weakness).<sup class="sup-ref">[44,58,119]</sup> Evidence suggests this leads to better post-operative outcomes and faster recovery.<sup class="sup-ref">[119,122]</sup> <span class="evidence ev-2">LoE II</span></p>
+
+<h4>Post-operative Rehabilitation</h4>
+
+<p>Post-operative gait analysis identifies specific factors limiting recovery, enabling customization beyond generic protocols. For example, a TKA patient's primary limitation may be a persistent trunk lean or insufficient ankle power generation rather than knee-specific deficits.<sup class="sup-ref">[109,121]</sup> Real-time biofeedback during treadmill walking has been shown effective for retraining symmetric movement patterns.<sup class="sup-ref">[101]</sup></p>
+
+<!-- TABLE: Integration -->
+<table>
+<caption>Table 3: Gait Analysis Across the Surgical Episode of Care <span class="evidence ev-na" style="font-weight:400">Derived from source</span></caption>
+<thead>
+<tr><th>Phase</th><th>Application</th><th>Key Benefit</th><th>Evidence</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Pre-operative</strong></td><td>Functional baseline; surgical planning; prehab guidance</td><td>Predicts post-op outcomes; alters surgical plan in 89% of complex cases<sup class="sup-ref">[105]</sup></td><td><span class="evidence ev-2">LoE II</span></td></tr>
+<tr><td><strong>Intra-operative</strong></td><td>Smart implant sensors (future)</td><td>Real-time load monitoring</td><td><span class="evidence ev-na">Emerging</span></td></tr>
+<tr><td><strong>Early Post-op</strong></td><td>Complication detection; recovery tracking</td><td>Early detection of arthrofibrosis, delayed recovery<sup class="sup-ref">[112]</sup></td><td><span class="evidence ev-3">LoE III</span></td></tr>
+<tr><td><strong>Late Post-op</strong></td><td>RTS clearance; rehab customization; outcome research</td><td>Reduces re-injury by 51% per delayed month<sup class="sup-ref">[80]</sup></td><td><span class="evidence ev-1">LoE I</span></td></tr>
+<tr><td><strong>Long-term</strong></td><td>Monitoring for contralateral overloading; implant longevity</td><td>Prophylactic intervention for "healthy" limb</td><td><span class="evidence ev-2">LoE II</span></td></tr>
+</tbody>
+</table>
+
+
+<!-- SECTION 7 -->
+<h2 id="sec-impl">7. Clinical Implementation and Future Horizons</h2>
+
+<h3>7.1 QGA vs. Observational Analysis</h3>
+
+<p>OGA has poor-to-moderate inter-rater reliability; clinicians are poor at estimating joint angles and identifying subtle deviations.<sup class="sup-ref">[3–5]</sup> QGA provides objective, reliable, and highly sensitive data, detecting clinically significant asymmetries in joint loading completely invisible to the naked eye.<sup class="sup-ref">[3,44]</sup> <span class="evidence ev-2">LoE II</span></p>
+
+<p>A patient may demonstrate full passive knee extension on examination but exhibit a dynamic flexion contracture during gait due to hamstring spasticity or pain avoidance—only QGA can fully characterize this functional deficit.<sup class="sup-ref">[127]</sup></p>
+
+<h3>7.2 Practical Barriers to Adoption</h3>
+
+<ol>
+<li><strong>Cost:</strong> Full research-grade laboratory: $100K+ capital investment<sup class="sup-ref">[6]</sup></li>
+<li><strong>Time &amp; Space:</strong> Marker placement: 30+ minutes; dedicated 10–15m walkway required<sup class="sup-ref">[32]</sup></li>
+<li><strong>Expertise:</strong> "Expertise bottleneck"—interpreting complex multi-dimensional data requires dedicated biomechanists or highly trained physical therapists<sup class="sup-ref">[6]</sup></li>
+</ol>
+
+<h3>7.3 Overcoming Barriers</h3>
+
+<ul class="findings-list">
+<li><strong>Low-cost systems:</strong> Consumer-grade technology (Microsoft Kinect, Wii Balance Boards) at a fraction of the cost<sup class="sup-ref">[6,37]</sup></li>
+<li><strong>Wearable sensors:</strong> Eliminate need for dedicated lab; enable long-term home monitoring<sup class="sup-ref">[38]</sup></li>
+<li><strong>Markerless motion capture:</strong> Automates joint tracking, reducing preparation time and training requirements<sup class="sup-ref">[16]</sup></li>
+</ul>
+
+<h3>7.4 The Future: AI and Machine Learning</h3>
+
+<p>AI/ML is poised to automate data interpretation, overcoming the expertise bottleneck:<sup class="sup-ref">[39,42,130]</sup></p>
+
+<ul class="findings-list">
+<li><strong>Automated feature extraction:</strong> AI processes raw sensor data, calculates parameters, flags deviations from normative data<sup class="sup-ref">[39]</sup></li>
+<li><strong>Diagnostic classification:</strong> ML models trained on thousands of patient datasets recognize multi-dimensional "gait signatures" of specific pathologies<sup class="sup-ref">[42]</sup></li>
+<li><strong>Predictive analytics:</strong> Forecast post-operative outcomes, identify high-risk patients, predict RTS readiness<sup class="sup-ref">[39]</sup></li>
+<li><strong>Digital twins:</strong> Integration of dynamic gait data into AI-driven surgical planning tools; simulate proposed correction and instantly see predicted effect on joint loading<sup class="sup-ref">[97,98]</sup></li>
+</ul>
+
+<div class="callout">
+<p><strong>Future Vision:</strong> Gait analysis will evolve from a "snapshot in the lab" to a continuous, integrated "movie of life"—beginning with a quick markerless scan in clinic, continuing with wearable sensor data at home, constantly processed by AI algorithms to provide real-time, actionable clinical insights.<sup class="sup-ref">[38,39]</sup></p>
+</div>
+
+
+<!-- REFERENCES -->
+<section class="references" id="sec-refs">
+<h2>References</h2>
+<p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem"><em>Note: References are numbered as cited in the source document. Full bibliographic details available in the original works cited section.</em></p>
+<ol class="ref-list">
+<li>Kirtley C. Technology Overview: The Gait Analysis Laboratory. <em>ResearchGate</em>. 2006.</li>
+<li>Kobsar D, et al. Biomechanical parameters for gait analysis: a systematic review of healthy human gait. <em>ResearchGate</em>. 2017.</li>
+<li>Lord SE, et al. Review of Observational Gait Assessment in Clinical Practice. <em>Physiother Theory Pract</em>. 2003.</li>
+<li>Toro B, et al. Reliability and Validity of Observational Gait Analysis by Physical Therapists. <em>PMC</em>. 2025.</li>
+<li>Toro B, et al. Reliability and Validity of Observational Gait Analysis. <em>ResearchGate</em>. 2025.</li>
+<li>Rodrigues T, et al. Human Gait Assessment using a 3D Marker-less Multimodal Motion Capture System. <em>DCU</em>. 2019.</li>
+<li>Esquenazi A, Talaty M. Gait analysis methods in rehabilitation. <em>J Neuroeng Rehabil</em>. 2006;3:4.</li>
+<li>Novacheck TF. A Practical Guide to Gait Analysis. <em>Orthobullets</em>. 1998.</li>
+<li>Foucher KC. Gait Analysis in Orthopaedic Surgery: History, Limitations, and Future Directions. <em>ResearchGate</em>. 2022.</li>
+<li>ClinicalGate. Gait Analysis: Technology and Clinical Applications. 2015.</li>
+<li>Defined in source document ref 11. Biomechanics Parameters of Gait Analysis to Characterize Parkinson's Disease. <em>MDPI Sensors</em>. 2025.</li>
+<li>Defined in source document ref 12. 3D gait analysis in children using wearable sensors. <em>Frontiers</em>. 2024.</li>
+<li>Defined in source document ref 13. Use of 3D Motion Capture for Kinematic Analysis. <em>Practical Neurology</em>. 2022.</li>
+<li>Defined in source document ref 14. Current applications of gait analysis after TKA: A scoping review. <em>PMC</em>. 2022.</li>
+<li>Defined in source document ref 15. Gait analysis — Wikipedia. Accessed 2025.</li>
+<li>Defined in source document ref 16. Feasibility of Markerless Motion Capture for 3D Gait Assessment. <em>Frontiers</em>. 2022.</li>
+<li>Defined in source document ref 17. Bringing 3D gait analysis technology to clinical settings. <em>UC Davis Health</em>. 2023.</li>
+<li>Defined in source document ref 25. Analysis and Interpretation of Ground Reaction Forces in Normal Gait. <em>ResearchGate</em>. 2010.</li>
+<li>Defined in source document ref 36. Gait and Neuromuscular Asymmetries after Acute ACL Rupture. <em>PMC</em>. 2012.</li>
+<li>Defined in source document ref 47. Interpreting Spatiotemporal Parameters, Symmetry, and Variability in Clinical Gait Analysis. <em>ResearchGate</em>. 2017.</li>
+<li>Defined in source document ref 53. Gait knee kinematic alterations in medial OA: three-dimensional analysis. <em>PMC</em>. 2014.</li>
+<li>Defined in source document ref 56. Effects of Knee Osteoarthritis on Hip and Ankle Gait Mechanics. <em>PMC</em>. 2019.</li>
+<li>Defined in source document ref 57. Subjects with hip OA show distinctive patterns of trunk movements during gait. <em>PMC</em>. 2012.</li>
+<li>Defined in source document ref 58. Relationship between Physical Impairments and Movement Patterns in Hip OA. <em>PMC</em>. 2015.</li>
+<li>Defined in source document ref 59. Gait analysis of patients with KOA: pathological mechanical pathway. <em>PMC</em>. 2017.</li>
+<li>Defined in source document ref 60. Gait Modification to Treat Knee Osteoarthritis. <em>PMC</em>. 2012.</li>
+<li>Defined in source document ref 61. Gait Symmetry and Joint Moments in Unilateral and Bilateral Hip OA. <em>PMC</em>. 2021.</li>
+<li>Defined in source document ref 71. Baseline KAM and KFM associated with 5-year cartilage changes. <em>PubMed</em>. 2014.</li>
+<li>Defined in source document ref 73–74. Gait analysis before and after corrective osteotomy. <em>PMC</em>. 2017.</li>
+<li>Defined in source document ref 77. Gait Analysis Post ACLR Using Inertial Sensors: A Longitudinal Study. <em>KU ScholarWorks</em>. 2018.</li>
+<li>Defined in source document ref 80. ACL Rehabilitation: Re-injury and Return to Sport Tests. <em>Physiopedia</em>. 2023.</li>
+<li>Defined in source document ref 87–89. Kinetic and kinematic analysis of gait with unilateral genu valgum. <em>Eur Rev Med Pharmacol Sci</em>. 2016.</li>
+<li>Defined in source document ref 91. Running kinetics in children with and without genu varus. <em>PMC</em>. 2017.</li>
+<li>Defined in source document ref 98. Personalized musculoskeletal modeling for gait analysis. <em>PMC</em>. 2025.</li>
+<li>Defined in source document ref 101. Preoperative and Post-Rehabilitation Predictors of Gait Biomechanics after TKA. <em>ResearchGate</em>. 2024.</li>
+<li>Defined in source document ref 105–106. Effect of Preoperative Gait Analysis on Orthopaedic Decision Making. <em>PubMed</em>. 2000.</li>
+<li>Defined in source document ref 107. Using 3D Gait Data for Foot/Ankle Orthopaedic Surgery. <em>Open Orthop J</em>. 2009.</li>
+<li>Defined in source document ref 112. Objective gait analysis following TKA with a smart implant. <em>J Orthop Exp Innov</em>. 2025.</li>
+<li>Defined in source document ref 114. Gait analysis: anterior vs lateral approach THA. <em>J Musculoskel Surg Res</em>. 2023.</li>
+<li>Defined in source document ref 116. Gait Analysis After ACL Surgery: Primary Repair vs Reconstruction. <em>PMC</em>. 2025.</li>
+</ol>
+</section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside aria-label="Interactive Clinical Decision Tool">
+<div class="sidebar">
+<h3>🔬 Interactive Clinical Parameter Tool</h3>
+<p style="font-size:.78rem;color:var(--text-muted);text-align:center;margin-bottom:1rem">Adjust parameters below to see real-time clinical recommendations based on the source document's evidence.</p>
+
+<div class="slider-group">
+<div class="slider-label">
+<span>Gait Speed</span>
+<span class="slider-value" id="speed-val">1.2 m/s</span>
+</div>
+<input type="range" id="speed-slider" min="0.2" max="2.0" step="0.05" value="1.2" aria-label="Gait Speed in meters per second">
+<div class="slider-range-labels"><span>0.2 m/s</span><span>2.0 m/s</span></div>
+</div>
+
+<div class="slider-group">
+<div class="slider-label">
+<span>Peak Knee Adduction Moment (KAM)</span>
+<span class="slider-value" id="kam-val">0.35 Nm/kg</span>
+</div>
+<input type="range" id="kam-slider" min="0.0" max="1.5" step="0.01" value="0.35" aria-label="Peak Knee Adduction Moment in Nm/kg">
+<div class="slider-range-labels"><span>0.0 Nm/kg</span><span>1.5 Nm/kg</span></div>
+</div>
+
+<div class="slider-group">
+<div class="slider-label">
+<span>Knee Flexion at Loading Response</span>
+<span class="slider-value" id="kf-val">18°</span>
+</div>
+<input type="range" id="kf-slider" min="0" max="40" step="1" value="18" aria-label="Knee Flexion Angle at Loading Response in degrees">
+<div class="slider-range-labels"><span>0°</span><span>40°</span></div>
+</div>
+
+<div class="recommendation-box" id="rec-box">
+<h4>Clinical Recommendation</h4>
+<p id="rec-text">Adjust the sliders above to generate a personalized clinical interpretation based on evidence from the source document.</p>
+</div>
+
+<div class="note-box">
+<strong>⚠️ Threshold Note:</strong> Specific numerical thresholds for slider classification ranges are based on commonly accepted clinical values and general biomechanical literature, not explicitly stated in the source document. Source document provides qualitative relationships (e.g., "higher KAM correlates with disease severity") without specifying exact cutoffs.
+</div>
+
+<div class="btn-group">
+<button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders to default values">⟲ Reset</button>
+<button class="btn btn-export" id="btn-export" aria-label="Copy current values and recommendation to clipboard">📋 Copy Summary</button>
+</div>
+</div>
+</aside>
+
+</div><!-- /content-grid -->
+</div><!-- /page-wrapper -->
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+(function(){
+'use strict';
+
+const speedSlider=document.getElementById('speed-slider');
+const kamSlider=document.getElementById('kam-slider');
+const kfSlider=document.getElementById('kf-slider');
+const speedVal=document.getElementById('speed-val');
+const kamVal=document.getElementById('kam-val');
+const kfVal=document.getElementById('kf-val');
+const recText=document.getElementById('rec-text');
+const btnReset=document.getElementById('btn-reset');
+const btnExport=document.getElementById('btn-export');
+const toast=document.getElementById('toast');
+
+function getSpeedClass(v){
+  if(v<0.6)return {label:'Severely Impaired',color:'#e53e3e',detail:'Gait speed <0.6 m/s is associated with high frailty, significant fall risk, and increased all-cause mortality. Source: reduced gait speed is a powerful biomarker for functional decline and mortality in older adults [Ref 2].'};
+  if(v<0.8)return {label:'Significantly Reduced',color:'#dd6b20',detail:'Gait speed 0.6–0.8 m/s indicates significant functional limitation, commonly seen in advanced KOA and post-operative patients. Pre-operative speed is the strongest predictor of post-operative function [Ref 101].'};
+  if(v<1.0)return {label:'Mildly Reduced',color:'#d69e2e',detail:'Gait speed 0.8–1.0 m/s suggests mild functional limitation. Consider targeted prehabilitation to optimize pre-operative status. Source document notes prehab improves post-op outcomes [Ref 119].'};
+  if(v<1.3)return {label:'Community Ambulatory',color:'#38a169',detail:'Gait speed 1.0–1.3 m/s is within the community ambulatory range. This is a typical threshold for functional independence.'};
+  return {label:'Normal / High Function',color:'#2f855a',detail:'Gait speed ≥1.3 m/s indicates high functional capacity. Source document notes QGA can detect subclinical deficits even in high-functioning individuals [Ref 44].'};
+}
+
+function getKAMClass(v){
+  if(v<=0.3)return {label:'Low Medial Load',color:'#2f855a',detail:'KAM ≤0.3 Nm/kg suggests relatively low medial compartment loading. Note: a low KAM with varus alignment may indicate effective compensatory strategies [Ref 74].'};
+  if(v<=0.5)return {label:'Moderate Medial Load',color:'#d69e2e',detail:'KAM 0.3–0.5 Nm/kg indicates moderate medial loading. Source document reports that higher KAM correlates with OA severity, progression rate, and pain level [Ref 60]. Consider gait modification or orthotic intervention.'};
+  if(v<=0.8)return {label:'High Medial Load',color:'#dd6b20',detail:'KAM 0.5–0.8 Nm/kg indicates high medial compartment overload. Source document identifies KAM as the primary therapeutic target for medial KOA. High tibial osteotomy (HTO) may be indicated to reduce the adduction lever arm [Ref 73].'};
+  return {label:'Very High Medial Load',color:'#e53e3e',detail:'KAM >0.8 Nm/kg indicates very high medial compartment overload with significant risk for accelerated cartilage degeneration. Aggressive surgical correction (HTO) strongly indicated. Source: both KAM and KFM independently predict 5-year cartilage changes [Ref 71].'};
+}
+
+function getKFClass(v){
+  if(v<8)return {label:'Severe Deficit',color:'#e53e3e',detail:'Knee flexion <8° at loading response indicates severe "stiff-knee" strategy. In ACL-deficient patients, this reflects marked neuromuscular inhibition—global reduction in quadriceps and hamstring activation [Ref 36]. In KOA, suggests dynamic flexion contracture.'};
+  if(v<14)return {label:'Reduced',color:'#dd6b20',detail:'Knee flexion 8–14° is below normal range during loading response. Source document identifies reduced stance-phase knee flexion as a hallmark of ACL-deficient gait and a feature of KOA "stiffening strategy" [Ref 36,53].'};
+  if(v<22)return {label:'Normal Range',color:'#2f855a',detail:'Knee flexion 14–22° during loading response is within normal limits. This represents adequate shock absorption and quadriceps function.'};
+  return {label:'Increased',color:'#d69e2e',detail:'Knee flexion >22° during loading response may indicate compensatory strategies such as hamstring facilitation, quadriceps weakness, or posterior knee pain. Further clinical correlation recommended.'};
+}
+
+function update(){
+  const sv=parseFloat(speedSlider.value);
+  const kv=parseFloat(kamSlider.value);
+  const fv=parseFloat(kfSlider.value);
+
+  speedVal.textContent=sv.toFixed(2)+' m/s';
+  kamVal.textContent=kv.toFixed(2)+' Nm/kg';
+  kfVal.textContent=Math.round(fv)+'°';
+
+  const sc=getSpeedClass(sv);
+  const kc=getKAMClass(kv);
+  const fc=getKFClass(fv);
+
+  let rec='';
+  rec+=`<p><span style="color:${sc.color};font-weight:700">Gait Speed (${sv.toFixed(2)} m/s): ${sc.label}</span><br>${sc.detail}</p>`;
+  rec+=`<p><span style="color:${kc.color};font-weight:700">Peak KAM (${kv.toFixed(2)} Nm/kg): ${kc.label}</span><br>${kc.detail}</p>`;
+  rec+=`<p><span style="color:${fc.color};font-weight:700">Knee Flexion (${Math.round(fv)}°): ${fc.label}</span><br>${fc.detail}</p>`;
+
+  // Integrated recommendation
+  if(sv<0.8 && kv>0.5 && fv<14){
+    rec+=`<hr style="margin:.8rem 0;border-color:#e2e8f0"><p><strong>🔴 Integrated Assessment:</strong> This profile is consistent with severe functional limitation with high medial compartment overload and marked neuromuscular inhibition. Source document indicates: (1) pre-operative KAM magnitude should guide osteotomy planning [Ref 73,74]; (2) reduced knee extensor moment pattern suggests need for targeted neuromuscular rehabilitation [Ref 36]; (3) prehabilitation to optimize gait speed may improve post-operative outcomes [Ref 119].</p>`;
+  } else if(sv>=1.0 && kv<=0.5 && fv>=14){
+    rec+=`<hr style="margin:.8rem 0;border-color:#e2e8f0"><p><strong>🟢 Integrated Assessment:</strong> This profile suggests relatively preserved function with acceptable joint loading. Continue current management. Source document notes that even in high-functioning individuals, gait variability and asymmetry should be assessed for subclinical deficits [Ref 46,47].</p>`;
+  } else {
+    rec+=`<hr style="margin:.8rem 0;border-color:#e2e8f0"><p><strong>🟡 Integrated Assessment:</strong> Mixed biomechanical profile detected. Source document emphasizes that gait analysis should synthesize kinematic and kinetic data to provide mechanistic understanding [Ref 25]. Consider comprehensive QGA with inverse dynamics to identify specific drivers of dysfunction. Post-operative gait monitoring recommended to track recovery trajectory [Ref 110].</p>`;
+  }
+
+  recText.innerHTML=rec;
+}
+
+speedSlider.addEventListener('input',update);
+kamSlider.addEventListener('input',update);
+kfSlider.addEventListener('input',update);
+
+btnReset.addEventListener('click',function(){
+  speedSlider.value=1.2;
+  kamSlider.value=0.35;
+  kfSlider.value=18;
+  update();
+});
+
+btnExport.addEventListener('click',function(){
+  const sv=parseFloat(speedSlider.value);
+  const kv=parseFloat(kamSlider.value);
+  const fv=parseFloat(kfSlider.value);
+  const sc=getSpeedClass(sv);
+  const kc=getKAMClass(kv);
+  const fc=getKFClass(fv);
+  const ts=new Date().toLocaleString();
+
+  let txt='=== GAIT ANALYSIS CLINICAL PARAMETER SUMMARY ===\n';
+  txt+='Timestamp: '+ts+'\n\n';
+  txt+='PARAMETERS:\n';
+  txt+='• Gait Speed: '+sv.toFixed(2)+' m/s → '+sc.label+'\n';
+  txt+='• Peak Knee Adduction Moment (KAM): '+kv.toFixed(2)+' Nm/kg → '+kc.label+'\n';
+  txt+='• Knee Flexion at Loading Response: '+Math.round(fv)+'° → '+fc.label+'\n\n';
+  txt+='INTERPRETATIONS:\n';
+  txt+='1. '+sc.detail+'\n';
+  txt+='2. '+kc.detail+'\n';
+  txt+='3. '+fc.detail+'\n\n';
+  txt+='SOURCE: Evidence-based report on Clinical Application of Modern Gait Analysis in Orthopedic Practice.\n';
+  txt+='NOTE: Thresholds based on general clinical knowledge, not explicitly from source document.\n';
+  txt+='================================================';
+
+  navigator.clipboard.writeText(txt).then(function(){
+    toast.classList.add('show');
+    setTimeout(function(){toast.classList.remove('show')},2500);
+  }).catch(function(){
+    // Fallback
+    const ta=document.createElement('textarea');
+    ta.value=txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast.classList.add('show');
+    setTimeout(function(){toast.classList.remove('show')},2500);
+  });
+});
+
+// Initial render
+update();
+
+})();
+</script>
+
+</body>
+</html>

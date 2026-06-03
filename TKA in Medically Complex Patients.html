@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perioperative Optimization of TKA in the Medically Complex Patient</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--card:#ffffff;--accent:#1a6b4a;--accent-light:#e8f5ee;--accent-dark:#0f4d35;
+  --text:#1e293b;--text-muted:#64748b;--border:#e2e8f0;
+  --danger:#dc2626;--danger-light:#fef2f2;--danger-border:#fecaca;
+  --warn:#d97706;--warn-light:#fffbeb;--warn-border:#fde68a;
+  --safe:#16a34a;--safe-light:#f0fdf4;--safe-border:#bbf7d0;
+  --info:#2563eb;--info-light:#eff6ff;--info-border:#bfdbfe;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg:0 4px 20px rgba(0,0,0,.08);
+  --radius:10px;--radius-sm:6px;
+  --sidebar-w:340px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,var(--accent-dark),var(--accent));color:#fff;padding:2.5rem 2rem 2rem;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-lg)}
+.site-header h1{font-size:clamp(1.25rem,2.5vw,1.75rem);font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.site-header .subtitle{font-size:.9rem;opacity:.85;margin-top:.35rem;font-weight:400}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr var(--sidebar-w);gap:2rem;max-width:1400px;margin:0 auto;padding:2rem 1.5rem}
+@media(max-width:1100px){.layout{grid-template-columns:1fr;}.sidebar{position:static!important;width:100%!important;max-width:100%!important}}
+
+/* Main content */
+.main-content{min-width:0}
+.main-content h2{font-size:1.5rem;font-weight:700;color:var(--accent-dark);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent-light);letter-spacing:-.01em}
+.main-content h2:first-child{margin-top:0}
+.main-content h3{font-size:1.15rem;font-weight:600;color:var(--text);margin:1.75rem 0 .6rem}
+.main-content h4{font-size:1rem;font-weight:600;color:var(--accent);margin:1.25rem 0 .4rem}
+.main-content p{margin-bottom:1rem;font-size:.95rem}
+.main-content ul,.main-content ol{margin:0 0 1rem 1.5rem;font-size:.95rem}
+.main-content li{margin-bottom:.35rem}
+.main-content strong{color:var(--accent-dark)}
+
+/* Cards */
+.card{background:var(--card);border-radius:var(--radius);padding:1.75rem;margin-bottom:1.5rem;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card.highlight{border-left:4px solid var(--accent)}
+
+/* Evidence badges */
+.ev{display:inline-block;font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;vertical-align:middle;margin-left:.3rem;letter-spacing:.03em}
+.ev-I{background:#dcfce7;color:#166534}.ev-II{background:#dbeafe;color:#1e40af}
+.ev-III{background:#fef9c3;color:#854d0e}.ev-IV{background:#ffedd5;color:#9a3412}
+.ev-V{background:#f1f5f9;color:#475569}.ev-NA{background:#f1f5f9;color:#64748b;font-weight:500}
+
+/* Callout boxes */
+.callout{border-radius:var(--radius-sm);padding:1rem 1.25rem;margin:1rem 0;font-size:.9rem}
+.callout-danger{background:var(--danger-light);border:1px solid var(--danger-border);color:#991b1b}
+.callout-warn{background:var(--warn-light);border:1px solid var(--warn-border);color:#92400e}
+.callout-safe{background:var(--safe-light);border:1px solid var(--safe-border);color:#166534}
+.callout-info{background:var(--info-light);border:1px solid var(--info-border);color:#1e40af}
+.callout strong{color:inherit}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.25rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+caption{font-weight:600;font-size:.95rem;text-align:left;padding:.75rem 1rem;background:var(--accent-light);color:var(--accent-dark);border-bottom:1px solid var(--border)}
+th{background:#f1f5f9;font-weight:600;text-align:left;padding:.65rem .75rem;border-bottom:2px solid var(--border);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted)}
+td{padding:.6rem .75rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+td.good{color:var(--safe);font-weight:600}
+td.bad{color:var(--danger);font-weight:600}
+
+/* Reference section */
+.references{margin-top:3rem;border-top:2px solid var(--border);padding-top:1.5rem}
+.references h2{border-bottom:none;margin-top:0}
+.references ol{font-size:.82rem;color:var(--text-muted);line-height:1.8}
+.references li{margin-bottom:.25rem}
+
+/* Sidebar */
+.sidebar{position:sticky;top:120px;height:fit-content;max-height:calc(100vh - 140px);overflow-y:auto}
+.sidebar-inner{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-lg);border:1px solid var(--border);padding:1.5rem}
+.sidebar h3{font-size:1rem;font-weight:700;color:var(--accent-dark);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.sidebar h3::before{content:'';width:4px;height:18px;background:var(--accent);border-radius:2px;display:inline-block}
+.slider-group{margin-bottom:1.5rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem}
+.slider-label span:first-child{font-size:.85rem;font-weight:600;color:var(--text)}
+.slider-value{font-size:.95rem;font-weight:700;color:var(--accent);min-width:3.5rem;text-align:right}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--border);outline:none;margin:.35rem 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(26,107,74,.35);transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:none;box-shadow:0 2px 6px rgba(26,107,74,.35)}
+.threshold-note{font-size:.72rem;color:var(--text-muted);margin-top:.2rem;font-style:italic}
+
+/* Recommendation box */
+#recommendation-box{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:2px solid var(--safe-border);border-radius:var(--radius);padding:1.25rem;margin-top:1.25rem;transition:all .3s ease}
+#recommendation-box.risk-high{background:linear-gradient(135deg,#fef2f2,#fff1f2);border-color:var(--danger-border)}
+#recommendation-box.risk-mod{background:linear-gradient(135deg,#fffbeb,#fefce8);border-color:var(--warn-border)}
+#recommendation-box.risk-low{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-color:var(--safe-border)}
+.rec-title{font-size:.85rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.rec-body{font-size:.82rem;line-height:1.6;color:var(--text)}
+
+/* Buttons */
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{font-family:inherit;font-size:.8rem;font-weight:600;padding:.55rem 1rem;border-radius:var(--radius-sm);cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:.35rem}
+.btn-reset{background:var(--border);color:var(--text)}
+.btn-reset:hover{background:#cbd5e1}
+.btn-copy{background:var(--accent);color:#fff}
+.btn-copy:hover{background:var(--accent-dark)}
+.btn-copy.copied{background:var(--safe)}
+
+/* Checklist */
+.checklist{list-style:none;margin-left:0;padding:0}
+.checklist li{position:relative;padding:.4rem 0 .4rem 1.8rem;font-size:.9rem;border-bottom:1px solid var(--border)}
+.checklist li:last-child{border-bottom:none}
+.checklist li::before{content:'☐';position:absolute;left:0;font-size:1.1rem;color:var(--accent)}
+
+/* Responsive */
+@media(max-width:768px){
+  .layout{padding:1rem}
+  .card{padding:1.25rem}
+  .site-header{padding:1.5rem 1rem}
+  table{font-size:.78rem}
+  th,td{padding:.45rem .5rem}
+}
+
+/* Print */
+@media print{
+  .sidebar,.btn-row{display:none!important}
+  .layout{grid-template-columns:1fr}
+  .site-header{position:static}
+}
+
+/* Accessibility */
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Smooth transitions */
+.card,.callout,.table-wrap{animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Perioperative Optimization &amp; Management of Total Knee Arthroplasty<br>in the Medically Complex Patient</h1>
+  <p class="subtitle">Evidence-Based Clinical Monograph — Interactive Educational Summary</p>
+</header>
+
+<div class="layout">
+<main class="main-content" role="main" aria-label="Main educational content">
+
+<!-- SECTION 1 -->
+<h2 id="sec-foundations">1. Foundational Principles of Preoperative Assessment</h2>
+
+<div class="card highlight">
+<h3>1.1 The Comprehensive Clinical Evaluation: Beyond the Knee</h3>
+<p>The success of total knee arthroplasty (TKA) in medically complex patients is predicated on a <strong>comprehensive, systemic, patient-centric approach</strong> to perioperative management. The preoperative evaluation must extend far beyond the affected joint to include a meticulous systemic review.<span class="ev ev-NA">Not specified in source</span></p>
+
+<p><strong>Essential elements of the preoperative evaluation</strong> include:</p>
+<ul>
+  <li><strong>Medical history:</strong> Comprehensive inventory of all comorbid conditions, all current medications (including OTC drugs, herbal remedies, vitamins that may interfere with coagulation/anesthesia), smoking status, alcohol use, mental health, and social support structure.<span class="ev ev-NA">Expert opinion</span></li>
+  <li><strong>Active infection screening:</strong> Any active infection, regardless of location, must be fully resolved before elective surgery to minimize risk of catastrophic postoperative infection.<span class="ev ev-NA">Expert opinion</span></li>
+  <li><strong>Neurovascular assessment:</strong> Mandatory evaluation for signs of poor circulation—skin discoloration, atrophic changes, asymmetric distal pulses. If peripheral arterial insufficiency is suspected, an <strong>ankle-brachial index (ABI) &lt; 0.9</strong> warrants preoperative vascular surgery consultation.<span class="ev ev-NA">Expert opinion</span></li>
+  <li><strong>Dental health:</strong> Significant dental conditions (cavities, periodontal disease) can act as a nidus for periprosthetic joint infection (PJI). All necessary dental work must be completed well in advance of TKA.<span class="ev ev-NA">Expert opinion</span></li>
+</ul>
+
+<div class="callout callout-danger">
+  <strong>Critical Point:</strong> An ABI &lt; 0.9 is a significant finding that warrants preoperative vascular surgery consultation, as these patients are at high risk for arterial injury and compromised blood flow during TKA.
+</div>
+</div>
+
+<div class="card">
+<h3>1.2 Validated Risk Stratification Models</h3>
+<p>Transitioning from subjective clinical impression to objective, quantifiable risk assessment is essential. Validated instruments condense a patient's complex comorbidity profile into a numeric score, facilitating risk-stratified care and informed shared decision-making.<span class="ev ev-II">Retrospective cohort studies</span></p>
+
+<h4>Charlson Comorbidity Index (CCI)</h4>
+<p>Originally developed to predict one-year mortality risk, the CCI assigns a weight from 1 to 6 to each of 19 defined comorbid conditions. In TKA, the CCI is a <strong>powerful predictor of mortality, length of hospital stay, and overall resource utilization</strong>. Patients with higher CCI scores tend to have poorer functional outcomes and activity levels. However, the CCI's primary strength lies in predicting life-threatening conditions, and it may be less sensitive for functional or quality-of-life outcomes.<span class="ev ev-II">Retrospective cohort studies</span></p>
+
+<h4>ASA Physical Status Classification</h4>
+<p>The ASA score provides a more global assessment of overall systemic illness and physiological reserve. Despite its simplicity, it is an <strong>exceptionally robust predictor of perioperative risk</strong>, with strong correlations to medical complications, readmission rates, and mortality. A large study found that the ASA score was a <strong>better predictor of postoperative adverse events than the more complex CCI</strong>.<span class="ev ev-II">Retrospective cohort study</span></p>
+
+<h4>Key Independent Risk Factors Identified from Database Analysis</h4>
+<div class="table-wrap">
+<table>
+<caption>Table 1. Individual Comorbidities as Independent Risk Factors for Adverse Events After TKA</caption>
+<thead>
+<tr><th>Comorbidity</th><th>Adverse Event</th><th>Odds Ratio (OR)</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Peripheral Vascular Disease (PVD)</strong></td><td>Medical complications</td><td class="bad">2.73</td></tr>
+<tr><td><strong>Peripheral Vascular Disease (PVD)</strong></td><td>Reoperation</td><td class="bad">3.23</td></tr>
+<tr><td><strong>Bleeding Disorders</strong></td><td>Hospital readmission</td><td class="bad">2.03</td></tr>
+<tr><td><strong>Bleeding Disorders</strong></td><td>Mortality</td><td class="bad">5.86</td></tr>
+</tbody>
+</table>
+</div>
+<p class="threshold-note">Source: Large national database analysis. Other conditions (DM, COPD, CHF) also significant but with smaller effect sizes.</p>
+</div>
+
+<!-- SECTION 2 -->
+<h2 id="sec-optimization">2. Preoperative Optimization of Systemic Comorbidities</h2>
+
+<div class="card highlight">
+<h3>2.1 Cardiovascular System: Applying the 2024 AHA/ACC Guidelines</h3>
+<p>Cardiovascular disease is highly prevalent in the TKA population and stands as a leading cause of perioperative morbidity and mortality. Patients with pre-existing CHF, CAD, valvular dysfunction, and arrhythmias face markedly elevated risks of MI, AKI, thromboembolic events, prolonged LOS, and death.<span class="ev ev-III">Large cohort study</span></p>
+
+<h4>Key Recommendations of the 2024 Guidelines</h4>
+<ol>
+  <li><strong>Stepwise Assessment Algorithm:</strong> The initial critical step is to determine surgical urgency and evaluate for <strong>"active cardiac conditions"</strong> (unstable coronary syndromes, decompensated HF, significant arrhythmias, severe valvular disease). Presence of any is a contraindication to elective TKA.<span class="ev ev-II">Evidence-based guideline</span></li>
+  <li><strong>Judicious Stress Testing:</strong> Stress tests should be ordered <strong>only if results will change management</strong>. Cardiovascular screening should adhere to the same indications as for non-surgical patients.<span class="ev ev-II">Evidence-based guideline</span></li>
+  <li><strong>Cardiac Biomarkers:</strong> For elevated-risk patients with poor functional capacity (&lt;4 METs), consider preoperative <strong>BNP/NT-proBNP or high-sensitivity troponin</strong>. Normal levels indicate low risk; elevated levels trigger multidisciplinary discussion.<span class="ev ev-II">Evidence-based guideline</span></li>
+  <li><strong>SGLT2 Inhibitors:</strong> Must be <strong>discontinued 3–4 days before surgery</strong> to minimize risk of perioperative euglycemic ketoacidosis.<span class="ev ev-II">Evidence-based guideline</span></li>
+  <li><strong>Anticoagulation Bridging:</strong> Selective use only in highest-risk patients; not recommended for the majority.<span class="ev ev-I">RCT (BRIDGE trial)</span></li>
+</ol>
+
+<div class="table-wrap">
+<table>
+<caption>Table 2. Key Practice-Changing Recommendations: 2024 vs. 2014 AHA/ACC Guidelines</caption>
+<thead>
+<tr><th>Feature</th><th>2024 Guideline (New Practice)</th><th>Previous Practice (2014)</th><th>Rationale for Change</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Cardiac Stress Testing</strong></td><td class="good">Judicious/targeted use only if independent indication exists</td><td>More liberal screening based on risk calculators</td><td>Routine testing does not improve outcomes; leads to overscreening and delays</td></tr>
+<tr><td><strong>Cardiac Biomarkers</strong></td><td class="good">Consider BNP/NT-proBNP or troponin in elevated-risk patients with poor functional capacity</td><td>Not part of formal assessment algorithm</td><td>Strong prognostic value for perioperative MACE; normal levels prevent unnecessary testing</td></tr>
+<tr><td><strong>SGLT2 Inhibitors</strong></td><td class="good">Discontinue 3–4 days before surgery</td><td>No specific guidance (drugs not widely used)</td><td>Recognition of fatal risk of perioperative euglycemic ketoacidosis</td></tr>
+<tr><td><strong>Anticoagulation Bridging</strong></td><td class="good">Selective use only in highest thrombotic risk</td><td>Bridging with heparin more commonly used</td><td>BRIDGE trial: routine bridging increases bleeding without reducing thromboembolic events</td></tr>
+<tr><td><strong>MINS Surveillance</strong></td><td class="good">Postoperative troponin surveillance in high-risk patients</td><td>Troponin only for symptomatic ischemia</td><td>Asymptomatic troponin elevation (MINS) independently predicts 30-day and long-term mortality</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h3>2.2 Glycemic Control in Diabetes Mellitus</h3>
+<p>Diabetes mellitus is one of the most impactful comorbidities in TKA, acting as a major independent risk factor for SSI and PJI. Hyperglycemia impairs neutrophil chemotaxis and phagocytosis, delays collagen synthesis, and compromises microvascular function.<span class="ev ev-III">Pathophysiological evidence &amp; cohort studies</span></p>
+
+<h4>Preoperative HbA1c Thresholds</h4>
+<div class="callout callout-warn">
+  <strong>Recommended Target:</strong> Delay surgery until HbA1c ≤ 7.5%–8.0%. An HbA1c &gt; 8.0% is a common absolute contraindication for elective TKA.<span class="ev ev-III">Expert consensus &amp; cohort studies</span>
+</div>
+<ul>
+  <li><strong>Stricter targets (≤7.0%)</strong> may be difficult for patients with long-standing diabetes and could create barriers to necessary surgery. The 7.5–8.0% range represents a pragmatic balance.<span class="ev ev-NA">Expert opinion</span></li>
+  <li><strong>Impact of poor control:</strong> Uncontrolled diabetes is associated with significantly increased odds of stroke, UTI, and longer hospital LOS.<span class="ev ev-III">Retrospective cohort studies</span></li>
+</ul>
+
+<h4>Perioperative Glucose Management</h4>
+<ul>
+  <li>Optimization should begin <strong>at least 2–3 months before surgery</strong> to allow HbA1c improvement.<span class="ev ev-NA">Expert opinion</span></li>
+  <li>Oral hypoglycemics withheld on the morning of surgery. Metformin discontinued 24–48 hours preop. SGLT2 inhibitors stopped 3–4 days in advance.<span class="ev ev-II">Guideline recommendation</span></li>
+  <li><strong>Target blood glucose range:</strong> 140–180 mg/dL during and after surgery. Levels &gt;200 mg/dL on POD 1 associated with a <strong>2-fold increase in SSI risk</strong>.<span class="ev ev-III">Cohort study</span></li>
+  <li>Continuous glucose monitoring reveals high incidence of significant hyperglycemia even with standard sliding-scale insulin, underscoring the need for <strong>proactive basal-bolus insulin regimens</strong>.<span class="ev ev-III">Prospective monitoring study</span></li>
+</ul>
+</div>
+
+<div class="card">
+<h3>2.3 Chronic Kidney Disease (CKD) and End-Stage Renal Disease (ESRD)</h3>
+<p>Patients with CRD are particularly vulnerable—older, with higher comorbidity burden. After adjusting for confounders, CRD remains an <strong>independent risk factor</strong> for:<span class="ev ev-II">Retrospective cohort studies</span></p>
+<ul>
+  <li><strong>1.9-fold increased risk</strong> of superficial SSI</li>
+  <li><strong>1.3-fold increased risk</strong> of 90-day hospital readmission</li>
+  <li><strong>1.5-fold increased risk</strong> of long-term mortality</li>
+</ul>
+<p>ESRD/dialysis-dependent patients experience significantly higher transfusion rates, higher total costs, and are much less likely to be discharged home.<span class="ev ev-II">NIS database study</span></p>
+
+<h4>Perioperative Management Principles</h4>
+<ul>
+  <li><strong>Medication review:</strong> Avoid/dose-adjust nephrotoxic agents (aminoglycosides, vancomycin, NSAIDs, IV contrast).</li>
+  <li><strong>Fluid management:</strong> Avoid both hypovolemia (pre-renal AKI) and hypervolemia (pulmonary edema).</li>
+  <li><strong>Dialysis scheduling:</strong> Surgery on non-dialysis day; postoperative dialysis adjusted per clinical course.</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>2.4 The Obese Patient: Beyond BMI Cutoffs</h3>
+<p>Morbidly obese patients (BMI ≥ 40 kg/m²) face a <strong>2- to 6-fold increased risk of readmission, reoperation, and PJI</strong> compared to non-obese patients.<span class="ev ev-II">Retrospective cohort studies</span></p>
+
+<div class="callout callout-warn">
+  <strong>Common Recommendation:</strong> Delay elective TKA for patients with BMI ≥ 40 kg/m² until meaningful weight loss is achieved. However, this cutoff requires nuance—risk stratification tools can identify a subset of morbidly obese patients who achieve outcomes similar to non-obese patients through optimization of other comorbidities.<span class="ev ev-II">Retrospective cohort studies</span>
+</div>
+
+<p><strong>Equity Consideration:</strong> Rigid application of BMI or HbA1c cutoffs may inadvertently create systemic barriers for minority populations and those of lower socioeconomic status, in whom these conditions are disproportionately prevalent. Optimization should be a tool for <strong>inclusion, not exclusion</strong>.<span class="ev ev-NA">Editorial/expert opinion</span></p>
+
+<p><strong>Weight loss strategies:</strong> Preoperative weight loss through structured diet or bariatric surgery reduces postoperative complications. If bariatric surgery is pursued, allow a <strong>6–12 month interval</strong> before TKA for metabolic stabilization.<span class="ev ev-II">Systematic review of RCTs</span></p>
+</div>
+
+<div class="card">
+<h3>2.5 Chronic Obstructive Pulmonary Disease (COPD)</h3>
+<p>COPD is a significant independent risk factor for pneumonia, reintubation, wound dehiscence, renal insufficiency, sepsis, and death after TKA.<span class="ev ev-II">NIS database analysis</span></p>
+
+<h4>Preoperative Pulmonary Optimization</h4>
+<ol>
+  <li><strong>Smoking cessation:</strong> Minimum 4–8 weeks before surgery to allow improvement in mucociliary clearance and reduction of airway inflammation. Consider cotinine testing.<span class="ev ev-NA">Expert opinion &amp; consensus</span></li>
+  <li><strong>Treat active infection/exacerbation:</strong> Postpone surgery until full recovery to baseline pulmonary status.</li>
+  <li><strong>Optimize medical therapy:</strong> Review and optimize baseline COPD medications; consider nebulized bronchodilators preoperatively.</li>
+  <li><strong>Chest physiotherapy:</strong> For patients with significant sputum production to reduce postoperative atelectasis and pneumonia risk.</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>2.6 Cross-Cutting Optimization: Anemia, Malnutrition, and Chronic Opioid Use</h3>
+<p>The period of 4 weeks to 3 months prior to surgery represents a critical <strong>"optimization window"</strong> where active interventions can fundamentally alter a patient's risk profile.<span class="ev ev-NA">Expert consensus</span></p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 3. Evidence-Based Preoperative Optimization Targets for Key Modifiable Risk Factors</caption>
+<thead>
+<tr><th>Risk Factor</th><th>Target Threshold</th><th>Optimization Timeframe</th><th>Key Interventions</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Obesity</strong></td><td>BMI &lt; 40 kg/m²</td><td>6–12 months</td><td>Nutritional counseling, supervised weight loss, bariatric surgery evaluation</td></tr>
+<tr><td><strong>Malnutrition</strong></td><td>Albumin ≥ 3.5 g/dL</td><td>4+ weeks</td><td>Nutritional assessment, oral supplementation</td></tr>
+<tr><td><strong>Diabetes</strong></td><td>HbA1c ≤ 7.5–8.0%</td><td>2–3 months</td><td>PCP/endocrinologist collaboration, medication adjustment, glucose monitoring</td></tr>
+<tr><td><strong>Anemia</strong></td><td>Hgb &gt; 12.0 g/dL (F) / &gt; 13.0 g/dL (M)</td><td>4+ weeks</td><td>Anemia work-up; oral/IV iron, ESA as indicated</td></tr>
+<tr><td><strong>Smoking</strong></td><td>Complete cessation (negative cotinine)</td><td>4–8 weeks</td><td>Cessation programs, NRT, counseling</td></tr>
+<tr><td><strong>Chronic Opioid Use</strong></td><td>≥ 50% dose reduction</td><td>4+ weeks</td><td>Multimodal pain management, pain specialist referral</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- SECTION 3 -->
+<h2 id="sec-intraoperative">3. Intraoperative Management for the High-Risk Patient</h2>
+
+<div class="card highlight">
+<h3>3.1 Anesthetic Considerations: Superiority of Regional Techniques</h3>
+<p>An extensive body of evidence consistently demonstrates the <strong>superiority of neuraxial anesthesia (NA) over general anesthesia (GA)</strong> for TKA, with benefits most pronounced in medically complex patients. NA effectively blunts the neuroendocrine stress response, reducing catecholamine release and minimizing perioperative tachycardia and hypertension.<span class="ev ev-II">Retrospective database studies &amp; meta-analyses</span></p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 4. Comparative Outcomes: Neuraxial/Regional vs. General Anesthesia for High-Risk TKA</caption>
+<thead>
+<tr><th>Outcome</th><th>Neuraxial/Regional (NA/RA)</th><th>General Anesthesia (GA)</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Mortality</strong></td><td class="good">Lower 30-day and overall mortality</td><td class="bad">Higher 30-day mortality (OR 1.83)</td></tr>
+<tr><td><strong>Cardiovascular Complications</strong></td><td class="good">Reduced risk</td><td class="bad">Higher risk</td></tr>
+<tr><td><strong>Pulmonary Complications</strong></td><td class="good">Lower pneumonia &amp; respiratory failure</td><td class="bad">Higher risk (pneumonia OR 1.27)</td></tr>
+<tr><td><strong>Infection Risk</strong></td><td class="good">Lower wound infections</td><td class="bad">Higher infection risk (OR 1.38)</td></tr>
+<tr><td><strong>Blood Loss / Transfusion</strong></td><td class="good">Lower</td><td class="bad">Higher transfusion rates</td></tr>
+<tr><td><strong>PONV</strong></td><td class="good">Lower incidence</td><td class="bad">Higher incidence</td></tr>
+<tr><td><strong>Delirium</strong></td><td class="good">Lower incidence</td><td class="bad">Higher incidence</td></tr>
+<tr><td><strong>Renal Complications</strong></td><td class="good">Lower AKI rates</td><td class="bad">Higher AKI risk (OR 1.44)</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Modern practice often combines NA with <strong>peripheral nerve blocks (PNBs)</strong> (femoral, sciatic, adductor canal), providing targeted prolonged analgesia and reducing systemic opioid requirements. In extremely high-risk patients, TKA may be performed using PNBs with conscious sedation alone.<span class="ev ev-III">Case reports &amp; case series</span></p>
+
+<div class="callout callout-info">
+  <strong>Note:</strong> NA is not without risks—block failure, transient hypotension, and rare neurological complications (spinal hematoma, epidural abscess). A thorough coagulation status assessment is mandatory before neuraxial block.
+</div>
+</div>
+
+<div class="card">
+<h3>3.2 Advanced Hemodynamic Monitoring and Goal-Directed Fluid Therapy (GDT)</h3>
+<p>High-risk patients benefit from advanced intraoperative monitoring to guide <strong>goal-directed therapy (GDT)</strong>—proactively optimizing cardiac output and oxygen delivery rather than merely reacting to hemodynamic changes.<span class="ev ev-III">Survey &amp; physiological studies</span></p>
+<ul>
+  <li><strong>Standard monitoring:</strong> Non-invasive BP, ECG, pulse oximetry.</li>
+  <li><strong>Escalated monitoring:</strong> Invasive arterial BP via arterial catheter for continuous real-time measurement and ABG analysis.</li>
+  <li><strong>Advanced monitoring (select cases):</strong> CVP, cardiac output monitoring (PA catheter, esophageal Doppler).</li>
+</ul>
+
+<h4>The Intraoperative "Tightrope"</h4>
+<div class="callout callout-warn">
+  <strong>Key Tension:</strong> Surgeons prefer <strong>controlled hypotension</strong> (mean SBP 90–100 mmHg) to minimize bleeding, but prolonged hypotension is a primary driver of <strong>postoperative AKI</strong>. For high-risk patients, a pre-procedural discussion should establish a mutually agreed-upon "floor" for mean arterial pressure—a negotiated compromise between surgical conditions and patient safety.<span class="ev ev-III">Retrospective studies</span>
+</div>
+</div>
+
+<div class="card">
+<h3>3.3 Surgical Technique and Duration: Minimizing Physiological Stress</h3>
+<p><strong>Tranexamic acid (TXA)</strong> has become standard of care, significantly reducing blood loss and transfusion needs.<span class="ev ev-I">Multiple RCTs/meta-analyses</span></p>
+
+<p><strong>Surgical duration is a critical modifiable variable:</strong></p>
+<ul>
+  <li><strong>Operating times ≥ 90 minutes</strong> are a significant independent predictor of 30-day major/minor complications and readmission.<span class="ev ev-II">Large registry analysis</span></li>
+  <li>Each one-minute increase is associated with a small but significant increase in complication odds.</li>
+  <li>Specific complications with prolonged surgery: DVT, deep SSI, wound dehiscence.</li>
+  <li>For procedures <strong>&gt; 150 minutes:</strong> significantly increased risk of PE, sepsis, and pneumonia.</li>
+</ul>
+</div>
+
+<!-- SECTION 4 -->
+<h2 id="sec-postoperative">4. Postoperative Care and Complication Management</h2>
+
+<div class="card highlight">
+<h3>4.1 Enhanced Recovery After Surgery (ERAS) Pathways</h3>
+<p>ERAS is a comprehensive, multimodal, evidence-based perioperative care pathway designed to mitigate the surgical stress response and hasten recovery.<span class="ev ev-II">Systematic reviews &amp; cohort studies</span></p>
+
+<h4>Core ERAS Components for TKA</h4>
+<ul>
+  <li><strong>Preoperative:</strong> Patient education, nutritional optimization, avoiding prolonged fasting (clear carbohydrate liquids up to 2h preop).</li>
+  <li><strong>Intraoperative:</strong> Regional anesthesia, multimodal opioid-sparing analgesia, judicious fluid management.</li>
+  <li><strong>Postoperative:</strong> VTE &amp; PONV prophylaxis, avoidance of routine catheters/drain, <strong>early mobilization (day of surgery)</strong>, early oral nutrition.</li>
+</ul>
+
+<p><strong>Demonstrated Benefits:</strong> ERAS protocols <strong>reduce LOS by 1–3 days</strong>, <strong>decrease opioid consumption by &gt;50%</strong>, and <strong>lower overall complication rates</strong> without increasing readmission.<span class="ev ev-II">Cohort studies</span></p>
+
+<div class="callout callout-warn">
+  <strong>The ERAS Paradox:</strong> Certain ERAS components may pose risks to specific high-risk subgroups. For example, <strong>restrictive IV fluid administration</strong> (an ERAS tenet) could precipitate AKI in patients with pre-existing CKD. For medically complex patients, the ERAS pathway must be <strong>adapted and individualized</strong>.<span class="ev ev-NA">Expert opinion</span>
+</div>
+</div>
+
+<div class="card">
+<h3>4.2 Prevention and Management of Surgical Site Infection (SSI) / PJI</h3>
+<p>SSI and PJI are among the most feared complications after TKA, often requiring multiple surgeries and prolonged antibiotics.<span class="ev ev-II">Cohort studies</span></p>
+
+<h4>Multi-Pronged Prevention Bundle</h4>
+<ul>
+  <li><strong>Preoperative:</strong> Nasal decolonization (mupirocin) for <em>S. aureus</em> carriers; skin cleansing with chlorhexidine-impregnated wipes for several days preop.<span class="ev ev-III">Prospective studies</span></li>
+  <li><strong>Intraoperative:</strong> Prophylactic antibiotics within 60 minutes of incision (cefazolin first-line). For β-lactam allergy or MRSA risk, vancomycin may be added. <strong>Alcohol-based iodophor</strong> may be superior to chlorhexidine-alcohol for final skin preparation.<span class="ev ev-II">Comparative studies</span></li>
+  <li><strong>Postoperative Management:</strong>
+    <ul>
+      <li><strong>Superficial SSI:</strong> Oral antibiotics + local wound care.</li>
+      <li><strong>Deep PJI:</strong> Surgical emergency. Early-onset may be treated with DAIR. Most established PJIs require <strong>two-stage revision arthroplasty</strong> (implant removal → antibiotic spacer → 6 weeks IV antibiotics → reimplantation).<span class="ev ev-III">Case series &amp; expert consensus</span></li>
+    </ul>
+  </li>
+</ul>
+</div>
+
+<div class="card">
+<h3>4.3 Prevention and Management of Acute Kidney Injury (AKI)</h3>
+<p>Postoperative AKI incidence ranges from &lt;2% to 15% in TKA populations, independently associated with increased morbidity, mortality, prolonged stay, and costs.<span class="ev ev-II">Retrospective cohort studies</span></p>
+
+<h4>Risk Factors</h4>
+<ul>
+  <li><strong>Patient-related:</strong> Pre-existing CKD (strongest predictor), advanced age, high BMI, DM, HTN.</li>
+  <li><strong>Medication-related:</strong> RAAS inhibitors, NSAIDs, nephrotoxic antibiotics (vancomycin/aminoglycosides + cephalosporin combination).<span class="ev ev-II">Cohort studies</span></li>
+</ul>
+
+<h4>Prevention Strategies</h4>
+<ol>
+  <li><strong>Preoperative:</strong> Discontinue RAAS inhibitors (hold up to 1 week preop). Avoid perioperative NSAIDs in high-risk patients.</li>
+  <li><strong>Antibiotic stewardship:</strong> Avoid routine addition of vancomycin/aminoglycosides in renal dysfunction. Dose-adjust if required; monitor renal function closely.</li>
+  <li><strong>Maintain renal perfusion:</strong> Avoid intraoperative hypotension; maintain adequate hydration. May require modification of restrictive ERAS fluid protocols in CKD patients.</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>4.4 Prevention and Management of Postoperative Delirium (POD)</h3>
+<p>POD occurs in 5–50% of elderly patients after major surgery and is associated with poor functional recovery, longer stays, increased mortality, and long-term cognitive dysfunction.<span class="ev ev-II">Systematic reviews &amp; cohort studies</span></p>
+
+<p><strong>Most important risk factor:</strong> Pre-existing cognitive impairment or dementia (OR 8.80).<span class="ev ev-II">Prospective cohort study</span></p>
+
+<p><strong>Estimated 30–40% of all delirium cases are preventable.</strong> The most effective strategy is non-pharmacologic: the <strong>Hospital Elder Life Program (HELP)</strong> model.<span class="ev ev-I">RCTs supporting HELP model</span></p>
+
+<div class="table-wrap">
+<table>
+<caption>Table 5. HELP-Style Delirium Prevention Protocol — Bedside Checklist</caption>
+<thead>
+<tr><th>Risk Factor Domain</th><th>Intervention</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Cognitive Impairment</strong></td><td>Frequent reorientation (person, place, time); clocks/calendars; encourage family presence &amp; familiar objects</td></tr>
+<tr><td><strong>Immobility</strong></td><td>Early mobilization on POD 0; avoid physical restraints; remove urinary catheter early</td></tr>
+<tr><td><strong>Sleep Disruption</strong></td><td>Sleep hygiene: dim lights, reduce noise, consolidate nighttime care; promote daytime activity &amp; natural light</td></tr>
+<tr><td><strong>Sensory Impairment</strong></td><td>Ensure use of personal eyeglasses &amp; hearing aids; clear face-to-face communication</td></tr>
+<tr><td><strong>Dehydration / Malnutrition</strong></td><td>Encourage oral fluid intake; assist with meals; avoid prolonged NPO status</td></tr>
+<tr><td><strong>Pain</strong></td><td>Scheduled multimodal opioid-sparing analgesia (e.g., regular acetaminophen); avoid under- and overtreatment</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-info">
+  <strong>Pharmacologic Note:</strong> No single medication is proven effective for delirium prophylaxis. <strong>Avoid deliriogenic medications</strong>—particularly benzodiazepines. Dexmedetomidine for intraoperative sedation may be associated with lower POD incidence compared to propofol or benzodiazepines.<span class="ev ev-III">Prospective comparative studies</span>
+</div>
+</div>
+
+<!-- SECTION 5 -->
+<h2 id="sec-timing">5. Determining Optimal Surgical Timing</h2>
+
+<div class="card highlight">
+<h3>5.1 Impact of Operative Duration on Outcomes</h3>
+<p>Prolonged surgical time is an independent risk factor for postoperative complications.<span class="ev ev-II">Large registry analysis</span></p>
+<ul>
+  <li><strong>Threshold:</strong> Operative times <strong>≥ 90 minutes</strong> significantly increase 30-day odds of major complications, minor complications, and readmission.</li>
+  <li><strong>Dose-dependent:</strong> Each additional minute increases complication odds.</li>
+  <li><strong>&gt; 150 minutes:</strong> Significantly increased PE, sepsis, and pneumonia risk.</li>
+</ul>
+<p>These findings underscore the importance of surgical efficiency and organized teamwork, especially when managing high-risk patients with limited physiological reserves.</p>
+</div>
+
+<div class="card">
+<h3>5.2 Staged Bilateral TKA: Optimal Inter-Surgical Interval</h3>
+<p>Simultaneous bilateral TKA carries higher risk of major cardiovascular events, VTE, and mortality compared to staged procedures.<span class="ev ev-II">Retrospective cohort &amp; systematic review</span></p>
+
+<div class="callout callout-safe">
+  <strong>Optimal Window: 91–180 days (3–6 months)</strong> between surgeries — associated with the <strong>lowest complication rate (1.8%)</strong> and superior functional outcomes.<span class="ev ev-II">Retrospective analysis</span>
+</div>
+
+<ul>
+  <li><strong>Too early (&lt;90 days):</strong> Complication rate 13.1% — <strong>7× higher</strong> than optimal window. Intervals &lt;6 weeks carry particularly high pulmonary and infectious complication risk.</li>
+  <li><strong>Too late (&gt;6 months):</strong> Also associated with higher pulmonary/infectious complication risk compared to optimal window, though less than the very early group.</li>
+</ul>
+<p>Scheduling the second procedure at 3–6 months allows for adequate physiological recovery, normalization of inflammatory markers, resolution of anemia, and completion of initial rehabilitation.</p>
+</div>
+
+<!-- SECTION 6 -->
+<h2 id="sec-synthesis">6. Synthesis and Clinical Recommendations</h2>
+
+<div class="card highlight">
+<h3>6.1 Multidisciplinary Care Model</h3>
+<p>Effective management requires a <strong>coordinated, team-based care model</strong> including: orthopedic surgeon, anesthesiologist, hospitalist/PCP, medical specialists (cardiology, nephrology, endocrinology), specialized nurses, PT/OT, pharmacists, and social workers.<span class="ev ev-NA">Expert consensus</span></p>
+<p>This team operates within a <strong>standardized clinical pathway</strong> (adapted ERAS protocol) spanning the entire perioperative continuum—from early preoperative risk stratification and a dedicated "optimization window" of 4–12 weeks, through a carefully managed intraoperative course and proactive postoperative phase, to structured post-discharge follow-up.</p>
+</div>
+
+<div class="card">
+<h3>6.2 Preoperative Clearance &amp; Optimization Checklist</h3>
+
+<h4>Patient Risk Assessment</h4>
+<ul class="checklist">
+  <li>ASA score calculated and documented</li>
+  <li>Charlson Comorbidity Index (CCI) calculated and documented</li>
+  <li>High-risk patient identified based on ASA/CCI and specific comorbidities (PVD, bleeding disorders)</li>
+</ul>
+
+<h4>Cardiovascular Optimization (2024 AHA/ACC)</h4>
+<ul class="checklist">
+  <li>Evaluated for active cardiac conditions; surgery postponed if present</li>
+  <li>Functional capacity assessed (&lt;4 METs = poor)</li>
+  <li>Consider preoperative BNP/NT-proBNP or troponin for elevated-risk patients with poor functional capacity</li>
+  <li>Cardiac stress testing performed only if independently indicated</li>
+  <li><strong>SGLT2 inhibitors scheduled to be held 3–4 days preoperatively</strong></li>
+</ul>
+
+<h4>Metabolic &amp; Nutritional Optimization</h4>
+<ul class="checklist">
+  <li><strong>HbA1c measured; target ≤ 8.0%</strong>. If above target, postpone for optimization</li>
+  <li><strong>Serum albumin measured; target ≥ 3.5 g/dL</strong>. If below, postpone for nutritional optimization</li>
+</ul>
+
+<h4>Hematologic Optimization</h4>
+<ul class="checklist">
+  <li><strong>Hemoglobin measured ≥ 4 weeks preoperatively</strong></li>
+  <li><strong>Target: Hgb &gt; 12.0 g/dL (F) / &gt; 13.0 g/dL (M)</strong>. If below, initiate anemia work-up and treatment</li>
+</ul>
+
+<h4>Lifestyle &amp; Medication Optimization</h4>
+<ul class="checklist">
+  <li><strong>Smoking cessation confirmed ≥ 4 weeks</strong> (cotinine testing if uncertain)</li>
+  <li><strong>Chronic opioid weaning protocol initiated (≥50% dose reduction goal)</strong></li>
+  <li>RAAS inhibitors (ACEi/ARBs) plan to hold confirmed</li>
+  <li>Plan to avoid perioperative NSAIDs in high-risk patients confirmed</li>
+  <li>Anticoagulant/antiplatelet management plan documented</li>
+</ul>
+
+<h4>Infection Prevention</h4>
+<ul class="checklist">
+  <li><strong>Dental clearance obtained</strong>; all necessary dental work completed</li>
+  <li>Nasal decolonization protocol (mupirocin) initiated</li>
+  <li>Skin cleansing protocol (chlorhexidine wipes) initiated</li>
+</ul>
+
+<h4>Logistical &amp; Social Planning</h4>
+<ul class="checklist">
+  <li>Post-discharge care plan confirmed (family support, home services)</li>
+  <li>Transportation from hospital arranged</li>
+  <li>Home environment assessed and prepared for safety</li>
+</ul>
+</div>
+
+<!-- References -->
+<div class="references">
+<h2 id="sec-references">References</h2>
+<p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem;">Derived from the source document's reference list. Citation numbers correspond to those in the original monograph.</p>
+<ol>
+  <li>Preoperative Planning in Primary Total Knee Arthroplasty. <em>Orthobullets</em>.</li>
+  <li>Pre-op and Post-op Knee Guidelines. Dr. Geoffrey Van Flandern.</li>
+  <li>Preparing for Knee Replacement Surgery. <em>UCSF Health</em>.</li>
+  <li>Guideline for Preoperative Medication Management. <em>Froedtert</em>.</li>
+  <li>Prepare for and Recover from Total Hip or Knee Replacement Surgery. <em>UNC School of Medicine</em>.</li>
+  <li>Evaluating comorbidities in total hip and knee arthroplasty: available instruments. <em>PMC</em>.</li>
+  <li>Risk-standardized Complication Rate following Elective Primary THA/TKA. <em>Partnership for Quality Measurement</em>.</li>
+  <li>Risk stratification in primary total joint arthroplasty: the current state. <em>PMC</em>.</li>
+  <li>The Effect of Comorbidities on Outcomes following Total Knee Arthroplasty. <em>ResearchGate</em>.</li>
+  <li>Preoperative Patient Optimization in Total Joint Arthroplasty. <em>PMC</em>.</li>
+  <li>Cardiovascular Disease in Total Knee Arthroplasty: Hospital Outcomes, Complications, and Mortality. <em>PMC</em>.</li>
+  <li>2024 Guideline for Perioperative Cardiovascular Management for Noncardiac Surgery. <em>AHA/ACC</em>.</li>
+  <li>ACC, AHA Release New Perioperative Guideline. <em>American College of Cardiology</em>.</li>
+  <li>2024 AHA/ACC/ACS/ASNC/HRS/SCA/SCCT/SCMR/SVM Guideline. <em>AHA Journals</em>.</li>
+  <li>2024 AHA/ACC Guideline (full text). <em>AHA Journals</em>.</li>
+  <li>2024 ACC/AHA guideline on perioperative cardiovascular management. <em>CCJM</em>.</li>
+  <li>2024 Perioperative Cardiovascular Management Guideline-at-a-Glance. <em>JACC</em>.</li>
+  <li>Early Postoperative Hyperglycemia After Arthroplasty in Type 2 Diabetes: Insights from CGM. <em>MDPI</em>.</li>
+  <li>Does Diabetes Affect Knee Replacement Surgery? <em>Arthritis Foundation</em>.</li>
+  <li>Hyperglycemia and Total Knee Arthroplasty Healing. <em>UND Scholarly Commons</em>.</li>
+  <li>Contraindications to TKA in patients with hyperglycemia. <em>DrOracle</em>.</li>
+  <li>Perioperative Glucose Control Protocol: Hip and Knee Arthroplasty. <em>Diabetes</em>.</li>
+  <li>The Impact of Glycemic Control and DM on Perioperative Outcomes After TJA. <em>ResearchGate</em>.</li>
+  <li>The impact of glycemic control and DM on perioperative outcomes after TJA. <em>PubMed</em>.</li>
+  <li>Can TKA be safely performed in patients with chronic renal disease? <em>Taylor & Francis</em>.</li>
+  <li>Can TKA be safely performed in patients with chronic renal disease? <em>PMC</em>.</li>
+  <li>Can TKA be safely performed in patients with chronic renal disease? <em>Acta Orthopaedica</em>.</li>
+  <li>TKA in dialysis patients: NIS-based study. <em>UT Southwestern</em>.</li>
+  <li>Dialysis and perioperative complications in TKA. <em>Thieme Connect</em>.</li>
+  <li>Total Hip and Knee Arthroplasty: Kidney Disease Effects. Prof. J. Queally.</li>
+  <li>Preoperative risk stratification in morbidly obese TKA patients. <em>ResearchGate</em>.</li>
+  <li>Obesity, Weight Loss, and Joint Replacement. <em>AAOS OrthoInfo</em>.</li>
+  <li>Preoperative Optimization of Patients Having TKA. <em>DynaMedex</em>.</li>
+  <li>Preoperative weight loss interventions before THA and TKA: systematic review of RCTs. <em>PMC</em>.</li>
+  <li>Impact of COPD on Postoperative Outcomes in Revision TKA. <em>Mayo Clinic</em>.</li>
+  <li>COPD Associated with Prolonged Opiate Use following TKA. <em>ResearchGate</em>.</li>
+  <li>COPD Patient's Outcomes following TKA (NIS 2016–2020). <em>PMC</em>.</li>
+  <li>COPD as a risk factor in lower limb arthroplasty. <em>Taylor & Francis</em>.</li>
+  <li>Surgery Risks for COPD Patients. <em>Verywell Health</em>.</li>
+  <li>Functional Outcomes in COPD Patients Undergoing Hip or Knee Arthroplasty. <em>JCCP</em>.</li>
+  <li>Regional Anesthesia for High-Risk Patients Undergoing TKA. <em>PMC</em>.</li>
+  <li>Anesthesia for the patient undergoing TKA: current state. <em>Dove Press</em>.</li>
+  <li>Anesthesia During Hip or Knee Replacement. <em>HSS</em>.</li>
+  <li>Anesthesia for Hip and Knee Surgery. <em>AAOS OrthoInfo</em>.</li>
+  <li>Hemodynamic monitoring and management in high-risk surgery. <em>ResearchGate</em>.</li>
+  <li>Using cardiac output monitoring to guide perioperative haemodynamic therapy. <em>University of Florida</em>.</li>
+  <li>Optimal control level of intraoperative blood pressure in no-tourniquet TKA. <em>PMC</em>.</li>
+  <li>Acute Kidney Injury and Orthopedic Surgery. <em>University of Pennsylvania</em>.</li>
+  <li>Diagnosis and Management of MINS. <em>AHA Journals</em>.</li>
+  <li>Enhanced Recovery After Surgery (ERAS) Pathways in Elective Arthroplasty. <em>PMC</em>.</li>
+  <li>Optimizing Blood Management in TKA. <em>Namık Kemal Medical Journal</em>.</li>
+  <li>Prolonged surgical time increases complications following TKA. <em>ResearchGate</em>.</li>
+  <li>ERAS leads to reduced LOS for geriatric joint replacement. <em>ACS</em>.</li>
+  <li>Clinical Pathway for Inpatient and Outpatient Hip and Knee Arthroplasty. <em>Healthcare Excellence Canada</em>.</li>
+  <li>Incidence of AKI following TJA: retrospective review by RIFLE criteria. <em>Oxford Academic</em>.</li>
+  <li>Enhanced Recovery After Surgery for TKR. <em>SGH</em>.</li>
+  <li>Surgical Infection Prevention. <em>Lake of the Woods District Hospital</em>.</li>
+  <li>Best Practice Guideline Total Knee Replacement. <em>Brown University Health</em>.</li>
+  <li>Knee Replacement Infection: Treatment, Risks, and Prevention. <em>Healthline</em>.</li>
+  <li>Modified Protocol Decreases SSI. <em>Thieme Connect</em>.</li>
+  <li>Contemporary Strategies to Prevent Infection in Hip and Knee Arthroplasty. <em>PMC</em>.</li>
+  <li>Treatment for SSI after TKA. <em>DrOracle</em>.</li>
+  <li>AKI following primary hip and knee arthroplasty surgery. <em>PMC</em>.</li>
+  <li>Risk Factors for AKI in Patients Undergoing TJA. <em>MDPI</em>.</li>
+  <li>AKI after hip or knee replacement: Can we lower the risk? <em>CCJM</em>.</li>
+  <li>High risk of AKI in patients undergoing treatment for infected TKR. <em>Wolters Kluwer</em>.</li>
+  <li>Postoperative Delirium: Risk Assessment, Prevention, Detection. <em>UTP Publishing</em>.</li>
+  <li>Delirium after fast-track hip and knee arthroplasty. <em>BJA</em>.</li>
+  <li>Postoperative Delirium and POCD in Hip or Knee Arthroplasty. <em>MDPI</em>.</li>
+  <li>Risk factors for POD following TKA in elderly patients. <em>ResearchGate</em>.</li>
+  <li>Strategies to prevent POD: anesthesia selection and drug intervention. <em>Frontiers in Psychiatry</em>.</li>
+  <li>Optimal timing in staged bilateral TKA. <em>ResearchGate</em>.</li>
+  <li>Optimal timing for bilateral TKA: systematic review and network meta-analysis. <em>PMC</em>.</li>
+</ol>
+</div>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical decision tool">
+<div class="sidebar-inner">
+<h3>Clinical Risk Assessment Tool</h3>
+<p style="font-size:.78rem;color:var(--text-muted);margin-bottom:1.25rem;">Adjust parameters below to receive real-time, evidence-based clinical guidance. Thresholds are derived from the source document.</p>
+
+<!-- Slider 1: HbA1c -->
+<div class="slider-group">
+  <div class="slider-label">
+    <span>HbA1c (%)</span>
+    <span class="slider-value" id="hba1c-val">7.0%</span>
+  </div>
+  <input type="range" id="hba1c" min="5.0" max="12.0" step="0.1" value="7.0" aria-label="HbA1c percentage">
+  <div class="threshold-note">Target: ≤ 7.5–8.0% for elective TKA <span class="ev ev-III">Cohort studies</span></div>
+</div>
+
+<!-- Slider 2: BMI -->
+<div class="slider-group">
+  <div class="slider-label">
+    <span>BMI (kg/m²)</span>
+    <span class="slider-value" id="bmi-val">32</span>
+  </div>
+  <input type="range" id="bmi" min="18" max="55" step="1" value="32" aria-label="Body Mass Index">
+  <div class="threshold-note">Threshold: BMI ≥ 40 kg/m² = morbid obesity <span class="ev ev-II">Cohort studies</span></div>
+</div>
+
+<!-- Slider 3: Operative Duration -->
+<div class="slider-group">
+  <div class="slider-label">
+    <span>Operative Duration (min)</span>
+    <span class="slider-value" id="duration-val">75</span>
+  </div>
+  <input type="range" id="duration" min="30" max="180" step="5" value="75" aria-label="Operative duration in minutes">
+  <div class="threshold-note">Threshold: ≥ 90 min = increased complication risk <span class="ev ev-II">Registry analysis</span></div>
+</div>
+
+<!-- Recommendation Box -->
+<div id="recommendation-box" class="risk-low" aria-live="polite">
+  <div class="rec-title" id="rec-title">✅ <strong>LOW RISK PROFILE</strong></div>
+  <div class="rec-body" id="rec-body">All parameters within acceptable ranges for elective TKA. Proceed with standard perioperative optimization and ERAS protocol. Continue routine preoperative clearance.</div>
+</div>
+
+<!-- Buttons -->
+<div class="btn-row">
+  <button class="btn btn-reset" onclick="resetSliders()" aria-label="Reset all parameters to default">↺ Reset</button>
+  <button class="btn btn-copy" id="copyBtn" onclick="copyReport()" aria-label="Copy clinical report to clipboard">📋 Copy Report</button>
+</div>
+
+</div>
+</aside>
+</div>
+
+<script>
+const hba1cSlider = document.getElementById('hba1c');
+const bmiSlider = document.getElementById('bmi');
+const durationSlider = document.getElementById('duration');
+const hba1cVal = document.getElementById('hba1c-val');
+const bmiVal = document.getElementById('bmi-val');
+const durationVal = document.getElementById('duration-val');
+const recBox = document.getElementById('recommendation-box');
+const recTitle = document.getElementById('rec-title');
+const recBody = document.getElementById('rec-body');
+
+function updateRecommendation() {
+  const hba1c = parseFloat(hba1cSlider.value);
+  const bmi = parseInt(bmiSlider.value);
+  const duration = parseInt(durationSlider.value);
+
+  hba1cVal.textContent = hba1c.toFixed(1) + '%';
+  bmiVal.textContent = bmi;
+  durationVal.textContent = duration + ' min';
+
+  let riskLevel = 0; // 0=low, 1=moderate, 2=high
+  let issues = [];
+  let actions = [];
+
+  // HbA1c assessment
+  if (hba1c > 8.0) {
+    riskLevel = Math.max(riskLevel, 2);
+    issues.push('HbA1c ' + hba1c.toFixed(1) + '% exceeds the 8.0% contraindication threshold for elective TKA');
+    actions.push('Delay surgery. Collaborate with endocrinology/PCP for intensive glycemic optimization over 2–3 months. Target HbA1c ≤ 7.5–8.0% before proceeding.');
+  } else if (hba1c > 7.5) {
+    riskLevel = Math.max(riskLevel, 1);
+    issues.push('HbA1c ' + hba1c.toFixed(1) + '% is in the upper acceptable range (7.5–8.0%)');
+    actions.push('Proceed with caution. Ensure perioperative glucose management protocol is in place (target 140–180 mg/dL). Consider basal-bolus insulin regimen rather than sliding-scale only.');
+  }
+
+  // BMI assessment
+  if (bmi >= 40) {
+    riskLevel = Math.max(riskLevel, 2);
+    issues.push('BMI ' + bmi + ' kg/m² meets morbid obesity threshold (≥40), associated with 2–6× increased risk of readmission, reoperation, and PJI');
+    actions.push('Delay surgery until meaningful weight loss achieved. Refer for nutritional counseling and/or bariatric surgery evaluation. If bariatric surgery pursued, allow 6–12 months before TKA. Use risk stratification tools to assess overall health status.');
+  } else if (bmi >= 35) {
+    riskLevel = Math.max(riskLevel, 1);
+    issues.push('BMI ' + bmi + ' kg/m² indicates Class II obesity with elevated complication risk');
+    actions.push('Encourage preoperative weight loss. Optimize all other comorbidities aggressively. Ensure enhanced perioperative infection prevention protocols.');
+  }
+
+  // Duration assessment
+  if (duration >= 150) {
+    riskLevel = Math.max(riskLevel, 2);
+    issues.push('Operative duration ' + duration + ' min far exceeds the 90-min threshold; significantly elevated risk of PE, sepsis, and pneumonia');
+    actions.push('Consider surgical efficiency optimization, team briefing, and preoperative planning to reduce OR time. Ensure advanced hemodynamic monitoring and goal-directed fluid therapy. Discuss with anesthesiology regarding extended VTE and infection prophylaxis.');
+  } else if (duration >= 90) {
+    riskLevel = Math.max(riskLevel, 1);
+    issues.push('Operative duration ' + duration + ' min exceeds the 90-min threshold for increased 30-day complication risk');
+    actions.push('Optimize surgical workflow and team efficiency. Ensure TXA is administered. Consider arterial monitoring for hemodynamic management.');
+  }
+
+  // Generate recommendation text
+  let titleText, bodyText, riskClass;
+
+  if (riskLevel === 0) {
+    riskClass = 'risk-low';
+    titleText = '✅ <strong>LOW RISK PROFILE</strong>';
+    bodyText = 'All parameters are within acceptable ranges for elective TKA. ';
+    if (hba1c <= 7.5 && bmi < 35 && duration < 90) {
+      bodyText += 'Proceed with standard perioperative optimization and ERAS protocol. Continue routine preoperative clearance per the monograph checklist.';
+    } else {
+      bodyText += 'Proceed with standard optimization. Ensure completion of the preoperative checklist including cardiovascular, infection prevention, and nutritional assessment steps.';
+    }
+  } else if (riskLevel === 1) {
+    riskClass = 'risk-mod';
+    titleText = '⚠️ <strong>MODERATE RISK — OPTIMIZE BEFORE PROCEEDING</strong>';
+    bodyText = '<strong>Identified concerns:</strong><br>• ' + issues.join('<br>• ') + '<br><br>';
+    bodyText += '<strong>Recommended actions:</strong><br>• ' + actions.join('<br>• ');
+  } else {
+    riskClass = 'risk-high';
+    titleText = '🔴 <strong>HIGH RISK — SURGERY SHOULD BE DELAYED</strong>';
+    bodyText = '<strong>Critical concerns:</strong><br>• ' + issues.join('<br>• ') + '<br><br>';
+    bodyText += '<strong>Mandatory actions before proceeding:</strong><br>• ' + actions.join('<br>• ');
+    bodyText += '<br><br><em>Per the source document, elective TKA should not proceed until these modifiable risk factors are addressed. Optimization is a prerequisite for safe surgery, not a denial of care.</em>';
+  }
+
+  recBox.className = riskClass;
+  recTitle.innerHTML = titleText;
+  recBody.innerHTML = bodyText;
+}
+
+function resetSliders() {
+  hba1cSlider.value = 7.0;
+  bmiSlider.value = 32;
+  durationSlider.value = 75;
+  updateRecommendation();
+}
+
+function copyReport() {
+  const hba1c = parseFloat(hba1cSlider.value).toFixed(1);
+  const bmi = parseInt(bmiSlider.value);
+  const duration = parseInt(durationSlider.value);
+  const now = new Date().toLocaleString();
+  const recText = recBody.innerText;
+
+  let report = 'PERIOPERATIVE RISK ASSESSMENT REPORT\n';
+  report += '=====================================\n';
+  report += 'Topic: Perioperative Optimization of TKA in the Medically Complex Patient\n';
+  report += 'Generated: ' + now + '\n\n';
+  report += 'PARAMETERS:\n';
+  report += '  HbA1c: ' + hba1c + '% (Target: ≤ 7.5–8.0%)\n';
+  report += '  BMI: ' + bmi + ' kg/m² (Threshold: ≥ 40 = morbid obesity)\n';
+  report += '  Operative Duration: ' + duration + ' min (Threshold: ≥ 90 min = elevated risk)\n\n';
+  report += 'CLINICAL RECOMMENDATION:\n';
+  report += recTitle.innerText + '\n';
+  report += recText + '\n\n';
+  report += 'Rationale: Based on evidence from the source monograph including 2024 AHA/ACC guidelines, large national database analyses, and expert consensus.\n';
+  report += '=====================================\n';
+  report += 'Note: This tool is for educational purposes. Clinical decisions should integrate the full clinical picture and multidisciplinary input.';
+
+  navigator.clipboard.writeText(report).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = '📋 Copy Report';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = report;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = '📋 Copy Report';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// Event listeners
+hba1cSlider.addEventListener('input', updateRecommendation);
+bmiSlider.addEventListener('input', updateRecommendation);
+durationSlider.addEventListener('input', updateRecommendation);
+
+// Initialize
+updateRecommendation();
+</script>
+
+</body>
+</html>

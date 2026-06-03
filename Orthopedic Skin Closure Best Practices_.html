@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence-Based Skin Closure in Orthopedic Surgery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#ffffff;--text:#1a1a2e;--text-secondary:#4a4a68;
+  --accent:#2563eb;--accent-light:#dbeafe;--accent-dark:#1d4ed8;
+  --success:#059669;--success-light:#d1fae5;
+  --warning:#d97706;--warning-light:#fef3c7;
+  --danger:#dc2626;--danger-light:#fee2e2;
+  --border:#e5e7eb;--border-light:#f3f4f6;
+  --radius:12px;--radius-sm:8px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 25px rgba(0,0,0,.1);
+  --transition:all .3s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 0}
+.site-header .container{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.site-header h1{font-size:1.1rem;font-weight:700;color:var(--accent);letter-spacing:-.02em;white-space:nowrap}
+.site-header .badge{display:inline-block;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;background:var(--accent-light);color:var(--accent);padding:3px 10px;border-radius:99px}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-links a{font-size:.75rem;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:4px 10px;border-radius:6px;transition:var(--transition)}
+.nav-links a:hover,.nav-links a.active{background:var(--accent-light);color:var(--accent)}
+
+/* Layout */
+.page-wrapper{max-width:1400px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+.main-content{min-width:0}
+.sidebar{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto}
+
+/* Sidebar Card */
+.sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.sidebar-card h3{font-size:.95rem;font-weight:700;margin-bottom:16px;color:var(--accent);display:flex;align-items:center;gap:8px}
+.sidebar-card h3 svg{width:18px;height:18px}
+.slider-group{margin-bottom:20px}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.slider-label span{font-size:.78rem;font-weight:600;color:var(--text)}
+.slider-label .value{font-size:.78rem;font-weight:700;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:6px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;background:linear-gradient(to right,var(--success) 0%,var(--warning) 50%,var(--danger) 100%);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--surface);border:3px solid var(--accent);box-shadow:var(--shadow);cursor:pointer;transition:var(--transition)}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);border-color:var(--accent-dark)}
+.range-labels{display:flex;justify-content:space-between;margin-top:2px}
+.range-labels span{font-size:.65rem;color:var(--text-secondary)}
+
+.recommendation-box{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid var(--accent-light);border-radius:var(--radius-sm);padding:16px;margin-top:16px;transition:var(--transition)}
+.recommendation-box h4{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.rec-item{font-size:.75rem;color:var(--text-secondary);margin-bottom:4px;padding-left:16px;position:relative;line-height:1.5}
+.rec-item::before{content:'→';position:absolute;left:0;color:var(--accent);font-weight:700}
+.rec-risk{display:inline-block;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 10px;border-radius:99px;margin-top:8px}
+.risk-low{background:var(--success-light);color:var(--success)}
+.risk-moderate{background:var(--warning-light);color:var(--warning)}
+.risk-high{background:var(--danger-light);color:var(--danger)}
+
+.btn-group{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{flex:1;padding:8px 12px;border:none;border-radius:var(--radius-sm);font-size:.72rem;font-weight:600;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:4px}
+.btn-reset{background:var(--border-light);color:var(--text-secondary)}
+.btn-reset:hover{background:var(--border)}
+.btn-copy{background:var(--accent);color:#fff}
+.btn-copy:hover{background:var(--accent-dark)}
+
+/* Main Content Styles */
+.section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:28px;box-shadow:var(--shadow)}
+.section h2{font-size:1.35rem;font-weight:800;color:var(--text);margin-bottom:8px;letter-spacing:-.02em;line-height:1.3}
+.section h3{font-size:1.05rem;font-weight:700;color:var(--text);margin-top:24px;margin-bottom:8px}
+.section h4{font-size:.9rem;font-weight:700;color:var(--accent-dark);margin-top:20px;margin-bottom:6px}
+.section p{font-size:.88rem;color:var(--text-secondary);margin-bottom:12px;line-height:1.8}
+.section ul,.section ol{margin:8px 0 12px 20px;font-size:.88rem;color:var(--text-secondary)}
+.section li{margin-bottom:6px;line-height:1.7}
+.section li strong{color:var(--text)}
+
+/* Evidence Badge */
+.ev{display:inline-block;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:99px;vertical-align:middle;margin-left:4px}
+.ev-1{background:#dcfce7;color:#166534}
+.ev-2{background:#d1fae5;color:#065f46}
+.ev-3{background:#fef3c7;color:#92400e}
+.ev-4{background:#fed7aa;color:#9a3412}
+.ev-5{background:#fee2e2;color:#991b1b}
+.ev-na{background:#f3f4f6;color:#6b7280}
+
+/* Callout */
+.callout{border-left:4px solid var(--accent);background:var(--accent-light);padding:14px 18px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:16px 0;font-size:.84rem;color:var(--text);line-height:1.7}
+.callout strong{color:var(--accent-dark)}
+.callout.warning{border-left-color:var(--warning);background:var(--warning-light)}
+.callout.warning strong{color:var(--warning)}
+.callout.success{border-left-color:var(--success);background:var(--success-light)}
+.callout.success strong{color:var(--success)}
+.callout.danger{border-left-color:var(--danger);background:var(--danger-light)}
+
+/* Tables */
+.table-wrapper{overflow-x:auto;margin:16px 0;border-radius:var(--radius-sm);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+caption{font-size:.82rem;font-weight:700;text-align:left;padding:12px 16px;background:var(--accent-light);color:var(--accent-dark);border-bottom:1px solid var(--border)}
+th{background:var(--border-light);font-weight:700;color:var(--text);text-align:left;padding:10px 12px;border-bottom:2px solid var(--border);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--border-light);color:var(--text-secondary);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+
+/* Algorithm Box */
+.algorithm{background:linear-gradient(135deg,#f0fdf4,#eff6ff);border:2px solid var(--success);border-radius:var(--radius);padding:24px;margin:16px 0}
+.algorithm h4{color:var(--success);font-size:.9rem;margin-bottom:12px}
+.algorithm ol{margin-left:18px}
+.algorithm li{margin-bottom:8px;font-size:.84rem;color:var(--text)}
+
+/* Reference Section */
+.ref-section{font-size:.78rem;color:var(--text-secondary)}
+.ref-section ol{margin-left:18px}
+.ref-section li{margin-bottom:8px;line-height:1.6}
+.ref-section a{color:var(--accent);text-decoration:none;word-break:break-all}
+.ref-section a:hover{text-decoration:underline}
+
+/* Footer */
+.site-footer{text-align:center;padding:32px 24px;font-size:.75rem;color:var(--text-secondary);border-top:1px solid var(--border);margin-top:12px}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:.8rem;font-weight:500;box-shadow:var(--shadow-lg);z-index:999;opacity:0;transform:translateY(20px);transition:var(--transition);pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
+
+/* Mobile */
+@media(max-width:1024px){
+  .page-wrapper{grid-template-columns:1fr;gap:20px;padding:16px}
+  .sidebar{position:static;max-height:none;order:-1}
+  .nav-links{display:none}
+}
+@media(max-width:640px){
+  .section{padding:20px 16px}
+  .section h2{font-size:1.15rem}
+  .site-header h1{font-size:.9rem}
+  table{font-size:.7rem}
+  th,td{padding:8px 6px}
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+
+/* TOC mobile toggle */
+.toc-toggle{display:none;background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:var(--radius-sm);font-size:.78rem;font-weight:600;cursor:pointer;margin-bottom:12px}
+@media(max-width:1024px){
+  .toc-toggle{display:inline-flex;align-items:center;gap:6px}
+}
+
+/* Annotation */
+.annotation{font-size:.7rem;color:var(--text-secondary);font-style:italic;margin-top:2px}
+
+/* Section divider */
+.divider{height:1px;background:var(--border);margin:20px 0}
+
+/* Print */
+@media print{
+  .sidebar,.site-header,.toc-toggle,.btn-group{display:none!important}
+  .page-wrapper{grid-template-columns:1fr!important}
+  .section{break-inside:avoid;box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header" role="banner">
+<div class="container">
+  <div style="display:flex;align-items:center;gap:12px">
+    <h1>Evidence-Based Orthopaedic Skin Closure</h1>
+    <span class="badge">Systematic Review</span>
+  </div>
+  <nav class="nav-links" aria-label="Section navigation">
+    <a href="#intro">Intro</a>
+    <a href="#staples-sutures">Staples vs Sutures</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#materials">Materials</a>
+    <a href="#adjuncts">Adjuncts</a>
+    <a href="#framework">Framework</a>
+    <a href="#references">Refs</a>
+  </nav>
+</div>
+</header>
+
+<div class="page-wrapper">
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content" role="main">
+
+<!-- Introduction -->
+<section class="section" id="intro">
+  <h2>Introduction: The Critical Final Step in Orthopedic Surgery</h2>
+
+  <h3>The Significance of Closure</h3>
+  <p>Surgical wound closure in orthopedics represents far more than the perfunctory final step of a procedure; it is a <strong>critical phase that profoundly influences postoperative recovery, patient morbidity, and the overall economic burden</strong> on the healthcare system. Complications arising from inadequate closure—persistent wound drainage, dehiscence, and surgical site infection (SSI)—can precipitate a cascade of adverse events. An SSI, even when superficial, can extend hospital stay, double readmission rates, and increase annual healthcare costs by as much as <strong>300%</strong>. <span class="ev ev-1">Level I</span></p>
+  <p>In the context of arthroplasty, a seemingly minor superficial infection can progress to a <strong>deep periprosthetic joint infection (PJI)</strong>—a catastrophic complication associated with multiple revision surgeries, prolonged antibiotic therapy, and a significant negative impact on patient quality of life. The link between superficial wound issues and deep infection is well-established: prolonged wound drainage is associated with up to a <strong>20% increase in infection rates</strong>, underscoring the paramount importance of achieving a watertight and durable closure.</p>
+
+  <div class="callout danger">
+    <strong>Key Statistic:</strong> PJI arising from superficial wound complications represents one of the most devastating and costly complications in all of orthopedic surgery, often requiring multiple staged revision surgeries.
+  </div>
+
+  <h3>Unique Challenges in Orthopedics</h3>
+  <p>Wound healing in orthopedic surgery is complicated by a unique confluence of factors:</p>
+  <ul>
+    <li><strong>Foreign-body implantation:</strong> Large devices (plates, rods, joint prostheses) create a permanent nidus for bacterial colonization and biofilm formation.</li>
+    <li><strong>Compromised tissues:</strong> High-energy trauma causes severe contusion and devitalization, impairing local blood supply and innate immune response.</li>
+    <li><strong>High-tension closures:</strong> Procedures over mobile joints subject the incision to significant tensile and shear forces.</li>
+    <li><strong>Patient comorbidities:</strong> Older adults with fragile, atrophic skin; diabetes mellitus; immunosuppression; and smoking—all impair wound healing.</li>
+  </ul>
+
+  <h3>The Problem of Clinical Variability</h3>
+  <p>Despite the clear significance of wound closure, there is a <strong>striking lack of international consensus</strong> on the optimal method. Surveys reveal that while 85–87% of surgeons believe closure directly affects outcomes after joint replacement, practices diverge considerably. A national survey in Spain found >90% of surgeons use metal staples for skin closure in joint arthroplasty—a practice contested by substantial evidence.</p>
+
+  <div class="callout warning">
+    <strong>Evidence–Practice Gap:</strong> In some settings, residents close the wound in approximately half of all cases, and only 57% of attending surgeons perform the closure themselves. This delegation may suggest a perception of closure as a less critical part of the operation.
+  </div>
+
+  <p>This report aims to address this gap by providing a rigorous, systematic synthesis of the available clinical data on closure techniques, materials, and adjunctive therapies.</p>
+</section>
+
+<!-- Section 1: Staples vs Sutures -->
+<section class="section" id="staples-sutures">
+  <h2>Section 1: Staples versus Sutures — A Critical Appraisal</h2>
+
+  <p>The debate over metal staples versus traditional sutures is one of the most enduring and contentious topics in orthopedic surgery. The body of high-level evidence is fraught with conflicting conclusions, creating a confusing landscape for clinicians.</p>
+
+  <h3>1.1 Evidence Favoring Sutures: Higher SSI Risk with Staples</h3>
+  <p>A landmark <strong>2010 meta-analysis published in the BMJ</strong> (Smith et al.), including 683 wounds from six trials, found that the risk of superficial wound infection was <strong>over three times greater</strong> when the skin was closed with staples compared to sutures (RR 3.83, 95% CI 1.38–10.68; P=0.01). In the hip surgery subgroup, the risk was <strong>nearly five times higher</strong> (RR 4.79, 95% CI 1.24–18.47; P=0.02). <span class="ev ev-1">Level I</span></p>
+
+  <p>This finding was corroborated by a <strong>2022 systematic review</strong> (van de Kuit et al.) focusing on elective knee and hip arthroplasty: when restricted to high-quality studies with low risk of bias, patients with staples had a significantly higher SSI risk (RR 2.56, 95% CI 1.20–5.44), driven primarily by hip arthroplasty (RR 2.51, 95% CI 1.15–5.50). <span class="ev ev-1">Level I</span></p>
+
+  <p>A <strong>2019 meta-analysis</strong> (Krishnan et al.) incorporating 17 RCTs (2,446 patients) also found staples associated with higher SSI risk in primary analysis (RR 2.05, 95% CI 1.38–3.06). <span class="ev ev-1">Level I</span></p>
+
+  <h3>1.2 Countervailing Evidence: Equivalence or Staple Superiority</h3>
+  <p>A notable <strong>2017 meta-analysis</strong> (Smith & Nace) focusing exclusively on TKA arrived at an opposite conclusion: sutures were associated with a higher likelihood of superficial and deep infections, abscess formation, and wound dehiscence. The primary drawback of staples was higher tendency for prolonged wound discharge. <span class="ev ev-1">Level I</span></p>
+
+  <p>A 2019 meta-analysis, after removing a single influential trial with high risk of bias, reported results became "highly fragile." When restricted to only the highest-quality RCTs, <strong>no statistically significant difference</strong> in SSI risk was detected. Another meta-analysis (Rui et al., 2016) found no significant difference (cumulative RR 1.06, 95% CI 0.46–2.44). <span class="ev ev-1">Level I</span></p>
+
+  <p>The <strong>primary, undisputed advantage of staples</strong> is speed and ease of application, with consistent reports of significantly faster closure time. While the stapling device and remover are more expensive, savings in OR time could make staples more cost-effective overall.</p>
+
+  <h3>1.3 Deeper Insight: Deconstructing the "Evidence Paradox"</h3>
+  <div class="callout">
+    <strong>Core Insight:</strong> The existence of high-level meta-analyses with diametrically opposed conclusions points not to a true biological paradox, but to profound methodological weaknesses in the underlying primary research—small, underpowered cohorts; poor randomization; no blinding of outcome assessors.
+  </div>
+
+  <p>This "evidence paradox" directly contributes to the disconnect between published evidence and routine clinical practice. Surgeons may selectively cite evidence supporting their practice, and the tangible benefit of faster closure may be perceived as more valuable than the abstract risk of SSI. Other factors include:</p>
+  <ul>
+    <li><strong>Pain:</strong> Staple removal is consistently more painful than suture removal.</li>
+    <li><strong>Cosmesis:</strong> Sutures are generally associated with superior cosmetic outcomes.</li>
+    <li><strong>Prolonged drainage:</strong> Data is inconsistent, with studies favoring both methods.</li>
+  </ul>
+
+  <!-- Table 1 -->
+  <div class="table-wrapper">
+    <table>
+      <caption>Table 1: Comparative Summary of Key Meta-Analyses — Staples vs. Sutures</caption>
+      <thead>
+        <tr>
+          <th>Study (Year)</th>
+          <th>Surgical Focus</th>
+          <th>SSI Finding</th>
+          <th>RR / OR (95% CI)</th>
+          <th>Methodological Concerns</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Smith et al. (2010)</strong></td>
+          <td>Mixed Orthopedic</td>
+          <td>Staples → higher SSI</td>
+          <td>RR 3.83 (1.38–10.68) all; RR 4.79 (1.24–18.47) hip</td>
+          <td>Small underpowered cohorts, poor randomization, no blinding</td>
+        </tr>
+        <tr>
+          <td><strong>Krishnan et al. (2019)</strong></td>
+          <td>Mixed Orthopedic</td>
+          <td>Higher SSI (primary); no difference (low-bias studies)</td>
+          <td>Primary RR 2.05 (1.38–3.06); Low-bias RR 1.45 (0.31–6.79)</td>
+          <td>"Highly fragile" results, dependent on single trial</td>
+        </tr>
+        <tr>
+          <td><strong>van de Kuit et al. (2022)</strong></td>
+          <td>Elective Hip & Knee Arthroplasty</td>
+          <td>Higher SSI in low-bias studies (esp. hip)</td>
+          <td>RR 2.56 (1.20–5.44) low-bias; RR 2.51 (1.15–5.50) hip</td>
+          <td>Many underlying RCTs underpowered, high bias risk</td>
+        </tr>
+        <tr>
+          <td><strong>Liu & Liu (2021)</strong></td>
+          <td>Hip Arthroplasty</td>
+          <td>Sutures lower prolonged discharge</td>
+          <td>OR 2.88 (1.72–4.83) for discharge</td>
+          <td>First meta-analysis specific to this comparison in hip</td>
+        </tr>
+        <tr>
+          <td><strong>Smith & Nace (2017)</strong></td>
+          <td>TKA Only</td>
+          <td><em>Sutures</em> higher infection & dehiscence; staples more discharge</td>
+          <td>Qualitative summary</td>
+          <td>TKA only—different risk profile than hip surgery</td>
+        </tr>
+        <tr>
+          <td><strong>Rui et al. (2016)</strong></td>
+          <td>Mixed Orthopedic</td>
+          <td>No significant difference</td>
+          <td>RR 1.06 (0.46–2.44)</td>
+          <td>Methodological limitations; economic/logistic factors noted</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 2: Suture Techniques -->
+<section class="section" id="techniques">
+  <h2>Section 2: Suture Techniques — An Evidence-Based Comparison</h2>
+
+  <h3>2.1 Subcuticular (Intradermal) Closure</h3>
+  <p>The subcuticular technique—passing the suture through the dermal layer parallel to the skin plane—is widely regarded as the <strong>gold standard for cosmetic results</strong>. By burying the suture beneath the epidermis, it avoids the "train track" marks of transdermal sutures. <span class="ev ev-2">Level II</span></p>
+
+  <p>A comprehensive <strong>2020 Cochrane Review</strong> found moderate-certainty evidence that subcuticular sutures probably improve patient satisfaction compared to transdermal sutures. A literature review in the <em>Journal of Drugs in Dermatology</em> (15 studies) concluded subcuticular closure is superior for aesthetic outcomes on trunk and extremities.</p>
+
+  <p>Crucially, this cosmetic benefit does <strong>not</strong> come at the cost of increased complications. The same Cochrane review found:</p>
+  <ul>
+    <li>Subcuticular sutures vs. staples: <strong>little to no effect on SSI rate</strong> (RR 0.81, 95% CI 0.64–1.01) <span class="ev ev-2">Level II</span></li>
+    <li>Subcuticular sutures <strong>probably decrease overall wound complications</strong> including minor dehiscence and skin necrosis (RR 0.79, 95% CI 0.64–0.98) <span class="ev ev-2">Level II</span></li>
+  </ul>
+
+  <div class="callout success">
+    <strong>Key Finding:</strong> Subcuticular closure provides both superior cosmetic outcomes AND a more favorable wound healing profile compared to interrupted transdermal sutures or staples.
+  </div>
+
+  <p><strong>Limitations:</strong> More technically demanding, requires greater precision for wound edge eversion, and is more time-consuming than interrupted sutures or staples.</p>
+
+  <h3>2.2 Continuous vs. Interrupted Suturing</h3>
+  <p>The choice involves a fundamental trade-off between <strong>efficiency and security</strong>:</p>
+
+  <h4>Continuous (Running) Suture</h4>
+  <ul>
+    <li>Single strand along entire incision; knots only at beginning and end</li>
+    <li>Speed of placement and more even tension distribution</li>
+    <li>Less foreign material left in wound (only two knots)</li>
+    <li>The <strong>2024 EFORT consensus</strong> gives a strong recommendation for continuous barbed sutures for deep fascial layers in arthroplasty <span class="ev ev-2">Level II</span></li>
+  </ul>
+
+  <h4>Interrupted Suture</h4>
+  <ul>
+    <li>Each stitch placed and tied individually → <strong>superior security</strong></li>
+    <li>If one suture fails, remaining closure remains intact</li>
+    <li>Preferred for contaminated wounds or high-risk patients (e.g., diabetes)</li>
+    <li>Most common method for skin closure after ankle fracture ORIF</li>
+  </ul>
+
+  <div class="callout">
+    <strong>Evidence-Based Layered Approach:</strong> An optimal strategy may combine both—continuous barbed sutures for deep layers (speed, watertight seal, minimal foreign body) and subcuticular closure with smooth monofilament for skin (cosmesis, edge security).
+  </div>
+</section>
+
+<!-- Section 3: Suture Materials -->
+<section class="section" id="materials">
+  <h2>Section 3: Suture Material Selection</h2>
+
+  <h3>3.1 Absorbable vs. Non-Absorbable Sutures</h3>
+  <p>A long-held tenet has been that non-absorbable sutures are required for skin closure. However, a <strong>2023 systematic review</strong> analyzing 27 RCTs (5,096 patients) found <strong>no significant difference</strong> between absorbable and non-absorbable sutures for wound infection, scar formation, and wound dehiscence. <span class="ev ev-1">Level I</span></p>
+
+  <p>An earlier meta-analysis of 10 RCTs found that absorbable sutures were associated with a significantly <strong>lower risk of wound dehiscence</strong> (OR 0.12; 95% CI: 0.04–0.39). <span class="ev ev-1">Level I</span></p>
+
+  <div class="callout success">
+    <strong>Practice-Changing Insight:</strong> Given equivalence (or superiority) of absorbable sutures for major wound complications, the decision is guided by secondary factors that overwhelmingly favor absorbable sutures: no need for removal visit, patient convenience, comfort, and cost savings.
+  </div>
+
+  <h3>3.2 Monofilament vs. Multifilament (Braided) Sutures</h3>
+  <p>The structural distinction has profound implications:</p>
+  <ul>
+    <li><strong>Multifilament:</strong> Braided structure creates microscopic interstices that harbor bacteria (<em>capillarity</em>), potentially increasing infection risk. However, they offer superior handling and knot security.</li>
+    <li><strong>Monofilament:</strong> Smooth, non-porous surface resists bacterial adherence and generates less friction. The trade-off is more "memory" and less knot security, requiring more throws.</li>
+  </ul>
+  <p>For superficial layers in orthopedic closure, <strong>monofilament sutures offer a theoretical and clinical advantage</strong> in reducing bacterial bioburden near implants.</p>
+
+  <h3>3.3 Innovations in Suture Technology</h3>
+  <h4>Barbed Sutures (e.g., STRATAFIX)</h4>
+  <p>Monofilament sutures with circumferential barbs that anchor into tissue, eliminating the need for knots. The <strong>2024 EFORT consensus</strong> gives a <strong>strong recommendation with high-level evidence</strong> for use in deep layer closure. Advantages: shorter surgical duration, tighter watertight closure, uniform tension distribution, and added security if nicked. <span class="ev ev-2">Level II</span></p>
+
+  <h4>Antimicrobial-Coated Sutures (e.g., triclosan)</h4>
+  <p>Coated with broad-spectrum antimicrobial agents that elute into surrounding tissue. The EFORT consensus gives a <strong>strong recommendation</strong> based on multiple meta-analyses demonstrating decreased overall SSI risk. <span class="ev ev-2">Level II</span></p>
+
+  <div class="callout warning">
+    <strong>Critical Caveat:</strong> There is currently <strong>no specific evidence</strong> demonstrating that antimicrobial-coated sutures reduce the risk of deep <em>prosthetic joint infection</em> in arthroplasty. They are effective at reducing superficial wound infections only.
+  </div>
+
+  <!-- Table 2 -->
+  <div class="table-wrapper">
+    <table>
+      <caption>Table 2: Characteristics of Common Suture Materials in Orthopedics</caption>
+      <thead>
+        <tr>
+          <th>Material</th>
+          <th>Structure</th>
+          <th>Absorption</th>
+          <th>Primary Orthopedic Use</th>
+          <th>Key Advantage</th>
+          <th>Key Disadvantage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Polyglactin 910 (Vicryl)</strong></td>
+          <td>Absorbable / Multifilament</td>
+          <td>60–90 days</td>
+          <td>Deep dermis, subcutaneous, fascia</td>
+          <td>Predictable absorption, excellent handling</td>
+          <td>Braided structure increases infection risk</td>
+        </tr>
+        <tr>
+          <td><strong>Poliglecaprone 25 (Monocryl)</strong></td>
+          <td>Absorbable / Monofilament</td>
+          <td>90–120 days</td>
+          <td>Subcuticular skin closure</td>
+          <td>Low infection risk, great for cosmetics</td>
+          <td>Rapid tensile strength loss</td>
+        </tr>
+        <tr>
+          <td><strong>Polydioxanone (PDS)</strong></td>
+          <td>Absorbable / Monofilament</td>
+          <td>180–210 days</td>
+          <td>Fascia, high-tension deep layers</td>
+          <td>Extended wound support</td>
+          <td>Stiff, more difficult handling</td>
+        </tr>
+        <tr>
+          <td><strong>Nylon (Ethilon)</strong></td>
+          <td>Non-absorbable / Mono or Multi</td>
+          <td>Permanent</td>
+          <td>Skin closure (interrupted), tendons</td>
+          <td>High strength, low reactivity</td>
+          <td>Requires removal; stiff to handle</td>
+        </tr>
+        <tr>
+          <td><strong>Polypropylene (Prolene)</strong></td>
+          <td>Non-absorbable / Monofilament</td>
+          <td>Permanent</td>
+          <td>Skin, vascular, tendon repair</td>
+          <td>Extremely low reactivity</td>
+          <td>Slippery, poor knot security</td>
+        </tr>
+        <tr>
+          <td><strong>Barbed Sutures (STRATAFIX)</strong></td>
+          <td>Absorbable / Monofilament (Barbed)</td>
+          <td>Variable (PDS/Monocryl based)</td>
+          <td>Deep layer closure in arthroplasty</td>
+          <td>Knotless, fast, uniform tension</td>
+          <td>Higher cost, specific technique required</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 4: Adjuncts -->
+<section class="section" id="adjuncts">
+  <h2>Section 4: Adjunctive and Complementary Therapies</h2>
+
+  <h3>4.1 Topical Skin Adhesives (e.g., 2-octyl cyanoacrylate)</h3>
+  <p>Skin adhesives polymerize upon contact with tissue to form a strong, flexible film. In orthopedic surgery, they are used as <strong>adjunctive therapy over a well-approximated subcuticular closure</strong>, serving two functions: additional wound security and an impermeable microbial barrier. <span class="ev ev-3">Level III</span></p>
+
+  <p>A study comparing 2-octyl cyanoacrylate over subcuticular closure vs. staples for geriatric hip fractures found the suture/glue combination associated with <strong>shorter hospital stay and fewer interventions for wound drainage</strong>. The EFORT consensus notes that 2-octyl cyanoacrylate has been associated with lower wound complications than standard silver dressings in TKA. <span class="ev ev-2">Level II</span></p>
+
+  <p><strong>Primary risk:</strong> Potential localized contact dermatitis, occasionally severe. The EFORT consensus suggests a preoperative sensitivity test may be prudent. <span class="ev ev-2">Level II</span></p>
+
+  <h3>4.2 Incisional Negative Pressure Wound Therapy (iNPWT)</h3>
+  <p>iNPWT involves a sterile foam dressing over the closed incision, sealed with an occlusive film and connected to a vacuum pump delivering sub-atmospheric pressure. Mechanisms include: active exudate removal, reduced hematoma/seroma formation, mechanical reduction of lateral tension, and sealed contamination barrier.</p>
+
+  <p>The <strong>AAOS clinical practice guideline</strong> recommends iNPWT for high-risk surgical incisions after major extremity trauma. The EFORT consensus concludes iNPWT effectively reduces complications in high-risk scenarios (periprosthetic fractures, revision arthroplasty), making it cost-effective in this population. <span class="ev ev-2">Level II</span></p>
+
+  <div class="callout warning">
+    <strong>Important Distinction:</strong> For low-risk patients undergoing primary joint arthroplasty, iNPWT offers <strong>no additional benefit</strong> compared to modern active dressings and substantially increases costs. Use should be reserved for high-risk patients only.
+  </div>
+
+  <h3>4.3 Hemostasis and Dressings</h3>
+  <h4>Tranexamic Acid (TXA)</h4>
+  <p>The EFORT consensus gives a <strong>strong recommendation</strong> for intravenous or topical TXA in hip and knee arthroplasty. TXA reduces perioperative blood loss, minimizes hematoma risk, and has a protective effect against PJI. <span class="ev ev-2">Level II</span></p>
+
+  <h4>Dressing Management</h4>
+  <ul>
+    <li>Active/interactive dressings are superior to simple passive dressings</li>
+    <li>The initial dressing should be left undisturbed for a <strong>minimum of 48 hours</strong></li>
+    <li>Change only when saturated or at manufacturer-recommended duration</li>
+    <li>Minimize the number of times the fresh incision is exposed to contaminants</li>
+  </ul>
+
+  <!-- Table 3 -->
+  <div class="table-wrapper">
+    <table>
+      <caption>Table 3: 2024 EFORT Consensus Recommendations for Wound Closure</caption>
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>Recommendation</th>
+          <th>Evidence</th>
+          <th>Grade</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Deep Closure</strong></td>
+          <td>Continuous barbed sutures for THA/TKA</td>
+          <td>High</td>
+          <td>Strong</td>
+          <td>Faster, tighter, less material, lower complications</td>
+        </tr>
+        <tr>
+          <td><strong>Suture Material</strong></td>
+          <td>Antimicrobial-coated sutures (triclosan)</td>
+          <td>High</td>
+          <td>Strong</td>
+          <td>Decreased SSI; no specific PJI evidence</td>
+        </tr>
+        <tr>
+          <td><strong>Skin Closure</strong></td>
+          <td>Continuous suture may offer better cosmesis & less pain than staples</td>
+          <td>—</td>
+          <td>—</td>
+          <td>Staples → greater pain on removal</td>
+        </tr>
+        <tr>
+          <td><strong>Skin Adhesives</strong></td>
+          <td>2-octyl cyanoacrylate shows lower wound complications</td>
+          <td>—</td>
+          <td>—</td>
+          <td>Better outcomes than staples; risk of dermatitis</td>
+        </tr>
+        <tr>
+          <td><strong>Dressing Management</strong></td>
+          <td>Leave first dressing ≥48 hours; minimize changes</td>
+          <td>—</td>
+          <td>—</td>
+          <td>Reduces contaminant exposure</td>
+        </tr>
+        <tr>
+          <td><strong>iNPWT (High-Risk)</strong></td>
+          <td>Use in revision arthroplasty, periprosthetic fractures</td>
+          <td>—</td>
+          <td>—</td>
+          <td>Reduces complications; cost-effective in targeted population</td>
+        </tr>
+        <tr>
+          <td><strong>iNPWT (Low-Risk)</strong></td>
+          <td>Do NOT use routinely after primary joint replacement</td>
+          <td>—</td>
+          <td>—</td>
+          <td>No additional benefit; substantially increases costs</td>
+        </tr>
+        <tr>
+          <td><strong>Hemostasis</strong></td>
+          <td>IV or topical Tranexamic Acid (TXA)</td>
+          <td>High</td>
+          <td>Strong</td>
+          <td>Reduces bleeding, hematoma, SSI/PJI risk</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Framework / Conclusion -->
+<section class="section" id="framework">
+  <h2>Conclusion: Evidence-Based, Risk-Stratified Framework</h2>
+
+  <h3>Synthesis of Findings</h3>
+  <p>The staple vs. suture debate remains technically unresolved due to poor methodological quality of primary research. However, the weight of higher-quality evidence suggests caution with staples, particularly in high-tension closures (hip arthroplasty). For suture technique, subcuticular closure offers superior cosmesis and patient satisfaction without increasing SSI risk. Modern absorbable sutures provide equivalent outcomes to non-absorbable with significant convenience advantages. Monofilament sutures are preferred for skin closure due to reduced bacterial adherence. Knotless barbed sutures demonstrate clear superiority for deep fascial layer closure.</p>
+
+  <h3>The Guideline Gap</h3>
+  <p>Notably, major professional bodies including the <strong>AAOS</strong> have intentionally refrained from issuing prescriptive guidelines dictating a specific choice of skin closure material or technique. This "guideline gap" directly reflects the contested and often low-quality evidence, placing the onus on individual surgeons to critically appraise the literature.</p>
+
+  <h3>Proposed Decision Algorithm</h3>
+
+  <div class="algorithm">
+    <h4>🟢 Standard Protocol (Low-Risk Patient / Primary Arthroplasty)</h4>
+    <ol>
+      <li><strong>Hemostasis:</strong> Meticulous intraoperative hemostasis + routine IV or topical TXA <span class="ev ev-2">Strong</span></li>
+      <li><strong>Deep Layer:</strong> Continuous, absorbable, antimicrobial-coated <em>barbed</em> suture (e.g., STRATAFIX PDS Plus) <span class="ev ev-2">Strong</span></li>
+      <li><strong>Skin:</strong> Continuous, absorbable <em>monofilament</em> suture (e.g., Monocryl) via <em>subcuticular</em> technique</li>
+      <li><strong>Adjunctive Barrier:</strong> Topical skin adhesive (2-octyl cyanoacrylate) over closed incision <span class="ev ev-2">Strong</span></li>
+      <li><strong>Dressing:</strong> Modern, active, absorbent dressing; leave undisturbed ≥48–72h unless saturated <span class="ev ev-2">Strong</span></li>
+    </ol>
+  </div>
+
+  <div class="algorithm" style="border-color:var(--warning);">
+    <h4>🟡 Enhanced Protocol (High-Risk: Major Trauma, Revision Arthroplasty, Uncontrolled DM, Immunosuppression)</h4>
+    <ol>
+      <li>Follow <strong>all steps</strong> of the Standard Protocol above</li>
+      <li><strong>Substitute Dressing with iNPWT:</strong> Apply incisional Negative Pressure Wound Therapy over the closed incision to proactively manage exudate and reduce tension <span class="ev ev-2">Strong</span></li>
+    </ol>
+  </div>
+
+  <h3>Future Directions</h3>
+  <p>The path forward requires large-scale, multicenter, methodologically rigorous RCTs with adequate statistical power and long-term follow-up to definitively resolve the staple vs. suture question. Future research should evaluate bundled "closure systems" rather than isolated components, reflecting the multi-step reality of modern wound closure.</p>
+</section>
+
+<!-- References -->
+<section class="section ref-section" id="references">
+  <h2>References</h2>
+  <ol>
+    <li>Smith TO, Sexton D, Mann C, Donell S. Sutures versus staples for skin closure in orthopaedic surgery: meta-analysis. <em>BMJ</em>. 2010;340:c1199. <a href="https://www.bmj.com/content/bmj/340/bmj.c1199.full.pdf" target="_blank" rel="noopener">https://www.bmj.com/content/bmj/340/bmj.c1199.full.pdf</a></li>
+    <li>Smith TO, Nace A. A Meta-Analysis and Systematic Review Evaluating Skin Closure for Total Knee Arthroplasty. <em>J Knee Surg</em>. 2017. <a href="https://pubmed.ncbi.nlm.nih.gov/28487090/" target="_blank" rel="noopener">PMID: 28487090</a></li>
+    <li>EFORT Consensus Document. Consensus document on the management of wound closure in orthopaedic surgery. <em>EFORT Open Reviews</em>. 2024;10(2):EOR-2024-0002. <a href="https://eor.bioscientifica.com/view/journals/eor/10/2/EOR-2024-0002.pdf" target="_blank" rel="noopener">https://eor.bioscientifica.com/view/journals/eor/10/2/EOR-2024-0002.pdf</a></li>
+    <li>American Academy of Orthopaedic Surgeons (AAOS). Prevention of Surgical Site Infections After Major Extremity Trauma. Clinical Practice Guideline. <a href="https://www.aaos.org/globalassets/quality-and-practice-resources/dod/ssitrauma/ssitraumaauc.pdf" target="_blank" rel="noopener">https://www.aaos.org/.../ssitraumaauc.pdf</a></li>
+  </ol>
+  <p style="margin-top:12px;font-size:.72rem;color:var(--text-secondary)"><em>Note: Additional studies referenced within the source document (Krishnan et al., 2019; van de Kuit et al., 2022; Liu & Liu, 2021; Rui et al., 2016; Cochrane Review 2020; 2023 systematic review on absorbable sutures) are cited within the text but specific URLs were not provided in the source document.</em></p>
+</section>
+
+</main>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" role="complementary" aria-label="Clinical decision support panel">
+  <div class="sidebar-card">
+    <h3>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Clinical Decision Support
+    </h3>
+
+    <!-- Slider 1: Patient Risk -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Patient Risk Profile</span>
+        <span class="value" id="risk-val">Low</span>
+      </div>
+      <input type="range" id="risk-slider" min="1" max="10" value="2" aria-label="Patient risk level">
+      <div class="range-labels"><span>Low Risk</span><span>High Risk</span></div>
+      <p class="annotation">Composite: age, comorbidities (DM, immunosuppression), smoking, nutrition. Thresholds based on general clinical knowledge — not from source document.</p>
+    </div>
+
+    <!-- Slider 2: Wound Tension -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Wound Tension Level</span>
+        <span class="value" id="tension-val">Low</span>
+      </div>
+      <input type="range" id="tension-slider" min="1" max="10" value="3" aria-label="Wound tension level">
+      <div class="range-labels"><span>Low (e.g., knee)</span><span>High (e.g., hip)</span></div>
+      <p class="annotation">Higher tension closures (hip) show greater infection risk with staples per source.</p>
+    </div>
+
+    <!-- Slider 3: Skin Quality -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Skin Quality Score</span>
+        <span class="value" id="skin-val">Good</span>
+      </div>
+      <input type="range" id="skin-slider" min="1" max="10" value="3" aria-label="Skin quality score">
+      <div class="range-labels"><span>Good (young, healthy)</span><span>Poor (atrophic, fragile)</span></div>
+      <p class="annotation">Orthopedic patients often have fragile, atrophic skin per source.</p>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation-box" id="rec-box">
+      <h4>🎯 Recommended Closure Strategy</h4>
+      <div id="rec-content">
+        <div class="rec-item"><strong>Deep Layer:</strong> Continuous barbed suture (e.g., STRATAFIX)</div>
+        <div class="rec-item"><strong>Skin Layer:</strong> Subcuticular monofilament absorbable suture</div>
+        <div class="rec-item"><strong>Adjunct:</strong> Topical skin adhesive over closure</div>
+        <div class="rec-item"><strong>Dressing:</strong> Active dressing, leave ≥48h</div>
+        <div class="rec-item"><strong>Hemostasis:</strong> IV/topical TXA (strong recommendation)</div>
+        <span class="rec-risk risk-low" id="risk-badge">Standard Protocol</span>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset sliders">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+</aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="polite">Copied to clipboard!</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>Evidence-Based Orthopaedic Skin Closure Framework · Synthesized from provided systematic review &amp; consensus documents · For educational purposes only</p>
+</footer>
+
+<script>
+(function(){
+  // Elements
+  const riskSlider = document.getElementById('risk-slider');
+  const tensionSlider = document.getElementById('tension-slider');
+  const skinSlider = document.getElementById('skin-slider');
+  const riskVal = document.getElementById('risk-val');
+  const tensionVal = document.getElementById('tension-val');
+  const skinVal = document.getElementById('skin-val');
+  const recContent = document.getElementById('rec-content');
+  const riskBadge = document.getElementById('risk-badge');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+  const toast = document.getElementById('toast');
+
+  function label(val, low, mid, high){
+    if(val<=3) return low;
+    if(val<=6) return mid;
+    return high;
+  }
+
+  function update(){
+    const r = +riskSlider.value;
+    const t = +tensionSlider.value;
+    const s = +skinSlider.value;
+
+    riskVal.textContent = label(r,'Low','Moderate','High');
+    tensionVal.textContent = label(t,'Low','Moderate','High');
+    skinVal.textContent = label(s,'Good','Fair','Poor');
+
+    // Compute composite risk
+    const composite = (r + t + s) / 3;
+    let protocol, riskClass, riskText;
+
+    if(composite <= 3.5){
+      protocol = 'standard';
+      riskClass = 'risk-low';
+      riskText = 'Standard Protocol';
+    } else if(composite <= 6){
+      protocol = 'enhanced';
+      riskClass = 'risk-moderate';
+      riskText = 'Enhanced Protocol';
+    } else {
+      protocol = 'high';
+      riskClass = 'risk-high';
+      riskText = 'High-Risk Protocol';
+    }
+
+    let html = '';
+    html += '<div class="rec-item"><strong>Hemostasis:</strong> Meticulous intraoperative hemostasis + IV/topical TXA <em>(Strong)</em></div>';
+    html += '<div class="rec-item"><strong>Deep Layer:</strong> Continuous barbed suture (STRATAFIX) with antimicrobial coating <em>(Strong)</em></div>';
+
+    if(s >= 7){
+      html += '<div class="rec-item"><strong>Skin Layer:</strong> Subcuticular monofilament absorbable (e.g., Monocryl) — extra care with fragile tissue</div>';
+      html += '<div class="rec-item"><strong>Adjunct:</strong> Topical skin adhesive (2-octyl cyanoacrylate) — confirm no allergy first</div>';
+    } else {
+      html += '<div class="rec-item"><strong>Skin Layer:</strong> Subcuticular monofilament absorbable suture (e.g., Monocryl)</div>';
+      html += '<div class="rec-item"><strong>Adjunct:</strong> Topical skin adhesive over closure as microbial barrier</div>';
+    }
+
+    if(t >= 7 && r >= 5){
+      html += '<div class="rec-item"><strong>⚠ High-Tension + High-Risk:</strong> Consider interrupted non-absorbable sutures for added security; assess for dehiscence risk</div>';
+    }
+
+    if(protocol === 'high'){
+      html += '<div class="rec-item"><strong>Dressing:</strong> <span style="color:#dc2626;font-weight:700">iNPWT (incisional negative pressure)</span> recommended <em>(per EFORT consensus)</em></div>';
+    } else if(protocol === 'enhanced'){
+      html += '<div class="rec-item"><strong>Dressing:</strong> Consider iNPWT if additional risk factors present; otherwise active dressing ≥48h</div>';
+    } else {
+      html += '<div class="rec-item"><strong>Dressing:</strong> Active/interactive dressing, leave undisturbed ≥48–72h <em>(EFORT Strong)</em></div>';
+    }
+
+    html += '<div class="rec-item"><strong>Staples:</strong> ';
+    if(composite >= 5 || t >= 6){
+      html += '<span style="color:#dc2626;font-weight:600">Avoid</span> — higher SSI risk in high-tension closures (RR 2.5–4.8 per meta-analyses)';
+    } else {
+      html += 'Use with caution — evidence suggests potential increased SSI risk; sutures preferred';
+    }
+    html += '</div>';
+
+    html += '<span class="rec-risk ' + riskClass + '">' + riskText + '</span>';
+
+    recContent.innerHTML = html;
+  }
+
+  riskSlider.addEventListener('input', update);
+  tensionSlider.addEventListener('input', update);
+  skinSlider.addEventListener('input', update);
+
+  btnReset.addEventListener('click', function(){
+    riskSlider.value = 2;
+    tensionSlider.value = 3;
+    skinSlider.value = 3;
+    update();
+  });
+
+  btnCopy.addEventListener('click', function(){
+    const now = new Date().toLocaleString();
+    const r = +riskSlider.value;
+    const t = +tensionSlider.value;
+    const s = +skinSlider.value;
+    const composite = ((r + t + s) / 3).toFixed(1);
+
+    let text = '=== Orthopaedic Skin Closure Decision Summary ===\n';
+    text += 'Generated: ' + now + '\n\n';
+    text += 'PARAMETERS:\n';
+    text += '  Patient Risk Profile: ' + riskVal.textContent + ' (' + r + '/10)\n';
+    text += '  Wound Tension Level: ' + tensionVal.textContent + ' (' + t + '/10)\n';
+    text += '  Skin Quality Score: ' + skinVal.textContent + ' (' + s + '/10)\n';
+    text += '  Composite Risk Score: ' + composite + '/10\n\n';
+
+    const badge = riskBadge.textContent;
+    text += 'PROTOCOL: ' + badge + '\n\n';
+    text += 'RECOMMENDED CLOSURE STRATEGY:\n';
+    text += '  1. Hemostasis: Meticulous intraoperative + IV/topical TXA (EFORT Strong)\n';
+    text += '  2. Deep Layer: Continuous barbed suture (STRATAFIX) with antimicrobial coating (EFORT Strong)\n';
+    text += '  3. Skin Layer: Subcuticular monofilament absorbable (e.g., Monocryl)\n';
+    text += '  4. Adjunctive: Topical skin adhesive (2-octyl cyanoacrylate)\n';
+
+    if(composite >= 6){
+      text += '  5. Dressing: iNPWT recommended for high-risk closure\n';
+    } else {
+      text += '  5. Dressing: Active/interactive dressing, leave ≥48h (EFORT Strong)\n';
+    }
+
+    if(composite >= 5 || t >= 6){
+      text += '  6. Staples: AVOID — higher SSI risk in high-tension closures\n';
+    } else {
+      text += '  6. Staples: Use with caution; sutures preferred per evidence\n';
+    }
+
+    text += '\nRATIONALE:\n';
+    text += '  - Smith et al. 2010 (BMJ): Staples → 3.8x higher SSI (RR 3.83), 4.8x in hip surgery\n';
+    text += '  - van de Kuit et al. 2022: In low-bias studies, staples → 2.5x higher SSI (RR 2.56)\n';
+    text += '  - 2020 Cochrane Review: Subcuticular sutures → better cosmesis, fewer wound complications\n';
+    text += '  - 2023 SR (5,096 patients): Absorbable = non-absorbable for infection; lower dehiscence risk\n';
+    text += '  - 2024 EFORT Consensus: Strong recommendations for barbed sutures, antimicrobial coating, TXA\n';
+
+    text += '\n--- Source: Evidence-Based Framework for Skin Closure in Orthopedic Surgery ---\n';
+
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        showToast('Copied to clipboard!');
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); showToast('Copied to clipboard!'); }
+    catch(e){ showToast('Copy failed — please copy manually.'); }
+    document.body.removeChild(ta);
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+  }
+
+  // Nav active state
+  var sections = document.querySelectorAll('.section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  function updateNav(){
+    var scrollPos = window.scrollY + 120;
+    sections.forEach(function(sec){
+      if(sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos){
+        navLinks.forEach(function(a){
+          a.classList.toggle('active', a.getAttribute('href') === '#' + sec.id);
+        });
+      }
+    });
+  }
+  window.addEventListener('scroll', updateNav, {passive:true});
+
+  // Init
+  update();
+})();
+</script>
+</body>
+</html>

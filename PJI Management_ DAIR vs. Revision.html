@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management of Late Acute Culture-Negative PJI in TKA: Interactive Summary</title>
+    <style>
+        :root {
+            --primary: #1a5276;
+            --secondary: #2980b9;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --sidebar-width: 320px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr var(--sidebar-width);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        main {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        aside {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            background: var(--light);
+            color: var(--primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .evidence-badge.level-1 { background: #d4edda; color: #155724; }
+        .evidence-badge.level-2 { background: #cce5ff; color: #004085; }
+        .evidence-badge.level-3 { background: #fff3cd; color: #856404; }
+        .evidence-badge.level-4 { background: #f8d7da; color: #721c24; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .callout {
+            background: #f8f9fa;
+            border-left: 4px solid var(--warning);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .callout.critical {
+            border-left-color: var(--accent);
+            background: #fef5f5;
+        }
+
+        .slider-container {
+            margin: 1.25rem 0;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #dee2e6;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--secondary);
+            cursor: pointer;
+        }
+
+        .value-display {
+            background: var(--light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .recommendation-box {
+            background: #e8f4fc;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .recommendation-box.positive {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .recommendation-box.negative {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-reset {
+            background: var(--gray);
+        }
+
+        .btn-copy {
+            background: var(--success);
+        }
+
+        .study-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .study-list li {
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .study-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .study-finding {
+            font-style: italic;
+            color: #666;
+        }
+
+        .evidence-gap {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            aside {
+                position: static;
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
+            
+            main, .sidebar-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Management of Late Acute Culture-Negative PJI in Total Knee Arthroplasty</h1>
+        <p>Interactive Educational Summary Based on Clinical Document</p>
+    </header>
+
+    <div class="container">
+        <main>
+            <section id="introduction">
+                <h2>Introduction</h2>
+                <p>Periprosthetic joint infection (PJI) following total knee arthroplasty (TKA) represents one of the most catastrophic complications in orthopedic surgery. A specific subset presents a clinical conundrum: the "late acute" PJI characterized by normal serological inflammatory markers and a "dry tap" yielding negative cultures. This clinical entity—often termed "occult" or "culture-negative" PJI—strips the clinician of the traditional "gold standard" confirmatory tests.</p>
+                
+                <div class="callout">
+                    <strong>Key Challenge:</strong> The absence of elevated C-reactive protein (CRP) and Erythrocyte Sedimentation Rate (ESR) can falsely reassure the surgeon of an aseptic etiology, while the inability to obtain synovial fluid for analysis removes the most reliable preoperative diagnostic tool.
+                </div>
+                
+                <p>The prevalence of culture-negative PJI is non-trivial, with reported rates ranging from 7% to as high as 42% in some series. The increasing recognition of low-virulence organisms, such as <em>Cutibacterium acnes</em> and coagulase-negative Staphylococci, as causative agents has necessitated a paradigm shift in diagnostic and therapeutic strategies.</p>
+            </section>
+
+            <section id="diagnostic-dilemma">
+                <h2>The Diagnostic Dilemma: Normal Markers and the "Dry Tap"</h2>
+                
+                <h3>Pathophysiology of "Normal" Inflammatory Markers</h3>
+                <p>The primary driver of seronegative PJI is infection with low-virulence organisms. Pathogens such as <em>Cutibacterium acnes</em> and coagulase-negative Staphylococci have evolved sophisticated mechanisms to evade host detection. Research indicates that median CRP levels in <em>C. acnes</em> PJI can be as low as 5.4 mg/L, and in CoNS PJI as low as 12.2 mg/L—values often below the standard diagnostic cutoff of 10 mg/L.</p>
+                
+                <h3>Clinical Significance of the "Dry Tap"</h3>
+                <p>A "dry tap," defined as the failure to aspirate sufficient synovial fluid, is a frequent occurrence. Data from a comprehensive review of 275 attempted aspirations revealed that <strong>16.0%</strong> of patients with a dry tap were subsequently confirmed to have PJI based on MSIS major criteria.</p>
+                
+                <div class="callout critical">
+                    <strong>Critical Warning:</strong> A dry tap carries a significant risk of missed infection. The absence of fluid does not equate to the absence of pathology.
+                </div>
+                
+                <h3>Diagnostic Utility of Saline Lavage</h3>
+                <p>When a dry tap occurs, performing a <strong>saline lavage</strong> to obtain a sample for culture is recommended. A landmark study by Plummer et al. found that while saline lavage significantly lowers absolute WBC count, the <strong>PMN percentage remained robust</strong> (pre-lavage 87% vs. post-lavage 85% in septic patients).</p>
+            </section>
+
+            <section id="landmark-studies">
+                <h2>Key Studies from Document</h2>
+                
+                <ul class="study-list">
+                    <li>
+                        <div class="study-title">Plummer et al. (2020)</div>
+                        <div class="study-finding">Saline lavage validation study: PMN percentage remains reliable despite dilution (85% vs 87% in septic cases)</div>
+                        <span class="evidence-badge level-2">Level II</span>
+                    </li>
+                    <li>
+                        <div class="study-title">Systematic Review of 11 Studies (2024)</div>
+                        <div class="study-finding">No statistically significant difference in infection control rates between culture-negative (79.2%) and culture-positive (76.6%) PJI treated with DAIR</div>
+                        <span class="evidence-badge level-1">Level I</span>
+                    </li>
+                    <li>
+                        <div class="study-title">Meta-analysis on DAIR Outcomes (2024)</div>
+                        <div class="study-finding">Lower failure rates for DAIR in culture-negative cases (22.2%) compared to culture-positive ones (29.3%)</div>
+                        <span class="evidence-badge level-1">Level I</span>
+                    </li>
+                    <li>
+                        <div class="study-title">2025 International Consensus Meeting (ICM)</div>
+                        <div class="study-finding">Endorsed 12-week total duration of antibiotic therapy for acute PJI treated with DAIR</div>
+                        <span class="evidence-badge level-3">Level III</span>
+                    </li>
+                </ul>
+                
+                <div class="evidence-gap">
+                    <strong>Note:</strong> The document references multiple studies but does not provide five distinct landmark RCTs. Evidence presented is based on available systematic reviews, meta-analyses, and consensus guidelines.
+                </div>
+            </section>
+
+            <section id="comparative-tables">
+                <h2>Comparative Tables</h2>
+                
+                <table>
+                    <caption>Table 1: Diagnostic Markers in Saline Lavage Fluid (Dry Tap PJI)</caption>
+                    <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Standard Cutoff (Native Fluid)</th>
+                            <th>Suggested Cutoff (Lavage Fluid)</th>
+                            <th>Sensitivity</th>
+                            <th>Specificity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WBC Count</td>
+                            <td>>3,000 /µL</td>
+                            <td>Unreliable / Lower</td>
+                            <td>Low</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PMN %</strong></td>
+                            <td>>80%</td>
+                            <td><strong>>80%</strong></td>
+                            <td><strong>75%</strong></td>
+                            <td><strong>95%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Alpha-Defensin</td>
+                            <td>Positive</td>
+                            <td>Positive</td>
+                            <td>~94%</td>
+                            <td>~95%</td>
+                        </tr>
+                        <tr>
+                            <td>Leukocyte Esterase</td>
+                            <td>++ / +++</td>
+                            <td>Unreliable</td>
+                            <td>Low</td>
+                            <td>High</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <table>
+                    <caption>Table 2: DAIR vs. Two-Stage Revision in Culture-Negative PJI</caption>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>DAIR</th>
+                            <th>Two-Stage Revision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Indication</td>
+                            <td>Acute symptoms (<3-4 weeks), Stable implant</td>
+                            <td>Chronic symptoms (>4 weeks), Loose implant</td>
+                        </tr>
+                        <tr>
+                            <td>Success Rate (Culture-Neg)</td>
+                            <td><strong>~70-80%</strong></td>
+                            <td><strong>~85-90%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Morbidity</td>
+                            <td>Low (Single surgery)</td>
+                            <td>High (Two surgeries, bone loss)</td>
+                        </tr>
+                        <tr>
+                            <td>Antibiotics</td>
+                            <td>Broad-spectrum empiric for 12 weeks</td>
+                            <td>Broad-spectrum empiric during spacer interval</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="management-algorithm">
+                <h2>Management Algorithm</h2>
+                
+                <h3>Step 1: Diagnosis</h3>
+                <p><strong>High Index of Suspicion:</strong> Do not be reassured by a dry tap. Perform sterile saline lavage (10-20 mL).</p>
+                <p><strong>Analyze PMN%:</strong> Prioritize PMN% >80% over absolute WBC count (due to dilution).</p>
+                <p><strong>Biomarkers:</strong> Send for Alpha-Defensin (Lateral Flow or ELISA).</p>
+                
+                <h3>Step 2: Surgical Decision</h3>
+                <p><strong>DAIR is appropriate if:</strong> Symptoms <3-4 weeks duration, implant is stable, soft tissue envelope is viable, no sinus tract.</p>
+                <p><strong>Two-Stage Revision is required if:</strong> Implant is loose, symptoms >4 weeks (chronic), failed prior DAIR.</p>
+                
+                <h3>Step 3: Surgical Technique (DAIR)</h3>
+                <p><strong>Modular Exchange:</strong> Mandatory if technically feasible. Ensure implant availability preoperatively.</p>
+                
+                <h3>Step 4: Medical Management (Culture-Negative)</h3>
+                <p><strong>Empiric Antibiotics:</strong> Vancomycin + Ceftazidime (or Meropenem).</p>
+                <p><strong>Rifampin:</strong> Use with caution. Consider only if high suspicion of Staph and low risk of toxicity.</p>
+                <p><strong>Duration:</strong> 12 Weeks total therapy (IV + Oral) per ICM 2025.</p>
+            </section>
+        </main>
+
+        <aside>
+            <div class="sidebar-card">
+                <h3>Clinical Decision Support</h3>
+                <p>Adjust parameters to receive real-time recommendations based on document thresholds.</p>
+                
+                <div class="slider-container">
+                    <div class="slider-header">
+                        <span>PMN Percentage (Lavage Fluid)</span>
+                        <span class="value-display" id="pmn-value">50%</span>
+                    </div>
+                    <input type="range" id="pmn-slider" min="0" max="100" value="50" step="1">
+                    <small>Threshold from document: >80% suggests PJI</small>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-header">
+                        <span>CRP Level (mg/L)</span>
+                        <span class="value-display" id="crp-value">10</span>
+                    </div>
+                    <input type="range" id="crp-slider" min="0" max="100" value="10" step="1">
+                    <small>Note: Document discusses low-virulence organisms may have normal CRP (<10 mg/L)</small>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-header">
+                        <span>Symptom Duration (weeks)</span>
+                        <span class="value-display" id="duration-value">2</span>
+                    </div>
+                    <input type="range" id="duration-slider" min="1" max="12" value="2" step="1">
+                    <small>Threshold from document: <3-4 weeks favors DAIR</small>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-header">
+                        <span>Implant Stability</span>
+                        <span class="value-display" id="stability-value">Stable</span>
+                    </div>
+                    <input type="range" id="stability-slider" min="0" max="1" value="1" step="1">
+                    <small>1 = Stable (well-fixed), 0 = Loose</small>
+                </div>
+                
+                <div id="recommendation" class="recommendation-box">
+                    <h4>Recommendation:</h4>
+                    <p id="recommendation-text">Adjust parameters above to see recommendation.</p>
+                    <p id="recommendation-rationale" style="font-size: 0.9rem; color: #666;"></p>
+                </div>
+                
+                <button class="btn btn-reset" onclick="resetSliders()">Reset Parameters</button>
+                <button class="btn btn-copy" onclick="copyToClipboard()">Export Summary</button>
+            </div>
+            
+            <div class="sidebar-card">
+                <h3>Quick Reference</h3>
+                <p><strong>ICM 2025 Update:</strong> 12-week antibiotic duration for acute PJI with DAIR.</p>
+                <p><strong>Saline Lavage:</strong> Prioritize PMN% >80% over WBC count.</p>
+                <p><strong>Rifampin:</strong> Use cautiously in culture-negative cases; not for routine empiric use.</p>
+                <p><strong>Low-virulence organisms:</strong> Consider <em>C. acnes</em> and CoNS in seronegative presentations.</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer style="background: var(--dark); color: white; text-align: center; padding: 1.5rem; margin-top: 2rem;">
+        <p>Educational Summary Based on Provided Clinical Document</p>
+        <p style="font-size: 0.9rem; color: var(--gray);">All recommendations derive from source document. Evidence levels reflect study designs described in document.</p>
+    </footer>
+
+    <script>
+        // Slider elements
+        const pmnSlider = document.getElementById('pmn-slider');
+        const crpSlider = document.getElementById('crp-slider');
+        const durationSlider = document.getElementById('duration-slider');
+        const stabilitySlider = document.getElementById('stability-slider');
+        
+        // Value displays
+        const pmnValue = document.getElementById('pmn-value');
+        const crpValue = document.getElementById('crp-value');
+        const durationValue = document.getElementById('duration-value');
+        const stabilityValue = document.getElementById('stability-value');
+        
+        // Recommendation elements
+        const recommendationBox = document.getElementById('recommendation');
+        const recommendationText = document.getElementById('recommendation-text');
+        const recommendationRationale = document.getElementById('recommendation-rationale');
+        
+        // Update displays and recommendation on slider change
+        pmnSlider.addEventListener('input', updateInterface);
+        crpSlider.addEventListener('input', updateInterface);
+        durationSlider.addEventListener('input', updateInterface);
+        stabilitySlider.addEventListener('input', updateInterface);
+        
+        function updateInterface() {
+            // Update value displays
+            pmnValue.textContent = pmnSlider.value + '%';
+            crpValue.textContent = crpSlider.value + ' mg/L';
+            durationValue.textContent = durationSlider.value + ' weeks';
+            stabilityValue.textContent = stabilitySlider.value == 1 ? 'Stable' : 'Loose';
+            
+            // Calculate recommendation
+            const pmn = parseInt(pmnSlider.value);
+            const crp = parseInt(crpSlider.value);
+            const duration = parseInt(durationSlider.value);
+            const stability = stabilitySlider.value == 1;
+            
+            let recommendation = '';
+            let rationale = '';
+            let boxClass = 'recommendation-box';
+            
+            // Algorithm based on document thresholds
+            const pmnSuggestsPJI = pmn > 80;
+            const durationShort = duration < 4;
+            const crpLow = crp < 10;
+            
+            if (pmnSuggestsPJI && stability && durationShort) {
+                recommendation = '<strong>Consider DAIR</strong> with modular exchange and empiric antibiotics (Vancomycin + Ceftazidime) for 12 weeks.';
+                rationale = 'Based on document: PMN >80% in lavage fluid suggests PJI (sensitivity 75%, specificity 95%). Acute symptoms (<4 weeks) with stable implant favors DAIR over two-stage revision. Low CRP may indicate low-virulence organism.';
+                boxClass += ' positive';
+            } else if (!stability || !durationShort) {
+                recommendation = '<strong>Consider Two-Stage Revision</strong> if infection confirmed by other means.';
+                rationale = 'Based on document: Loose implant or symptoms >4 weeks duration are indications for two-stage revision over DAIR, regardless of culture status.';
+                boxClass += ' negative';
+            } else if (!pmnSuggestsPJI) {
+                recommendation = '<strong>Further diagnostic workup recommended.</strong> PMN <80% does not rule out infection but lowers suspicion.';
+                rationale = 'Document notes PMN >80% threshold for lavage fluid. Values below this have lower specificity for PJI. Consider advanced biomarkers (alpha-defensin) and intraoperative frozen section.';
+            } else {
+                recommendation = '<strong>Continue diagnostic evaluation.</strong> Adjust other parameters or consider clinical context.';
+                rationale = 'Based on document thresholds and decision algorithm.';
+            }
+            
+            recommendationText.innerHTML = recommendation;
+            recommendationRationale.innerHTML = rationale;
+            recommendationBox.className = boxClass;
+        }
+        
+        function resetSliders() {
+            pmnSlider.value = 50;
+            crpSlider.value = 10;
+            durationSlider.value = 2;
+            stabilitySlider.value = 1;
+            updateInterface();
+        }
+        
+        function copyToClipboard() {
+            const timestamp = new Date().toLocaleString();
+            const summary = `Clinical Decision Summary - Generated: ${timestamp}
+            PMN Percentage (Lavage): ${pmnSlider.value}%
+            CRP Level: ${crpSlider.value} mg/L
+            Symptom Duration: ${durationSlider.value} weeks
+            Implant Stability: ${stabilitySlider.value == 1 ? 'Stable' : 'Loose'}
+            
+            Recommendation: ${recommendationText.textContent}
+            Rationale: ${recommendationRationale.textContent}
+            
+            Note: Thresholds based on document data. PMN >80% cutoff from Plummer et al. validation study. Symptom duration <3-4 weeks for DAIR indication. Low CRP may indicate low-virulence organisms.`;
+            
+            navigator.clipboard.writeText(summary).then(() => {
+                alert('Summary copied to clipboard!');
+            }).catch(err => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = summary;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Summary copied to clipboard!');
+            });
+        }
+        
+        // Initialize
+        updateInterface();
+    </script>
+</body>
+</html>

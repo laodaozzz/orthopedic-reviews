@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiologic Assessment of HA-Coated 3D-Printed Porous Titanium Interbody Cages</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2b6cb0;
+            --primary-lighter: #bee3f8;
+            --accent: #c53030;
+            --accent-light: #feb2b2;
+            --success: #276749;
+            --success-light: #c6f6d5;
+            --warning: #975a16;
+            --warning-light: #fefcbf;
+            --info: #2b6cb0;
+            --info-light: #bee3f8;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --text: #1a202c;
+            --text-muted: #718096;
+            --radius: 8px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #fff;
+            padding: 2rem 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        header p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 0.25rem;
+            font-weight: 300;
+        }
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        main {
+            min-width: 0;
+        }
+        aside {
+            position: relative;
+        }
+        .sidebar-card {
+            position: sticky;
+            top: 100px;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        .sidebar-card h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-lighter);
+        }
+        .slider-group {
+            margin-bottom: 1.25rem;
+        }
+        .slider-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        .slider-group .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .slider-group input[type="range"] {
+            width: 100%;
+            margin: 0.35rem 0;
+            accent-color: var(--primary-light);
+            height: 6px;
+        }
+        .slider-value {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.15rem 0 0.1rem;
+        }
+        .recommendation-box {
+            background: #edf2f7;
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+        .recommendation-box h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+        .rec-status {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .rec-fused { background: var(--success-light); color: var(--success); }
+        .rec-stable { background: var(--warning-light); color: var(--warning); }
+        .rec-failed { background: var(--accent-light); color: var(--accent); }
+        .btn-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .btn {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-reset {
+            background: var(--border);
+            color: var(--text);
+        }
+        .btn-reset:hover { background: #cbd5e0; }
+        .btn-export {
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn-export:hover { background: var(--primary-light); }
+        .section {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-lighter);
+            letter-spacing: -0.01em;
+        }
+        .section h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin: 1.25rem 0 0.5rem;
+        }
+        .section h4 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 1rem 0 0.4rem;
+        }
+        .section p {
+            margin-bottom: 0.75rem;
+        }
+        .section ul, .section ol {
+            margin: 0.5rem 0 0.75rem 1.25rem;
+        }
+        .section li {
+            margin-bottom: 0.35rem;
+        }
+        .evidence-badge {
+            display: inline-block;
+            padding: 1px 8px;
+            border-radius: 10px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .ev-1 { background: #c6f6d5; color: #276749; }
+        .ev-2 { background: #bee3f8; color: #2b6cb0; }
+        .ev-3 { background: #fefcbf; color: #975a16; }
+        .ev-4 { background: #fed7d7; color: #c53030; }
+        .ev-5 { background: #e9d8fd; color: #553c9a; }
+        .ev-ns { background: #e2e8f0; color: #718096; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+        table caption {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+        th {
+            background: var(--primary);
+            color: #fff;
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.78rem;
+        }
+        td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        tr:nth-child(even) td {
+            background: #f7fafc;
+        }
+        .callout {
+            background: #ebf8ff;
+            border-left: 4px solid var(--primary-light);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1rem 0;
+            font-size: 0.88rem;
+        }
+        .callout-warning {
+            background: #fffaf0;
+            border-left-color: var(--warning);
+        }
+        .callout-danger {
+            background: #fff5f5;
+            border-left-color: var(--accent);
+        }
+        .callout strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .ref-list {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            list-style: decimal;
+            margin-left: 1.5rem;
+        }
+        .ref-list li {
+            margin-bottom: 0.35rem;
+        }
+        .ref-list a {
+            color: var(--primary-light);
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .ref-list a:hover { text-decoration: underline; }
+        .hu-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 999;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            aside { order: -1; }
+            .sidebar-card {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+            header { padding: 1.25rem 1rem; }
+            header h1 { font-size: 1.2rem; }
+            .section { padding: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header role="banner">
+    <h1>Radiologic Assessment of HA-Coated 3D-Printed Porous Titanium Interbody Cages</h1>
+    <p>Comprehensive evidence-based educational summary &mdash; Osseointegration grading systems, CT protocols, and quantitative analysis</p>
+</header>
+
+<div class="layout">
+<main role="main" aria-label="Main educational content">
+
+<!-- Section 1: Introduction -->
+<div class="section">
+    <h2>1. Introduction: Additive Manufacturing Meets Spinal Arthrodesis</h2>
+    <p>The convergence of additive manufacturing (AM) technologies and advanced biomaterials has transformed spinal interbody fusion. The evolution from traditional autologous structural bone grafts to synthetic interbody cages has necessitated a parallel evolution in radiologic assessment criteria. Historically, surgical exploration&mdash;the gold standard for fusion assessment&mdash;gave way to static plain radiography, which offered a non-invasive but limited two-dimensional view of complex three-dimensional biological processes.</p>
+    <p>As implant materials progressed from solid titanium and carbon fiber to polyetheretherketone (PEEK), and now to <strong>3D-printed porous titanium (3D-pTi)</strong> architectures, the limitations of conventional imaging became increasingly apparent. The introduction of <strong>hydroxyapatite (HA) coatings</strong> to porous titanium scaffolds further complicated the radiologic picture, introducing a material that mimics the radiodensity of native bone while creating unique artifacts that challenge standard assessment protocols.</p>
+
+    <div class="callout">
+        <strong>Clinical Imperative</strong>
+        Accurate fusion assessment is critical: <strong>pseudarthrosis</strong> remains a leading cause of persistent postoperative pain and revision surgery. False positives can lead to neglected instability; false negatives can result in unnecessary revision surgeries. Modern 3D-printed porous cages facilitate bone ingrowth into cage walls themselves&mdash;a phenomenon requiring distinct radiologic signs and more sophisticated imaging modalities.
+    </div>
+
+    <h3>1.1 Evolution of Interbody Materials</h3>
+    <p>The material evolution precipitating new grading systems follows a clear trajectory:</p>
+    <table>
+        <caption>Table 1: Evolution of Interbody Cage Materials and Imaging Challenges</caption>
+        <thead>
+            <tr>
+                <th>Material Era</th>
+                <th>Key Properties</th>
+                <th>Imaging Challenge</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Solid Titanium / Carbon Fiber</strong></td>
+                <td>Mechanically robust; radiopaque</td>
+                <td>Metal artifacts obscure internal fusion mass on CT/plain films <span class="evidence-badge ev-ns">not specified in source</span></td>
+            </tr>
+            <tr>
+                <td><strong>PEEK</strong></td>
+                <td>Radiolucent polymer; elastic modulus similar to bone; biologically inert</td>
+                <td>Fibrous tissue "halo" at bone-implant interface complicates osseointegration diagnosis <span class="evidence-badge ev-5">Source ref. 1</span></td>
+            </tr>
+            <tr>
+                <td><strong>3D-Printed Porous Titanium (3D-pTi)</strong></td>
+                <td>Interconnected lattice (60&ndash;80% porosity); mimics trabecular bone; optimized for osteoconduction <span class="evidence-badge ev-5">Source ref. 2</span></td>
+                <td>Requires MAR protocols; lattice visualization challenges; intra-cage ingrowth detection needed</td>
+            </tr>
+            <tr>
+                <td><strong>HA-Coated 3D-pTi</strong></td>
+                <td>Osteoconductive calcium phosphate coating; high HU density overlapping with cortical bone <span class="evidence-badge ev-5">Source ref. 3</span></td>
+                <td>HA density confounds bone detection; requires DECT material decomposition; "blooming" artifact <span class="evidence-badge ev-5">Source ref. 11</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Section 2: Biomaterials & Osseointegration -->
+<div class="section">
+    <h2>2. Theoretical Framework: Biomaterials &amp; Osseointegration</h2>
+
+    <h3>2.1 Porous Titanium Scaffolds</h3>
+    <p>The fundamental premise of 3D-pTi cages is to support not merely "on-growth" (surface attachment) but <strong>"in-growth"</strong> (bone penetrating the inner implant volume). Research indicates that a <strong>pore size of 300&ndash;600 &mu;m</strong> is optimal for vascularization and osteoblast migration. <span class="evidence-badge ev-5">Source ref. 5</span></p>
+    <p>In ovine (sheep) lumbar fusion models, 3D-pTi cages demonstrated <strong>significantly greater total bone volume</strong> within the graft window and porous structure compared to PEEK cages. Micro-CT analysis quantified bone ingrowth into the porous architecture at approximately <strong>24% by volume (BV/TV) at 16 weeks</strong>, compared to 0% for solid PEEK implants. <span class="evidence-badge ev-5">Source ref. 7</span></p>
+
+    <h3>2.2 Hydroxyapatite (HA) Coatings</h3>
+    <p>HA coatings bridge the titanium substrate and host bone, providing a calcium- and phosphate-rich surface that accelerates initial osseointegration. Pre-clinical studies have shown <strong>faster bone apposition and higher interfacial shear strength</strong> with HA-coated implants versus uncoated titanium. <span class="evidence-badge ev-5">Source ref. 8</span></p>
+
+    <div class="callout callout-warning">
+        <strong>Radiologic Complexity of HA Coatings</strong>
+        On standard CT, HA has a radiodensity overlapping with cortical bone (&gt;800 HU). Successful fusion manifests as a <strong>blurring of the sharp HA rim</strong> as it integrates into new bone. Conversely, a persistent <strong>sharp radiolucent line</strong> between the HA coating and adjacent bone indicates fibrous encapsulation and integration failure. The "blooming" artifact can exaggerate coating thickness, potentially obscuring early loosening. <span class="evidence-badge ev-5">Source refs. 10, 11</span>
+    </div>
+</div>
+
+<!-- Section 3: CT Physics -->
+<div class="section">
+    <h2>3. Physics of Radiologic Assessment: CT &amp; Artifacts</h2>
+
+    <h3>3.1 CT Principles in Metal Implants</h3>
+    <p>CT is the modality of choice for assessing spinal fusion, offering cross-sectional views free of superimposition. Images are displayed as Hounsfield Units (HU), with water at 0 HU, air at -1000 HU, and dense bone ranging from 300 to &gt;1000 HU. <span class="evidence-badge ev-5">Source ref. 12</span></p>
+    <p>Metal implants disrupt the attenuation map via two primary artifact types:</p>
+    <ol>
+        <li><strong>Beam Hardening:</strong> Lower-energy photons are absorbed preferentially by metal; the "hardened" beam produces dark streaks (hypodensities) between metal objects that can mimic radiolucent gaps&mdash;leading to false diagnoses of pseudarthrosis. <span class="evidence-badge ev-5">Source ref. 14</span></li>
+        <li><strong>Photon Starvation:</strong> Insufficient photons reach the detector in highly dense regions, causing severe noise and streak artifacts that can obscure the cage interior.</li>
+    </ol>
+
+    <h3>3.2 Metal Artifact Reduction (MAR) Techniques</h3>
+    <p>Modern CT scanners employ <strong>iterative reconstruction algorithms</strong> (e.g., O-MAR, SEMAR, iMAR) that identify and correct metal projections in raw data before image reconstruction, significantly improving bone-implant interface visualization. <span class="evidence-badge ev-5">Source ref. 16</span></p>
+    <p><strong>Virtual Monochromatic Imaging (VMI)</strong> from Dual-Energy CT (DECT) synthesizes images as if acquired with a monochromatic beam (typically 100&ndash;140 keV), substantially reducing beam hardening. High-energy VMI reconstructions (110&ndash;140 keV) provide <strong>superior visualization of trabecular structure within titanium cages</strong> compared to standard polychromatic 120 kVp images. <span class="evidence-badge ev-5">Source ref. 14</span></p>
+
+    <h3>3.3 Dual-Energy CT (DECT) &amp; Material Decomposition</h3>
+    <p>DECT acquires data at two energy spectra (e.g., 80 kVp and 140 kVp). Because different materials attenuate X-rays differently, DECT can mathematically separate them. For HA-coated cages, <strong>Hydroxyapatite-Water (HAP-Water)</strong> or <strong>Hydroxyapatite-Fat (HAP-Fat)</strong> material decomposition pairs suppress titanium signal and specifically map calcium-based structure density, enabling quantification of HA density (mg/cm&sup3;) and differentiation between synthetic coating and biological bone. <span class="evidence-badge ev-5">Source ref. 19</span></p>
+</div>
+
+<!-- Section 4: Qualitative Grading -->
+<div class="section">
+    <h2>4. Qualitative Grading Systems for Fusion Assessment</h2>
+
+    <h3>4.1 Limitations of the "Sentinel Sign"</h3>
+    <p>The "Sentinel Sign" (anterior bridging bone on lateral radiographs) has shown a <strong>sensitivity of only 33&ndash;87% and specificity of 56&ndash;90%</strong>, with <strong>low inter-observer reliability (kappa&nbsp;=&nbsp;0.23)</strong> for titanium cages. An anterior bridge does not guarantee interbody fusion; "locked pseudarthrosis" can occur where external bone stabilizes a non-integrated segment. Reliance on the Sentinel Sign is <strong>discouraged</strong> for porous titanium implants. <span class="evidence-badge ev-5">Source ref. 23</span></p>
+
+    <h3>4.2 Modified Bridwell Classification</h3>
+    <p>Originally developed for anterior lumbar interbody fusion (ALIF) with allograft, the Bridwell classification remains widely used, adapted for synthetic cages. <span class="evidence-badge ev-5">Source ref. 26</span></p>
+    <table>
+        <caption>Table 2: Modified Bridwell Classification for Porous Titanium Cages</caption>
+        <thead>
+            <tr><th>Grade</th><th>Description</th><th>CT Characteristics for Porous Titanium</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Grade I</strong></td>
+                <td>Fused</td>
+                <td>Continuous bridging trabeculae across disc space. No radiolucent lines at cage-endplate interface. Graft remodeling evident.</td>
+            </tr>
+            <tr>
+                <td><strong>Grade II</strong></td>
+                <td>Intact Graft</td>
+                <td>Graft intact but not fully remodeled. No radiolucent lines; continuous bridging not fully visualized (often artifact-related). Considered "stable."</td>
+            </tr>
+            <tr>
+                <td><strong>Grade III</strong></td>
+                <td>Pseudarthrosis</td>
+                <td>Intact graft with definite radiolucent line (gap/"halo") at cranial or caudal endplate.</td>
+            </tr>
+            <tr>
+                <td><strong>Grade IV</strong></td>
+                <td>Collapse/Resorption</td>
+                <td>Gross graft resorption, disc height collapse, or cage migration/subsidence &gt;2&nbsp;mm with instability.</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>In studies comparing titanium-coated PEEK (Ti-PEEK) and bare PEEK, Ti-PEEK cages often achieve Grade I status earlier, although long-term fusion rates may converge. <span class="evidence-badge ev-5">Source ref. 28</span></p>
+
+    <h3>4.3 Tan et al. Classification System</h3>
+    <p>The Tan classification provides a more granular assessment of the cage-bone interface, particularly relevant for HA-coated implants. <span class="evidence-badge ev-5">Source ref. 29</span></p>
+    <table>
+        <caption>Table 3: Tan et al. Classification System</caption>
+        <thead>
+            <tr><th>Grade</th><th>Classification</th><th>Radiologic Criteria</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Grade 1</strong></td>
+                <td>Complete Union</td>
+                <td>Continuous bony trabeculae across fusion site. No gap between cage and endplate.</td>
+            </tr>
+            <tr>
+                <td><strong>Grade 2</strong></td>
+                <td>Partial Union</td>
+                <td>Bone bridging covers &gt;50% of fusion area, but minor gaps or radiolucencies persist.</td>
+            </tr>
+            <tr>
+                <td><strong>Grade 3</strong></td>
+                <td>Unipolar Non-union</td>
+                <td>Radiolucency along entire length of one endplate (superior OR inferior).</td>
+            </tr>
+            <tr>
+                <td><strong>Grade 4</strong></td>
+                <td>Bipolar Non-union</td>
+                <td>Radiolucency ("halo") along BOTH superior and inferior endplates; frank looseness.</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Studies using this system have consistently shown that <strong>porous titanium cages exhibit higher rates of Grade 1 fusion at 6 and 12 months</strong> compared to PEEK, which often lingers in Grade 2 or 3 due to the fibrous interface. <span class="evidence-badge ev-5">Source ref. 32</span></p>
+</div>
+
+<!-- Section 5: CT-Based Intra-Cage Grading -->
+<div class="section">
+    <h2>5. CT-Based Intra-Cage Bone Ingrowth Classification</h2>
+    <p>The unique architecture of 3D-printed cages&mdash;specifically the distinction between "windowed" cages (large central void for graft material) and "non-windowed" or "block" cages (relying entirely on the porous lattice)&mdash;has necessitated specific scoring systems beyond the binary "fused/not fused" paradigm. <span class="evidence-badge ev-5">Source ref. 3</span></p>
+
+    <h3>5.1 Intra-Cage Bridging Bone (InCBB) Score</h3>
+    <p><strong>Target Application:</strong> Windowed 3D-Printed Titanium Cages</p>
+    <table>
+        <caption>Table 4: InCBB Score</caption>
+        <thead>
+            <tr><th>Grade</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Grade 0</strong></td>
+                <td>No bridging bone at superior or inferior endplates within central window. Window appears radiolucent or contains non-remodeled graft material not continuous with host bone.</td>
+            </tr>
+            <tr>
+                <td><strong>Grade 1 (Incomplete)</strong></td>
+                <td>Bridging present at either superior <strong>OR</strong> inferior endplate, but not both. Alternatively, bridging visible but interrupted by a clear non-union radiolucent line traversing the graft.</td>
+            </tr>
+            <tr>
+                <td><strong>Grade 2 (Complete)</strong></td>
+                <td>Continuous bony bridging connecting superior and inferior endplates through the central window. Trabeculae are continuous; density consistent with host bone.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>5.2 Surface Osteointegration Ratio (SOR) Score</h3>
+    <p><strong>Target Application:</strong> Non-Windowed (Block) Porous Titanium Cages</p>
+    <p>For cages lacking a central window, the SOR score evaluates the <strong>cage-endplate interface</strong> on sagittal CT reconstructions as a proxy for internal ingrowth. <span class="evidence-badge ev-5">Source ref. 3</span></p>
+    <table>
+        <caption>Table 5: SOR Score</caption>
+        <thead>
+            <tr><th>Score</th><th>Criteria</th><th>Interpretation</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>0 Points</strong></td>
+                <td>Radiolucent line visible along <strong>&gt;50%</strong> of endplate interface (Superior or Inferior).</td>
+                <td>Poor Osteointegration / Non-union</td>
+            </tr>
+            <tr>
+                <td><strong>1 Point</strong></td>
+                <td>Integration (no radiolucent line) along <strong>&gt;50%</strong> of <strong>ONE</strong> endplate (Superior OR Inferior).</td>
+                <td>Partial Integration</td>
+            </tr>
+            <tr>
+                <td><strong>2 Points</strong></td>
+                <td>Integration (no radiolucent line) along <strong>&gt;50%</strong> of <strong>BOTH</strong> endplates.</td>
+                <td>Successful Fusion</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <strong>Validation</strong>
+        Clinical trials demonstrated a strong correlation between SOR score and mechanical stability. Patients achieving SOR&nbsp;=&nbsp;2 showed significantly reduced segmental motion (&lt;1&deg; on flexion-extension X-rays) compared to lower scores. <span class="evidence-badge ev-5">Source ref. 3</span>
+    </div>
+
+    <h3>5.3 Extra-Cage Bridging Bone (ExCBB) Score</h3>
+    <p><strong>Target Application:</strong> All Cage Types</p>
+    <p>The ExCBB score quantifies extra-cage bone (sentinel bridging) across five zones: Anterior, Posterior, Left, Right, and Intermediate.</p>
+    <ul>
+        <li><strong>Scoring per zone:</strong> 0 (No bridging), 1 (Incomplete), 2 (Complete)</li>
+        <li><strong>Composite maximum:</strong> 10 points</li>
+        <li><strong>Relevance:</strong> High ExCBB scores correlate with stability but do not confirm implant biological success. A high ExCBB with low InCBB/SOR may indicate "locked pseudarthrosis." <span class="evidence-badge ev-5">Source ref. 34</span></li>
+    </ul>
+</div>
+
+<!-- Section 6: Quantitative CT Analysis -->
+<div class="section">
+    <h2>6. Quantitative CT Analysis: Hounsfield Units &amp; Color Mapping</h2>
+
+    <h3>6.1 HU Tissue Characterization</h3>
+    <p>Regions of Interest (ROIs) at the cage-endplate interface and within cage windows enable objective tracking of fusion maturation. <span class="evidence-badge ev-5">Source ref. 12</span></p>
+    <table>
+        <caption>Table 6: Tissue Characterization by Hounsfield Unit Range</caption>
+        <thead>
+            <tr><th>Color Indicator</th><th>HU Range</th><th>Tissue Type</th><th>Clinical Significance</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="hu-indicator" style="background:#a0aec0;"></span></td>
+                <td>&lt; 100 HU</td>
+                <td>Fluid, Fat, Fibrous Tissue</td>
+                <td>Interface gap or non-union</td>
+            </tr>
+            <tr>
+                <td><span class="hu-indicator" style="background:#9ae6b4;"></span></td>
+                <td>100 &ndash; 300 HU</td>
+                <td>Soft Tissue / Immature Cartilage</td>
+                <td>Fibrous union ("clinical fusion" without osseous continuity)</td>
+            </tr>
+            <tr>
+                <td><span class="hu-indicator" style="background:#68d391;"></span></td>
+                <td>300 &ndash; 800 HU</td>
+                <td><strong>Early Trabecular Bone (Osteoid)</strong></td>
+                <td>Target range for early fusion assessment (3&ndash;6 months)</td>
+            </tr>
+            <tr>
+                <td><span class="hu-indicator" style="background:#c05621;"></span></td>
+                <td>800 &ndash; 1200+ HU</td>
+                <td><strong>Mature Remodeled Bone</strong></td>
+                <td>Solid arthrodesis</td>
+            </tr>
+            <tr>
+                <td><span class="hu-indicator" style="background:#e53e3e;"></span></td>
+                <td>&gt; 1500 HU</td>
+                <td>Titanium/HA Artifact</td>
+                <td>Must be filtered/excluded from ROI analysis</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Studies evaluating Ti-coated PEEK cages demonstrated a <strong>median postoperative HU increase of 22.4%</strong> in fused segments compared to a <strong>decrease of -19.8%</strong> in non-fused segments. <span class="evidence-badge ev-5">Source ref. 36</span></p>
+
+    <h3>6.2 Bone Volume Fraction (BV/TV)</h3>
+    <p>BV/TV represents the percentage of porous void volume occupied by mineralized bone&mdash;the gold standard in pre-clinical and retrieval studies.</p>
+    <ul>
+        <li><strong>Benchmark:</strong> HA-coated porous titanium cages achieve BV/TV of <strong>20&ndash;25%</strong> within the porous lattice at 16 weeks in ovine models. <span class="evidence-badge ev-5">Source ref. 7</span></li>
+        <li>Uncoated PEEK cages typically show <strong>0% BV/TV in the cage wall</strong>, relying solely on central graft (~30&ndash;40% BV/TV in window).</li>
+        <li>Clinical CT with MAR can approximate BV/TV by threshold-segmentation within cage ROI, though resolution limits (~500&nbsp;&mu;m) may underestimate micro-porous ingrowth vs. Micro-CT (~20&ndash;50&nbsp;&mu;m).</li>
+    </ul>
+
+    <h3>6.3 Bone Ingrowth Depth</h3>
+    <p>Successful long-term stability correlates with an ingrowth depth of <strong>&gt;1.5&nbsp;mm</strong>. Pore sizes &lt;100&nbsp;&mu;m result in superficial "on-growth" (depth &lt;0.5&nbsp;mm), while pores &gt;300&nbsp;&mu;m facilitate deep "in-growth" (&gt;2&nbsp;mm) engaging the full lattice depth. <span class="evidence-badge ev-5">Source ref. 6</span></p>
+</div>
+
+<!-- Section 7: Pre-Clinical Evidence -->
+<div class="section">
+    <h2>7. Pre-Clinical Evidence: Biological Foundation</h2>
+
+    <h3>7.1 Ovine (Sheep) Models</h3>
+    <p>Sheep are preferred for spinal fusion research due to biomechanical lumbar spine similarity to humans.</p>
+    <div class="callout">
+        <strong>Landmark Ovine Study</strong> <span class="evidence-badge ev-5">Source ref. 7</span><br>
+        Compared PEEK, Plasma-Sprayed Ti (PSP), and 3D-Printed Porous Ti (PTA) cages.
+        <ul style="margin-top:0.35rem;">
+            <li>At 16 weeks, PTA cages showed <strong>significantly higher bone volume and reduced ROM</strong> vs. PEEK.</li>
+            <li>Only PTA group demonstrated statistically significant construct stiffness increase between 8&ndash;16 weeks.</li>
+            <li>Radiologic evidence of "lattice filling" (Micro-CT BV/TV &gt;20%) validated as proxy for biomechanical stability.</li>
+        </ul>
+    </div>
+
+    <h3>7.2 Porcine (Pig) Models</h3>
+    <p>Porcine models investigated optimal porosity for titanium cages. <span class="evidence-badge ev-5">Source ref. 2</span></p>
+    <ul>
+        <li>Comparison of 20%, 40%, 60%, and 80% porosity cages found that <strong>60% porosity</strong> offered the best balance of mechanical strength and biological ingrowth.</li>
+        <li>60% porosity cages exhibited the <strong>lowest subsidence rates</strong> and highest osteogenic marker expression (Alkaline Phosphatase).</li>
+        <li>Higher radiodensity values in the fusion mass correlated with biological activity, confirming HU as a biologically relevant fusion marker.</li>
+    </ul>
+</div>
+
+<!-- Section 8: Clinical Evidence -->
+<div class="section">
+    <h2>8. Clinical Evidence: Human Trials &amp; Outcomes</h2>
+
+    <h3>8.1 3D-pTi vs. PEEK: Fusion Rate Debate</h3>
+    <p>Meta-analyses comparing 3D-pTi and PEEK cages reveal distinct temporal patterns: <span class="evidence-badge ev-1">Source ref. 40 (meta-analysis)</span></p>
+    <table>
+        <caption>Table 7: Fusion Rate Comparison &mdash; 3D-Printed Titanium vs. PEEK</caption>
+        <thead>
+            <tr><th>Timepoint</th><th>3D-pTi</th><th>PEEK</th><th>Significance</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>6&ndash;12 months (early)</strong></td>
+                <td>~95.8%</td>
+                <td>~62.5%</td>
+                <td>Statistically significant advantage for 3D-pTi</td>
+            </tr>
+            <tr>
+                <td><strong>18&ndash;24 months (long-term)</strong></td>
+                <td>~94%</td>
+                <td>~80&ndash;90%</td>
+                <td>Rates converge; no significant difference</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="callout callout-warning">
+        <strong>Clinical Implication</strong>
+        A low SOR or InCBB score at 6 months with <strong>HA-coated 3D-pTi suggests failure of the primary osteoconductive mechanism</strong>, warranting closer surveillance. The same score at 6 months with PEEK may represent delayed but acceptable fusion trajectory.
+    </div>
+
+    <h3>8.2 Subsidence Analysis</h3>
+    <p>Subsidence&mdash;the sinking of the cage into the vertebral endplate&mdash;is a major complication affecting fusion assessment.</p>
+    <ul>
+        <li>Despite concern that metal is "too stiff," porous titanium cages often show <strong>lower subsidence rates than solid PEEK</strong> (5.8% vs. 9.9% in one trial). <span class="evidence-badge ev-5">Source ref. 41</span></li>
+        <li>The porous surface distributes load more evenly, preventing localized stress risers.</li>
+        <li><strong>Subsidence &gt;2&nbsp;mm</strong> is the standard threshold for clinically significant subsidence, strongly correlated with lower fusion grades and pseudarthrosis. <span class="evidence-badge ev-5">Source ref. 43</span></li>
+    </ul>
+
+    <h3>8.3 Role of HA Coating in Humans</h3>
+    <p>Clinical studies confirm the "blurring" phenomenon: successful cases show gradual loss of the distinct HA rim on CT. Failures are marked by a <strong>"double halo"</strong>&mdash;a radiolucent line separating dense HA from vertebral bone. In osteoporotic patients, HA coating provides a critical density buffer at the interface, improving pull-out strength trackable via regional HU measurements. <span class="evidence-badge ev-5">Source ref. 44</span></p>
+</div>
+
+<!-- Section 9: Landmark Studies Summary -->
+<div class="section">
+    <h2>9. Summary of Landmark Studies</h2>
+    <table>
+        <caption>Table 8: Key Studies Referenced in This Review</caption>
+        <thead>
+            <tr><th>#</th><th>Study / Ref.</th><th>Design</th><th>Key Finding</th><th>LOE</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Ovine model (Ref. 7)</td>
+                <td>Pre-clinical animal (sheep)</td>
+                <td>3D-pTi achieved 24% BV/TV at 16 weeks vs. 0% for PEEK; correlated with biomechanical stability</td>
+                <td><span class="evidence-badge ev-5">Level V</span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Porcine porosity study (Ref. 2)</td>
+                <td>Pre-clinical animal (pig)</td>
+                <td>60% porosity optimal for strength-biology balance; lowest subsidence</td>
+                <td><span class="evidence-badge ev-5">Level V</span></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>SOR pilot trial (Ref. 3)</td>
+                <td>Prospective pilot clinical trial</td>
+                <td>Validated SOR score as reliable radiologic surrogate for mechanical fusion in non-windowed implants</td>
+                <td><span class="evidence-badge ev-3">Level III</span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>3D-pTi vs. PEEK (Ref. 40)</td>
+                <td>Systematic review / meta-analysis</td>
+                <td>3D-pTi: 95.8% early fusion vs. PEEK 62.5%; long-term convergence</td>
+                <td><span class="evidence-badge ev-1">Level I</span></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Subsidence meta-analysis (Ref. 32)</td>
+                <td>Systematic review / meta-analysis</td>
+                <td>Porous Ti cages show lower subsidence rates than solid PEEK in lateral lumbar interbody fusion</td>
+                <td><span class="evidence-badge ev-1">Level I</span></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Sentinel Sign reliability (Ref. 23)</td>
+                <td>Diagnostic accuracy study</td>
+                <td>Sentinel Sign: sensitivity 33&ndash;87%, specificity 56&ndash;90%, kappa&nbsp;=&nbsp;0.23; inadequate for titanium cages</td>
+                <td><span class="evidence-badge ev-2">Level II</span></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>HU mapping (Ref. 36)</td>
+                <td>Clinical cohort</td>
+                <td>22.4% HU increase in fused segments vs. -19.8% in non-fused; color mapping predictive</td>
+                <td><span class="evidence-badge ev-2">Level II</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <p><em>Note: The source document primarily references pre-clinical animal models and pilot clinical trials. Evidence for standardized human clinical grading remains limited; this represents an active area of investigation.</em></p>
+</div>
+
+<!-- Section 10: Recommended Protocol -->
+<div class="section">
+    <h2>10. Recommended Radiologic Protocol</h2>
+    <table>
+        <caption>Table 9: Summary of Recommended Radiologic Protocols for 3D-pTi Cages</caption>
+        <thead>
+            <tr><th>Protocol Step</th><th>Recommendation</th><th>Rationale</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Modality</strong></td>
+                <td>CT with MAR (O-MAR / iMAR)</td>
+                <td>Essential to visualize porous lattice and reduce beam hardening</td>
+            </tr>
+            <tr>
+                <td><strong>Material Decomposition</strong></td>
+                <td>DECT (HAP-Water / HAP-Fat)</td>
+                <td>Differentiate HA coating from new bone formation <span class="evidence-badge ev-5">Ref. 19</span></td>
+            </tr>
+            <tr>
+                <td><strong>Windowing</strong></td>
+                <td>Extended Scale (WW &gt;1500)</td>
+                <td>Reduce "blooming" of HA coating to see true interface</td>
+            </tr>
+            <tr>
+                <td><strong>Grading (Windowed)</strong></td>
+                <td>InCBB Score (0&ndash;2)</td>
+                <td>Assesses traditional graft window fusion</td>
+            </tr>
+            <tr>
+                <td><strong>Grading (Block)</strong></td>
+                <td>SOR Score (0&ndash;2)</td>
+                <td>Assesses interface integration critical for porous Ti</td>
+            </tr>
+            <tr>
+                <td><strong>Quantitative Threshold</strong></td>
+                <td>&gt; 300 HU</td>
+                <td>Minimum density to confirm osteoid/bone vs. fibrosis</td>
+            </tr>
+            <tr>
+                <td><strong>Subsidence Check</strong></td>
+                <td>&gt; 2 mm threshold</td>
+                <td>Clinically significant failure correlating with non-union</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Section 11: Future Directions -->
+<div class="section">
+    <h2>11. Discussion &amp; Future Directions</h2>
+
+    <h3>11.1 Need for Standardization</h3>
+    <p>The current landscape is fragmented. A unified "Porous Implant Fusion Score" is needed, integrating:</p>
+    <ol>
+        <li><strong>Interface Integration (SOR):</strong> Weighted heavily for non-windowed cages</li>
+        <li><strong>Lattice Ingrowth (Quantitative HU):</strong> Using standardized HU thresholds (&gt;300 HU)</li>
+        <li><strong>Mechanical Stability (Subsidence):</strong> Penalizing scores for subsidence &gt;2&nbsp;mm</li>
+    </ol>
+
+    <h3>11.2 Advanced Imaging: Radiomics &amp; Texture Analysis</h3>
+    <p>The future lies in <strong>Radiomics</strong>&mdash;algorithms extracting texture features (heterogeneity, skewness, kurtosis) imperceptible to the human eye. Preliminary research suggests that texture analysis within porous cages can <strong>predict bone ingrowth quality more accurately than mean HU values</strong>. Machine learning models could automate BV/TV calculation from standard clinical scans, providing a "digital biopsy" of the fusion mass.</p>
+</div>
+
+<!-- References -->
+<div class="section">
+    <h2>References</h2>
+    <ol class="ref-list">
+        <li id="ref1">Fusion assessment in standalone lateral lumbar interbody fusion. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9547697/" target="_blank" rel="noopener">PMC9547697</a></li>
+        <li id="ref2">In Vitro and In Vivo Comparison of Bone Growth Characteristics in Additive-Manufactured Porous Titanium, Nonporous Titanium, and Porous Tantalum Interbody Cages. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9147460/" target="_blank" rel="noopener">PMC9147460</a></li>
+        <li id="ref3">Feasibility of Non-window Three-Dimensional–Printed Porous Titanium Cage in Posterior Lumbar Interbody Fusion: A Pilot Trial. <a href="https://www.researchgate.net/publication/375830066" target="_blank" rel="noopener">ResearchGate</a></li>
+        <li id="ref5">Osteointegration of 3D-Printed Fully Porous Polyetheretherketone Scaffolds with Different Pore Sizes. <a href="https://pubs.acs.org/doi/10.1021/acsomega.0c03489" target="_blank" rel="noopener">ACS Omega</a></li>
+        <li id="ref6">Porous construction and surface modification of titanium-based materials for osteogenesis: A review. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9452912/" target="_blank" rel="noopener">PMC9452912</a></li>
+        <li id="ref7">Bony ingrowth potential of 3D-printed porous titanium alloy. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6388616/" target="_blank" rel="noopener">PMC6388616</a></li>
+        <li id="ref8">Comparison of hydroxyapatite and hydroxyapatite tricalcium-phosphate coatings. <a href="https://pubmed.ncbi.nlm.nih.gov/12375251/" target="_blank" rel="noopener">PubMed 12375251</a></li>
+        <li id="ref10">Bone Quantification Around Chitosan-Coated Titanium Dental Implants: Micro-CT Analysis. <a href="https://www.frontiersin.org/articles/10.3389/fbioe.2022.858786/full" target="_blank" rel="noopener">Frontiers</a></li>
+        <li id="ref11">Hounsfield units for CT with hydroxyapatite. <a href="https://www.researchgate.net/figure/Hounsfield-units-HU-for-CTWATER-R-0-mg-100-and-200-mg-of-hydroxyapatite-cm-3_fig2_338340244" target="_blank" rel="noopener">ResearchGate</a></li>
+        <li id="ref12">Predictive value of Hounsfield units for titanium mesh cage subsidence after anterior cervical corpectomy. <a href="https://www.frontiersin.org/articles/10.3389/fsurg.2022.1012364/full" target="_blank" rel="noopener">Frontiers</a></li>
+        <li id="ref14">Appearance of titanium cage on dual-energy CT (DECT). <a href="https://www.researchgate.net/fig2_357163601" target="_blank" rel="noopener">ResearchGate</a></li>
+        <li id="ref16">Surface Modification of 3D-Printed Custom-Made Prostheses. <a href="https://www.researchgate.net/publication/399358712" target="_blank" rel="noopener">ResearchGate</a></li>
+        <li id="ref19">Diagnostic Accuracy of Dual-Energy CT Material Decomposition Technique for Assessing Bone Status. <a href="https://www.mdpi.com/2075-4418/13/10/1751" target="_blank" rel="noopener">MDPI Diagnostics</a></li>
+        <li id="ref23">Reliability and accuracy of fine-cut CT scans for anterior interbody fusions with metallic cages. <a href="https://www.researchgate.net/publication/5572356" target="_blank" rel="noopener">ResearchGate</a></li>
+        <li id="ref26">Bridwell Interbody Fusion Grading Classification. <a href="https://www.researchgate.net/fig1_368509442" target="_blank" rel="noopener">ResearchGate</a></li>
+        <li id="ref28">Clinical and radiological results of TLIF surgery with titanium-coated PEEK or uncoated PEEK cages. <a href="https://www.researchgate.net/publication/374116045" target="_blank" rel="noopener">ResearchGate</a></li>
+        <li id="ref29">CT-based classification of long spinal allograft fusion. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2223338/" target="_blank" rel="noopener">PMC2223338</a></li>
+        <li id="ref32">3D-printed porous titanium versus PEEK cages in lateral lumbar interbody fusion: meta-analysis of subsidence. <a href="https://www.frontiersin.org/articles/10.3389/fmed.2024.1389533/full" target="_blank" rel="noopener">Frontiers</a></li>
+        <li id="ref34">IN-PRESS ARTICLE. <a href="https://bktimes.net/data/board_notice/1727679026-23.pdf" target="_blank" rel="noopener">PDF</a></li>
+        <li id="ref36">Computed tomography color mapping for evaluation of bone. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6155981/" target="_blank" rel="noopener">PMC6155981</a></li>
+        <li id="ref40">Fusion assessment in standalone lateral lumbar interbody fusion: 3D-printed titanium vs PEEK. <a href="https://jss.amegroups.org/article/view/5775/html" target="_blank" rel="noopener">J Spine Surg</a></li>
+        <li id="ref41">Radiological evaluation of fusion patterns after Lateral Lumbar Interbody Fusion. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11518840/" target="_blank" rel="noopener">PMC11518840</a></li>
+        <li id="ref43">Biportal Endoscopic Transforaminal Lumbar Interbody Fusion Using Double Cages. <a href="https://www.e-neurospine.org/journal/view.php?number=1372" target="_blank" rel="noopener">Neurospine</a></li>
+        <li id="ref44">Trabecular Bone Remodeling After PLIF: Osseointegration in 3D Porous Ti vs. PEEK Cages (Response). <a href="https://www.researchgate.net/publication/390246850" target="_blank" rel="noopener">ResearchGate</a></li>
+    </ol>
+</div>
+
+</main>
+
+<!-- Sidebar -->
+<aside role="complementary" aria-label="Interactive clinical assessment tools">
+<div class="sidebar-card">
+    <h2>Clinical Assessment Simulator</h2>
+    <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:1rem;">Adjust parameters to simulate CT findings and receive real-time fusion recommendations based on source document criteria.</p>
+
+    <!-- Slider 1: HU Value -->
+    <div class="slider-group">
+        <label for="huSlider">Interface Hounsfield Unit (HU)</label>
+        <input type="range" id="huSlider" min="0" max="2000" value="500" step="10" aria-label="Hounsfield unit value at cage endplate interface">
+        <div class="slider-value" id="huDisplay">500 HU</div>
+        <div class="range-labels"><span>0 (Fluid)</span><span>300 (Bone)</span><span>2000 (Artifact)</span></div>
+    </div>
+
+    <!-- Slider 2: Subsidence -->
+    <div class="slider-group">
+        <label for="subsSlider">Subsidence (mm)</label>
+        <input type="range" id="subsSlider" min="0" max="8" value="1" step="0.1" aria-label="Subsidence measurement in millimeters">
+        <div class="slider-value" id="subsDisplay">1.0 mm</div>
+        <div class="range-labels"><span>0 mm</span><span>2 mm (threshold)</span><span>8 mm</span></div>
+    </div>
+
+    <!-- Slider 3: Integration % -->
+    <div class="slider-group">
+        <label for="sorSlider">Endplate Integration (%)</label>
+        <input type="range" id="sorSlider" min="0" max="100" value="60" step="1" aria-label="Percentage of endplate interface with direct bone integration">
+        <div class="slider-value" id="sorDisplay">60%</div>
+        <div class="range-labels"><span>0%</span><span>50% (SOR threshold)</span><span>100%</span></div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation-box" id="recBox">
+        <h3>Real-Time Recommendation</h3>
+        <div id="recStatus" class="rec-status rec-stable">Assessing&hellip;</div>
+        <div id="recText">Adjust sliders to evaluate fusion status.</div>
+        <div id="recRationale" style="margin-top:0.5rem; font-size:0.78rem; color:var(--text-muted);"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+        <button class="btn btn-reset" id="btnReset" aria-label="Reset all sliders to default values">Reset</button>
+        <button class="btn btn-export" id="btnExport" aria-label="Export current assessment to clipboard">Copy Report</button>
+    </div>
+</div>
+</aside>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+(function(){
+    const huSlider = document.getElementById('huSlider');
+    const subsSlider = document.getElementById('subsSlider');
+    const sorSlider = document.getElementById('sorSlider');
+    const huDisplay = document.getElementById('huDisplay');
+    const subsDisplay = document.getElementById('subsDisplay');
+    const sorDisplay = document.getElementById('sorDisplay');
+    const recStatus = document.getElementById('recStatus');
+    const recText = document.getElementById('recText');
+    const recRationale = document.getElementById('recRationale');
+    const btnReset = document.getElementById('btnReset');
+    const btnExport = document.getElementById('btnExport');
+    const toast = document.getElementById('toast');
+
+    function assess() {
+        const hu = parseFloat(huSlider.value);
+        const subs = parseFloat(subsSlider.value);
+        const sor = parseFloat(sorSlider.value);
+
+        huDisplay.textContent = hu + ' HU';
+        subsDisplay.textContent = subs.toFixed(1) + ' mm';
+        sorDisplay.textContent = sor + '%';
+
+        let status, text, rationale, statusClass;
+
+        // Build assessment based on source document thresholds
+        let huOk = hu >= 300;
+        let subsOk = subs <= 2;
+        let sorOk = sor >= 50;
+
+        if (hu >= 300 && hu <= 1200 && subs <= 2 && sor >= 50) {
+            status = 'FUSION LIKELY';
+            statusClass = 'rec-fused';
+            let grade = 'Bridwell Grade I / Tan Grade 1';
+            if (hu >= 800) grade += ' (Mature bone density)';
+            else grade += ' (Early osteoid density)';
+            let sorScore = sor >= 50 && sor < 100 ? 'SOR = 1 (Partial)' : 'SOR = 2 (Successful)';
+            text = 'Findings consistent with <strong>successful osseointegration</strong>. ' + grade + '. ' + sorScore + '.';
+            rationale = 'Rationale: Interface HU ≥300 confirms osteoid/bone formation (Source §6.1). Subsidence ≤2 mm is within acceptable range (Source §8.2). Integration ≥50% of endplate(s) meets SOR criteria (Source §5.2).';
+        } else if (hu >= 300 && subs <= 2 && sor < 50) {
+            status = 'PARTIAL INTEGRATION';
+            statusClass = 'rec-stable';
+            text = 'Findings suggest <strong>partial osseointegration</strong>. Bone density present (HU ≥300) but endplate integration &lt;50% falls below SOR threshold. Consider: Bridwell Grade II / Tan Grade 2&ndash;3.';
+            rationale = 'Rationale: Adequate HU but insufficient interface integration per SOR score (Source §5.2). Monitor at next interval; delayed fusion may still progress with HA-coated 3D-pTi.';
+        } else if (subs > 2) {
+            status = 'CLINICALLY SIGNIFICANT SUBSIDENCE';
+            statusClass = 'rec-failed';
+            text = 'Subsidence <strong>&gt;2 mm</strong> is clinically significant and strongly correlates with pseudarthrosis (Source §8.2). Consider Bridwell Grade IV classification.';
+            let sorText = sor >= 50 ? ' Despite adequate integration, mechanical failure is present.' : ' Poor integration compounds the mechanical concern.';
+            text += sorText;
+            rationale = 'Rationale: Subsidence &gt;2 mm threshold established in Source §8.2 and Table 9 as the standard for clinically significant failure. Revision may be warranted if symptomatic.';
+        } else if (hu < 100) {
+            status = 'NON-UNION LIKELY';
+            statusClass = 'rec-failed';
+            text = 'Interface density &lt;100 HU indicates <strong>fluid, fat, or fibrous tissue</strong> at the cage-bone interface. This is consistent with pseudarthrosis (Bridwell Grade III / Tan Grade 3&ndash;4).';
+            rationale = 'Rationale: HU &lt;100 excludes osseous tissue (Source §6.1). A radiolucent halo at the interface indicates fibrous encapsulation and failure of HA-mediated osseointegration (Source §2.2).';
+        } else if (hu >= 100 && hu < 300) {
+            status = 'FIBROUS UNION';
+            statusClass = 'rec-stable';
+            text = 'Interface density 100&ndash;300 HU suggests <strong>soft tissue or immature cartilage</strong> at the interface. This represents fibrous union ("clinical fusion" without osseous continuity). Consider Bridwell Grade II&ndash;III / Tan Grade 2&ndash;3.';
+            rationale = 'Rationale: HU 100&ndash;300 represents non-osseous soft tissue (Source §6.1). Not yet confirmed as bony arthrodesis; requires serial monitoring. If no progression toward ≥300 HU at 12 months with HA-coated 3D-pTi, concern for primary mechanism failure is warranted.';
+        } else if (hu > 1500) {
+            status = 'HA/METAL ARTIFACT ZONE';
+            statusClass = 'rec-stable';
+            text = 'HU &gt;1500 likely represents <strong>titanium/HA artifact</strong>, not biological tissue. These values must be excluded from ROI analysis. Recommend DECT material decomposition (HAP-Water) to differentiate coating from bone.';
+            rationale = 'Rationale: Source §6.1 identifies &gt;1500 HU as artifact range. Standard CT cannot reliably differentiate HA coating from mature bone at this density; DECT with material decomposition (Source §3.3) is recommended.';
+        } else {
+            status = 'BORDERLINE ASSESSMENT';
+            statusClass = 'rec-stable';
+            text = 'Mixed findings: evaluate clinical context. Consider serial imaging and additional DECT material decomposition.';
+            rationale = 'Rationale: Values do not clearly meet criteria for successful fusion or definitive non-union. Source recommends multimodal assessment (Source §10, Table 9).';
+        }
+
+        recStatus.textContent = status;
+        recStatus.className = 'rec-status ' + statusClass;
+        recText.innerHTML = text;
+        recRationale.textContent = rationale;
+    }
+
+    huSlider.addEventListener('input', assess);
+    subsSlider.addEventListener('input', assess);
+    sorSlider.addEventListener('input', assess);
+
+    btnReset.addEventListener('click', function(){
+        huSlider.value = 500;
+        subsSlider.value = 1;
+        sorSlider.value = 60;
+        assess();
+    });
+
+    btnExport.addEventListener('click', function(){
+        const now = new Date().toISOString();
+        const hu = huSlider.value;
+        const subs = parseFloat(subsSlider.value).toFixed(1);
+        const sor = sorSlider.value;
+        const status = recStatus.textContent;
+        const recPlainText = recText.textContent;
+        const rat = recRationale.textContent;
+
+        const report = [
+            '=== CLINICAL ASSESSMENT REPORT ===',
+            'Timestamp: ' + now,
+            '',
+            'PARAMETERS:',
+            '  Interface HU: ' + hu,
+            '  Subsidence: ' + subs + ' mm',
+            '  Endplate Integration: ' + sor + '%',
+            '',
+            'ASSESSMENT: ' + status,
+            'RECOMMENDATION: ' + recPlainText,
+            '',
+            rat,
+            '',
+            '---',
+            'Source: Radiologic Assessment of HA-Coated 3D-Printed Porous Titanium Interbody Cages (Literature Review)',
+            'Disclaimer: Thresholds derived from source document. Clinical correlation required.'
+        ].join('\n');
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(report).then(function(){
+                showToast();
+            }).catch(function(){
+                fallbackCopy(report);
+            });
+        } else {
+            fallbackCopy(report);
+        }
+    });
+
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast(); }
+        catch(e) { alert('Copy failed. Please copy manually.'); }
+        document.body.removeChild(ta);
+    }
+
+    function showToast() {
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+    }
+
+    // Initial assessment
+    assess();
+})();
+</script>
+
+</body>
+</html>

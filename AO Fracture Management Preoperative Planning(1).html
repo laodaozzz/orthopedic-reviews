@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preoperative Planning in Orthopedic Trauma: An AO Principles Algorithm</title>
+    <style>
+        :root {
+            --primary-blue: #2c5282;
+            --secondary-blue: #4299e1;
+            --light-gray: #f7fafc;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #2d3748;
+            --accent-green: #48bb78;
+            --accent-red: #f56565;
+            --accent-orange: #ed8936;
+            --border-radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        aside {
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            border-bottom: 2px solid var(--secondary-blue);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            color: var(--primary-blue);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.4rem;
+        }
+
+        h4 {
+            color: var(--dark-gray);
+            margin: 1.2rem 0 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            color: var(--primary-blue);
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 0.3rem;
+            vertical-align: middle;
+        }
+
+        .level-I {
+            background-color: #c6f6d5;
+            color: #22543d;
+        }
+
+        .level-II {
+            background-color: #fefcbf;
+            color: #975a16;
+        }
+
+        .level-III {
+            background-color: #fed7d7;
+            color: #9b2c2c;
+        }
+
+        .level-IV, .level-V {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .note {
+            background-color: #ebf8ff;
+            border-left: 4px solid var(--secondary-blue);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .warning {
+            background-color: #fff5f5;
+            border-left: 4px solid var(--accent-red);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        caption {
+            font-weight: bold;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        th {
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tr:hover {
+            background-color: #edf2f7;
+        }
+
+        .phase-header {
+            background-color: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0 1rem;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .phase-header h3 {
+            margin: 0;
+            color: var(--primary-blue);
+        }
+
+        .slider-container {
+            margin: 1.5rem 0;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .slider-value {
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--medium-gray);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: #2b4a78;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .recommendation-box {
+            background-color: #f0fff4;
+            border: 1px solid var(--accent-green);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .recommendation-box h4 {
+            color: var(--accent-green);
+            margin-top: 0;
+        }
+
+        .reference-section {
+            border-top: 2px solid var(--medium-gray);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .reference-item {
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .reference-item sup {
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            aside {
+                position: static;
+                order: -1;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #copyNotification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-green);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        #copyNotification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Preoperative Planning in Orthopedic Trauma</h1>
+            <p>A Systematic Algorithmic Approach Based on AO Principles</p>
+        </header>
+
+        <main>
+            <!-- Introduction -->
+            <section class="card">
+                <h2>Introduction: The Philosophy of Planning</h2>
+                <p>The operative management of musculoskeletal trauma demands a seamless integration of biomechanics, physiology, and anatomy. The Arbeitsgemeinschaft für Osteosynthesefragen (AO) Foundation provides a rigorous framework for fracture management anchored in four principles: <strong>anatomic reduction</strong>, <strong>stable fixation</strong>, <strong>atraumatic technique</strong>, and <strong>early mobilization</strong>.<sup>1,2</sup></p>
+                <p>Preoperative planning is not optional; it is the critical first step. "Failing to plan is planning to fail."<sup>5</sup> An algorithmic approach allows surgeons to mentally rehearse the procedure, anticipate difficulties, and ensure seamless coordination.<sup>9</sup></p>
+                <div class="note">
+                    <strong>Key Insight:</strong> The goal of planning is to define the "personality of the fracture" – the precise bony morphology, soft-tissue envelope status, and patient's physiological reserve.<sup>4</sup>
+                </div>
+            </section>
+
+            <!-- Phase I -->
+            <div class="phase-header">
+                <h3>Phase I: Systemic Patient Evaluation & Resuscitation</h3>
+            </div>
+
+            <section class="card">
+                <h2>1.1 Timing of Fracture Fixation</h2>
+                <p>The patient's systemic physiology dictates surgical timing. The strategy must balance the "second hit" of surgery against the benefits of early stabilization.<sup>11</sup></p>
+
+                <h3>Damage Control Orthopedics (DCO)</h3>
+                <p>For hemodynamically unstable patients or those with severe TBI, <strong>DCO</strong> is indicated. This prioritizes life-saving interventions: controlling hemorrhage, preventing further soft-tissue injury, and applying temporary external fixation.<sup>12</sup> Definitive fixation is delayed until physiology stabilizes (e.g., 7-10 days for pelvis).<sup>12</sup></p>
+
+                <h3>Early Appropriate Care (EAC)</h3>
+                <p>For patients who respond to resuscitation, <strong>EAC</strong> is the evidence-based standard.<sup>15,16</sup> Definitive fixation of major fractures within the first 36 hours is safe if specific metabolic thresholds are met:</p>
+                <ul>
+                    <li>Serum lactate ≤ 2.0 mmol/L <span class="evidence-badge level-II">II</span></li>
+                    <li>Arterial pH ≥ 7.25 <span class="evidence-badge level-II">II</span></li>
+                    <li>Base excess (BE) ≥ -5 mEq/L <span class="evidence-badge level-II">II</span></li>
+                </ul>
+                <p>Successful EAC implementation correlates with lower rates of sepsis, pneumonia, PE, DVT, shorter ICU and hospital stays.<sup>15,16</sup></p>
+            </section>
+
+            <!-- Phase II -->
+            <div class="phase-header">
+                <h3>Phase II: Local Soft-Tissue Assessment</h3>
+            </div>
+
+            <section class="card">
+                <h2>2.1 Soft-Tissue Envelope: The Critical Determinant</h2>
+                <p>Every fracture is a severe soft-tissue injury.<sup>17</sup> The status of the envelope is the most critical local factor for surgical approach, timing, and prognosis.<sup>17,18</sup></p>
+
+                <h3>Timing Based on Soft-Tissue Status</h3>
+                <p>In severe closed injuries (pilon, tibial plateau), immediate surgery through compromised skin risks dehiscence and infection.<sup>19</sup> A deliberate delay is often required. The <strong>"wrinkle sign"</strong> – the return of skin elasticity as edema subsides – is a reliable indicator that tissues can tolerate incision.<sup>19</sup> This resuscitation may require up to 14 days, necessitating interim stabilization like spanning external fixation.<sup>19</sup></p>
+
+                <h3>Classification of Soft-Tissue Injury</h3>
+                <p>Standardized classification guides antibiotic protocols, predicts infection, and alerts to need for plastic surgery.<sup>21</sup></p>
+
+                <h4>Gustilo-Anderson Classification for Open Fractures</h4>
+                <table>
+                    <caption>Table 1: Gustilo-Anderson Classification (Open Fractures)</caption>
+                    <thead>
+                        <tr>
+                            <th>Grade</th>
+                            <th>Clinical Characteristics</th>
+                            <th>Surgical & Pharmacological Implications</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Type I</strong></td>
+                            <td>Clean wound < 1cm; minimal contusion; simple fracture.</td>
+                            <td>Low infection risk (< 2%). Cephalosporin, primary closure.<sup>22</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Type II</strong></td>
+                            <td>Laceration 1-10cm; moderate damage; no extensive stripping.</td>
+                            <td>Moderate risk (2-5%). Thorough debridement, standard antibiotics.<sup>22</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Type IIIA</strong></td>
+                            <td>High-energy >10cm; severe crushing; adequate bone coverage.</td>
+                            <td>High risk (5-10%). Broad-spectrum antibiotics (add aminoglycoside); delayed closure.<sup>22</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Type IIIB</strong></td>
+                            <td>Massive loss; exposed bone; severe contamination.</td>
+                            <td>Severe risk (10-50%). Requires muscle flap or free tissue transfer.<sup>22</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Type IIIC</strong></td>
+                            <td>Any open fracture with arterial injury.</td>
+                            <td>Limb-threatening. Requires emergent vascular repair.<sup>22</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Tscherne Classification for Closed Fractures</h4>
+                <table>
+                    <caption>Table 2: Tscherne Classification (Closed Fractures)</caption>
+                    <thead>
+                        <tr>
+                            <th>Grade</th>
+                            <th>Clinical Presentation</th>
+                            <th>Impact on Planning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Grade 0</strong></td>
+                            <td>Minimal damage; low-energy torsion.</td>
+                            <td>Safe for immediate internal fixation.<sup>25</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grade 1</strong></td>
+                            <td>Superficial abrasions; localized contusions.</td>
+                            <td>Monitor; surgery may proceed if swelling localized.<sup>25</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grade 2</strong></td>
+                            <td>Deep abrasions; severe contusion; direct high-energy trauma.</td>
+                            <td>High risk of blisters/necrosis. Avoid compromised zones; delay indicated.<sup>25</sup></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grade 3</strong></td>
+                            <td>Extensive crush; muscle damage; subcutaneous avulsion; compartment syndrome.</td>
+                            <td>Limb-threatening. May need fasciotomy. Internal fixation contraindicated; use external fixator.<sup>25</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Clinical Note:</strong> Tscherne Grade III injuries can have deep infection rates as high as 50%, similar to severe open fractures.<sup>24</sup></p>
+            </section>
+
+            <!-- Phase III -->
+            <div class="phase-header">
+                <h3>Phase III: Radiological Imaging & AO/OTA Classification</h3>
+            </div>
+
+            <section class="card">
+                <h2>3.1 Diagnostic Imaging</h2>
+                <p>Begin with two orthogonal plain radiographs of the entire bone, including both joints.<sup>6</sup> Traction views under anesthesia can clarify morphology.</p>
+                <p>For complex articular injuries, <strong>CT is mandatory</strong>.<sup>29</sup> Advanced <strong>Cinematic Rendering (CR)</strong> provides photorealistic 3D models, achieving near-perfect inter-observer reliability (Kappa = 0.989) for distal femoral fractures, outperforming standard Volume Rendering.<sup>31</span></p>
+                <p>Imaging the contralateral limb provides a physiological baseline for reconstruction.</p>
+
+                <h2>3.2 The AO/OTA Classification (2018)</h2>
+                <p>This universal alphanumeric system translates morphology into a clinically actionable code, directly informing biomechanical requirements.<sup>34</sup></p>
+                <h4>Structure:</h4>
+                <ol>
+                    <li><strong>Bone Location:</strong> 1-Humerus, 2-Radius/Ulna, 3-Femur, 4-Tibia/Fibula, 5-Spine.<sup>35</sup></li>
+                    <li><strong>Segment:</strong> 1-Proximal, 2-Diaphysis, 3-Distal, (4-Malleolar).<sup>35</sup></li>
+                    <li><strong>Fracture Type:</strong>
+                        <ul>
+                            <li><strong>Diaphysis:</strong> A=Simple, B=Wedge, C=Multifragmentary.</li>
+                            <li><strong>End-Segment:</strong> A=Extra-articular, B=Partial articular, C=Complete articular.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Group, Subgroup, Modifiers:</strong> Further details, including modifiers for osteopenia, arthritis, or instability (e.g., M1/M2 in spine).<sup>34</sup></li>
+                </ol>
+                <p><strong>Reliability:</strong> The 2018 system shows moderate to substantial inter-observer reliability for diaphyseal femoral fractures (Fleiss kappa 0.528-0.580).<sup>41</sup></p>
+            </section>
+
+            <!-- Phase IV -->
+            <div class="phase-header">
+                <h3>Phase IV: Biomechanics of Stability</h3>
+            </div>
+
+            <section class="card">
+                <h2>4.1 Absolute vs. Relative Stability</h2>
+                <p>The chosen stability directly modulates the biological response and healing pathway.<sup>44</sup></p>
+
+                <h3>Absolute Stability</h3>
+                <ul>
+                    <li><strong>Definition:</strong> Complete elimination of interfragmentary motion.<sup>45</sup></li>
+                    <li><strong>Biological Effect:</strong> Suppresses callus formation. Healing occurs via <strong>primary (direct) bone healing</strong> (osteonal cutting cones).<sup>46</sup></li>
+                    <li><strong>Indications:</strong> All intra-articular fractures (Types B & C). Also preferred for simple metaphyseal/diaphyseal fractures (Type A).<sup>4</sup></li>
+                    <li><strong>Techniques:</strong> Open anatomical reduction, interfragmentary lag screws, neutralization/dynamic compression plates.<sup>46</sup></li>
+                    <li><strong>Risks:</strong> Extensive dissection devascularizes bone; plates can impair perfusion, risking atrophic non-union.<sup>50,51</sup></li>
+                </ul>
+
+                <h3>Relative Stability</h3>
+                <ul>
+                    <li><strong>Definition:</strong> Permits controlled microscopic motion.<sup>45</sup></li>
+                    <li><strong>Biological Effect:</strong> Stimulates periosteum/soft tissues, leading to <strong>secondary (indirect) bone healing</strong> via callus formation.<sup>46</sup></li>
+                    <li><strong>Indications:</strong> Complex, comminuted diaphyseal/metaphyseal fractures (Type C). Contraindicated for articular surfaces.<sup>46</sup></li>
+                    <li><strong>Techniques:</strong> "Functional reduction" (restore length, axis, rotation). Intramedullary nails, external fixators, bridge plating via MIPO.<sup>46,50</sup></li>
+                    <li><strong>Biomechanical Goal:</strong> Find the "golden mean" of flexibility to optimize strain for callus formation while preventing implant fatigue.<sup>45</sup></li>
+                </ul>
+            </section>
+
+            <!-- Phase V -->
+            <div class="phase-header">
+                <h3>Phase V: The Four-Stage Preoperative Algorithm</h3>
+            </div>
+
+            <section class="card">
+                <h2>5.1 The Surgical Planning Algorithm</h2>
+                <p>This structured methodology transforms concepts into an executable blueprint.<sup>5</sup></p>
+
+                <h3>Stage 1: Reconstructive Phase</h3>
+                <p>Conceptually reverse the trauma using tracing paper or digital software.<sup>9</sup></p>
+                <ol>
+                    <li><strong>Trace Baseline:</strong> Draw the intact contralateral bone as a template.<sup>6</sup></li>
+                    <li><strong>Trace Fragments:</strong> Outline each fragment from the injured side.<sup>6</sup></li>
+                    <li><strong>Virtual Restoration:</strong> Superimpose and manipulate fragments to fit the baseline, identifying bone voids and reduction maneuvers.<sup>6</sup></li>
+                </ol>
+
+                <h3>Stage 2: Tactical Decision-Making</h3>
+                <p>Bridge biology with surgical action.<sup>9</sup> For <strong>absolute stability</strong>, plan the inter-nervous approach and reduction tools.<sup>45,48</sup> For <strong>relative stability</strong>, plan indirect reduction with distractors, traction, or percutaneous joysticks.<sup>50</sup></p>
+
+                <h3>Stage 3: Fixation Templating</h3>
+                <p>Select and virtually apply scaled implants (magnification ~115%).<sup>6,9</sup></p>
+                <ul>
+                    <li>Determine plate/nail type, length, and need for pre-contouring.</li>
+                    <li>Plot every screw's location, type, and length.</li>
+                    <li>For bridge plating, calculate optimal plate <strong>"working length"</strong> to control flexibility and promote callus.<sup>45</sup></li>
+                </ul>
+
+                <h3>Stage 4: The Surgical Tactic & Logistics (PERFECT Mnemonic)</h3>
+                <p>A prescriptive, step-by-step sequence.<sup>5,60</sup></p>
+                <ul>
+                    <li><strong>P – Positioning & Preparation:</strong> Anesthesia, tourniquet, patient orientation, C-arm trajectory.<sup>59</sup></li>
+                    <li><strong>E – Exposure:</strong> Landmarks, incision, inter-nervous planes, atraumatic retraction.<sup>52</sup></li>
+                    <li><strong>R – Reduction:</strong> Sequence of traction, clamps, K-wires, and maneuvers.<sup>48</sup></li>
+                    <li><strong>F – Fixation:</strong> Order of hardware application (e.g., lag screw before plate).<sup>62</sup></li>
+                    <li><strong>E – Evaluation:</strong> Intraoperative checkpoints to confirm axes, congruity, and implant position match the plan.<sup>56</sup></li>
+                    <li><strong>C – Closure & Contingency:</strong> Meticulous closure, NPWT plan, and a <strong>mandatory backup plan</strong> for unexpected findings.<sup>5,27</sup></li>
+                    <li><strong>T – Therapy & Postoperative Care:</strong> VTE prophylaxis, antibiotics, CPM, and weight-bearing status dictated by construct strength.<sup>4</sup></li>
+                </ul>
+            </section>
+
+            <!-- EBM & Technology -->
+            <section class="card">
+                <h2>Integration of Evidence-Based Medicine & Technology</h2>
+                <p>Planning dramatically improves efficiency, reduces errors, blood loss, and complications.<sup>7,8</sup></p>
+
+                <h3>3D Printing & Virtual Surgical Planning (VSP)</h3>
+                <p>For complex pelvic/acetabular fractures, 3D-printed models allow physical rehearsal.<sup>68</sup> A meta-analysis of 922 patients showed:</p>
+                <ul>
+                    <li><strong>19.85%</strong> reduction in operative time.</li>
+                    <li><strong>25.73%</strong> reduction in intraoperative blood loss.</li>
+                    <li><strong>23.80%</strong> reduction in fluoroscopy use.<sup>69</sup></li>
+                </ul>
+
+                <h3>Artificial Intelligence (AI)</h3>
+                <p>AI automates fracture classification. Convolutional Neural Networks achieve AUC 0.90-0.93 for classifying malleolar and intertrochanteric fractures, matching senior surgeons.<sup>73,74</sup> AI-driven 3D planning also significantly outperforms manual templating for implant sizing (OR > 3.0).<sup>75</sup></p>
+            </section>
+
+            <!-- References -->
+            <section class="card reference-section">
+                <h2>References (Derived from Source Document)</h2>
+                <div class="reference-item"><sup>1</sup> AO Trauma NA Blended Course - Basic Principles of Fracture Management. <em>AO Foundation.</em></div>
+                <div class="reference-item"><sup>2</sup> AO Principles of Fracture Management. <em>Thieme.</em></div>
+                <div class="reference-item"><sup>4</sup> Principles of Fracture Fixation. <em>AO Foundation.</em></div>
+                <div class="reference-item"><sup>5</sup> AO Principles of Fracture Management (Chapter: Preoperative Planning). <em>Thieme.</em></div>
+                <div class="reference-item"><sup>6</sup> 2.4 Preoperative Planning. <em>Musculoskeletal Key.</em></div>
+                <div class="reference-item"><sup>7</sup> Preoperative Planning in Fracture Management. <em>Orthopedic Clinics of North America.</em></div>
+                <div class="reference-item"><sup>8</sup> Preoperative Planning in Orthopaedic Trauma Surgery: A Lost Art? <em>PubMed.</em></div>
+                <div class="reference-item"><sup>9</sup> Enhancing Preoperative Planning in Orthopedic Trauma Surgery Using a Presentation Software. <em>PMC.</em></div>
+                <div class="reference-item"><sup>11</sup> Clinical Workflow Algorithm for Preoperative Planning... Complex Acetabular Fractures. <em>PMC.</em></div>
+                <div class="reference-item"><sup>12</sup> Evaluation, Resuscitation & DCO. <em>Orthobullets.</em></div>
+                <div class="reference-item"><sup>15</sup> Prolonged resuscitation of metabolic acidosis after trauma... more complications. <em>PMC.</em></div>
+                <div class="reference-item"><sup>16</sup> Complications are reduced with a protocol to standardize timing of fixation... <em>PMC.</em></div>
+                <div class="reference-item"><sup>17</sup> Classifications In Brief: The Tscherne Classification of Soft Tissue Injury. <em>PMC.</em></div>
+                <div class="reference-item"><sup>18</sup> 1.5 Soft-tissue injury: pathophysiology, evaluation, and classification. <em>Thieme.</em></div>
+                <div class="reference-item"><sup>19</sup> Timing of surgery. <em>AO Surgery Reference.</em></div>
+                <div class="reference-item"><sup>21</sup> Gustilo-Anderson Classification. <em>PMC.</em></div>
+                <div class="reference-item"><sup>22</sup> Gustilo Anderson Open Fracture Classification. <em>thePlasticsFella.</em></div>
+                <div class="reference-item"><sup>24</sup> Absolute Stability (AS) vs. Relative Stability (RS): Two Complementary Approaches... <em>Leghe Leggere.</em></div>
+                <div class="reference-item"><sup>25</sup> Tscherne Classification. <em>Orthobullets.</em></div>
+                <div class="reference-item"><sup>27</sup> Supplemental Guide Template - ACGME.</div>
+                <div class="reference-item"><sup>29</sup> AO Principles of Fracture Management (Chapter: Imaging). <em>Thieme.</em></div>
+                <div class="reference-item"><sup>31</sup> Cinematic rendering improves the AO/OTA classification of distal femur fractures... <em>Frontiers.</em></div>
+                <div class="reference-item"><sup>33</sup> Relative lateral wall thickness is an improved predictor... <em>PMC.</em></div>
+                <div class="reference-item"><sup>34</sup> AO/OTA Fracture Classification 2018. <em>Scribd.</em></div>
+                <div class="reference-item"><sup>35</sup> AO/OTA Fracture and Dislocation Classification Compendium-2018.</div>
+                <div class="reference-item"><sup>41</sup> Reliability of the 2018 Revised Version of AO/OTA Classification for Femoral Shaft Fractures. <em>PMC.</em></div>
+                <div class="reference-item"><sup>44</sup> AO Principles of Fracture Management (Chapter: Stability). <em>Thieme.</em></div>
+                <div class="reference-item"><sup>45</sup> Principles of Internal Fixation. <em>Musculoskeletal Key.</em></div>
+                <div class="reference-item"><sup>46</sup> Relative stability: biomechanics, techniques, and fracture healing. <em>AO Basic.</em></div>
+                <div class="reference-item"><sup>48</sup> Reduction techniques. <em>AO Foundation.</em></div>
+                <div class="reference-item"><sup>50</sup> AO Principles of Fracture Management (Chapter: Biological Osteosynthesis). <em>Thieme.</em></div>
+                <div class="reference-item"><sup>52</sup> Reduction techniques. <em>Musculoskeletal Key.</em></div>
+                <div class="reference-item"><sup>56</sup> ORIF through sequential approaches for T-type. <em>AO Surgery Reference.</em></div>
+                <div class="reference-item"><sup>59</sup> 1 Preoperative Planning and Preparation. <em>Musculoskeletal Key.</em></div>
+                <div class="reference-item"><sup>60</sup> View of Preoperative Planning for Your Career. <em>JPOSNA.</em></div>
+                <div class="reference-item"><sup>62</sup> ORIF - Bridge plating (blade plate)... <em>AO Surgery Reference.</em></div>
+                <div class="reference-item"><sup>68</sup> Clinical Workflow Algorithm... 3D Technologies. <em>MDPI.</em></div>
+                <div class="reference-item"><sup>69</sup> Use of three-dimensional printing in preoperative planning... <em>PMC.</em></div>
+                <div class="reference-item"><sup>73</sup> Ankle fracture classification using deep learning... <em>Acta Orthopaedica.</em></div>
+                <div class="reference-item"><sup>74</sup> YOLOX-SwinT algorithm improves the accuracy of AO/OTA classification... <em>PMC.</em></div>
+                <div class="reference-item"><sup>75</sup> The accuracy of artificial intelligence in 3D preoperative planning for THA... <em>PMC.</em></div>
+            </section>
+        </main>
+
+        <aside>
+            <div class="card">
+                <h2>Clinical Decision Assistant</h2>
+                <p>Adjust key parameters to see real-time recommendations based on the AO algorithm.</p>
+
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Serum Lactate (mmol/L)</span>
+                        <span class="slider-value" id="lactateValue">2.0</span>
+                    </div>
+                    <input type="range" id="lactateSlider" min="0.5" max="8" step="0.1" value="2.0">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #718096; margin-top: 0.25rem;">
+                        <span>Normal (<1)</span>
+                        <span>EAC Threshold (≤2.0)</span>
+                        <span>Critical (>4)</span>
+                    </div>
+                </div>
+
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Arterial pH</span>
+                        <span class="slider-value" id="phValue">7.35</span>
+                    </div>
+                    <input type="range" id="phSlider" min="7.0" max="7.5" step="0.01" value="7.35">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #718096; margin-top: 0.25rem;">
+                        <span>Acidosis (<7.25)</span>
+                        <span>Normal</span>
+                        <span>Alkalosis (>7.45)</span>
+                    </div>
+                </div>
+
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Tscherne Soft-Tissue Grade</span>
+                        <span class="slider-value" id="tscherneValue">0</span>
+                    </div>
+                    <input type="range" id="tscherneSlider" min="0" max="3" step="1" value="0">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #718096; margin-top: 0.25rem;">
+                        <span>0 (Minimal)</span>
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3 (Severe)</span>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <strong>Note on Parameters:</strong> Lactate, pH, and Tscherne Grade thresholds are derived from the source document. Bone Density (T-score) and Spinal PI-LL mismatch parameters were not found in the source; default values shown are based on common clinical knowledge and are annotated as such.
+                </div>
+
+                <div class="recommendation-box" id="recommendationBox">
+                    <h4>Clinical Recommendation</h4>
+                    <p id="recommendationText">Patient parameters are within physiological norms for early definitive fixation. Standard AO preoperative planning algorithm can be initiated.</p>
+                </div>
+
+                <button class="btn" id="resetBtn">Reset Parameters</button>
+                <button class="btn btn-outline" id="copyBtn">Copy Assessment to Clipboard</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="copyNotification">Assessment copied to clipboard!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const lactateSlider = document.getElementById('lactateSlider');
+            const phSlider = document.getElementById('phSlider');
+            const tscherneSlider = document.getElementById('tscherneSlider');
+            const lactateValue = document.getElementById('lactateValue');
+            const phValue = document.getElementById('phValue');
+            const tscherneValue = document.getElementById('tscherneValue');
+            const recommendationText = document.getElementById('recommendationText');
+            const resetBtn = document.getElementById('resetBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const copyNotification = document.getElementById('copyNotification');
+
+            // Initial values
+            let currentValues = {
+                lactate: 2.0,
+                ph: 7.35,
+                tscherne: 0
+            };
+
+            // Update slider display values
+            function updateSliderDisplays() {
+                lactateValue.textContent = parseFloat(lactateSlider.value).toFixed(1);
+                phValue.textContent = parseFloat(phSlider.value).toFixed(2);
+                tscherneValue.textContent = tscherneSlider.value;
+                updateRecommendation();
+            }
+
+            // Generate recommendation based on current values
+            function updateRecommendation() {
+                const lactate = parseFloat(lactateSlider.value);
+                const ph = parseFloat(phSlider.value);
+                const tscherne = parseInt(tscherneSlider.value);
+                
+                let recommendation = "";
+                let canProceedEAC = true;
+                let stabilityStrategy = "";
+                let timing = "";
+                let notes = [];
+
+                // Check EAC criteria (from source document)
+                if (lactate > 2.0) {
+                    canProceedEAC = false;
+                    notes.push("Serum lactate >2.0 mmol/L: Does not meet EAC criteria.<sup>12,15</sup>");
+                }
+                if (ph < 7.25) {
+                    canProceedEAC = false;
+                    notes.push("Arterial pH <7.25: Does not meet EAC criteria.<sup>12,15</sup>");
+                }
+
+                // Determine timing based on EAC and Tscherne
+                if (canProceedEAC && tscherne <= 1) {
+                    timing = "Definitive fixation can proceed within 36 hours (EAC protocol).<sup>15,16</sup>";
+                } else if (tscherne >= 2) {
+                    timing = "Surgery must be delayed until soft tissues recover. Watch for 'wrinkle sign'.<sup>19</sup>";
+                } else {
+                    timing = "Resuscitation required before definitive fixation. Consider DCO if unstable.<sup>12</sup>";
+                }
+
+                // Determine stability strategy (general principle from source)
+                stabilityStrategy = "The AO/OTA classification and fracture morphology will dictate the choice between absolute stability (for articular/simple fractures) and relative stability (for comminuted fractures).<sup>4,44</sup>";
+
+                // Compile recommendation
+                recommendation = `<strong>Timing:</strong> ${timing}<br><br>`;
+                recommendation += `<strong>Biomechanical Strategy:</strong> ${stabilityStrategy}<br><br>`;
+                
+                if (notes.length > 0) {
+                    recommendation += "<strong>Alerts:</strong><ul>";
+                    notes.forEach(note => {
+                        recommendation += `<li>${note}</li>`;
+                    });
+                    recommendation += "</ul>";
+                } else {
+                    recommendation += "<strong>Alerts:</strong> No metabolic alerts. Patient appears suitable for early management based on these parameters.";
+                }
+
+                recommendation += `<br><br><small>Recommendation based on AO Principles source document thresholds.</small>`;
+
+                recommendationText.innerHTML = recommendation;
+            }
+
+            // Add event listeners to sliders
+            lactateSlider.addEventListener('input', updateSliderDisplays);
+            phSlider.addEventListener('input', updateSliderDisplays);
+            tscherneSlider.addEventListener('input', updateSliderDisplays);
+
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                lactateSlider.value = 2.0;
+                phSlider.value = 7.35;
+                tscherneSlider.value = 0;
+                updateSliderDisplays();
+            });
+
+            // Copy button
+            copyBtn.addEventListener('click', function() {
+                const lactate = lactateSlider.value;
+                const ph = phSlider.value;
+                const tscherne = tscherneSlider.value;
+                const timestamp = new Date().toLocaleString();
+                const recommendation = recommendationText.textContent || recommendationText.innerText;
+
+                const textToCopy = `AO Preoperative Planning Assessment
+===================================
+Date: ${timestamp}
+
+Patient Parameters:
+- Serum Lactate: ${lactate} mmol/L (EAC Threshold: ≤2.0)
+- Arterial pH: ${ph} (EAC Threshold: ≥7.25)
+- Tscherne Soft-Tissue Grade: ${tscherne}
+
+Clinical Recommendation:
+${recommendation}
+
+Note: Bone Density (T-score) and Spinal PI-LL mismatch parameters were not available in the source document and were not included in this assessment.
+---
+Generated from: Preoperative Planning in Orthopedic Trauma (AO Principles)`;
+
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    copyNotification.classList.add('show');
+                    setTimeout(() => {
+                        copyNotification.classList.remove('show');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy assessment. Please try again.');
+                });
+            });
+
+            // Initialize displays
+            updateSliderDisplays();
+        });
+    </script>
+</body>
+</html>

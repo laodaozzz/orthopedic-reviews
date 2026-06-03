@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Access Resources for Systematic Reviews &amp; Meta-Analyses – Interactive Educational Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #1e3a5f;
+            --primary-light: #2a5a8f;
+            --accent: #e8913a;
+            --accent-light: #fdf0e2;
+            --success: #2e7d32;
+            --success-bg: #e8f5e9;
+            --warning: #f57c00;
+            --warning-bg: #fff3e0;
+            --info: #1565c0;
+            --info-bg: #e3f2fd;
+            --danger: #c62828;
+            --danger-bg: #ffebee;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #212529;
+            --text-secondary: #555;
+            --border: #dee2e6;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --radius: 10px;
+            --sidebar-width: 320px;
+        }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Sticky Header */
+        .site-header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--primary);
+            color: #fff;
+            padding: 14px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .site-header h1 {
+            font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px;
+        }
+        .site-header .badge-header {
+            background: var(--accent); color: #fff; font-size: 0.7rem;
+            padding: 3px 10px; border-radius: 20px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* Layout */
+        .wrapper {
+            display: grid;
+            grid-template-columns: 1fr var(--sidebar-width);
+            gap: 28px;
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 28px 24px 60px;
+        }
+
+        main { min-width: 0; }
+
+        /* Sidebar */
+        aside.sidebar {
+            position: relative;
+        }
+        .sidebar-inner {
+            position: sticky; top: 76px;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            border: 1px solid var(--border);
+            max-height: calc(100vh - 96px);
+            overflow-y: auto;
+        }
+        .sidebar-inner h3 {
+            font-size: 0.85rem; text-transform: uppercase;
+            letter-spacing: 0.8px; color: var(--primary);
+            margin-bottom: 18px; padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        /* Sliders */
+        .slider-group { margin-bottom: 22px; }
+        .slider-group label {
+            display: block; font-size: 0.82rem; font-weight: 600;
+            color: var(--text); margin-bottom: 4px;
+        }
+        .slider-group .slider-desc {
+            font-size: 0.72rem; color: var(--text-secondary);
+            margin-bottom: 8px; line-height: 1.4;
+        }
+        .slider-group input[type="range"] {
+            width: 100%; accent-color: var(--primary);
+            cursor: pointer;
+        }
+        .slider-value {
+            text-align: right; font-size: 0.85rem; font-weight: 700;
+            color: var(--primary); margin-top: 2px;
+        }
+
+        /* Recommendation Box */
+        .recommendation-box {
+            margin-top: 20px; padding: 16px;
+            background: var(--info-bg);
+            border-left: 4px solid var(--info);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-size: 0.78rem; line-height: 1.55;
+        }
+        .recommendation-box h4 {
+            font-size: 0.82rem; margin-bottom: 8px; color: var(--primary);
+        }
+        .recommendation-box ul { padding-left: 16px; }
+        .recommendation-box li { margin-bottom: 4px; }
+
+        .sidebar-buttons {
+            display: flex; gap: 8px; margin-top: 16px;
+        }
+        .btn {
+            flex: 1; padding: 8px 12px; border: none; border-radius: 6px;
+            font-size: 0.75rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-reset {
+            background: var(--border); color: var(--text);
+        }
+        .btn-reset:hover { background: #ced4da; }
+        .btn-export {
+            background: var(--primary); color: #fff;
+        }
+        .btn-export:hover { background: var(--primary-light); }
+
+        .copy-toast {
+            display: none; position: fixed; bottom: 30px; left: 50%;
+            transform: translateX(-50%); background: #333; color: #fff;
+            padding: 10px 24px; border-radius: 8px; font-size: 0.8rem;
+            z-index: 999; animation: fadeInOut 2s ease;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; }
+        }
+
+        /* Content Cards */
+        .section-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 28px;
+            border: 1px solid var(--border);
+        }
+        .section-card h2 {
+            font-size: 1.45rem; font-weight: 800; color: var(--primary);
+            margin-bottom: 6px; letter-spacing: -0.5px;
+        }
+        .section-card h3 {
+            font-size: 1.1rem; font-weight: 700; color: var(--primary-light);
+            margin: 22px 0 10px;
+        }
+        .section-card h4 {
+            font-size: 0.95rem; font-weight: 600; color: var(--text);
+            margin: 16px 0 8px;
+        }
+        .section-card p {
+            margin-bottom: 12px; font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 0.95rem; color: var(--text-secondary); line-height: 1.75;
+        }
+        .section-card ul, .section-card ol {
+            padding-left: 22px; margin-bottom: 14px;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 0.95rem; color: var(--text-secondary);
+        }
+        .section-card li { margin-bottom: 6px; }
+        .section-card strong { color: var(--text); }
+
+        /* Evidence Badge */
+        .ev-badge {
+            display: inline-block; font-size: 0.62rem; font-weight: 700;
+            padding: 2px 7px; border-radius: 4px; vertical-align: middle;
+            margin-left: 4px; letter-spacing: 0.3px; text-transform: uppercase;
+        }
+        .ev-5 { background: #e0f2f1; color: #00695c; }
+        .ev-na { background: #f3e5f5; color: #6a1b9a; }
+        .ev-4 { background: #fff3e0; color: #e65100; }
+
+        /* Tables */
+        .table-wrapper { overflow-x: auto; margin: 16px 0 20px; }
+        table {
+            width: 100%; border-collapse: collapse; font-size: 0.82rem;
+        }
+        table caption {
+            text-align: left; font-weight: 700; font-size: 0.85rem;
+            color: var(--primary); margin-bottom: 8px; padding: 0;
+        }
+        thead th {
+            background: var(--primary); color: #fff; padding: 10px 12px;
+            text-align: left; font-weight: 600; font-size: 0.78rem;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        tbody td {
+            padding: 10px 12px; border-bottom: 1px solid var(--border);
+            vertical-align: top; line-height: 1.5;
+        }
+        tbody tr:nth-child(even) { background: #f8f9fb; }
+        tbody tr:hover { background: #eef2f7; }
+
+        /* Callout Box */
+        .callout {
+            padding: 16px 20px; border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 16px 0; font-size: 0.88rem; line-height: 1.6;
+        }
+        .callout-info { background: var(--info-bg); border-left: 4px solid var(--info); }
+        .callout-success { background: var(--success-bg); border-left: 4px solid var(--success); }
+        .callout-warning { background: var(--warning-bg); border-left: 4px solid var(--warning); }
+        .callout-danger { background: var(--danger-bg); border-left: 4px solid var(--danger); }
+        .callout strong { color: inherit; }
+
+        /* References */
+        .references { font-size: 0.78rem; color: var(--text-secondary); }
+        .references ol { padding-left: 20px; }
+        .references li { margin-bottom: 4px; line-height: 1.5; }
+        .ref-num {
+            display: inline-block; min-width: 20px; font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Limitation note */
+        .limitation-note {
+            background: #fff8e1; border: 1px dashed #f9a825;
+            padding: 10px 14px; border-radius: 6px; font-size: 0.78rem;
+            color: #795548; margin: 12px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 960px) {
+            .wrapper {
+                grid-template-columns: 1fr;
+            }
+            aside.sidebar {
+                order: -1;
+            }
+            .sidebar-inner {
+                position: relative; top: 0; max-height: none;
+            }
+            .site-header h1 { font-size: 0.95rem; }
+            .section-card { padding: 22px 18px; }
+        }
+
+        @media (max-width: 480px) {
+            .wrapper { padding: 14px 10px 40px; }
+            .section-card { padding: 16px 14px; }
+            .section-card h2 { font-size: 1.2rem; }
+            table { font-size: 0.72rem; }
+            thead th, tbody td { padding: 7px 8px; }
+        }
+
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed; bottom: 24px; right: 24px;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--primary); color: #fff; border: none;
+            font-size: 1.2rem; cursor: pointer; display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 90; transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>📚 Open-Access Resources for Systematic Reviews &amp; Meta-Analyses</h1>
+    <span class="badge-header">Interactive Guide</span>
+</header>
+
+<div class="wrapper">
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main role="main" aria-label="Main educational content">
+
+        <!-- Section 1: Introduction -->
+        <article class="section-card" id="intro">
+            <h2>The Imperative of Evidence Synthesis in Modern Medicine</h2>
+            <p>The integration of scientific evidence with clinical expertise and patient values represents the cornerstone of modern evidence-based medicine. The sheer volume of biomedical literature published annually has rendered traditional approaches to maintaining clinical currency entirely obsolete. A primary care physician would need to read approximately <strong>nineteen articles every day</strong>, equating to over <strong>six hundred hours per month</strong>, merely to keep pace with the literature in their field <span class="ref-num">[1]</span>. In highly specific sub-disciplines such as respiratory care, databases like PubMed process upwards of <strong>thirty thousand novel articles</strong> in a single calendar year—a volume that has more than doubled over the past decade <span class="ref-num">[1]</span>.</p>
+            <span class="ev-badge ev-5">Level V – Expert Opinion / Narrative Review</span>
+
+            <p>Among knowledge synthesis documents, the <strong>systematic review</strong> and its quantitative counterpart, the <strong>meta-analysis</strong>, occupy the absolute apex of the evidence hierarchy. Unlike traditional narrative reviews—which are susceptible to author bias and lack reproducible search parameters—systematic reviews employ a rigorous, predefined methodological framework to locate, appraise, and synthesize the totality of available evidence regarding a specific clinical question <span class="ref-num">[1]</span>. When sufficient homogeneity exists among included primary studies, researchers can utilize meta-analysis to pool data, generating highly precise estimates of effect sizes and resolving discrepancies between underpowered individual trials <span class="ref-num">[3]</span>.</p>
+            <span class="ev-badge ev-5">Level V – Established methodological principle</span>
+
+            <div class="callout callout-warning">
+                <strong>⚠ Key Challenge:</strong> Conducting a publication-quality systematic review demands exactitude across multiple phases: problem formulation, exhaustive literature retrieval, independent duplicate screening, rigorous risk-of-bias assessment, complex statistical pooling, and transparent reporting <span class="ref-num">[5]</span>. A failure to adhere to international standards at any juncture frequently results in flawed submissions, manuscript rejection, and the propagation of misguided clinical strategies <span class="ref-num">[7]</span>.
+            </div>
+
+            <p>This guide provides a granular, sequential analysis of the premier open-access resources tailored specifically for clinicians and medical professionals aiming to master systematic reviews and meta-analyses—from inception to publication in high-impact, peer-reviewed medical journals <span class="ref-num">[5]</span>.</p>
+        </article>
+
+        <!-- Section 2: Methodological Foundation / Courses -->
+        <article class="section-card" id="courses">
+            <h2>Establishing the Methodological Foundation: Open-Access Coursework</h2>
+            <p>Before drafting a protocol or executing a database search, clinicians must establish a robust theoretical understanding of evidence synthesis methodology. Uncritically embarking on a review without a firm grasp of the underlying principles of heterogeneity, bias assessment, and effect size calculation inevitably leads to the production of research waste <span class="ref-num">[2]</span>.</p>
+            <span class="ev-badge ev-5">Level V – Educational best practice</span>
+
+            <h3>The Campbell Collaboration / Open Learning Initiative (OLI)</h3>
+            <p>The most exhaustive, self-paced, and entirely free curriculum currently available is the <strong>"Systematic Reviews and Meta-Analysis"</strong> course, a joint venture between The Campbell Collaboration and Carnegie Mellon University's Open Learning Initiative <span class="ref-num">[5]</span>. Designed for graduate students, post-doctoral fellows, faculty, and senior clinicians with a baseline understanding of introductory statistics, the course provides a deep structural dive into the quantitative review process.</p>
+            <span class="ev-badge ev-na">Curricular resource – not formally graded</span>
+
+            <p>The pedagogical structure encompasses <strong>eight distinct units</strong> and <strong>forty specialized modules</strong> that mirror the lifecycle of a systematic review <span class="ref-num">[5]</span>:</p>
+            <ul>
+                <li><strong>Problem formulation:</strong> Framing an answerable clinical query using the <strong>PICOS framework</strong> (Population, Intervention, Comparison, Outcome, Study design), with rationale for narrow vs. broad review scopes.</li>
+                <li><strong>Logic models and search strategy:</strong> Working with information specialists, constructing concept-blocked search strategies, translating complex search syntax across databases.</li>
+                <li><strong>Meta-analytic modeling (Modules 29–36):</strong> Calculating standardized effect sizes (correlation, mean differences, odds ratios), interpreting forest plots, assessing heterogeneity via statistical tests and meta-regression, identifying publication bias through funnel plots <span class="ref-num">[5]</span>.</li>
+            </ul>
+
+            <div class="callout callout-success">
+                <strong>✓ Access:</strong> The "Open &amp; Free" version is entirely devoid of financial cost. During the pilot phase, independent learners are asked to provide feedback via surveys to refine the material.
+            </div>
+
+            <h3>Institutional MOOCs</h3>
+            <p>For clinicians who prefer structured, video-based lectures from leading academic medical centers, several MOOCs are available:</p>
+
+            <h4>MD Anderson Cancer Center (edX)</h4>
+            <p>A highly specialized five-week curriculum titled <strong>"CERTaIN: Knowledge Synthesis: Systematic Reviews and Clinical Decision Making"</strong> covers advanced topics frequently omitted from introductory materials: indirect comparisons (network meta-analysis), diagnostic test evaluation, economic evaluations, and decision analysis for outcomes research <span class="ref-num">[11]</span>. This course is particularly suitable for clinicians involved in health technology assessments or clinical practice guideline drafting.</p>
+
+            <h4>Johns Hopkins University (Coursera)</h4>
+            <p>A streamlined course focused specifically on the systematic review and meta-analysis of clinical trials, highly tailored for interventional physicians and trialists synthesizing direct evidence regarding therapeutic efficacy and safety <span class="ref-num">[13]</span>.</p>
+
+            <h3>The Cochrane Collaboration Training Ecosystem</h3>
+            <p>The Cochrane Collaboration is globally recognized as the ultimate arbiter of methodological rigor in evidence synthesis <span class="ref-num">[7]</span>. Cochrane provides a tiered ecosystem of learning resources:</p>
+            <ul>
+                <li><strong>Cochrane Evidence Essentials:</strong> A completely free, interactive introduction structured around four primary modules covering RCT fundamentals, evidence synthesis, and critical appraisal of rapid reviews, utilizing mixed-media formats including video, audio, and quizzes <span class="ref-num">[16, 17]</span>.</li>
+                <li><strong>Cochrane Interactive Learning:</strong> A more advanced, deeply technical curriculum. Module 1 (Introduction to conducting systematic reviews) is permanently free for all registered users <span class="ref-num">[20]</span>. Cochrane has instituted a global equity initiative granting <strong>100% free institutional access</strong> to the full suite for clinicians residing in Research4Life eligible nations (Hinari Group A and B) <span class="ref-num">[20]</span>.</li>
+            </ul>
+
+            <div class="table-wrapper">
+                <table aria-label="Comparison of open-access training providers">
+                    <caption>Table 1. Comparison of Open-Access Training Providers for Systematic Reviews</caption>
+                    <thead>
+                        <tr>
+                            <th>Training Provider</th>
+                            <th>Format &amp; Structure</th>
+                            <th>Key Methodological Focus</th>
+                            <th>Accessibility &amp; Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Campbell / OLI</strong></td>
+                            <td>Text / Interactive<br>(8 Units, 40 Modules)</td>
+                            <td>PICOS frameworks, meta-regression, effect sizes, search syntax translation</td>
+                            <td>100% free via "Open &amp; Free" platform <span class="ref-num">[5]</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>MD Anderson (edX)</strong></td>
+                            <td>Video Lectures<br>(5 Weeks)</td>
+                            <td>Network meta-analysis, diagnostic test evaluation, economic evaluation</td>
+                            <td>Free via platform audit track <span class="ref-num">[11]</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Johns Hopkins (Coursera)</strong></td>
+                            <td>Video Lectures</td>
+                            <td>Synthesis of clinical trials, interventional evidence</td>
+                            <td>Free via platform audit track <span class="ref-num">[13]</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cochrane Evidence Essentials</strong></td>
+                            <td>Mixed Media<br>(4 Core Modules)</td>
+                            <td>RCT fundamentals, critical appraisal of rapid reviews</td>
+                            <td>100% free with registration <span class="ref-num">[17]</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cochrane Interactive Learning</strong></td>
+                            <td>Advanced Interactive Modules</td>
+                            <td>PRISMA adherence, RoB 2, GRADE methodology</td>
+                            <td>Module 1 free globally; full access free for Research4Life nations <span class="ref-num">[20]</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <!-- Section 3: Protocol Development -->
+        <article class="section-card" id="protocol">
+            <h2>Protocol Development and Prospective Registration</h2>
+            <p>The foundation of any methodologically sound systematic review is the development of an <em>a priori</em> protocol. Formulating a highly precise research question is paramount; clinicians must utilize structured frameworks such as <strong>PICO(S)</strong>, <strong>PEO</strong>, <strong>SPICE</strong>, or <strong>SPIDER</strong> <span class="ref-num">[1]</span>. A predefined protocol prevents methodological drift, curtails the temptation to "fish" for statistically significant outcomes (p-hacking), and acts as a primary safeguard against reporting bias <span class="ref-num">[2]</span>.</p>
+            <span class="ev-badge ev-5">Level V – Methodological consensus</span>
+
+            <h3>The PROSPERO Registry</h3>
+            <p>To foster transparency and reduce research waste, clinical systematic review protocols must be prospectively registered. <strong>PROSPERO</strong> is the premier international prospective register of systematic reviews, produced by the Centre for Reviews and Dissemination (CRD) at the University of York, funded by the NIHR <span class="ref-num">[27]</span>. The database currently houses over <strong>four hundred thousand</strong> registered reviews <span class="ref-num">[27]</span>.</p>
+
+            <p>Registration is free but requires meticulous detail—twenty-eight specific fields outlining the study's scope, including precise databases to be searched, risk of bias tools, and planned methods for quantitative synthesis <span class="ref-num">[27]</span>.</p>
+
+            <div class="callout callout-danger">
+                <strong>🚨 Critical Timing Rule:</strong> Registration submission should only occur <em>once a fully complete protocol has been authored, but before formal screening of search results has commenced</em> <span class="ref-num">[26]</span>. If data extraction or statistical analysis has already been completed, the protocol is <strong>no longer eligible</strong> for prospective registration. Amendments during the review process must be formally logged within the registry <span class="ref-num">[26]</span>.
+            </div>
+
+            <p>Once published, PROSPERO automatically searches PubMed for matching publications and updates the registration record with the final DOI <span class="ref-num">[27]</span>. Clinicians should explicitly state their PROSPERO registration number in the methods section, as the vast majority of high-tier journals now mandate prospective registration <span class="ref-num">[26]</span>.</p>
+
+            <div class="table-wrapper">
+                <table aria-label="Comparison of PROSPERO and Research Registry features">
+                    <caption>Table 2. PROSPERO vs. Research Registry: Key Features</caption>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>PROSPERO</th>
+                            <th>Research Registry</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Specific to Systematic Reviews</td>
+                            <td>Yes</td>
+                            <td>No (broader scope) <span class="ref-num">[28]</span></td>
+                        </tr>
+                        <tr>
+                            <td>Mandatory Data Fields</td>
+                            <td>28 mandatory, 12 optional</td>
+                            <td>28 mandatory, 6 optional <span class="ref-num">[28]</span></td>
+                        </tr>
+                        <tr>
+                            <td>Record Assessment</td>
+                            <td>Evaluated for completeness prior to publication</td>
+                            <td>No prior evaluation; curation post-publication <span class="ref-num">[28]</span></td>
+                        </tr>
+                        <tr>
+                            <td>Search Capabilities</td>
+                            <td>Extensive: text words, MeSH terms, review characteristics</td>
+                            <td>Basic: investigator, text words, title <span class="ref-num">[28]</span></td>
+                        </tr>
+                        <tr>
+                            <td>Automated Updating</td>
+                            <td>Yes – automated PubMed matching <span class="ref-num">[27]</span></td>
+                            <td>Manual DOI link addition <span class="ref-num">[28]</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <!-- Section 4: Literature Retrieval -->
+        <article class="section-card" id="search">
+            <h2>Advanced Literature Retrieval and Search Strategy Formulation</h2>
+            <p>A systematic review is only as valid as the literature search upon which it is built. Comprehensive searches must span multiple major biomedical databases—principally <strong>PubMed/MEDLINE</strong>, <strong>Embase</strong>, and the <strong>Cochrane CENTRAL</strong>—to ensure no relevant data is inadvertently excluded <span class="ref-num">[4]</span>.</p>
+            <span class="ev-badge ev-5">Level V – Methodological standard</span>
+
+            <h3>Utilizing MeSH and Advanced Boolean Logic</h3>
+            <p>Clinicians must master the translation of clinical queries into database-optimized syntax. In PubMed, this relies on <strong>Medical Subject Headings (MeSH)</strong> <span class="ref-num">[32]</span>. A common error is over-reliance on simple keyword searches or built-in database filters (e.g., ticking the "Systematic Review" filter box). These filters limit results to citations already indexed with specific MeSH terms, actively excluding the most recently published literature that has not yet undergone manual indexing <span class="ref-num">[32]</span>.</p>
+
+            <p>An optimal search strategy must combine <strong>controlled vocabulary (MeSH terms)</strong> with an <strong>exhaustive list of free-text words</strong>, employing appropriate truncation symbols <span class="ref-num">[32]</span>. Free resources include:</p>
+            <ul>
+                <li><strong>MedSearch Solution YouTube masterclasses</strong> on strategic MeSH usage <span class="ref-num">[34]</span></li>
+                <li><strong>NLM/AHRQ white paper:</strong> "Systematic Review Search Strategy Development Tools: A Practical Guide for Expert Searchers" <span class="ref-num">[35]</span></li>
+            </ul>
+
+            <h3>The PRESS Checklist for Search Strategy Peer Review</h3>
+            <p>The <strong>Peer Review of Electronic Search Strategies (PRESS) 2015 Guideline</strong> is an indispensable, freely available resource <span class="ref-num">[37]</span>. Retrospective studies have revealed that <strong>up to 73% of published systematic reviews</strong> contain structural problems in their search strategies, with over half of these errors severe enough to substantially limit both sensitivity and precision <span class="ref-num">[39]</span>.</p>
+
+            <div class="table-wrapper">
+                <table aria-label="PRESS 2015 Checklist Elements">
+                    <caption>Table 3. PRESS 2015 Guideline: Seven-Element Checklist for Search Strategy Peer Review</caption>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Checklist Element</th>
+                            <th>Clinical Rationale &amp; Assessment Focus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Translation of the Research Question</td><td>Ensures all critical PICO elements are accurately represented in the search strategy <span class="ref-num">[37]</span></td></tr>
+                        <tr><td>2</td><td>Boolean and Proximity Operators</td><td>Verifies correct nesting of AND, OR, NOT; captures intended conceptual relationships <span class="ref-num">[37]</span></td></tr>
+                        <tr><td>3</td><td>Subject Headings</td><td>Checks database-specific headings (MeSH) for relevance, explosion, and floating subheadings <span class="ref-num">[40]</span></td></tr>
+                        <tr><td>4</td><td>Text Word Searching</td><td>Guarantees inclusion of synonyms, antonyms, acronyms, regional spelling variants, appropriate truncation <span class="ref-num">[40]</span></td></tr>
+                        <tr><td>5</td><td>Spelling, Syntax, and Line Numbers</td><td>Final proofread for typographical errors, broken syntax, incorrect line references <span class="ref-num">[40]</span></td></tr>
+                        <tr><td>6</td><td>Limits and Filters</td><td>Validates that applied limits do not inappropriately restrict recall <span class="ref-num">[40]</span></td></tr>
+                        <tr><td>7</td><td>Search Strategy Adaptations</td><td>Ensures accurate translation of the core MEDLINE search to Embase, Scopus, etc. <span class="ref-num">[37]</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Open-Access Toolkits from University Medical Libraries</h3>
+            <p><strong>Yale University Library</strong> offers an exceptional eleven-part, self-guided tutorial series covering scoping searches, identifying existing reviews, building strategies with subject headings, verifying searches, and navigating grey literature <span class="ref-num">[42]</span>. Yale also provides the <strong>Yale MeSH Analyzer</strong>, a powerful tool for identifying keywords and controlled vocabulary <span class="ref-num">[44]</span>.</p>
+            <p><strong>Duke University Medical Center Library</strong> provides open access to comprehensive LibGuides, search planning forms, and instructional YouTube videos for systematic literature searches <span class="ref-num">[45]</span>. The <strong>NIH Library</strong> also offers extensive public resources on PRISMA usage, search strategy formatting, and bibliographic management <span class="ref-num">[31]</span>.</p>
+        </article>
+
+        <!-- Section 5: Screening Automation -->
+        <article class="section-card" id="screening">
+            <h2>Study Selection and the Rise of Screening Automation</h2>
+            <p>Once search results are collated and deduplicated, citations must be screened against eligibility criteria. A new generation of free, purpose-built platforms has emerged to streamline and automate this process <span class="ref-num">[51]</span>.</p>
+
+            <h3>Rayyan: AI-Powered Collaborative Screening</h3>
+            <p><strong>Rayyan</strong> is a 100% free web and mobile application designed specifically to accelerate the screening phase. Adopted by over <strong>one million researchers</strong> globally, it integrates artificial intelligence, machine learning, and natural language processing into the screening workflow <span class="ref-num">[51]</span>.</p>
+
+            <p>The practical workflow includes:</p>
+            <ol>
+                <li><strong>Import:</strong> Researchers export raw search results in standard bibliographic formats (RIS, BibTeX) and upload them to Rayyan <span class="ref-num">[54]</span>.</li>
+                <li><strong>Auto-deduplication:</strong> Rayyan's "Auto Deduplication" and "Near Duplicate Detection" engine automatically merges exact duplicates and flags potential duplicates <span class="ref-num">[51]</span>.</li>
+                <li><strong>Blind duplicate screening:</strong> Study selection is performed independently in duplicate. The lead investigator invites co-reviewers and activates strict <strong>"Blind" mode</strong>, where reviewers independently screen titles/abstracts—voting to Include, Exclude, or Maybe—without visibility into peers' decisions <span class="ref-num">[54, 55]</span>.</li>
+                <li><strong>AI-assisted prioritization:</strong> Rayyan's machine learning algorithm continuously observes inclusion/exclusion decisions and computes a <strong>five-star predictive relevance rating</strong> for unscreened articles, allowing teams to prioritize the most relevant literature <span class="ref-num">[51]</span>.</li>
+                <li><strong>Conflict resolution:</strong> Once blinding is deactivated, Rayyan provides a dedicated interface for rapid conflict resolution <span class="ref-num">[55]</span>.</li>
+            </ol>
+
+            <h3>Alternative Platforms</h3>
+            <ul>
+                <li><strong>ASReview:</strong> Open-source software leveraging active learning models to continuously improve prioritization accuracy <span class="ref-num">[4]</span>.</li>
+                <li><strong>Abstrackr:</strong> Free, semi-automated screening tool developed by Brown University's Evidence-based Practice Center for rapid abstract triaging <span class="ref-num">[4]</span>.</li>
+            </ul>
+        </article>
+
+        <!-- Section 6: Data Extraction & RoB -->
+        <article class="section-card" id="appraisal">
+            <h2>Data Extraction and Methodological Quality Appraisal</h2>
+            <p>Data extraction and rigorous assessment of methodological quality form the analytical nucleus of the systematic review. Pooling data from highly biased studies yields precisely incorrect estimates—"garbage in, garbage out" <span class="ref-num">[25]</span>.</p>
+
+            <h3>Standardized Data Extraction Frameworks</h3>
+            <p>Data extraction must be performed systematically, ideally in duplicate, utilizing standardized <em>a priori</em> forms <span class="ref-num">[4]</span>. The Cochrane Collaboration provides free Microsoft Word templates specifically designed for intervention reviews, guiding reviewers through bibliographic details, intervention parameters, baseline demographics, and raw outcome data <span class="ref-num">[60]</span>. The Joanna Briggs Institute (JBI) offers the SUMARI platform and associated templates suited for qualitative and scoping reviews <span class="ref-num">[4]</span>.</p>
+
+            <div class="callout callout-info">
+                <strong>💡 Methodological Insight:</strong> Reviewers must extract precise data regarding <strong>missingness and patient attrition</strong>. Documenting participant flow directly informs the subsequent Risk of Bias assessment regarding incomplete outcome data. Reviewers must clearly delineate between data that is "unclear" (not reported) versus data that was simply overlooked during extraction <span class="ref-num">[58, 60]</span>.
+            </div>
+
+            <h3>Risk of Bias (RoB) Tools</h3>
+            <p>The Cochrane suite of Risk of Bias tools represents the universally recognized gold standard for critical appraisal <span class="ref-num">[58]</span>.</p>
+
+            <h4>RoB 2.0 for Randomized Controlled Trials</h4>
+            <p>The revised Cochrane risk-of-bias tool (RoB 2) evaluates internal validity across <strong>five domains</strong> <span class="ref-num">[58]</span>:</p>
+            <ol>
+                <li><strong>Bias arising from the randomization process:</strong> Methods for random sequence generation and allocation concealment mechanisms.</li>
+                <li><strong>Bias due to deviations from intended interventions:</strong> Efficacy of blinding (participants and personnel), impact of protocol non-adherence.</li>
+                <li><strong>Bias due to missing outcome data:</strong> Differential attrition rates and statistical robustness of missing data handling (e.g., multiple imputation).</li>
+                <li><strong>Bias in measurement of the outcome:</strong> Adequacy of outcome assessor blinding, objectivity and validation of measurement tools.</li>
+                <li><strong>Bias in selection of the reported result:</strong> Evidence of selective reporting by comparing published outcomes against prospectively registered protocols <span class="ref-num">[58]</span>.</li>
+            </ol>
+
+            <p>Cochrane provides free, structured Excel templates and Word documents utilizing "signalling questions" that algorithmically guide reviewers to domain-level judgments of "Low risk," "Some concerns," or "High risk" <span class="ref-num">[65]</span>. Free video masterclasses are available via Cochrane Learning Live and other YouTube channels <span class="ref-num">[58]</span>.</p>
+
+            <h4>Tools for Other Study Designs</h4>
+            <p>For observational and non-randomized data, clinicians must use <strong>ROBINS-I</strong> (for interventions) and <strong>ROBINS-E</strong> (for exposures), which account for severe confounding variables inherent in observational designs <span class="ref-num">[68, 69]</span>. For diagnostic or prognostic prediction models, <strong>PROBAST</strong> and <strong>CHARMS</strong> must be utilized, with open-access Excel templates freely available <span class="ref-num">[70]</span>.</p>
+
+            <div class="table-wrapper">
+                <table aria-label="Critical Appraisal Tools by Study Design">
+                    <caption>Table 4. Critical Appraisal Tools Matched to Study Design</caption>
+                    <thead>
+                        <tr>
+                            <th>Study Design</th>
+                            <th>Required Tool</th>
+                            <th>Primary Bias Domains</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Randomized Controlled Trials</td>
+                            <td>Cochrane RoB 2 <span class="ref-num">[64]</span></td>
+                            <td>Randomization, Deviations, Missing Data, Measurement, Selective Reporting <span class="ref-num">[58]</span></td>
+                        </tr>
+                        <tr>
+                            <td>Non-Randomized Interventions</td>
+                            <td>ROBINS-I <span class="ref-num">[68]</span></td>
+                            <td>Confounding, Selection bias, Information bias, Reporting bias</td>
+                        </tr>
+                        <tr>
+                            <td>Exposure Studies</td>
+                            <td>ROBINS-E <span class="ref-num">[69]</span></td>
+                            <td>Confounding, Exposure measurement, Post-exposure pathways</td>
+                        </tr>
+                        <tr>
+                            <td>Clinical Prediction Models</td>
+                            <td>PROBAST &amp; CHARMS <span class="ref-num">[70]</span></td>
+                            <td>Participants, Predictors, Outcomes, Analysis framework</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <!-- Section 7: Statistical Software -->
+        <article class="section-card" id="software">
+            <h2>Statistical Synthesis: Open-Source Meta-Analysis Software</h2>
+            <p>When included studies exhibit adequate homogeneity, extracted data should be quantitatively pooled via meta-analysis <span class="ref-num">[2]</span>. A suite of immensely powerful, point-and-click, open-source software packages has democratized advanced statistical modeling <span class="ref-num">[4]</span>.</p>
+
+            <h3>JASP (Jeffrey's Amazing Statistics Program)</h3>
+            <p>Developed by the University of Amsterdam, JASP is a free, multi-platform, open-source statistics package providing a highly intuitive, drag-and-drop interface with real-time computational rendering <span class="ref-num">[8]</span>. Built upon the <strong>metafor</strong> package in R, JASP completely shields clinicians from R syntax complexity <span class="ref-num">[72]</span>.</p>
+            <span class="ev-badge ev-4">Software Tool – Open Source</span>
+
+            <p>JASP uniquely allows execution of both <strong>standard frequentist meta-analyses</strong> and <strong>advanced Bayesian model-averaged meta-analyses</strong> <span class="ref-num">[73]</span>. The Bayesian approach offers profound advantages:</p>
+            <ul>
+                <li>Utilizes <strong>Bayes Factors</strong> to quantify evidence <em>in favor of the absence of an effect</em> (proving mathematically that an intervention does not work) <span class="ref-num">[73]</span>.</li>
+                <li>Allows sequential updating as new trials are published without artificially inflating Type I error rates <span class="ref-num">[73]</span>.</li>
+            </ul>
+            <p>JASP also executes publication bias tests (Egger's regression, fail-safe N, trim-and-fill) and supports fixed, random, and mixed-effects meta-regression models <span class="ref-num">[4, 72]</span>.</p>
+
+            <h3>Jamovi and the MAJOR Module</h3>
+            <p><strong>Jamovi</strong> is another exceptional free, open-source graphical interface built upon R, designed to prioritize ease of use <span class="ref-num">[9]</span>. The <strong>MAJOR</strong> (Meta Analysis JamOvi R) module, developed by Kyle Hamilton, empowers users to meta-analyze correlation coefficients, dichotomous outcomes (odds/risk ratios), continuous mean differences, and raw proportions <span class="ref-num">[75]</span>. Its dynamic, real-time spreadsheet integration ensures results update instantaneously as data is entered <span class="ref-num">[9]</span>.</p>
+
+            <h3>Cochrane's RevMan (Review Manager)</h3>
+            <p><strong>RevMan</strong> is the proprietary software engineered by Cochrane for its gold-standard reviews <span class="ref-num">[79]</span>. Now fully transitioned to <strong>RevMan Web</strong> (cloud-based), it is freely available for strictly academic, non-commercial use <span class="ref-num">[62]</span>. RevMan is prized for its standardized output formatting and seamless integration with screening tools like Covidence <span class="ref-num">[81]</span>.</p>
+
+            <div class="table-wrapper">
+                <table aria-label="Comparison of open-source meta-analysis software">
+                    <caption>Table 5. Comparison of Open-Source Meta-Analysis Software</caption>
+                    <thead>
+                        <tr>
+                            <th>Software</th>
+                            <th>Framework</th>
+                            <th>Key Clinical Advantages</th>
+                            <th>Availability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>JASP</strong></td>
+                            <td>R (metafor) <span class="ref-num">[72]</span></td>
+                            <td>Frequentist &amp; Bayesian models; APA exports; Trim-and-fill correction</td>
+                            <td>100% Free, Open Source <span class="ref-num">[8]</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jamovi (MAJOR)</strong></td>
+                            <td>R (metafor) <span class="ref-num">[75]</span></td>
+                            <td>Real-time statistical updating; intuitive spreadsheet interface; excellent for dichotomous data</td>
+                            <td>100% Free, Open Source <span class="ref-num">[75]</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>RevMan Web</strong></td>
+                            <td>Cochrane Cloud <span class="ref-num">[80]</span></td>
+                            <td>Covidence integration; globally standardized Cochrane formatting</td>
+                            <td>Free for academic/Cochrane use <span class="ref-num">[62]</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <!-- Section 8: GRADE & Reporting -->
+        <article class="section-card" id="grade">
+            <h2>Grading Evidence Certainty and Navigating Reporting Standards</h2>
+            <p>Producing quantitative meta-analytic data is only the penultimate step. Translating complex statistical outputs into actionable clinical recommendations requires structured assessment of overall evidence certainty and strict adherence to international reporting guidelines <span class="ref-num">[84]</span>.</p>
+
+            <h3>The GRADE Approach</h3>
+            <p>The <strong>Grading of Recommendations Assessment, Development and Evaluation (GRADE)</strong> framework is the unequivocal global standard for grading certainty of evidence and determining recommendation strength <span class="ref-num">[84]</span>. Rather than taking a pooled effect size at face value, GRADE requires systematic evaluation across <strong>five domains</strong> <span class="ref-num">[84]</span>:</p>
+
+            <ol>
+                <li><strong>Risk of Bias:</strong> Cumulative presence of severe methodological limitations across included studies.</li>
+                <li><strong>Inconsistency:</strong> Unexplained statistical heterogeneity (high I² values) or wide variance in point estimates.</li>
+                <li><strong>Indirectness:</strong> Clinically significant differences in populations, interventions, or outcome measures compared to the review question.</li>
+                <li><strong>Imprecision:</strong> Wide confidence intervals crossing clinical decision-making thresholds.</li>
+                <li><strong>Publication Bias:</strong> Strong evidence of selective publication (asymmetrical funnel plots, fail-safe N calculations) <span class="ref-num">[84]</span>.</li>
+            </ol>
+
+            <p><strong>GRADEpro GDT</strong> is a free, interactive online software tool used extensively by Cochrane authors and international guideline developers, generating standardized "Summary of Findings" tables and Evidence-to-Decision frameworks <span class="ref-num">[84]</span>.</p>
+
+            <h3>The PRISMA 2020 Statement</h3>
+            <p>For publication in high-impact journals, adherence to the <strong>PRISMA 2020 Statement</strong> (Preferred Reporting Items for Systematic Reviews and Meta-Analyses) is mandatory <span class="ref-num">[44, 90]</span>. The updated twenty-seven-item checklist mandates <span class="ref-num">[90]</span>:</p>
+            <ul>
+                <li>Explicit, reproducible reporting of the full search string logic for all databases <span class="ref-num">[49]</span>.</li>
+                <li>Detailed documentation of automated tools or machine learning used during screening <span class="ref-num">[36]</span>.</li>
+                <li>Justification for statistical synthesis methods, including protocols for missing data and heterogeneity <span class="ref-num">[90]</span>.</li>
+                <li>The updated <strong>PRISMA Flow Diagram</strong> mapping records from identification through final inclusion <span class="ref-num">[20]</span>.</li>
+            </ul>
+
+            <div class="callout callout-info">
+                <strong>ℹ PRISMA Extensions:</strong> Variations in review methodology require specific extensions: <strong>PRISMA-ScR</strong> for scoping reviews and <strong>PRISMA-P</strong> for protocol registration. All checklists and flow diagrams are freely accessible via the EQUATOR Network and PRISMA website <span class="ref-num">[44, 88]</span>.
+            </div>
+
+            <h3>AMSTAR 2: Critical Self-Appraisal Prior to Submission</h3>
+            <p>Before submitting a manuscript, clinicians should critically self-appraise using <strong>AMSTAR 2</strong> (A MeaSurement Tool to Assess systematic Reviews) <span class="ref-num">[10]</span>. This sixteen-item instrument identifies critical methodological flaws. <strong>Seven specific domains are designated as "critical weaknesses"</strong>—failure to address even one results in overall confidence being categorized as "Low" or "Critically Low" <span class="ref-num">[56]</span>.</p>
+
+            <div class="table-wrapper">
+                <table aria-label="AMSTAR 2 Critical Domains">
+                    <caption>Table 6. AMSTAR 2 Critical Methodological Domains</caption>
+                    <thead>
+                        <tr>
+                            <th>Item #</th>
+                            <th>Critical Requirement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2</td><td>Explicit statement and evidence of prior prospective protocol registration (e.g., PROSPERO) <span class="ref-num">[25]</span></td></tr>
+                        <tr><td>4</td><td>Execution of a truly comprehensive literature search across multiple appropriate databases <span class="ref-num">[56]</span></td></tr>
+                        <tr><td>7</td><td>Detailed list of all excluded full-text studies with specific justifications <span class="ref-num">[25]</span></td></tr>
+                        <tr><td>9</td><td>Appropriate assessment of Risk of Bias using validated tools (RoB 2, ROBINS-I) <span class="ref-num">[56]</span></td></tr>
+                        <tr><td>11</td><td>Application of appropriate meta-analytical methods, adjusting for heterogeneity <span class="ref-num">[56]</span></td></tr>
+                        <tr><td>13</td><td>Explicit consideration of primary study Risk of Bias when interpreting results <span class="ref-num">[56]</span></td></tr>
+                        <tr><td>15</td><td>Rigorous quantitative or qualitative assessment of publication bias <span class="ref-num">[56]</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>The AMSTAR organization provides a free checklist generator on their website, allowing clinicians to evaluate their work iteratively during drafting <span class="ref-num">[56]</span>.</p>
+        </article>
+
+        <!-- Section 9: Conclusion -->
+        <article class="section-card" id="conclusion">
+            <h2>Conclusion</h2>
+            <p>The methodological barrier to conducting and publishing high-impact systematic reviews and meta-analyses has been fundamentally dismantled by an expansive, globally accessible network of open-science initiatives. The modern medical professional no longer requires an extensive institutional budget, proprietary software, or an in-house team of biostatisticians to contribute meaningfully to the evidence-based medical landscape <span class="ref-num">[5]</span>.</p>
+            <p>By methodically leveraging comprehensive coursework for foundational theory, prospectively registering protocols, validating search strategies via established checklists, utilizing AI-augmented screening platforms, and deploying powerful open-source statistical software, clinicians can navigate the complex data synthesis pipeline with unprecedented precision and efficiency <span class="ref-num">[5]</span>. Adherence to strict grading frameworks and international reporting standards (GRADE, PRISMA 2020, AMSTAR 2) ultimately guarantees that the resulting manuscript meets the exacting demands of top-tier medical journals <span class="ref-num">[84, 90]</span>.</p>
+
+            <div class="limitation-note">
+                <strong>⚠ Limitation Note:</strong> This document is derived exclusively from the provided source document, which is a narrative review of methodological resources rather than a clinical study. Therefore: (1) No clinical RCTs or comparative clinical trials were identified in the source to present as "landmark studies"; (2) Clinical parameter thresholds for the interactive sliders are based on <em>commonly accepted methodological conventions</em> within the evidence synthesis literature and are annotated as such—they are not directly extracted from the source document's statistical analyses, as none were performed.
+            </div>
+        </article>
+
+        <!-- References -->
+        <article class="section-card references" id="references">
+            <h2>References</h2>
+            <ol>
+                <li><span class="ref-num">[1]</span> How to Conduct a Systematic Review and Meta-Analysis: A Guide for Clinicians. <em>PMC</em>. Available at: pmc.ncbi.nlm.nih.gov/articles/PMC10468159/</li>
+                <li><span class="ref-num">[2]</span> A Practical Guide to Perform a Systematic Literature Review and Meta-analysis. <em>PPCR Journal</em>. Available at: journal.ppcr.org/index.php/ppcrjournal/article/download/175/142</li>
+                <li><span class="ref-num">[3]</span> A Guide for Medical Students: How to Write a Systematic Review. <em>TTUHSC EP SOM</em>. Available at: ttuhscep.edu/som/dme/</li>
+                <li><span class="ref-num">[4]</span> A comprehensive guide to conduct a systematic review and meta-analysis in medical research. <em>PMC</em>. Available at: pmc.ncbi.nlm.nih.gov/articles/PMC12366998/</li>
+                <li><span class="ref-num">[5]</span> Systematic Reviews and Meta-Analysis — Open &amp; Free. <em>Carnegie Mellon OLI</em>. Available at: oli.cmu.edu/courses/systematic-reviews-and-meta-analysis-o-f/</li>
+                <li><span class="ref-num">[7]</span> Systematic Reviews and Meta-Analyses. <em>Institute of Healthcare Leadership and Management</em>. Available at: ihlm.org/course/systematic-reviews-and-meta-analyses/</li>
+                <li><span class="ref-num">[8]</span> How to Use JASP. <em>JASP Stats</em>. Available at: jasp-stats.org/how-to-use-jasp/</li>
+                <li><span class="ref-num">[9]</span> User Guide. <em>Jamovi</em>. Available at: jamovi.org/user-manual.html</li>
+                <li><span class="ref-num">[10]</span> AMSTAR 2: a critical appraisal tool for systematic reviews. <em>BMJ</em>. 2017;358:j4008.</li>
+                <li><span class="ref-num">[11]</span> CERTaIN: Knowledge Synthesis: Systematic Reviews and Clinical Decision Making. <em>MDAndersonX / edX</em>. Available at: edx.org</li>
+                <li><span class="ref-num">[13]</span> Introduction to Systematic Review and Meta-Analysis. <em>Johns Hopkins / Coursera</em>. Available at: coursera.org/learn/systematic-review</li>
+                <li><span class="ref-num">[16]</span> Cochrane Evidence Essentials. <em>Cochrane</em>. Available at: cochrane.org/learn/courses-and-resources/evidence-essentials</li>
+                <li><span class="ref-num">[17]</span> Evidence Essentials. <em>Cochrane</em>. Available at: cochrane.org/learn/</li>
+                <li><span class="ref-num">[20]</span> Cochrane Interactive Learning. <em>PMC</em>. Available at: pmc.ncbi.nlm.nih.gov/articles/PMC6148604/</li>
+                <li><span class="ref-num">[25]</span> Shea BJ, et al. AMSTAR 2: a critical appraisal tool. <em>BMJ</em>. 2017;358:j4008.</li>
+                <li><span class="ref-num">[26]</span> How to register a Systematic Review Protocol in PROSPERO. <em>CW Authors</em>. Available at: cwauthors.com</li>
+                <li><span class="ref-num">[27]</span> PROSPERO. <em>Centre for Reviews and Dissemination, University of York</em>. Available at: crd.york.ac.uk/prospero/</li>
+                <li><span class="ref-num">[28]</span> Where to prospectively register a systematic review. <em>PMC</em>. Available at: pmc.ncbi.nlm.nih.gov/articles/PMC8742923/</li>
+                <li><span class="ref-num">[31]</span> Systematic Review Service at the NIH Library. <em>NIH</em>. Available at: news2use.ors.nih.gov</li>
+                <li><span class="ref-num">[32]</span> Help – PubMed. <em>NIH/NLM</em>. Available at: pubmed.ncbi.nlm.nih.gov/help/</li>
+                <li><span class="ref-num">[34]</span> MeSH tutorial for PubMed literature search. <em>YouTube / MedSearch Solution</em>. Available at: youtube.com</li>
+                <li><span class="ref-num">[35]</span> Systematic Review Search Strategy Development Tools. <em>NCBI / AHRQ</em>. Available at: ncbi.nlm.nih.gov/books/NBK612666/</li>
+                <li><span class="ref-num">[36]</span> Systematic Review Search Strategy Development Tools: A Practical Guide. <em>NCBI</em>. Available at: ncbi.nlm.nih.gov/books/NBK612666/</li>
+                <li><span class="ref-num">[37]</span> PRESS 2015 Guideline Statement. <em>CADTH</em>. Available at: cda-amc.ca</li>
+                <li><span class="ref-num">[39]</span> Peer reviewing search strategies. <em>SURE Info</em>. Available at: sites.google.com/york.ac.uk/sureinfo</li>
+                <li><span class="ref-num">[40]</span> PRESS 2015: checklist for search strategies. <em>Karolinska Institutet University Library</em>. Available at: kib.ki.se</li>
+                <li><span class="ref-num">[42]</span> Systematic Searches Tutorial. <em>Yale University Library</em>. Available at: library.medicine.yale.edu</li>
+                <li><span class="ref-num">[44]</span> Evidence Synthesis &amp; Literature Reviews. <em>Yale University Library</em>. Available at: library.medicine.yale.edu</li>
+                <li><span class="ref-num">[45]</span> Duke Medical Center Library – Systematic Reviews. Available at: mclibrary.duke.edu</li>
+                <li><span class="ref-num">[49]</span> Write The Review. <em>NIH Library</em>. Available at: nihlibrary.nih.gov</li>
+                <li><span class="ref-num">[51]</span> Getting Started with Rayyan. <em>Rayyan Help Center</em>. Available at: help.rayyan.ai</li>
+                <li><span class="ref-num">[54]</span> How to Create a Systematic Review in Rayyan. <em>Rayyan Help Center</em>. Available at: help.rayyan.ai</li>
+                <li><span class="ref-num">[55]</span> Rayyan – How to do a Systematic Review. <em>YouTube</em>. Available at: youtube.com</li>
+                <li><span class="ref-num">[56]</span> AMSTAR Checklist. <em>amstar.ca</em>. Available at: amstar.ca/Amstar_Checklist.php</li>
+                <li><span class="ref-num">[58]</span> Risk of Bias Assessment Using Cochrane RoB 2. <em>YouTube</em>. Available at: youtube.com</li>
+                <li><span class="ref-num">[59]</span> How to Extract Data for your Systematic Review. <em>Piktochart</em>. Available at: piktochart.com</li>
+                <li><span class="ref-num">[60]</span> Data Extraction and Assessment Form – Cochrane EPOC. Available at: epoc.cochrane.org</li>
+                <li><span class="ref-num">[62]</span> Cochrane Library Access Options. Available at: cochranelibrary.com/help/access</li>
+                <li><span class="ref-num">[64]</span> Risk of Bias Tools – RoB 2. Available at: sites.google.com/site/riskofbiastool</li>
+                <li><span class="ref-num">[65]</span> Introducing RoB 2. <em>Cochrane</em>. Available at: cochrane.org</li>
+                <li><span class="ref-num">[68]</span> Risk of Bias. <em>Cochrane</em>. Available at: cochrane.org/learn/courses-and-resources/cochrane-methodology/risk-bias</li>
+                <li><span class="ref-num">[69]</span> ROBINS-E Tool. Available at: riskofbias.info</li>
+                <li><span class="ref-num">[70]</span> CHARMS and PROBAST at your fingertips. <em>PMC</em>. Available at: pmc.ncbi.nlm.nih.gov/articles/PMC9936746/</li>
+                <li><span class="ref-num">[72]</span> Meta-analysis in JASP. <em>JASP Stats</em>. Available at: jasp-stats.org/meta-analysis-jasp/</li>
+                <li><span class="ref-num">[73]</span> Bayesian model-averaged meta-analysis in JASP. <em>PMC</em>. Available at: pmc.ncbi.nlm.nih.gov/articles/PMC10991068/</li>
+                <li><span class="ref-num">[75]</span> MAJOR: Meta-Analysis for JAMOVI. <em>GitHub</em>. Available at: github.com/kylehamilton/MAJOR</li>
+                <li><span class="ref-num">[79]</span> RevMan Tutorial for Cochrane Reviews. <em>Scribd</em>. Available at: scribd.com</li>
+                <li><span class="ref-num">[80]</span> Meta-analysis using RevMan Web. <em>YouTube</em>. Available at: youtube.com</li>
+                <li><span class="ref-num">[81]</span> Study-centric data in RevMan. <em>YouTube</em>. Available at: youtube.com</li>
+                <li><span class="ref-num">[84]</span> Overview of the GRADE approach. <em>GRADEpro</em>. Available at: book.gradepro.org</li>
+                <li><span class="ref-num">[88]</span> Toolkits – EQUATOR Network. Available at: equator-network.org/toolkits/</li>
+                <li><span class="ref-num">[90]</span> The PRISMA 2020 Statement. <em>PMC</em>. Available at: pmc.ncbi.nlm.nih.gov/articles/PMC8007028/</li>
+            </ol>
+        </article>
+
+    </main>
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar" role="complementary" aria-label="Interactive methodology parameters and recommendations">
+        <div class="sidebar-inner">
+            <h3>⚙ Methodology Decision Parameters</h3>
+            <p style="font-size:0.72rem;color:var(--text-secondary);margin-bottom:16px;">
+                Adjust the sliders below to explore how different methodological choices affect your systematic review workflow. Recommendations update in real time based on the source document's guidance.
+            </p>
+
+            <!-- Slider 1: Number of Databases -->
+            <div class="slider-group">
+                <label for="slider-databases">Number of Databases to Search</label>
+                <div class="slider-desc">Comprehensive searches should span multiple databases (PubMed, Embase, CENTRAL minimum).</div>
+                <input type="range" id="slider-databases" min="1" max="8" value="3" step="1" aria-label="Number of databases to search">
+                <div class="slider-value" id="val-databases">3 databases</div>
+            </div>
+
+            <!-- Slider 2: I² Threshold -->
+            <div class="slider-group">
+                <label for="slider-i2">I² Heterogeneity Threshold (%)</label>
+                <div class="slider-desc">Threshold for deciding whether to pool studies via meta-analysis. <em>Convention-based</em> – not from source data.</div>
+                <input type="range" id="slider-i2" min="0" max="100" value="50" step="5" aria-label="I-squared heterogeneity threshold">
+                <div class="slider-value" id="val-i2">50%</div>
+            </div>
+
+            <!-- Slider 3: Screening Reviewers -->
+            <div class="slider-group">
+                <label for="slider-reviewers">Number of Independent Screeners</label>
+                <div class="slider-desc">Duplicate screening is required by PRISMA to minimize selection bias.</div>
+                <input type="range" id="slider-reviewers" min="1" max="4" value="2" step="1" aria-label="Number of independent screeners">
+                <div class="slider-value" id="val-reviewers">2 reviewers</div>
+            </div>
+
+            <!-- Recommendation Box -->
+            <div class="recommendation-box" id="recommendation-box">
+                <h4>📋 Personalized Recommendations</h4>
+                <div id="recommendation-content"></div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="sidebar-buttons">
+                <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters to defaults">↻ Reset</button>
+                <button class="btn btn-export" id="btn-export" aria-label="Copy summary to clipboard">📋 Export</button>
+            </div>
+        </div>
+    </aside>
+
+</div>
+
+<!-- Scroll to top button -->
+<button class="scroll-top" id="scroll-top" aria-label="Scroll to top">↑</button>
+
+<!-- Toast notification -->
+<div class="copy-toast" id="copy-toast" role="alert">Copied to clipboard!</div>
+
+<script>
+(function() {
+    'use strict';
+
+    // Elements
+    const sliderDatabases = document.getElementById('slider-databases');
+    const sliderI2 = document.getElementById('slider-i2');
+    const sliderReviewers = document.getElementById('slider-reviewers');
+    const valDatabases = document.getElementById('val-databases');
+    const valI2 = document.getElementById('val-i2');
+    const valReviewers = document.getElementById('val-reviewers');
+    const recContent = document.getElementById('recommendation-content');
+    const btnReset = document.getElementById('btn-reset');
+    const btnExport = document.getElementById('btn-export');
+    const scrollTopBtn = document.getElementById('scroll-top');
+    const toast = document.getElementById('copy-toast');
+
+    const defaults = { databases: 3, i2: 50, reviewers: 2 };
+
+    const databaseNames = {
+        1: 'PubMed/MEDLINE only',
+        2: 'PubMed + Embase',
+        3: 'PubMed + Embase + CENTRAL',
+        4: '4 databases (+ PsycINFO)',
+        5: '5 databases (+ CINAHL)',
+        6: '6 databases (+ Scopus)',
+        7: '7 databases (+ Web of Science)',
+        8: '8+ databases (exhaustive)'
+    };
+
+    function getRecommendation() {
+        const db = parseInt(sliderDatabases.value);
+        const i2 = parseInt(sliderI2.value);
+        const rev = parseInt(sliderReviewers.value);
+
+        let items = [];
+
+        // Database recommendation
+        if (db < 3) {
+            items.push('<strong style="color:#c62828">⚠ Search Coverage Risk:</strong> Searching fewer than 3 major databases risks missing relevant studies. The source document emphasizes comprehensive searches across PubMed, Embase, and CENTRAL as the minimum standard [4].');
+        } else if (db === 3) {
+            items.push('<strong style="color:#2e7d32">✓ Adequate Coverage:</strong> Three databases (PubMed + Embase + CENTRAL) meets the minimum recommended standard for comprehensive literature retrieval [4].');
+        } else {
+            items.push('<strong style="color:#2e7d32">✓ Excellent Coverage:</strong> Searching ' + db + ' databases provides highly comprehensive retrieval, maximizing sensitivity and reducing the risk of missing relevant studies [4].');
+        }
+
+        // PRESS checklist
+        if (db >= 4) {
+            items.push('<strong>Recommendation:</strong> With ' + db + ' databases, ensure search strategy translation is validated using the <strong>PRESS 2015 checklist</strong> to catch syntax errors across platforms [37].');
+        }
+
+        // I² heterogeneity
+        if (i2 <= 25) {
+            items.push('<strong style="color:#2e7d32">✓ Low Heterogeneity Threshold:</strong> At I² ≤ ' + i2 + '%, you may confidently use a fixed-effect model for pooling. This stringent threshold maximizes homogeneity [Source convention – not from source data].');
+        } else if (i2 <= 50) {
+            items.push('<strong style="color:#1565c0">ℹ Moderate Threshold:</strong> At I² ≤ ' + i2 + '%, moderate heterogeneity is acceptable. A <strong>random-effects model</strong> is recommended. Consider meta-regression to explore sources of heterogeneity [5].');
+        } else if (i2 <= 75) {
+            items.push('<strong style="color:#f57c00">⚠ Substantial Heterogeneity:</strong> At I² ≤ ' + i2 + '%, substantial heterogeneity is permissible but requires careful exploration. Use a random-effects model, conduct subgroup analyses, and investigate clinical/methodological sources [Source convention – not from source data].');
+        } else {
+            items.push('<strong style="color:#c62828">⚠ High Heterogeneity:</strong> At I² ≤ ' + i2 + '%, consider whether pooling is appropriate. Narrative synthesis may be preferred. If meta-analysis is pursued, extensive sensitivity and subgroup analyses are mandatory [Source convention].');
+        }
+
+        // Reviewers
+        if (rev === 1) {
+            items.push('<strong style="color:#c62828">⚠ Single Reviewer Risk:</strong> A single screener introduces substantial selection bias. The source document and PRISMA 2020 mandate independent duplicate screening [55]. Consider using <strong>Rayyan</strong> with AI-assisted prioritization to accelerate double screening even with limited personnel [51].');
+        } else if (rev === 2) {
+            items.push('<strong style="color:#2e7d32">✓ Standard Practice:</strong> Two independent screeners satisfies the PRISMA 2020 requirement for duplicate study selection [55]. Use <strong>Rayyan's Blind Mode</strong> to ensure true independence during screening [54].');
+        } else if (rev === 3) {
+            items.push('<strong style="color:#2e7d32">✓ Enhanced Rigor:</strong> Three screeners allows for consensus-based conflict resolution without requiring a fourth arbitrator. Excellent for large reviews with complex eligibility criteria.');
+        } else {
+            items.push('<strong style="color:#2e7d32">✓ Maximum Rigor:</strong> Four independent screeners provides the highest level of selection bias minimization. Ideal for high-stakes reviews informing clinical guidelines (e.g., WHO or Cochrane reviews) [7].');
+        }
+
+        // General workflow recommendations based on combined parameters
+        items.push('<strong>Workflow Note:</strong> Register your protocol on <strong>PROSPERO</strong> before screening begins [26]. Assess RoB using <strong>Cochrane RoB 2</strong> for RCTs [58] and synthesize using <strong>JASP</strong>, <strong>Jamovi (MAJOR)</strong>, or <strong>RevMan Web</strong> [8, 75, 79]. Report using <strong>PRISMA 2020</strong> [90] and self-appraise with <strong>AMSTAR 2</strong> [10].');
+
+        if (items.length === 0) return '<p>Adjust the sliders above to receive personalized recommendations.</p>';
+        return '<ul>' + items.map(i => '<li>' + i + '</li>').join('') + '</ul>';
+    }
+
+    function updateDisplay() {
+        const db = parseInt(sliderDatabases.value);
+        valDatabases.textContent = db + (db === 1 ? ' database' : ' databases') + ' — ' + databaseNames[db];
+        valI2.textContent = sliderI2.value + '%';
+        valReviewers.textContent = sliderReviewers.value + (parseInt(sliderReviewers.value) === 1 ? ' reviewer' : ' reviewers');
+        recContent.innerHTML = getRecommendation();
+    }
+
+    // Event listeners
+    sliderDatabases.addEventListener('input', updateDisplay);
+    sliderI2.addEventListener('input', updateDisplay);
+    sliderReviewers.addEventListener('input', updateDisplay);
+
+    // Reset
+    btnReset.addEventListener('click', function() {
+        sliderDatabases.value = defaults.databases;
+        sliderI2.value = defaults.i2;
+        sliderReviewers.value = defaults.reviewers;
+        updateDisplay();
+    });
+
+    // Export
+    btnExport.addEventListener('click', function() {
+        const now = new Date();
+        const timestamp = now.toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+        const db = parseInt(sliderDatabases.value);
+        const i2 = parseInt(sliderI2.value);
+        const rev = parseInt(sliderReviewers.value);
+
+        let text = '══════════════════════════════════════════\n';
+        text += 'SYSTEMATIC REVIEW METHODOLOGY PARAMETERS\n';
+        text += 'Source: Open-Access Resources for SR & MA\n';
+        text += '══════════════════════════════════════════\n\n';
+        text += 'Timestamp: ' + timestamp + '\n\n';
+        text += 'PARAMETERS:\n';
+        text += '─────────────────────────────────────────\n';
+        text += '• Databases to Search: ' + db + ' — ' + databaseNames[db] + '\n';
+        text += '• I² Heterogeneity Threshold: ' + i2 + '%\n';
+        text += '• Independent Screeners: ' + rev + ' reviewer(s)\n\n';
+        text += 'RECOMMENDATIONS:\n';
+        text += '─────────────────────────────────────────\n';
+
+        const recs = recContent.querySelectorAll('li');
+        recs.forEach(function(li, idx) {
+            text += (idx + 1) + '. ' + li.textContent.trim() + '\n\n';
+        });
+
+        text += '─────────────────────────────────────────\n';
+        text += 'Note: Thresholds are based on commonly accepted\n';
+        text += 'methodological conventions. I² cutoffs are not\n';
+        text += 'directly from the source document\'s data.\n';
+        text += '══════════════════════════════════════════\n';
+
+        navigator.clipboard.writeText(text).then(function() {
+            toast.style.display = 'block';
+            toast.style.animation = 'none';
+            void toast.offsetWidth; // trigger reflow
+            toast.style.animation = 'fadeInOut 2s ease';
+            setTimeout(function() { toast.style.display = 'none'; }, 2100);
+        }).catch(function() {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            toast.style.display = 'block';
+            toast.style.animation = 'none';
+            void toast.offsetWidth;
+            toast.style.animation = 'fadeInOut 2s ease';
+            setTimeout(function() { toast.style.display = 'none'; }, 2100);
+        });
+    });
+
+    // Scroll to top button
+    window.addEventListener('scroll', function() {
+        scrollTopBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+    });
+    scrollTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initial render
+    updateDisplay();
+})();
+</script>
+</body>
+</html>

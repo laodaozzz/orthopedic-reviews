@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Intraoperative 3D Imaging &amp; Computer-Assisted Navigation in Spinal Surgery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2b6cb0;
+            --primary-lighter: #ebf4ff;
+            --accent: #e53e3e;
+            --accent-light: #feb2b2;
+            --success: #276749;
+            --success-light: #c6f6d5;
+            --warning: #c05621;
+            --warning-light: #feebc8;
+            --info: #2b6cb0;
+            --info-light: #bee3f8;
+            --neutral-50: #f7fafc;
+            --neutral-100: #edf2f7;
+            --neutral-200: #e2e8f0;
+            --neutral-300: #cbd5e0;
+            --neutral-400: #a0aec0;
+            --neutral-500: #718096;
+            --neutral-600: #4a5568;
+            --neutral-700: #2d3748;
+            --neutral-800: #1a202c;
+            --neutral-900: #171923;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1), 0 6px 10px rgba(0,0,0,0.08);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--neutral-50);
+            color: var(--neutral-700);
+            line-height: 1.7;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .site-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 50%, #2b6cb0 100%);
+            color: white;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
+        .header-title .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.85;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .header-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Layout */
+        .page-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 0;
+            min-height: 100vh;
+        }
+
+        main {
+            padding: 32px 40px 60px;
+            max-width: 900px;
+        }
+
+        aside {
+            padding: 32px 24px;
+            border-left: 1px solid var(--neutral-200);
+            background: white;
+            position: relative;
+        }
+
+        /* Sidebar */
+        .sidebar-sticky {
+            position: sticky;
+            top: 120px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 28px;
+        }
+
+        .sidebar-section h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-lighter);
+        }
+
+        .slider-group {
+            margin-bottom: 22px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .slider-label span:first-child {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--neutral-700);
+        }
+
+        .slider-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: var(--primary-lighter);
+            padding: 2px 10px;
+            border-radius: 6px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, var(--success), var(--warning), var(--accent));
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.15s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+        }
+
+        .slider-range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--neutral-400);
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, var(--primary-lighter) 0%, #f0f5ff 100%);
+            border: 2px solid var(--primary-light);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-box h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .recommendation-box .rec-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--neutral-700);
+        }
+
+        .recommendation-box .rec-text strong {
+            color: var(--primary);
+        }
+
+        .rec-severity {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .rec-severity.optimal {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .rec-severity.caution {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .rec-severity.critical {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-reset {
+            background: var(--neutral-200);
+            color: var(--neutral-600);
+        }
+
+        .btn-reset:hover {
+            background: var(--neutral-300);
+        }
+
+        .btn-export {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-export:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .copy-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--neutral-800);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-xl);
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .copy-toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Content Typography */
+        .content-section {
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            position: relative;
+            padding-bottom: 14px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--neutral-800);
+            margin-top: 32px;
+            margin-bottom: 14px;
+        }
+
+        h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: var(--neutral-600);
+        }
+
+        strong {
+            color: var(--neutral-800);
+        }
+
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--neutral-600);
+        }
+
+        li strong {
+            color: var(--neutral-700);
+        }
+
+        /* Evidence Badge */
+        .evidence-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+
+        .ev-1 { background: #c6f6d5; color: #22543d; }
+        .ev-2 { background: #bee3f8; color: #2a4365; }
+        .ev-3 { background: #fefcbf; color: #744210; }
+        .ev-4 { background: #feebc8; color: #7b341e; }
+        .ev-5 { background: #fed7d7; color: #742a2a; }
+        .ev-na { background: var(--neutral-200); color: var(--neutral-600); }
+
+        /* Callout Boxes */
+        .callout {
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin: 20px 0;
+            border-left: 5px solid;
+        }
+
+        .callout-info {
+            background: #ebf8ff;
+            border-color: var(--info);
+        }
+
+        .callout-warning {
+            background: #fffaf0;
+            border-color: var(--warning);
+        }
+
+        .callout-success {
+            background: #f0fff4;
+            border-color: var(--success);
+        }
+
+        .callout-critical {
+            background: #fff5f5;
+            border-color: var(--accent);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .callout-info .callout-title { color: var(--info); }
+        .callout-warning .callout-title { color: var(--warning); }
+        .callout-success .callout-title { color: var(--success); }
+        .callout-critical .callout-title { color: var(--accent); }
+
+        .callout p {
+            margin-bottom: 0;
+            font-size: 0.92rem;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 24px 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--neutral-200);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        thead th {
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            text-align: left;
+            padding: 14px 16px;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+        }
+
+        thead th:first-child {
+            border-top-left-radius: var(--radius);
+        }
+
+        thead th:last-child {
+            border-top-right-radius: var(--radius);
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--neutral-200);
+            vertical-align: top;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-child(even) {
+            background: var(--neutral-50);
+        }
+
+        tbody tr:hover {
+            background: var(--primary-lighter);
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: var(--neutral-800);
+            white-space: nowrap;
+        }
+
+        table caption {
+            caption-side: bottom;
+            padding: 12px 16px;
+            font-size: 0.8rem;
+            color: var(--neutral-500);
+            text-align: left;
+            font-style: italic;
+            background: var(--neutral-50);
+            border-top: 1px solid var(--neutral-200);
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-card h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-card .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .card-icon.blue { background: var(--info-light); }
+        .card-icon.green { background: var(--success-light); }
+        .card-icon.orange { background: var(--warning-light); }
+        .card-icon.red { background: var(--accent-light); }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .comparison-col {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .comparison-col h4 {
+            margin-top: 0;
+            font-size: 1rem;
+            padding-bottom: 12px;
+            border-bottom: 2px solid;
+        }
+
+        .comparison-col.global h4 {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .comparison-col.asian h4 {
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .comparison-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-col li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--neutral-100);
+            font-size: 0.9rem;
+        }
+
+        .comparison-col li:last-child {
+            border-bottom: none;
+        }
+
+        /* References */
+        .reference-list {
+            list-style: none;
+            padding: 0;
+            counter-reset: ref-counter;
+        }
+
+        .reference-list li {
+            counter-increment: ref-counter;
+            padding: 10px 0 10px 40px;
+            border-bottom: 1px solid var(--neutral-100);
+            position: relative;
+            font-size: 0.85rem;
+        }
+
+        .reference-list li::before {
+            content: counter(ref-counter);
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 26px;
+            height: 26px;
+            background: var(--primary-lighter);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .ref-link {
+            color: var(--primary-light);
+            word-break: break-all;
+            font-size: 0.8rem;
+        }
+
+        /* TOC */
+        .toc {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            margin-bottom: 14px;
+        }
+
+        .toc ol {
+            list-style: none;
+            padding: 0;
+            counter-reset: toc;
+        }
+
+        .toc > ol > li {
+            counter-increment: toc;
+        }
+
+        .toc > ol > li::before {
+            content: counter(toc) ".";
+            font-weight: 700;
+            color: var(--primary);
+            margin-right: 8px;
+            font-size: 0.85rem;
+        }
+
+        .toc li {
+            padding: 5px 0;
+            font-size: 0.88rem;
+        }
+
+        .toc a {
+            color: var(--neutral-600);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+        /* Metric Highlight */
+        .metric-highlight {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--primary-lighter);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Limitations Note */
+        .limitations-note {
+            background: #fffff0;
+            border: 1px dashed var(--warning);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            margin: 16px 0;
+            font-size: 0.85rem;
+            color: var(--warning);
+        }
+
+        .limitations-note strong {
+            color: var(--warning);
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .page-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            aside {
+                border-left: none;
+                border-top: 1px solid var(--neutral-200);
+            }
+
+            .sidebar-sticky {
+                position: static;
+            }
+
+            main {
+                padding: 24px 20px 40px;
+            }
+
+            aside {
+                padding: 24px 20px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-inner {
+                padding: 16px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-title h1 {
+                font-size: 1.1rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .table-wrapper {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Print */
+        @media print {
+            .site-header { position: static; }
+            aside { display: none; }
+            .page-wrapper { grid-template-columns: 1fr; }
+        }
+
+        /* Brand logos as text labels */
+        .brand-label {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .brand-siemens { background: #009999; color: white; }
+        .brand-ge { background: #005da6; color: white; }
+        .brand-ziehm { background: #003366; color: white; }
+        .brand-medtronic { background: #0077c8; color: white; }
+        .brand-stryker { background: #6b2d7b; color: white; }
+        .brand-philips { background: #0b5ed7; color: white; }
+        .brand-perlove { background: #d4380d; color: white; }
+        .brand-ui { background: #08979c; color: white; }
+        .brand-browiner { background: #389e0d; color: white; }
+        .brand-tinavi { background: #cf1322; color: white; }
+    </style>
+</head>
+<body>
+
+    <header class="site-header" role="banner">
+        <div class="header-inner">
+            <div class="header-title">
+                <h1>Advanced Intraoperative 3D Imaging &amp; Computer-Assisted Navigation in Spinal Surgery</h1>
+                <div class="subtitle">A Comprehensive Technical and Market Analysis — International Leaders vs. Asian Challengers</div>
+            </div>
+            <div class="header-badge">📊 Technical &amp; Market Review</div>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <main role="main">
+
+            <!-- TABLE OF CONTENTS -->
+            <nav class="toc" aria-label="Table of Contents">
+                <h3>Contents</h3>
+                <ol>
+                    <li><a href="#sec1">Introduction: The Evolution of Intraoperative Visualization</a></li>
+                    <li><a href="#sec2">Technological Foundations of Modern Intraoperative Imaging</a></li>
+                    <li><a href="#sec3">Global Market Leaders: International Manufacturers</a></li>
+                    <li><a href="#sec4">The Asian Challengers: Disrupting the Hierarchy</a></li>
+                    <li><a href="#sec5">Comparative Analysis: Advantages &amp; Performance Metrics</a></li>
+                    <li><a href="#sec6">Summary Comparison Table</a></li>
+                    <li><a href="#sec7">Strategic Implications &amp; Future Outlook</a></li>
+                    <li><a href="#sec8">References</a></li>
+                </ol>
+            </nav>
+
+            <!-- SECTION 1 -->
+            <section class="content-section" id="sec1">
+                <h2>1. Introduction: The Evolution of Intraoperative Visualization</h2>
+
+                <p>The trajectory of modern spinal surgery has been fundamentally defined by the quest for visualization. For decades, the "blind" nature of spinal instrumentation—particularly the placement of <strong>pedicle screws</strong>—forced surgeons to rely on anatomical landmarks, tactile feedback, and intermittent 2D fluoroscopy. While effective in experienced hands, these traditional methods carried inherent risks of <strong>screw malposition</strong>, <strong>neurovascular injury</strong>, and increased <strong>radiation exposure</strong> for the surgical team due to the necessity of repeated radiographic confirmation.</p>
+
+                <p>The advent of intraoperative three-dimensional (3D) imaging, specifically <strong>Mobile Cone-Beam Computed Tomography (CBCT)</strong> and <strong>3D C-arms</strong>, coupled with <strong>Computer-Assisted Navigation (CAN)</strong>, has precipitated a paradigm shift. The integration of 3D imaging allows for the generation of axial, sagittal, and coronal reconstructions of the spinal anatomy while the patient remains positioned on the operating table. When registered with optical or electromagnetic navigation systems, this technology provides real-time, virtual visualization of surgical instruments relative to the patient's anatomy—akin to a GPS system for the spine.</p>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Clinical Context</div>
+                    <p>This capability is not merely a luxury but a necessity for <strong>complex deformity corrections</strong>, <strong>revision surgeries</strong> involving altered anatomy, and <strong>minimally invasive spine surgery (MISS)</strong> where direct visualization is compromised.</p>
+                </div>
+
+                <p>This analysis dissects the technical specifications, clinical performance, and strategic positioning of key market players. We divide the landscape into two distinct geopolitical cohorts: the <strong>"International Leaders"</strong>—Siemens Healthineers, GE HealthCare, Ziehm Imaging, Medtronic, Stryker, and Philips—who have historically defined the standards of care; and the <strong>"Asian Challengers"</strong>—Perlove Medical, United Imaging, Browiner, and Tinavi—who are redefining value propositions through aggressive R&amp;D and integration strategies.</p>
+
+                <div class="limitations-note">
+                    <strong>⚠ Note on Evidence:</strong> This document is a technical and market analysis, not a systematic clinical review. Evidence levels are assigned based on the nature of data cited (manufacturer specifications, published whitepapers, independent dosimetry studies). Most manufacturer claims correspond to <strong>Level V</strong> evidence (expert opinion / manufacturer data). Independent comparative studies are cited where available and are assigned higher evidence levels accordingly.
+                </div>
+            </section>
+
+            <!-- SECTION 2 -->
+            <section class="content-section" id="sec2">
+                <h2>2. Technological Foundations of Modern Intraoperative Imaging</h2>
+
+                <p>To understand the competitive differentiation between manufacturers, one must first grasp the underlying technologies that drive image quality and workflow efficiency. The core battleground lies in the transition from Image Intensifiers (II) to Flat Panel Detectors (FPD) and the management of high-density artifacts.</p>
+
+                <h3>2.1 The Physics of Cone-Beam CT (CBCT) vs. Fan-Beam CT</h3>
+
+                <p>Most intraoperative 3D C-arms utilize Cone-Beam CT technology. Unlike a diagnostic Fan-Beam CT (found in radiology departments) which uses a narrow collimated fan of X-rays and linear detectors, a CBCT system uses a <strong>divergent pyramidal or conical source</strong> of ionizing radiation and a <strong>2D area detector</strong>. <span class="evidence-badge ev-na">Level V — Technical Spec</span></p>
+
+                <ul>
+                    <li><strong>Volumetric Acquisition:</strong> The C-arm performs a rotation (typically 190° to 360°) around the patient, acquiring a series of 2D projection images. Algorithms, most commonly the <strong>Feldkamp-Davis-Kress (FDK) algorithm</strong>, reconstruct these 2D projections into a 3D volumetric dataset. <span class="evidence-badge ev-na">Source Ref 1</span></li>
+                    <li><strong>Implications for Spine:</strong> CBCT provides high spatial resolution for bony structures, ideal for visualizing trabecular patterns and pedicle cortices. However, it historically struggled with soft tissue contrast and scatter radiation compared to Fan-Beam CT. Innovations in detector sensitivity and reconstruction algorithms are central to how brands like Siemens and GE compete.</li>
+                </ul>
+
+                <h3>2.2 Detector Technology: Amorphous Silicon vs. CMOS</h3>
+
+                <p>The shift from analog Image Intensifiers to digital Flat Panel Detectors (FPD) is complete in the high-end market. However, the type of FPD is a critical differentiator.</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <caption>Table 1: Detector Technology Comparison — Amorphous Silicon vs. CMOS</caption>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Amorphous Silicon (a-Si)</th>
+                                <th>CMOS / Monocrystalline Silicon</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Industry Status</td>
+                                <td>Standard for over a decade</td>
+                                <td>Newer standard; championed by Ziehm, United Imaging</td>
+                            </tr>
+                            <tr>
+                                <td>Electron Mobility</td>
+                                <td>Moderate</td>
+                                <td>Significantly higher</td>
+                            </tr>
+                            <tr>
+                                <td>Readout Speed</td>
+                                <td>Standard</td>
+                                <td>Faster</td>
+                            </tr>
+                            <tr>
+                                <td>Electronic Noise</td>
+                                <td>Higher</td>
+                                <td>Lower</td>
+                            </tr>
+                            <tr>
+                                <td>Clinical Benefit</td>
+                                <td>Durable, large FOV, reasonable cost</td>
+                                <td>"Mag-free" digital zoom; superior low-dose performance</td>
+                            </tr>
+                            <tr>
+                                <td>Radiation Implication</td>
+                                <td>Standard dose protocols</td>
+                                <td>Diagnostic image with fewer photons — crucial for long spinal cases <span class="evidence-badge ev-2">Ref 3</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>2.3 Isocentricity and Orbital Mechanics</h3>
+
+                <p>For a C-arm to perform a 3D spin, it must rotate around a fixed point in space called the <strong>"isocenter."</strong> <span class="evidence-badge ev-na">Level V — Technical Principle</span></p>
+
+                <ul>
+                    <li><strong>True Isocentric Design:</strong> The central ray of the X-ray beam remains focused on the same anatomical point throughout the orbital rotation. This eliminates the need to reposition the patient or the table during the scan. <span class="brand-label brand-siemens">Siemens</span> and <span class="brand-label brand-perlove">Perlove</span> emphasize their "true isocentric" mechanical designs, which minimize motion artifacts caused by C-arm wobble or misaligned trajectories. <span class="evidence-badge ev-na">Ref 2</span></li>
+                    <li><strong>Software-Corrected Isocentricity:</strong> Some older or less advanced systems rely on software to compensate for mechanical eccentricities. While functional, this can introduce geometric inaccuracies, which are <strong>fatal for navigation registration</strong>.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 3 -->
+            <section class="content-section" id="sec3">
+                <h2>3. Global Market Leaders: International Manufacturers</h2>
+
+                <p>The international market is characterized by mature ecosystems, deep integration between imaging and navigation, and a focus on premium features such as robotics and proprietary algorithms.</p>
+
+                <!-- Siemens -->
+                <div class="feature-card">
+                    <h4><span class="card-icon blue">🇩🇪</span> 3.1 Siemens Healthineers <span class="brand-label brand-siemens">Siemens</span></h4>
+                    <p>Siemens Healthineers stands as a colossus in the field, leveraging its heritage in fixed angiography to dominate the mobile C-arm space.</p>
+
+                    <p><strong>Flagship Systems:</strong></p>
+                    <ul>
+                        <li><strong>Cios Spin:</strong> Features a <span class="metric-highlight">30×30 cm</span> flat detector and a <span class="metric-highlight">25 kW</span> generator (with an energy storage unit for obese patients). Its "Retina 3D" technology scans up to <span class="metric-highlight">400 projections</span> in 30 seconds, providing high-resolution volumetric data. <span class="evidence-badge ev-na">Ref 1, 5</span></li>
+                        <li><strong>CIARTIC Move:</strong> A revolutionary self-driving mobile C-arm that addresses workforce shortages by automating physical movement. It can memorize positions and return to them automatically, reducing physical burden on technicians. <span class="evidence-badge ev-na">Ref 6, 7</span></li>
+                    </ul>
+
+                    <p><strong>Metal Artifact Reduction (MAR):</strong> Siemens utilizes a mature MAR algorithm. In spine surgery, where titanium rods and screws create "blooming" or streak artifacts that obscure adjacent bone, MAR is essential for verifying screw breach. The Cios Spin allows surgeons to toggle MAR on/off to visualize the interface between screw thread and pedicle wall clearly. <span class="evidence-badge ev-na">Ref 5, 8</span></p>
+
+                    <p><strong>Navigation Integration:</strong> Siemens employs an <strong>"Open Interface"</strong> strategy via <strong>NaviLink 3D</strong>, automatically transferring 3D datasets to compatible navigation systems, primarily <span class="brand-label brand-siemens">Brainlab</span> and <span class="brand-label brand-stryker">Stryker</span>. This flexibility allows hospitals to choose Siemens imaging without being forced into a specific navigation vendor. <span class="evidence-badge ev-na">Ref 9</span></p>
+                </div>
+
+                <!-- GE -->
+                <div class="feature-card">
+                    <h4><span class="card-icon blue">🇺🇸</span> 3.2 GE HealthCare <span class="brand-label brand-ge">GE</span></h4>
+                    <p>GE HealthCare competes on <strong>volume</strong>—literally. Their philosophy centers on the realization that spinal surgery often spans multiple levels, and restricted fields of view require multiple spins, increasing time and dose.</p>
+
+                    <p><strong>Flagship System: OEC 3D</strong> — Its defining specification is the <span class="metric-highlight">19 × 19 × 19 cm</span> volumetric field of view. <span class="evidence-badge ev-na">Ref 1</span></p>
+
+                    <div class="callout callout-success">
+                        <div class="callout-title">Clinical Significance of Larger FOV</div>
+                        <p>Compared to the standard 16 cm cube of the Siemens Cios Spin, the GE OEC 3D offers a <strong>67% larger volume</strong>. This is clinically significant for pelvic fixation (S2-Alar-Iliac screws) or long-segment lumbar fusions (L1–S1), where a smaller volume might cut off the distal or proximal instrumentation. <span class="evidence-badge ev-na">Ref 10, 11</span></p>
+                    </div>
+
+                    <p><strong>Workflow Features:</strong> GE integrates "Augmented Fluoroscopy" or "Live View" capabilities, allowing the surgeon to overlay the 3D volume onto live 2D fluoroscopy. The OEC 3D also boasts an intuitive "Volume Viewer" interface designed to mimic tablet touch-and-swipe interactions. <span class="evidence-badge ev-na">Ref 10, 11</span></p>
+
+                    <p><strong>Navigation:</strong> Like Siemens, GE pursues an open ecosystem with a dedicated "OEC Open" port for high-fidelity data export to navigation systems like Brainlab and Stryker. <span class="evidence-badge ev-na">Ref 10</span></p>
+                </div>
+
+                <!-- Ziehm -->
+                <div class="feature-card">
+                    <h4><span class="card-icon green">🇩🇪</span> 3.3 Ziehm Imaging <span class="brand-label brand-ziehm">Ziehm</span></h4>
+                    <p>Ziehm is unique as a <strong>"pure play"</strong> manufacturer—focusing almost exclusively on mobile C-arms. This specialization has allowed them to lead the industry in detector innovation.</p>
+
+                    <p><strong>Flagship System: Ziehm Vision RFD 3D</strong></p>
+                    <ul>
+                        <li><strong>CMOS Advantage:</strong> Ziehm was first to aggressively push CMOS detectors in the mobile space. The "CMOSline" offers superior sensitivity, allowing diagnostic image quality at <strong>lower radiation doses</strong> compared to traditional a-Si detectors. <span class="evidence-badge ev-2">Ref 3, 36</span></li>
+                        <li><strong>Cooling Technology:</strong> Uses a unique liquid cooling system encasing the generator, allowing for "endless fluoroscopy" without overheating—a critical reliability factor during marathon deformity surgeries. <span class="evidence-badge ev-na">Ref 12</span></li>
+                        <li><strong>Navigation Neutrality:</strong> Through the <strong>NaviPort</strong> interface, Ziehm connects seamlessly with Brainlab and Stryker, positioning itself as the "imager of choice" for navigation companies that do not manufacture their own C-arms. <span class="evidence-badge ev-na">Ref 13, 14</span></li>
+                    </ul>
+                </div>
+
+                <!-- Medtronic -->
+                <div class="feature-card">
+                    <h4><span class="card-icon orange">🇺🇸</span> 3.4 Medtronic <span class="brand-label brand-medtronic">Medtronic</span></h4>
+                    <p>Medtronic represents the <strong>"System Integrator"</strong> approach. They are not just an imaging company; they are the world's largest spine implant company.</p>
+
+                    <p><strong>Flagship System: O-arm (O2 Imaging System)</strong></p>
+                    <ul>
+                        <li><strong>Architecture:</strong> The O-arm is <em>not</em> a C-arm. It is a mobile breakout gantry—a donut shape that opens to encircle the patient and then closes to spin. This geometry provides the stability of a fixed CT scanner but with mobility.</li>
+                        <li><strong>Long Scan Capability:</strong> The O-arm offers the largest scan length in the industry via its "Long Scan" feature (up to <span class="metric-highlight">43.8 cm</span>), allowing visualization of the entire cervical-thoracic-lumbar spine in fewer acquisitions. <span class="evidence-badge ev-na">Ref 15</span></li>
+                    </ul>
+
+                    <div class="callout callout-warning">
+                        <div class="callout-title">Ecosystem Lock-in Consideration</div>
+                        <p>The O-arm is designed to work best with Medtronic's <strong>StealthStation</strong> navigation system. The integration is profound: the O-arm automatically sends images to Stealth, and the navigation system can even control the O-arm's positioning. While highly efficient, this creates a <strong>"walled garden,"</strong> making it difficult to use an O-arm with non-Medtronic navigation. <span class="evidence-badge ev-na">Ref 16</span></p>
+                    </div>
+
+                    <p><strong>Radiation Profile:</strong> Historically, the O-arm has been criticized for higher radiation doses compared to C-arms (CT-like doses). The O2 iteration introduced "Spine Smart Dose" and collimation protocols, though independent studies often still place it at a higher dose tier than Ziehm or Siemens C-arms. <span class="evidence-badge ev-2">Ref 3, 17</span></p>
+                </div>
+
+                <!-- Stryker -->
+                <div class="feature-card">
+                    <h4><span class="card-icon purple" style="background:#e9d5ff;">🇺🇸</span> 3.5 Stryker <span class="brand-label brand-stryker">Stryker</span></h4>
+                    <p>Stryker follows a strategy of <strong>"acquisition and integration."</strong> While they own the navigation technology (<strong>Q Guidance</strong>, formerly Stryker Navigation), their imaging strategy is a hybrid.</p>
+                    <ul>
+                        <li><strong>Airo TruCT:</strong> Stryker acquired Mobius Imaging to obtain the Airo, a true mobile <strong>Fan-Beam CT scanner</strong>. Unlike C-arms (CBCT), the Airo creates soft-tissue images comparable to diagnostic radiology CTs. It has a massive 107 cm bore. <span class="evidence-badge ev-na">Ref 18</span></li>
+                        <li><strong>Partner C-arms:</strong> For standard 3D C-arm needs, Stryker certifies integration with <span class="brand-label brand-ziehm">Ziehm</span> and <span class="brand-label brand-ge">GE</span> systems. <span class="evidence-badge ev-na">Ref 40</span></li>
+                        <li><strong>Navigation Technology:</strong> Stryker's Q Guidance System uses <strong>active optical tracking</strong> (LEDs on instruments) rather than passive reflective spheres. This offers higher accuracy and immunity to soilage (blood on spheres) but requires powered instruments. <span class="evidence-badge ev-na">Ref 19, 20, 21</span></li>
+                    </ul>
+                </div>
+
+                <!-- Philips -->
+                <div class="feature-card">
+                    <h4><span class="card-icon blue">🇳🇱</span> 3.6 Philips <span class="brand-label brand-philips">Philips</span></h4>
+                    <p>Philips has revitalized its mobile C-arm portfolio with the <strong>Zenition</strong> series.</p>
+                    <ul>
+                        <li><strong>Flagship: Zenition 90 Motorized</strong> — Key differentiator is <strong>motorization</strong>. The C-arm can memorize positions and automatically return to them, crucial in hybrid procedures where the C-arm must be parked and then brought back without losing registration. <span class="evidence-badge ev-na">Ref 22</span></li>
+                        <li><strong>Vascular Heritage:</strong> Philips leverages its dominance in vascular surgery (Azurion) to bring advanced vessel mapping and subtraction features to the Zenition, making it a versatile choice for hospitals that share C-arms between Neuro-Spine and Vascular departments. <span class="evidence-badge ev-na">Ref 23, 39</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECTION 4 -->
+            <section class="content-section" id="sec4">
+                <h2>4. The Asian Challengers: Disrupting the Hierarchy</h2>
+
+                <p>The narrative that Asian medical devices are merely "low-cost clones" is outdated. Leading manufacturers from China are introducing features—such as <strong>cylindrical FOVs</strong> and <strong>integrated robotics</strong>—that rival or exceed Western specifications, often backed by state-sponsored R&amp;D initiatives.</p>
+
+                <!-- Perlove -->
+                <div class="feature-card">
+                    <h4><span class="card-icon red">🇨🇳</span> 4.1 Perlove Medical <span class="brand-label brand-perlove">Perlove</span></h4>
+                    <p>Perlove Medical (Nanjing Perlove Medical Equipment Co., Ltd.) exemplifies the <strong>"High-Spec, High-Value"</strong> strategy. They have moved aggressively into the 3D space with systems designed specifically for spinal anatomy.</p>
+
+                    <p><strong>Flagship Systems:</strong> PLX7500A (Skybow) and PLX C7600 Series <span class="evidence-badge ev-na">Ref 4, 41</span></p>
+
+                    <ul>
+                        <li><strong>Cylindrical FOV Innovation:</strong> Perlove addresses volume limitations with a unique <span class="metric-highlight">Φ18 × 18 cm</span> cylindrical FOV, marketed as capable of capturing <strong>5 lumbar vertebrae</strong>, <strong>7 thoracic vertebrae</strong>, or the <strong>entire cervical spine</strong> in a single scan. This direct targeting of spinal levels demonstrates deep understanding of surgical requirements. <span class="evidence-badge ev-na">Ref 24, 25, 26</span></li>
+                        <li><strong>Large Detector:</strong> Uses a <span class="metric-highlight">30×30 cm</span> Dynamic Flat Panel Detector, matching high-end specs of Siemens. <span class="evidence-badge ev-na">Ref 4</span></li>
+                        <li><strong>True Isocentric Design:</strong> Like Siemens, minimizes the need for software correction and ensures geometric accuracy for navigation. <span class="evidence-badge ev-na">Ref 4</span></li>
+                        <li><strong>Navigation Integration (Smart Link):</strong> Standardized interface for automatic 3D dataset transmission via network cable without manual registration steps—designed to break the barrier to entry for smaller hospitals. <span class="evidence-badge ev-na">Ref 4</span></li>
+                        <li><strong>Robotic Ecosystem:</strong> Perlove developed the <strong>PL300B</strong> orthopedic robot. When paired with the PLX7500A, the system claims a registration accuracy of <span class="metric-highlight">≤0.7 mm</span>, potentially superior to the ≤1.5 mm often cited for cross-brand integrations. <span class="evidence-badge ev-na">Ref 27</span></li>
+                        <li><strong>Radiation Management:</strong> Includes a <strong>Collimator Preview</strong> function (virtual collimation) and a removable grid for pediatric cases. <span class="evidence-badge ev-na">Ref 4</span></li>
+                    </ul>
+                </div>
+
+                <!-- United Imaging -->
+                <div class="feature-card">
+                    <h4><span class="card-icon green">🇨🇳</span> 4.2 United Imaging Healthcare <span class="brand-label brand-ui">United Imaging</span></h4>
+                    <p>United Imaging is a formidable technology powerhouse, known for creating the world's first total-body PET/CT (uEXPLORER). They bring a <strong>"platform approach"</strong> to the C-arm market.</p>
+
+                    <p><strong>Flagship System: uMC 560i</strong></p>
+                    <ul>
+                        <li><strong>"Born with AI":</strong> Features <strong>uFree Dose Management</strong>, using computer vision to detect patient positioning and anatomy. It automatically optimizes exposure parameters and applies <strong>automatic metal correction</strong>—detecting screws and rods and adjusting reconstruction algorithms to minimize artifacts dynamically. <span class="evidence-badge ev-na">Ref 29</span></li>
+                        <li><strong>Monocrystalline Silicon FPD:</strong> Marketed as "Two Million Pixels Image Chain" with ultra-high resolution and high SNR for "Every Photon Counts" efficiency. <span class="evidence-badge ev-na">Ref 29, 37</span></li>
+                        <li><strong>Workflow:</strong> Dual synchronized touch panels and an extended <span class="metric-highlight">85 cm</span> C-arm opening for ergonomic maneuvering around bulky spine tables and obese patients. <span class="evidence-badge ev-na">Ref 29</span></li>
+                    </ul>
+                </div>
+
+                <!-- Browiner -->
+                <div class="feature-card">
+                    <h4><span class="card-icon green">🇨🇳</span> 4.3 Browiner <span class="brand-label brand-browiner">Browiner</span></h4>
+                    <p>Browiner focuses on robust, high-power systems for trauma and orthopedics.</p>
+                    <p><strong>Flagship System: CompaX 500 Series</strong></p>
+                    <ul>
+                        <li><strong>Power &amp; Geometry:</strong> Emphasizes <span class="metric-highlight">25 kW</span> generators—essential for lateral lumbar spine imaging in dense patients where lower power systems fail. The "Extra-large C-arm opening" is designed for complex positioning without compromising sterility. <span class="evidence-badge ev-na">Ref 31, 32</span></li>
+                        <li><strong>Positioning:</strong> Marketing focus on durability and "effortless movement" (ergonomics)—the "workhorse" choice. <span class="evidence-badge ev-na">Ref 33</span></li>
+                    </ul>
+                </div>
+
+                <!-- Tinavi -->
+                <div class="feature-card">
+                    <h4><span class="card-icon red">🇨🇳</span> 4.4 Tinavi <span class="brand-label brand-tinavi">Tinavi</span></h4>
+                    <p>Tinavi (TINAVI Medical Technologies) is the pioneer of Chinese orthopedic robotics.</p>
+                    <ul>
+                        <li><strong>TiRobot System:</strong> Tinavi does not manufacture C-arms but provides the robotic arm and navigation station. The TiRobot achieves <strong>sub-millimeter accuracy</strong> in screw placement. <span class="evidence-badge ev-na">Ref 38</span></li>
+                        <li><strong>Open Architecture:</strong> Compatible with 3D C-arms from Siemens, Philips, and GE, as well as the O-arm. Clinical studies report ~<span class="metric-highlight">0.8 mm</span> accuracy. <span class="evidence-badge ev-2">Ref 34</span></li>
+                        <li><strong>Clinical Validation:</strong> Studies comparing TiRobot-assisted surgery vs. O-arm navigation show comparable or superior accuracy (<strong>98%+</strong>) with reduced radiation for the surgeon, validating the system's capability to compete with Western robotics like Mazor (Medtronic). <span class="evidence-badge ev-2">Ref 34</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECTION 5 -->
+            <section class="content-section" id="sec5">
+                <h2>5. Comparative Analysis: Advantages &amp; Performance Metrics</h2>
+
+                <h3>5.1 Image Quality: Field of View (FOV) and Metal Artifact Reduction (MAR)</h3>
+
+                <p>The clarity of the image determines the safety of the screw placement.</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-col global">
+                        <h4>International Leaders</h4>
+                        <ul>
+                            <li><strong>FOV Hegemony:</strong> <span class="brand-label brand-ge">GE</span> leads C-arms with <span class="metric-highlight">19 cm cube</span>. <span class="brand-label brand-medtronic">Medtronic</span> O-arm offers <span class="metric-highlight">40+ cm</span> length for total scan. <span class="evidence-badge ev-na">Ref 1, 15</span></li>
+                            <li><strong>MAR Gold Standard:</strong> <span class="brand-label brand-siemens">Siemens</span> and <span class="brand-label brand-ge">GE</span> possess the most mature, clinically validated MAR algorithms. <span class="evidence-badge ev-na">Ref 5, 8</span></li>
+                            <li><strong>CMOS Leadership:</strong> <span class="brand-label brand-ziehm">Ziehm</span> pioneered CMOS in mobile C-arms, proving 3D scans at doses significantly lower than O-arm. <span class="evidence-badge ev-2">Ref 3, 36</span></li>
+                        </ul>
+                    </div>
+                    <div class="comparison-col asian">
+                        <h4>Asian Challengers</h4>
+                        <ul>
+                            <li><strong>Competitive FOV:</strong> <span class="brand-label brand-perlove">Perlove</span> offers cylindrical <span class="metric-highlight">18 cm</span> optimized for 5 lumbar vertebrae. <span class="evidence-badge ev-na">Ref 24</span></li>
+                            <li><strong>AI-Driven MAR:</strong> <span class="brand-label brand-ui">United Imaging</span> uses AI metal detection that adjusts acquisition <em>before</em> reconstruction—a potentially superior approach. <span class="evidence-badge ev-na">Ref 29</span></li>
+                            <li><strong>Innovative Dose Control:</strong> Perlove "Collimator Preview" and UI "uFree" minimize unnecessary exposure. Less long-term independent comparative data. <span class="evidence-badge ev-na">Ref 4, 29</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>5.2 Navigation Registration Accuracy and Workflow</h3>
+
+                <div class="table-wrapper">
+                    <table>
+                        <caption>Table 2: Navigation Accuracy and Workflow Comparison</caption>
+                        <thead>
+                            <tr>
+                                <th>System Category</th>
+                                <th>Accuracy (Reported)</th>
+                                <th>Workflow Type</th>
+                                <th>Key Advantage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Global (GE + Brainlab)</td>
+                                <td><span class="metric-highlight">~0.22 mm</span> (phantom)</td>
+                                <td>Open — modular</td>
+                                <td>Highest reported precision; flexible vendor choice <span class="evidence-badge ev-2">Ref 35</span></td>
+                            </tr>
+                            <tr>
+                                <td>Medtronic (O-arm + Stealth)</td>
+                                <td>Sub-millimeter (clinical)</td>
+                                <td>Closed — seamless</td>
+                                <td>Gold standard ease of use; single-vendor lock-in <span class="evidence-badge ev-na">Ref 16</span></td>
+                            </tr>
+                            <tr>
+                                <td>Perlove (PLX7500A + PL300B)</td>
+                                <td><span class="metric-highlight">≤0.7 mm</span></td>
+                                <td>Hybrid — closed-loop with own robot</td>
+                                <td>High accuracy at lower cost; Medtronic-style integration <span class="evidence-badge ev-na">Ref 27</span></td>
+                            </tr>
+                            <tr>
+                                <td>Tinavi (TiRobot + various C-arms)</td>
+                                <td><span class="metric-highlight">~0.8 mm</span></td>
+                                <td>Open — imaging-agnostic</td>
+                                <td>Compatible with any major C-arm; 98%+ clinical accuracy <span class="evidence-badge ev-2">Ref 34</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">Clinical Threshold</div>
+                    <p>While Global systems appear statistically more precise, clinically, any accuracy <strong>under 1.0–1.5 mm</strong> is generally considered sufficient for safe pedicle screw placement. Both international and leading Chinese systems meet this threshold. <span class="evidence-badge ev-na">Based on general clinical consensus — not specified in source</span></p>
+                </div>
+
+                <h3>5.3 Radiation Dose Management</h3>
+
+                <ul>
+                    <li><strong>The Dose Gap:</strong> Historically, 3D imaging implied high dose. <span class="brand-label brand-ziehm">Ziehm</span> broke this correlation with CMOS technology, proving 3D scans could be performed at doses significantly lower than the O-arm. <span class="evidence-badge ev-2">Ref 3, 36</span></li>
+                    <li><strong>Software Innovation:</strong> <span class="brand-label brand-siemens">Siemens</span> (Laser Localizers) and <span class="brand-label brand-perlove">Perlove</span> (Collimator Preview) both utilize "virtual" positioning tools to eliminate the "scout shots" that contribute to <strong>30–40%</strong> of cumulative surgical dose. <span class="evidence-badge ev-na">Ref 1, 4</span></li>
+                    <li><strong>AI Optimization:</strong> <span class="brand-label brand-ui">United Imaging</strong></span> represents the next generation, where the system intelligently collimates and modulates dose based on real-time anatomical recognition. <span class="evidence-badge ev-na">Ref 29</span></li>
+                </ul>
+            </section>
+
+            <!-- SECTION 6 -->
+            <section class="content-section" id="sec6">
+                <h2>6. Summary Comparison Table</h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <caption>Table 3: Comprehensive Comparison — Top Global Brands vs. Leading Chinese Brands</caption>
+                        <thead>
+                            <tr>
+                                <th>Feature / Metric</th>
+                                <th>Top Global Brands<br>(Siemens, GE, Ziehm, Medtronic)</th>
+                                <th>Top Chinese Brands<br>(Perlove, United Imaging, Browiner, Tinavi)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>3D Field of View</td>
+                                <td>GE leads with 19×19×19 cm; Siemens/Ziehm ~16 cm cube; O-arm offers 40+ cm length</td>
+                                <td>Perlove cylindrical 18×18 cm (optimized for 5 lumbar vertebrae); UI and Browiner offer large 30×30 cm FPDs</td>
+                            </tr>
+                            <tr>
+                                <td>Image Quality &amp; MAR</td>
+                                <td>Gold standard: mature iterative MAR algorithms (Siemens Retina 3D). High-res CMOS (Ziehm/Siemens)</td>
+                                <td>Rapidly advancing: UI AI-driven metal detection + monocrystalline silicon. Perlove high-bit depth FPDs + isocentric stability</td>
+                            </tr>
+                            <tr>
+                                <td>Navigation Integration</td>
+                                <td>Modular/Open: NaviLink, NaviPort for Brainlab/Stryker. Medtronic offers seamless closed ecosystem</td>
+                                <td>Integrated/Hybrid: Perlove Smart Link for auto-registration. Proprietary robotic ecosystems (Perlove PL300B, Tinavi TiRobot) with sub-mm accuracy</td>
+                            </tr>
+                            <tr>
+                                <td>Radiation Dose</td>
+                                <td>Low-dose leaders: Ziehm CMOSline, Siemens Laser Localizers. Extensive peer-reviewed dosimetry data</td>
+                                <td>Innovative features: Perlove Collimator Preview, UI uFree AI modulation. Less long-term independent comparative data</td>
+                            </tr>
+                            <tr>
+                                <td>Workflow Automation</td>
+                                <td>Advanced: Siemens CIARTIC Move self-driving; Philips motorization + position memory</td>
+                                <td>Catching up: motorized axes and memory positions (Perlove, Browiner). Robotics focused on screw placement (Tinavi)</td>
+                            </tr>
+                            <tr>
+                                <td>Cost &amp; Value</td>
+                                <td>Premium pricing: high CAPEX and service contract costs. High resale value</td>
+                                <td>High value: significantly lower CAPEX for comparable hardware specs. Ideal for cost-conscious markets</td>
+                            </tr>
+                            <tr>
+                                <td>Regulatory Status</td>
+                                <td>Global clearance: FDA 510(k), CE, NMPA standard</td>
+                                <td>Mixed: Strong NMPA presence. Leading brands pursuing FDA/CE for global expansion</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION 7 -->
+            <section class="content-section" id="sec7">
+                <h2>7. Strategic Implications &amp; Future Outlook</h2>
+
+                <p>The market for intraoperative spine imaging is no longer a unipolar world dominated by Western technology. The "Asian Challengers" have successfully traversed the technological learning curve, moving beyond manufacturing simple image intensifiers to producing sophisticated, high-power, isocentric 3D systems with proprietary robotics and AI integration.</p>
+
+                <h3>Key Trends to Watch</h3>
+
+                <div class="feature-card">
+                    <h4><span class="card-icon blue">🧠</span> 1. The Rise of AI-Driven Imaging</h4>
+                    <p><span class="brand-label brand-ui">United Imaging</span>'s entry signals a shift where hardware specs (generator power) matter less than <strong>software intelligence</strong> (AI reconstruction and dose modulation). Global brands will need to accelerate their AI integration to maintain their premium status.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><span class="card-icon green">🤖</span> 2. Robotic Convergence</h4>
+                    <p>The distinction between "Imaging Company" and "Robotics Company" is blurring. <span class="brand-label brand-siemens">Siemens</span> (CIARTIC Move) is automating the C-arm; <span class="brand-label brand-perlove">Perlove</span> is building the surgical robot. The winner will be the ecosystem that offers the smoothest workflow between image acquisition and screw insertion.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h4><span class="card-icon orange">🌍</span> 3. Democratization of 3D Navigation</h4>
+                    <p>The cost-efficiency of Chinese systems like the <span class="brand-label brand-perlove">Perlove PLX7500A</span> combined with "Smart Link" technology will likely accelerate the adoption of navigated spine surgery in <strong>emerging markets and community hospitals</strong> that were previously priced out of the "O-arm + Stealth" tier.</p>
+                </div>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">Procurement Decision Framework</div>
+                    <p>For hospital procurement committees, the decision matrix has expanded:</p>
+                    <ul style="margin-bottom:0;">
+                        <li><strong>Complex deformity centers:</strong> O-arm remains optimal for long-scan capability</li>
+                        <li><strong>General trauma and spine:</strong> Siemens/GE remain safe, high-performance choices</li>
+                        <li><strong>Cost-conscious or hybrid ORs:</strong> Perlove and United Imaging now offer viable, high-specification alternatives delivering <strong>90–95% of the performance at a fraction of the cost</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECTION 8: REFERENCES -->
+            <section class="content-section" id="sec8">
+                <h2>8. References</h2>
+                <p style="font-size:0.9rem;color:var(--neutral-500);margin-bottom:20px;">Derived from the source document's reference list. Numbers correspond to in-text citations.</p>
+
+                <ol class="reference-list">
+                    <li>3D C-Arm Systems Comparison. <span class="ref-link">https://www.scribd.com/document/571921253/</span></li>
+                    <li>Who Makes the Best 3D C-Arm? – Block Imaging. <span class="ref-link">https://www.blockimaging.com/blog/bid/90997/</span></li>
+                    <li>Dose comparison between Ziehm Vision RFD 3D and Medtronic O-arm® O2. Ziehm Imaging. <span class="ref-link">https://www.ziehm.com/downloads/en_technicalarticle_40_2020</span></li>
+                    <li>Perlove Medical – Digital Intraoperative 3D C-arm PLXC7500A. <span class="ref-link">https://www.perlove.net/digital-intraoperative-3d-c-arm-plxc7500a/</span></li>
+                    <li>Siemens Healthineers – Intraoperative 3D imaging in orthopedic trauma surgery. <span class="ref-link">https://www.siemens-healthineers.com/clinical-specialities/surgery/</span></li>
+                    <li>New 3D Robotic C-Arm Improves Visualization – Axis Imaging News. <span class="ref-link">https://axisimagingnews.com/radiology-products/mobile-devices/</span></li>
+                    <li>Siemens Healthineers – CIARTIC Move. <span class="ref-link">https://www.siemens-healthineers.com/en-us/surgical-c-arms-and-navigation/</span></li>
+                    <li>Siemens Healthineers – Cios Spin Revision Surgery Whitepaper. <span class="ref-link">https://cdn0.scrvt.com/39b415fb07de4d9656c7b516d8e2d907/</span></li>
+                    <li>Siemens Healthineers – Cios Spin product page. <span class="ref-link">https://www.siemens-healthineers.com/en-us/surgical-c-arms/</span></li>
+                    <li>GE HealthCare – OEC 3D product page. <span class="ref-link">https://www.gehealthcare.com/products/surgical-imaging/oec-3d</span></li>
+                    <li>GE HealthCare – A new standard in Spine Surgery. <span class="ref-link">https://www.gehealthcare.co.uk/insights/article/</span></li>
+                    <li>Becker's Spine Review – 26 O-arm &amp; C-arm systems. <span class="ref-link">https://www.beckersspine.com/spinal-tech/</span></li>
+                    <li>NIH – Guidelines for acquisition and application of imaging, navigation, and robotics for spine surgery. <span class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC6465454/</span></li>
+                    <li>Ziehm Imaging – Whitepaper: RFD 3D and Brainlab Spine &amp; Trauma 3D navigation. <span class="ref-link">https://www.ziehm.com/en/downloads/whitepaper-36-2016</span></li>
+                    <li>Medtronic – O-arm Surgical Imaging Systems. <span class="ref-link">https://europe.medtronic.com/xd-en/healthcare-professionals/products/</span></li>
+                    <li>Medtronic – O-arm and StealthStation Value Summary Brochure. <span class="ref-link">https://www.medtronic.com/content/dam/medtronic-wide/public/</span></li>
+                    <li>NIH – Intraoperative Radiation Exposure from O-arm-based 3D Navigation. <span class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC10710891/</span></li>
+                    <li>NIH – Image quality and radiation dose in spinal surgery: comparison of three imaging systems. <span class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC10251430/</span></li>
+                    <li>Stryker – Q Guidance System with Spine Guidance Software. <span class="ref-link">https://www.stryker.com/content/dam/stryker/portfolios/</span></li>
+                    <li>NeuroSpine Product Review – Stryker Q Guidance Navigation. <span class="ref-link">https://neurospineproductreview.com/stryker-q-guidance/</span></li>
+                    <li>Medical Device Network – Stryker's Q Guidance System. <span class="ref-link">https://www.medicaldevice-network.com/projects/</span></li>
+                    <li>Philips – Zenition 90 Mobile C-arm. <span class="ref-link">https://www.usa.philips.com/healthcare/product/NMCA605/</span></li>
+                    <li>Philips – Zenition 90 Motorized FDA clearance press release. <span class="ref-link">https://www.usa.philips.com/a-w/about/news/archive/</span></li>
+                    <li>Perlove Medical – What is a 3D C-arm machine? <span class="ref-link">https://www.perlove.com.cn/about/detail.asp?Id=288</span></li>
+                    <li>Perlove Medical – Which dimensions to detect high quality of 3D C-arm? <span class="ref-link">https://www.perlove.net/which-dimensions-to-detect/</span></li>
+                    <li>Perlove Medical – Clinical application of intraoperative 3D navigation C-arm. <span class="ref-link">https://www.perlove.net/clinical-application-and-advantages/</span></li>
+                    <li>Perlove Medical – TINAVI vs. Perlove: Comparison of Orthopedic Surgical Robots. <span class="ref-link">https://www.perlove.net/tinavi-vs-perlove/</span></li>
+                    <li>Perlove Medical – Lead the Trend of 3D Imaging PLX7500. <span class="ref-link">https://www.perlove.net/lead-the-trend-of-3d-lmaging-plx7500/</span></li>
+                    <li>United Imaging – uMC 560i (Low Dose CMOS Mobile C-arm). <span class="ref-link">https://eu.united-imaging.com/en/product-service/products/dr/umc-560i</span></li>
+                    <li>DV Medica (Scribd document). <span class="ref-link">https://www.scribd.com/document/663137144/dv-medica</span></li>
+                    <li>Browiner – CompaX 500 Series Premium. <span class="ref-link">https://www.browiner.com/mobile-c-arm/compax-500-series-premium.html</span></li>
+                    <li>Browiner – CompaX 500 (Scribd document). <span class="ref-link">https://www.scribd.com/document/689435622/</span></li>
+                    <li>Browiner – CompaX 500 Series PDF Catalogs. <span class="ref-link">https://pdf.medicalexpo.com/pdf/browiner/</span></li>
+                    <li>NIH – Radiological and Clinical Differences between Tinavi Orthopedic Robot and O-Arm Navigation. <span class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC7507796/</span></li>
+                    <li>NIH – Registration of 2D C-Arm and 3D CT Images for C-Arm Navigation. <span class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC4745431/</span></li>
+                    <li>Ziehm Imaging – Dose comparison whitepaper (2022). <span class="ref-link">https://www.ziehm.com/downloads/en_technicalwhitepaper_39_2022</span></li>
+                    <li>United Imaging – uMI Panorama. <span class="ref-link">https://usa.united-imaging.com/products/molecular-imaging/umi-panorama</span></li>
+                    <li>Tinavi Medical – TiRobot. <span class="ref-link">https://en.tinavi.com/index.php?c=article&a=type&tid=1</span></li>
+                    <li>Philips – Zenition 70 Mobile C-arm. <span class="ref-link">https://www.usa.philips.com/healthcare/product/HC718133/</span></li>
+                    <li>DAIC – Ziehm, Stryker Develop Intraoperative C-Arm. <span class="ref-link">https://www.dicardiology.com/content/ziehm-stryker/</span></li>
+                    <li>Perlove Medical – PLX C7600 Series. <span class="ref-link">https://www.perlove.net/digital-intraoperative-3d-c-arm-system-plx-c7600-series/</span></li>
+                    <li>United Imaging – CT: Z-Detector &amp; AI. <span class="ref-link">https://usa.united-imaging.com/products/computed-tomography</span></li>
+                </ol>
+            </section>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside role="complementary" aria-label="Interactive Clinical Parameters">
+            <div class="sidebar-sticky">
+
+                <div class="sidebar-section">
+                    <h3>🔧 Interactive Parameters</h3>
+                    <p style="font-size:0.78rem;color:var(--neutral-500);margin-bottom:18px;">Adjust parameters to explore how different specifications affect system suitability. Recommendations reflect source document conclusions.</p>
+
+                    <!-- Slider 1: FOV -->
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>3D Field of View</span>
+                            <span class="slider-value" id="fov-value">16 cm</span>
+                        </div>
+                        <input type="range" id="fov-slider" min="14" max="20" step="1" value="16" aria-label="3D Field of View in centimeters">
+                        <div class="slider-range-labels">
+                            <span>14 cm</span>
+                            <span>20 cm</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider 2: Generator Power -->
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Generator Power</span>
+                            <span class="slider-value" id="power-value">15 kW</span>
+                        </div>
+                        <input type="range" id="power-slider" min="5" max="30" step="5" value="15" aria-label="Generator power in kilowatts">
+                        <div class="slider-range-labels">
+                            <span>5 kW</span>
+                            <span>30 kW</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider 3: Navigation Accuracy -->
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Required Accuracy</span>
+                            <span class="slider-value" id="accuracy-value">1.0 mm</span>
+                        </div>
+                        <input type="range" id="accuracy-slider" min="0.2" max="2.0" step="0.1" value="1.0" aria-label="Required navigation accuracy in millimeters">
+                        <div class="slider-range-labels">
+                            <span>0.2 mm</span>
+                            <span>2.0 mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>📋 System Recommendation</h3>
+                    <div class="recommendation-box" id="recommendation-box">
+                        <span class="rec-severity optimal" id="rec-severity">Optimal Range</span>
+                        <div class="rec-text" id="rec-text">
+                            Adjust the sliders above to generate a context-specific recommendation based on the source document's comparative analysis.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="btn-group">
+                        <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">
+                            ↺ Reset
+                        </button>
+                        <button class="btn btn-export" id="btn-export" aria-label="Copy recommendation to clipboard">
+                            📋 Copy Summary
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>ℹ️ Notes</h3>
+                    <ul style="list-style:none;padding:0;font-size:0.78rem;color:var(--neutral-500);">
+                        <li style="padding:4px 0;">• FOV &amp; power thresholds from source specifications</li>
+                        <li style="padding:4px 0;">• Clinical accuracy threshold (1.0–1.5 mm) based on general consensus</li>
+                        <li style="padding:4px 0;">• Source document is a market analysis; not all clinical validation data available</li>
+                    </ul>
+                </div>
+
+            </div>
+        </aside>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="copy-toast" id="copy-toast">✓ Copied to clipboard!</div>
+
+    <script>
+        // DOM Elements
+        const fovSlider = document.getElementById('fov-slider');
+        const powerSlider = document.getElementById('power-slider');
+        const accuracySlider = document.getElementById('accuracy-slider');
+        const fovValue = document.getElementById('fov-value');
+        const powerValue = document.getElementById('power-value');
+        const accuracyValue = document.getElementById('accuracy-value');
+        const recText = document.getElementById('rec-text');
+        const recSeverity = document.getElementById('rec-severity');
+        const recBox = document.getElementById('recommendation-box');
+        const btnReset = document.getElementById('btn-reset');
+        const btnExport = document.getElementById('btn-export');
+        const copyToast = document.getElementById('copy-toast');
+
+        function getRecommendation(fov, power, accuracy) {
+            let systems = [];
+            let rationale = [];
+            let severity = 'optimal';
+
+            // FOV Assessment
+            if (fov >= 18) {
+                systems.push('<strong>GE OEC 3D</strong> (19 cm cube)', '<strong>Perlove PLX7500A</strong> (18 cm cylinder)');
+                rationale.push('Your FOV requirement of ' + fov + ' cm is met by GE\'s industry-leading volumetric coverage and Perlove\'s cylindrical FOV optimized for spinal segments.');
+            } else if (fov >= 16) {
+                systems.push('<strong>Siemens Cios Spin</strong> (16 cm)', '<strong>Ziehm Vision RFD 3D</strong> (~16 cm)', '<strong>United Imaging uMC 560i</strong>');
+                rationale.push('A ' + fov + ' cm FOV is well-served by standard high-end C-arms from Siemens, Ziehm, and United Imaging.');
+            } else {
+                systems.push('<strong>Most modern 3D C-arms</strong> exceed this minimal requirement.');
+                rationale.push('At ' + fov + ' cm, all major systems provide adequate coverage. Consider if larger FOV would reduce the number of acquisitions needed.');
+            }
+
+            // Power Assessment
+            if (power >= 25) {
+                systems.push('<strong>Browiner CompaX 500</strong> (25 kW)');
+                rationale.push('High power (' + power + ' kW) is essential for imaging dense/large patients in lateral lumbar positions. Browiner and Siemens (25 kW) are specified for this scenario.');
+            } else if (power >= 15) {
+                rationale.push('A ' + power + ' kW generator is adequate for standard cases but may be insufficient for morbidly obese patients in lateral decubitus positioning.');
+            } else {
+                severity = 'caution';
+                rationale.push('<span style="color:#c05621;">⚠ Low power (' + power + ' kW) systems may produce suboptimal images in large patients. Source document notes that Browiner emphasizes 25 kW as essential for lateral lumbar imaging.</span>');
+            }
+
+            // Accuracy Assessment
+            if (accuracy <= 0.5) {
+                severity = severity === 'caution' ? 'critical' : 'optimal';
+                systems = ['<strong>Medtronic O-arm + StealthStation</strong> (sub-mm, closed ecosystem)', '<strong>Perlove PLX7500A + PL300B</strong> (≤0.7 mm)'];
+                rationale.push('For accuracy ≤' + accuracy + ' mm, the most tightly integrated systems are recommended. Note: Global phantom studies report ~0.22 mm (Ref 35), but clinical accuracy typically 0.5–1.0 mm across all systems.');
+            } else if (accuracy <= 1.0) {
+                rationale.push('An accuracy requirement of ' + accuracy + ' mm is achievable by all major navigation systems cited in the source. Both Medtronic StealthStation, Brainlab, Stryker Q Guidance, Perlove Smart Link, and Tinavi TiRobot meet this threshold.');
+            } else if (accuracy <= 1.5) {
+                severity = 'optimal';
+                rationale.push('An accuracy of ' + accuracy + ' mm is within the range considered safe for pedicle screw placement by general clinical consensus (not specified in source). All systems in this analysis meet this threshold.');
+            } else {
+                severity = 'caution';
+                rationale.push('<span style="color:#c05621;">⚠ An accuracy requirement of ' + accuracy + ' mm exceeds the generally accepted safe threshold for pedicle screw placement (1.0–1.5 mm). Consider whether 3D navigation is necessary or if standard fluoroscopy suffices.</span>');
+            }
+
+            // Build recommendation text
+            let rec = '<p><strong>Recommended Systems:</strong></p><ul style="padding-left:18px;margin-bottom:12px;">';
+            const uniqueSystems = [...new Set(systems)];
+            uniqueSystems.forEach(s => { rec += '<li style="margin-bottom:4px;font-size:0.85rem;">' + s + '</li>'; });
+            rec += '</ul>';
+            rec += '<p style="font-size:0.85rem;line-height:1.6;">';
+            rationale.forEach(r => { rec += r + ' '; });
+            rec += '</p>';
+
+            // Add ecosystem note
+            rec += '<p style="font-size:0.8rem;color:#718096;margin-top:8px;border-top:1px solid #e2e8f0;padding-top:8px;">';
+            if (accuracy <= 0.7) {
+                rec += '<strong>Ecosystem Note:</strong> Sub-mm accuracy favors closed-loop integration (Medtronic O-arm+Stealth or Perlove PLX7500A+PL300B) as noted in source. Open systems (Tinavi TiRobot) offer flexibility at ~0.8 mm accuracy.';
+            } else {
+                rec += '<strong>Ecosystem Note:</strong> Source indicates open integration (Siemens/GE/Ziehm + Brainlab/Stryker) offers maximum vendor flexibility. Closed ecosystems (Medtronic) offer seamless workflow but limit future options.';
+            }
+            rec += '</p>';
+
+            return { rec, severity };
+        }
+
+        function updateRecommendation() {
+            const fov = parseFloat(fovSlider.value);
+            const power = parseFloat(powerSlider.value);
+            const accuracy = parseFloat(accuracySlider.value);
+
+            fovValue.textContent = fov + ' cm';
+            powerValue.textContent = power + ' kW';
+            accuracyValue.textContent = accuracy.toFixed(1) + ' mm';
+
+            const result = getRecommendation(fov, power, accuracy);
+            recText.innerHTML = result.rec;
+
+            recSeverity.className = 'rec-severity ' + result.severity;
+            if (result.severity === 'optimal') {
+                recSeverity.textContent = '✓ Optimal Range';
+            } else if (result.severity === 'caution') {
+                recSeverity.textContent = '⚠ Caution';
+            } else {
+                recSeverity.textContent = '✗ Critical';
+            }
+        }
+
+        // Event Listeners
+        fovSlider.addEventListener('input', updateRecommendation);
+        powerSlider.addEventListener('input', updateRecommendation);
+        accuracySlider.addEventListener('input', updateRecommendation);
+
+        // Reset
+        btnReset.addEventListener('click', function() {
+            fovSlider.value = 16;
+            powerSlider.value = 15;
+            accuracySlider.value = 1.0;
+            updateRecommendation();
+        });
+
+        // Export
+        btnExport.addEventListener('click', function() {
+            const fov = fovSlider.value;
+            const power = powerSlider.value;
+            const accuracy = accuracySlider.value;
+            const timestamp = new Date().toISOString();
+            const recPlainText = recText.innerText;
+
+            const exportText = [
+                '=== INTRAOPERATIVE 3D IMAGING SYSTEM RECOMMENDATION ===',
+                '',
+                'Date: ' + timestamp,
+                '',
+                '--- PARAMETER VALUES ---',
+                '3D Field of View: ' + fov + ' cm',
+                'Generator Power: ' + power + ' kW',
+                'Required Navigation Accuracy: ' + parseFloat(accuracy).toFixed(1) + ' mm',
+                '',
+                '--- RECOMMENDATION ---',
+                recSeverity.textContent,
+                '',
+                recPlainText,
+                '',
+                '--- SOURCE ---',
+                'Based on: "Advanced Intraoperative 3D Imaging and Computer-Assisted Navigation in Spinal Surgery: A Comprehensive Technical and Market Analysis"',
+                '',
+                '=== END OF REPORT ==='
+            ].join('\n');
+
+            navigator.clipboard.writeText(exportText).then(function() {
+                copyToast.classList.add('show');
+                setTimeout(function() {
+                    copyToast.classList.remove('show');
+                }, 2500);
+            }).catch(function() {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = exportText;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    copyToast.classList.add('show');
+                    setTimeout(function() {
+                        copyToast.classList.remove('show');
+                    }, 2500);
+                } catch (e) {
+                    alert('Copy failed. Please try again.');
+                }
+                document.body.removeChild(textArea);
+            });
+        });
+
+        // Initialize
+        updateRecommendation();
+    </script>
+
+</body>
+</html>

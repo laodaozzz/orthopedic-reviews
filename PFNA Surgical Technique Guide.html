@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PFNA System: Surgical Technique & Biomechanical Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a5276;--primary-light:#2980b9;--accent:#e74c3c;--accent-warn:#f39c12;
+  --bg:#f7f9fc;--card:#ffffff;--text:#2c3e50;--text-light:#5d6d7e;
+  --border:#dce6f0;--success:#27ae60;--info:#3498db;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,0.07);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+
+/* Header */
+.site-header{
+  background:linear-gradient(135deg,#1a5276 0%,#2c3e50 100%);
+  color:#fff;padding:2.5rem 2rem;text-align:center;
+  position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+.site-header h1{font-size:clamp(1.3rem,3vw,2rem);font-weight:800;letter-spacing:-0.5px;line-height:1.3}
+.site-header .subtitle{font-size:0.95rem;opacity:0.85;margin-top:0.5rem;font-weight:300}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr 340px;gap:2rem;max-width:1400px;margin:0 auto;padding:2rem}
+@media(max-width:1024px){.layout{grid-template-columns:1fr;}.sidebar{position:relative!important;top:auto!important;order:-1}}
+
+/* Main Content */
+main{min-width:0}
+main h2{font-size:1.55rem;font-weight:700;color:var(--primary);margin:2.5rem 0 1rem;padding-bottom:0.6rem;border-bottom:3px solid var(--primary-light);letter-spacing:-0.3px}
+main h2:first-child{margin-top:0}
+main h3{font-size:1.15rem;font-weight:600;color:#2c3e50;margin:1.8rem 0 0.7rem}
+main h4{font-size:1rem;font-weight:600;color:var(--primary-light);margin:1.2rem 0 0.5rem}
+main p{margin:0 0 1rem;text-align:justify}
+main ul,main ol{margin:0 0 1rem 1.5rem}
+main li{margin-bottom:0.4rem}
+main strong{color:var(--primary)}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.8rem;margin-bottom:1.5rem;border:1px solid var(--border)}
+
+/* Evidence Badge */
+.ev{display:inline-block;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:12px;vertical-align:middle;margin-left:4px;letter-spacing:0.3px}
+.ev-i{background:#27ae60;color:#fff}
+.ev-ii{background:#2ecc71;color:#fff}
+.ev-iii{background:#f39c12;color:#fff}
+.ev-iv{background:#e67e22;color:#fff}
+.ev-v{background:#e74c3c;color:#fff}
+.ev-ns{background:#95a5a6;color:#fff}
+
+/* Callout */
+.callout{border-left:4px solid var(--primary-light);background:#eaf2f8;padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1rem 0;font-size:0.95rem}
+.callout.warn{border-left-color:var(--accent-warn);background:#fef9e7}
+.callout.danger{border-left-color:var(--accent);background:#fdedec}
+.callout.success{border-left-color:var(--success);background:#eafaf1}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:0.9rem}
+caption{background:var(--primary);color:#fff;padding:0.8rem 1rem;text-align:left;font-weight:600;font-size:0.95rem;border-radius:var(--radius) var(--radius) 0 0}
+th{background:#2c3e50;color:#fff;padding:0.7rem 1rem;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:0.65rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:nth-child(even){background:#f4f7fa}
+tr:hover{background:#eaf2f8}
+
+/* Sidebar */
+.sidebar{
+  position:sticky;top:130px;height:fit-content;max-height:calc(100vh - 150px);
+  overflow-y:auto;padding-right:0.5rem;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.sidebar-card{
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:1.5rem;margin-bottom:1.2rem;border:1px solid var(--border);
+}
+.sidebar-card h3{font-size:1rem;font-weight:700;color:var(--primary);margin:0 0 1rem;display:flex;align-items:center;gap:0.5rem}
+.sidebar-card h3 .icon{font-size:1.2rem}
+.slider-group{margin-bottom:1.3rem}
+.slider-group label{display:block;font-weight:600;font-size:0.85rem;color:var(--text);margin-bottom:0.4rem}
+.slider-group .value-display{
+  display:inline-block;background:var(--primary);color:#fff;padding:2px 10px;border-radius:8px;
+  font-size:0.8rem;font-weight:600;min-width:60px;text-align:center;
+}
+input[type=range]{
+  -webkit-appearance:none;width:100%;height:6px;border-radius:3px;
+  background:linear-gradient(to right,#e74c3c,#f39c12,#27ae60,#f39c12,#e74c3c);
+  outline:none;margin:0.5rem 0;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--primary);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);cursor:grab;
+}
+input[type=range]::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;background:var(--primary);
+  border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);cursor:grab;
+}
+.range-labels{display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text-light)}
+.toggle-group{margin-bottom:1rem}
+.toggle-group label{display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;font-weight:500;cursor:pointer}
+.toggle-group input[type=checkbox]{display:none}
+.toggle-switch{
+  position:relative;width:44px;height:24px;background:#ccc;border-radius:12px;
+  transition:background 0.3s;flex-shrink:0;
+}
+.toggle-switch::after{
+  content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;
+  background:#fff;border-radius:50%;transition:transform 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-group input:checked + .toggle-switch{background:var(--success)}
+.toggle-group input:checked + .toggle-switch::after{transform:translateX(20px)}
+
+/* Recommendation Box */
+.rec-box{
+  background:linear-gradient(135deg,#1a5276,#2c3e50);color:#fff;
+  border-radius:var(--radius);padding:1.2rem;margin-top:1rem;font-size:0.85rem;
+  min-height:180px;transition:all 0.3s;
+}
+.rec-box h4{font-size:0.9rem;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem}
+.rec-box .rec-status{display:inline-block;padding:2px 10px;border-radius:10px;font-weight:700;font-size:0.8rem;margin-bottom:0.6rem}
+.rec-box .rec-status.ok{background:#27ae60}
+.rec-box .rec-status.warn{background:#f39c12;color:#2c3e50}
+.rec-box .rec-status.danger{background:#e74c3c}
+.rec-box ul{margin:0.4rem 0 0 1.2rem;font-size:0.82rem;line-height:1.6}
+.rec-box li{margin-bottom:0.3rem}
+
+/* Buttons */
+.btn-group{display:flex;gap:0.6rem;margin-top:1rem;flex-wrap:wrap}
+.btn{
+  padding:0.55rem 1rem;border:none;border-radius:8px;font-size:0.8rem;
+  font-weight:600;cursor:pointer;display:flex;align-items:center;gap:0.4rem;
+  transition:all 0.2s;font-family:inherit;
+}
+.btn-reset{background:#e74c3c;color:#fff}.btn-reset:hover{background:#c0392b}
+.btn-copy{background:var(--primary);color:#fff}.btn-copy:hover{background:#154360}
+.btn:active{transform:scale(0.97)}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;background:#2c3e50;color:#fff;
+  padding:0.8rem 1.5rem;border-radius:8px;font-size:0.85rem;font-weight:500;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);z-index:999;opacity:0;
+  transform:translateY(20px);transition:all 0.3s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* References */
+.references{background:#f0f4f8;padding:1.5rem;border-radius:var(--radius);margin-top:2rem;font-size:0.85rem}
+.references h3{font-size:1.1rem;margin-bottom:0.8rem}
+.references ol{margin-left:1.2rem}
+.references li{margin-bottom:0.5rem;line-height:1.5}
+.references a{color:var(--primary-light);word-break:break-all}
+
+/* Nav */
+.toc{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;margin-bottom:1.5rem;border:1px solid var(--border)}
+.toc h3{font-size:0.95rem;font-weight:700;color:var(--primary);margin-bottom:0.6rem}
+.toc ol{margin-left:1.2rem;font-size:0.85rem}
+.toc li{margin-bottom:0.3rem}
+.toc a{color:var(--text);text-decoration:none;transition:color 0.2s}
+.toc a:hover{color:var(--primary-light);text-decoration:underline}
+
+/* Algorithm Steps */
+.step-list{counter-reset:step;list-style:none;margin:1rem 0;padding:0}
+.step-list li{
+  counter-increment:step;padding:0.8rem 0.8rem 0.8rem 3.2rem;
+  position:relative;margin-bottom:0.6rem;background:#f8fafc;border-radius:8px;
+  border-left:3px solid var(--primary-light);font-size:0.93rem;
+}
+.step-list li::before{
+  content:counter(step);position:absolute;left:0.8rem;top:0.75rem;
+  width:1.6rem;height:1.6rem;background:var(--primary);color:#fff;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:0.75rem;font-weight:700;
+}
+
+/* Highlight number */
+.hl-num{font-size:2rem;font-weight:800;color:var(--primary);line-height:1}
+.hl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin:1.5rem 0}
+.hl-card{text-align:center;background:#f0f4f8;padding:1rem;border-radius:var(--radius)}
+.hl-card .label{font-size:0.75rem;color:var(--text-light);margin-top:0.3rem}
+
+/* Footer */
+footer{background:#2c3e50;color:#fff;text-align:center;padding:1.5rem;font-size:0.8rem;margin-top:3rem}
+
+/* Print */
+@media print{
+  .sidebar,.site-header,.btn-group,.toc{display:none!important}
+  .layout{grid-template-columns:1fr!important}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Surgical Technique &amp; Biomechanical Analysis of the PFNA System</h1>
+  <p class="subtitle">Targeting Assembly, Helical Blade Positioning &amp; Evidence-Based Management of Unstable Trochanteric Fractures</p>
+</header>
+
+<div class="layout">
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main id="main-content" role="main">
+
+<!-- Table of Contents -->
+<nav class="toc" aria-label="Table of Contents">
+  <h3>📑 Table of Contents</h3>
+  <ol>
+    <li><a href="#sec1">Introduction &amp; Biomechanical Rationale</a></li>
+    <li><a href="#sec2">Preoperative Planning &amp; Patient Positioning</a></li>
+    <li><a href="#sec3">Instrumentation Assembly: The Physics of Targeting</a></li>
+    <li><a href="#sec4">Surgical Approach &amp; Entry Point</a></li>
+    <li><a href="#sec5">Intraoperative Helical Blade Positioning</a></li>
+    <li><a href="#sec6">Helical Blade Insertion: Step-by-Step</a></li>
+    <li><a href="#sec7">Cement Augmentation</a></li>
+    <li><a href="#sec8">Complications &amp; Troubleshooting</a></li>
+    <li><a href="#sec9">Interactive Decision Aid &amp; Summary</a></li>
+    <li><a href="#sec10">References</a></li>
+  </ol>
+</nav>
+
+<!-- Key Metrics -->
+<div class="hl-grid">
+  <div class="hl-card"><div class="hl-num">20–30 mm</div><div class="label">Optimal TAD Window</div></div>
+  <div class="hl-card"><div class="hl-num">3–6 ml</div><div class="label">Cement Volume Range</div></div>
+  <div class="hl-card"><div class="hl-num">125–135°</div><div class="label">CCD Angle Options</div></div>
+  <div class="hl-card"><div class="hl-num">~10 mm</div><div class="label">Tip-to-Joint Target</div></div>
+</div>
+
+<!-- Section 1 -->
+<h2 id="sec1">1. Introduction: Evolution and Biomechanical Rationale</h2>
+
+<div class="card">
+  <p>The management of <strong>unstable trochanteric and subtrochanteric femoral fractures</strong> remains a cornerstone challenge in orthopaedic trauma surgery. The demographic shift toward an aging population with reduced bone mineral density has necessitated a departure from traditional fixation methods that rely on screw thread purchase.</p>
+
+  <p>The <strong>Proximal Femoral Nail Antirotation (PFNA)</strong> system emerged as a response to the limitations of the Dynamic Hip Screw (DHS) and earlier generation intramedullary nails (Gamma nail, original PFN). The fundamental innovation lies in its <strong>helical blade</strong>—a single load-bearing element that achieves rotational and angular stability not by removing bone, but by <em>compacting</em> it.
+  <span class="ev ev-ii">LOE II–III</span></p>
+
+  <div class="callout">
+    <strong>Key Principle:</strong> The success of the PFNA is intrinsically linked to the surgeon's ability to execute a precise, mathematically driven implantation sequence. Failure to adhere to the strict geometric constraints of the targeting system leads to distinct failure modes—primarily <strong>cut-out</strong> and <strong>varus collapse</strong>.
+  </div>
+</div>
+
+<h3>1.1 The Biomechanics of Bone Compaction</h3>
+<div class="card">
+  <p>Unlike a standard lag screw—which cuts a path through trabeculae and relies on shear strength between threads—the PFNA helical blade operates on <strong>volumetric compaction</strong>. As the blade is hammered into the femoral head, its geometry forces surrounding cancellous bone outward, densifying the bone-implant interface. This creates a <strong>circumferential mantle of denser bone</strong> that significantly enhances resistance to rotation and varus deviation. <span class="ev ev-ii">LOE II</span></p>
+
+  <p>Clinical and biomechanical studies indicate this compaction mechanism is <strong>particularly advantageous in osteoporotic bone</strong>, where trabecular structure is sparse. By preserving and compressing existing bone stock, PFNA improves anchorage in the presence of poor bone quality. <span class="ev ev-iii">LOE III</span></p>
+
+  <div class="callout danger">
+    <strong>⚠ Critical Warning:</strong> The mechanical advantage imposes strict positioning requirements. The blade <em>must</em> be centered to compact bone uniformly. <strong>Eccentric placement</strong>—particularly ventral or superior positioning—creates stress risers and catastrophic failure. Biomechanical analysis shows ventral placement reduces fixation failure strength by up to <strong>17%</strong>. <span class="ev ev-ii">LOE II</span>
+  </div>
+</div>
+
+<!-- Section 2 -->
+<h2 id="sec2">2. Preoperative Planning and Patient Positioning</h2>
+
+<h3>2.1 Radiographic Templating and Implant Selection</h3>
+<div class="card">
+  <p>Standard AP and lateral radiographs of the affected hip are insufficient; the <strong>contralateral, uninjured hip</strong> must also be imaged to determine the native <strong>Caput Collum Diaphyseal (CCD) angle</strong>. The PFNA is available in CCD angles of <strong>125°, 130°, and 135°</strong>. Selecting a nail whose CCD angle closely matches the patient's anatomy ensures the helical blade travels along the femoral neck axis. A mismatch forces the blade into a superior or inferior trajectory, compromising the "center-center" position. <span class="ev ev-iii">LOE III</span></p>
+
+  <p>Nail diameter is determined by measuring the <strong>isthmus of the femoral canal</strong>. The surgeon must also account for the <strong>radius of curvature (ROC)</strong> of the femur. A significant mismatch between nail ROC and the patient's femoral bow—common in Asian populations—can lead to anterior cortical impingement or iatrogenic shaft fractures. In such cases, <strong>PFNA-II (Asian size)</strong> or nails with a modified ROC (1.0 m or 1.5 m radius) may be indicated. <span class="ev ev-iv">LOE IV</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 1: PFNA Nail Specifications and Selection Criteria</caption>
+      <thead>
+        <tr><th>Parameter</th><th>Options / Values</th><th>Selection Criteria</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CCD Angle</td><td>125°, 130°, 135°</td><td>Match contralateral hip anatomy on templated radiograph</td></tr>
+        <tr><td>Nail Diameter</td><td>9 mm – 12 mm (standard)</td><td>Femoral canal isthmus measurement; leave 1.5 mm clearance</td></tr>
+        <tr><td>Nail Length</td><td>Short (170–240 mm) / Long (300–420 mm)</td><td>Short for most intertrochanteric; long for subtrochanteric extension</td></tr>
+        <tr><td>Radius of Curvature</td><td>Standard / 1.5 m / 1.0 m (PFNA-II)</td><td>Asian anatomy or pronounced femoral bow → use PFNA-II</td></tr>
+        <tr><td>Blade Diameter</td><td>Single (11 mm effective)</td><td>Universal for all nail sizes</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h3>2.2 Patient Setup and Reduction Maneuvers</h3>
+<div class="card">
+  <p>The patient is positioned <strong>supine on a fracture table</strong>. The setup must facilitate unobstructed fluoroscopic imaging in both AP and lateral planes. The unaffected leg is typically abducted and flexed (hemolithotomy) or extended and abducted ("scissor" position) to allow C-arm rotation.</p>
+
+  <div class="callout success">
+    <strong>🔑 Fundamental Tenet:</strong> The nail is an <em>internal splint, not a reduction tool</em>. Attempting to reduce a fracture using the nail often results in malalignment or comminution.
+  </div>
+
+  <h4>Closed Reduction Verification</h4>
+  <ul>
+    <li><strong>AP view:</strong> Restore neck-shaft angle via traction and adduction; correct shortening.</li>
+    <li><strong>Lateral view:</strong> Anterior cortices of head and neck fragments must be aligned. <em>Sagging</em> (posterior angulation) leads to posterior entry points and anterior blade placement. <span class="ev ev-iv">LOE IV</span></li>
+    <li>Internal rotation corrects anteversion.</li>
+  </ul>
+
+  <h4>Open Reduction</h4>
+  <p>If closed reduction fails, a <strong>limited open reduction</strong> is mandatory. Techniques include percutaneous joysticks (Schanz screws), bone hooks, or finger/instrument introduction through the incision. <span class="ev ev-iv">LOE IV</span></p>
+</div>
+
+<!-- Section 3 -->
+<h2 id="sec3">3. Instrumentation Assembly: The Physics of Targeting</h2>
+<div class="card">
+  <p>The precision of the PFNA procedure relies entirely on the <strong>rigidity and alignment of the external targeting device</strong>. The "targeting arm" acts as an external reference frame for the internal anatomy of the nail. Any laxity, misalignment, or assembly error propagates to the drill sleeve tip, potentially causing drill impingement on the nail, locking thread damage, or complete miss of the locking hole.</p>
+</div>
+
+<h3>3.1 The Insertion Handle and Connecting Bolt</h3>
+<div class="card">
+  <p>The insertion handle is typically <strong>radiolucent</strong> (carbon fiber reinforced PEEK) to allow proximal femur visualization without metal artifact obscuring the entry point or blade path. <span class="ev ev-iv">LOE IV</span></p>
+
+  <h4>The Connecting Bolt Mechanism</h4>
+  <p>The connection between nail and handle is mediated by a connecting bolt threading into the proximal end of the nail, pulling the nail surface flush against the handle's mating surface.</p>
+
+  <ul>
+    <li><strong>Orientation Keys:</strong> The proximal nail end features notches mating with corresponding keys on the handle. The surgeon must verify the arrow on the nail (R/L) aligns perfectly with the arrow on the handle barrel. <span class="ev ev-iv">LOE IV</span></li>
+    <li><strong>Torque Application:</strong> The connecting bolt must be tightened firmly. A loose connection introduces "play" or toggle.</li>
+  </ul>
+
+  <div class="callout warn">
+    <strong>⚠ Consequence of Laxity:</strong> Even a few degrees of toggle at the handle can translate to <strong>several millimeters of deviation</strong> at the distal targeting arm tip. This can cause the guide wire to impinge on the locking hole or the drill to sheer off metal fragments from the nail, compromising the locking mechanism. <span class="ev ev-ii">LOE II</span>
+  </div>
+</div>
+
+<h3>3.2 The Aiming Arm and Sleeve Assembly</h3>
+<div class="card">
+  <p>The aiming arm (targeting bow) attaches to the insertion handle. Its geometry is <strong>fixed to correspond to the specific CCD angle</strong> of the chosen nail (e.g., 130° nail requires 130° aiming arm). Mixing components results in gross targeting error. <span class="ev ev-ii">LOE II</span></p>
+
+  <h4>The Sleeve Assembly – "Click" Mechanism</h4>
+  <p>The sleeve consists of <strong>three concentric tubes</strong>: Protection Sleeve (outermost), Drill Sleeve (middle), and Trocar (innermost).</p>
+
+  <ol class="step-list">
+    <li>Screw the buttress nut onto the protection sleeve first.</li>
+    <li>Insert drill sleeve and trocar into the protection sleeve.</li>
+    <li>Pass entire assembly through the aiming arm.</li>
+    <li>Push until a distinct <strong>"click"</strong> is heard and felt—confirming coaxial alignment with the locking hole.</li>
+    <li>Spin the buttress nut down to contact the aiming arm for fine cortical compression adjustment.</li>
+  </ol>
+
+  <div class="callout danger">
+    <strong>⚠ Without the click:</strong> The sleeve may be angled obliquely, leading to a "skiving" effect where the guide wire glances off the nail rather than passing through it smoothly.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 2: Targeting Assembly Critical Checkpoints</caption>
+      <thead>
+        <tr><th>Component</th><th>Verification Step</th><th>Consequence of Error</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Connecting Bolt</td><td>Arrow alignment; firm torque with wrench</td><td>Toggle → mm-level deviation at targeting arm tip</td></tr>
+        <tr><td>Aiming Arm CCD</td><td>Match arm angle to nail CCD angle</td><td>Gross targeting error; blade misses nail hole</td></tr>
+        <tr><td>Sleeve "Click"</td><td>Audible/tactile confirmation of engagement</td><td>Skiving; guide wire glances off nail</td></tr>
+        <tr><td>Buttress Nut</td><td>Spin down to cortex; compress soft tissue</td><td>Soft tissue interposition; unstable entry point</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 4 -->
+<h2 id="sec4">4. Surgical Approach and Entry Point</h2>
+<div class="card">
+  <p>The entry point for PFNA differs from other nails due to its <strong>medial-lateral bend angle</strong> (typically 5° or 6°). The incision is made approximately <strong>3–5 cm proximal</strong> to the tip of the greater trochanter, in line with the femoral axis. The fascia lata is split longitudinally, and gluteus medius fibers are split bluntly. <span class="ev ev-iv">LOE IV</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 3: Entry Point Analysis – Risks of Malposition</caption>
+      <thead>
+        <tr><th>Entry Position</th><th>Risk / Consequence</th><th>Prevention</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Lateral</strong> (most common error)</td><td>Iatrogenic varus deformity; "wedge" effect fractures medial calcar or lateral wall</td><td>Verify in AP view; entry at or slightly medial to trochanter tip</td></tr>
+        <tr><td><strong>Too Medial</strong> (piriformis fossa)</td><td>Damages blood supply to femoral head (MCFA branches); iatrogenic femoral neck fracture</td><td>Avoid piriformis fossa entry; stay at trochanter tip</td></tr>
+        <tr><td><strong>Anterior</strong></td><td>Splits proximal femur</td><td>Verify in lateral view; align with medullary canal axis</td></tr>
+        <tr><td><strong>Posterior</strong></td><td>Nail abuts anterior cortex distally (anterior impingement)</td><td>Lateral view verification; check distally in long nails</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>Optimal Entry:</strong> The ideal entry point is at the <strong>tip of the greater trochanter</strong> or slightly medial to it, confirmed in both AP and lateral fluoroscopic views. <span class="ev ev-iv">LOE IV</span>
+  </div>
+</div>
+
+<!-- Section 5 -->
+<h2 id="sec5">5. Intraoperative Maneuvers for Helical Blade Positioning</h2>
+<div class="card">
+  <p>Positioning the helical blade is the <strong>most technically demanding and consequential step</strong>. The goal is to maximize purchase in the femoral head and minimize cut-out risk.</p>
+</div>
+
+<h3>5.1 Nail Depth and Rotation</h3>
+<div class="card">
+  <h4>Depth Adjustment (AP View)</h4>
+  <p>Nail depth determines the craniocaudal blade position. The target is to align the blade hole axis with the <strong>center or slightly inferior aspect</strong> of the femoral neck.</p>
+  <ul>
+    <li><strong>Too deep →</strong> blade too inferior (potential calcar impingement)</li>
+    <li><strong>Too proud →</strong> blade too superior (danger zone for cut-out)</li>
+  </ul>
+
+  <h4>Rotational Alignment (Lateral View)</h4>
+  <p>The insertion handle acts as a <strong>joystick</strong> for internal/external rotation. The surgeon rotates until the nail's anteversion matches the femoral neck's anteversion.</p>
+  <p>Most PFNA handles have <strong>radiopaque alignment lines</strong>. When these lines appear parallel/symmetric relative to the protection sleeve in the lateral view, the handle is oriented perfectly lateral—a proxy for nail rotation. <span class="ev ev-iv">LOE IV</span></p>
+</div>
+
+<h3>5.2 Guide Wire Placement Strategy: Center-Center and TAD</h3>
+<div class="card">
+  <p>The <strong>"Center-Center" position</strong> is the gold standard for blade placement. <span class="ev ev-ii">LOE II</span></p>
+
+  <h4>AP View Positioning</h4>
+  <p>The guide wire should pass through the <strong>inferior half</strong> of the femoral neck and end in the center of the femoral head. Placement in the superior half (Cleveland zones 1, 2, 3) is strongly associated with cut-out.</p>
+
+  <div class="callout success">
+    <strong>Optimal Zone:</strong> Inferior-central position allows the blade to rest on the dense <strong>calcar femorale</strong>, providing a buttress against varus collapse.
+  </div>
+
+  <h4>Lateral View Positioning</h4>
+  <p>The wire must be centered in the femoral neck and head (Cleveland zone 5). Recent biomechanical analyses highlight that <strong>ventral (anterior) placement</strong> is an independent risk factor for failure, reducing fixation strength by up to <strong>17%</strong>. <span class="ev ev-ii">LOE II</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 4: Cleveland Zone Classification and Clinical Implications for Blade Placement</caption>
+      <thead>
+        <tr><th>Zone</th><th>Location</th><th>Clinical Implication</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Superior-lateral head</td><td class="danger-zone">High cut-out risk – avoid</td></tr>
+        <tr><td>2</td><td>Superior head</td><td class="danger-zone">High cut-out risk – avoid</td></tr>
+        <tr><td>3</td><td>Superior-medial head</td><td class="danger-zone">High cut-out risk – avoid</td></tr>
+        <tr><td>4</td><td>Inferior-medial head</td><td>Acceptable but not optimal</td></tr>
+        <tr><td>5</td><td>Center (lateral view)</td><td><strong>Target zone</strong> – optimal</td></tr>
+        <tr><td>6</td><td>Inferior-lateral head</td><td>Acceptable; calcar support</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Tip-Apex Distance (TAD) Re-evaluation for PFNA</h4>
+  <p>For sliding hip screws, TAD &lt; 25 mm is standard. For PFNA, recommendations are <strong>more nuanced</strong>: <span class="ev ev-ii">LOE II</span></p>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 5: TAD Considerations for PFNA Helical Blade</caption>
+      <thead>
+        <tr><th>TAD Range</th><th>Risk Profile</th><th>Clinical Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>&lt; 20 mm</strong></td><td>Risk of <strong>axial migration / medial perforation</strong>; blade tip too close to subchondral bone; compaction pressure may fracture subchondral plate</td><td>Reposition wire more laterally; verify ≥ 10 mm from joint line</td></tr>
+        <tr style="background:#eafaf1"><td><strong>20–30 mm</strong></td><td><strong>Optimal window</strong> – sufficient purchase without cut-through risk</td><td><strong>Target range</strong>; aim ~10 mm subchondral tip distance</td></tr>
+        <tr><td><strong>&gt; 30 mm</strong></td><td>Reduced mechanical lever arm; insufficient purchase in femoral head</td><td>Reposition wire more centrally; risk of varus collapse increases</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h3>5.3 Corrective Maneuvers: The Parallel Wire Technique</h3>
+<div class="card">
+  <p>If the initial guide wire is malpositioned, simply removing it and re-drilling often fails because the new wire follows the old path. <span class="ev ev-iv">LOE IV</span></p>
+
+  <ol class="step-list">
+    <li><strong>Leave the malpositioned wire in place.</strong> The PFNA drill sleeve features multiple holes or a "correction guide" allowing a second wire at a defined offset (e.g., 5 mm).</li>
+    <li><strong>Rotate the correction sleeve</strong> around the first wire to dial in the new trajectory (e.g., anterior → central).</li>
+    <li><strong>Insert the new wire,</strong> verify position fluoroscopically in both planes.</li>
+    <li><strong>Remove the initial wire.</strong> This ensures the new tract is fresh and stable.</li>
+  </ol>
+</div>
+
+<!-- Section 6 -->
+<h2 id="sec6">6. Helical Blade Insertion: Step-by-Step</h2>
+
+<h3>6.1 Measuring and Opening the Cortex</h3>
+<div class="card">
+  <ol class="step-list">
+    <li><strong>Measurement:</strong> Pass the Direct Measuring Device over the guide wire to the protection sleeve. Read the length directly—this accounts for necessary clearance.</li>
+    <li><strong>Open the Lateral Cortex:</strong> Use the 11.0 mm Cannulated Drill Bit over the guide wire. <strong>Limit drilling to the lateral cortex only</strong> (drill bit has a mechanical stop abutting the protection sleeve).</li>
+  </ol>
+
+  <div class="callout warn">
+    <strong>⚠ Why Limit Drilling?</strong> The biomechanical advantage of PFNA is <em>compaction</em>. Drilling the entire path removes cancellous bone, destroying the compaction effect—the blade would sit in a void rather than a densified bone mantle.
+    <br><br>
+    <strong>Exception:</strong> In young patients or extremely dense bone, full-length drilling or tapping may be required to prevent excessive impaction force that could distract the fracture. <span class="ev ev-ii">LOE II</span>
+  </div>
+</div>
+
+<h3>6.2 Blade Assembly and Impaction</h3>
+<div class="card">
+  <ol class="step-list">
+    <li><strong>Unlock the Blade:</strong> The helical blade is supplied locked. Attach to inserter and unlock (turn counter-clockwise) to allow free helix rotation during insertion. <span class="ev ev-iv">LOE IV</span></li>
+    <li><strong>Alignment:</strong> Slide blade-inserter assembly over the guide wire. Align specific markings on the inserter with the protection sleeve to ensure correct rotational orientation for the nail's locking hole.</li>
+    <li><strong>Impaction:</strong> Insert using a hammer. The surgeon does <strong>not</strong> rotate the handle—linear hammer blows cause auto-mechanical rotation of the helix, compacting bone as it advances.</li>
+    <li><strong>Feedback:</strong> Resistance should increase as bone compacts. Sudden loss of resistance may indicate a void or fracture gap.</li>
+    <li><strong>Stop Point:</strong> Impact until the inserter clicks or hits the mechanical stop on the protection sleeve.</li>
+  </ol>
+</div>
+
+<h3>6.3 Locking and Intraoperative Compression</h3>
+<div class="card">
+  <p><strong>Locking:</strong> Once fully seated, engage the locking mechanism by turning the impactor handle clockwise to the "LOCK" position. This fixes blade rotation relative to the nail. <span class="ev ev-iv">LOE IV</span></p>
+
+  <p><strong>Intraoperative Compression (Optional):</strong></p>
+  <ul>
+    <li>Before removing instruments, turn the buttress nut counter-clockwise to retract the sleeve against the blade head, pulling the femoral head fragment laterally toward the nail shaft.</li>
+    <li>Monitor fluoroscopically—excessive compression can strip purchase or cause medial nail protrusion. <span class="ev ev-iv">LOE IV</span></li>
+  </ul>
+</div>
+
+<!-- Section 7 -->
+<h2 id="sec7">7. Cement Augmentation</h2>
+<div class="card">
+  <p>For patients with <strong>severe osteoporosis</strong>, the PFNA allows cement augmentation to increase pull-out strength. <span class="ev ev-iv">LOE IV</span></p>
+
+  <div class="callout danger">
+    <strong>⚠ Absolute Contraindication:</strong> Any communication between the fracture site and the joint space—cement leakage into the joint causes rapid cartilage destruction. Always perform a <strong>contrast dye leakage test</strong> via the perforated blade and verify fluoroscopically in both planes before injecting cement. <span class="ev ev-iv">LOE IV</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <caption>Table 6: Cement Augmentation Protocol</caption>
+      <thead>
+        <tr><th>Parameter</th><th>Specification</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Blade Type</td><td>Specialized perforated blade</td></tr>
+        <tr><td>Cement</td><td>High-viscosity PMMA (Traumacem V+)</td></tr>
+        <tr><td>Volume</td><td><strong>3–6 ml</strong> — creates "cloud" of support around blade tip</td></tr>
+        <tr><td>Injection Method</td><td>Cement cannula inserted through hollow blade</td></tr>
+        <tr><td>Monitoring</td><td>Continuous fluoroscopy; stop immediately if leakage suspected</td></tr>
+        <tr><td>Critical Timing</td><td>Disengage instruments before cement hardens to prevent permanent cannula fixation</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 8 -->
+<h2 id="sec8">8. Complications and Troubleshooting</h2>
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <caption>Table 7: Intraoperative Complications – Causes and Management</caption>
+      <thead>
+        <tr><th>Complication</th><th>Cause</th><th>Management / Prevention</th><th>Ref.</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Guide Wire Bending</strong></td>
+          <td>Dense bone; eccentric entry; dull wire</td>
+          <td>Use fresh wire; drill slightly to breach cortex before wire; do not force</td>
+          <td><span class="ev ev-iv">IV</span></td>
+        </tr>
+        <tr>
+          <td><strong>Blade Will Not Advance</strong></td>
+          <td>Dense bone; drill/blade angle mismatch</td>
+          <td>Adequate lateral cortex opening; tap channel in young patients; check assembly tightness</td>
+          <td><span class="ev ev-iv">IV</span></td>
+        </tr>
+        <tr>
+          <td><strong>Anterior Impingement</strong></td>
+          <td>Femoral bow / nail curvature mismatch</td>
+          <td>Use PFNA-II or nails with smaller ROC (1.0 m); avoid posterior entry point</td>
+          <td><span class="ev ev-iv">IV</span></td>
+        </tr>
+        <tr>
+          <td><strong>Cut-out</strong></td>
+          <td>Superior or ventral placement; high TAD (&gt;30 mm)</td>
+          <td>Center-center placement; TAD 20–30 mm; avoid ventral positioning</td>
+          <td><span class="ev ev-ii">II</span></td>
+        </tr>
+        <tr>
+          <td><strong>Iatrogenic Fracture</strong></td>
+          <td>Forcing nail into narrow canal; wrong entry point</td>
+          <td>Ream 1.5 mm larger than nail diameter; entry at trochanter tip, not lateral</td>
+          <td><span class="ev ev-iv">IV</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 9: Summary -->
+<h2 id="sec9">9. Summary of Critical Technical Principles</h2>
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <caption>Table 8: The Five Pillars of PFNA Technical Success</caption>
+      <thead>
+        <tr><th>#</th><th>Principle</th><th>Key Action</th><th>Evidence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Matching CCD Angle</strong></td><td>Template contralateral hip; select 125°/130°/135° to match anatomy</td><td><span class="ev ev-iii">LOE III</span></td></tr>
+        <tr><td>2</td><td><strong>Rigid Assembly</strong></td><td>Firm connecting bolt torque; verify arrow alignment; audible "click" of sleeve</td><td><span class="ev ev-ii">LOE II</span></td></tr>
+        <tr><td>3</td><td><strong>Correct Entry Point</strong></td><td>Trochanter tip or slightly medial; verify AP + lateral</td><td><span class="ev ev-iv">LOE IV</span></td></tr>
+        <tr><td>4</td><td><strong>Center-Center Blade Position</strong></td><td>Inferior-central AP; midline lateral; TAD 20–30 mm; avoid ventral placement</td><td><span class="ev ev-ii">LOE II</span></td></tr>
+        <tr><td>5</td><td><strong>Limited Drilling (Compaction Preservation)</strong></td><td>Drill lateral cortex only; allow blade helix to compact cancellous bone</td><td><span class="ev ev-ii">LOE II</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- References -->
+<div class="references" id="sec10">
+  <h3>📚 References (from Source Document)</h3>
+  <ol>
+    <li>AO Foundation. <em>Proximal Femur Nail Antirotation (PFNA)</em>. Approved Solutions. Accessed Feb 9, 2026. <a href="https://www.aofoundation.org/approved/approvedsolutionsfolder/2004/proximal-femur-nail-antirotation-pfna" target="_blank">aofoundation.org</a></li>
+    <li>Should the tip-apex distance (TAD) rule be modified for the PFNA? A retrospective study. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3853127/" target="_blank">PMC3853127</a></li>
+    <li>PFNA – Proximal Femoral Nailing – A System. RCH. <a href="https://www.rch.org.au/uploadedFiles/Main/Content/ortho/PFNA-Proximal_Femoral_Nailing-A_System.pdf" target="_blank">rch.org.au</a></li>
+    <li>PFN A2 Implants and Technique. <em>Scribd</em>. <a href="https://www.scribd.com/document/695246016/PFN-A2-Implants-and-technique" target="_blank">scribd.com</a></li>
+    <li>Impact of blade direction on postoperative femoral head varus. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11283236/" target="_blank">PMC11283236</a></li>
+    <li>Approach &amp; Techniques. JOA Orthopedic. <a href="http://api.joa-orthopedic.com/Documents/Pdf/Pdf638740083036211920_Url.pdf" target="_blank">joa-orthopedic.com</a></li>
+    <li>TFN-ADVANCED Proximal Femoral Nailing System (TFNA). AO Foundation. <a href="https://www.aofoundation.org/approved/approvedsolutionsfolder/2015/tfn-advanced-proximal-femoral-nailing-system-tfna" target="_blank">aofoundation.org</a></li>
+    <li>Approach for proximal femoral nailing. AO Surgery Reference. <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/proximal-femur/approach/approach-for-proximal-femoral-nailing" target="_blank">surgeryreference.aofoundation.org</a></li>
+    <li>PFNA Operation Manual. TitanMed. <a href="https://titanmed.ru/pdf/PFNA-Operation_M.pdf" target="_blank">titanmed.ru</a></li>
+    <li>Zimmer Natural Nail System Surgical Technique. <a href="https://www.zimmerbiomet.com/content/dam/zimmer-biomet/medical-professionals/000-surgical-techniques/trauma/zimmer-natural-nail-system-cephalomedullary-nail-surgical-technique-standard.pdf" target="_blank">zimmerbiomet.com</a></li>
+    <li>PFNA Technique Guide. Dr. Storm. <a href="http://www.drstorm.dk/Instruks_for_laeger/hofte/PFNA.pdf" target="_blank">drstorm.dk</a></li>
+    <li>PFNA Blade Uses, Sizes &amp; Surgical Technique. Vast Ortho. <a href="https://www.vastortho.com/pfna-blade/" target="_blank">vastortho.com</a></li>
+    <li>PFNA Nail Uses, Sizes &amp; Surgical Techniques. Vast Ortho. <a href="https://www.vastortho.com/pfna-nail/" target="_blank">vastortho.com</a></li>
+    <li>PFNA in Intertrochanteric Hip Fractures: Retrospective Study in 113 Patients. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4720467/" target="_blank">PMC4720467</a></li>
+    <li>Femoral Neck System. J&amp;J MedTech. <a href="https://www.jnjmedtech.com/sites/default/files/user_uploaded_assets/pdf_assets/2020-06/SE801074eng.pdf" target="_blank">jnjmedtech.com</a></li>
+    <li>Nailing (short nail) for Intertrochanteric fractures. AO Surgery Reference. <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/proximal-femur/trochanteric-fracture-intertrochanteric/nailing-short-nail" target="_blank">surgeryreference.aofoundation.org</a></li>
+    <li>PFNA – DePuy Synthes Technical Documentation. <a href="https://pdf.medicalexpo.com/pdf/depuy-synthes/pfna/79814-91907.html" target="_blank">medicalexpo.com</a></li>
+    <li>PFNA Surgical Technique Video. YouTube. <a href="https://www.youtube.com/watch?v=OyvOjP8ZdR0" target="_blank">youtube.com</a></li>
+    <li>Extraction of PFNA after unlocking failure: Case report. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7409658/" target="_blank">PMC7409658</a></li>
+  </ol>
+</div>
+
+</main>
+
+<!-- ===================== SIDEBAR ===================== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Aid">
+
+  <div class="sidebar-card">
+    <h3><span class="icon">🎛️</span> Interactive Parameters</h3>
+
+    <div class="slider-group">
+      <label>Tip-Apex Distance (TAD): <span class="value-display" id="tad-val">25 mm</span></label>
+      <input type="range" id="tad-slider" min="5" max="50" value="25" step="1" aria-label="Tip-Apex Distance in millimeters">
+      <div class="range-labels"><span>5 mm</span><span>20–30 mm ✦</span><span>50 mm</span></div>
+    </div>
+
+    <div class="slider-group">
+      <label>CCD Angle: <span class="value-display" id="ccd-val">130°</span></label>
+      <input type="range" id="ccd-slider" min="125" max="135" value="130" step="5" aria-label="Caput Collum Diaphyseal angle in degrees">
+      <div class="range-labels"><span>125°</span><span>130°</span><span>135°</span></div>
+    </div>
+
+    <div class="slider-group">
+      <label>Cement Volume (if augmented): <span class="value-display" id="cement-val">4.5 ml</span></label>
+      <input type="range" id="cement-slider" min="0" max="10" value="4.5" step="0.5" aria-label="Cement volume in milliliters">
+      <div class="range-labels"><span>0 ml</span><span>3–6 ml ✦</span><span>10 ml</span></div>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3><span class="icon">🔀</span> Toggle Parameters</h3>
+
+    <div class="toggle-group">
+      <label>
+        <input type="checkbox" id="toggle-ventral" aria-label="Ventral blade placement detected">
+        <span class="toggle-switch"></span>
+        Ventral placement detected
+      </label>
+    </div>
+
+    <div class="toggle-group">
+      <label>
+        <input type="checkbox" id="toggle-augment" aria-label="Cement augmentation planned">
+        <span class="toggle-switch"></span>
+        Cement augmentation planned
+      </label>
+    </div>
+
+    <div class="toggle-group">
+      <label>
+        <input type="checkbox" id="toggle-osteoporosis" aria-label="Severe osteoporosis">
+        <span class="toggle-switch"></span>
+        Severe osteoporosis (T &lt; −2.5)
+      </label>
+    </div>
+  </div>
+
+  <div class="sidebar-card" style="padding:1rem">
+    <div class="rec-box" id="rec-box" aria-live="polite">
+      <h4>📋 Clinical Recommendation</h4>
+      <div id="rec-status-container"></div>
+      <div id="rec-text">Adjust parameters above to generate real-time recommendations.</div>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <div class="btn-group">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy recommendation to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+</aside>
+
+</div><!-- /layout -->
+
+<footer>
+  <p>PFNA Surgical Technique Educational Summary · Based on provided source document · For educational purposes only · Not a substitute for clinical judgment</p>
+</footer>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+(function(){
+  // Elements
+  const tadSlider = document.getElementById('tad-slider');
+  const ccdSlider = document.getElementById('ccd-slider');
+  const cementSlider = document.getElementById('cement-slider');
+  const tadVal = document.getElementById('tad-val');
+  const ccdVal = document.getElementById('ccd-val');
+  const cementVal = document.getElementById('cement-val');
+  const toggleVentral = document.getElementById('toggle-ventral');
+  const toggleAugment = document.getElementById('toggle-augment');
+  const toggleOsteo = document.getElementById('toggle-osteoporosis');
+  const recBox = document.getElementById('rec-box');
+  const recStatus = document.getElementById('rec-status-container');
+  const recText = document.getElementById('rec-text');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+  const toast = document.getElementById('toast');
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 2500);
+  }
+
+  function getSliderTrackColor(slider, optMin, optMax){
+    const val = parseFloat(slider.value);
+    if(val >= optMin && val <= optMax) return '#27ae60';
+    if(val >= optMin - 5 && val <= optMax + 5) return '#f39c12';
+    return '#e74c3c';
+  }
+
+  function updateRecommendation(){
+    const tad = parseFloat(tadSlider.value);
+    const ccd = parseFloat(ccdSlider.value);
+    const cement = parseFloat(cementSlider.value);
+    const ventral = toggleVentral.checked;
+    const augment = toggleAugment.checked;
+    const osteo = toggleOsteo.checked;
+
+    tadVal.textContent = tad + ' mm';
+    ccdVal.textContent = ccd + '°';
+    cementVal.textContent = cement + ' ml';
+
+    // Color code slider values
+    tadVal.style.background = (tad >= 20 && tad <= 30) ? '#27ae60' : (tad >= 15 && tad <= 35) ? '#f39c12' : '#e74c3c';
+    cementVal.style.background = (!augment || (cement >= 3 && cement <= 6)) ? '#27ae60' : (cement > 6 && cement <= 8) ? '#f39c12' : '#e74c3c';
+
+    let issues = [];
+    let warnings = [];
+    let recommendations = [];
+    let overallStatus = 'ok';
+    let statusLabel = '✓ WITHIN PARAMETERS';
+    let statusClass = 'ok';
+
+    // TAD Assessment
+    if(tad < 20){
+      issues.push('TAD ' + tad + ' mm is <strong>below optimal range</strong> (20–30 mm). High risk of <strong>axial migration / cut-through</strong>. Blade tip too close to subchondral bone.');
+      overallStatus = 'danger';
+    } else if(tad > 30){
+      issues.push('TAD ' + tad + ' mm is <strong>above optimal range</strong> (20–30 mm). Insufficient mechanical lever arm; increased risk of <strong>varus collapse</strong>.');
+      overallStatus = 'danger';
+    } else if(tad >= 20 && tad <= 30){
+      recommendations.push('TAD ' + tad + ' mm is within the <strong>optimal 20–30 mm window</strong>. [Source Ref. 2]');
+    }
+
+    if(tad < 10){
+      issues.push('TAD < 10 mm: <strong>Extreme risk of joint perforation</strong>. Reposition wire laterally immediately.');
+      overallStatus = 'danger';
+    }
+
+    // Ventral placement
+    if(ventral){
+      issues.push('<strong>Ventral blade placement detected.</strong> Biomechanical studies show up to <strong>17% reduction</strong> in fixation strength. This is an independent risk factor for failure. [Source Ref. 5]');
+      overallStatus = 'danger';
+    }
+
+    // CCD angle - informational
+    recommendations.push('CCD angle ' + ccd + '° selected. Ensure the contralateral hip templating confirms this matches native anatomy. [Source Ref. 3]');
+
+    // Augmentation
+    if(augment){
+      if(cement > 0 && cement < 3){
+        warnings.push('Cement volume ' + cement + ' ml is below typical range (3–6 ml). Augmentation effect may be suboptimal.');
+        if(overallStatus !== 'danger') overallStatus = 'warn';
+      } else if(cement > 6){
+        warnings.push('Cement volume ' + cement + ' ml exceeds typical range (3–6 ml). Monitor closely for leakage. [Source Ref. 1]');
+        if(overallStatus !== 'danger') overallStatus = 'warn';
+      } else if(cement >= 3 && cement <= 6){
+        recommendations.push('Cement volume ' + cement + ' ml is within recommended range. Perform contrast leakage test before injection. [Source Ref. 1]');
+      }
+      recommendations.push('<strong>Augmentation protocol:</strong> Use perforated blade → inject contrast dye → verify fluoroscopically → inject high-viscosity PMMA → disengage before hardening.');
+    }
+
+    // Osteoporosis
+    if(osteo){
+      recommendations.push('Severe osteoporosis noted. Bone compaction mechanism of PFNA is <strong>particularly advantageous</strong> in osteoporotic bone. Consider cement augmentation if fixation is suboptimal. [Source Ref. 1]');
+    }
+
+    // Combine
+    if(overallStatus === 'danger'){
+      statusLabel = '⚠ CRITICAL ISSUE DETECTED';
+      statusClass = 'danger';
+    } else if(overallStatus === 'warn'){
+      statusLabel = '⚡ CAUTION ADVISED';
+      statusClass = 'warn';
+    } else {
+      statusLabel = '✓ WITHIN PARAMETERS';
+      statusClass = 'ok';
+    }
+
+    let html = '';
+    html += '<span class="rec-status ' + statusClass + '">' + statusLabel + '</span>';
+    html += '<ul>';
+    if(issues.length > 0){
+      issues.forEach(function(i){ html += '<li style="color:#fadbd8">⚠ ' + i + '</li>'; });
+    }
+    if(warnings.length > 0){
+      warnings.forEach(function(w){ html += '<li style="color:#fdebd0">⚡ ' + w + '</li>'; });
+    }
+    if(recommendations.length > 0){
+      recommendations.forEach(function(r){ html += '<li>' + r + '</li>'; });
+    }
+    html += '</ul>';
+    recStatus.innerHTML = '';
+    recText.innerHTML = html;
+  }
+
+  // Event listeners
+  [tadSlider, ccdSlider, cementSlider].forEach(function(s){
+    s.addEventListener('input', updateRecommendation);
+  });
+  [toggleVentral, toggleAugment, toggleOsteo].forEach(function(t){
+    t.addEventListener('change', updateRecommendation);
+  });
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    tadSlider.value = 25;
+    ccdSlider.value = 130;
+    cementSlider.value = 4.5;
+    toggleVentral.checked = false;
+    toggleAugment.checked = false;
+    toggleOsteo.checked = false;
+    updateRecommendation();
+    showToast('Parameters reset to defaults');
+  });
+
+  // Copy
+  btnCopy.addEventListener('click', function(){
+    const tad = tadSlider.value;
+    const ccd = ccdSlider.value;
+    const cement = cementSlider.value;
+    const ventral = toggleVentral.checked ? 'Yes' : 'No';
+    const augment = toggleAugment.checked ? 'Yes' : 'No';
+    const osteo = toggleOsteo.checked ? 'Yes' : 'No';
+    const timestamp = new Date().toISOString();
+
+    // Build recommendation text
+    let recLines = [];
+    if(parseFloat(tad) < 20) recLines.push('- TAD ' + tad + ' mm is BELOW optimal (20-30 mm). Risk of cut-through.');
+    else if(parseFloat(tad) > 30) recLines.push('- TAD ' + tad + ' mm is ABOVE optimal (20-30 mm). Risk of varus collapse.');
+    else recLines.push('- TAD ' + tad + ' mm: Within optimal 20-30 mm window.');
+    if(toggleVentral.checked) recLines.push('- VENTRAL placement detected: 17% reduction in fixation strength. Reposition blade.');
+    if(toggleAugment.checked) recLines.push('- Cement augmentation planned: ' + cement + ' ml. Perform leakage test first.');
+    if(toggleOsteo.checked) recLines.push('- Severe osteoporosis: PFNA compaction mechanism advantageous. Consider augmentation.');
+
+    const text = 'PFNA CLINICAL PARAMETER SUMMARY\n' +
+      '================================\n' +
+      'Timestamp: ' + timestamp + '\n\n' +
+      'PARAMETERS:\n' +
+      '  Tip-Apex Distance (TAD): ' + tad + ' mm\n' +
+      '  CCD Angle: ' + ccd + ' degrees\n' +
+      '  Cement Volume: ' + cement + ' ml\n' +
+      '  Ventral Placement: ' + ventral + '\n' +
+      '  Augmentation Planned: ' + augment + '\n' +
+      '  Severe Osteoporosis: ' + osteo + '\n\n' +
+      'RECOMMENDATION:\n' +
+      recLines.join('\n') + '\n\n' +
+      'KEY PRINCIPLES (Source Document):\n' +
+      '  1. Target center-center blade position (inferior-central AP, midline lateral)\n' +
+      '  2. TAD 20-30 mm optimal for PFNA helical blade\n' +
+      '  3. Avoid ventral placement (independent failure risk factor)\n' +
+      '  4. Limit drilling to lateral cortex to preserve bone compaction\n' +
+      '  5. Verify targeting assembly: bolt torque, arrow alignment, sleeve click\n\n' +
+      'Source: PFNA Surgical Technique & Biomechanical Analysis Report\n' +
+      'Disclaimer: For educational purposes only. Not a substitute for clinical judgment.';
+
+    navigator.clipboard.writeText(text).then(function(){
+      showToast('✓ Summary copied to clipboard!');
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Summary copied to clipboard!');
+    });
+  });
+
+  // Initial render
+  updateRecommendation();
+})();
+</script>
+
+</body>
+</html>

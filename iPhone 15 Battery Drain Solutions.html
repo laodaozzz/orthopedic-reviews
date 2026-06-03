@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone 15 Battery Depletion Anomalies — Technical Analysis &amp; Remediation Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--primary:#2563eb;--primary-dark:#1d4ed8;--primary-light:#dbeafe;
+--success:#059669;--success-light:#d1fae5;
+--warning:#d97706;--warning-light:#fef3c7;
+--danger:#dc2626;--danger-light:#fee2e2;
+--info:#0891b2;--info-light:#cffafe;
+--gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;
+--gray-300:#cbd5e1;--gray-400:#94a3b8;--gray-500:#64748b;
+--gray-600:#475569;--gray-700:#334155;--gray-800:#1e293b;--gray-900:#0f172a;
+--font-sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+--font-mono:'JetBrains Mono',ui-monospace,monospace;
+--radius:8px;--radius-lg:12px;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+--shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
+--shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-sans);color:var(--gray-800);background:var(--gray-50);line-height:1.7;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* === HEADER === */
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-200);padding:.75rem 1.5rem}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.header-title{font-size:1rem;font-weight:700;color:var(--gray-900);display:flex;align-items:center;gap:.5rem}
+.header-title .icon{font-size:1.25rem}
+.header-nav{display:flex;gap:.25rem;flex-wrap:wrap}
+.header-nav a{font-size:.8rem;font-weight:500;padding:.35rem .65rem;border-radius:var(--radius);color:var(--gray-600);transition:all .15s}
+.header-nav a:hover{background:var(--gray-100);color:var(--gray-900);text-decoration:none}
+
+/* === LAYOUT === */
+.page-wrapper{max-width:1400px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start}
+@media(max-width:1024px){.page-wrapper{grid-template-columns:1fr;}.sidebar{position:relative!important;top:auto!important}}
+
+/* === MAIN CONTENT === */
+.main-content{min-width:0}
+.main-content h1{font-size:2rem;font-weight:800;color:var(--gray-900);line-height:1.2;margin-bottom:.5rem;letter-spacing:-.02em}
+.main-content h2{font-size:1.5rem;font-weight:700;color:var(--gray-900);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:2px solid var(--primary);letter-spacing:-.01em}
+.main-content h3{font-size:1.15rem;font-weight:600;color:var(--gray-800);margin:1.75rem 0 .75rem}
+.main-content h4{font-size:1rem;font-weight:600;color:var(--gray-700);margin:1.25rem 0 .5rem}
+.main-content p{margin-bottom:1rem;color:var(--gray-700)}
+.main-content ul,.main-content ol{margin:0 0 1.25rem 1.5rem;color:var(--gray-700)}
+.main-content li{margin-bottom:.4rem}
+.main-content strong{font-weight:600;color:var(--gray-900)}
+.subtitle{font-size:1.05rem;color:var(--gray-500);margin-bottom:2rem;font-weight:400;line-height:1.6}
+
+/* === EVIDENCE BADGES === */
+.badge{display:inline-flex;align-items:center;gap:.25rem;font-size:.7rem;font-weight:600;padding:.15rem .5rem;border-radius:99px;vertical-align:middle;letter-spacing:.02em;white-space:nowrap}
+.badge-i{background:var(--success-light);color:var(--success)}
+.badge-ii{background:var(--primary-light);color:var(--primary)}
+.badge-iii{background:var(--warning-light);color:var(--warning)}
+.badge-iv{background:var(--danger-light);color:var(--danger)}
+.badge-v{background:var(--gray-200);color:var(--gray-600)}
+.badge-na{background:var(--info-light);color:var(--info)}
+
+/* === CALLOUT BOXES === */
+.callout{padding:1rem 1.25rem;border-radius:var(--radius-lg);margin:1.25rem 0;border-left:4px solid}
+.callout p:last-child{margin-bottom:0}
+.callout-title{font-weight:600;font-size:.9rem;margin-bottom:.35rem;display:flex;align-items:center;gap:.4rem}
+.callout-info{background:#eff6ff;border-color:var(--primary)}
+.callout-warning{background:#fffbeb;border-color:var(--warning)}
+.callout-danger{background:#fef2f2;border-color:var(--danger)}
+.callout-success{background:#ecfdf5;border-color:var(--success)}
+
+/* === TABLES === */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius-lg);box-shadow:var(--shadow);border:1px solid var(--gray-200)}
+.table-wrap caption{font-weight:600;font-size:.9rem;padding:.75rem 1rem;text-align:left;background:var(--gray-100);border-bottom:1px solid var(--gray-200);caption-side:top}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead th{background:var(--gray-100);font-weight:600;text-align:left;padding:.65rem .85rem;border-bottom:2px solid var(--gray-300);color:var(--gray-700);white-space:nowrap}
+tbody td{padding:.6rem .85rem;border-bottom:1px solid var(--gray-100);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--gray-50)}
+td code{font-family:var(--font-mono);font-size:.8rem;background:var(--gray-100);padding:.1rem .35rem;border-radius:4px}
+
+/* === PROTOCOL TIERS === */
+.tier{border:1px solid var(--gray-200);border-radius:var(--radius-lg);margin:1.25rem 0;overflow:hidden}
+.tier-header{padding:.75rem 1rem;font-weight:600;font-size:.95rem;display:flex;align-items:center;gap:.5rem}
+.tier-1 .tier-header{background:#ecfdf5;color:var(--success);border-bottom:1px solid #a7f3d0}
+.tier-2 .tier-header{background:#eff6ff;color:var(--primary);border-bottom:1px solid #bfdbfe}
+.tier-3 .tier-header{background:#fffbeb;color:var(--warning);border-bottom:1px solid #fde68a}
+.tier-4 .tier-header{background:#fef2f2;color:var(--danger);border-bottom:1px solid #fecaca}
+.tier-body{padding:1rem 1.25rem;background:#fff}
+.tier-body ol{margin:0 0 0 1.25rem}
+.tier-body li{margin-bottom:.75rem}
+.tier-body li:last-child{margin-bottom:0}
+
+/* === REFERENCES === */
+.references{margin-top:2.5rem;padding-top:1.5rem;border-top:2px solid var(--gray-200)}
+.references ol{font-size:.8rem;color:var(--gray-500);line-height:1.8}
+.references li{margin-bottom:.25rem}
+
+/* === SIDEBAR === */
+.sidebar{position:sticky;top:70px;max-height:calc(100vh - 90px);overflow-y:auto}
+.sidebar-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden;margin-bottom:1.25rem}
+.sidebar-card-header{padding:.85rem 1rem;font-weight:700;font-size:.9rem;background:var(--gray-900);color:#fff;display:flex;align-items:center;gap:.4rem}
+.sidebar-card-body{padding:1rem}
+
+/* Sliders */
+.slider-group{margin-bottom:1.25rem}
+.slider-group:last-child{margin-bottom:0}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem}
+.slider-label-text{font-size:.8rem;font-weight:600;color:var(--gray-700)}
+.slider-value{font-family:var(--font-mono);font-size:.85rem;font-weight:600;color:var(--primary);min-width:3rem;text-align:right}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--gray-200);outline:none;transition:background .2s}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;box-shadow:0 2px 6px rgba(37,99,235,.3);transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;border:none;box-shadow:0 2px 6px rgba(37,99,235,.3)}
+.slider-marks{display:flex;justify-content:space-between;font-size:.65rem;color:var(--gray-400);margin-top:.25rem}
+
+/* Toggles */
+.toggle-group{margin-bottom:1rem}
+.toggle-group:last-child{margin-bottom:0}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--gray-100)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-label{font-size:.8rem;font-weight:500;color:var(--gray-700)}
+.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--gray-300);border-radius:12px;cursor:pointer;transition:.25s}
+.toggle-slider::before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.toggle-switch input:checked+.toggle-slider{background:var(--primary)}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(20px)}
+
+/* Select dropdown */
+.select-group{margin-bottom:1rem}
+.select-group:last-child{margin-bottom:0}
+.select-label{font-size:.8rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem;display:block}
+.custom-select{width:100%;padding:.45rem .65rem;font-size:.8rem;font-family:var(--font-sans);border:1px solid var(--gray-300);border-radius:var(--radius);background:#fff;color:var(--gray-800);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .65rem center}
+
+/* Recommendation Panel */
+.rec-panel{background:linear-gradient(135deg,#f0f9ff,#eff6ff);border:1px solid #bfdbfe;border-radius:var(--radius-lg);padding:1rem;margin-top:.75rem}
+.rec-severity{display:inline-flex;align-items:center;gap:.3rem;font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:99px;margin-bottom:.75rem}
+.severity-low{background:#d1fae5;color:#059669}
+.severity-moderate{background:#fef3c7;color:#d97706}
+.severity-high{background:#fee2e2;color:#dc2626}
+.severity-critical{background:#dc2626;color:#fff}
+.rec-list{list-style:none;margin:0;padding:0}
+.rec-list li{font-size:.8rem;padding:.45rem 0;border-bottom:1px solid rgba(191,219,254,.5);line-height:1.5;color:var(--gray-700)}
+.rec-list li:last-child{border-bottom:none}
+.rec-estimate{margin-top:.75rem;padding:.6rem;background:rgba(255,255,255,.7);border-radius:var(--radius);font-size:.8rem}
+.rec-estimate-label{font-weight:600;color:var(--gray-600);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem}
+.rec-estimate-value{font-size:1.1rem;font-weight:700;color:var(--gray-900)}
+.rec-estimate-detail{font-size:.75rem;color:var(--gray-500);margin-top:.15rem}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.5rem 1rem;font-size:.8rem;font-weight:600;font-family:var(--font-sans);border:1px solid transparent;border-radius:var(--radius);cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-outline{background:#fff;color:var(--gray-700);border-color:var(--gray-300)}
+.btn-outline:hover{background:var(--gray-50);border-color:var(--gray-400)}
+.btn-group{display:flex;gap:.5rem;margin-top:.75rem}
+.btn-sm{padding:.35rem .7rem;font-size:.75rem}
+
+/* Feature Impact Bars */
+.impact-bar-wrap{margin:.75rem 0}
+.impact-bar-label{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:.25rem}
+.impact-bar{height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden}
+.impact-bar-fill{height:100%;border-radius:4px;transition:width .4s ease}
+
+/* Toast notification */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--gray-900);color:#fff;padding:.75rem 1.25rem;border-radius:var(--radius-lg);font-size:.85rem;font-weight:500;box-shadow:var(--shadow-lg);transform:translateY(100px);opacity:0;transition:all .3s ease;z-index:999;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* Key figure */
+.key-figure{text-align:center;padding:1.5rem;background:linear-gradient(135deg,var(--gray-900),#1e3a5f);border-radius:var(--radius-lg);margin:1.5rem 0;color:#fff}
+.key-figure .number{font-size:2.5rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.key-figure .label{font-size:.85rem;color:var(--gray-400);margin-top:.25rem}
+
+/* Responsive */
+@media(max-width:768px){
+  .page-wrapper{padding:1rem;gap:1rem}
+  .main-content h1{font-size:1.5rem}
+  .main-content h2{font-size:1.25rem}
+  .header-nav{display:none}
+  .sidebar{position:relative!important;top:auto!important;max-height:none}
+  .key-figure .number{font-size:2rem}
+}
+
+/* Print */
+@media print{
+  .site-header,.sidebar,.toast,.btn-group{display:none!important}
+  .page-wrapper{grid-template-columns:1fr}
+  .main-content h2{break-after:avoid}
+  .tier{break-inside:avoid}
+}
+
+/* Focus */
+*:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+/* Smooth transitions for recommendation updates */
+.rec-panel,.rec-list li{transition:all .2s ease}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <div class="header-title">
+      <span class="icon">🔋</span>
+      <span>iPhone 15 Battery Depletion — Technical Report</span>
+    </div>
+    <nav class="header-nav" aria-label="Section navigation">
+      <a href="#sec-overview">Overview</a>
+      <a href="#sec-chemistry">Chemistry</a>
+      <a href="#sec-os">OS Dynamics</a>
+      <a href="#sec-ai">AI Power Tax</a>
+      <a href="#sec-connectivity">Connectivity</a>
+      <a href="#sec-display">Display</a>
+      <a href="#sec-protocol">Protocol</a>
+      <a href="#sec-refs">References</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== PAGE WRAPPER ===== -->
+<div class="page-wrapper">
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content" role="main">
+
+  <h1>Diagnosis, Analysis, and Remediation of Energy Depletion Anomalies in the iPhone 15 Hardware Platform</h1>
+  <p class="subtitle">A comprehensive technical analysis of battery drain factors, diagnostic methods, and tiered optimization protocols for the iPhone 15 series — synthesized from Apple documentation, independent testing, and user telemetry data.</p>
+
+  <!-- ==================== SECTION 1 ==================== -->
+  <section id="sec-overview">
+    <h2>1. Introduction &amp; Architectural Overview</h2>
+    <p>The iPhone 15 series introduced several architectural changes — <strong>USB-C standardization</strong>, the <strong>A17 Pro silicon</strong> (3 nm), and <strong>titanium chassis construction</strong> — that collectively redefined the device's power and thermal profile. While these yielded performance gains, the post-launch period through 2024–2025 has been marked by persistent reports of <strong>suboptimal energy autonomy and accelerated battery depletion</strong>. <span class="badge badge-iii">Evidence III — Multi-source User Telemetry</span></p>
+
+    <p>This report provides an exhaustive analysis of the factors contributing to these power-consumption anomalies, dissecting the dependencies between the iPhone 15's hardware substrate (lithium-ion chemistry, thermal characteristics) and the evolving software ecosystem (iOS 18, iOS 19, and future iOS iterations).</p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">📋 Key Distinction</div>
+      <p><strong>Battery life</strong> = daily runtime before recharge. <strong>Battery lifespan</strong> = total operational longevity of the chemical component. The intersection of these two metrics forms the core of the user-experience challenge observed in late 2024. <span class="badge badge-ii">Evidence II — Apple Documentation</span></p>
+    </div>
+
+    <div class="key-figure">
+      <div class="number">1,000</div>
+      <div class="label">Rated charge cycles to retain 80% capacity — a 100% improvement over previous generations</div>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 2 ==================== -->
+  <section id="sec-chemistry">
+    <h2>2. Physicochemical Substrate: Lithium-Ion Technology &amp; Aging</h2>
+    <p>Accurate battery-drain diagnosis requires distinguishing <strong>software-induced consumption</strong> from <strong>hardware-level chemical degradation</strong>. The iPhone 15 uses advanced lithium-ion polymer technology selected for its high energy density and absence of memory effect, yet it remains a consumable component governed by thermodynamics and electrochemistry. <span class="badge badge-ii">Evidence II — Apple Battery Documentation</span></p>
+
+    <h3>2.1 Chemical Aging &amp; the Cycle-Count Metric</h3>
+    <p>A <strong>charge cycle</strong> is defined as the discharge of energy equal to 100% of the battery's capacity — and this is <strong>cumulative</strong>. Discharging 50% on day one and 50% on day two constitutes one cycle, not two. <span class="badge badge-ii">Evidence II</span></p>
+
+    <h4>The 1,000-Cycle Durability Standard</h4>
+    <p>The iPhone 15 lineup is engineered to <strong>retain 80% capacity at 1,000 complete charge cycles</strong> under ideal conditions — a 100% improvement over the previous 500-cycle rating. This suggests improvements in electrolyte formulation and cathode stability. <span class="badge badge-ii">Evidence II — Apple Specifications</span></p>
+    <p>However, real-world telemetry from late 2025 indicates that after approximately <strong>17 months</strong> of heavy usage, capacity often degrades to ~89%, correlating with ~500 charge cycles — confirming that heavy users will see degradation curves closer to legacy models if thermal management is not prioritized. <span class="badge badge-iii">Evidence III — ZDNet Long-Term Testing</span></p>
+
+    <h3>2.2 Thermal Dynamics &amp; Degradation</h3>
+    <p><strong>Heat is the primary accelerator of lithium-ion degradation.</strong> The iPhone 15 Pro's titanium frame has <strong>lower thermal conductivity</strong> than the stainless steel used in previous Pro models, altering heat dissipation from the A17 Pro logic board. When operating at high temperatures — whether from environmental conditions or internal load — the battery undergoes <strong>irreversible chemical changes</strong>, reducing charge-holding capacity. <span class="badge badge-ii">Evidence II — Apple Performance Documentation</span></p>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ Thermal Stress</div>
+      <p>User reports frequently cite "heating like crazy" during simple tasks — a hallmark of inefficient power dissipation. This thermal stress both drains the battery immediately (by increasing internal resistance) <strong>and</strong> permanently lowers the Maximum Capacity percentage. <span class="badge badge-iv">Evidence IV — User Reports</span></p>
+    </div>
+
+    <h3>2.3 Diagnostic Transparency: New in iPhone 15</h3>
+    <p>For the first time, <strong>Settings → General → About</strong> displays the specific Cycle Count, Manufacture Date, and First Use Date — enabling precise correlation between usage habits and degradation without third-party tools. <span class="badge badge-ii">Evidence II</span></p>
+
+    <!-- Table 1 -->
+    <div class="table-wrap">
+      <caption>Table 1: Battery Health Metrics Interpretation</caption>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>System Path</th>
+          <th>Definition</th>
+          <th>Diagnostic Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Maximum Capacity</strong></td>
+          <td><code>Settings → Battery → Battery Health</code></td>
+          <td>Current capacity relative to new</td>
+          <td>Primary replacement indicator. <strong>&lt;80% = service required.</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Cycle Count</strong></td>
+          <td><code>Settings → General → About</code></td>
+          <td>Full 0–100% discharge cycles completed</td>
+          <td>Usage intensity measure. Approaching 1,000 = end-of-life.</td>
+        </tr>
+        <tr>
+          <td><strong>Manufacture Date</strong></td>
+          <td><code>Settings → General → About</code></td>
+          <td>Date the battery cell was produced</td>
+          <td>Validates warranty claims; identifies "shelf aging".</td>
+        </tr>
+        <tr>
+          <td><strong>First Use Date</strong></td>
+          <td><code>Settings → General → About</code></td>
+          <td>Date the battery was first activated</td>
+          <td>Establishes the operational timeline for degradation analysis.</td>
+        </tr>
+      </tbody>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 3 ==================== -->
+  <section id="sec-os">
+    <h2>3. Operating System Dynamics: iOS 18, 19, &amp; Beyond</h2>
+    <p>The most volatile variable in the battery-life equation is the <strong>operating system</strong>. The iPhone 15's lifecycle spans multiple major software iterations, each introducing new power-management paradigms — and inevitably, new bugs. <span class="badge badge-ii">Evidence II — Apple Support</span></p>
+
+    <h3>3.1 The "Update Trauma" &amp; Indexing Phase</h3>
+    <p>A pervasive pattern: battery drain immediately following a software update (e.g., iOS 18.0.1 or iOS 19.1). This is often <strong>expected behavior</strong>, not a malfunction. After a major update, the OS initiates massive background re-indexing:</p>
+    <ul>
+      <li><strong>Spotlight Indexing:</strong> File-system re-crawl for fast on-device search</li>
+      <li><strong>Photo Library Analysis:</strong> ML algorithms re-scan for object recognition, facial grouping, Live Text</li>
+      <li><strong>Database Optimization:</strong> App databases compacted for the new runtime environment</li>
+    </ul>
+    <p>This forces high-performance CPU cores to remain active even when locked, resulting in elevated power draw and heat. Apple advises a <strong>"few days" wait period</strong> after an update for these processes to conclude. The "Insights" feature in iOS 18+ displays an "Ongoing iOS Update" status to inform users the drain is temporary. <span class="badge badge-ii">Evidence II — Apple Support Documentation</span></p>
+
+    <h3>3.2 Adaptive Power &amp; Predictive Management</h3>
+    <p>Apple introduced <strong>"Adaptive Power"</strong> (referenced as a future iOS feature applicable to the iPhone 15 roadmap), shifting from reactive to proactive energy management. Using on-device intelligence, it analyzes behavior patterns to predict heavy-usage days and preemptively adjusts parameters — throttling background fetch, reducing visual effects, or auto-engaging Low Power Mode at 20%. <span class="badge badge-iii">Evidence III — CNET Feature Report</span></p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">📊 Calibration Period</div>
+      <p>Adaptive Power requires approximately <strong>one week</strong> to learn user habits. During this learning phase, battery life may appear erratic. <span class="badge badge-iii">Evidence III</span></p>
+    </div>
+
+    <h3>3.3 Critical Software Bugs: The VPN Loop</h3>
+    <p>A specific coding error has been identified as a <strong>catastrophic drain vector</strong>. Users documented visual glitches where the VPN toggle oscillates rapidly between on/off states, representing a background process failure: the networking subsystem is trapped in a retry loop. The device repeatedly attempts to establish a secure tunnel, fails, and immediately retries — <strong>preventing the cellular modem and Wi-Fi radio from entering low-power sleep states</strong> (DRX cycles). Result: continuous, high-amperage power draw that can deplete a full battery in hours. <strong>Remediation: complete removal of the VPN profile or application.</strong> <span class="badge badge-iii">Evidence III — Apple Support Communities</span></p>
+  </section>
+
+  <!-- ==================== SECTION 4 ==================== -->
+  <section id="sec-ai">
+    <h2>4. The Artificial Intelligence Power Tax</h2>
+    <p>The integration of <strong>Apple Intelligence</strong> into the iPhone 15 Pro fundamentally alters the device's energy profile. Shifting AI processing from cloud to device (Edge AI) offers privacy and speed benefits but imposes a heavy battery toll. <span class="badge badge-iii">Evidence III — User Telemetry &amp; Testing</span></p>
+
+    <h3>4.1 Neural Engine Utilization &amp; "Warm Idle"</h3>
+    <p>Apple Intelligence features — generative writing tools, notification summarization, image cleanup — rely heavily on the <strong>Neural Engine</strong> within the A17 Pro chip. More critically, Apple Intelligence performs <strong>continuous background analysis</strong>, indexing emails, messages, and notes for context-aware suggestions. This creates a state of <strong>"warm idle"</strong>: the phone is locked, but the processor runs at significant load. <span class="badge badge-iii">Evidence III</span></p>
+
+    <div class="callout callout-danger">
+      <div class="callout-title">🔴 Impact Quantified</div>
+      <p>Enabling Apple Intelligence can reduce daily battery life by <strong>15–20%</strong> compared to having the feature disabled. Users reported ending the day with <strong>3% battery</strong> (AI enabled) versus <strong>20–30%</strong> (AI disabled) under identical usage patterns. <span class="badge badge-iii">Evidence III — Apple Communities &amp; Reddit</span></p>
+    </div>
+
+    <h3>4.2 Thermal Implications of AI Processing</h3>
+    <p>Energy consumed by the Neural Engine dissipates as heat. Devices with active Apple Intelligence features often run warmer, compounding drain by reducing the electrochemical efficiency of the lithium-ion cell. <strong>Disabling Apple Intelligence</strong> (<code>Settings → Apple Intelligence → Turn Off</code>) has proven to be the <strong>single most effective intervention</strong> to restore pre-update battery performance. <span class="badge badge-iii">Evidence III — Asurion &amp; Multiple User Reports</span></p>
+  </section>
+
+  <!-- ==================== SECTION 5 ==================== -->
+  <section id="sec-connectivity">
+    <h2>5. Connectivity &amp; Network Architecture</h2>
+    <p>Wireless connectivity remains one of the <strong>largest power consumers</strong> in a mobile device. The iPhone 15's 5G Standalone (SA) support is a double-edged sword. <span class="badge badge-ii">Evidence II</span></p>
+
+    <h3>5.1 5G Standalone vs. Non-Standalone</h3>
+    <ul>
+      <li><strong>5G On (Forced):</strong> Forces modem to prioritize 5G. In marginal coverage areas, the modem increases signal gain exponentially, causing severe power drain. Prevents dropping to LTE even when 5G signal is weak → "modem thrashing." <span class="badge badge-iii">Evidence III</span></li>
+      <li><strong>5G Auto (Smart Data Mode):</strong> Dynamically switches between 5G and LTE based on data requirements. For low-bandwidth tasks (email), defaults to LTE. For high-bandwidth (4K video), switches to 5G. Extends screen-on time by <strong>1.5–2 hours</strong> vs. "5G On." <span class="badge badge-iii">Evidence III — Smart.DHgate Testing</span></li>
+    </ul>
+
+    <h3>5.2 Wi-Fi Assist &amp; Radio Management</h3>
+    <p>Wi-Fi is significantly more power-efficient than cellular. However, <strong>"Wi-Fi Assist"</strong> can undermine this: if Wi-Fi signal is weak, it engages the cellular radio simultaneously — a dual-radio operation that is energy-intensive. In scenarios of poor Wi-Fi, it may be more efficient to <strong>disable Wi-Fi entirely</strong> than allow oscillation between networks. <span class="badge badge-ii">Evidence II — Apple Battery Documentation</span></p>
+  </section>
+
+  <!-- ==================== SECTION 6 ==================== -->
+  <section id="sec-display">
+    <h2>6. Display Technology: LTPO &amp; Always-On Display</h2>
+    <p>The iPhone 15 Pro's <strong>LTPO OLED</strong> display supports variable refresh rates from <strong>1 Hz to 120 Hz</strong>, enabling the Always-On Display (AOD). Its impact on battery life is nuanced and depends heavily on configuration. <span class="badge badge-ii">Evidence II</span></p>
+
+    <h3>6.1 The Cost of Pixels: Wallpaper vs. Black Screen</h3>
+    <ul>
+      <li><strong>AOD with Wallpaper:</strong> Drives power to a large percentage of OLED pixels. Drains approximately <strong>0.5–1% per hour</strong> → 8–16% cumulative over a 16-hour day. <span class="badge badge-iii">Evidence III — Reddit Testing</span></li>
+      <li><strong>AOD without Wallpaper (widgets only):</strong> Renders only time/widgets on black background. Since OLED pixels are self-emissive, black pixels consume zero power. Device consumes only <strong>~9% over 12 hours</strong> standby. <span class="badge badge-iii">Evidence III — YouTube Testing</span></li>
+    </ul>
+
+    <h3>6.2 High Refresh Rates &amp; Brightness</h3>
+    <p>The ProMotion display at 120 Hz provides fluid animation but requires more GPU and display power. iOS "Insights" frequently flags <strong>"High Brightness"</strong> as a primary offender. Enabling <strong>"Auto-Brightness"</strong> (<code>Settings → Accessibility → Display &amp; Text Size</code>) is critical, allowing the ambient light sensor to aggressively dim the display in lower-light environments. <span class="badge badge-ii">Evidence II — Apple Battery Guide</span></p>
+  </section>
+
+  <!-- ==================== SECTION 7 ==================== -->
+  <section id="sec-analysis">
+    <h2>7. Analyzing Battery Usage Data</h2>
+    <p>iOS provides sophisticated analytics tools to diagnose specific drain vectors. Understanding these is essential for targeted troubleshooting. <span class="badge badge-ii">Evidence II</span></p>
+
+    <h3>7.1 Deciphering the Battery Graph</h3>
+    <p>The Battery Usage graph (<code>Settings → Battery</code>) offers 24-hour and 10-day views:</p>
+    <ul>
+      <li><strong>Blue Bars:</strong> Total energy consumption per hour</li>
+      <li><strong>Screen-On vs. Background:</strong> Tapping "Show Activity" reveals on-screen vs. background time</li>
+      <li><strong>Key Insight:</strong> If an app shows 10 min on-screen but 3 hours background activity → it is abusing Background App Refresh and is likely a primary drain cause</li>
+    </ul>
+
+    <h3>7.2 Identifying "Vampire" Apps</h3>
+    <!-- Table 2 -->
+    <div class="table-wrap">
+      <caption>Table 2: Comparative Power Consumption of Key Features</caption>
+      <thead>
+        <tr>
+          <th>Feature / App Category</th>
+          <th>Estimated Impact</th>
+          <th>Optimization Recommendation</th>
+          <th>Evidence Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>5G On (Forced)</strong></td>
+          <td>~20% faster drain vs. LTE</td>
+          <td>Enable "5G Auto"</td>
+          <td><span class="badge badge-iii">III</span></td>
+        </tr>
+        <tr>
+          <td><strong>AOD with Wallpaper</strong></td>
+          <td>0.5–1% per hour (8–16%/day)</td>
+          <td>Disable "Show Wallpaper"</td>
+          <td><span class="badge badge-iii">III</span></td>
+        </tr>
+        <tr>
+          <td><strong>Apple Intelligence</strong></td>
+          <td>15–20% daily reduction</td>
+          <td>Disable if battery is critical</td>
+          <td><span class="badge badge-iii">III</span></td>
+        </tr>
+        <tr>
+          <td><strong>VPN (Looping Bug)</strong></td>
+          <td>Severe — rapid depletion &amp; heat</td>
+          <td>Delete VPN profile entirely</td>
+          <td><span class="badge badge-iii">III</span></td>
+        </tr>
+        <tr>
+          <td><strong>Background App Refresh</strong></td>
+          <td>Variable (app-dependent)</td>
+          <td>Disable for non-critical apps</td>
+          <td><span class="badge badge-ii">II</span></td>
+        </tr>
+        <tr>
+          <td><strong>Navigation Apps</strong></td>
+          <td>High — GPS + cellular + screen</td>
+          <td>Limit use; use offline maps when possible</td>
+          <td><span class="badge badge-iii">III</span></td>
+        </tr>
+        <tr>
+          <td><strong>Social Media (TikTok/Instagram)</strong></td>
+          <td>High — video pre-loading + notifications</td>
+          <td>Revoke background refresh &amp; location</td>
+          <td><span class="badge badge-iii">III</span></td>
+        </tr>
+        <tr>
+          <td><strong>VoIP Apps (Skype/WhatsApp)</strong></td>
+          <td>Moderate — keeps device awake</td>
+          <td>Disable when not actively needed</td>
+          <td><span class="badge badge-iii">III</span></td>
+        </tr>
+      </tbody>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 8 ==================== -->
+  <section id="sec-protocol">
+    <h2>8. Remediation &amp; Optimization Protocol</h2>
+    <p>Based on the synthesis of hardware, software, and usage-pattern analysis, the following <strong>tiered remediation protocol</strong> is recommended. <span class="badge badge-na">Protocol — Synthesized from all evidence levels</span></p>
+
+    <!-- Tier 1 -->
+    <div class="tier tier-1">
+      <div class="tier-header">
+        <span>✅</span> Tier 1 — Configuration Hygiene (Low Impact)
+      </div>
+      <div class="tier-body">
+        <ol>
+          <li><strong>Enable 5G Auto:</strong> <code>Settings → Cellular → Cellular Data Options → Voice &amp; Data → 5G Auto</code> — prevents the modem from forcing 5G connections unnecessarily. <span class="badge badge-iii">III</span></li>
+          <li><strong>Optimize Always-On Display:</strong> <code>Settings → Display &amp; Brightness → Always On Display → Show Wallpaper OFF</code> — retains clock/widgets utility while drastically reducing pixel consumption. <span class="badge badge-iii">III</span></li>
+          <li><strong>Audit Background App Refresh:</strong> <code>Settings → General → Background App Refresh</code> — turn off for all non-essential apps (streaming, games, retailers). <span class="badge badge-ii">II</span></li>
+          <li><strong>Enable Auto-Brightness:</strong> <code>Settings → Accessibility → Display &amp; Text Size → Auto-Brightness ON</code>. <span class="badge badge-ii">II</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Tier 2 -->
+    <div class="tier tier-2">
+      <div class="tier-header">
+        <span>⚡</span> Tier 2 — Feature Reduction (Moderate Impact)
+      </div>
+      <div class="tier-body">
+        <ol>
+          <li><strong>Disable Apple Intelligence:</strong> If on iOS 18.1+ and experiencing severe drain, turn off in <code>Settings → Apple Intelligence</code>. Stops continuous background indexing and Neural Engine activity. <span class="badge badge-iii">III</span></li>
+          <li><strong>Remove VPN Profiles:</strong> Delete all VPN profiles in <code>Settings → General → VPN &amp; Device Management</code> to eliminate the connection-loop bug. <span class="badge badge-iii">III</span></li>
+          <li><strong>Reduce White Point:</strong> In <code>Accessibility → Display &amp; Text Size</code>, enable "Reduce White Point" to dim beyond minimum brightness. <span class="badge badge-iii">III</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="tier tier-3">
+      <div class="tier-header">
+        <span>🔧</span> Tier 3 — Advanced Diagnostics &amp; Reset (High Impact)
+      </div>
+      <div class="tier-body">
+        <ol>
+          <li><strong>Force Restart:</strong> Press and release Volume Up → Volume Down → press and hold Side Button until Apple logo. Interrupts power to logic board, forcing complete hardware re-initialization. <span class="badge badge-ii">II</span></li>
+          <li><strong>Reset All Settings:</strong> <code>Settings → General → Transfer or Reset iPhone → Reset → Reset All Settings</code>. Reverts all system settings to defaults without deleting user data. <span class="badge badge-ii">II</span></li>
+          <li><strong>Battery Calibration:</strong> Drain to shutdown → leave off several hours → charge uninterrupted to 100%. Fixes fuel-gauge discrepancies. <span class="badge badge-iv">IV</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Tier 4 -->
+    <div class="tier tier-4">
+      <div class="tier-header">
+        <span>🔩</span> Tier 4 — Charging Strategy &amp; Hardware Service
+      </div>
+      <div class="tier-body">
+        <ol>
+          <li><strong>Optimized Charging:</strong> Enable in <code>Settings → Battery → Battery Health &amp; Charging</code>. Avoid the "80% Limit" unless lifespan extension is prioritized over daily utility. <span class="badge badge-ii">II</span></li>
+          <li><strong>Hardware Replacement:</strong> If Maximum Capacity &lt;80% or Cycle Count approaches 1,000 with noticeable degradation, software fixes are ineffective.
+            <ul>
+              <li><strong>Under Warranty/AppleCare+:</strong> Free if capacity &lt;80%. <span class="badge badge-ii">II</span></li>
+              <li><strong>Out of Warranty:</strong> ~$99 (US) / ~£139 (UK). Third-party repairs (~$54–86) may sacrifice battery health metrics. <span class="badge badge-iii">III</span></li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Table 3 -->
+    <div class="table-wrap">
+      <caption>Table 3: Battery Replacement Cost Estimates (2025)</caption>
+      <thead>
+        <tr>
+          <th>Service Provider</th>
+          <th>Model Support</th>
+          <th>Estimated Cost</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Apple Store (US)</strong></td>
+          <td>iPhone 15 Series</td>
+          <td>$99</td>
+          <td>Free with AppleCare+ if &lt;80% health</td>
+        </tr>
+        <tr>
+          <td><strong>Apple Store (UK)</strong></td>
+          <td>iPhone 15 Pro Max</td>
+          <td>£139</td>
+          <td>Official parts &amp; calibration included</td>
+        </tr>
+        <tr>
+          <td><strong>Third-Party Repair</strong></td>
+          <td>iPhone 15 Series</td>
+          <td>~$54–$86 (parts)</td>
+          <td>Labor extra; potential loss of health metrics</td>
+        </tr>
+      </tbody>
+    </div>
+  </section>
+
+  <!-- ==================== SECTION 9 ==================== -->
+  <section>
+    <h2>9. Conclusion</h2>
+    <p>The "battery drain" phenomenon on the iPhone 15 is rarely a single catastrophic failure. It is an <strong>emergent property</strong> of a system pushing the boundaries of physics and software complexity. The A17 Pro chip, while efficient, generates heat that challenges the battery's chemical stability. Features like Apple Intelligence and Always-On Display offer futuristic utility but impose a tangible energy tax.</p>
+    <p>The solution lies not in a single setting but in a <strong>holistic approach to device management</strong>. By understanding the cost of "5G On," the background load of AI, and the mechanics of the "indexing phase," users can configure their devices to balance performance and longevity. As iOS evolves, reliance on "Adaptive Power" and intelligent resource management will grow, but for the present, <strong>informed user intervention remains the most effective tool</strong> for maximizing the iPhone 15's energy autonomy.</p>
+  </section>
+
+  <!-- ==================== REFERENCES ==================== -->
+  <section class="references" id="sec-refs">
+    <h2>References</h2>
+    <p style="font-size:.85rem;color:var(--gray-500);margin-bottom:1rem;">Citations correspond to the source document's reference list.</p>
+    <ol>
+      <li>[1] Apple Support. "If the battery in your iPhone or iPad drains too quickly." <a href="https://support.apple.com/en-us/120745" target="_blank" rel="noopener">support.apple.com</a></li>
+      <li>[2] Apple Support Communities. "Battery draining fast on iPhone 15 Pro." <a href="https://discussions.apple.com/thread/255171449" target="_blank" rel="noopener">discussions.apple.com</a></li>
+      <li>[4] ZDNet. "After 2 years of charging my iPhone the 'Apple way' — battery health report." <a href="https://www.zdnet.com/article/after-2-years-of-charging-my-iphone-the-apple-way-heres-how-the-battery-has-held-up/" target="_blank" rel="noopener">zdnet.com</a></li>
+      <li>[5] Apple. "Batteries — Maximizing Performance." <a href="https://www.apple.com/batteries/maximizing-performance/" target="_blank" rel="noopener">apple.com</a></li>
+      <li>[6] Apple Support. "iPhone battery and performance." <a href="https://support.apple.com/en-us/101575" target="_blank" rel="noopener">support.apple.com</a></li>
+      <li>[7] Apple Support Communities. "What does Battery Cycle Count mean on iPhone?" <a href="https://discussions.apple.com/thread/255513736" target="_blank" rel="noopener">discussions.apple.com</a></li>
+      <li>[10] Apple Support. "Understand your iPhone battery usage and health." <a href="https://support.apple.com/guide/iphone/understand-iphone-battery-usage-health--iphd453d043a/ios" target="_blank" rel="noopener">support.apple.com</a></li>
+      <li>[12] CNET. "The iOS 26 Feature Secretly Extending Your iPhone's Battery Life." <a href="https://www.cnet.com/tech/mobile/the-ios-26-feature-secretly-extending-your-iphones-battery-life/" target="_blank" rel="noopener">cnet.com</a></li>
+      <li>[14] Asurion. "How to turn off Apple Intelligence on iPhone, iPad, and Mac." <a href="https://www.asurion.com/connect/tech-tips/turn-off-apple-intelligence/" target="_blank" rel="noopener">asurion.com</a></li>
+      <li>[19] Smart.DHgate. "iPhone 5G: Is 5G On draining my battery faster than 5G Auto?" <a href="https://smart.dhgate.com/iphone-5g-is-5g-on-draining-my-battery-faster-than-5g-auto/" target="_blank" rel="noopener">smart.dhgate.com</a></li>
+      <li>[20] Smart.DHgate. "iPhone 5G On vs Auto: Is it worth draining your battery?" <a href="https://smart.dhgate.com/iphone-5g-on-vs-auto-is-it-worth-draining-your-battery-for-faster-speeds/" target="_blank" rel="noopener">smart.dhgate.com</a></li>
+      <li>[22] YouTube. "Does ALWAYS ON affect the battery on iPhone 15 Pro?" <a href="https://www.youtube.com/watch?v=cqDqbCiP9l0" target="_blank" rel="noopener">youtube.com</a></li>
+      <li>[27] Apple Support. "Force restart iPhone." <a href="https://support.apple.com/guide/iphone/force-restart-iphone-iph8903c3ee6/ios" target="_blank" rel="noopener">support.apple.com</a></li>
+      <li>[30] Apple Support. "About Charge Limit and Optimized Battery Charging on iPhone." <a href="https://support.apple.com/en-us/108055" target="_blank" rel="noopener">support.apple.com</a></li>
+      <li>[34] Apple Support Communities. "iPhone 15 battery replacement cost." <a href="https://discussions.apple.com/thread/256177740" target="_blank" rel="noopener">discussions.apple.com</a></li>
+      <li>[36] China Phonefix. "How Much Will It Cost to Replace the iPhone Battery in 2025." <a href="https://www.diyfixtool.com/blogs/news/how-much-will-it-cost-to-replace-the-iphone-battery-in-2025" target="_blank" rel="noopener">diyfixtool.com</a></li>
+    </ol>
+    <p style="font-size:.8rem;color:var(--gray-400);margin-top:.75rem;"><em>Note: Some citations from the source document's complete reference list (37 total) are omitted above for brevity. Full references are available in the original source document.</em></p>
+  </section>
+
+</main>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive Diagnostic Panel">
+
+  <!-- Card 1: Battery Health Slider -->
+  <div class="sidebar-card">
+    <div class="sidebar-card-header">
+      <span>📊</span> Battery Health Assessment
+    </div>
+    <div class="sidebar-card-body">
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-label-text">Maximum Capacity</span>
+          <span class="slider-value" id="capacityValue">100%</span>
+        </div>
+        <input type="range" id="capacitySlider" min="50" max="100" value="100" step="1" aria-label="Battery Maximum Capacity percentage">
+        <div class="slider-marks">
+          <span>50%</span>
+          <span style="color:var(--danger);font-weight:600">80% ⚑</span>
+          <span>100%</span>
+        </div>
+      </div>
+      <div class="slider-group">
+        <div class="slider-label">
+          <span class="slider-label-text">Charge Cycle Count</span>
+          <span class="slider-value" id="cycleValue">0</span>
+        </div>
+        <input type="range" id="cycleSlider" min="0" max="1500" value="0" step="10" aria-label="Charge Cycle Count">
+        <div class="slider-marks">
+          <span>0</span>
+          <span style="color:var(--warning);font-weight:600">1,000 ⚑</span>
+          <span>1,500</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Feature Configuration -->
+  <div class="sidebar-card">
+    <div class="sidebar-card-header">
+      <span>⚙️</span> Feature Configuration
+    </div>
+    <div class="sidebar-card-body">
+      <div class="toggle-group">
+        <div class="toggle-row">
+          <span class="toggle-label">Apple Intelligence</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="aiToggle" aria-label="Toggle Apple Intelligence">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="select-group">
+        <label class="select-label" for="aodSelect">Always-On Display Mode</label>
+        <select class="custom-select" id="aodSelect" aria-label="Always-On Display mode">
+          <option value="off">Off</option>
+          <option value="widgets" selected>Widgets Only (Optimized)</option>
+          <option value="wallpaper">With Wallpaper</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <label class="select-label" for="networkSelect">5G Network Mode</label>
+        <select class="custom-select" id="networkSelect" aria-label="5G Network mode">
+          <option value="lte">LTE Only</option>
+          <option value="5g-auto" selected>5G Auto (Smart Data)</option>
+          <option value="5g-on">5G On (Forced)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Real-Time Recommendation -->
+  <div class="sidebar-card">
+    <div class="sidebar-card-header">
+      <span>🩺</span> Diagnostic Recommendation
+    </div>
+    <div class="sidebar-card-body">
+      <div class="rec-panel" id="recPanel">
+        <div id="recSeverity" class="rec-severity severity-low">● OPTIMAL</div>
+        <ul class="rec-list" id="recList">
+          <li>✅ All parameters within optimal range. No corrective action needed.</li>
+        </ul>
+        <div class="rec-estimate">
+          <div class="rec-estimate-label">Estimated Daily Runtime Impact</div>
+          <div class="rec-estimate-value" id="recEstimate">~10–12 hours screen-on</div>
+          <div class="rec-estimate-detail" id="recEstimateDetail">Based on current configuration</div>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-outline btn-sm" id="btnReset" aria-label="Reset all parameters">
+          ↺ Reset
+        </button>
+        <button class="btn btn-primary btn-sm" id="btnExport" aria-label="Export diagnostic summary">
+          📋 Copy Summary
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evidence Level Legend -->
+  <div class="sidebar-card">
+    <div class="sidebar-card-header">
+      <span>📖</span> Evidence Level Key
+    </div>
+    <div class="sidebar-card-body" style="font-size:.78rem;line-height:1.8">
+      <div><span class="badge badge-i">I</span> Controlled / standardized testing</div>
+      <div><span class="badge badge-ii">II</span> Official Apple documentation &amp; specifications</div>
+      <div><span class="badge badge-iii">III</span> Multi-source user telemetry &amp; community data</div>
+      <div><span class="badge badge-iv">IV</span> Individual user reports / anecdotal</div>
+      <div><span class="badge badge-v">V</span> Expert opinion / theoretical</div>
+      <div><span class="badge badge-na">N/A</span> Synthesized protocol</div>
+    </div>
+  </div>
+
+</aside>
+
+</div><!-- end page-wrapper -->
+
+<!-- Toast Notification -->
+<div class="toast" id="toast" role="alert" aria-live="polite">Copied to clipboard!</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // --- DOM References ---
+  const capacitySlider = document.getElementById('capacitySlider');
+  const cycleSlider    = document.getElementById('cycleSlider');
+  const aiToggle       = document.getElementById('aiToggle');
+  const aodSelect      = document.getElementById('aodSelect');
+  const networkSelect  = document.getElementById('networkSelect');
+  const capacityValue  = document.getElementById('capacityValue');
+  const cycleValue     = document.getElementById('cycleValue');
+  const recSeverity    = document.getElementById('recSeverity');
+  const recList        = document.getElementById('recList');
+  const recEstimate    = document.getElementById('recEstimate');
+  const recEstimateDetail = document.getElementById('recEstimateDetail');
+  const btnReset       = document.getElementById('btnReset');
+  const btnExport      = document.getElementById('btnExport');
+  const toast          = document.getElementById('toast');
+
+  // --- Helper: format number ---
+  function fmt(n) {
+    return n.toLocaleString('en-US');
+  }
+
+  // --- Core Update Function ---
+  function updateRecommendation() {
+    const cap    = parseInt(capacitySlider.value, 10);
+    const cycles = parseInt(cycleSlider.value, 10);
+    const ai     = aiToggle.checked;
+    const aod    = aodSelect.value;
+    const net    = networkSelect.value;
+
+    // Update display values
+    capacityValue.textContent = cap + '%';
+    cycleValue.textContent    = fmt(cycles);
+
+    // --- Severity & Recommendations ---
+    let severity = 'low';
+    let severityText = '● OPTIMAL';
+    let recs = [];
+    let drainPoints = 0; // abstract drain units
+
+    // 1. Capacity analysis
+    if (cap < 80) {
+      severity = 'critical';
+      severityText = '● CRITICAL';
+      recs.push('🔴 <strong>Replace battery.</strong> Capacity &lt;80% — service required. Software fixes will be ineffective.');
+      drainPoints += 30;
+    } else if (cap < 85) {
+      if (severity !== 'critical') { severity = 'high'; severityText = '● ATTENTION'; }
+      recs.push('⚡ Battery health declining. Monitor closely; consider replacement within 3–6 months.');
+      drainPoints += 15;
+    } else if (cap < 90) {
+      if (severity === 'low') { severity = 'moderate'; severityText = '● MONITOR'; }
+      recs.push('📊 Battery is within expected degradation range for age/usage.');
+      drainPoints += 8;
+    } else {
+      recs.push('✅ Battery health is excellent (' + cap + '%).');
+    }
+
+    // 2. Cycle count analysis
+    if (cycles >= 1000) {
+      if (severity !== 'critical') { severity = 'high'; severityText = '● ATTENTION'; }
+      recs.push('🔋 Cycle count (' + fmt(cycles) + ') exceeds 1,000-cycle rated durability. Replacement strongly recommended.');
+      drainPoints += 20;
+    } else if (cycles >= 750) {
+      if (severity === 'low') { severity = 'moderate'; severityText = '● MONITOR'; }
+      recs.push('📏 Approaching end of rated cycle life (' + fmt(cycles) + '/1,000). Plan ahead.');
+      drainPoints += 10;
+    } else if (cycles >= 500) {
+      recs.push('📐 Mid-life stage (' + fmt(cycles) + ' cycles). Typical for ~17 months of heavy use.');
+      drainPoints += 5;
+    }
+
+    // 3. Apple Intelligence
+    if (ai) {
+      recs.push('🤖 Apple Intelligence <strong>active</strong>: expect 15–20% reduction in daily battery life due to continuous Neural Engine background processing.');
+      drainPoints += 18;
+    } else {
+      recs.push('✅ Apple Intelligence disabled — Neural Engine inactive. Optimal for battery.');
+    }
+
+    // 4. AOD Mode
+    if (aod === 'wallpaper') {
+      recs.push('📱 AOD with wallpaper: draining ~0.5–1%/hour. Switch to "Widgets Only" for significant savings (~8–16% daily recovery).');
+      drainPoints += 12;
+    } else if (aod === 'widgets') {
+      recs.push('✅ AOD in Widgets Only mode — minimal power use (~9% over 12hr standby).');
+      drainPoints += 2;
+    } else {
+      recs.push('✅ AOD is off. Display power minimized when locked.');
+    }
+
+    // 5. Network Mode
+    if (net === '5g-on') {
+      recs.push('📡 5G forced mode drains ~20% more than LTE. Switch to "5G Auto" to save 1.5–2 hours of screen-on time.');
+      drainPoints += 15;
+    } else if (net === '5g-auto') {
+      recs.push('✅ Smart Data Mode active — device balances speed vs. efficiency automatically.');
+      drainPoints += 3;
+    } else {
+      recs.push('✅ LTE only — most power-efficient cellular mode.');
+    }
+
+    // 6. Cross-factor warnings
+    if (cap < 85 && ai) {
+      recs.push('⚠️ <strong>Compounded risk:</strong> Degraded battery + AI load significantly accelerates daily depletion. Prioritize disabling AI or replacing battery.');
+    }
+    if (cycles >= 750 && net === '5g-on') {
+      recs.push('⚠️ High cycle count + forced 5G = accelerated chemical aging from thermal stress. Strongly recommend 5G Auto.');
+    }
+
+    // --- Severity Styling ---
+    recSeverity.className = 'rec-severity';
+    if (severity === 'low')      { recSeverity.classList.add('severity-low'); }
+    if (severity === 'moderate') { recSeverity.classList.add('severity-moderate'); }
+    if (severity === 'high')     { recSeverity.classList.add('severity-high'); }
+    if (severity === 'critical') { recSeverity.classList.add('severity-critical'); }
+    recSeverity.textContent = severityText;
+
+    // --- Build recommendation list ---
+    recList.innerHTML = recs.map(r => '<li>' + r + '</li>').join('');
+
+    // --- Estimated runtime ---
+    let baseHours = 12; // approximate baseline for iPhone 15 Pro
+    let reduction = drainPoints * 0.06; // rough percentage reduction
+    let estLow  = Math.max(2, Math.round((baseHours - baseHours * reduction * 0.8) * 10) / 10);
+    let estHigh = Math.max(3, Math.round((baseHours - baseHours * reduction * 0.5) * 10) / 10);
+    
+    if (estLow < 3) {
+      recEstimate.textContent = '⚠️ &lt;3 hours screen-on';
+      recEstimateDetail.textContent = 'Severe drain expected. Apply Tier 2–4 remediation immediately.';
+    } else if (estLow < 6) {
+      recEstimate.textContent = '~' + estLow + '–' + estHigh + ' hours screen-on';
+      recEstimateDetail.textContent = 'Reduced runtime. Review recommendations above.';
+    } else {
+      recEstimate.textContent = '~' + estLow + '–' + estHigh + ' hours screen-on';
+      recEstimateDetail.textContent = 'Estimated based on current feature configuration and battery health.';
+    }
+  }
+
+  // --- Event Listeners ---
+  capacitySlider.addEventListener('input', updateRecommendation);
+  cycleSlider.addEventListener('input', updateRecommendation);
+  aiToggle.addEventListener('change', updateRecommendation);
+  aodSelect.addEventListener('change', updateRecommendation);
+  networkSelect.addEventListener('change', updateRecommendation);
+
+  // --- Reset ---
+  btnReset.addEventListener('click', function() {
+    capacitySlider.value = 100;
+    cycleSlider.value    = 0;
+    aiToggle.checked     = false;
+    aodSelect.value      = 'widgets';
+    networkSelect.value  = '5g-auto';
+    updateRecommendation();
+    showToast('Parameters reset to defaults.');
+  });
+
+  // --- Export ---
+  btnExport.addEventListener('click', function() {
+    const cap    = capacitySlider.value;
+    const cycles = cycleSlider.value;
+    const ai     = aiToggle.checked ? 'Enabled' : 'Disabled';
+    const aod    = aodSelect.options[aodSelect.selectedIndex].text;
+    const net    = networkSelect.options[networkSelect.selectedIndex].text;
+    const ts     = new Date().toISOString();
+    const recItems = recList.querySelectorAll('li');
+    let recText = '';
+    recItems.forEach(function(li) { recText += '  • ' + li.textContent.trim() + '\n'; });
+
+    const summary = [
+      '═══════════════════════════════════════════════',
+      '  iPhone 15 Battery Diagnostic Summary',
+      '  Generated: ' + ts,
+      '═══════════════════════════════════════════════',
+      '',
+      'BATTERY PARAMETERS',
+      '  Maximum Capacity:      ' + cap + '%',
+      '  Charge Cycle Count:    ' + cycles,
+      '',
+      'FEATURE CONFIGURATION',
+      '  Apple Intelligence:    ' + ai,
+      '  Always-On Display:     ' + aod,
+      '  5G Network Mode:       ' + net,
+      '',
+      'ASSESSMENT: ' + recSeverity.textContent,
+      '',
+      'RECOMMENDATIONS:',
+      recText,
+      'ESTIMATED DAILY RUNTIME:',
+      '  ' + recEstimate.textContent,
+      '  ' + recEstimateDetail.textContent,
+      '',
+      'EVIDENCE BASE:',
+      '  II — Official Apple documentation & specifications',
+      '  III — Multi-source user telemetry & community testing',
+      '  IV — Individual user reports',
+      '',
+      'SOURCE: Technical Report — Diagnosis, Analysis, and Remediation',
+      '  of Energy Depletion Anomalies in the iPhone 15 Hardware Platform',
+      '═══════════════════════════════════════════════'
+    ].join('\n');
+
+    navigator.clipboard.writeText(summary).then(function() {
+      showToast('Diagnostic summary copied to clipboard!');
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = summary;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Diagnostic summary copied to clipboard!');
+    });
+  });
+
+  // --- Toast ---
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }
+
+  // --- Smooth scroll for header nav ---
+  document.querySelectorAll('.header-nav a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // --- Initial update ---
+  updateRecommendation();
+
+})();
+</script>
+
+</body>
+</html>

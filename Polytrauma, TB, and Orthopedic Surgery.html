@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definitive Surgical Management of Polytrauma with Active Pulmonary TB</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #c53030;
+            --accent-light: #fc8181;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --success: #276749;
+            --success-bg: #f0fff4;
+            --warning: #975a16;
+            --warning-bg: #fffff0;
+            --danger: #9b2c2c;
+            --danger-bg: #fff5f5;
+            --info: #2b6cb0;
+            --info-bg: #ebf8ff;
+            --sidebar-width: 340px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .page-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header .subtitle {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+            font-weight: 400;
+            max-width: 1200px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr var(--sidebar-width);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        aside {
+            position: relative;
+        }
+
+        .sidebar-card {
+            position: sticky;
+            top: 120px;
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.25rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-body {
+            padding: 1.25rem;
+        }
+
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .slider-value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.3rem;
+        }
+
+        .slider-value .current {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .slider-value .unit {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, var(--danger), var(--warning), var(--success));
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--primary);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            margin-top: 0.2rem;
+        }
+
+        .threshold-note {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 0.2rem;
+            background: var(--info-bg);
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--info);
+        }
+
+        .recommendation-box {
+            background: var(--info-bg);
+            border: 2px solid var(--info);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-box.warning {
+            background: var(--warning-bg);
+            border-color: var(--warning);
+        }
+
+        .recommendation-box.danger {
+            background: var(--danger-bg);
+            border-color: var(--accent);
+        }
+
+        .recommendation-box.success {
+            background: var(--success-bg);
+            border-color: var(--success);
+        }
+
+        .recommendation-box h4 {
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .recommendation-box p {
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.6rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-reset:hover {
+            background: #cbd5e0;
+        }
+
+        .btn-export {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-export:hover {
+            background: var(--primary-light);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Content Styles */
+        .content-card {
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--primary-light);
+            margin: 1.5rem 0 0.7rem;
+        }
+
+        h4 {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin: 1rem 0 0.5rem;
+        }
+
+        p {
+            margin-bottom: 0.8rem;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        strong {
+            color: var(--primary);
+        }
+
+        .evidence-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 22px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0 6px;
+            vertical-align: middle;
+            margin-left: 4px;
+            letter-spacing: 0.02em;
+        }
+
+        .ev-1 { background: #c6f6d5; color: #22543d; }
+        .ev-2 { background: #bee3f8; color: #2a4365; }
+        .ev-3 { background: #fefcbf; color: #744210; }
+        .ev-4 { background: #fed7d7; color: #742a2a; }
+        .ev-5 { background: #e9d8fd; color: #44337a; }
+        .ev-na { background: #e2e8f0; color: #4a5568; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+
+        caption {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            caption-side: top;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 0.8rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        tr:hover {
+            background: #edf2f7;
+        }
+
+        .callout {
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .callout-danger {
+            background: var(--danger-bg);
+            border-color: var(--accent);
+        }
+
+        .callout-warning {
+            background: var(--warning-bg);
+            border-color: var(--warning);
+        }
+
+        .callout-success {
+            background: var(--success-bg);
+            border-color: var(--success);
+        }
+
+        .callout-info {
+            background: var(--info-bg);
+            border-color: var(--info);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .callout p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        .phase-card {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .phase-header {
+            padding: 0.7rem 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .phase-1 .phase-header { background: var(--accent); }
+        .phase-2 .phase-header { background: var(--warning); }
+        .phase-3 .phase-header { background: var(--success); }
+
+        .phase-body {
+            padding: 1rem;
+        }
+
+        .ref-section {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .ref-section ol {
+            padding-left: 1.2rem;
+        }
+
+        .ref-section li {
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .toc {
+            background: #f7fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-light);
+        }
+
+        .toc ol {
+            margin: 0;
+            padding-left: 1.2rem;
+        }
+
+        .toc li {
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+        }
+
+        .toc a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .limitation-note {
+            background: #fefce8;
+            border: 1px dashed #ca8a04;
+            border-radius: 6px;
+            padding: 0.8rem;
+            font-size: 0.82rem;
+            color: #854d0e;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .sidebar-card {
+                position: relative;
+                top: 0;
+            }
+
+            .page-header h1 {
+                font-size: 1.2rem;
+            }
+
+            .content-card {
+                padding: 1.25rem;
+            }
+
+            table {
+                font-size: 0.78rem;
+            }
+
+            th, td {
+                padding: 0.4rem 0.5rem;
+            }
+        }
+
+        @media print {
+            .page-header {
+                position: relative;
+            }
+            .sidebar-card {
+                position: relative;
+                top: 0;
+            }
+            .btn-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>Definitive Surgical Management of Polytrauma in the Patient with Active Pulmonary Tuberculosis</h1>
+    <div class="subtitle">Comprehensive Analysis of Strategy, Timing, and Risk Mitigation — Evidence-Based Educational Summary</div>
+</header>
+
+<div class="layout">
+    <main>
+
+        <!-- Table of Contents -->
+        <nav class="toc" aria-label="Table of Contents">
+            <h3>Table of Contents</h3>
+            <ol>
+                <li><a href="#sec1">Introduction: The Clinical Collision</a></li>
+                <li><a href="#sec2">Pathophysiology: The "Triple Hit" Phenomenon</a></li>
+                <li><a href="#sec3">Surgical Timing &amp; ATT</a></li>
+                <li><a href="#sec4">Surgical Strategy: DCO vs. ETC</a></li>
+                <li><a href="#sec5">Site-Specific Management Protocols</a></li>
+                <li><a href="#sec6">Perioperative Risks &amp; Anesthesia</a></li>
+                <li><a href="#sec7">Miliary Dissemination &amp; Implant Infection</a></li>
+                <li><a href="#sec8">Pharmacological Considerations</a></li>
+                <li><a href="#sec9">Comprehensive Management Protocol</a></li>
+                <li><a href="#sec10">Landmark Studies Summary</a></li>
+                <li><a href="#sec11">References</a></li>
+            </ol>
+        </nav>
+
+        <!-- Section 1: Introduction -->
+        <section id="sec1" class="content-card">
+            <h2>1. Introduction: The Clinical Collision of Infectious Disease and High-Energy Trauma</h2>
+            <p>The management of a polytrauma patient presenting with concurrent active pulmonary tuberculosis (TB) represents a formidable intersection of orthopedic trauma surgery, infectious disease medicine, and critical care physiology. The clinical scenario analyzed herein involves a patient with a <strong>high-energy Schatzker Type V tibial plateau fracture</strong>, an ipsilateral <strong>distal femur fracture</strong>, and concomitant fractures of the <strong>greater trochanter and acromion</strong>, superimposed upon a background of <strong>active pulmonary tuberculosis with cachexia</strong>.</p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">⚠ Critical Clinical Scenario</div>
+                <p>This case constitutes a "perfect storm" of physiological stress. The convergence of high-energy polytrauma with active mycobacterial infection and nutritional depletion creates a uniquely hazardous clinical environment that demands departure from standard trauma algorithms.</p>
+            </div>
+
+            <p>The complexity arises not solely from the skeletal injuries, which are limb-threatening in themselves, but from the systemic milieu. Tuberculosis is a chronic, catabolic state driven by a persistent inflammatory cytokine response, specifically <strong>Tumor Necrosis Factor-alpha (TNF-α)</strong> and <strong>Interleukin-6 (IL-6)</strong>. Polytrauma induces an acute <strong>Systemic Inflammatory Response Syndrome (SIRS)</strong>, characterized by a surge in these same mediators. When the acute trauma "hit" is superimposed on the chronic TB "hit," the risk of immune uncoupling leads to heightened susceptibility to <strong>Multi-Organ Failure (MOF)</strong>, <strong>Acute Respiratory Distress Syndrome (ARDS)</strong>, and potentially fatal <strong>miliary dissemination</strong> of the mycobacteria.</p>
+
+            <p>The patient's presentation with cachexia and night sweats indicates advanced disease with significant metabolic derangement. This nutritional depletion, marked by <strong>hypoalbuminemia</strong>, fundamentally alters the healing potential of the soft tissue envelope and exponentially increases the risk of <strong>surgical site infection (SSI)</strong> and <strong>periprosthetic joint infection (PJI)</strong>.</p>
+        </section>
+
+        <!-- Section 2: Pathophysiology -->
+        <section id="sec2" class="content-card">
+            <h2>2. Pathophysiological Considerations: The "Triple Hit" Phenomenon</h2>
+            <p>The convergence of three distinct pathological processes creates a unique <strong>"Triple Hit"</strong> scenario that dictates the boundaries of safe surgical intervention.</p>
+
+            <div class="callout callout-info">
+                <div class="callout-title">The Triple Hit Model</div>
+                <p><strong>Hit 1:</strong> High-energy trauma (acute SIRS) · <strong>Hit 2:</strong> Active mycobacterial infection (chronic inflammation) · <strong>Hit 3:</strong> Nutritional depletion / cachexia (metabolic failure)</p>
+            </div>
+
+            <h3>2.1 The Cytokine Collision: SIRS and the "Second Hit"</h3>
+            <p>Polytrauma initiates a massive release of pro-inflammatory cytokines, constituting the "first hit." In standard trauma physiology, orthopedic surgery—particularly intramedullary nailing and prolonged ORIF—acts as a <strong>"second hit,"</strong> further stimulating the inflammatory cascade through mechanical trauma, reaming of medullary canals, and blood loss. <span class="evidence-badge ev-3">III</span> <sup>[1]</sup></p>
+
+            <p>In a patient with active TB, the baseline cytokine profile is already pathological. TB is characterized by chronic elevation of TNF-α (historically "cachectin") and Interferon-gamma (IFN-γ). The addition of surgical stress risks triggering an <strong>uncontrolled hyper-inflammatory response</strong>, leading to extensive endothelial damage, capillary leak, and rapid onset of ARDS. The lungs, compromised by active tubercular granulomas and cavitation, are uniquely vulnerable to fat emboli generated during fracture fixation. <span class="evidence-badge ev-2">II</span> <sup>[4]</sup></p>
+
+            <h3>2.2 Metabolic Failure and Cachexia</h3>
+            <ul>
+                <li><strong>Hypoalbuminemia:</strong> Serum albumin &lt; 3.5 g/dL is independently associated with deep SSI, wound dehiscence, and prolonged hospital stays. Low albumin is a potent predictor of surgical outcomes in orthopedic trauma. <span class="evidence-badge ev-3">III</span> <sup>[5, 6, 7]</sup></li>
+                <li><strong>Soft Tissue Implications:</strong> For Schatzker Type V fractures, which involve significant compromise to the thin soft tissue envelope of the proximal tibia, cachexia severely impairs the skin's ability to heal surgical incisions. Operating through compromised, malnourished skin carries prohibitively high risk of necrosis and infection. <span class="evidence-badge ev-4">IV</span> <sup>[8, 9]</sup></li>
+                <li><strong>Vitamin D Deficiency:</strong> Active TB is frequently associated with profound Vitamin D deficiency, impairing macrophage function and bone healing. Supplementation has been shown to shorten time to recovery. <span class="evidence-badge ev-1">I</span> <sup>[10]</sup></li>
+            </ul>
+
+            <h3>2.3 The Immunological Window and Reactivation</h3>
+            <p>Trauma induces a transient state of immunosuppression known as <strong>Compensatory Anti-Inflammatory Response Syndrome (CARS)</strong>. This period of relative immune paralysis creates a window of opportunity for the dissemination of <em>Mycobacterium tuberculosis</em>. The risk of <strong>miliary TB</strong>—hematogenous spread to liver, spleen, and bone marrow—is heightened during this post-traumatic window. Surgical stress acts as a potent trigger for this reactivation. <span class="evidence-badge ev-4">IV</span> <sup>[3, 11, 12]</sup></p>
+        </section>
+
+        <!-- Section 3: Surgical Timing and ATT -->
+        <section id="sec3" class="content-card">
+            <h2>3. Surgical Timing and Anti-Tubercular Chemotherapy (ATT)</h2>
+
+            <h3>3.1 Immediate Initiation of Chemotherapy</h3>
+            <p>CDC and infectious disease society guidelines are unequivocal: <strong>ATT should be initiated immediately</strong> upon suspicion of active TB, even before culture confirmation if clinical, radiographic, and microscopic evidence is strong. <span class="evidence-badge ev-1">I</span> <sup>[13]</sup></p>
+
+            <ul>
+                <li><strong>Protocol:</strong> Standard quadruple therapy — Isoniazid, Rifampicin, Pyrazinamide, Ethambutol (RIPE) should be started on admission.</li>
+                <li><strong>Hepatotoxicity Monitoring:</strong> The hepatotoxicity of these drugs must be carefully monitored. Trauma patients often experience transient enzyme elevations; daily LFTs are required to distinguish drug toxicity from ischemic injury. <span class="evidence-badge ev-3">III</span> <sup>[16]</sup></li>
+            </ul>
+
+            <h3>3.2 The "Waiting Period" Controversy</h3>
+            <p>In <strong>spinal tuberculosis</strong> (Pott's disease), randomized trials have shown no significant difference in recurrence rates between patients who received 2 weeks vs. 4 weeks of preoperative ATT. <span class="evidence-badge ev-1">I</span> <sup>[15]</sup> Some institutional protocols for skeletal TB suggest waiting until ESR and CRP normalize (up to 5 months). <span class="evidence-badge ev-4">IV</span> <sup>[17]</sup></p>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">⚠ Critical Distinction: Polytrauma ≠ Elective Surgery</div>
+                <p>For <strong>unstable long bone fractures in polytrauma</strong>, waiting 2–4 weeks is <strong>contraindicated</strong>. Prolonged traction exponentially increases risks of: <strong>(1)</strong> Venous Thromboembolism (highest in the first week) <sup>[18]</sup>; <strong>(2)</strong> Pulmonary deterioration — hypostatic pneumonia, atelectasis <sup>[19]</sup>; <strong>(3)</strong> Decubitus ulcers in cachectic patients.</p>
+            </div>
+
+            <p><strong>Consensus for Polytrauma:</strong> The "optimal timing" is dictated by physiological stability, not sterilization of the TB lesion. Stabilization must proceed <strong>emergently (within 24 hours)</strong> to allow mobilization and pulmonary toilet, provided appropriate airborne precautions are in place. <span class="evidence-badge ev-5">V</span> <sup>[20]</sup></p>
+
+            <h3>3.3 The Role of Vitamin D and Nutritional Resuscitation</h3>
+            <p>Given the link between Vitamin D deficiency, TB severity, and fracture healing, immediate high-dose supplementation is recommended. <sup>[10]</sup> The waiting period for <em>definitive</em> surgery should be utilized for nutritional resuscitation. Albumin levels should be optimized to <strong>&gt; 3.0 g/dL</strong> before converting temporary fixators to internal implants, as this significantly mitigates deep infection risk. <span class="evidence-badge ev-3">III</span> <sup>[5]</sup></p>
+        </section>
+
+        <!-- Section 4: Surgical Strategy -->
+        <section id="sec4" class="content-card">
+            <h2>4. Surgical Strategy: Damage Control Orthopedics (DCO) vs. Early Total Care (ETC)</h2>
+            <p>Given the patient's cachexia, active pulmonary disease, and complex fracture pattern, the evidence overwhelmingly supports a <strong>Damage Control Orthopedics (DCO)</strong> approach.</p>
+
+            <table>
+                <caption>Table 1. Comparative Analysis: Early Total Care (ETC) vs. Damage Control Orthopedics (DCO)</caption>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Early Total Care (ETC)</th>
+                        <th>Damage Control Orthopedics (DCO)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Definition</strong></td>
+                        <td>Definitive fixation (nailing/plating) of all fractures &lt; 24 hrs</td>
+                        <td>Temporary external fixation &lt; 24 hrs; delayed definitive surgery (days 5–21)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Surgical Duration</strong></td>
+                        <td>Prolonged (4–6+ hours)</td>
+                        <td>Rapid (&lt; 60 minutes)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Physiological Impact</strong></td>
+                        <td>High "second hit" inflammatory surge</td>
+                        <td>Minimal "second hit"; focuses on physiology</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Blood Loss</strong></td>
+                        <td>High (open reduction, reaming)</td>
+                        <td>Low (percutaneous pin insertion)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pulmonary Risk</strong></td>
+                        <td>High (fat emboli, prolonged ventilation)</td>
+                        <td>Low (lung protective)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Soft Tissue Risk</strong></td>
+                        <td>High (incising through swollen/blistered tissue)</td>
+                        <td>Low (allows swelling to subside)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.2 Rationale for DCO in Active TB</h3>
+            <ul>
+                <li><strong>Anesthesia Burden:</strong> ETC for multiple fractures requires 4–6 hours of general anesthesia, suppressing NK cell function and macrophage activity, potentially impairing containment of mycobacterial infection. <span class="evidence-badge ev-3">III</span> <sup>[22]</sup></li>
+                <li><strong>Pulmonary Burden:</strong> ETC is associated with higher rates of pulmonary complications. In a patient with pre-existing lung cavitation, even minor pulmonary insult (fat embolism from nailing) can be fatal. <span class="evidence-badge ev-2">II</span> <sup>[1]</sup></li>
+                <li><strong>Soft Tissue Burden:</strong> The Schatzker V fracture implies extensive soft tissue injury. Immediate plating through edematous, cachectic tissue invites wound dehiscence. DCO allows the "wrinkle sign" to appear (7–14 days) before definitive incisions. <span class="evidence-badge ev-3">III</span> <sup>[23]</sup></li>
+            </ul>
+
+            <div class="callout callout-success">
+                <div class="callout-title">✓ Mandatory Strategy: Damage Control Orthopedics</div>
+                <p>Immediate spanning external fixation stabilizes fractures, reduces pain (decreasing narcotic requirements and respiratory depression), and allows chair mobilization for pulmonary toilet. It bridges the patient through the acute inflammatory phase and allows time for ATT to reduce bacterial load. <sup>[2]</sup></p>
+            </div>
+        </section>
+
+        <!-- Section 5: Site-Specific Management -->
+        <section id="sec5" class="content-card">
+            <h2>5. Site-Specific Management Protocols</h2>
+
+            <h3>5.1 Right Tibial Plateau Fracture (Schatzker Type V)</h3>
+            <p>Schatzker Type V fractures involve a bicondylar injury with separation of the metaphysis and articular surface—high-energy injuries with extensive soft tissue stripping.</p>
+
+            <h4>Immediate (DCO)</h4>
+            <p><strong>Technique:</strong> Knee-spanning external fixation. Two pins in the distal femur and two in the tibial diaphysis, spanning the zone of injury. This avoids any incision in the compromised zone during the acute phase. <span class="evidence-badge ev-4">IV</span> <sup>[9]</sup></p>
+
+            <h4>Definitive (Delayed)</h4>
+            <table>
+                <caption>Table 2. Definitive Fixation Options for Schatzker V Tibial Plateau</caption>
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Technique</th>
+                        <th>Advantages</th>
+                        <th>Risks in TB Patient</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Option A: ORIF</strong></td>
+                        <td>Dual plating (medial + lateral)</td>
+                        <td>Gold standard for anatomical reduction</td>
+                        <td>High risk of wound slough in cachectic TB patient; extensive dissection required <sup>[23]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Option B: Circular Fixator</strong> (Preferred)</td>
+                        <td>Ilizarov / Taylor Spatial Frame</td>
+                        <td>Percutaneous wires (minimal incision); early weight-bearing; superior hold in poor bone stock <sup>[26, 27]</sup></td>
+                        <td>Pin-site infection risk; prolonged treatment duration</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-info">
+                <div class="callout-title">Preferred Strategy: Circular External Fixation</div>
+                <p>Fine wire circular fixation is likely the superior option for this patient profile—it utilizes percutaneous wires, avoids large incisions in compromised skin, allows early weight-bearing (beneficial for bone density), and provides superior hold in osteoporotic bone from TB/cachexia. <sup>[26, 27]</sup></p>
+            </div>
+
+            <h3>5.2 Left Distal Femur Fracture</h3>
+            <h4>Immediate (DCO)</h4>
+            <p>Spanning external fixation (can be linked to the tibial frame if there is associated knee injury, or separate).</p>
+
+            <h4>Definitive (Delayed)</h4>
+            <ul>
+                <li><strong>Reaming Concerns:</strong> Reaming generates high intramedullary pressures, forcing marrow fat and inflammatory mediators into the venous circulation. In active pulmonary TB, this can trigger acute lung injury. <span class="evidence-badge ev-2">II</span> <sup>[4]</sup></li>
+                <li><strong>Recommendation:</strong> If nailing is chosen, an <strong>unreamed</strong> technique or limited reaming with distinct venting should be used. <span class="evidence-badge ev-2">II</span> <sup>[28, 29]</sup></li>
+                <li><strong>Alternative — Locking Plate:</strong> A lateral locking plate (LISS/LCP) avoids the medullary canal entirely, sparing the endosteal blood supply and reducing pulmonary emboli risk. Given pulmonary pathology, <strong>locking plate fixation may be safer</strong> to preserve lung function. <span class="evidence-badge ev-5">V</span> <sup>[30]</sup></li>
+            </ul>
+
+            <h3>5.3 Greater Trochanter and Acromion Fractures</h3>
+            <table>
+                <caption>Table 3. Management of Associated Fractures</caption>
+                <thead>
+                    <tr>
+                        <th>Fracture Site</th>
+                        <th>Recommended Management</th>
+                        <th>Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Greater Trochanter</strong></td>
+                        <td>Conservative (abduction pillow/brace) initially unless gross instability</td>
+                        <td>Isolated fractures often heal conservatively; surgical fixation can be incorporated into femoral strategy if needed <sup>[31]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Acromion</strong></td>
+                        <td>Conservative (sling) unless floating shoulder</td>
+                        <td>Minimize surgical sites and implants to reduce cumulative infection risk in TB patient <sup>[31]</sup></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 6: Perioperative Risks and Anesthesia -->
+        <section id="sec6" class="content-card">
+            <h2>6. Perioperative Risks and Anesthesia Management</h2>
+
+            <h3>6.1 Anesthesia: Regional vs. General</h3>
+            <p>There is strong evidence-based consensus supporting <strong>Regional Anesthesia (RA) over General Anesthesia (GA)</strong> for active pulmonary TB patients undergoing orthopedic surgery. <span class="evidence-badge ev-3">III</span> <sup>[32, 33]</sup></p>
+
+            <table>
+                <caption>Table 4. Advantages of Regional Anesthesia in Active Pulmonary TB</caption>
+                <thead>
+                    <tr>
+                        <th>Advantage</th>
+                        <th>Mechanism</th>
+                        <th>Citation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Airway Avoidance</strong></td>
+                        <td>Eliminates endotracheal intubation/extubation—highest-risk procedures for aerosolizing <em>M. tuberculosis</em> and transmitting infection to OR staff</td>
+                        <td><sup>[33]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pulmonary Mechanics</strong></td>
+                        <td>GA positive pressure ventilation can cause barotrauma; if TB cavities are present, positive pressure can rupture a bleb causing tension pneumothorax or bronchopleural fistula. Spontaneous ventilation under RA maintains physiological negative intra-thoracic pressure.</td>
+                        <td><sup>[32]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Immunological Preservation</strong></td>
+                        <td>General anesthetics (volatiles) and systemic opioids suppress NK cell function and cell-mediated immunity. RA preserves immune competence critical for controlling mycobacterial burden.</td>
+                        <td><sup>[34]</sup></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Recommended Protocol</h4>
+            <ul>
+                <li><strong>Neuraxial Blockade:</strong> A <strong>Combined Spinal-Epidural (CSE)</strong> is ideal for bilateral lower extremity fractures. It provides dense, rapid-onset anesthesia and prolonged postoperative analgesia via the epidural catheter, reducing systemic opioid needs. <sup>[34]</sup></li>
+                <li><strong>Peripheral Nerve Blocks:</strong> For the acromion/shoulder injury (if surgery unavoidable), an interscalene or supraclavicular block maintains the "awake and breathing" status.</li>
+            </ul>
+
+            <h3>6.2 Airway Management and Infection Control</h3>
+
+            <div class="callout callout-danger">
+                <div class="callout-title">🚫 Absolute Contraindication: Nitrous Oxide (N₂O)</div>
+                <p>N₂O is <strong>absolutely contraindicated</strong> in pulmonary TB. N₂O is 34× more soluble in blood than nitrogen—it diffuses into air-filled spaces (TB cavities, bullae) faster than nitrogen can absorb out, causing rapid cavity expansion. This can rupture a tubercular cavity, causing catastrophic <strong>tension pneumothorax</strong> or spreading caseous material into the pleural space (tubercular empyema). <span class="evidence-badge ev-5">V</span> <sup>[20]</sup></p>
+            </div>
+
+            <h4>Airborne Precautions in the Operating Room</h4>
+            <ul>
+                <li><strong>Room Engineering:</strong> Negative pressure OR relative to the corridor. If unavailable, use portable industrial-grade HEPA filter units. <sup>[20]</sup></li>
+                <li><strong>Circuit Filtration:</strong> High-efficiency bacterial/viral filter (HEPA grade) between the ETT and breathing circuit Y-piece to prevent anesthesia machine contamination. <sup>[35]</sup></li>
+                <li><strong>Staff Protection:</strong> All personnel must wear fit-tested N95 respirators. Minimize OR traffic.</li>
+                <li><strong>Extubation:</strong> High-risk event for coughing and aerosol generation. Perform in controlled manner once patient follows commands to suppress coughing. <sup>[35]</sup></li>
+            </ul>
+        </section>
+
+        <!-- Section 7: Miliary Dissemination and Implant Infection -->
+        <section id="sec7" class="content-card">
+            <h2>7. Risk of Miliary Dissemination and Implant Infection</h2>
+
+            <h3>7.1 Miliary Tuberculosis Dissemination</h3>
+            <p>Miliary TB is characterized by hematogenous spread of bacilli to multiple organs, presenting as innumerable tiny granulomas in liver, spleen, bone marrow, and brain.</p>
+
+            <ul>
+                <li><strong>Trigger Mechanism:</strong> Surgical stress and transient immunosuppression (CARS) can reactivate latent foci or disseminate active disease by suppressing Th1 response. <span class="evidence-badge ev-4">IV</span> <sup>[3]</sup></li>
+                <li><strong>Diagnostic Challenge:</strong> Post-operative miliary TB is often misdiagnosed—symptoms (fever, tachycardia, respiratory distress) mimic ARDS, fat embolism syndrome, or sepsis. A high index of suspicion is required. <span class="evidence-badge ev-4">IV</span> <sup>[12]</sup></li>
+            </ul>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">⚠ Mitigation Strategy</div>
+                <p><strong>Pre-loading with ATT:</strong> Initiating ATT immediately upon admission ensures therapeutic bactericidal drug levels during the surgical insult, neutralizing bacilli shed into the bloodstream. <sup>[13]</sup><br>
+                <strong>Adrenal Insufficiency:</strong> Monitor for Addison's disease from TB adrenalitis. Refractory hypotension may require stress-dose hydrocortisone. <sup>[37]</sup></p>
+            </div>
+
+            <h3>7.2 Hematogenous Seeding of Orthopedic Implants</h3>
+            <p><em>M. tuberculosis</em> can adhere to metal surfaces of plates and nails, forming a <strong>biofilm</strong> that protects bacteria from host immune cells and antibiotics, leading to chronic, recalcitrant infections. <span class="evidence-badge ev-4">IV</span> <sup>[38]</sup></p>
+
+            <ul>
+                <li><strong>Clinical Presentation:</strong> Late-onset PJI or osteomyelitis, occurring months/years after surgery; may present as "cold abscess" or draining sinus. <sup>[39, 40]</sup></li>
+                <li><strong>Risk Factors:</strong> Active bacteremia during the perioperative period and high vascularity of healing fracture callus. <sup>[41]</sup></li>
+                <li><strong>Prevention:</strong> Extend ATT duration beyond standard 6 months—many experts advocate <strong>9–12 months of therapy</strong> for patients with implants. Where possible, avoid intramedullary hardware to minimize sanctuary sites. <span class="evidence-badge ev-4">IV</span> <sup>[17, 42]</sup></li>
+            </ul>
+        </section>
+
+        <!-- Section 8: Pharmacological Considerations -->
+        <section id="sec8" class="content-card">
+            <h2>8. Pharmacological Considerations and Drug Interactions</h2>
+
+            <h3>8.1 Rifampicin and Cytochrome P450 Induction</h3>
+            <p>Rifampicin is a strong inducer of hepatic CYP3A4 and CYP2C9 enzyme systems, with profound implications for standard trauma medications.</p>
+
+            <table>
+                <caption>Table 5. Rifampicin Drug Interactions in Trauma Management</caption>
+                <thead>
+                    <tr>
+                        <th>Drug Class</th>
+                        <th>Effect of Rifampicin</th>
+                        <th>Clinical Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Opioid Analgesics</strong></td>
+                        <td>Accelerated metabolism of methadone, oxycodone, fentanyl</td>
+                        <td>Significantly higher doses required; under-treatment risk <sup>[34]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Anticoagulants (Warfarin, DOACs)</strong></td>
+                        <td>Significantly reduced efficacy</td>
+                        <td><strong>LMWH (Enoxaparin) preferred</strong> for DVT prophylaxis; metabolism less affected by CYP induction <sup>[43]</sup></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Corticosteroids</strong></td>
+                        <td>Increases cortisol clearance by up to 60%</td>
+                        <td>Double the steroid dose if required for adrenal insufficiency</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>8.2 Hepatotoxicity Monitoring</h3>
+            <p>Trauma patients are prone to "shock liver" from hypotension. ATT drugs (Isoniazid, Rifampicin, Pyrazinamide) are inherently hepatotoxic.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">📋 Hepatotoxicity Protocol</div>
+                <p>Obtain <strong>baseline LFTs</strong>. Monitor <strong>ALT/AST daily</strong> in the acute phase. If enzymes rise <strong>&gt; 3× upper limit of normal with symptoms</strong> (nausea, vomiting, abdominal pain) or <strong>&gt; 5× without symptoms</strong>, hepatotoxic drugs may need to be held and "liver-sparing" regimens (Ethambutol, Streptomycin, Fluoroquinolones) substituted temporarily. <sup>[13]</sup></p>
+            </div>
+        </section>
+
+        <!-- Section 9: Comprehensive Management Protocol -->
+        <section id="sec9" class="content-card">
+            <h2>9. Comprehensive Management Protocol</h2>
+
+            <div class="phase-card phase-1">
+                <div class="phase-header">Phase 1: Immediate Stabilization (Day 0–1) — "Damage Control &amp; Isolation"</div>
+                <div class="phase-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Action Category</th>
+                                <th>Protocol</th>
+                                <th>Evidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Infection Control</strong></td>
+                                <td>Admit to Airborne Infection Isolation Room (AIIR). Staff N95 usage.</td>
+                                <td><span class="evidence-badge ev-5">V</span> <sup>[20]</sup></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Chemotherapy</strong></td>
+                                <td>Start ATT immediately (RIPE regimen). Do not wait for culture if smear positive.</td>
+                                <td><span class="evidence-badge ev-1">I</span> <sup>[13]</sup></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Surgical Strategy</strong></td>
+                                <td>DCO (External Fixation). Spanning Ex-Fix for Rt Tibia and Lt Femur.</td>
+                                <td><span class="evidence-badge ev-2">II</span> <sup>[1]</sup></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Anesthesia</strong></td>
+                                <td>Regional (CSE). Avoid intubation and Nitrous Oxide.</td>
+                                <td><span class="evidence-badge ev-3">III</span> <sup>[32, 33]</sup></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resuscitation</strong></td>
+                                <td>Fluid resuscitation guided by lactate. Albumin replacement if &lt; 3.0 g/dL.</td>
+                                <td><span class="evidence-badge ev-3">III</span> <sup>[5]</sup></td>
+                            </tr>
+                            <tr>
+                                <td><strong>DVT Prophylaxis</strong></td>
+                                <td>LMWH (Enoxaparin). Avoid DOACs/Warfarin due to Rifampicin interaction.</td>
+                                <td><span class="evidence-badge ev-1">I</span> <sup>[43]</sup></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="phase-card phase-2">
+                <div class="phase-header">Phase 2: Physiological Optimization (Day 2–14) — "The Physiological Window"</div>
+                <div class="phase-body">
+                    <ul>
+                        <li><strong>Nutritional Support:</strong> Aggressive high-protein diet (1.5–2.0 g/kg/day) or TPN if gut non-functional. <strong>Target:</strong> Serum albumin &gt; 3.0 g/dL. <span class="evidence-badge ev-3">III</span> <sup>[5]</sup></li>
+                        <li><strong>Supplements:</strong> Vitamin D (50,000 IU loading dose then daily) and Calcium to support callus formation. <span class="evidence-badge ev-1">I</span> <sup>[10]</sup></li>
+                        <li><strong>Soft Tissue Monitoring:</strong> Watch for the "wrinkle sign" on the knee indicating subsidence of edema. Do not rush to surgery before this sign appears. <span class="evidence-badge ev-3">III</span> <sup>[23]</sup></li>
+                        <li><strong>Mobilization:</strong> Sit out of bed to chair (utilizing Ex-Fix stability). Aggressive chest physiotherapy and incentive spirometry.</li>
+                        <li><strong>Surveillance:</strong> Daily LFTs. Monitor for fever spikes indicating miliary spread or superinfection.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="phase-card phase-3">
+                <div class="phase-header">Phase 3: Definitive Fixation (Day 14–21+) — "Safe Surgery"</div>
+                <div class="phase-body">
+                    <h4>Criteria for Conversion from External Fixation:</h4>
+                    <ol>
+                        <li>Soft tissues are pliable and exhibit the wrinkle sign</li>
+                        <li>Patient is afebrile (or fever trend strictly downward)</li>
+                        <li>Albumin is rising toward normal</li>
+                        <li>Pulmonary status is stable (no worsening ARDS/oxygen requirement)</li>
+                    </ol>
+
+                    <h4>Procedure Selection:</h4>
+                    <ul>
+                        <li><strong>Right Tibia:</strong> Convert to <strong>Circular External Fixator (Ilizarov/TSF)</strong> if soft tissues remain tenuous; alternatively, dual plating if optimization has been excellent. <sup>[26]</sup></li>
+                        <li><strong>Left Femur:</strong> Convert to <strong>Retrograde Nail (unreamed)</strong> or <strong>Lateral Locking Plate</strong>. <sup>[28, 30]</sup></li>
+                    </ul>
+
+                    <h4>Intraoperative Considerations:</h4>
+                    <ul>
+                        <li>Take <strong>deep tissue cultures (5 samples)</strong> to rule out superinfection or early seeding</li>
+                        <li><strong>Antibiotic prophylaxis:</strong> Standard Gram-positive coverage (Cephalosporin) <strong>PLUS</strong> continuation of ATT. Rifampicin lowers serum levels of many antibiotics—higher dosing may be warranted.</li>
+                        <li><strong>Extended ATT:</strong> With orthopedic hardware in place, extend ATT to <strong>9–12 months</strong> to ensure sterilization. <sup>[17, 42]</sup></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Landmark Studies -->
+        <section id="sec10" class="content-card">
+            <h2>10. Landmark Studies Summary</h2>
+
+            <div class="limitation-note">
+                <strong>Source Limitation Note:</strong> The source document is a comprehensive clinical analysis/synthesis rather than a primary research report. The cited studies represent a mix of evidence levels. Where the source provides sufficient study detail, summaries are included below. The source did not contain a predefined set of five landmark RCTs; the following key studies are extracted from the reference list based on their relevance and evidence quality.
+            </div>
+
+            <table>
+                <caption>Table 6. Key Studies Referenced in the Source Document</caption>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Study / Reference</th>
+                        <th>Design</th>
+                        <th>Key Finding</th>
+                        <th>Evidence Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Surgical timing for polytrauma — fracture reconstruction (PMC12001529) <sup>[1]</sup></td>
+                        <td>Prospective cohort</td>
+                        <td>Supports staged approach; DCO reduces "second hit" inflammatory burden compared to ETC in polytrauma</td>
+                        <td><span class="evidence-badge ev-2">II</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>ARDS, pneumonia, and mortality: reamed nailing vs. plate for femoral fracture (JBJS) <sup>[4]</sup></td>
+                        <td>Comparative study (prospective)</td>
+                        <td>Reamed femoral nailing associated with higher pulmonary complication rates; plate fixation spares endosteal blood supply</td>
+                        <td><span class="evidence-badge ev-2">II</span></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Postoperative albumin decrease and acute periprosthetic infection (PMC11488267) <sup>[5]</sup></td>
+                        <td>Retrospective cohort</td>
+                        <td>Postoperative decrease in serum albumin is an independent predictor of early acute periprosthetic infection after TKA</td>
+                        <td><span class="evidence-badge ev-3">III</span></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Preoperative chemotherapy for spinal tuberculosis — 2 vs. 4 weeks (PMC8322202) <sup>[15]</sup></td>
+                        <td>Multicenter prospective RCT</td>
+                        <td>No significant difference in recurrence rates or outcomes between 2 weeks and 4 weeks of preoperative ATT for spinal TB surgery</td>
+                        <td><span class="evidence-badge ev-1">I</span></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Vitamin D replacement in active TB (NCT01130311) <sup>[10]</sup></td>
+                        <td>Randomized clinical trial</td>
+                        <td>Vitamin D supplementation shortened time to recovery in active TB patients, supporting the link between Vitamin D, TB severity, and healing</td>
+                        <td><span class="evidence-badge ev-1">I</span></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Schatzker V/VI outcomes with circular fixation (PMC3931151) <sup>[26]</sup></td>
+                        <td>Cohort study</td>
+                        <td>Excellent functional outcomes with minimal soft tissue complications for circular frame treatment of high-energy tibial plateau fractures</td>
+                        <td><span class="evidence-badge ev-3">III</span></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Adverse outcomes after non-chest surgeries in pulmonary TB (PMC4501732) <sup>[22]</sup></td>
+                        <td>Nationwide retrospective study</td>
+                        <td>Pulmonary TB patients undergoing non-chest surgery have significantly higher adverse postoperative outcomes, supporting the need for modified surgical strategies</td>
+                        <td><span class="evidence-badge ev-3">III</span></td>
+                    </tr>
+                </table>
+        </section>
+
+        <!-- Section 11: References -->
+        <section id="sec11" class="content-card ref-section">
+            <h2>11. References (Derived from Source Document)</h2>
+            <ol>
+                <li>[1] China-based exploration of surgical timing for polytrauma with focus on fracture reconstruction. PMC12001529.</li>
+                <li>[2] Current Concepts in Orthopedic Management of Multiple Trauma. PMC4541294.</li>
+                <li>[3] Miliary Tuberculosis in a Healthy Adult. The Southwest Journal of Medicine.</li>
+                <li>[4] ARDS, Pneumonia, and Mortality following Thoracic Injury and Femoral Fracture: Reamed Nailing vs. Plate. JBJS.</li>
+                <li>[5] Postoperative decrease in serum albumin as predictor of early acute periprosthetic infection after TKA. PMC11488267.</li>
+                <li>[6] Preoperative albumin levels and albumin to fibrinogen ratio as risk factors for acute infection after TJA. Frontiers in Surgery, 2022.</li>
+                <li>[7] Albumin and Hypoalbuminemia: Relevance in Orthopaedic Surgery. ResearchGate, 2022.</li>
+                <li>[8] Complications in the management of closed high-energy proximal tibial plateau fractures. PMC5198935.</li>
+                <li>[9] Establishment of fracture blister model and analysis of plasma protein markers in rats. PMC12034566.</li>
+                <li>[10] Replacement of Vitamin D in Patients With Active Tuberculosis. ClinicalTrials.gov NCT01130311.</li>
+                <li>[11] Miliary tuberculosis and acquired immunodeficiency syndrome. Journal of Community Hospital Internal Medicine Perspectives, 2016.</li>
+                <li>[12] Delayed Symptoms of Miliary TB in a Patient with ARDS after Orthopedic Surgery. ResearchGate.</li>
+                <li>[13] ATS/CDC/IDSA Guidelines for Treatment of Drug-Susceptible Tuberculosis. IDSA Practice Guidelines.</li>
+                <li>[14] Current Concepts in the Management of Tuberculosis. PMC3068897.</li>
+                <li>[15] The Comparative Influence of 2 and 4 Weeks Preoperative ATT on Spinal TB Surgery: Multicenter Prospective RCT. PMC8322202.</li>
+                <li>[16] Miliary Tuberculosis. PMC11687475.</li>
+                <li>[17] Total Hip Arthroplasty in Patients with Active Tuberculosis of the Hip with Advanced Arthritis. PMC2807012.</li>
+                <li>[18] Perioperative pulmonary embolism: diagnosis and anesthetic management. Rutgers Cancer Institute.</li>
+                <li>[19] Tuberculosis Pulmonary Diseases. ATS Journals, 1955.</li>
+                <li>[20] Perioperative evaluation guidelines for asymptomatic pulmonary tuberculosis. Dr. Oracle.</li>
+                <li>[21] How to determine the course of preoperative chemotherapy for spinal tuberculosis. PMC11520984.</li>
+                <li>[22] Adverse Outcomes after Non-Chest Surgeries in Patients with Pulmonary TB. PMC4501732.</li>
+                <li>[23] Treatment of Schatzker Type V and VI Tibial Plateau Fractures Using Midline Longitudinal Incision and Dual Plating. J Korean Soc Surg Relat Trauma.</li>
+                <li>[24] Orthopaedic traumatology: fundamental principles and current controversies. TSACO, 2018.</li>
+                <li>[25] Prospective study of dual plating of bicondylar tibial plateau fracture. International Journal of Research in Orthopaedics.</li>
+                <li>[26] Outcome of Schatzker type V and VI tibial plateau fractures. PMC3931151.</li>
+                <li>[27] Treatment of Schatzker Type VI Tibia Fractures Using Circular External Fixation. Journal of Clinical Medicine, 2024.</li>
+                <li>[28] Study to Prospectively evaluate Reamed Intramedullary Nails in Tibial Fractures (S.P.R.I.N.T.). ResearchGate.</li>
+                <li>[29] Surgical management of open tibial shaft fractures: reamed vs. unreamed intramedullary nailing. Orthopaper, 2017.</li>
+                <li>[30] Prevention of Surgical Site Infections After Major Extremity Trauma. AAOS Clinical Practice Guideline.</li>
+                <li>[31] Orthopaedic Supplement. Medical Journal of Malaysia, 2000.</li>
+                <li>[32] Comprehensive Strategies for Preoperative Pulmonary Risk Evaluation and Management. Tuberculosis and Respiratory Diseases.</li>
+                <li>[33] Regional Anesthesia considerations. Regional Anesthesia &amp; Pain Medicine (RAPM).</li>
+                <li>[34] Perioperative concerns in Pott's spine: A review. PMC8022046.</li>
+                <li>[35] Infectious Disease Considerations for the Operating Room. PMC7152445.</li>
+                <li>[36] Air — Infection Control. CDC Guidelines.</li>
+                <li>[37] Preoperative evaluation of the patient with pulmonary disease. Revista Brasileira de Anestesiologia.</li>
+                <li>[38] Understanding Orthopaedic Infections: A Conceptual Approach. PMC11617197.</li>
+                <li>[39] Unmasking tuberculous arthritis in a prosthetic joint. PMC11722171.</li>
+                <li>[40] Total knee replacement infected with Mycobacterium tuberculosis: case study. SciELO South Africa.</li>
+                <li>[41] Infections of Tumor Prostheses: Updated Review. Biology, 2023.</li>
+                <li>[42] Recommended duration of treatment for bone and joint tuberculosis. Dr. Oracle.</li>
+                <li>[43] ASH 2021 guidelines for management of VTE: prevention and treatment in cancer patients. Blood Advances, 2021.</li>
+            </ol>
+        </section>
+
+        <footer style="text-align:center; padding:1.5rem; color:var(--text-light); font-size:0.8rem;">
+            <p>Evidence-Based Educational Summary — Generated from source document. All content derived exclusively from the provided clinical analysis.</p>
+            <p>For educational purposes only. Clinical decisions should be individualized and guided by multidisciplinary team consensus.</p>
+        </footer>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside>
+        <div class="sidebar-card" role="complementary" aria-label="Clinical Decision Support Tool">
+            <div class="sidebar-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                Clinical Decision Support
+            </div>
+            <div class="sidebar-body">
+
+                <!-- Slider 1: Serum Albumin -->
+                <div class="slider-group">
+                    <label for="albumin">Serum Albumin</label>
+                    <div class="slider-value">
+                        <span class="current" id="albumin-value">2.5</span>
+                        <span class="unit">g/dL</span>
+                    </div>
+                    <input type="range" id="albumin" min="1.0" max="5.0" step="0.1" value="2.5" aria-label="Serum Albumin level">
+                    <div class="slider-labels">
+                        <span>1.0</span>
+                        <span>3.0 (target)</span>
+                        <span>5.0</span>
+                    </div>
+                    <div class="threshold-note">Source threshold: &lt; 3.0 g/dL → high SSI risk; target &gt; 3.0 g/dL before definitive fixation <sup>[5]</sup></div>
+                </div>
+
+                <!-- Slider 2: Days Since Injury -->
+                <div class="slider-group">
+                    <label for="days">Days Since Injury / ATT Initiation</label>
+                    <div class="slider-value">
+                        <span class="current" id="days-value">0</span>
+                        <span class="unit">days</span>
+                    </div>
+                    <input type="range" id="days" min="0" max="30" step="1" value="0" aria-label="Days since injury">
+                    <div class="slider-labels">
+                        <span>0 (Day 0)</span>
+                        <span>14</span>
+                        <span>30</span>
+                    </div>
+                    <div class="threshold-note">Source phases: Day 0–1 (DCO), Day 2–14 (optimization), Day 14+ (definitive fixation) <sup>[2]</sup></div>
+                </div>
+
+                <!-- Slider 3: Body Temperature -->
+                <div class="slider-group">
+                    <label for="temp">Body Temperature</label>
+                    <div class="slider-value">
+                        <span class="current" id="temp-value">37.0</span>
+                        <span class="unit">°C</span>
+                    </div>
+                    <input type="range" id="temp" min="35.0" max="41.0" step="0.1" value="37.0" aria-label="Body temperature">
+                    <div class="slider-labels">
+                        <span>35.0</span>
+                        <span>37.5</span>
+                        <span>41.0</span>
+                    </div>
+                    <div class="threshold-note">Fever spikes post-op → high index of suspicion for miliary TB or superinfection <sup>[12]</sup></div>
+                </div>
+
+                <!-- Recommendation Box -->
+                <div class="recommendation-box" id="recommendation" aria-live="polite">
+                    <h4 id="rec-title">📋 Clinical Recommendation</h4>
+                    <p id="rec-text">Adjust the sliders above to see real-time clinical guidance based on source document thresholds.</p>
+                </div>
+
+                <!-- Buttons -->
+                <div class="btn-group">
+                    <button class="btn btn-reset" id="btn-reset" aria-label="Reset all sliders">↺ Reset</button>
+                    <button class="btn btn-export" id="btn-export" aria-label="Export summary to clipboard">⎘ Copy Summary</button>
+                </div>
+
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert">✓ Summary copied to clipboard</div>
+
+<script>
+    const albuminSlider = document.getElementById('albumin');
+    const daysSlider = document.getElementById('days');
+    const tempSlider = document.getElementById('temp');
+    const albuminValue = document.getElementById('albumin-value');
+    const daysValue = document.getElementById('days-value');
+    const tempValue = document.getElementById('temp-value');
+    const recBox = document.getElementById('recommendation');
+    const recTitle = document.getElementById('rec-title');
+    const recText = document.getElementById('rec-text');
+    const btnReset = document.getElementById('btn-reset');
+    const btnExport = document.getElementById('btn-export');
+    const toast = document.getElementById('toast');
+
+    function updateRecommendation() {
+        const alb = parseFloat(albuminSlider.value);
+        const days = parseInt(daysSlider.value);
+        const temp = parseFloat(tempSlider.value);
+
+        albuminValue.textContent = alb.toFixed(1);
+        daysValue.textContent = days;
+        tempValue.textContent = temp.toFixed(1);
+
+        let rec = [];
+        let status = 'info';
+        let title = '📋 Clinical Recommendation';
+
+        // Albumin assessment
+        if (alb < 2.0) {
+            rec.push('⚠ CRITICAL hypoalbuminemia (albumin ' + alb.toFixed(1) + ' g/dL). High risk of wound failure, SSI, and PJI. Aggressive nutritional resuscitation required: TPN if gut non-functional. Definitive surgery is CONTRAINDICATED at this level. Target: > 3.0 g/dL [Source ref. 5, 6]');
+            status = 'danger';
+        } else if (alb < 3.0) {
+            rec.push('⚠ Moderate hypoalbuminemia (albumin ' + alb.toFixed(1) + ' g/dL). Increased SSI/PJI risk. Continue aggressive nutritional support (1.5–2.0 g/kg protein/day). Consider delaying definitive fixation if possible. Add Vitamin D 50,000 IU loading dose [Source ref. 5, 10]');
+            status = 'warning';
+        } else {
+            rec.push('✓ Albumin level acceptable (albumin ' + alb.toFixed(1) + ' g/dL). Meets threshold for consideration of definitive fixation (provided other criteria met). Continue nutritional support to optimize further [Source ref. 5]');
+            status = 'success';
+        }
+
+        // Phase assessment
+        if (days <= 1) {
+            rec.push('📍 PHASE 1 (Immediate Stabilization): DCO strategy mandatory. Apply spanning external fixation (< 60 min OR time). Initiate ATT immediately (RIPE regimen). Use regional anesthesia (CSE). Avoid N₂O absolutely. LMWH for DVT prophylaxis [Source ref. 1, 2, 13, 20, 32]');
+            if (status !== 'danger') status = 'danger';
+        } else if (days >= 2 && days <= 14) {
+            rec.push('📍 PHASE 2 (Physiological Optimization): Focus on nutritional resuscitation, Vitamin D supplementation, chest physiotherapy, chair mobilization. Monitor daily LFTs. Watch for "wrinkle sign" on the tibial plateau. Do NOT proceed to definitive fixation until soft tissues and physiology are optimized [Source ref. 2, 5, 23]');
+            if (status !== 'danger') status = status === 'success' ? 'info' : status;
+        } else {
+            rec.push('📍 PHASE 3 (Definitive Fixation Window): Patient is in the window for conversion from external fixation IF criteria met: (1) Wrinkle sign present, (2) Afebrile, (3) Albumin rising, (4) Pulmonary status stable. Consider circular fixator for tibia; unreamed nail or locking plate for femur. Take deep cultures intraoperatively. Extend ATT to 9–12 months [Source ref. 26, 27, 28, 30, 42]');
+        }
+
+        // Temperature assessment
+        if (temp >= 38.5) {
+            rec.push('🚨 FEVER ALERT (Temp ' + temp.toFixed(1) + '°C): High index of suspicion for miliary TB dissemination, superinfection, or ARDS. Urgent evaluation: blood cultures, chest imaging, consider CT for miliary pattern. Do NOT proceed to definitive surgery. Ensure ATT compliance. Check for adrenal insufficiency [Source ref. 3, 12, 37]');
+            status = 'danger';
+        } else if (temp >= 37.5) {
+            rec.push('⚠ Low-grade fever (Temp ' + temp.toFixed(1) + '°C): Monitor closely. Could indicate early miliary spread, drug reaction, or wound infection. Ensure ATT is being administered correctly. Daily LFT monitoring. Continue fever trend assessment before any surgical conversion [Source ref. 12, 16]');
+            if (status === 'success') status = 'warning';
+        }
+
+        // Override: if danger conditions
+        if (alb < 2.0 || temp >= 38.5) {
+            title = '🚫 DO NOT PROCEED — Critical Thresholds Exceeded';
+        } else if (days <= 1) {
+            title = '🔴 Phase 1 — Emergency DCO Required';
+        } else if (status === 'warning') {
+            title = '⚠ Caution — Optimization Ongoing';
+        } else if (status === 'success' && days > 14) {
+            title = '✓ Consider Definitive Fixation';
+        } else {
+            title = '📋 Clinical Recommendation';
+        }
+
+        recTitle.innerHTML = title;
+        recText.innerHTML = rec.join('<br><br>');
+
+        recBox.className = 'recommendation-box ' + (status === 'success' ? 'success' : status === 'danger' ? 'danger' : status === 'warning' ? 'warning' : '');
+    }
+
+    albuminSlider.addEventListener('input', updateRecommendation);
+    daysSlider.addEventListener('input', updateRecommendation);
+    tempSlider.addEventListener('input', updateRecommendation);
+
+    btnReset.addEventListener('click', function() {
+        albuminSlider.value = 2.5;
+        daysSlider.value = 0;
+        tempSlider.value = 37.0;
+        updateRecommendation();
+    });
+
+    btnExport.addEventListener('click', function() {
+        const alb = parseFloat(albuminSlider.value);
+        const days = parseInt(daysSlider.value);
+        const temp = parseFloat(tempSlider.value);
+        const now = new Date();
+
+        let phase = 'Phase 1: Immediate Stabilization';
+        if (days >= 2 && days <= 14) phase = 'Phase 2: Physiological Optimization';
+        if (days > 14) phase = 'Phase 3: Definitive Fixation Window';
+
+        const summary =
+            '═══════════════════════════════════════\n' +
+            'CLINICAL DECISION SUPPORT SUMMARY\n' +
+            'Polytrauma with Active Pulmonary TB\n' +
+            '═══════════════════════════════════════\n' +
+            'Timestamp: ' + now.toLocaleString() + '\n\n' +
+            'CURRENT PARAMETERS:\n' +
+            '  • Serum Albumin: ' + alb.toFixed(1) + ' g/dL (Target: > 3.0 g/dL)\n' +
+            '  • Days Since Injury: ' + days + ' (' + phase + ')\n' +
+            '  • Body Temperature: ' + temp.toFixed(1) + '°C\n\n' +
+            'ALBUMIN STATUS: ' + (alb < 2.0 ? 'CRITICAL — Surgery contraindicated' : alb < 3.0 ? 'LOW — Increased infection risk' : 'ACCEPTABLE — Meets threshold') + '\n' +
+            'TEMP STATUS: ' + (temp >= 38.5 ? 'FEVER — Evaluate for miliary TB' : temp >= 37.5 ? 'LOW-GRADE FEVER — Monitor' : 'NORMAL') + '\n\n' +
+            'RECOMMENDATION:\n' +
+            recText.innerText + '\n\n' +
+            '═══════════════════════════════════════\n' +
+            'Source: Definitive Surgical Management of Polytrauma\n' +
+            'in the Patient with Active Pulmonary Tuberculosis\n' +
+            'Evidence-based educational summary.\n' +
+            '═══════════════════════════════════════';
+
+        navigator.clipboard.writeText(summary).then(function() {
+            toast.classList.add('show');
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 2500);
+        }).catch(function() {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = summary;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            toast.classList.add('show');
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 2500);
+        });
+    });
+
+    // Initial update
+    updateRecommendation();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence-Based Closed Reduction &amp; Cast Immobilization for Distal Radius Fractures</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f8f9fb;
+            --surface: #ffffff;
+            --text: #1a1a2e;
+            --text-muted: #555770;
+            --primary: #1565c0;
+            --primary-light: #e3f2fd;
+            --accent: #0d47a1;
+            --success: #2e7d32;
+            --warning: #e65100;
+            --danger: #c62828;
+            --border: #e0e0e0;
+            --radius: 10px;
+            --shadow: 0 2px 12px rgba(0,0,0,0.07);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.72;
+            font-size: 15.5px;
+        }
+
+        .sticky-header {
+            position: sticky; top: 0; z-index: 100;
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
+            color: #fff; padding: 14px 32px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+        }
+        .sticky-header h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
+        .sticky-header .badge-header {
+            background: rgba(255,255,255,0.18); padding: 4px 14px; border-radius: 20px;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.03em;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 28px;
+            max-width: 1400px;
+            margin: 28px auto;
+            padding: 0 24px;
+        }
+
+        main { min-width: 0; }
+
+        .sidebar {
+            position: sticky; top: 72px; align-self: start;
+            max-height: calc(100vh - 88px); overflow-y: auto;
+            background: var(--surface); border-radius: var(--radius);
+            box-shadow: var(--shadow-lg); padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .sidebar h2 {
+            font-size: 1rem; font-weight: 800; color: var(--primary);
+            margin-bottom: 6px; letter-spacing: -0.01em;
+        }
+        .sidebar .subtitle { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px; }
+
+        .slider-group { margin-bottom: 22px; }
+        .slider-group label {
+            display: block; font-weight: 600; font-size: 0.82rem;
+            color: var(--text); margin-bottom: 4px;
+        }
+        .slider-group .value-display {
+            font-size: 1.4rem; font-weight: 800; color: var(--primary);
+            margin-bottom: 6px;
+        }
+        .slider-group .threshold-note {
+            font-size: 0.7rem; color: var(--text-muted); margin-bottom: 8px; font-style: italic;
+        }
+        input[type="range"] {
+            width: 100%; height: 6px; -webkit-appearance: none; appearance: none;
+            background: linear-gradient(to right, var(--success), #f9a825, var(--danger));
+            border-radius: 4px; outline: none; cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 20px; height: 20px;
+            background: var(--primary); border: 3px solid #fff;
+            border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: pointer;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px; height: 20px; background: var(--primary);
+            border: 3px solid #fff; border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: pointer;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius); padding: 18px; margin-top: 16px;
+        }
+        .recommendation-box h3 {
+            font-size: 0.85rem; font-weight: 700; color: var(--accent);
+            margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        .recommendation-box .rec-text {
+            font-size: 0.82rem; line-height: 1.55; color: var(--text);
+        }
+        .recommendation-box .rec-text strong { color: var(--danger); }
+        .recommendation-box .rec-rationale {
+            font-size: 0.72rem; color: var(--text-muted); margin-top: 10px;
+            padding-top: 10px; border-top: 1px solid rgba(21,101,192,0.2);
+        }
+
+        .btn-row { display: flex; gap: 8px; margin-top: 16px; }
+        .btn {
+            flex: 1; padding: 10px; border: none; border-radius: 8px;
+            font-size: 0.78rem; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        .btn-reset { background: #eceff1; color: var(--text-muted); }
+        .btn-reset:hover { background: #cfd8dc; }
+        .btn-export { background: var(--primary); color: #fff; }
+        .btn-export:hover { background: var(--accent); }
+        .toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: #323232; color: #fff; padding: 12px 28px; border-radius: 8px;
+            font-size: 0.85rem; font-weight: 600; z-index: 9999;
+            opacity: 0; transition: opacity 0.3s; pointer-events: none;
+        }
+        .toast.show { opacity: 1; }
+
+        .card {
+            background: var(--surface); border-radius: var(--radius);
+            box-shadow: var(--shadow); padding: 32px; margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-family: 'Merriweather', serif; font-size: 1.45rem;
+            color: var(--accent); margin-bottom: 6px; letter-spacing: -0.02em;
+            border-bottom: 3px solid var(--primary); padding-bottom: 10px;
+        }
+        .card h3 {
+            font-size: 1.12rem; font-weight: 700; color: var(--text);
+            margin: 22px 0 10px;
+        }
+        .card h4 {
+            font-size: 0.95rem; font-weight: 700; color: var(--primary);
+            margin: 18px 0 8px;
+        }
+        .card p { margin-bottom: 14px; }
+        .card ul, .card ol { margin: 10px 0 14px 22px; }
+        .card li { margin-bottom: 6px; }
+
+        .evidence-badge {
+            display: inline-block; padding: 2px 10px; border-radius: 12px;
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em;
+            vertical-align: middle; margin-left: 6px;
+        }
+        .ev-strong { background: #c8e6c9; color: #1b5e20; }
+        .ev-moderate { background: #fff9c4; color: #f57f17; }
+        .ev-limited { background: #ffe0b2; color: #e65100; }
+        .ev-not-specified { background: #e0e0e0; color: #616161; }
+
+        .callout {
+            border-left: 4px solid var(--primary); background: var(--primary-light);
+            padding: 16px 20px; margin: 18px 0; border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+        .callout-warning {
+            border-left-color: var(--warning); background: #fff3e0;
+        }
+        .callout-danger {
+            border-left-color: var(--danger); background: #ffebee;
+        }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        table {
+            width: 100%; border-collapse: collapse; margin: 16px 0;
+            font-size: 0.85rem;
+        }
+        table caption {
+            font-weight: 700; font-size: 0.88rem; text-align: left;
+            padding: 8px 0; color: var(--accent);
+        }
+        thead th {
+            background: var(--primary); color: #fff; padding: 12px 14px;
+            text-align: left; font-weight: 600; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        tbody td {
+            padding: 10px 14px; border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        tbody tr:hover { background: #f5f8ff; }
+        .ref-section { font-size: 0.8rem; color: var(--text-muted); }
+        .ref-section li { margin-bottom: 4px; }
+        .ref-section a { color: var(--primary); word-break: break-all; }
+
+        .step-num {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; background: var(--primary); color: #fff;
+            border-radius: 50%; font-weight: 800; font-size: 0.82rem; margin-right: 8px;
+        }
+
+        .limitation-box {
+            background: #fff8e1; border: 1.5px dashed #f9a825;
+            border-radius: 8px; padding: 14px 18px; margin: 16px 0;
+            font-size: 0.82rem; color: #5d4037;
+        }
+        .limitation-box strong { color: #e65100; }
+
+        @media (max-width: 960px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative; top: auto; max-height: none;
+                order: -1;
+            }
+            .sticky-header h1 { font-size: 0.95rem; }
+            .card { padding: 20px; }
+        }
+
+        @media (max-width: 600px) {
+            body { font-size: 14px; }
+            .sticky-header { padding: 10px 16px; }
+            .layout { padding: 0 10px; gap: 16px; }
+            .card { padding: 16px; }
+            .card h2 { font-size: 1.2rem; }
+            table { font-size: 0.78rem; }
+            thead th, tbody td { padding: 8px 10px; }
+        }
+
+        .separator {
+            height: 2px; background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 28px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header class="sticky-header" role="banner">
+    <h1>Evidence-Based Closed Reduction &amp; Cast Immobilization: Distal Radius Fractures</h1>
+    <span class="badge-header">AAOS 2020 CPG Synthesis</span>
+</header>
+
+<div class="layout">
+    <main role="main">
+
+        <!-- Section 1: Introduction -->
+        <div class="card">
+            <h2>1. Introduction &amp; Epidemiology</h2>
+            <p>Distal radius fractures are universally recognized as one of the most frequently encountered injuries in acute orthopedic trauma and emergency medicine, accounting for approximately <strong>one-sixth to one-quarter</strong> of all adult fractures evaluated in emergency departments globally. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>The epidemiological landscape demonstrates a <strong>distinct bimodal distribution</strong>:</p>
+            <ul>
+                <li><strong>Pediatric &amp; young adult populations (under age 40):</strong> Predominantly high-energy trauma — motor vehicle collisions, sporting accidents, falls from significant heights. <span class="evidence-badge ev-moderate">LOE: Moderate</span></li>
+                <li><strong>Geriatric population (aged ≥65 years):</strong> Low-energy fragility fractures secondary to osteoporotic bone loss, most often from a simple fall on an outstretched hand (FOOSH) from standing height. <span class="evidence-badge ev-strong">LOE: Strong</span></li>
+            </ul>
+            <p>With an annual incidence exceeding <strong>640,000 cases</strong> in the United States alone, the socioeconomic burden is staggering — combining direct treatment costs with indirect costs of extended productivity loss and long-term functional disability. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <div class="callout">
+                <strong>Paradigm Evolution</strong>
+                The management paradigm has evolved from exclusive reliance on closed reduction and prolonged cast immobilization toward a nuanced, evidence-based approach. The <strong>2020 AAOS Evidence-Based Clinical Practice Guideline</strong> on Management of Distal Radius Fractures establishes definitive parameters distinguishing fractures requiring surgical intervention from those optimally managed conservatively. <span class="evidence-badge ev-strong">LOE: Strong (CPG)</span>
+            </div>
+
+            <p>Despite increasing utilization of operative management in younger cohorts, <strong>closed reduction and cast immobilization remains the foundational cornerstone</strong> of initial trauma care and the definitive, gold-standard treatment for the vast majority of stable, extra-articular fractures — particularly within the geriatric demographic. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+        </div>
+
+        <!-- Section 2: Anatomical Foundations -->
+        <div class="card">
+            <h2>2. Anatomical Foundations &amp; Radiographic Parameters</h2>
+            <p>The distal radius transmits approximately <strong>80% of axial forces</strong> from the carpus to the forearm. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>The <strong>volar surface</strong> is the origin of the stout volar radiocarpal ligaments — including the radioscaphocapitate (RSC), long radiolunate, and short radiolunate ligaments — which are essential for carpal stability and for providing the vital tension band utilized during closed reduction maneuvers (<strong>ligamentotaxis</strong>). <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>The <strong>volar ulnar corner</strong> ("critical corner") supports the volar lunate facet via strong radiolunate ligament attachments; failure to restore this region can precipitate catastrophic volar carpal subluxation. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+
+            <h3>Standard Radiographic Parameters</h3>
+
+            <div class="limitation-box">
+                <strong>⚠ Source Limitation:</strong> The original document's Table 1 contained radiographic values rendered as image placeholders (data URIs) rather than extractable text. The values below are derived from widely accepted anatomical norms referenced in the source text and standard orthopaedic literature. Thresholds explicitly stated in the source document are annotated accordingly.
+            </div>
+
+            <table>
+                <caption>Table 1: Radiographic Parameters of the Distal Radius and Acceptable Post-Reduction Criteria</caption>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Normal Anatomical Value</th>
+                        <th>Acceptable Post-Reduction Criteria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Radial Height</strong></td>
+                        <td>11–12 mm</td>
+                        <td>≤2 mm shortening <em>(from source: &lt;3–5 mm shortening is the instability threshold)</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Radial Inclination</strong></td>
+                        <td>21–25°</td>
+                        <td>Change ≤5° from contralateral side</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Volar Tilt (Sagittal)</strong></td>
+                        <td>11–12° volar</td>
+                        <td>Dorsal angulation &lt;10° or within 5° of contralateral wrist <span class="evidence-badge ev-strong">Source-specified</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Articular Step-off</strong></td>
+                        <td>0 mm (congruous)</td>
+                        <td>&lt;2 mm <span class="evidence-badge ev-strong">Source-specified</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ulnar Variance</strong></td>
+                        <td>0 to −2 mm</td>
+                        <td>Neutral relative to contralateral wrist</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout-danger callout">
+                <strong>Clinical Consequence of Malalignment</strong>
+                An intra-articular step-off &gt;2 mm, radial shortening exceeding 3–5 mm, or residual dorsal tilt &gt;10° fundamentally alters radiocarpal and DRUJ contact stresses. This is strongly correlated with diminished grip strength, restricted range of motion, chronic ulnar-sided wrist pain, and accelerated post-traumatic osteoarthritis. <span class="evidence-badge ev-strong">LOE: Strong</span>
+            </div>
+        </div>
+
+        <!-- Section 3: Fracture Classification -->
+        <div class="card">
+            <h2>3. Fracture Classification Systems &amp; Pathomechanics</h2>
+            <p>While alphanumeric systems (AO/OTA, Fernandez) are employed in academic research, daily clinical practice frequently relies on <strong>historical eponymous descriptors</strong> that immediately convey pathomechanics, displacement direction, and the implicit reduction strategy. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+
+            <h3>3.1 Colles Fracture (≈90% of all distal radius fractures)</h3>
+            <p>First described by Abraham Colles in 1814. Defined as an <strong>extra-articular fracture</strong> with dorsal comminution, dorsal angulation, dorsal displacement, and radial shortening, frequently with an associated ulnar styloid avulsion. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p><strong>Pathomechanics:</strong> During FOOSH with the wrist in extreme dorsiflexion and pronation, the volar cortex fails under tension while the dorsal cortex compresses. The <strong>intact dorsal periosteal hinge</strong> prevents complete dorsal translation and serves as the essential fulcrum for closed reduction. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+
+            <h3>3.2 Smith Fracture ("Reverse Colles")</h3>
+            <p>Described by Robert William Smith in 1847. <strong>Extra-articular fracture</strong> with volar displacement and volar angulation, typically from a fall onto the dorsum of a hyper-flexed wrist. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+            <p><strong>Biomechanical Challenge:</strong> The distal fragment is subjected to powerful pull of the brachioradialis and flexor compartment. <strong>Inherently highly unstable</strong> — demonstrates profound tendency to drift back into volar displacement, frequently necessitating operative stabilization. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <h3>3.3 Barton Fracture (Intra-articular Shear)</h3>
+            <p>Described by John Rhea Barton in 1838. A highly unstable, <strong>intra-articular fracture-subluxation</strong> where the fracture line extends obliquely through the articular surface. The radiocarpal ligaments remain attached to the avulsed fragment, causing the entire proximal carpal row to subluxate alongside it. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+            <p><strong>Volar Barton</strong> is more common and notoriously refractory to non-operative management. Nearly all displaced Barton fractures ultimately necessitate ORIF with a rigid buttress plate. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <table>
+                <caption>Table 2: Common Eponymous Distal Radius Fracture Classifications <span class="evidence-badge ev-strong">LOE: Strong (composite)</span></caption>
+                <thead>
+                    <tr>
+                        <th>Eponym</th>
+                        <th>Articular Involvement</th>
+                        <th>Displacement</th>
+                        <th>Hallmark Biomechanical Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Colles</strong></td>
+                        <td>Extra-articular</td>
+                        <td>Dorsal</td>
+                        <td>Dorsal comminution, intact dorsal periosteal hinge</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Smith</strong></td>
+                        <td>Extra-articular</td>
+                        <td>Volar</td>
+                        <td>Volar comminution, high risk of flexor-driven redisplacement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Barton</strong></td>
+                        <td>Intra-articular</td>
+                        <td>Dorsal or Volar</td>
+                        <td>Articular shear fragment with complete carpal subluxation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chauffeur's</strong></td>
+                        <td>Intra-articular</td>
+                        <td>Radial translation</td>
+                        <td>Isolated radial styloid avulsion, risk of scapholunate tear</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Die-Punch</strong></td>
+                        <td>Intra-articular</td>
+                        <td>Proximal depression</td>
+                        <td>Central lunate facet impaction lacking ligamentous attachments</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>3.4 Additional Morphologies</h3>
+            <h4>Chauffeur's (Hutchinson) Fracture</h4>
+            <p>An intra-articular avulsion/shear fracture isolating the radial styloid. Frequently associated with <strong>scapholunate ligament disruption</strong>, necessitating careful carpal evaluation. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+
+            <h4>Die-Punch Fracture</h4>
+            <p>A depressed fracture of the lunate facet where axial load drives the lunate proximally. Because the fragment is impacted into cancellous metaphysis <strong>without ligamentous attachments</strong>, closed reduction via traction alone is often impossible. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+        </div>
+
+        <!-- Section 4: Pre-Reduction Assessment -->
+        <div class="card">
+            <h2>4. Pre-Reduction Clinical Assessment &amp; Preparation</h2>
+
+            <h3>4.1 Comprehensive Neurovascular Evaluation</h3>
+            <p>Exhaustive, formally documented neurovascular examination is an <strong>absolute clinical mandate</strong> before any manipulative intervention. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <ul>
+                <li><strong>Median Nerve:</strong> Resisted thumb abduction (abductor pollicis brevis); two-point discrimination over volar-radial index finger</li>
+                <li><strong>Anterior Interosseous Nerve (AIN):</strong> "OK" sign — inability to flex IP thumb and DIP index = AIN compromise</li>
+                <li><strong>Ulnar Nerve:</strong> Resisted thumb adduction (Froment's sign); sensation over volar 5th digit</li>
+                <li><strong>Radial Nerve / PIN:</strong> Active thumb IP extension and MCP finger extension; sensation over dorsal 1st webspace</li>
+                <li><strong>Vascularity:</strong> Digital pulp capillary refill, radial/ulnar pulses (palpable or Doppler), forearm compartment assessment for impending compartment syndrome</li>
+            </ul>
+
+            <h3>4.2 Analgesia &amp; Anesthesia Protocols</h3>
+            <p>Adequate muscle relaxation and pain control are <strong>non-negotiable prerequisites</strong>. Suboptimal analgesia leads to muscle guarding, increasing iatrogenic comminution risk and psychological distress. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+            <p>Options include procedural conscious sedation (propofol/ketamine), IV regional anesthesia (Bier block), regional nerve blocks, and the widely utilized <strong>local hematoma block</strong>. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <div class="callout">
+                <strong>Hematoma Block Technique</strong>
+                Under sterile conditions, palpate the dorsal cortical step-off between the 3rd and 4th extensor compartments. Introduce a 21G × 1.5″ needle, "walk" along intact dorsal cortex until the tip falls into the fracture void. Confirm placement by aspiration of dark hematoma. Inject 5–10 mL of 0.25% bupivacaine (without epinephrine) or 1% lidocaine. <strong>Allow 15–20 minutes</strong> for anesthetic diffusion before manipulation — premature manipulation is the primary cause of hematoma block failure. <span class="evidence-badge ev-strong">LOE: Strong</span>
+            </div>
+
+            <div class="callout-warning callout">
+                <strong>Pediatric Dosing</strong>
+                Must be calculated on a weight basis (e.g., 1 mL/kg of 0.25% bupivacaine) to avoid Local Anesthetic Systemic Toxicity (LAST), frequently supplemented with mild systemic sedation. <span class="evidence-badge ev-moderate">LOE: Moderate</span>
+            </div>
+
+            <h3>4.3 Patient Positioning &amp; Mechanical Traction</h3>
+            <p>Position patient supine, shoulder abducted to 90°, <strong>elbow flexed to 90°</strong> (critical: neutralizes brachioradialis deforming pull). <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>Capture thumb, index, and long fingers in <strong>sterile Chinese finger traps</strong>. Establish counter-traction via assistant or 5–10 lb padded weight from the distal humerus. Allow <strong>15–20 minutes of sustained traction</strong> — this induces viscoelastic creep, fatigues muscle spindles, and partially corrects shortening before any manual force is applied. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+        </div>
+
+        <!-- Section 5: Reduction Maneuvers -->
+        <div class="card">
+            <h2>5. Step-by-Step Personalized Closed Reduction Maneuvers</h2>
+            <p>Reduction must never be a generic exertion of brute force. It requires a <strong>"personalized reduction"</strong> strategy that responds to the specific 3D morphology, impaction status, and mechanistic classification. The guiding principle is to <strong>mechanically reverse the specific vectors of force that created the injury</strong>. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+
+            <h3>5.1 Colles Fracture Reduction</h3>
+            <p>Relies on <strong>ligamentotaxis</strong> — utilizing intact volar radiocarpal ligaments and dorsal periosteal hinge to guide the distal fragment into alignment. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <ol>
+                <li><span class="step-num">1</span> <strong>Disimpaction:</strong> Briefly release longitudinal traction and manually <em>exaggerate</em> the dorsal deformity (hyperextend further into the direction of the break). Pulling against impacted cancellous bone increases dorsal periosteal tension without unlocking fragments.</li>
+                <li><span class="step-num">2</span> <strong>Longitudinal Traction:</strong> Apply sustained, forceful traction to restore radial height and draw the distal fragment distally, clearing the proximal shaft.</li>
+                <li><span class="step-num">3</span> <strong>Palmar Translation &amp; Flexion:</strong> With traction maintained, push the distal fragment volarly and distally using the heel of the hand. The proximal carpal row transmits force through taut volar ligaments to restore native 11–12° volar tilt.</li>
+                <li><span class="step-num">4</span> <strong>Ulnar Deviation &amp; Pronation:</strong> Sweep the wrist into slight ulnar deviation and full pronation to restore radial inclination and correct supination deformity, locking fragments under brachioradialis tension.</li>
+            </ol>
+
+            <h3>5.2 Smith Fracture Reduction</h3>
+            <p>The <strong>exact biomechanical inverse</strong> of Colles reduction. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+            <ol>
+                <li><span class="step-num">1</span> <strong>Disimpaction:</strong> Slightly exaggerate volar angulation (hyperflex) to unlock impacted palmar cortex.</li>
+                <li><span class="step-num">2</span> <strong>Longitudinal Traction:</strong> Robust traction to overcome the massive flexor compartment pull.</li>
+                <li><span class="step-num">3</span> <strong>Dorsal Translation &amp; Extension:</strong> Apply direct pressure to volar distal fragment, translating it dorsally. Move wrist into dorsiflexion to correct hyper-volar tilt.</li>
+                <li><span class="step-num">4</span> <strong>Supination:</strong> Forcibly supinate the forearm to counteract pronation deformity and lock reduction against the interosseous membrane.</li>
+            </ol>
+
+            <h3>5.3 Barton Fracture — Biomechanical Limitations</h3>
+
+            <div class="callout-danger callout">
+                <strong>Intrinsic Instability of Barton Fractures</strong>
+                Because the radiocarpal ligaments remain attached to the floating articular fragment, longitudinal traction (the basis of ligamentotaxis) does <strong>NOT</strong> reduce the fragment — it often pulls it further out of alignment. While a closed reduction can be attempted with direct manual pressure, nearly all displaced Barton fractures <strong>ultimately require ORIF</strong> with a rigid buttress plate. <span class="evidence-badge ev-strong">LOE: Strong</span>
+            </div>
+        </div>
+
+        <!-- Section 6: Cast Immobilization Physics -->
+        <div class="card">
+            <h2>6. The Physics of Cast Immobilization: Charnley's Principles</h2>
+            <p>Effective immobilization relies on <strong>three-point fixation</strong>, operating on Sir John Charnley's fundamental aphorism: <em>"bent plaster, straight bone"</em>. A purely cylindrical cast is mechanically unsound — it only prevents gross angulation without countering internal muscle forces. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <h4>Three-Point Molding for Colles Fracture</h4>
+            <ol>
+                <li><strong>Fulcrum (Point 1):</strong> Dorsal pressure directly over the distal fracture fragment, pushing volarly</li>
+                <li><strong>Distal Counter-Pressure (Point 2):</strong> Volar pressure proximal to the fracture site on the mid-radial shaft, pushing dorsally</li>
+                <li><strong>Proximal Counter-Pressure (Point 3):</strong> Dorsal pressure far proximal near the elbow (often using the clinician's knee as a stable third point)</li>
+            </ol>
+            <p>For a <strong>Smith fracture</strong>, the pressure points are <strong>completely reversed</strong>: primary fulcrum over the volar distal fragment pushing dorsally, with dorsal counter-pressure on the shaft. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+        </div>
+
+        <!-- Section 7: Immobilization Parameters -->
+        <div class="card">
+            <h2>7. Evidence-Based Immobilization Parameters &amp; Protocols</h2>
+
+            <h3>7.1 Splinting Modalities</h3>
+            <p>Immediate circumferential casting is <strong>heavily discouraged</strong> due to compartment syndrome risk. Initial immobilization uses a <strong>sugar-tong splint</strong> or dorsoradial backslab. The sugar-tong splint provides excellent medio-lateral stability while leaving borders soft to accommodate swelling. Transition to definitive circular cast occurs <strong>7–10 days</strong> post-injury when edema subsides. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <h3>7.2 Cast Extent: Short-Arm vs. Long-Arm</h3>
+            <p>Robust evidence from randomized controlled trials demonstrates <strong>no clinically significant difference</strong> in functional recovery or radiological alignment between short-arm (below-elbow) and long-arm casts for stable, extra-articular fractures. <span class="evidence-badge ev-strong">LOE: Strong (RCTs)</span></p>
+            <p>The <strong>less restrictive short-arm cast is broadly recommended</strong>, significantly improving patient comfort, preserving elbow kinematics, and facilitating earlier ADL participation. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <h3>7.3 Wrist Position: Debunking the Cotton-Loder Position</h3>
+
+            <div class="callout-danger callout">
+                <strong>⚠ Evidence-Based Contraindication</strong>
+                The Cotton-Loder position (extreme palmar flexion + extreme ulnar deviation) dramatically increases hydrostatic pressure within the carpal tunnel, directly compressing the median nerve. It is recognized as the <strong>primary iatrogenic precipitant of acute median neuropathy</strong> following reduction. <span class="evidence-badge ev-strong">LOE: Strong</span>
+            </div>
+            <p>Current consensus-driven guidelines dictate the wrist must be immobilized in <strong>neutral axial alignment or slight dorsiflexion</strong>. A comprehensive systematic review confirmed that slight dorsiflexion yielded statistically significant improvements in final radiological outcomes with vastly superior early digital ROM, while entirely avoiding neurovascular sequelae. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <h3>7.4 Duration of Immobilization</h3>
+            <p>The traditional dogma of 5–6 weeks is being challenged. Prolonged immobilization is increasingly recognized as a primary vector for arthrofibrosis, prolonged disability, CRPS, and periarticular osteopenia. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>Randomized clinical trials and meta-analyses comparing <strong>abbreviated protocols (&lt;3 weeks)</strong> versus <strong>traditional protocols (&gt;3 weeks)</strong> for stable fractures have shown:</p>
+            <ul>
+                <li>Equal, and frequently superior, early functional outcomes (PRWE, DASH scores)</li>
+                <li>Better grip strength recovery and earlier return to work</li>
+                <li><strong>No statistically significant increase</strong> in late redisplacement or non-union</li>
+            </ul>
+            <p>Primary soft callus stabilizes the micro-environment within <strong>14–21 days</strong>, allowing transition to a removable brace and early mobilization. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <h3>7.5 Predictors of Instability: LaFontaine Criteria</h3>
+            <p>A fracture with <strong>≥3 of the following criteria</strong> at presentation has an exceedingly high probability of conservative management failure: <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <ol>
+                <li>Initial dorsal angulation &gt;20°</li>
+                <li>Dorsal comminution &gt;50% of the metaphyseal width</li>
+                <li>Initial radial shortening &gt;5 mm</li>
+                <li>Intra-articular comminution or extension</li>
+                <li>Associated ulnar fracture</li>
+                <li>Severe osteoporosis (patient age &gt;65 years)</li>
+            </ol>
+            <p><strong>Radial shortening</strong> remains the single most powerful predictive factor for late instability, followed by degree of dorsal comminution. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <div class="limitation-box">
+                <strong>⚠ Note on Radiologic Casting Indices:</strong> The source document notes that indices such as the Cast Index (CI), Gap Index (GI), and Three-Point Index (TPI) were developed to objectively measure molding efficacy. However, large retrospective analyses of modern synthetic casts demonstrated these indices do <strong>not consistently predict redisplacement</strong> — intrinsic fracture instability (LaFontaine parameters) dictates outcome far more powerfully than external casting mechanics. <span class="evidence-badge ev-moderate">LOE: Moderate</span>
+            </div>
+        </div>
+
+        <!-- Section 8: AAOS Guidelines -->
+        <div class="card">
+            <h2>8. AAOS Guidelines &amp; Transition to Operative Management</h2>
+
+            <h3>8.1 The Geriatric Paradigm (Age ≥65)</h3>
+            <p>Strong-to-moderate evidence demonstrates that for patients aged ≥65, operative treatment of displaced distal radius fractures does <strong>NOT</strong> lead to improved long-term patient-reported functional outcomes (DASH/PRWE at 1 year) compared to non-operative treatment. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>While surgery yields superior cosmetic alignment, older, lower-demand patients adapt exceptionally well to minor-to-moderate malunions without functional deficits. Operative interventions in highly osteoporotic bone carry substantial risks: hardware failure, tendon attrition/rupture, CRPS, and systemic anesthesia risks.</p>
+            <p><strong>Non-operative management is the gold standard</strong> for elderly patients, reserving surgery for severe articular disruption, open fractures, or definitive neurovascular compromise. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <h3>8.2 Non-Geriatric Standard (Age &lt;65)</h3>
+            <p>In younger, high-demand patients, functional outcomes and prevention of early osteoarthritis are tightly linked to precise anatomical restoration. The AAOS provides a <strong>Moderate strength recommendation</strong> supporting prompt operative fixation if post-reduction radiographs exhibit: <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+            <ul>
+                <li>Post-reduction radial shortening &gt;3 mm</li>
+                <li>Residual dorsal tilt &gt;10°</li>
+                <li>Intra-articular displacement or step-off &gt;2 mm</li>
+            </ul>
+
+            <h3>8.3 Evidence-Based Operative Modalities</h3>
+            <table>
+                <caption>Table 3: Operative Modalities for Distal Radius Fractures <span class="evidence-badge ev-strong">LOE: Strong (AAOS CPG)</span></caption>
+                <thead>
+                    <tr>
+                        <th>Modality</th>
+                        <th>Indications &amp; Evidence-Based Considerations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ORIF (Volar Locking Plate)</strong></td>
+                        <td>Current workhorse for unstable, comminuted, and intra-articular fractures. Fixed-angle locking screws provide rigid scaffolding, bypassing poor bone quality. Earlier functional recovery at 3 months vs. pins/external fixation; long-term outcomes at 1 year equalize across all modalities.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CRPP (Percutaneous Pinning)</strong></td>
+                        <td>Effective for extra-articular fractures (e.g., Kapandji technique). Less invasive, preserves hematoma, lower cost. Requires prolonged post-op cast immobilization; risks include pin-tract infections and radial sensory nerve injury.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fragment-Specific Fixation</strong></td>
+                        <td>Advanced personalized technique addressing discrete components (radial styloid, volar rim, dorsal wall) with specialized wire forms, hook plates, and low-profile pin plates for tiny comminuted fragments.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>External Fixation</strong></td>
+                        <td>Reserved for high-energy open fractures with massive soft-tissue defects, or highly comminuted fractures requiring bridging ligamentotaxis. Often used as temporary damage control.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <strong>Arthroscopic Assistance</strong>
+                The AAOS guidelines determined with Moderate evidence that routine arthroscopic assistance during internal fixation provides <strong>no statistically significant difference</strong> in long-term patient outcomes compared to standard fluoroscopic guidance. <span class="evidence-badge ev-moderate">LOE: Moderate</span>
+            </div>
+        </div>
+
+        <!-- Section 9: Technology -->
+        <div class="card">
+            <h2>9. Technological Integration</h2>
+
+            <h3>9.1 Video-Based Learning &amp; Simulation</h3>
+            <p>Digital platforms with high-quality technique videos, 3D animations, and procedural walkthroughs are critical resources. However, systematic evaluations of open-access platforms (e.g., YouTube) reveal <strong>massive disparities in information quality</strong> — a significant portion of highly viewed videos lack evidence-based grounding, teach outdated positions, or fail to adhere to current AAOS guidelines. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+            <p>Institutional integration of <strong>vetted multimedia modules combined with high-fidelity physical simulators</strong> provides vastly superior psychomotor training. <span class="evidence-badge ev-limited">LOE: Limited</span></p>
+
+            <h3>9.2 Point-of-Care Ultrasound (POCUS)</h3>
+            <p>POCUS is emerging as a powerful, <strong>radiation-free modality</strong> to guide bedside closed reductions — identifying cortical disruptions, guiding hematoma block needle trajectory, providing real-time dynamic visualization during reduction, and confirming cortical step-off restoration prior to casting. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+
+            <h3>9.3 Personalized Orthoses &amp; Robotic Assistance</h3>
+            <p><strong>3D-printed custom orthoses</strong> generated from photogrammetry/laser scanning provide perfectly contoured three-point fixation tailored to exact anatomy, improving hygiene, ventilation, weight, and compliance. <span class="evidence-badge ev-limited">LOE: Limited</span></p>
+            <p>Experimental <strong>robot-assisted reduction systems</strong> utilizing preoperative 3D CT reconstructions are in development, calculating exact vector forces to disimpact and reduce comminuted fragments, eliminating human muscular fatigue and reducing fluoroscopy exposure. <span class="evidence-badge ev-limited">LOE: Limited (Experimental)</span></p>
+        </div>
+
+        <!-- Section 10: Complications & Rehab -->
+        <div class="card">
+            <h2>10. Complications &amp; Evidence-Based Rehabilitation</h2>
+
+            <h3>10.1 Neurological &amp; Tendinous Complications</h3>
+            <p><strong>Acute Median Neuropathy (CTS):</strong> Most frequent complication, occurring in up to 12% of low-energy and 30% of high-energy fractures. Exacerbated by excessive hematoma, aggressive manipulation, or improper immobilization in extreme flexion. If progressive paresthesias and thenar weakness do not resolve within 24–48 hours after cast splitting and wrist realignment, <strong>emergent carpal tunnel release</strong> is indicated. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+
+            <p><strong>EPL Tendon Rupture:</strong> Paradoxically more frequent in <em>non-displaced</em> fractures. Dual pathophysiology: mechanical attrition against Lister's tubercle, and localized compartment ischemia from post-fracture hematoma increasing pressure within the 3rd dorsal compartment. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+
+            <h3>10.2 Complex Regional Pain Syndrome (CRPS)</h3>
+
+            <div class="callout-danger callout">
+                <strong>Vitamin C Prophylaxis — No Longer Supported</strong>
+                While historical literature suggested prophylactic Vitamin C (500–1000 mg daily) could mitigate CRPS risk, <strong>subsequent robust RCTs and systematic reviews</strong> have conclusively demonstrated no significant preventative benefit over placebo. Grade A recommendations from international orthopedic bodies: routine Vitamin C prescription for this indication is <strong>no longer supported</strong>. <span class="evidence-badge ev-strong">LOE: Strong</span>
+            </div>
+
+            <h3>10.3 Rehabilitation Protocols</h3>
+            <p>For simple, uncomplicated fractures in compliant patients, a <strong>self-directed home exercise program</strong> yields long-term functional outcomes equivalent to formal supervised physical therapy. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>However, formal supervised hand therapy demonstrates tangible benefits in improving <strong>early DASH scores</strong> and achieving functional ROM at the 6-week mark — invaluable for working patients prioritizing rapid vocational return. <span class="evidence-badge ev-strong">LOE: Strong</span></p>
+            <p>Advanced protocols emphasize: graded motor imagery for cortical retraining, submaximal progressive strengthening (putty, grip exercises), and multimodal sensorimotor training for proprioception recovery. <span class="evidence-badge ev-moderate">LOE: Moderate</span></p>
+        </div>
+
+        <!-- References -->
+        <div class="card ref-section">
+            <h2>References (from Source Document)</h2>
+            <ol>
+                <li>Colles Fracture - StatPearls - NCBI Bookshelf. <a href="https://www.ncbi.nlm.nih.gov/books/NBK553071/" target="_blank" rel="noopener">NBK553071</a></li>
+                <li>Fractures - The Radiology Assistant. <a href="https://radiologyassistant.nl/musculoskeletal/wrist/fractures" target="_blank" rel="noopener">Link</a></li>
+                <li>AAOS/ASSH Clinical Practice Guideline Summary: Management of Distal Radius Fractures. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9196973/" target="_blank" rel="noopener">PMC9196973</a></li>
+                <li>Adults Closed Distal Radial Fractures: Current Concepts. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12664365/" target="_blank" rel="noopener">PMC12664365</a></li>
+                <li>How Preoperative Closed Reduction and Time to Surgery Impact Postoperative Palmar Inclination. <a href="https://www.mdpi.com/2077-0383/13/8/2316" target="_blank" rel="noopener">MDPI</a></li>
+                <li>How Preoperative Closed Reduction and Time to Surgery Impact Postoperative Palmar Inclination (PMC). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11051345/" target="_blank" rel="noopener">PMC11051345</a></li>
+                <li>THE DISTAL RADIUS IN 2024: WHAT'S NEW? <a href="https://www2.aoao.org/meetings/spring/2024/guide/program/files/2024-NV-1709963293-1244.pdf" target="_blank" rel="noopener">AOAO</a></li>
+                <li>Efficacy of cast immobilization versus surgical treatment for distal radius fractures. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10050022/" target="_blank" rel="noopener">PMC10050022</a></li>
+                <li>Distal radius fractures in the elderly population. <a href="https://eor.bioscientifica.com/view/journals/eor/5/6/2058-5241.5.190060.xml" target="_blank" rel="noopener">EFORT Open Reviews</a></li>
+                <li>Barton Fracture - StatPearls. <a href="https://www.ncbi.nlm.nih.gov/books/NBK499906/" target="_blank" rel="noopener">NBK499906</a></li>
+                <li>Distal Radius Fractures - StatPearls. <a href="https://www.ncbi.nlm.nih.gov/books/NBK536916/" target="_blank" rel="noopener">NBK536916</a></li>
+                <li>AO Trauma Course — Advanced Principles of Fracture Management.</li>
+                <li>Facts and fiction in hip fracture treatment - Trauma.nl.</li>
+                <li>Evolution of the reduction technique for unstable pelvic ring fractures. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12032693/" target="_blank" rel="noopener">PMC12032693</a></li>
+                <li>Expert consensus on Prospective Precision Diagnosis and Treatment Strategies for Osteoporotic Fractures.</li>
+                <li>Distal Radius Fracture: Diagnosis, Treatment, Recovery - HSS. <a href="https://www.hss.edu/health-library/conditions-and-treatments/distal-radius-fractures-of-the-wrist" target="_blank" rel="noopener">HSS</a></li>
+                <li>Fragment-Specific Fixation in Distal Radius Fractures. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6542921/" target="_blank" rel="noopener">PMC6542921</a></li>
+                <li>Distal Radius Fractures - Orthobullets. <a href="https://www.orthobullets.com/trauma/1027/distal-radius-fractures" target="_blank" rel="noopener">Orthobullets</a></li>
+                <li>Distal Radius Fractures - TeachMeSurgery. <a href="https://teachmesurgery.com/orthopaedic/wrist-and-hand/distal-radius-fracture/" target="_blank" rel="noopener">TeachMeSurgery</a></li>
+                <li>Closed reduction methods for treating distal radial fractures in adults. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8728634/" target="_blank" rel="noopener">PMC8728634</a></li>
+                <li>Management of Distal Radius Fractures - AAOS. <a href="https://www.aaos.org/globalassets/quality-and-practice-resources/distal-radius/drfcpg.pdf" target="_blank" rel="noopener">AAOS CPG PDF</a></li>
+                <li>Smith Fracture Review - StatPearls. <a href="https://www.ncbi.nlm.nih.gov/books/NBK547714/" target="_blank" rel="noopener">NBK547714</a></li>
+                <li>Closed manipulation and casting of distal radius fractures. PubMed 16039442.</li>
+                <li>Distal Radius Fracture Rehabilitation - JOSPT. <a href="https://www.jospt.org/doi/10.2519/jospt.2024.0301" target="_blank" rel="noopener">JOSPT</a></li>
+                <li>Adult distal radius fractures classification systems. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5392888/" target="_blank" rel="noopener">PMC5392888</a></li>
+                <li>The Closed Treatment Of Common Fractures (Charnley). Archive.org.</li>
+                <li>Wrist Fracture - StatPearls. <a href="https://www.ncbi.nlm.nih.gov/books/NBK499972/" target="_blank" rel="noopener">NBK499972</a></li>
+                <li>Closed reduction - AO Surgery Reference. <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/distal-forearm/extraarticular-fracture-of-the-radius-with-volar-displacement-or-tilt/closed-reduction-k-wires-and-cast-external-fixator" target="_blank" rel="noopener">AOSR</a></li>
+                <li>Distal Radius Fractures - Dr Scott Wolfe.</li>
+                <li>Volar Barton's Fractures - Wheeless' Textbook.</li>
+                <li>Fractures and Dislocations of the Wrist - Musculoskeletal Key.</li>
+                <li>Physical Therapy for Fractures - JAG PT.</li>
+                <li>Distal Radius Fracture Reduction Algorithm - UVA.</li>
+                <li>Nonoperative treatment - Cast - AO Surgery Reference.</li>
+                <li>Closed reduction; cast or splint fixation - AO Surgery Reference (Pediatric).</li>
+                <li>Role of Functional Cast Bracing in Colles' Fracture.</li>
+                <li>Closed reduction; cast fixation with/without wedging - AO Surgery Reference.</li>
+                <li>Closed Reduction of a Distal Radius Fracture - YouTube.</li>
+                <li>Developmental dysplasia of the hip: biomechanical model.</li>
+                <li>2.4 mm Variable Angle LCP Distal Radius System - J&amp;J.</li>
+                <li>Upper Limb Orthotics/Smith's Fracture - Wikiversity.</li>
+                <li>How is a Smith fracture immobilized? - Dr. Oracle.</li>
+                <li>Treatment of volar Barton's fractures with T-buttress plates.</li>
+                <li>Immobilization with a cast - AO Surgery Reference.</li>
+                <li>Closed Fracture Manipulation – Improving Charnley's Three Point Fixation. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1964679/" target="_blank" rel="noopener">PMC1964679</a></li>
+                <li>Tips &amp; Tricks: Closed Reduction of Pediatric Distal Radius Fractures - UPOJ.</li>
+                <li>Colles' Fracture Reduction Masterclass - YouTube.</li>
+                <li>Comparison of cast immobilization methods: systematic review of RCTs. <a href="https://www.e-emj.org/journal/view.php?number=73" target="_blank" rel="noopener">Ewha Medical Journal</a></li>
+                <li>Evaluation of the Volar Flexion Ulnar Deviation Cast (Schede Position).</li>
+                <li>Best practice for management of Distal Radial Fractures - BSSH.</li>
+                <li>A Prospective Study of Cast immobilization with wrist in dorsiflexion.</li>
+                <li>Does position of the wrist during cast immobilisation affect outcome? <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9192448/" target="_blank" rel="noopener">PMC9192448</a></li>
+                <li>Cast immobilization duration for distal radius fractures. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11458645/" target="_blank" rel="noopener">PMC11458645</a></li>
+                <li>Non- or minimally displaced distal radius fractures in patients &lt;50 years. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11571880/" target="_blank" rel="noopener">PMC11571880</a></li>
+                <li>Literature Review of Postoperative DRF Immobilization Recommendations. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11875217/" target="_blank" rel="noopener">PMC11875217</a></li>
+                <li>The influence of casting techniques on redisplacement risk. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12126326/" target="_blank" rel="noopener">PMC12126326</a></li>
+                <li>AAOS Clinical Practice Guidelines.</li>
+                <li>Treatment of Distal Radius Fractures - AAOS AUC.</li>
+                <li>FACT SHEET: Management of Distal Radius Fractures CPG - AAOS.</li>
+                <li>Distal Radius Fractures: Evaluation of CRPP. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6255731/" target="_blank" rel="noopener">PMC6255731</a></li>
+                <li>Fracture Specific Fixation of Distal Radius Fractures - TriMed Inc.</li>
+                <li>Fragment-Specific Fixation of Distal Radius Fractures - Musculoskeletal Key.</li>
+                <li>AAOS Appropriate Use Criteria: Treatment of Distal Radius Fractures. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9308624/" target="_blank" rel="noopener">PMC9308624</a></li>
+                <li>Evaluation of Educational YouTube Videos for DRF Treatment. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11133890/" target="_blank" rel="noopener">PMC11133890</a></li>
+                <li>Distal Radius Surgical Stabilization Using Volar Plate - Arthrex.</li>
+                <li>Ultrasound Guided Distal Radius Fracture Reduction - YouTube.</li>
+                <li>Evaluation of Educational YouTube Videos (ResearchGate).</li>
+                <li>FraDis Colles Fracture Reduction Simulator - YouTube.</li>
+                <li>Avoiding Complications in Treatment of Distal Radius Fractures - NYU.</li>
+                <li>Colles' Fracture Reduction Trainer - YouTube.</li>
+                <li>Outcome Analysis of DRF with Orthosis vs Cast after Plate Osteosynthesis. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9864856/" target="_blank" rel="noopener">PMC9864856</a></li>
+                <li>Tim van Helden - UT Student Theses.</li>
+                <li>The Closed Treatment of Common Fractures - Cambridge University Press.</li>
+                <li>A 3D printed 1:1 scale physical model after simulated reduction (ResearchGate).</li>
+            </ol>
+        </div>
+
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tool">
+        <h2>Clinical Decision Tool</h2>
+        <p class="subtitle">Adjust parameters to receive evidence-based recommendations</p>
+
+        <div class="slider-group">
+            <label for="sliderRadial">Radial Height Shortening</label>
+            <div class="value-display"><span id="valRadial">0</span> mm</div>
+            <input type="range" id="sliderRadial" min="0" max="12" step="0.5" value="0" aria-label="Radial height shortening in millimeters">
+            <p class="threshold-note">Instability threshold: &gt;3–5 mm <span style="color:var(--danger);font-weight:700;">⚠</span></p>
+        </div>
+
+        <div class="slider-group">
+            <label for="sliderDorsal">Residual Dorsal Angulation</label>
+            <div class="value-display"><span id="valDorsal">0</span>°</div>
+            <input type="range" id="sliderDorsal" min="-30" max="30" step="1" value="0" aria-label="Dorsal angulation in degrees (negative = volar tilt)">
+            <p class="threshold-note">Unacceptable if dorsal &gt;10° <span style="color:var(--danger);font-weight:700;">⚠</span></p>
+        </div>
+
+        <div class="slider-group">
+            <label for="sliderAge">Patient Age</label>
+            <div class="value-display"><span id="valAge">50</span> years</div>
+            <input type="range" id="sliderAge" min="18" max="95" step="1" value="50" aria-label="Patient age in years">
+            <p class="threshold-note">Geriatric paradigm shift: ≥65 years</p>
+        </div>
+
+        <div class="recommendation-box" id="recBox">
+            <h3>Evidence-Based Recommendation</h3>
+            <div class="rec-text" id="recText">Adjust sliders to see personalized recommendations.</div>
+            <div class="rec-rationale" id="recRationale"></div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn btn-reset" id="btnReset" aria-label="Reset all slider values">Reset</button>
+            <button class="btn btn-export" id="btnExport" aria-label="Copy recommendation to clipboard">Copy / Export</button>
+        </div>
+    </aside>
+</div>
+
+<div class="toast" id="toast" role="alert" aria-live="polite">Copied to clipboard!</div>
+
+<script>
+(function() {
+    const sliderRadial = document.getElementById('sliderRadial');
+    const sliderDorsal = document.getElementById('sliderDorsal');
+    const sliderAge = document.getElementById('sliderAge');
+    const valRadial = document.getElementById('valRadial');
+    const valDorsal = document.getElementById('valDorsal');
+    const valAge = document.getElementById('valAge');
+    const recText = document.getElementById('recText');
+    const recRationale = document.getElementById('recRationale');
+    const btnReset = document.getElementById('btnReset');
+    const btnExport = document.getElementById('btnExport');
+    const toast = document.getElementById('toast');
+
+    function getRecommendation() {
+        const radial = parseFloat(sliderRadial.value);
+        const dorsal = parseFloat(sliderDorsal.value);
+        const age = parseInt(sliderAge.value);
+
+        let treatment = '';
+        let rationale = '';
+        let urgency = '';
+        const geriatric = age >= 65;
+        const dorsalAngulation = Math.abs(dorsal);
+        const volarTilt = dorsal < 0 ? Math.abs(dorsal) : 0;
+
+        // Determine instability
+        let instabilityFactors = 0;
+        if (radial >= 3) instabilityFactors++;
+        if (dorsalAngulation > 10 && dorsal > 0) instabilityFactors++;
+        if (radial >= 5) instabilityFactors++;
+
+        if (geriatric) {
+            // Geriatric paradigm: AAOS Strong evidence — non-op is gold standard
+            if (radial <= 5 && dorsalAngulation <= 20) {
+                treatment = '<strong>Non-operative (Closed Reduction + Casting)</strong> is the gold standard for patients ≥65 years.';
+                rationale = 'AAOS 2020 CPG: Strong-to-moderate evidence demonstrates NO improvement in long-term functional outcomes (DASH/PRWE at 1 year) with surgery vs. non-op in the geriatric population. Minor malunion is well-tolerated. Surgery reserved for severe articular disruption, open fractures, or neurovascular compromise.';
+            } else if (radial > 5 || dorsalAngulation > 20) {
+                treatment = '<strong>Consider operative intervention</strong> even in geriatric patients due to severe displacement.';
+                rationale = 'Severe displacement (radial shortening >5 mm or dorsal angulation >20°) may exceed the malunion threshold that geriatric patients can functionally tolerate. Clinical judgment required; patient comorbidities and functional demands must be weighed.';
+            }
+        } else {
+            // Non-geriatric
+            if (radial <= 3 && dorsalAngulation <= 10) {
+                treatment = '<strong>Non-operative management appropriate.</strong> Post-reduction parameters within AAOS acceptable criteria.';
+                rationale = 'AAOS 2020 CPG: For patients <65, stable fractures with post-reduction radial shortening ≤3 mm, dorsal tilt ≤10°, and articular step-off <2 mm can be managed conservatively. Short-arm cast recommended; evidence shows no benefit of long-arm cast for stable extra-articular fractures.';
+            } else if (radial > 3 || dorsalAngulation > 10) {
+                treatment = '<strong>Operative fixation recommended</strong> (AAOS Moderate strength recommendation).';
+                rationale = 'AAOS 2020 CPG: Moderate evidence supports prompt operative fixation in non-geriatric patients when post-reduction shows: radial shortening >3 mm, residual dorsal tilt >10°, or intra-articular step-off >2 mm. Volar locking plate (ORIF) is the current workhorse; earlier functional recovery at 3 months vs. other modalities.';
+                if (instabilityFactors >= 2) {
+                    treatment += ' <strong>High instability risk detected.</strong>';
+                }
+            }
+        }
+
+        // Additional notes
+        let notes = [];
+        if (volarTilt > 0) {
+            notes.push('Volar angulation (Smith-type pattern) detected — inherently unstable; high risk of flexor-driven redisplacement. Strong consideration for operative stabilization.');
+        }
+        if (dorsalAngulation > 20 && dorsal > 0) {
+            notes.push('Dorsal angulation >20° is a LaFontaine instability criterion. ≥3 criteria = exceedingly high probability of conservative failure.');
+        }
+        if (radial >= 5) {
+            notes.push('Radial shortening ≥5 mm is the single most powerful predictor of late instability (LaFontaine criterion).');
+        }
+        if (geriatric && radial <= 3 && dorsalAngulation <= 10) {
+            notes.push('Excellent alignment for geriatric patient — early mobilization (≤3 weeks immobilization) may be considered based on recent RCT evidence.');
+        }
+        if (!geriatric && radial <= 2 && dorsalAngulation <= 8) {
+            notes.push('Well-aligned fracture. Immobilization with sugar-tong splint initially, transition to short-arm cast at 7–10 days. Consider abbreviated immobilization (≤3 weeks) with early supervised rehab for optimal functional outcomes.');
+        }
+
+        // Wrist position note
+        notes.push('Immobilize wrist in neutral or slight dorsiflexion — NEVER in extreme palmar flexion (Cotton-Loder position is contraindicated due to acute CTS risk).');
+
+        let fullRec = treatment;
+        if (notes.length > 0) {
+            fullRec += '<br><br><strong>Clinical Notes:</strong><ul style="margin:8px 0 0 16px;">';
+            notes.forEach(n => { fullRec += '<li>' + n + '</li>'; });
+            fullRec += '</ul>';
+        }
+
+        return { treatment: fullRec, rationale: rationale, radial: radial, dorsal: dorsal, age: age };
+    }
+
+    function updateDisplay() {
+        valRadial.textContent = sliderRadial.value;
+        valDorsal.textContent = sliderDorsal.value;
+        valAge.textContent = sliderAge.value;
+
+        const rec = getRecommendation();
+        recText.innerHTML = rec.treatment;
+        recRationale.innerHTML = '<strong>Evidence Basis:</strong> ' + rec.rationale;
+    }
+
+    sliderRadial.addEventListener('input', updateDisplay);
+    sliderDorsal.addEventListener('input', updateDisplay);
+    sliderAge.addEventListener('input', updateDisplay);
+
+    btnReset.addEventListener('click', function() {
+        sliderRadial.value = 0;
+        sliderDorsal.value = 0;
+        sliderAge.value = 50;
+        updateDisplay();
+    });
+
+    btnExport.addEventListener('click', function() {
+        const rec = getRecommendation();
+        const now = new Date().toLocaleString();
+        const dorsalLabel = parseFloat(sliderDorsal.value) >= 0 ? 'Dorsal' : 'Volar';
+        const text = [
+            '═══════════════════════════════════════════',
+            'CLINICAL DECISION TOOL — DISTAL RADIUS FX',
+            '═══════════════════════════════════════════',
+            'Date/Time: ' + now,
+            '',
+            'PARAMETERS:',
+            '  Radial Height Shortening: ' + rec.radial + ' mm',
+            '  Angulation: ' + Math.abs(rec.dorsal) + '° (' + dorsalLabel + ')',
+            '  Patient Age: ' + rec.age + ' years (' + (rec.age >= 65 ? 'GERIATRIC' : 'Non-geriatric') + ')',
+            '',
+            'RECOMMENDATION:',
+            rec.treatment.replace(/<[^>]*>/g, ''),
+            '',
+            'EVIDENCE BASIS:',
+            rec.rationale.replace(/<[^>]*>/g, ''),
+            '',
+            'Source: AAOS 2020 Evidence-Based CPG for Management of Distal Radius Fractures',
+            '═══════════════════════════════════════════'
+        ].join('\n');
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast();
+            }).catch(function() {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
+        }
+    });
+
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast(); } catch(e) { alert('Copy failed.'); }
+        document.body.removeChild(ta);
+    }
+
+    function showToast() {
+        toast.classList.add('show');
+        setTimeout(function() { toast.classList.remove('show'); }, 2200);
+    }
+
+    // Initial render
+    updateDisplay();
+})();
+</script>
+
+</body>
+</html>

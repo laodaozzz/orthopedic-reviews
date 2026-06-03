@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Additive Manufacturing in Orthopedic Reconstruction – Interactive Educational Summary</title>
+<style>
+:root {
+  --primary: #1a3a5c;
+  --primary-light: #2a5a8c;
+  --accent: #e07b39;
+  --accent-light: #f4a261;
+  --bg: #f7f8fa;
+  --card-bg: #ffffff;
+  --text: #2c3e50;
+  --text-light: #5a6a7a;
+  --border: #dde2e8;
+  --badge-I: #27ae60;
+  --badge-II: #2ecc71;
+  --badge-III: #f39c12;
+  --badge-IV: #e67e22;
+  --badge-V: #e74c3c;
+  --badge-NS: #95a5a6;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+  --info: #3498db;
+  --sidebar-width: 340px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 2rem 2rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.3rem;
+}
+
+header p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 1.5rem auto;
+  padding: 0 1.5rem;
+  align-items: start;
+}
+
+main {
+  min-width: 0;
+}
+
+aside {
+  position: sticky;
+  top: 110px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+}
+
+aside::-webkit-scrollbar { width: 6px; }
+aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.section-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 1.35rem;
+  color: var(--primary);
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+  color: var(--primary-light);
+  margin: 1.2rem 0 0.6rem;
+}
+
+h4 {
+  font-size: 1rem;
+  color: var(--text);
+  margin: 1rem 0 0.5rem;
+}
+
+p { margin-bottom: 0.8rem; }
+
+ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+li { margin-bottom: 0.4rem; }
+
+strong { color: var(--primary); }
+
+.badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: 0.5px;
+}
+.badge-I { background: var(--badge-I); }
+.badge-II { background: var(--badge-II); }
+.badge-III { background: var(--badge-III); }
+.badge-IV { background: var(--badge-IV); }
+.badge-V { background: var(--badge-V); }
+.badge-NS { background: var(--badge-NS); }
+
+.callout {
+  border-left: 4px solid var(--accent);
+  background: #fdf6f0;
+  padding: 1rem 1.2rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.callout.info {
+  border-left-color: var(--info);
+  background: #eaf4fb;
+}
+
+.callout.warning {
+  border-left-color: var(--warning);
+  background: #fef9e7;
+}
+
+.callout.danger {
+  border-left-color: var(--danger);
+  background: #fdedec;
+}
+
+.callout strong { display: block; margin-bottom: 0.3rem; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.9rem;
+}
+
+caption {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary);
+  text-align: left;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid var(--accent);
+}
+
+th {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+tr:nth-child(even) { background: #f9fafb; }
+tr:hover { background: #eef3f8; }
+
+.ref-list {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  list-style: decimal;
+}
+
+.ref-list li {
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+
+.ref-list a {
+  color: var(--info);
+  word-break: break-all;
+}
+
+.sup {
+  font-size: 0.7rem;
+  vertical-align: super;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sidebar-title {
+  font-size: 1.1rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+}
+
+.slider-group {
+  margin-bottom: 1.3rem;
+}
+
+.slider-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+
+.slider-group .range-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.slider-group input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: linear-gradient(to right, var(--success), var(--warning), var(--danger));
+  border-radius: 3px;
+  outline: none;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.slider-group .value-display {
+  min-width: 55px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary);
+  background: var(--bg);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.slider-group .threshold-note {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 0.2rem;
+  font-style: italic;
+}
+
+.recommendation-box {
+  background: linear-gradient(135deg, #eaf4fb 0%, #f0faf0 100%);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin-top: 1rem;
+}
+
+.recommendation-box h4 {
+  color: var(--primary);
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.recommendation-box .rec-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.btn-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-reset {
+  background: var(--border);
+  color: var(--text);
+}
+
+.btn-reset:hover { background: #c8ced6; }
+
+.btn-copy {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-copy:hover { background: var(--primary-light); }
+
+.btn-copy:active { transform: scale(0.97); }
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--success);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.metric-highlight {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin: 0 2px;
+}
+
+.toc {
+  background: #f0f4f8;
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.toc h3 { margin-top: 0; color: var(--primary); font-size: 1rem; }
+
+.toc ol {
+  margin: 0.5rem 0 0 1.2rem;
+  font-size: 0.9rem;
+}
+
+.toc a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+.tag {
+  display: inline-block;
+  background: #e8f0fe;
+  color: var(--primary);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin: 0 2px 2px 0;
+}
+
+figure {
+  margin: 1rem 0;
+}
+
+figcaption {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  text-align: center;
+  margin-top: 0.3rem;
+}
+
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.toggle-switch input { display: none; }
+
+.toggle-track {
+  width: 44px;
+  height: 24px;
+  background: var(--border);
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-track {
+  background: var(--success);
+}
+
+.toggle-switch input:checked + .toggle-track::after {
+  transform: translateX(20px);
+}
+
+.toggle-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.limitation-note {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: 0.88rem;
+  margin: 1rem 0;
+  color: #856404;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    position: static;
+    max-height: none;
+    order: -1;
+  }
+  header h1 { font-size: 1.25rem; }
+  .section-card { padding: 1.2rem; }
+  table { font-size: 0.8rem; }
+  th, td { padding: 6px 8px; }
+}
+
+@media (max-width: 500px) {
+  .layout { padding: 0 0.8rem; }
+  .section-card { padding: 1rem; }
+  h2 { font-size: 1.15rem; }
+  .btn-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header role="banner">
+  <h1>Additive Manufacturing in Orthopedic Reconstruction</h1>
+  <p>Interactive Evidence-Based Summary: 3D-Printed Biomaterials for Segmental Defects &amp; Infected Nonunions</p>
+</header>
+
+<div class="layout">
+<main role="main">
+
+<!-- Table of Contents -->
+<div class="toc section-card" aria-label="Table of Contents">
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#executive">Executive Summary</a></li>
+    <li><a href="#pathophysiology">Pathophysiology of Critical-Sized Defects</a></li>
+    <li><a href="#limitations">Limitations of Current Gold Standards</a></li>
+    <li><a href="#am-paradigm">The Additive Manufacturing Paradigm</a></li>
+    <li><a href="#titanium">Porous Titanium (Ti6Al4V)</a></li>
+    <li><a href="#tantalum">Porous Tantalum (Ta)</a></li>
+    <li><a href="#peek">Polyetheretherketone (PEEK)</a></li>
+    <li><a href="#ceramics">Bioactive Ceramics</a></li>
+    <li><a href="#infection">Antibiotic Delivery &amp; Infection Management</a></li>
+    <li><a href="#regulatory">Regulatory Landscape &amp; Consensus Guidelines</a></li>
+    <li><a href="#comparison">Comparative Synthesis &amp; Recommendations</a></li>
+    <li><a href="#references">References</a></li>
+  </ol>
+</div>
+
+<!-- 1. Executive Summary -->
+<section class="section-card" id="executive" aria-labelledby="executive-h">
+  <h2 id="executive-h">1. Executive Summary</h2>
+  <p>
+    The clinical management of <strong>critical-sized segmental bone defects</strong> and <strong>recalcitrant infected nonunions</strong> represents the apex of complexity in modern orthopedic traumatology. These pathologies—sequelae of high-energy trauma, oncologic resection, or chronic osteomyelitis—defy the natural regenerative capacity of the skeletal system.
+  </p>
+  <p>
+    The traditional reconstructive ladder—Masquelet induced membrane technique, Ilizarov distraction osteogenesis, and vascularized fibular grafts—is fraught with limitations including donor site morbidity, prolonged treatment horizons, and variable union rates. The integration of <strong>additive manufacturing (3D printing)</strong> has catalyzed a paradigm shift, enabling fabrication of patient-specific implants (PSIs) that restore anatomical continuity while modulating the biological environment.
+  </p>
+  <p>
+    This comprehensive analysis synthesizes data on four primary biomaterial classes: <span class="tag">Porous Titanium</span> <span class="tag">Porous Tantalum</span> <span class="tag">PEEK</span> <span class="tag">Bioactive Ceramics</span>
+  </p>
+
+  <div class="callout">
+    <strong>Key Finding</strong>
+    3D-printed porous titanium (Ti6Al4V) is the prevailing clinical standard for load-bearing long bone reconstruction, with systematic reviews establishing <span class="metric-highlight">union rates &gt;94%</span> and high limb salvage rates.<span class="sup">[1]</span>
+  </div>
+
+  <div class="callout info">
+    <strong>Source Limitation</strong>
+    This summary is derived exclusively from the provided review document. Evidence levels are inferred from study designs described in the source. Where the source does not specify evidence levels, this is noted explicitly.
+  </div>
+</section>
+
+<!-- 2. Pathophysiology -->
+<section class="section-card" id="pathophysiology" aria-labelledby="patho-h">
+  <h2 id="patho-h">2. Pathophysiology of Critical-Sized Defects</h2>
+  <p>
+    A <strong>"critical-sized defect" (CSD)</strong> is operationally defined as a bone void that will not heal spontaneously within a patient's lifetime without surgical intervention. In long bones (tibia, femur, humerus), defects exceeding <strong>3–4 cm</strong>, or roughly <strong>2.5 times the diaphyseal diameter</strong>, typically meet this criterion.<span class="sup">[2]</span> <span class="badge badge-IV">Level IV</span>
+  </p>
+  <p>
+    The etiology of CSDs is diverse, encompassing high-energy kinetic trauma, open fractures, radical resection of primary bone tumors, and extensive debridement for chronic osteomyelitis.
+  </p>
+
+  <h3>The Hostile Biological Environment</h3>
+  <p>
+    The biological environment of a CSD is characterized by:
+  </p>
+  <ul>
+    <li><strong>Loss of the periosteal sleeve</strong> — the primary source of osteoprogenitor cells in fracture healing</li>
+    <li><strong>Compromised vascularity</strong> — impairing nutrient delivery and waste removal</li>
+    <li><strong>Significant soft tissue damage</strong> — reducing the biological envelope available for reconstruction</li>
+  </ul>
+  <p>
+    In such scenarios, the natural fracture healing cascade—hematoma formation → inflammation → soft callus → hard callus remodeling—is arrested. The gap is too large for osteoprogenitor cells to bridge, leading to fibrous tissue interposition and nonunion establishment.<span class="sup">[1]</span>
+  </p>
+</section>
+
+<!-- 3. Limitations of Gold Standards -->
+<section class="section-card" id="limitations" aria-labelledby="limit-h">
+  <h2 id="limit-h">3. Limitations of Current "Gold Standards"</h2>
+
+  <h3>Autologous Bone Graft (ABG)</h3>
+  <p>
+    ABG possesses the triad of bone regeneration: <strong>osteogenicity</strong> (living cells), <strong>osteoinductivity</strong> (signaling factors), and <strong>osteoconductivity</strong> (scaffold). However:<span class="sup">[11]</span>
+  </p>
+  <ul>
+    <li>Harvestable volume is finite (rarely exceeding <strong>40–50 cc</strong>)</li>
+    <li>Donor site morbidity: chronic pain, infection, iatrogenic fracture</li>
+    <li>Insufficient for large segmental defects</li>
+  </ul>
+
+  <h3>Distraction Osteogenesis (Ilizarov)</h3>
+  <p>
+    Bone regeneration proceeds at ~<strong>1 mm/day</strong>. A 10 cm defect requires &gt;3 months active distraction plus a consolidation phase (typically 2× distraction time), translating to nearly <strong>one year in an external fixator</strong>. Complications include pin tract infections and docking site nonunions.<span class="sup">[2]</span> <span class="badge badge-IV">Level IV</span>
+  </p>
+
+  <h3>Masquelet (Induced Membrane) Technique</h3>
+  <p>
+    A two-stage process: (1) PMMA cement spacer placement to induce a bioactive vascularized membrane; (2) spacer removal and bone graft filling. Limitations include the need for autograft or expensive substitutes, two major surgeries, and significant failure rates in defects &gt;10 cm due to graft resorption.<span class="sup">[9]</span> <span class="badge badge-IV">Level IV</span>
+  </p>
+</section>
+
+<!-- 4. AM Paradigm -->
+<section class="section-card" id="am-paradigm" aria-labelledby="am-h">
+  <h2 id="am-h">4. The Additive Manufacturing Paradigm</h2>
+  <p>
+    Leveraging high-resolution CT and MRI, surgeons create a <strong>digital twin</strong> of the patient's defect. CAD software enables fabrication of an implant perfectly matching the anatomical void, restoring limb length, alignment, and rotation with precision impossible to achieve with manual intraoperative bending.<span class="sup">[17]</span>
+  </p>
+
+  <h3>Core Innovation: Porous Lattice Architecture</h3>
+  <p>
+    Unlike solid metal blocks, 3D-printed implants can be fabricated as <strong>porous lattices</strong> engineered to mimic trabecular bone architecture. Key design parameters:<span class="sup">[3,4]</span>
+  </p>
+  <ul>
+    <li><strong>Optimal pore size:</strong> 500–800 μm for bone ingrowth</li>
+    <li><strong>Optimal porosity:</strong> 60–80% for vascularization and nutrient transport</li>
+    <li><strong>Effective elastic modulus:</strong> Reducible to 0.5–15 GPa (matching native bone)</li>
+  </ul>
+
+  <div class="callout warning">
+    <strong>Stress Shielding Problem</strong>
+    Solid titanium elastic modulus: <span class="metric-highlight">110 GPa</span>. Cortical bone: <span class="metric-highlight">15–20 GPa</span>. Cancellous bone: <span class="metric-highlight">0.1–2 GPa</span>. Stiff implants bear most physiological load, leading to periprosthetic bone resorption over time.<span class="sup">[3,20]</span>
+  </div>
+</section>
+
+<!-- 5. Porous Titanium -->
+<section class="section-card" id="titanium" aria-labelledby="ti-h">
+  <h2 id="ti-h">5. Porous Titanium (Ti6Al4V): The Clinical Workhorse</h2>
+
+  <h3>5.1 Material Science &amp; Fabrication</h3>
+  <p>
+    Ti6Al4V is the foundational material for orthopedic 3D printing due to specific strength, corrosion resistance (stable oxide layer), and proven biocompatibility. Two primary powder bed fusion technologies are used:<span class="sup">[6]</span>
+  </p>
+  <ul>
+    <li><strong>Selective Laser Melting (SLM):</strong> High-power laser in argon atmosphere; high geometric resolution, smoother surface finish, better fatigue strength</li>
+    <li><strong>Electron Beam Melting (EBM):</strong> Electron beam in vacuum at elevated temperatures; low residual stress, rougher surface texture (enhances initial coefficient of friction and primary stability)</li>
+  </ul>
+
+  <h3>5.2 Clinical Outcomes in Segmental Defects</h3>
+  <p>
+    <strong>Union rates and functional recovery:</strong> A systematic review of segmental tibial bone defects treated with custom 3D-printed titanium implants reported:<span class="sup">[1]</span> <span class="badge badge-I">Level I</span>
+  </p>
+  <ul>
+    <li>Osteointegration rate: <span class="metric-highlight">100%</span></li>
+    <li>Functional union rate: <span class="metric-highlight">94.7%</span></li>
+    <li>Mean time to union: <span class="metric-highlight">5.3 months</span></li>
+  </ul>
+
+  <p>
+    <strong>Foot and ankle reconstruction:</strong> Dekker et al. analyzed 15 patients with complex deformities treated with patient-specific 3D-printed titanium cages: radiographic fusion in 87% (13/15), significant VAS improvements.<span class="sup">[17]</span> A larger series of 39 patients demonstrated <span class="metric-highlight">74% required no subsequent surgery</span> at 27-month follow-up.<span class="sup">[24]</span> <span class="badge badge-IV">Level IV</span>
+  </p>
+
+  <h3>5.3 Complications &amp; Risk Factors</h3>
+  <p>
+    Overall complication rate: <span class="metric-highlight">~16%</span>, concentrated in patients with infection history.<span class="sup">[1]</span>
+  </p>
+  <ul>
+    <li><strong>Infection:</strong> 25.6% implant removal rate in the foot/ankle series; 60% of failures attributed to septic nonunion, 40% to aseptic nonunion<span class="sup">[24]</span></li>
+    <li><strong>Neuropathy:</strong> 5.76× more likely to require secondary surgery (multivariate analysis)<span class="sup">[24]</span></li>
+    <li><strong>Mechanical failure:</strong> Structural failure of the titanium scaffold itself reported exceedingly rarely; reoperations typically due to supplemental fixation hardware failure<span class="sup">[24]</span></li>
+  </ul>
+
+  <h3>5.4 Spinal Surgery Comparative Data</h3>
+  <p>
+    Spinal fusion data reinforces titanium's advantages:<span class="sup">[7,25]</span> <span class="badge badge-II">Level II</span>
+  </p>
+  <ul>
+    <li><strong>Subsidence (Grade I):</strong> Ti 5.82% vs. PEEK 14.29% (LLIF meta-analysis)</li>
+    <li><strong>Severe subsidence:</strong> Ti 2.64% vs. PEEK 13.49%</li>
+    <li><strong>Fusion quality:</strong> Grade I solid fusion statistically superior in 3D-printed titanium cohort (TLIF)</li>
+  </ul>
+</section>
+
+<!-- 6. Porous Tantalum -->
+<section class="section-card" id="tantalum" aria-labelledby="ta-h">
+  <h2 id="ta-h">6. Porous Tantalum (Ta): The Bioactive Metal</h2>
+
+  <h3>6.1 Material Science</h3>
+  <p>
+    Tantalum is a refractory transition metal with high density, melting point (~3000°C), and exceptional corrosion resistance (stable Ta₂O₅ surface layer). Historically, porous tantalum ("Trabecular Metal," Zimmer Biomet) was produced via chemical vapor deposition (CVD).<span class="sup">[5]</span>
+  </p>
+  <p>
+    Additive manufacturing via SLM enables tantalum implant production, though technically demanding due to the high melting point. The key differentiator: <strong>surface energy properties</strong> that facilitate rapid protein adsorption and cell attachment.<span class="sup">[6]</span>
+  </p>
+
+  <div class="callout">
+    <strong>Biological Superiority</strong>
+    In vitro studies with human bone mesenchymal stem cells (hBMSCs) demonstrate superior cell adhesion, proliferation, and early osteogenic differentiation (alkaline phosphatase activity) on porous tantalum vs. porous titanium of identical geometry.<span class="sup">[6]</span> <span class="badge badge-V">Level V – In vitro</span>
+  </div>
+
+  <h3>6.2 Clinical Applications</h3>
+  <p>
+    <strong>Femoral reconstruction:</strong> Customized 3D-printed porous tantalum prostheses combined with Masquelet technique for large infected femoral defects (mean 16.1 cm). All patients had infection history; secondary tantalum implantation resulted in successful limb salvage with no infection recurrence.<span class="sup">[16]</span> <span class="badge badge-IV">Level IV</span>
+  </p>
+  <p>
+    <strong>Osseointegration kinetics:</strong> Bone-implant contact (BIC) rate for 3D-printed tantalum increased from 34.13% at 3 months to <span class="metric-highlight">87.26% at 12 months</span>. Comparative rabbit models confirmed significantly higher new bone formation in Ta vs. Ti6Al4V scaffolds.<span class="sup">[5,6]</span> <span class="badge badge-V">Level V – Animal</span>
+  </p>
+
+  <h3>6.3 Manufacturing Challenges</h3>
+  <p>
+    Barriers to adoption: high cost of tantalum powder, specialized SLM parameters, higher manufacturing defect risk. <strong>Ti-Ta composite alloys</strong> (e.g., TiTa50) represent a promising compromise, combining comparable osseointegration with better processability and lower cost.<span class="sup">[3]</span>
+  </p>
+</section>
+
+<!-- 7. PEEK -->
+<section class="section-card" id="peek" aria-labelledby="peek-h">
+  <h2 id="peek-h">7. Polyetheretherketone (PEEK): The Radiolucent Alternative</h2>
+
+  <h3>7.1 The Inertness Paradox</h3>
+  <p>
+    PEEK is a semi-crystalline thermoplastic with elastic modulus of <span class="metric-highlight">3–4 GPa</span>—remarkably close to cortical bone, inherently minimizing stress shielding without lattice structures.<span class="sup">[20]</span>
+  </p>
+  <p>
+    However, PEEK is <strong>hydrophobic and bio-inert</strong>. Upon implantation, it is typically encapsulated by fibrous connective tissue rather than achieving direct bone-implant contact.<span class="sup">[8]</span>
+  </p>
+
+  <div class="callout info">
+    <strong>Critical Advantage: Radiolucency</strong>
+    PEEK implants do not generate metal artifacts on CT/MRI. This is invaluable in <strong>oncologic reconstruction</strong>, where artifact-free imaging is essential for early detection of local tumor recurrence.<span class="sup">[31]</span>
+  </div>
+
+  <h3>7.2 Surface Engineering Strategies</h3>
+  <ul>
+    <li><strong>FDM surface topography:</strong> Creates macro-roughness for mechanical interlocking<span class="sup">[32]</span></li>
+    <li><strong>Coatings:</strong> Hydroxyapatite (HA), titanium, or tantalum via plasma spraying/vacuum deposition<span class="sup">[33]</span></li>
+    <li><strong>Nano-composites:</strong> PEEK filaments loaded with nHA, ZnO, or carbon fibers for bioactivity throughout implant volume<span class="sup">[34]</span></li>
+  </ul>
+
+  <h3>7.3 Clinical Outcomes</h3>
+  <p>
+    In spinal fusion, PEEK demonstrates higher subsidence rates:<span class="sup">[7]</span> <span class="badge badge-II">Level II</span>
+  </p>
+  <ul>
+    <li>Severe subsidence: PEEK <span class="metric-highlight">13.49%</span> vs. Ti <span class="metric-highlight">2.64%</span></li>
+    <li>Segmental long bone data remains limited to case reports and small series<span class="sup">[1]</span></li>
+    <li>PEEK gaining traction in chest wall and clavicle reconstruction where light weight and contourability are advantages<span class="sup">[37]</span></li>
+  </ul>
+</section>
+
+<!-- 8. Bioactive Ceramics -->
+<section class="section-card" id="ceramics" aria-labelledby="ceram-h">
+  <h2 id="ceram-h">8. Bioactive Ceramics: The Regenerative Frontier</h2>
+
+  <h3>8.1 Mechanism of Action</h3>
+  <p>
+    Bioactive ceramics (HA, β-TCP, bioactive glasses) are <strong>resorbable</strong>—they actively participate in bone remodeling. They release calcium and phosphate ions, precipitate a biological apatite layer that bonds to host bone, stimulate osteoblast differentiation, and are gradually degraded by osteoclasts via "creeping substitution."<span class="sup">[39]</span>
+  </p>
+  <p>
+    3D printing enables fully interconnected pore networks for guided bone growth (osteoconduction), addressing the central necrosis limitation of block allografts.<span class="sup">[41]</span>
+  </p>
+
+  <h3>8.2 The PCL/TCP Translational Gap</h3>
+  <div class="callout danger">
+    <strong>Clinical Caution</strong>
+    A long-term follow-up study (1–4 years) of 10 patients with large segmental defects (median 10.5 cm) treated with 3D-printed PCL/TCP scaffolds reported:<span class="sup">[9,10]</span> <span class="badge badge-IV">Level IV</span>
+  </div>
+  <ul>
+    <li><strong>Limited bone ingrowth:</strong> Pores predominantly filled with fibrous connective tissue, not hard callus</li>
+    <li><strong>Lack of resorption:</strong> No macroscopic resorption even 3 years post-implantation</li>
+    <li><strong>Translational gap:</strong> Results contrast sharply with preclinical data from sheep/rabbit models</li>
+  </ul>
+
+  <div class="limitation-note">
+    <strong>⚠ Source Limitation:</strong> The source document notes that bioactive ceramics are currently best viewed as <strong>graft extenders</strong> rather than standalone structural replacements for segmental defects. The sample size was small (n=10), limiting generalizability.
+  </div>
+</section>
+
+<!-- 9. Infection Management -->
+<section class="section-card" id="infection" aria-labelledby="infect-h">
+  <h2 id="infect-h">9. Antibiotic Delivery &amp; Infection Management</h2>
+  <p>
+    Systemic antibiotics often fail to achieve therapeutic concentrations in avascular necrotic bone. 3D-printed scaffolds offer a superior local delivery platform compared to PMMA beads.<span class="sup">[11,45]</span>
+  </p>
+
+  <!-- Table 1 -->
+  <table aria-label="Comparison of Antibiotic Loading Techniques">
+    <caption>Table 1: Comparison of Antibiotic Loading Techniques for 3D-Printed Scaffolds</caption>
+    <thead>
+      <tr>
+        <th>Loading Technique</th>
+        <th>Description</th>
+        <th>Elution Profile</th>
+        <th>Clinical Application</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Direct Incorporation</strong></td>
+        <td>Antibiotic mixed with polymer/ceramic powder before printing (e.g., PCL-Gentamicin)</td>
+        <td><strong>Sustained Release.</strong> Weeks to months. Limited by thermal degradation during printing.</td>
+        <td>Chronic osteomyelitis; long-term prophylaxis</td>
+      </tr>
+      <tr>
+        <td><strong>Vacuum Impregnation</strong></td>
+        <td>Porous metal scaffold (Ti, Ta) soaked in antibiotic solution under vacuum</td>
+        <td><strong>Burst Release.</strong> 80–90% in first 24–48 hours, rapid taper.</td>
+        <td>Perioperative prophylaxis; poor for deep infection</td>
+      </tr>
+      <tr>
+        <td><strong>Surface Coating</strong></td>
+        <td>Dip-coated in drug-eluting polymer (PLGA, Chitosan, Hydrogel)</td>
+        <td><strong>Tunable.</strong> Controlled by coating degradation rate.</td>
+        <td>Biofilm eradication; heat-sensitive drugs (Rifampin)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Key Findings</h3>
+  <ul>
+    <li><strong>Rifampin delivery:</strong> Cannot be loaded into PMMA (inhibits polymerization). 3D-printed scaffolds eluting rifampin + vancomycin significantly reduced bacterial burden vs. vancomycin-loaded PMMA in murine models<span class="sup">[12]</span> <span class="badge badge-V">Level V – Animal</span></li>
+    <li><strong>Tantalum vs. Titanium antibiotic retention:</strong> Tantalum beads maintained vancomycin zone of inhibition against MRSA for <strong>6 days</strong> vs. 3 days (porous Ti) and 2 days (smooth Ti)<span class="sup">[27,28]</span></li>
+    <li><strong>Dual-function implants:</strong> nHA/PLA scaffolds loaded with vancomycin microspheres demonstrated infection inhibition + bone repair in rabbit models, potentially condensing Masquelet into single-stage<span class="sup">[47]</span> <span class="badge badge-V">Level V – Animal</span></li>
+  </ul>
+</section>
+
+<!-- 10. Regulatory -->
+<section class="section-card" id="regulatory" aria-labelledby="reg-h">
+  <h2 id="reg-h">10. Regulatory Landscape &amp; Consensus Guidelines</h2>
+
+  <h3>CoMBI Consensus Statements<span class="sup">[13]</span></h3>
+  <p>
+    The <strong>Consensus Meeting on 3D-printed patient-specific Bone Implants (CoMBI)</strong> established key recommendations:
+  </p>
+  <ol>
+    <li><strong>Regulatory Harmonization:</strong> Need for pathways specific to "patient-specific" devices; current mass-production models (510(k)) are ill-suited; focus should validate the <em>process</em> rather than testing every unique implant</li>
+    <li><strong>Preclinical Standards:</strong> Small animal models insufficient for mechanical validation; large animal models (sheep/dog) with biomechanically relevant defects required</li>
+    <li><strong>Post-Processing Rigor:</strong> Residual unmelted powder within lattice structures can cause metallosis; mandated validated cleaning protocols and CT quality control<span class="sup">[49]</span></li>
+    <li><strong>Clinical Trial Design:</strong> Traditional RCTs impractical for rare/heterogeneous conditions; "n-of-1" designs and international registries recommended</li>
+  </ol>
+
+  <h3>FDA Technical Considerations<span class="sup">[50]</span></h3>
+  <ul>
+    <li><strong>Digital thread validation:</strong> The software chain (DICOM → STL → printable file) must be demonstrated to maintain anatomical fidelity</li>
+    <li><strong>Powder recycling validation:</strong> Repeated heating cycles alter oxygen content and fatigue strength</li>
+    <li><strong>Harmonized pathways</strong> urgently needed for the "n-of-1" nature of PSIs</li>
+  </ul>
+</section>
+
+<!-- 11. Comparative Synthesis -->
+<section class="section-card" id="comparison" aria-labelledby="comp-h">
+  <h2 id="comp-h">11. Comparative Synthesis &amp; Recommendations</h2>
+
+  <!-- Table 2 -->
+  <table aria-label="Comparative Analysis of 3D Printed Biomaterials">
+    <caption>Table 2: Comparative Analysis of 3D-Printed Biomaterials for Segmental Defects</caption>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Porous Ti</th>
+        <th>Porous Ta</th>
+        <th>PEEK</th>
+        <th>Bioactive Ceramics</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Mechanical Strength</strong></td>
+        <td>High; excellent fatigue resistance</td>
+        <td>High; comparable to Ti</td>
+        <td>Moderate; requires protection</td>
+        <td>Low; brittle; needs fixation</td>
+      </tr>
+      <tr>
+        <td><strong>Elastic Modulus</strong></td>
+        <td>110 GPa (solid); 0.5–15 GPa (lattice)</td>
+        <td>1.7–2.5 GPa (closer to cancellous bone)</td>
+        <td>3–4 GPa (matches cortical bone)</td>
+        <td>Variable</td>
+      </tr>
+      <tr>
+        <td><strong>Osseointegration</strong></td>
+        <td>Good; driven by pore geometry</td>
+        <td>Excellent; high surface energy</td>
+        <td>Poor; fibrous encapsulation</td>
+        <td>Excellent; chemical bone bonding</td>
+      </tr>
+      <tr>
+        <td><strong>Imaging Artifacts</strong></td>
+        <td>Significant</td>
+        <td>Significant</td>
+        <td><strong>Minimal (radiolucent)</strong></td>
+        <td>Minimal</td>
+      </tr>
+      <tr>
+        <td><strong>Antibiotic Loading</strong></td>
+        <td>Surface/vacuum (burst release)</td>
+        <td>Better retention than Ti</td>
+        <td>Versatile; matrix incorporation</td>
+        <td>Excellent; sustained elution</td>
+      </tr>
+      <tr>
+        <td><strong>Cost &amp; Access</strong></td>
+        <td>Widely available</td>
+        <td>High cost; limited vendors</td>
+        <td>Moderate; accessible</td>
+        <td>Moderate; research/custom</td>
+      </tr>
+      <tr>
+        <td><strong>Primary Indication</strong></td>
+        <td>Long bone defects; foot/ankle</td>
+        <td>Infected nonunions; revision surgery</td>
+        <td>Spinal fusion; oncologic defects</td>
+        <td>Graft extender; antibiotic carrier</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Key Clinical Recommendations</h3>
+  <div class="callout">
+    <strong>🦴 The Pragmatic Standard: Porous Titanium</strong>
+    For the majority of segmental defects in the femur and tibia, 3D-printed porous titanium remains the standard of care. It offers the best balance of mechanical reliability, manufacturing availability, and proven clinical success (<span class="metric-highlight">&gt;94% union</span>).<span class="sup">[1]</span>
+  </div>
+
+  <div class="callout info">
+    <strong>🔬 The Biological Premium: Porous Tantalum</strong>
+    In compromised host biology—failed prior flaps, radiation history, or recalcitrant infection—the superior osteoconductivity and potential biofilm resistance of tantalum may justify higher cost and logistical complexity.<span class="sup">[5,16]</span>
+  </div>
+
+  <div class="callout warning">
+    <strong>🩻 The Oncologic Niche: PEEK</strong>
+    Strongest indication in oncologic reconstruction where radiolucency is non-negotiable. Should be used with rigid fixation and bioactive coatings (Ti/HA) to prevent fibrous encapsulation.<span class="sup">[7,31]</span>
+  </div>
+
+  <div class="callout">
+    <strong>🧫 The Future of Infection Control</strong>
+    Biodegradable, antibiotic-eluting composite scaffolds could potentially enable <strong>single-stage reconstruction</strong> of infected nonunions, eliminating the second surgery. Further clinical validation is needed.<span class="sup">[12,47]</span>
+  </div>
+</section>
+
+<!-- 12. References -->
+<section class="section-card" id="references" aria-labelledby="ref-h">
+  <h2 id="ref-h">12. References</h2>
+  <ol class="ref-list">
+    <li>Custom-Made 3D-Printed Titanium Implants for Managing Segmental Distal Tibial Bone Defects: A Systematic Literature Review. NIH/MDPI, 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11943216/" target="_blank" rel="noopener">PMC11943216</a></li>
+    <li>Custom-Made 3D-Printed Titanium Implants for Managing Segmental Distal Tibial Bone Defects. MDPI JCM. <a href="https://www.mdpi.com/2077-0383/14/6/1796" target="_blank" rel="noopener">MDPI 14/6/1796</a></li>
+    <li>Osseointegration Effects of 3D-Printed Porous Titanium–Tantalum Scaffolds with Different Tantalum Contents. ACS Omega. <a href="https://pubs.acs.org/doi/10.1021/acsomega.5c06943" target="_blank" rel="noopener">ACS Omega</a></li>
+    <li>Effect of 3D-Printed Porous Titanium Alloy Pore Structure on Bone Regeneration: A Review. Coatings 2024. <a href="https://www.mdpi.com/2079-6412/14/3/253" target="_blank" rel="noopener">MDPI 14/3/253</a></li>
+    <li>Evaluation of biological performance of 3D printed trabecular porous tantalum spine fusion cage in large animal models. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11786794/" target="_blank" rel="noopener">PMC11786794</a></li>
+    <li>In Vitro and in Vivo Study of 3D-Printed Porous Tantalum Scaffolds for Repairing Bone Defects. ACS Biomater Sci Eng. <a href="https://pubs.acs.org/doi/10.1021/acsbiomaterials.8b01094" target="_blank" rel="noopener">ACS</a></li>
+    <li>3D-printed porous titanium vs. PEEK cages in lateral lumbar interbody fusion: systematic review and meta-analysis. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11688201/" target="_blank" rel="noopener">PMC11688201</a></li>
+    <li>Surface modification of polyetheretherketone for boosted osseointegration: a review. Biomater Transl. <a href="https://www.biomat-trans.com/journal/BMT/articles/online_first/182" target="_blank" rel="noopener">Biomat Transl</a></li>
+    <li>Long-term follow-up of patients with large segmental bone defects treated with 3D-printed PCL/TCP scaffolds. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12618445/" target="_blank" rel="noopener">PMC12618445</a></li>
+    <li>Long-term follow-up of patients with large segmental bone defects—ResearchGate. <a href="https://www.researchgate.net/publication/397626162" target="_blank" rel="noopener">ResearchGate</a></li>
+    <li>Antimicrobial and Biodegradable 3D Printed Scaffolds for Orthopedic Infections. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10336748/" target="_blank" rel="noopener">PMC10336748</a></li>
+    <li>3D printed bioceramics for dual antibiotic delivery to treat implant-associated bone infection. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4663047/" target="_blank" rel="noopener">PMC4663047</a></li>
+    <li>Clinical translation of 3D-printed patient-specific bone implants: a consensus statement. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12626479/" target="_blank" rel="noopener">PMC12626479</a></li>
+    <li>Advances in 3D-Printed scaffolds for bone defect repair: material strategies. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12647118/" target="_blank" rel="noopener">PMC12647118</a></li>
+    <li>Advances in 3D-printed scaffold technologies for bone defect repair. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12042599/" target="_blank" rel="noopener">PMC12042599</a></li>
+    <li>Clinical application of customized 3D-printed porous tantalum scaffolds combined with Masquelet's technique. Springer Medizin / PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9636627/" target="_blank" rel="noopener">PMC9636627</a></li>
+    <li>Dekker et al. Use of Patient-Specific 3D-Printed Titanium Implants for Complex Foot and Ankle Limb Salvage. Semantic Scholar. <a href="https://www.semanticscholar.org/paper/1c4523cf907c105eb549bcf7178c18fa4beab6bb" target="_blank" rel="noopener">Semantic Scholar</a></li>
+    <li>The Possibilities of Personalized 3D Printed Implants—A Case Series Study. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9959288/" target="_blank" rel="noopener">PMC9959288</a></li>
+    <li>Porous construction and surface modification of titanium-based materials for osteogenesis. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9452912/" target="_blank" rel="noopener">PMC9452912</a></li>
+    <li>Personalized porous tantalum implants crafted via 3D printing: cervical-thoracic spinal fusion. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12408612/" target="_blank" rel="noopener">PMC12408612</a></li>
+    <li>Outcomes of Surgical Reconstruction Using Custom 3D Printed Titanium (foot/ankle, n=39). PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9177519/" target="_blank" rel="noopener">PMC9177519</a></li>
+    <li>Comparison Between 3D-Printed Ti and PEEK Cages: 1-Year Outcome After MIS TLIF. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9537857/" target="_blank" rel="noopener">PMC9537857</a></li>
+    <li>Antibacterial Coatings for Titanium Implants: Recent Trends. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9774638/" target="_blank" rel="noopener">PMC9774638</a></li>
+    <li>Antimicrobial properties of antibiotic-loaded cement, tantalum, 3D-printed porous titanium. ResearchGate. <a href="https://www.researchgate.net/publication/341799710" target="_blank" rel="noopener">ResearchGate</a></li>
+    <li>Tang et al. Treatment of an infected tibial shaft non-union using a 3D-printed PEEK cage. PubMed 2023. <a href="https://pubmed.ncbi.nlm.nih.gov/36852371/" target="_blank" rel="noopener">PubMed</a></li>
+    <li>Personalized 3D-printed PEEK prosthesis for clavicle osteomyelitis reconstruction. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8083998/" target="_blank" rel="noopener">PMC8083998</a></li>
+    <li>3D Printing of Bioceramic Scaffolds—Barriers to Clinical Translation. Materials 2019. <a href="https://www.mdpi.com/1996-1944/12/17/2660" target="_blank" rel="noopener">MDPI</a></li>
+    <li>Antibiotics in 3D-printed implants, instruments and materials. PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6587109/" target="_blank" rel="noopener">PMC6587109</a></li>
+    <li>3D printed scaffolds for enhancing bone regeneration (vancomycin microspheres). Dove Press. <a href="https://www.dovepress.com/dual-nozzle-3d-printed-nano-hydroxyapatite-scaffold-loaded-with-vancom-peer-reviewed-fulltext-article-IJN" target="_blank" rel="noopener">Dove Press</a></li>
+    <li>FDA Technical Considerations for Additive Manufactured Medical Devices. <a href="https://www.fda.gov/files/medical%20devices/published/Technical-Considerations-for-Additive-Manufactured-Medical-Devices---Guidance-for-Industry-and-Food-and-Drug-Administration-Staff.pdf" target="_blank" rel="noopener">FDA.gov</a></li>
+  </ol>
+</section>
+
+</main>
+
+<!-- Sidebar -->
+<aside role="complementary" aria-label="Interactive Clinical Decision Tools">
+  <div class="sidebar-title">📊 Clinical Parameter Explorer</div>
+
+  <div class="limitation-note" style="font-size:0.78rem; margin-bottom:1rem;">
+    Sliders based on parameters documented in the source review. Threshold recommendations derived from source data where available; otherwise annotated as clinical defaults.
+  </div>
+
+  <!-- Slider 1: Defect Size -->
+  <div class="slider-group">
+    <label for="defectSize">Defect Size (cm)</label>
+    <div class="range-row">
+      <input type="range" id="defectSize" min="1" max="20" step="0.5" value="5" aria-label="Defect size in centimeters">
+      <span class="value-display" id="defectSizeVal">5.0 cm</span>
+    </div>
+    <div class="threshold-note">Source: CSD &gt;3–4 cm (2.5× diaphyseal diameter)<span class="sup">[2]</span></div>
+  </div>
+
+  <!-- Slider 2: Porosity -->
+  <div class="slider-group">
+    <label for="porosity">Implant Porosity (%)</label>
+    <div class="range-row">
+      <input type="range" id="porosity" min="20" max="90" step="1" value="70" aria-label="Implant porosity percentage">
+      <span class="value-display" id="porosityVal">70%</span>
+    </div>
+    <div class="threshold-note">Source: Optimal 60–80% for vascularization &amp; nutrient transport<span class="sup">[4]</span></div>
+  </div>
+
+  <!-- Slider 3: Pore Size -->
+  <div class="slider-group">
+    <label for="poreSize">Pore Size (μm)</label>
+    <div class="range-row">
+      <input type="range" id="poreSize" min="200" max="1200" step="50" value="650" aria-label="Pore size in micrometers">
+      <span class="value-display" id="poreSizeVal">650 μm</span>
+    </div>
+    <div class="threshold-note">Source: Optimal 500–800 μm for bone ingrowth<span class="sup">[4]</span></div>
+  </div>
+
+  <!-- Toggle: Infection History -->
+  <div class="toggle-switch" onclick="document.getElementById('infectionToggle').click(); updateRecommendation();">
+    <input type="checkbox" id="infectionToggle" aria-label="Toggle infection history">
+    <div class="toggle-track"></div>
+    <span class="toggle-label">History of Infection</span>
+  </div>
+
+  <!-- Toggle: Oncologic Context -->
+  <div class="toggle-switch" onclick="document.getElementById('oncToggle').click(); updateRecommendation();">
+    <input type="checkbox" id="oncToggle" aria-label="Toggle oncologic context">
+    <div class="toggle-track"></div>
+    <span class="toggle-label">Oncologic Reconstruction</span>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div class="recommendation-box" id="recBox">
+    <h4>💡 Recommendation</h4>
+    <div class="rec-text" id="recText">
+      Loading clinical guidance based on parameters...
+    </div>
+  </div>
+
+  <!-- Design Validation -->
+  <div class="recommendation-box" style="background:linear-gradient(135deg,#fdf6f0,#fef9e7); margin-top:0.8rem;">
+    <h4>⚙ Design Validation</h4>
+    <div class="rec-text" id="designValidation">
+      Evaluating lattice parameters...
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-reset" onclick="resetSliders()" aria-label="Reset all parameters">↺ Reset</button>
+    <button class="btn btn-copy" onclick="copyReport()" aria-label="Copy report to clipboard">📋 Copy Report</button>
+  </div>
+</aside>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">✓ Report copied to clipboard!</div>
+
+<script>
+(function() {
+  const defectSlider = document.getElementById('defectSize');
+  const porositySlider = document.getElementById('porosity');
+  const poreSizeSlider = document.getElementById('poreSize');
+  const infectionToggle = document.getElementById('infectionToggle');
+  const oncToggle = document.getElementById('oncToggle');
+
+  const defectVal = document.getElementById('defectSizeVal');
+  const porosityVal = document.getElementById('porosityVal');
+  const poreSizeVal = document.getElementById('poreSizeVal');
+  const recText = document.getElementById('recText');
+  const designVal = document.getElementById('designValidation');
+
+  function updateDisplay() {
+    defectVal.textContent = parseFloat(defectSlider.value).toFixed(1) + ' cm';
+    porosityVal.textContent = porositySlider.value + '%';
+    poreSizeVal.textContent = poreSizeSlider.value + ' μm';
+    updateRecommendation();
+  }
+
+  window.updateRecommendation = function() {
+    const defect = parseFloat(defectSlider.value);
+    const porosity = parseInt(porositySlider.value);
+    const poreSize = parseInt(poreSizeSlider.value);
+    const hasInfection = infectionToggle.checked;
+    const isOncologic = oncToggle.checked;
+
+    let recommendations = [];
+    let rationale = [];
+    let designNotes = [];
+
+    // Defect size analysis
+    if (defect < 3) {
+      recommendations.push('<strong>Subcritical defect.</strong> Autologous bone graft or conventional fixation may suffice. 3D-printed PSI reserved for complex anatomy or failed prior fixation.');
+      rationale.push('Defect &lt;3 cm below critical-size threshold per source.<span class="sup">[2]</span>');
+    } else if (defect >= 3 && defect <= 4) {
+      recommendations.push('<strong>Critical-sized defect threshold reached.</strong> 3D-printed reconstruction is indicated. Porous titanium is the pragmatic standard (94.7% union rate).<span class="sup">[1]</span>');
+      rationale.push('Defect meets CSD definition (3–4 cm threshold).<span class="sup">[2]</span>');
+    } else if (defect > 4 && defect <= 10) {
+      recommendations.push('<strong>Large CSD.</strong> 3D-printed porous titanium lattice strongly recommended. Consider tantalum if infection history is present. Mean union time ~5.3 months.<span class="sup">[1]</span>');
+      rationale.push('Defect exceeds CSD. Source documents high union rates with titanium PSI in this range.<span class="sup">[1]</span>');
+    } else {
+      recommendations.push('<strong>Massive defect (&gt;10 cm).</strong> 3D-printed reconstruction is viable but carries higher failure risk. Masquelet + tantalum scaffold (mean 16.1 cm defects reported) is an option. Multidisciplinary planning essential.<span class="sup">[16]</span>');
+      rationale.push('Defects &gt;10 cm have significant failure rates with Masquelet alone. Tantalum + Masquelet reported in literature.<span class="sup">[9,16]</span>');
+    }
+
+    // Porosity analysis
+    if (porosity >= 60 && porosity <= 80) {
+      designNotes.push('<span style="color:#27ae60;">✓</span> Porosity <strong>' + porosity + '%</strong> is within the optimal range (60–80%) for vascularization and nutrient transport.<span class="sup">[4]</span>');
+    } else if (porosity < 60) {
+      designNotes.push('<span style="color:#e74c3c;">⚠</span> Porosity <strong>' + porosity + '%</strong> is below optimal. May compromise vascular ingrowth and biological fixation. Higher stiffness may cause stress shielding.<span class="sup">[4]</span>');
+      recommendations.push('<strong>Caution:</strong> Low porosity may reduce osseointegration potential. Consider increasing to ≥60%.');
+    } else {
+      designNotes.push('<span style="color:#f39c12;">⚠</span> Porosity <strong>' + porosity + '%</strong> exceeds optimal range. May compromise mechanical strength for load-bearing applications. Acceptable for non-load-bearing defects.');
+      recommendations.push('<strong>Caution:</strong> High porosity (&gt;80%) may reduce fatigue strength. Not recommended for load-bearing long bones without supplemental fixation.');
+    }
+
+    // Pore size analysis
+    if (poreSize >= 500 && poreSize <= 800) {
+      designNotes.push('<span style="color:#27ae60;">✓</span> Pore size <strong>' + poreSize + ' μm</strong> is within optimal range (500–800 μm) for bone ingrowth.<span class="sup">[4]</span>');
+    } else if (poreSize < 500) {
+      designNotes.push('<span style="color:#e74c3c;">⚠</span> Pore size <strong>' + poreSize + ' μm</strong> is below optimal. May impede cell migration and vascular ingrowth. Minimum recommended: 500 μm.');
+    } else {
+      designNotes.push('<span style="color:#f39c12;">⚠</span> Pore size <strong>' + poreSize + ' μm</strong> exceeds optimal. May reduce mechanical integrity. Consider a gradient architecture.');
+    }
+
+    // Effective modulus estimate (simplified model)
+    const solidModulus = 110; // GPa for Ti6Al4V
+    const effectiveModulus = solidModulus * Math.pow((1 - porosity / 100), 2); // Simplified Gibson-Ashby
+    const modulusStr = effectiveModulus.toFixed(1);
+    designNotes.push('<strong>Estimated effective elastic modulus:</strong> ~' + modulusStr + ' GPa ' +
+      (effectiveModulus >= 15 && effectiveModulus <= 30 ? '(approaching cortical bone range 15–20 GPa ✓)' :
+       effectiveModulus < 15 ? '(cancellous range)' : '(may cause stress shielding)'));
+
+    // Infection toggle
+    if (hasInfection) {
+      recommendations.push('<strong>Infection history:</strong> Consider porous tantalum for superior biofilm resistance and antibiotic retention (6-day vancomycin zone of inhibition vs. 3 days for Ti).<span class="sup">[27,28]</span> Alternatively, surface-coated titanium with rifampin + vancomycin. Two-stage Masquelet protocol remains standard.');
+      rationale.push('Tantalum demonstrated superior antibiotic retention against MRSA in comparative in vitro studies.<span class="sup">[27,28]</span>');
+      if (defect > 10) {
+        recommendations.push('<strong>Massive infected defect:</strong> Modified Masquelet with 3D-printed tantalum scaffold in second stage reported successful limb salvage in defects averaging 16.1 cm with no infection recurrence.<span class="sup">[16]</span>');
+      }
+    }
+
+    // Oncologic toggle
+    if (isOncologic) {
+      recommendations.push('<strong>Oncologic context:</strong> PEEK is strongly recommended for radiolucency—essential for tumor surveillance on CT/MRI without metal artifacts. Must be combined with rigid metallic fixation (plates/nails) and bioactive coatings (Ti/HA).<span class="sup">[31,33]</span>');
+      rationale.push('PEEK eliminates "starburst" CT/MRI artifacts critical for detecting local tumor recurrence.<span class="sup">[31]</span>');
+    }
+
+    // Compile final recommendation
+    let html = '<ul style="margin:0.3rem 0 0 1rem; padding:0;">';
+    recommendations.forEach(function(r) { html += '<li style="margin-bottom:0.5rem;">' + r + '</li>'; });
+    html += '</ul>';
+
+    if (rationale.length > 0) {
+      html += '<div style="margin-top:0.6rem; padding-top:0.5rem; border-top:1px solid #dde2e8; font-size:0.82rem; color:#5a6a7a;"><strong>Evidence Basis:</strong><ul style="margin:0.2rem 0 0 1rem; padding:0;">';
+      rationale.forEach(function(r) { html += '<li>' + r + '</li>'; });
+      html += '</ul></div>';
+    }
+
+    recText.innerHTML = html;
+    designVal.innerHTML = designNotes.join('<br>');
+  };
+
+  defectSlider.addEventListener('input', updateDisplay);
+  porositySlider.addEventListener('input', updateDisplay);
+  poreSizeSlider.addEventListener('input', updateDisplay);
+  infectionToggle.addEventListener('change', updateRecommendation);
+  oncToggle.addEventListener('change', updateRecommendation);
+
+  // Initial update
+  updateDisplay();
+})();
+
+function resetSliders() {
+  document.getElementById('defectSize').value = 5;
+  document.getElementById('porosity').value = 70;
+  document.getElementById('poreSize').value = 650;
+  document.getElementById('infectionToggle').checked = false;
+  document.getElementById('oncToggle').checked = false;
+  document.getElementById('defectSizeVal').textContent = '5.0 cm';
+  document.getElementById('porosityVal').textContent = '70%';
+  document.getElementById('poreSizeVal').textContent = '650 μm';
+  updateRecommendation();
+}
+
+function copyReport() {
+  const defect = document.getElementById('defectSize').value;
+  const porosity = document.getElementById('porosity').value;
+  const poreSize = document.getElementById('poreSize').value;
+  const infection = document.getElementById('infectionToggle').checked ? 'Yes' : 'No';
+  const oncologic = document.getElementById('oncToggle').checked ? 'Yes' : 'No';
+  const timestamp = new Date().toISOString();
+
+  const recText = document.getElementById('recText').innerText;
+  const designText = document.getElementById('designValidation').innerText;
+
+  const report = [
+    '═══════════════════════════════════════════════',
+    '  3D-PRINTED BIOMATERIAL CLINICAL DECISION REPORT',
+    '  Additive Manufacturing in Orthopedic Reconstruction',
+    '═══════════════════════════════════════════════',
+    '',
+    '  Timestamp: ' + timestamp,
+    '',
+    '  ── PATIENT PARAMETERS ──',
+    '  Defect Size:          ' + defect + ' cm',
+    '  Implant Porosity:     ' + porosity + '%',
+    '  Pore Size:            ' + poreSize + ' μm',
+    '  Infection History:    ' + infection,
+    '  Oncologic Context:    ' + oncologic,
+    '',
+    '  ── DESIGN VALIDATION ──',
+    '  ' + designText.replace(/\n/g, '\n  '),
+    '',
+    '  ── CLINICAL RECOMMENDATION ──',
+    '  ' + recText.replace(/\n/g, '\n  '),
+    '',
+    '  ── EVIDENCE BASE ──',
+    '  Sources: Systematic reviews, case series, in vitro/in vivo',
+    '  studies from the provided comprehensive review document.',
+    '  Evidence levels (I–V) assigned per study design as described.',
+    '',
+    '═══════════════════════════════════════════════',
+    '  Generated by 3D-Printed Biomaterials Educational Module',
+    '═══════════════════════════════════════════════'
+  ].join('\n');
+
+  navigator.clipboard.writeText(report).then(function() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }).catch(function() {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = report;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>

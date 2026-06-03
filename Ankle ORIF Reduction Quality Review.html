@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intraoperative Assessment of Reduction Quality During Ankle Fracture ORIF</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --primary-dark: #0e2f44;
+  --accent: #e74c3c;
+  --accent-light: #fadbd8;
+  --success: #27ae60;
+  --success-light: #d5f5e3;
+  --warning: #f39c12;
+  --warning-light: #fef9e7;
+  --gray-50: #f8f9fa;
+  --gray-100: #f1f3f5;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font);
+  color: var(--gray-800);
+  background: var(--gray-50);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== STICKY HEADER ===== */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: #fff;
+  padding: 12px 24px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sticky-header h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+.sticky-header .badge-header {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ===== LAYOUT ===== */
+.page-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+@media (max-width: 1024px) {
+  .page-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .sidebar { order: -1; }
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  min-width: 0;
+}
+.main-content section {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  border: 1px solid var(--gray-200);
+}
+@media (max-width: 640px) {
+  .main-content section { padding: 20px 16px; }
+}
+
+h2 {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  border-bottom: 3px solid var(--primary-light);
+  padding-bottom: 8px;
+}
+h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 24px 0 10px;
+}
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin: 18px 0 8px;
+}
+p { margin-bottom: 14px; font-size: 0.96rem; }
+ul, ol { margin: 0 0 16px 20px; }
+li { margin-bottom: 6px; font-size: 0.96rem; }
+strong { font-weight: 700; color: var(--gray-900); }
+
+.section-intro {
+  font-size: 1rem;
+  color: var(--gray-600);
+  margin-bottom: 20px;
+  border-left: 4px solid var(--primary-light);
+  padding-left: 14px;
+  font-style: italic;
+}
+
+/* ===== EVIDENCE BADGES ===== */
+.evidence-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+.ev-I   { background: #d4efdf; color: #1e8449; border: 1px solid #a9dfbf; }
+.ev-II  { background: #d6eaf8; color: #2471a3; border: 1px solid #aed6f1; }
+.ev-III { background: #fef9e7; color: #b7950b; border: 1px solid #f9e79f; }
+.ev-IV  { background: #fdedec; color: #c0392b; border: 1px solid #f5b7b1; }
+.ev-V   { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-300); }
+.ev-NS  { background: var(--gray-100); color: var(--gray-500); border: 1px solid var(--gray-300); font-style: italic; }
+
+/* ===== CALLOUT BOXES ===== */
+.callout {
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin: 18px 0;
+  font-size: 0.94rem;
+  position: relative;
+}
+.callout::before {
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  font-size: 1.2rem;
+}
+.callout-danger {
+  background: var(--accent-light);
+  border-left: 5px solid var(--accent);
+  color: #922b21;
+}
+.callout-danger::before { content: "⚠️"; }
+.callout-info {
+  background: #ebf5fb;
+  border-left: 5px solid var(--primary-light);
+  color: #1a5276;
+}
+.callout-info::before { content: "ℹ️"; }
+.callout-success {
+  background: var(--success-light);
+  border-left: 5px solid var(--success);
+  color: #1e8449;
+}
+.callout-success::before { content: "✅"; }
+.callout-warning {
+  background: var(--warning-light);
+  border-left: 5px solid var(--warning);
+  color: #7d6608;
+}
+.callout-warning::before { content: "📌"; }
+
+/* ===== TABLES ===== */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+  padding: 10px 12px 6px;
+  background: var(--gray-50);
+  border-bottom: 2px solid var(--primary-light);
+}
+th {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-200);
+  vertical-align: top;
+}
+tr:nth-child(even) { background: var(--gray-50); }
+tr:hover { background: #eaf2f8; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: sticky;
+  top: 72px;
+  align-self: start;
+  max-height: calc(100vh - 84px);
+  overflow-y: auto;
+}
+.sidebar-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.sidebar-card h3 {
+  font-size: 1rem;
+  color: var(--primary-dark);
+  margin: 0 0 4px;
+}
+.sidebar-card .sub {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  margin-bottom: 16px;
+}
+
+/* Sliders */
+.slider-group {
+  margin-bottom: 22px;
+}
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.slider-label span:first-child {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--gray-800);
+}
+.slider-value {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--primary);
+  min-width: 60px;
+  text-align: right;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--gray-300);
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 2px 6px rgba(26,82,118,0.35);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 2px 6px rgba(26,82,118,0.35);
+  cursor: pointer;
+  border: none;
+}
+.slider-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--gray-500);
+  margin-top: 2px;
+}
+
+/* Recommendation Box */
+#recommendation-box {
+  background: linear-gradient(135deg, #eaf2f8, #d6eaf8);
+  border: 2px solid var(--primary-light);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-top: 14px;
+  min-height: 120px;
+  transition: all 0.3s;
+}
+#recommendation-box .rec-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+#recommendation-box .rec-status {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+#recommendation-box .rec-detail {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--gray-700);
+}
+.status-ok { color: var(--success); }
+.status-warn { color: var(--warning); }
+.status-danger { color: var(--accent); }
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.btn {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--gray-300);
+  color: var(--gray-700);
+}
+.btn-outline:hover {
+  border-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* TOC */
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toc-list li {
+  margin-bottom: 4px;
+}
+.toc-list a {
+  display: block;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.toc-list a:hover {
+  background: var(--gray-100);
+  color: var(--primary);
+  padding-left: 14px;
+}
+
+/* Citations */
+.citation {
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  margin-top: 4px;
+}
+.ref-section {
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  margin-top: 16px;
+}
+.ref-section ol {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+.ref-section li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+/* Limitation Note */
+.limitation-note {
+  background: #fef9e7;
+  border: 1px dashed var(--warning);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: #7d6608;
+  margin: 16px 0;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .sticky-header h1 { font-size: 0.95rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.05rem; }
+  .page-wrapper { padding: 12px; }
+  .sidebar { position: static; max-height: none; }
+  .btn-row { flex-direction: column; }
+}
+
+/* ===== KEY PILLARS GRID ===== */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.pillar-card {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+.pillar-card .pillar-icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+.pillar-card h4 {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  color: var(--primary-dark);
+}
+.pillar-card p {
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  margin: 0;
+}
+
+/* Study card */
+.study-card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-left: 4px solid var(--primary-light);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+.study-card .study-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+.study-card .study-meta {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  margin-bottom: 6px;
+}
+.study-card p {
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s;
+  z-index: 9999;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<header class="sticky-header">
+  <h1>Intraoperative Assessment of Reduction Quality During Ankle Fracture ORIF</h1>
+  <span class="badge-header">Evidence-Based Comprehensive Review</span>
+</header>
+
+<div class="page-wrapper">
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content" role="main">
+
+  <!-- Section 1: Introduction -->
+  <section id="introduction">
+    <h2>1. Introduction &amp; Pathoanatomy</h2>
+    <p class="section-intro">Understanding the biomechanical imperative for anatomical reduction is the foundational prerequisite for all intraoperative decision-making in ankle fracture surgery.</p>
+
+    <p>Ankle fractures constitute one of the most frequently encountered lower extremity injuries in emergency departments globally, with an incidence rate ranging between <strong>100 and 150 per 100,000 person-years</strong>. <span class="evidence-badge ev-NS">Not specified</span> Ranking as the third most common fracture type in orthopedic practice, these injuries impose a massive socioeconomic burden from high treatment costs and potential for prolonged functional impairment.</p>
+
+    <p>The ankle joint is a highly constrained, congruent synovial hinge relying on a delicate biomechanical equilibrium between its osseous architecture and complex ligamentous restraints. <span class="evidence-badge ev-V">Level V</span> Disruption through high-energy rotational forces or axial loading results in significant articular incongruity and dynamic instability.</p>
+
+    <h3>The Biomechanical Imperative</h3>
+    <p>The gold standard for managing unstable, displaced ankle fractures is <strong>open reduction and internal fixation (ORIF)</strong>. The overarching objective is exact anatomical restoration of the ankle mortise. The mortise is formed by the horizontal tibial plafond, the medial malleolus, and the lateral malleolus (fibula), encompassing the talus within a rigid structural arch.</p>
+
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">🦴</div>
+        <h4>Lateral Buttress</h4>
+        <p>The fibula acts as the primary lateral buttress of the joint, resisting talar shift.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">⚙️</div>
+        <h4>Micro-Kinematics</h4>
+        <p>During dorsiflexion, the fibula externally rotates, translates laterally, and migrates proximally to accommodate talar geometry.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">⚠️</div>
+        <h4>1 mm Threshold</h4>
+        <p>A mere 1 mm lateral displacement or shortening causes a <strong>42% decrease</strong> in tibiotalar contact area.</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🔬</div>
+        <h4>PTOA Cascade</h4>
+        <p>Malreduction initiates cartilage degradation → subchondral sclerosis → osteophyte formation → debilitating post-traumatic OA.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-danger">
+      <p><strong>Critical Consequence:</strong> Seminal cadaveric and biomechanical literature has demonstrated that even microscopic malreduction of the fibula precipitates catastrophic changes in articular contact pressures, rapidly exceeding chondrocyte physiological tolerance and initiating irreversible degenerative joint disease. <span class="evidence-badge ev-V">Level V</span></p>
+    </div>
+
+    <p>Therefore, rigorous intraoperative assessment of reduction quality—specifically fibular length, rotational alignment, and syndesmotic congruity—is the paramount determinant of long-term clinical success. <span class="evidence-badge ev-V">Level V</span></p>
+    <p class="citation">References: 1, 2, 3, 5, 6, 10, 12</p>
+  </section>
+
+  <!-- Section 2: Fluoroscopy & Positioning -->
+  <section id="fluoroscopy">
+    <h2>2. Principles of Intraoperative Fluoroscopy &amp; Patient Positioning</h2>
+    <p class="section-intro">Accurate reduction assessment depends on acquiring reproducible, high-fidelity fluoroscopic imaging. Standard AP and lateral radiographs are fundamentally insufficient for nuanced intraoperative evaluation.</p>
+
+    <h3>Establishing the True Mortise View</h3>
+    <p>The distal tibia and fibula do not naturally align in a perfect coronal plane. Relative to the mechanical axis of the lower extremity, the transmalleolar axis is externally rotated by approximately <strong>15 to 20 degrees</strong>. <span class="evidence-badge ev-V">Level V</span> A standard AP projection with the foot pointing directly toward the ceiling results in superimposition of the anterior tibial tubercle over the medial fibula, obscuring the tibiofibular clear space and rendering syndesmotic assessment impossible.</p>
+
+    <h4>Technique for Achieving the Mortise View</h4>
+    <ul>
+      <li><strong>Patient Position:</strong> Supine on a radiolucent table</li>
+      <li><strong>Internal Rotation:</strong> 15–20° of internal rotation via a bump/sandbag under the ipsilateral hip <span class="evidence-badge ev-V">Level V</span></li>
+      <li><strong>Ankle Position:</strong> Strictly neutral (90° between foot and tibial shaft, or 0° dorsiflexion)</li>
+      <li><strong>C-arm Orientation:</strong> Perpendicular to the tibia, centered at the tibiotalar joint line</li>
+      <li><strong>Verification:</strong> A clearly visible, perfectly symmetrical radiolucent halo must symmetrically envelope the medial, superior, and lateral aspects of the talar dome</li>
+    </ul>
+
+    <div class="callout callout-info">
+      <p><strong>Simulated Weight-Bearing:</strong> A radiolucent flat plate may be applied to the plantar surface of the foot to simulate a loaded stance, further elucidating subtle syndesmotic incongruities under physiological stress. <span class="evidence-badge ev-V">Level V</span></p>
+    </div>
+
+    <h3>Mitigating Parallax Error and Rotational Distortion</h3>
+    <p>Fluoroscopy is inherently a 2D projectional modality used to interpret 3D anatomy. <strong>Parallax error</strong>—an optical distortion caused by divergent X-ray beam geometry—is the most perilous source of interpretive error. <span class="evidence-badge ev-V">Level V</span></p>
+
+    <ul>
+      <li>If the central beam is not centered over the syndesmosis, parallax can <strong>artificially increase</strong> apparent tibiofibular overlap, masking true syndesmotic diastasis</li>
+      <li>Rotational parallax can either mimic or conceal actual rotational malreduction</li>
+      <li>Surgeons must ensure the C-arm is perfectly orthogonal to the joint space, with the region of interest centered in the middle of the fluoroscopic field</li>
+      <li>Structured imaging algorithms significantly reduce mean fluoroscopic times (<strong>68.4 seconds</strong>) and radiation doses <span class="evidence-badge ev-III">Level III</span></li>
+    </ul>
+
+    <h3>The Imperative of Contralateral Templating</h3>
+    <p>Contemporary high-resolution imaging studies have revealed profound natural anatomical variations in syndesmotic morphology across the uninjured population. <span class="evidence-badge ev-III">Level III</span> Applying strict numerical criteria to all patients frequently misclassifies native anatomical outliers as malreductions.</p>
+
+    <div class="callout callout-success">
+      <p><strong>Best Practice:</strong> The routine use of contralateral, uninjured ankle imaging as an intraoperative template is strongly advocated. Preoperative or intraoperative radiographs of the healthy ankle provide a patient-specific anatomical baseline, allowing customized reduction targets. <span class="evidence-badge ev-III">Level III</span> Studies using weight-bearing CT have confirmed sufficient bilateral symmetry to justify the uninjured leg as a reliable template. <span class="evidence-badge ev-III">Level III</span></p>
+    </div>
+    <p class="citation">References: 6, 7, 8, 12, 13, 14, 15, 16, 19, 20</p>
+  </section>
+
+  <!-- Section 3: Radiographic Parameters -->
+  <section id="radiographic-parameters">
+    <h2>3. Radiographic Parameters for Evaluating Reduction Quality</h2>
+    <p class="section-intro">The objective assessment of reduction quality hinges on the rigorous interpretation of specific, validated radiographic parameters—the final intraoperative checkpoints before definitive fixation is accepted.</p>
+
+    <h3>3.1 Assessment of Fibular Length</h3>
+
+    <h4>Talocrural Angle (TCA)</h4>
+    <p>Measured on the true mortise view by drawing a line parallel to the distal tibial articular surface and a second line connecting the distal tips of the medial and lateral malleoli. <span class="evidence-badge ev-V">Level V</span> A normal TCA ranges from <strong>79° to 87°</strong> (or &lt;78° depending on the vector algorithm). A discrepancy of <strong>&gt;2–3°</strong> compared to the contralateral ankle is highly indicative of clinically significant fibular shortening.</p>
+
+    <div class="callout callout-warning">
+      <p><strong>Limitation:</strong> A study analyzing digitally reconstructed radiographs from CT scans demonstrated that sagittal plane rotation and ankle plantarflexion profoundly impact the apparent 2D projection of the TCA. Intraobserver agreement was poor to moderate (mean 0.47) and interobserver agreement was uniformly poor (mean 0.08) when neutral positioning was not strictly maintained. <span class="evidence-badge ev-III">Level III</span></p>
+    </div>
+
+    <h4>Shenton's Line of the Ankle</h4>
+    <p>Analogous to hip radiography, Shenton's line traces the cortical margin of the medial fibular joint surface merging with the subchondral bone line of the distal tibial articular surface. <span class="evidence-badge ev-V">Level V</span> When anatomically reduced, this line forms a gentle, continuous arc. A "broken" or step-off appearance indicates fibular shortening or coronal maltranslation.</p>
+
+    <h4>The Dime Sign (Weber Ball)</h4>
+    <p>Evaluated exclusively on the mortise view, this landmark describes the ability to draw an unbroken curve or perfect circle filling the recess between the distal fibula tip and the lateral talar body. <span class="evidence-badge ev-V">Level V</span> An intact dime sign indicates adequate fibular length and rotational alignment.</p>
+
+    <h3>3.2 Assessment of the Syndesmosis and Mortise Clear Spaces</h3>
+
+    <h4>Medial Clear Space (MCS)</h4>
+    <p>Horizontal distance between the lateral cortex of the medial malleolus and the medial articular border of the talus. Must be <strong>&lt;4 mm</strong> and equal to the superior clear space. Widening &gt;4 mm indicates lateral talar shift and syndesmotic/deltoid failure. <span class="evidence-badge ev-V">Level V</span></p>
+
+    <h4>Tibiofibular Clear Space (TFCS)</h4>
+    <p>Horizontal gap between the medial fibular cortex and the lateral border of the posterior tibial malleolus. Acceptable threshold: <strong>&lt;4 mm</strong> (some literature accepts &lt;6 mm depending on incisura morphology). Widening is the primary indicator of syndesmotic diastasis. <span class="evidence-badge ev-V">Level V</span></p>
+
+    <h4>Tibiofibular Overlap (TFOL)</h4>
+    <p>Visual superimposition of the anterior tibial tubercle over the medial fibula on AP view. An intact syndesmosis typically demonstrates overlap <strong>&gt;6 mm</strong> (optimal &gt;10 mm). Decreased overlap indicates external rotation or severe diastasis. <span class="evidence-badge ev-V">Level V</span></p>
+
+    <!-- Table 1: Radiographic Parameters -->
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 1: Radiographic Parameters for Intraoperative Reduction Assessment</caption>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>View</th>
+            <th>Acceptable Threshold</th>
+            <th>Clinical Implication if Abnormal</th>
+            <th>Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Talocrural Angle (TCA)</strong></td>
+            <td>Mortise</td>
+            <td>79°–87° (or &lt;78°); within 2° of contralateral</td>
+            <td>Fibular shortening</td>
+            <td><span class="evidence-badge ev-V">V</span></td>
+          </tr>
+          <tr>
+            <td><strong>Shenton's Line</strong></td>
+            <td>AP / Mortise</td>
+            <td>Continuous, unbroken curve</td>
+            <td>Fibular shortening or coronal maltranslation</td>
+            <td><span class="evidence-badge ev-V">V</span></td>
+          </tr>
+          <tr>
+            <td><strong>Dime Sign (Weber Ball)</strong></td>
+            <td>Mortise</td>
+            <td>Perfect circular recess</td>
+            <td>Shortening and/or rotational malalignment</td>
+            <td><span class="evidence-badge ev-V">V</span></td>
+          </tr>
+          <tr>
+            <td><strong>Medial Clear Space (MCS)</strong></td>
+            <td>Mortise</td>
+            <td>&lt;4 mm; equal to superior clear space</td>
+            <td>Lateral talar shift, syndesmotic/deltoid failure</td>
+            <td><span class="evidence-badge ev-V">V</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tibiofibular Clear Space (TFCS)</strong></td>
+            <td>AP / Mortise</td>
+            <td>&lt;4 mm (up to &lt;6 mm depending on incisura)</td>
+            <td>Syndesmotic diastasis</td>
+            <td><span class="evidence-badge ev-V">V</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tibiofibular Overlap (TFOL)</strong></td>
+            <td>AP</td>
+            <td>&gt;6 mm (optimal &gt;10 mm)</td>
+            <td>External rotation or severe diastasis</td>
+            <td><span class="evidence-badge ev-V">V</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>3.3 Prognostic Value: The Logsplitter Injury Study</h3>
+    <p>In an exhaustive review of "Logsplitter" injuries—high-energy transsyndesmotic ankle fracture-dislocations—patients were evaluated using a strict reduction algorithm incorporating nine vital postoperative parameters. <span class="evidence-badge ev-IV">Level IV</span></p>
+
+    <!-- Table 2: Logsplitter Outcomes -->
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 2: Clinical Outcomes by Reduction Quality — Logsplitter Injury Study</caption>
+        <thead>
+          <tr>
+            <th>Parameter Status</th>
+            <th>PTOA Rate</th>
+            <th>AOFAS Score</th>
+            <th>Kellgren-Lawrence Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Talar Tilt — Parallel</strong> (Acceptable)</td>
+            <td>32.0%</td>
+            <td>79.69 ± 9.72</td>
+            <td>0.58</td>
+          </tr>
+          <tr>
+            <td><strong>Talar Tilt — Not Parallel</strong> (Unacceptable)</td>
+            <td>100.0%</td>
+            <td>67.62 ± 8.44</td>
+            <td>2.16</td>
+          </tr>
+          <tr>
+            <td><strong>Coin Sign — Present</strong> (Acceptable)</td>
+            <td>33.3%</td>
+            <td>76.21 ± 11.97</td>
+            <td>0.83</td>
+          </tr>
+          <tr>
+            <td><strong>Coin Sign — Absent</strong> (Unacceptable)</td>
+            <td>85.7%</td>
+            <td>65.22 ± 7.82</td>
+            <td>2.04</td>
+          </tr>
+          <tr>
+            <td><strong>MCS &lt; 4 mm</strong> (Acceptable)</td>
+            <td>29.2%</td>
+            <td>74.91 ± 10.57</td>
+            <td>0.51</td>
+          </tr>
+          <tr>
+            <td><strong>MCS &gt; 4 mm</strong> (Unacceptable)</td>
+            <td>100.0%</td>
+            <td>67.43 ± 8.29</td>
+            <td>2.75</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-danger">
+      <p><strong>Key Finding:</strong> Patients with anatomical reduction had a post-traumatic OA rate of <strong>33.3%</strong> vs. <strong>85.7%</strong> in malreduced ankles, with AOFAS scores of 75.33 ± 6.53 vs. 66.89 ± 4.28, respectively. Kellgren-Lawrence scores averaged 0.62 (anatomic) vs. 1.83 (malreduced). <span class="evidence-badge ev-IV">Level IV</span></p>
+    </div>
+    <p class="citation">References: 3, 14, 23, 24, 25, 27, 28</p>
+  </section>
+
+  <!-- Section 4: Advanced Rotational Metrics -->
+  <section id="rotational-metrics">
+    <h2>4. Advanced Quantitative Metrics for Fibular Rotation</h2>
+    <p class="section-intro">Standard parameters excel at identifying longitudinal shortening but are notoriously insensitive to rotational malreductions. A fibula can be fixed in up to 30° of external rotation without raising suspicion on standard fluoroscopy. <span class="evidence-badge ev-III">Level III</span></p>
+
+    <h3>Ratio Alpha</h3>
+    <p>Validated using 96 sets of normal ankle CT images reconstructed in 3D modeling software, with virtual X-ray functions simulating intraoperative mortise views. The fibula was systematically rotated ±30° along its longitudinal axis. <span class="evidence-badge ev-III">Level III</span></p>
+
+    <p><strong>Calculation:</strong> On the mortise view, draw a horizontal line through the tip of the medial malleolus parallel to the tibial plafond. Measure two distances along this line:</p>
+    <ol>
+      <li>Medial edge of fibula → lateral malleolar fossa cortex</li>
+      <li>Medial edge of fibula → lateral edge of fibula (total)</li>
+    </ol>
+    <p><strong>Ratio Alpha = Measurement 1 ÷ Measurement 2</strong></p>
+
+    <div class="callout callout-success">
+      <p><strong>Normal Value:</strong> Mean Ratio Alpha = <strong>0.49 ± 0.06</strong> (95% CI: 0.48–0.50). The ratio decreases with external malrotation and increases with internal malrotation. Intraoperatively, the surgical team manipulates the fibular fragment until Ratio Alpha approaches 0.5. <span class="evidence-badge ev-III">Level III</span></p>
+    </div>
+
+    <h3>Anterior Tibiofibular Ratio</h3>
+    <p>Assessed on the lateral view: 1 cm proximal to the tibial plafond, <strong>40%</strong> of the tibial shaft should be visible anterior to the anterior cortex of the fibula (target ratio: 0.4). <span class="evidence-badge ev-III">Level III</span> This orthogonal measurement has demonstrated strong to near-perfect interobserver and intraobserver reliability, serving as a safeguard against anterior-posterior maltranslation and sagittal malrotation.</p>
+    <p class="citation">References: 20, 29</p>
+  </section>
+
+  <!-- Section 5: Surgical Techniques -->
+  <section id="surgical-techniques">
+    <h2>5. Surgical Techniques for Restoring Fibular Length</h2>
+    <p class="section-intro">When confronted with comminuted, osteoporotic, or chronically shortened fibular fractures, standard reduction forceps frequently fail. Specialized, mechanically advantaged techniques are required.</p>
+
+    <h3>5.1 The Push-Pull Technique &amp; Plate-Assisted Distraction</h3>
+    <p>This technique capitalizes on the fixation plate itself as a dynamic tensioning device. <span class="evidence-badge ev-V">Level V</span></p>
+    <ol>
+      <li>Apply the definitive fixation plate to the lateral/posterolateral fibula</li>
+      <li>Secure the plate to the <strong>distal fragment</strong> with 2–3 screws</li>
+      <li>Insert an independent "push-pull screw" into the proximal fibular shaft, slightly above the plate</li>
+      <li>Place a laminar spreader between the push-pull screw and the plate's proximal end</li>
+      <li>Slowly open the spreader: this <strong>pushes the plate distally</strong> (dragging the malleolus to length) while simultaneously pushing the proximal shaft proximally</li>
+      <li>A secondary compression vector pushes the plate flush against the bone, correcting sagittal and coronal alignment</li>
+      <li>Once fluoroscopy confirms anatomic length, apply a clamp and insert definitive proximal screws</li>
+      <li>Remove the temporary push-pull screw</li>
+    </ol>
+
+    <h3>5.2 Biplane Reduction Technique for High Fibular Fractures</h3>
+    <p>Type C fractures (e.g., Maisonneuve injuries) present a unique challenge: the fibular fracture is near the fibular neck while the primary pathology lies in syndesmotic disruption. <span class="evidence-badge ev-IV">Level IV</span></p>
+    <ol>
+      <li>Debride the distal fibula and syndesmotic interval through an anterolateral approach</li>
+      <li>Drive a <strong>2.0 mm K-wire vertically into the tibial shaft</strong> ~8 cm proximal to the joint as a rigid tibial anchor</li>
+      <li>Place a cortical screw vertically into the distal fibular fragment ~7 cm above the joint as a fibular anchor</li>
+      <li>Insert a K-wire retractor or mechanical spreader between these two anchoring posts</li>
+      <li>Forcefully distract: the tibial K-wire acts as an unyielding barrier while powerful distal traction is applied to the lateral malleolus</li>
+      <li>Once contralateral reference length is matched fluoroscopically, drive a temporary 2.0 mm K-wire across the syndesmosis</li>
+      <li>Achieve definitive stabilization with 3.5 mm trans-syndesmotic cortical screws at 2.0 cm and 4.0 cm above the joint</li>
+    </ol>
+
+    <h3>5.3 Direct Manipulation Instruments</h3>
+    <p>For non-comminuted fractures irreducible due to soft tissue interposition: <span class="evidence-badge ev-V">Level V</span></p>
+    <ul>
+      <li><strong>Bone hooks:</strong> Maneuvered around the posterior fibula or into the medullary canal for direct distal/medial traction</li>
+      <li><strong>Hohmann retractors:</strong> Inserted between cortices to distract and "shoehorn" fragments into alignment without periosteal stripping</li>
+      <li><strong>Ball spikes:</strong> Pointed instruments with a spherical washer to apply focal compressive force while lag screws are placed</li>
+    </ul>
+
+    <h3>5.4 Advanced Intramedullary Fixation</h3>
+    <p>Modern intramedullary devices (e.g., FibuLock, Phantom Fibula Nail) are advantageous in severe osteoporotic bone or compromised soft tissue envelopes. <span class="evidence-badge ev-V">Level V</span> These systems allow percutaneous or mini-open techniques, with length dialed in via the insertion jig. They integrate with flexible syndesmotic fixation devices (e.g., Syndesmosis TightRope), preserving physiologic micro-motion.</p>
+    <p class="citation">References: 8, 9, 10, 30, 31, 32, 36, 37</p>
+  </section>
+
+  <!-- Section 6: Stress Testing -->
+  <section id="stress-testing">
+    <h2>6. Intraoperative Syndesmotic Stress Testing</h2>
+    <p class="section-intro">Following ORIF, dynamic stress testing under continuous fluoroscopy is mandatory to unmask occult diastasis. Static, unstressed radiographs are wildly inadequate. <span class="evidence-badge ev-III">Level III</span></p>
+
+    <h3>The Cotton (Hook) Test</h3>
+    <p>A bone hook is placed firmly around the lateral fibula proximal to the syndesmosis. While applying counter-traction to the medial tibia, a firm laterally directed pull is applied in the coronal plane. <span class="evidence-badge ev-V">Level V</span></p>
+
+    <h3>The External Rotation Stress Test (ERST)</h3>
+    <p>With the ankle in neutral dorsiflexion, the surgeon stabilizes the proximal tibia and applies a forceful manual external rotation torque to the foot. <span class="evidence-badge ev-V">Level V</span> This replicates the exact pathomechanics of the initial injury, mechanically wedging the syndesmosis open.</p>
+
+    <div class="callout callout-info">
+      <p><strong>Diagnostic Criterion:</strong> A stress test is universally positive if TFCS or MCS widens by <strong>&gt;2 mm</strong> compared to baseline unstressed radiograph. <span class="evidence-badge ev-III">Level III</span></p>
+    </div>
+
+    <!-- Table 3: Stress Tests -->
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 3: Comparison of Intraoperative Syndesmotic Stress Tests</caption>
+        <thead>
+          <tr>
+            <th>Test</th>
+            <th>Force Vector</th>
+            <th>Sensitivity</th>
+            <th>Specificity</th>
+            <th>Clinical Utility</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cotton (Hook) Test</strong></td>
+            <td>Unidirectional (coronal lateral translation)</td>
+            <td>~0.25 (95% CI: 0.12–0.45)</td>
+            <td>~0.98 (95% CI: 0.94–1.0)</td>
+            <td>High specificity confirms severe instability, but high false-negative rate misses subtle injuries</td>
+          </tr>
+          <tr>
+            <td><strong>External Rotation Stress Test (ERST)</strong></td>
+            <td>Multidirectional (coronal &amp; sagittal)</td>
+            <td>Moderate to High</td>
+            <td>Moderate to High</td>
+            <td>Better replicates physiological injury mechanism; superior at detecting combined deltoid + syndesmotic failure</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warning">
+      <p><strong>Key Evidence (Pakarinen et al.):</strong> In a prospective study of 140 patients, the Cotton test demonstrated exceptional specificity (0.98) but abysmal sensitivity (0.25). The ERST applies forces in both coronal and sagittal planes, more accurately mimicking weight-bearing load and detecting combined ligamentous failure. <span class="evidence-badge ev-II">Level II</span> Contemporary protocols advocate for preferential use of the ERST, or sequential execution of both tests.</p>
+    </div>
+    <p class="citation">References: 6, 32, 38, 39, 40, 41</p>
+  </section>
+
+  <!-- Section 7: Clinical Practice Guidelines -->
+  <section id="guidelines">
+    <h2>7. Contemporary Clinical Practice Guidelines</h2>
+    <p class="section-intro">The 2024 AO Alliance guidelines for closed ankle fractures emphasize urgency, documentation, and radiographic precision. <span class="evidence-badge ev-I">Level I</span></p>
+
+    <h3>Key Mandates</h3>
+    <ol>
+      <li><strong>Immediate Deformity Correction:</strong> Reduction and splinting of clinically deformed ankles must occur <strong>within 2 hours</strong> of presentation following appropriate analgesia. Prolonged dislocation causes catastrophic ischemic cartilage necrosis. <span class="evidence-badge ev-I">Level I</span></li>
+      <li><strong>Strict Radiographic Profiling:</strong> Post-reduction AP, true lateral, and mortise views must be obtained. The talus must be perfectly positioned below the tibia on all views, entirely free of subluxation. <span class="evidence-badge ev-I">Level I</span></li>
+      <li><strong>Structured Surgical Timing:</strong> Early fixation within <strong>7 days</strong> is strictly advised for inherently unstable fractures (displaced medial malleolus, bimalleolar, high fibular fractures). <span class="evidence-badge ev-I">Level I</span></li>
+      <li><strong>Comorbidity Documentation:</strong> Diabetes mellitus, HIV, peripheral neuropathy, and active smoking must be documented as they inherently influence outcomes. <span class="evidence-badge ev-I">Level I</span></li>
+      <li><strong>Intraoperative Accountability:</strong> Fluoroscopic images proving anatomic mortise restoration must be permanently archived. Insufficient images mandate post-operative radiographs within 48 hours. <span class="evidence-badge ev-I">Level I</span></li>
+      <li><strong>Mandatory Follow-up:</strong> Two-week clinical and radiographic follow-up to confirm durable reduction maintenance, as swelling subsides and risks secondary displacement. <span class="evidence-badge ev-I">Level I</span></li>
+      <li><strong>Quarterly Auditing:</strong> All surgical cases must be audited with documentation verifying fracture reduction standards were met. <span class="evidence-badge ev-I">Level I</span></li>
+    </ol>
+
+    <div class="callout callout-info">
+      <p><strong>Note on Timing:</strong> While some retrospective cohort studies from the UK found no statistically significant difference in immediate wound complications with delayed surgery (&gt;10 days), early surgery remains the standard to preempt soft tissue contracture and fracture blister formation. <span class="evidence-badge ev-IV">Level IV</span></p>
+    </div>
+    <p class="citation">References: 22, 42</p>
+  </section>
+
+  <!-- Section 8: Landmark Studies -->
+  <section id="landmark-studies">
+    <h2>8. Key Studies Summary</h2>
+    <p class="section-intro">The following studies form the evidentiary backbone of this review.</p>
+
+    <div class="limitation-note">
+      <p><strong>Evidence Gap Note:</strong> The source document draws heavily on cadaveric/biomechanical studies (Level V), technique descriptions, and expert consensus. Prospective clinical studies with high-level evidence (Level I–II) are limited. Only 5 key studies are highlighted below, representing the highest-quality evidence available within the source document.</p>
+    </div>
+
+    <div class="study-card">
+      <div class="study-name">1. Pakarinen et al. — Intraoperative Syndesmotic Stress Test Comparison</div>
+      <div class="study-meta">Prospective study, n = 140 | <span class="evidence-badge ev-II">Level II</span></div>
+      <p>Compared Cotton (Hook) test vs. External Rotation Stress Test against a standardized 7.5 Nm mechanical benchmark. Cotton test: sensitivity 0.25, specificity 0.98. ERST demonstrated superior multi-vector detection of combined ligamentous insufficiency.</p>
+    </div>
+
+    <div class="study-card">
+      <div class="study-name">2. Logsplitter Injury Outcomes Study — Reduction Algorithm Validation</div>
+      <div class="study-meta">Retrospective case series | <span class="evidence-badge ev-IV">Level IV</span></div>
+      <p>Evaluated 9 radiographic parameters in high-energy transsyndesmotic fracture-dislocations. Anatomical reduction yielded PTOA rate of 33.3% vs. 85.7% in malreduced cohort; AOFAS scores 75.33 vs. 66.89; Kellgren-Lawrence 0.62 vs. 1.83.</p>
+    </div>
+
+    <div class="study-card">
+      <div class="study-name">3. Ratio Alpha Validation Study — Quantitative Fibular Rotation Metric</div>
+      <div class="study-meta">Cadaveric/CT modeling study, n = 96 ankles | <span class="evidence-badge ev-III">Level III</span></div>
+      <p>Reconstructed 3D models from 96 normal ankle CTs, systematically rotating fibulae ±30°. Established Ratio Alpha as a quantitative fluoroscopic metric (normal mean 0.49 ± 0.06, 95% CI 0.48–0.50) for detecting occult rotational malreduction.</p>
+    </div>
+
+    <div class="study-card">
+      <div class="study-name">4. Biplane Reduction Technique Study</div>
+      <div class="study-meta">Technical note / Case series | <span class="evidence-badge ev-IV">Level IV</span></div>
+      <p>Described a novel technique using tibial K-wire and fibular screw anchors with a mechanical spreader for restoring fibular length in high (Type C) fractures, bypassing the need for extensive proximal dissection.</p>
+    </div>
+
+    <div class="study-card">
+      <div class="study-name">5. Image Rotation &amp; TCA Study — Impact of Positioning on Measurement Reliability</div>
+      <div class="study-meta">CT-based radiographic analysis | <span class="evidence-badge ev-III">Level III</span></div>
+      <p>Demonstrated that sagittal plane rotation and ankle plantarflexion profoundly alter the apparent 2D projection of the TCA. Intraobserver agreement: mean 0.47; interobserver agreement: mean 0.08—highlighting the critical importance of standardized positioning.</p>
+    </div>
+  </section>
+
+  <!-- Section 9: Conclusion -->
+  <section id="conclusion">
+    <h2>9. Conclusion</h2>
+    <p>The intraoperative surgical management of ankle fractures represents a highly complex interplay of biomechanical intuition, advanced surgical execution, and meticulous radiographic interpretation. The fibula serves as the critical dynamic lateral pillar of the ankle mortise; failure to restore its exact length, axial alignment, and precise rotation guarantees premature onset of catastrophic post-traumatic osteoarthritis.</p>
+
+    <p>To systematically prevent iatrogenic malunion, the surgical team must integrate:</p>
+    <ul>
+      <li><strong>Qualitative heuristics</strong> — Shenton's line, the dime sign — for rapid visual confirmation</li>
+      <li><strong>Objective clear space measurements</strong> — MCS &lt;4 mm, TFCS &lt;4 mm, TFOL &gt;6 mm</li>
+      <li><strong>Novel rotational metrics</strong> — Ratio Alpha (target ~0.5), Anterior Tibiofibular Ratio (target 0.4)</li>
+      <li><strong>Perfect imaging</strong> — True mortise view with awareness of parallax distortion</li>
+      <li><strong>Advanced reduction techniques</strong> — Push-pull distraction, biplane K-wire method, intramedullary devices</li>
+      <li><strong>Rigorous stress testing</strong> — Preferentially the ERST over the Cotton test</li>
+      <li><strong>Guideline adherence</strong> — AO Alliance 2024 mandates for timing, documentation, and follow-up</li>
+    </ul>
+
+    <div class="callout callout-success">
+      <p><strong>Bottom Line:</strong> Strict, uncompromising adherence to evidence-based radiographic benchmarks, advanced surgical techniques, and international clinical guidelines ensures the precise restoration of mortise kinematics, safeguarding the patient's long-term functional mobility and total joint preservation.</p>
+    </div>
+  </section>
+
+  <!-- References -->
+  <section id="references">
+    <h2>References (from Source Document)</h2>
+    <div class="ref-section">
+      <ol>
+        <li>Massachusetts General Hospital. Physical Therapy Guidelines for Ankle Fracture with Surgery.</li>
+        <li>Frontiers in Medicine. A risk prediction model for poor joint function recovery after ankle fracture surgery based on interpretable machine learning. 2025.</li>
+        <li>PMC 7085838. The Assessment of the Reduction Algorithm in the Treatment for Logsplitter Injuries.</li>
+        <li>Orthobullets. Ankle Fractures — Trauma.</li>
+        <li>PMC 8848054. Long-Term Follow-up of Functional and Radiographic Outcome After Revision Surgery for Fibula Malunion.</li>
+        <li>ResearchGate. Rotational Dynamics of the Distal Tibiofibular Joint After Operative Treatment of Ankle Fractures With Syndesmosis Injury.</li>
+        <li>MDPI. Advanced Imaging in Orthopedic Biomechanics.</li>
+        <li>PMC 11456732. Biplane Reduction: A Novel Technique for Restoring Fibula Length in High Fibular Fractures.</li>
+        <li>Radiology Key. Ankle Fractures and Dislocations.</li>
+        <li>UPOJ. A Modification of the "Push-Pull Screw" Distraction Technique.</li>
+        <li>ResearchGate. Long-Term Follow-up of Functional and Radiographic Outcome After Revision Surgery for Fibula Malunion.</li>
+        <li>JCC Practice. Evaluation of Intraoperative Fluoroscopy Versus Postoperative CT in Assessing Reduction Quality.</li>
+        <li>ResearchGate. Parallax and Distortion in Fluoroscopy Units.</li>
+        <li>AO Surgery Reference. Intraoperative imaging of the ankle.</li>
+        <li>X-Ray Lady. Imaging the Extremities.</li>
+        <li>HMP Global. Intraoperative Imaging Pearls for Foot and Ankle Surgeons.</li>
+        <li>Musculoskeletal Key. Intraoperative Patient Positioning and Fluoroscopy for Fracture Surgery.</li>
+        <li>UHasselt. Intermittent Feet Dorsiflexion as a Simple Trick to Improve Cervical Fluoroscopic Visualization.</li>
+        <li>PMC 11132309. Differences in Intraoperative Fluoroscopic Radiation Exposure During Ankle Fracture ORIF.</li>
+        <li>PMC 9463424. Intraoperative Assessment of Reduction of the Ankle Syndesmosis.</li>
+        <li>ResearchGate. The utilization of intraoperative contralateral ankle images for syndesmotic reduction.</li>
+        <li>JSciMed Central. Radiographic Evaluation, Fixation Principles, and Post-Operative Management of Ankle Fractures.</li>
+        <li>PubMed 38240153. Image Rotation Alters Apparent Fibula Length: An Evaluation of Talocrural Angle, Shenton Line, and Dime Sign.</li>
+        <li>Scribd. Orthopaedic Trauma Surgery Volume 2 — Lower Extremity Fractures and Dislocation.</li>
+        <li>ResearchGate. A Rational Approach to Ankle Fractures.</li>
+        <li>ResearchGate. Image Rotation Alters Apparent Fibula Length.</li>
+        <li>DOKUMEN.PUB. Revision Surgery of the Foot and Ankle.</li>
+        <li>SDUAHER. Dr. AKSHAY P — Thesis on ankle fracture assessment.</li>
+        <li>Frontiers in Surgery. A Quantitative Method for Intraoperative Evaluation of Distal Fibular Malrotation (Ratio Alpha).</li>
+        <li>Scribd. Fracture Reduction and Fixation.</li>
+        <li>R Discovery. Percutaneous Reduction Technique Research Articles.</li>
+        <li>DOKUMEN.PUB. Master Techniques in Orthopaedic Surgery — Fractures, 3rd Ed.</li>
+        <li>UPOJ 2015.</li>
+        <li>NDLEthiopia. Orthopedic Traumatology — A Resident's Guide.</li>
+        <li>Academia.edu. Orthopedic traumatology — A resident's guide.</li>
+        <li>YouTube. Restoring Fibular Length and Rotation.</li>
+        <li>YouTube. Weber C Ankle Fracture Stabilization Using the FibuLock Nail.</li>
+        <li>PMC 11622706. Trans-syndesmotic fixation in SER-IV injuries: Are intraoperative tests reliable?</li>
+        <li>Ovid. Prospective Intraoperative Syndesmotic Evaluation During Ankle Fracture Fixation.</li>
+        <li>Science.gov. Lateral malleolar fractures topics.</li>
+        <li>Sci Foot Ankle. Intraoperative comparative tests for syndesmosis: Cotton, ERST, valgus, and tap-tests.</li>
+        <li>AO Alliance 2024. Management of Closed Ankle Fractures — Clinical Guidelines.</li>
+        <li>OTA Podcast. Orthopaedic Trauma Association.</li>
+        <li>PMC 12724361. Management of Ankle Fractures: Does the Timing of Surgical Intervention Have an Impact on Patient Outcomes?</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical parameters and navigation">
+
+  <!-- Table of Contents -->
+  <div class="sidebar-card">
+    <h3>📋 Table of Contents</h3>
+    <div class="sub">Navigate this review</div>
+    <ul class="toc-list">
+      <li><a href="#introduction">1. Introduction &amp; Pathoanatomy</a></li>
+      <li><a href="#fluoroscopy">2. Fluoroscopy &amp; Positioning</a></li>
+      <li><a href="#radiographic-parameters">3. Radiographic Parameters</a></li>
+      <li><a href="#rotational-metrics">4. Rotational Metrics</a></li>
+      <li><a href="#surgical-techniques">5. Surgical Techniques</a></li>
+      <li><a href="#stress-testing">6. Syndesmotic Stress Testing</a></li>
+      <li><a href="#guidelines">7. Clinical Guidelines</a></li>
+      <li><a href="#landmark-studies">8. Key Studies</a></li>
+      <li><a href="#conclusion">9. Conclusion</a></li>
+      <li><a href="#references">References</a></li>
+    </ul>
+  </div>
+
+  <!-- Interactive Sliders -->
+  <div class="sidebar-card">
+    <h3>⚙️ Reduction Assessment Tool</h3>
+    <div class="sub">Adjust parameters to evaluate reduction quality in real time</div>
+
+    <!-- Slider 1: Talocrural Angle -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Talocrural Angle (TCA)</span>
+        <span class="slider-value" id="tca-value">83°</span>
+      </div>
+      <input type="range" id="tca-slider" min="65" max="100" value="83" step="0.5" aria-label="Talocrural Angle in degrees">
+      <div class="slider-range">
+        <span>65°</span>
+        <span>Normal: 79°–87°</span>
+        <span>100°</span>
+      </div>
+    </div>
+
+    <!-- Slider 2: Medial Clear Space -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Medial Clear Space (MCS)</span>
+        <span class="slider-value" id="mcs-value">2.5 mm</span>
+      </div>
+      <input type="range" id="mcs-slider" min="0" max="10" value="2.5" step="0.1" aria-label="Medial Clear Space in millimeters">
+      <div class="slider-range">
+        <span>0 mm</span>
+        <span>Normal: &lt;4 mm</span>
+        <span>10 mm</span>
+      </div>
+    </div>
+
+    <!-- Slider 3: Ratio Alpha -->
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Ratio Alpha (Fibular Rotation)</span>
+        <span class="slider-value" id="alpha-value">0.49</span>
+      </div>
+      <input type="range" id="alpha-slider" min="0.20" max="0.80" value="0.49" step="0.01" aria-label="Ratio Alpha for fibular rotation">
+      <div class="slider-range">
+        <span>0.20</span>
+        <span>Normal: ~0.49</span>
+        <span>0.80</span>
+      </div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div id="recommendation-box">
+      <div class="rec-title">Clinical Recommendation</div>
+      <div class="rec-status" id="rec-status">Loading...</div>
+      <div class="rec-detail" id="rec-detail"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-outline" id="reset-btn" aria-label="Reset all parameters to default">↺ Reset</button>
+      <button class="btn btn-primary" id="copy-btn" aria-label="Copy assessment summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <!-- Quick Reference -->
+  <div class="sidebar-card">
+    <h3>📌 Quick Reference Thresholds</h3>
+    <div class="sub">From source document</div>
+    <ul style="list-style:none; padding:0; font-size:0.85rem;">
+      <li style="margin-bottom:8px;"><strong>TCA:</strong> 79°–87° <span class="evidence-badge ev-V">V</span></li>
+      <li style="margin-bottom:8px;"><strong>MCS:</strong> &lt;4 mm <span class="evidence-badge ev-V">V</span></li>
+      <li style="margin-bottom:8px;"><strong>TFCS:</strong> &lt;4 mm <span class="evidence-badge ev-V">V</span></li>
+      <li style="margin-bottom:8px;"><strong>TFOL:</strong> &gt;6 mm <span class="evidence-badge ev-V">V</span></li>
+      <li style="margin-bottom:8px;"><strong>Ratio Alpha:</strong> ~0.49 ± 0.06 <span class="evidence-badge ev-III">III</span></li>
+      <li style="margin-bottom:8px;"><strong>Ant. Tibiofibular Ratio:</strong> 0.4 <span class="evidence-badge ev-III">III</span></li>
+      <li style="margin-bottom:8px;"><strong>Cotton Test Sensitivity:</strong> 0.25 <span class="evidence-badge ev-II">II</span></li>
+      <li style="margin-bottom:0;"><strong>Stress test positive:</strong> &gt;2 mm widening <span class="evidence-badge ev-III">III</span></li>
+    </ul>
+  </div>
+
+</aside>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast">✅ Summary copied to clipboard!</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // DOM Elements
+  const tcaSlider = document.getElementById('tca-slider');
+  const mcsSlider = document.getElementById('mcs-slider');
+  const alphaSlider = document.getElementById('alpha-slider');
+  const tcaValue = document.getElementById('tca-value');
+  const mcsValue = document.getElementById('mcs-value');
+  const alphaValue = document.getElementById('alpha-value');
+  const recStatus = document.getElementById('rec-status');
+  const recDetail = document.getElementById('rec-detail');
+  const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-btn');
+  const toast = document.getElementById('toast');
+
+  // Defaults
+  const DEFAULTS = { tca: 83, mcs: 2.5, alpha: 0.49 };
+
+  function updateRecommendation() {
+    const tca = parseFloat(tcaSlider.value);
+    const mcs = parseFloat(mcsSlider.value);
+    const alpha = parseFloat(alphaSlider.value);
+
+    // Update display values
+    tcaValue.textContent = tca.toFixed(1) + '°';
+    mcsValue.textContent = mcs.toFixed(1) + ' mm';
+    alphaValue.textContent = alpha.toFixed(2);
+
+    // Build recommendation
+    let issues = [];
+    let statusClass = 'status-ok';
+    let statusText = '✅ ANATOMIC REDUCTION ACHIEVED';
+
+    // TCA check
+    if (tca < 79 || tca > 87) {
+      if (tca < 75 || tca > 91) {
+        issues.push('<strong>Severe TCA deviation</strong> (' + tca.toFixed(1) + '°): Strongly suggests fibular shortening or lengthening. Immediate revision of fixation construct required. Verify against contralateral TCA.');
+        statusClass = 'status-danger';
+      } else {
+        issues.push('<strong>TCA borderline</strong> (' + tca.toFixed(1) + '°): Falls outside the 79°–87° range. Compare with contralateral ankle; a discrepancy &gt;2–3° warrants revision.');
+        if (statusClass !== 'status-danger') statusClass = 'status-warn';
+      }
+    } else {
+      issues.push('<strong>TCA within normal range</strong> (' + tca.toFixed(1) + '°): Fibular length appears adequately restored. Confirm with Shenton\'s line and dime sign.');
+    }
+
+    // MCS check
+    if (mcs >= 4) {
+      if (mcs >= 6) {
+        issues.push('<strong>Severely widened MCS</strong> (' + mcs.toFixed(1) + ' mm): Lateral talar shift confirmed. Indicates failure of lateral buttress or deltoid incompetence. Syndesmotic fixation mandatory. Perform ERST.');
+        statusClass = 'status-danger';
+      } else {
+        issues.push('<strong>Widened MCS</strong> (' + mcs.toFixed(1) + ' mm): Exceeds 4 mm threshold. Suggests syndesmotic diastasis or deltoid disruption. Cotton/ERST testing indicated; trans-syndesmotic fixation likely required.');
+        if (statusClass !== 'status-danger') statusClass = 'status-warn';
+      }
+    } else {
+      issues.push('<strong>MCS acceptable</strong> (' + mcs.toFixed(1) + ' mm): Talus is well-centered within the mortise. Verify equality with superior clear space.');
+    }
+
+    // Ratio Alpha check
+    if (alpha < 0.43 || alpha > 0.55) {
+      if (alpha < 0.38 || alpha > 0.60) {
+        issues.push('<strong>Severe rotational malalignment</strong> (Ratio Alpha: ' + alpha.toFixed(2) + '): Strongly suggests ' + (alpha < 0.43 ? 'external' : 'internal') + ' malrotation of the fibula. Target is ~0.49. Revision of rotational alignment required.');
+        statusClass = 'status-danger';
+      } else {
+        issues.push('<strong>Borderline rotation</strong> (Ratio Alpha: ' + alpha.toFixed(2) + '): Falls outside 95% CI (0.48–0.50). Consider ' + (alpha < 0.49 ? 'internal' : 'external') + ' rotation correction. Confirm with anterior tibiofibular ratio on lateral view.');
+        if (statusClass !== 'status-danger') statusClass = 'status-warn';
+      }
+    } else {
+      issues.push('<strong>Fibular rotation acceptable</strong> (Ratio Alpha: ' + alpha.toFixed(2) + '): Within the normal range (mean 0.49 ± 0.06). Confirm with lateral view anterior tibiofibular ratio (target 0.4).');
+    }
+
+    // Overall recommendation
+    if (statusClass === 'status-danger') {
+      statusText = '🚨 REDUCTION UNACCEPTABLE — REVISION REQUIRED';
+    } else if (statusClass === 'status-warn') {
+      statusText = '⚠️ REDUCTION BORDERLINE — FURTHER ASSESSMENT NEEDED';
+    }
+
+    recStatus.className = 'rec-status ' + statusClass;
+    recStatus.textContent = statusText;
+    recDetail.innerHTML = issues.join('<br><br>');
+
+    // Dynamic border color
+    const box = document.getElementById('recommendation-box');
+    if (statusClass === 'status-ok') {
+      box.style.borderColor = '#27ae60';
+      box.style.background = 'linear-gradient(135deg, #d5f5e3, #abebc6)';
+    } else if (statusClass === 'status-warn') {
+      box.style.borderColor = '#f39c12';
+      box.style.background = 'linear-gradient(135deg, #fef9e7, #fdebd0)';
+    } else {
+      box.style.borderColor = '#e74c3c';
+      box.style.background = 'linear-gradient(135deg, #fadbd8, #f5b7b1)';
+    }
+  }
+
+  // Event listeners
+  tcaSlider.addEventListener('input', updateRecommendation);
+  mcsSlider.addEventListener('input', updateRecommendation);
+  alphaSlider.addEventListener('input', updateRecommendation);
+
+  // Reset
+  resetBtn.addEventListener('click', function() {
+    tcaSlider.value = DEFAULTS.tca;
+    mcsSlider.value = DEFAULTS.mcs;
+    alphaSlider.value = DEFAULTS.alpha;
+    updateRecommendation();
+  });
+
+  // Copy to clipboard
+  copyBtn.addEventListener('click', function() {
+    const tca = parseFloat(tcaSlider.value);
+    const mcs = parseFloat(mcsSlider.value);
+    const alpha = parseFloat(alphaSlider.value);
+    const now = new Date().toISOString();
+
+    const summary = [
+      '═══════════════════════════════════════════',
+      'ANKLE FRACTURE ORIF — REDUCTION ASSESSMENT',
+      '═══════════════════════════════════════════',
+      '',
+      'Date/Time: ' + now,
+      '',
+      'PARAMETERS:',
+      '  Talocrural Angle (TCA): ' + tca.toFixed(1) + '° (Normal: 79°–87°)',
+      '  Medial Clear Space (MCS): ' + mcs.toFixed(1) + ' mm (Normal: <4 mm)',
+      '  Ratio Alpha: ' + alpha.toFixed(2) + ' (Normal: ~0.49 ± 0.06)',
+      '',
+      'ASSESSMENT:',
+      recStatus.textContent,
+      '',
+      'DETAILS:',
+      recDetail.textContent.replace(/✅|⚠️|🚨/g, '').trim(),
+      '',
+      'RATIONALE:',
+      '  - TCA within 79°–87° confirms fibular length restoration (Ref: Source Doc §3)',
+      '  - MCS <4 mm indicates talus is centered in mortise (Ref: Source Doc §3)',
+      '  - Ratio Alpha ~0.49 indicates neutral fibular rotation (Ref: Source Doc §4, Study: Frontiers in Surgery)',
+      '  - Cotton test sensitivity: 0.25; ERST recommended for syndesmotic assessment (Ref: Pakarinen et al.)',
+      '',
+      'Source: Evidence-Based Review — Intraoperative Assessment of Reduction Quality During Ankle Fracture ORIF',
+      '═══════════════════════════════════════════'
+    ].join('\n');
+
+    navigator.clipboard.writeText(summary).then(function() {
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = summary;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  });
+
+  // Initial load
+  updateRecommendation();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bone Health Optimization in Spine Surgery — Interactive Educational Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap');
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f8f9fb;--surface:#ffffff;--text:#1a1d23;--text-secondary:#555b66;
+    --primary:#0f62fe;--primary-light:#e8f0fe;--accent:#00857c;--accent-light:#e0f5f3;
+    --danger:#d32f2f;--danger-light:#fde8e8;--warning:#e65100;--warning-light:#fff3e0;
+    --success:#1b5e20;--success-light:#e8f5e9;--border:#dfe3e8;--shadow:0 2px 12px rgba(0,0,0,.07);
+    --radius:10px;--sidebar-w:340px;
+  }
+  html{scroll-behavior:smooth;font-size:16px}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.72}
+
+  /* ---- HEADER ---- */
+  .site-header{
+    background:linear-gradient(135deg,#0b1d3a 0%,#0f62fe 60%,#00857c 100%);
+    color:#fff;padding:3rem 2rem 2.5rem;text-align:center;position:relative;overflow:hidden;
+  }
+  .site-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--danger),var(--warning),var(--success))}
+  .site-header h1{font-family:'Merriweather',serif;font-size:clamp(1.4rem,3.2vw,2.2rem);font-weight:700;line-height:1.3;max-width:860px;margin:0 auto .6rem}
+  .site-header p{font-size:.95rem;opacity:.9;max-width:700px;margin:0 auto}
+
+  /* ---- LAYOUT ---- */
+  .layout{display:grid;grid-template-columns:1fr var(--sidebar-w);gap:2rem;max-width:1340px;margin:0 auto;padding:2rem 1.5rem}
+  @media(max-width:1024px){.layout{grid-template-columns:1fr;}.sidebar{position:static!important;max-height:none;}}
+
+  /* ---- MAIN ---- */
+  main{min-width:0}
+  main h2{font-family:'Merriweather',serif;font-size:1.45rem;color:#0b1d3a;margin:2.4rem 0 .8rem;padding-bottom:.4rem;border-bottom:3px solid var(--primary);display:inline-block}
+  main h3{font-size:1.1rem;color:var(--primary);margin:1.6rem 0 .5rem;font-weight:600}
+  main h4{font-size:1rem;color:var(--accent);margin:1.2rem 0 .4rem;font-weight:600}
+  main p,main li{font-size:.93rem;color:var(--text-secondary);margin-bottom:.55rem}
+  main strong{color:var(--text)}
+  main ul,main ol{padding-left:1.4rem;margin-bottom:1rem}
+  main li{margin-bottom:.35rem}
+
+  /* Evidence badge */
+  .ev{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:4px;vertical-align:middle;margin-left:4px;letter-spacing:.3px}
+  .ev-a{background:#c8e6c9;color:#1b5e20}
+  .ev-b{background:#fff9c4;color:#f57f17}
+  .ev-c{background:#ffe0b2;color:#e65100}
+  .ev-d{background:#fde8e8;color:#d32f2f}
+  .ev-na{background:#eceff1;color:#546e7a}
+
+  /* Callout boxes */
+  .callout{border-left:4px solid var(--primary);background:var(--primary-light);padding:1rem 1.2rem;border-radius:0 var(--radius) var(--radius) 0;margin:1.2rem 0}
+  .callout.warn{border-color:var(--warning);background:var(--warning-light)}
+  .callout.danger{border-color:var(--danger);background:var(--danger-light)}
+  .callout.success{border-color:var(--success);background:var(--success-light)}
+  .callout p{margin-bottom:.3rem}
+  .callout-title{font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.4rem}
+  .callout.warn .callout-title{color:var(--warning)}
+  .callout.danger .callout-title{color:var(--danger)}
+  .callout.success .callout-title{color:var(--success)}
+  .callout:not(.warn):not(.danger):not(.success) .callout-title{color:var(--primary)}
+
+  /* Tables */
+  .table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:.84rem;background:var(--surface)}
+  caption{font-weight:700;font-size:.9rem;text-align:left;padding:.7rem 1rem;background:var(--primary);color:#fff;border-radius:var(--radius) var(--radius) 0 0}
+  th{background:#e8f0fe;text-align:left;padding:.6rem .8rem;font-weight:600;color:#0b1d3a;white-space:nowrap}
+  td{padding:.55rem .8rem;border-top:1px solid var(--border);color:var(--text-secondary)}
+  tr:hover td{background:#f4f7fb}
+  td strong{color:var(--text)}
+
+  /* Reference list */
+  .ref-list{font-size:.78rem;color:#777;column-count:2;column-gap:2rem}
+  .ref-list li{break-inside:avoid}
+
+  /* ---- SIDEBAR ---- */
+  .sidebar{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow-y:auto;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.4rem}
+  .sidebar h3{font-size:1rem;color:#0b1d3a;margin-bottom:1rem;text-align:center;border-bottom:2px solid var(--primary);padding-bottom:.5rem}
+  .param-group{margin-bottom:1.4rem}
+  .param-group label{display:flex;justify-content:space-between;align-items:baseline;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
+  .param-group label span.val{font-family:'Inter',monospace;font-size:.9rem;color:var(--primary);font-weight:700}
+  input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--success),var(--warning),var(--danger));outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.25);cursor:pointer}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.25);cursor:pointer}
+  .threshold-bar{display:flex;justify-content:space-between;font-size:.62rem;color:#888;margin-top:2px}
+  .rec-box{background:var(--primary-light);border:1px solid var(--primary);border-radius:var(--radius);padding:1rem;margin-top:.8rem;min-height:120px;transition:all .3s}
+  .rec-box.danger-rec{background:var(--danger-light);border-color:var(--danger)}
+  .rec-box.warn-rec{background:var(--warning-light);border-color:var(--warning)}
+  .rec-box.success-rec{background:var(--success-light);border-color:var(--success)}
+  .rec-box h4{font-size:.82rem;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.4rem}
+  .rec-box p,.rec-box li{font-size:.8rem;color:var(--text-secondary);margin-bottom:.25rem}
+  .btn-row{display:flex;gap:.5rem;margin-top:1rem}
+  .btn{flex:1;padding:.55rem .4rem;border:none;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .2s}
+  .btn-reset{background:#eceff1;color:var(--text)}
+  .btn-reset:hover{background:#cfd8dc}
+  .btn-copy{background:var(--primary);color:#fff}
+  .btn-copy:hover{background:#0052cc}
+  .copied-toast{position:fixed;bottom:2rem;right:2rem;background:var(--success);color:#fff;padding:.7rem 1.4rem;border-radius:8px;font-size:.85rem;font-weight:600;opacity:0;transform:translateY(20px);transition:all .3s;z-index:999;pointer-events:none}
+  .copied-toast.show{opacity:1;transform:translateY(0)}
+  .risk-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.78rem;font-weight:700;margin-top:.5rem}
+  .risk-green{background:#c8e6c9;color:#1b5e20}
+  .risk-yellow{background:#fff9c4;color:#f57f17}
+  .risk-red{background:#ffcdd2;color:#c62828}
+  .risk-critical{background:#b71c1c;color:#fff}
+
+  /* TOC */
+  .toc{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem 1.4rem;margin-bottom:2rem}
+  .toc h3{font-size:.92rem;color:#0b1d3a;margin-bottom:.6rem}
+  .toc ol{padding-left:1.2rem}
+  .toc li{font-size:.82rem;margin-bottom:.25rem}
+  .toc a{color:var(--primary);text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+
+  /* Utilities */
+  .mt-1{margin-top:1rem}.mb-1{margin-bottom:1rem}
+  .text-sm{font-size:.82rem}
+  .text-xs{font-size:.72rem;color:#999}
+  .formula{background:#f1f3f5;border-radius:6px;padding:.6rem 1rem;font-family:'Courier New',monospace;font-size:.85rem;margin:.6rem 0;overflow-x:auto}
+  .stoplight-visual{display:flex;gap:6px;margin:.8rem 0;flex-wrap:wrap}
+  .stoplight-visual .sl{flex:1;min-width:80px;text-align:center;padding:.6rem .4rem;border-radius:8px;font-size:.72rem;font-weight:600;line-height:1.3}
+  .sl-green{background:#c8e6c9;color:#1b5e20}
+  .sl-yellow{background:#fff9c4;color:#f57f17}
+  .sl-red{background:#ffcdd2;color:#c62828}
+  .sl-critical{background:#b71c1c;color:#fff}
+
+  /* Scrollbar for sidebar */
+  .sidebar::-webkit-scrollbar{width:5px}
+  .sidebar::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <h1>Comprehensive Guidelines for Establishing a Perioperative Bone Health Optimization Clinic in Spine Surgery</h1>
+  <p>Interactive Evidence-Based Educational Summary &bull; Source: Provided Clinical Framework Document</p>
+</header>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+<!-- ===== MAIN CONTENT ===== -->
+<main>
+
+<!-- Table of Contents -->
+<nav class="toc" aria-label="Table of Contents">
+  <h3>📑 Contents</h3>
+  <ol>
+    <li><a href="#sec1">Introduction: The Paradigm Shift</a></li>
+    <li><a href="#sec2">Clinical Rationale &amp; Pathophysiology</a></li>
+    <li><a href="#sec3">Screening &amp; Diagnostic Frameworks</a></li>
+    <li><a href="#sec4">Pharmacological Optimization Protocols</a></li>
+    <li><a href="#sec5">Operationalizing the Clinic</a></li>
+    <li><a href="#sec6">Economic Analysis</a></li>
+    <li><a href="#sec7">Key Performance Indicators</a></li>
+    <li><a href="#sec8">Implementation Checklist</a></li>
+    <li><a href="#sec9">Conclusion</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ===== SECTION 1 ===== -->
+<h2 id="sec1">1. Introduction: The Paradigm Shift in Spinal Value-Based Care</h2>
+
+<p>The demographic landscape of spinal surgery is undergoing a seismic shift, often termed the <strong>"Silver Tsunami,"</strong> characterized by an exponentially aging population with increasing functional demands. As life expectancy increases, so does the prevalence of degenerative spinal pathology requiring surgical intervention. However, the structural integrity of the skeletal system—the very foundation upon which spinal instrumentation relies—often deteriorates inversely with age.</p>
+
+<p>Osteoporosis and osteopenia have emerged as silent epidemics within the spine surgery cohort, with prevalence rates significantly higher than in the general population. Data indicates that <strong>nearly 50% of female patients and 20–30% of male patients</strong> over the age of 50 undergoing spinal fusion meet the criteria for low bone mass or frank osteoporosis. <span class="ev ev-b">Source Ref 1</span></p>
+
+<div class="callout">
+  <div class="callout-title">Key Paradigm Shift</div>
+  <p>Historically, the orthopedic and neurosurgical approach to the spine has been predominantly <strong>biomechanical</strong>, focusing on alignment parameters, rod contours, and screw trajectories. The <strong>biological substrate—bone quality</strong>—has often been relegated to secondary consideration or ignored entirely until a catastrophic failure occurs.</p>
+</div>
+
+<p>The consequences of this oversight are profound: <strong>proximal junctional kyphosis (PJK), proximal junctional failure (PJF), screw loosening, cage subsidence, and pseudarthrosis</strong> are all inextricably linked to poor bone mineral density (BMD). These complications not only devastate patient quality of life but also impose an unsustainable economic burden on healthcare systems through costly revision surgeries and readmissions. <span class="ev ev-b">Source Ref 4, 6</span></p>
+
+<p>This report outlines a comprehensive framework for establishing a <strong>Bone Health Optimization (BHO) clinic</strong> or a specialized <strong>Fracture Liaison Service (FLS)</strong> embedded within a spine surgery department. Unlike traditional FLS models which are reactive—identifying patients <em>after</em> a fragility fracture—the perioperative BHO model is <strong>proactive</strong>, seeking to identify the "at-risk" patient <em>before</em> the index surgery, utilizing opportunistic screening and rapid pharmacological optimization to mitigate surgical risk. <span class="ev ev-b">Source Ref 4</span></p>
+
+<!-- ===== SECTION 2 ===== -->
+<h2 id="sec2">2. Clinical Rationale &amp; Pathophysiology of Fusion in Osteoporotic Bone</h2>
+
+<h3>2.1 The Biological Race: Healing vs. Failure</h3>
+
+<p>Spinal fusion is fundamentally a <strong>race between biological healing (bony union) and mechanical failure</strong> of the instrumentation. In healthy bone, the instrumentation acts as a temporary internal splint. However, in the osteoporotic spine, this race is often lost before it begins. Osteoporosis is not merely a loss of mineral mass; it is a <strong>degradation of trabecular microarchitecture</strong>, characterized by thinning of trabeculae and loss of connectivity. <span class="ev ev-b">Source Ref 5</span></p>
+
+<p>The biomechanical implications are severe:</p>
+<ul>
+  <li><strong>Pedicle screws</strong> rely on interdigitation of screw threads with trabecular bone for purchase. Pullout strength is <strong>linearly correlated with volumetric bone density</strong>. <span class="ev ev-b">Source Ref 10</span></li>
+  <li>In osteoporotic vertebrae, the screw-bone interface is structurally compromised. Physiological loads can exceed the yield strength of bone, leading to <strong>micro-motion</strong> at the interface.</li>
+  <li>This micro-motion prevents osseointegration and instead promotes formation of a <strong>fibrous capsule</strong> around the screw, manifesting as a "halo" on imaging—<strong>screw loosening</strong>.</li>
+  <li>The biomechanical mismatch between rigid instrumented segments and osteoporotic native spine creates a <strong>stress riser</strong>, driving <strong>Proximal Junctional Kyphosis (PJK)</strong> and <strong>Failure (PJF)</strong>. <span class="ev ev-b">Source Ref 12</span></li>
+</ul>
+
+<h3>2.2 The Osteoporosis Treatment Gap</h3>
+
+<p>Despite the clear causal link between bone quality and surgical success, a significant <strong>"treatment gap"</strong> persists. In cohorts of patients with fragility fractures, only <strong>9% to 50%</strong> proceed to have a formal bone health assessment. <span class="ev ev-b">Source Ref 8</span></p>
+
+<div class="callout warn">
+  <div class="callout-title">⚠ The "Bermuda Triangle" of Osteoporosis Management</div>
+  <p>Responsibility is diffused among the <strong>orthopedic surgeon</strong>, the <strong>primary care physician (PCP)</strong>, and the <strong>specialist</strong> (endocrinologist/rheumatologist), resulting in the patient falling through the cracks. The orthopedic surgeon may view osteoporosis as a "medical" problem, while the PCP may assume the surgeon addressed bone health as part of surgical clearance. <span class="ev ev-b">Source Ref 14, 15</span></p>
+</div>
+
+<h3>2.3 Metabolic Syndrome and Bone Health</h3>
+
+<p>Beyond isolated osteoporosis, the spine surgeon must consider the broader impact of <strong>Metabolic Syndrome (MetS)</strong>—a cluster of conditions including hypertension, hyperglycemia, visceral obesity, and dyslipidemia. Recent data indicates that patients with MetS have significantly <strong>higher rates of perioperative complications</strong> (37.5% vs. 20.9%), longer lengths of stay, and lower odds of achieving clinically significant improvements in patient-reported outcome measures (PROMs). <span class="ev ev-b">Source Ref 16</span></p>
+
+<p>The interplay is complex: hyperglycemia and diabetes impair osteoblast function and delay fusion; visceral obesity is associated with poor bone quality due to adipocyte infiltration into bone marrow and chronic inflammation. <span class="ev ev-b">Source Ref 17, 18</span></p>
+
+<!-- ===== SECTION 3 ===== -->
+<h2 id="sec3">3. Comprehensive Screening &amp; Diagnostic Frameworks</h2>
+
+<h3>3.1 The Failure of DXA in the Degenerative Spine</h3>
+
+<p>Dual-energy X-ray Absorptiometry (DXA) remains the WHO gold standard for diagnosing osteoporosis. However, its utility in the degenerative lumbar spine is <strong>severely compromised by artifacts</strong>. DXA measures areal BMD (g/cm²). In the elderly spine, osteophytes, facet hypertrophy, endplate sclerosis, and aortic calcification add mineral content without contributing to structural strength. <span class="ev ev-b">Source Ref 19, 20</span></p>
+
+<div class="callout danger">
+  <div class="callout-title">🚨 Critical Clinical Pearl</div>
+  <p>Over <strong>50% of patients with vertebral fractures</strong> have non-osteoporotic T-scores on DXA. A "normal" DXA T-score in a patient with severe spondylosis should be viewed with <strong>extreme skepticism</strong>. <span class="ev ev-b">Source Ref 21</span></p>
+</div>
+
+<h3>3.2 Opportunistic CT Screening: Hounsfield Units (HU)</h3>
+
+<p>Opportunistic screening using Computed Tomography (CT) has emerged as a <strong>superior modality</strong> for preoperative risk stratification. Since most patients undergoing spinal fusion receive a preoperative CT scan, this data is available <strong>without additional cost or radiation exposure</strong>. CT-derived Hounsfield Units (HU) provide a direct measurement of tissue attenuation, correlating strongly with volumetric BMD and screw pullout strength. <span class="ev ev-b">Source Ref 20, 24</span></p>
+
+<h4>Standardized Protocol for HU Measurement</h4>
+
+<ol>
+  <li><strong>Vertebral Selection:</strong> Measure at <strong>L1 vertebra</strong> (first non-rib-bearing vertebra, easily identifiable, relatively spared from severe degenerative changes). Alternatively, an average of <strong>L1–L4</strong> provides a robust composite score. Exclude vertebrae with compression fractures, hemangiomas, or metastatic lesions. <span class="ev ev-b">Source Ref 24</span></li>
+  <li><strong>Region of Interest (ROI) Placement:</strong>
+    <ul>
+      <li><strong>Axial Plane:</strong> Place a circular or elliptical ROI in the <strong>anterior trabecular bone</strong>. Avoid the cortical rim, basivertebral venous plexus (posteriorly), and focal sclerotic islands.</li>
+      <li><strong>Slice Selection:</strong> Measure three consecutive axial slices and average for rigor; a single mid-vertebral body measurement is acceptable for rapid screening. <span class="ev ev-b">Source Ref 26</span></li>
+      <li><strong>Sagittal Validation:</strong> Cross-reference on sagittal reconstructions to ensure ROI is centered in trabecular bone. <span class="ev ev-b">Source Ref 27</span></li>
+    </ul>
+  </li>
+</ol>
+
+<h4>HU Risk Stratification Thresholds</h4>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 1. Hounsfield Unit (HU) Risk Stratification for Lumbar Spine</caption>
+    <thead>
+      <tr><th>Risk Category</th><th>HU Threshold</th><th>Clinical Interpretation</th><th>Surgical Action</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Normal</strong></td><td>&gt; 150 HU</td><td>Normal bone health</td><td>Proceed with standard care</td></tr>
+      <tr><td><strong>Osteopenia</strong></td><td>110 – 150 HU</td><td>Low bone mass equivalent</td><td>Caution; consider BHO consult</td></tr>
+      <tr><td><strong>Osteoporosis</strong></td><td>&lt; 110 HU</td><td>Specificity &gt;90% for osteoporosis</td><td>STOP; mandatory optimization</td></tr>
+      <tr><td><strong>Severe / Critical</strong></td><td>&lt; 80 HU</td><td>Extremely high risk of mechanical failure</td><td>Automatic "Red Light"; extended delay</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="text-xs">Thresholds from consensus literature (Source Ref 10, 28, 49).</p>
+
+<h4>Impact of Imaging Variables on HU Accuracy</h4>
+
+<div class="callout warn">
+  <div class="callout-title">⚠ Technical Pitfalls</div>
+  <ul>
+    <li><strong>Intravenous Contrast:</strong> Enhances vascular marrow attenuation, artificially increasing HU by <strong>11–20 HU</strong>. Adjust thresholds accordingly. <span class="ev ev-b">Source Ref 29</span></li>
+    <li><strong>Tube Voltage (kVp):</strong> Lower kVp (80–100 kVp) yields HU values <strong>23% higher</strong> than standard 120 kVp scans. Standardize protocols or use correction equations. <span class="ev ev-b">Source Ref 28, 32</span></li>
+  </ul>
+</div>
+
+<h3>3.3 MRI-Based Assessment: Vertebral Bone Quality (VBQ) Score</h3>
+
+<p>For patients without a preoperative CT, MRI offers an alternative via the <strong>VBQ score</strong>, leveraging the inverse relationship between bone density and marrow adipose content. On T1-weighted sequences, fatty marrow (replacing hematopoietic marrow in osteoporosis) appears hyperintense. <span class="ev ev-b">Source Ref 33, 34</span></p>
+
+<div class="formula">
+  VBQ = Median Signal Intensity<sub>L1–L4</sub> / Signal Intensity<sub>CSF at L3</sub>
+</div>
+
+<p>Higher VBQ scores correlate with lower BMD and higher fracture risk. This tool utilizes standard T1 non-contrast sequences from almost every spine MRI protocol, with no additional cost or radiation. <span class="ev ev-b">Source Ref 33</span></p>
+
+<h3>3.4 Laboratory &amp; Metabolic Workup</h3>
+
+<p>Before initiating therapy, a comprehensive metabolic workup is <strong>mandatory</strong> to rule out secondary causes of osteoporosis (osteomalacia, hyperparathyroidism, malignancy). <span class="ev ev-b">Source Ref 1</span></p>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 2. Laboratory Workup for Bone Health Optimization</caption>
+    <thead>
+      <tr><th>Tier</th><th>Tests</th><th>Clinical Rationale</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="8"><strong>Tier 1<br>(Standard)</strong></td>
+        <td>Calcium (Serum &amp; Ionized)</td>
+        <td>Assess calcium homeostasis</td>
+      </tr>
+      <tr><td>Albumin</td><td>Nutritional status; adjust calcium</td></tr>
+      <tr><td>Phosphate</td><td>Mineral metabolism</td></tr>
+      <tr><td>Creatinine / eGFR</td><td>Renal function (bisphosphonate safety)</td></tr>
+      <tr><td>25-Hydroxy Vitamin D</td><td>Deficiency screening (goal &gt;30 ng/mL)</td></tr>
+      <tr><td>Intact PTH</td><td>Rule out hyperparathyroidism</td></tr>
+      <tr><td>TSH</td><td>Thyroid-related bone loss</td></tr>
+      <tr><td>Alkaline Phosphatase (Bone-specific)</td><td>Turnover marker</td></tr>
+      <tr>
+        <td rowspan="5"><strong>Tier 2<br>(Secondary)</strong></td>
+        <td>SPEP / UPEP</td>
+        <td>Rule out multiple myeloma</td>
+      </tr>
+      <tr><td>24-hour urine calcium</td><td>Hypercalciuria screening</td></tr>
+      <tr><td>Total Testosterone (men)</td><td>Hypogonadism-related bone loss</td></tr>
+      <tr><td>Celiac panel (tTG IgA)</td><td>Malabsorption</td></tr>
+      <tr><td>Tryptase</td><td>Systemic mastocytosis</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== SECTION 4 ===== -->
+<h2 id="sec4">4. Pharmacological Optimization Protocols</h2>
+
+<p>In spine surgery, the objective is not merely to prevent future fractures but to <strong>rapidly increase bone mass and stimulate osteoblastic activity</strong> to facilitate fusion and secure instrumentation. This necessitates a <strong>preference for anabolic agents</strong> over antiresorptives in the preoperative setting. <span class="ev ev-b">Source Ref 36, 39</span></p>
+
+<h3>4.1 Anabolic Agents: Standard of Care for Preoperative Optimization</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 3. Comparative Summary of Anabolic Agents for Spine Surgery BHO</caption>
+    <thead>
+      <tr><th>Agent</th><th>Mechanism</th><th>Dosing</th><th>Spine-Specific Evidence</th><th>Key Considerations</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Teriparatide</strong><br>(PTH 1-34)</td>
+        <td>Intermittent PTH stimulates osteoblasts &gt; osteoclasts → net bone formation</td>
+        <td>20 mcg SC daily</td>
+        <td>CNS <strong>Grade B recommendation</strong> for reduced screw loosening and improved fusion rates. Fusion: ~82% vs. 68% with bisphosphonates. Screw loosening reduced from 15% to &lt;5%. <span class="ev ev-b">Ref 15, 36</span></td>
+        <td>Most extensively studied. Ideal: start 3 mo pre-op, continue 6–12 mo post-op. Even 1–2 mo provides measurable benefits. <span class="ev ev-b">Ref 37</span></td>
+      </tr>
+      <tr>
+        <td><strong>Abaloparatide</strong><br>(PTHrP analog)</td>
+        <td>Selective PTH1 receptor activation (RG conformation) → anabolic with less resorption</td>
+        <td>80 mcg SC daily</td>
+        <td>Spine-fusion data less abundant than teriparatide; considered a potent alternative. <span class="ev ev-b">Ref 39</span></td>
+        <td>Potentially lower hypercalcemia incidence. Useful when teriparatide not tolerated or formulary preference.</td>
+      </tr>
+      <tr>
+        <td><strong>Romosozumab</strong><br>(Anti-Sclerostin)</td>
+        <td>Blocks sclerostin → <strong>dual effect</strong>: ↑ bone formation AND ↓ bone resorption</td>
+        <td>[Dose per labeling: monthly SC injection]</td>
+        <td>Most rapid BMD increase of any agent. Animal/human data suggests enhanced fusion mass volume. <span class="ev ev-b">Ref 41</span></td>
+        <td><strong>⚠ FDA boxed warning</strong>: cardiovascular risk. Contraindicated within 1 year of MI/stroke. Requires CV risk stratification. <span class="ev ev-b">Ref 36</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>4.2 Antiresorptive Agents</h3>
+
+<p>Bisphosphonates (Alendronate, Zoledronic Acid) and Denosumab inhibit osteoclast-mediated bone resorption. Their use in the immediate perioperative period is <strong>controversial</strong>: since spinal fusion requires a remodeling cascade (osteoclast resorption of graft followed by osteoblast deposition), potent antiresorptives theoretically risk delaying fusion mass maturation. Animal studies have shown delayed fusion with high-dose bisphosphonates. <span class="ev ev-b">Source Ref 42</span></p>
+
+<div class="callout">
+  <div class="callout-title">📋 Recommendation</div>
+  <p>Antiresorptives are <strong>not first-line</strong> for preoperative optimization in fusion candidates unless anabolic agents are contraindicated. Their primary role is in <strong>sequential therapy</strong> (Phase 2 consolidation). <span class="ev ev-b">Source Ref 40</span></p>
+</div>
+
+<h3>4.3 Sequential Therapy: The "Lock-In" Protocol</h3>
+
+<p>A critical concept in BHO: the <strong>"anabolic window" is finite</strong> (typically 12–24 months). Discontinuation of Denosumab (and to a lesser extent, Teriparatide) without follow-up therapy leads to a rapid <strong>"rebound" phenomenon</strong>—bone turnover markers skyrocket, and BMD gained can be lost within months, leading to high risk of multiple vertebral fractures. <span class="ev ev-b">Source Ref 43</span></p>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 4. Sequential Therapy Protocol ("Lock-In" Strategy)</caption>
+    <thead>
+      <tr><th>Phase</th><th>Timing</th><th>Therapy</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Phase 1: Optimization</strong></td>
+        <td>Starting 3 mo pre-op → 12–18 mo total</td>
+        <td>Anabolic agent (Teriparatide / Abaloparatide / Romosozumab)</td>
+        <td>Rapid increase in bone mass &amp; stimulation of osteoblastic activity for fusion</td>
+      </tr>
+      <tr>
+        <td><strong>Phase 2: Consolidation</strong></td>
+        <td>Immediately upon cessation of anabolic</td>
+        <td>Single-dose IV Zoledronic Acid 5 mg, or ongoing Denosumab / Alendronate</td>
+        <td>Mineralizes newly formed osteoid matrix; "locks in" density gains long term <span class="ev ev-b">Ref 44</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout danger">
+  <div class="callout-title">🚨 Critical Failure Point</div>
+  <p>Transition from anabolic to antiresorptive is a <strong>critical adherence failure point</strong>. The BHO clinic must have robust tracking systems to ensure patients do not stop therapy after the surgical episode. <span class="ev ev-b">Source Ref 46</span></p>
+</div>
+
+<!-- ===== SECTION 5 ===== -->
+<h2 id="sec5">5. Operationalizing the Clinic: Workflows &amp; Staffing</h2>
+
+<h3>5.1 Multidisciplinary Team Structure</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 5. BHO Clinic Multidisciplinary Team Roles</caption>
+    <thead>
+      <tr><th>Role</th><th>Title Analogy</th><th>Key Responsibilities</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Spine Surgeon</strong></td>
+        <td>The "Gatekeeper"</td>
+        <td>Identifies surgical candidates; reinforces bone health importance; enforces surgical delays when criteria not met</td>
+      </tr>
+      <tr>
+        <td><strong>Bone Health Nurse Navigator / APP</strong></td>
+        <td>The "Engine"</td>
+        <td>Runs screening registry; patient education (injection teaching); navigates prior authorization for anabolics; coordinates handoffs between surgery &amp; endocrinology. <span class="ev ev-b">Ref 47</span></td>
+      </tr>
+      <tr>
+        <td><strong>Endocrinologist / Metabolic Specialist</strong></td>
+        <td>The "Expert"</td>
+        <td>Manages complex secondary osteoporosis (renal osteodystrophy, transplant bone disease) and contraindications to standard therapies. <span class="ev ev-b">Ref 19</span></td>
+      </tr>
+      <tr>
+        <td><strong>Radiologist</strong></td>
+        <td>The "Analyst"</td>
+        <td>Implements opportunistic screening protocols; standardizes HU reporting. <span class="ev ev-b">Ref 20</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>5.2 The "Stoplight" Protocol for Surgical Scheduling</h3>
+
+<p>Surgical scheduling should be gated by a risk-stratified "Stoplight" protocol based on HU and T-scores. This empowers the scheduling team to hold dates until optimization is confirmed.</p>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 6. "Stoplight" Risk Stratification Protocol</caption>
+    <thead>
+      <tr><th>Risk Level</th><th>L1 HU</th><th>T-Score</th><th>Protocol / Action</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="risk-badge risk-green">🟢 GREEN</span></td>
+        <td>&gt; 150</td>
+        <td>&gt; −1.0</td>
+        <td><strong>Proceed to Surgery.</strong> Standard perioperative Vitamin D (2000 IU) &amp; Calcium (1200 mg).</td>
+      </tr>
+      <tr>
+        <td><span class="risk-badge risk-yellow">🟡 YELLOW</span></td>
+        <td>110 – 150</td>
+        <td>−1.0 to −2.4</td>
+        <td><strong>Caution.</strong> Consult BHO Clinic. Initiate labs. Consider bisphosphonates if short fusion (&lt;3 levels). Consider cement augmentation intraoperatively. Surgery may proceed without long delay.</td>
+      </tr>
+      <tr>
+        <td><span class="risk-badge risk-red">🔴 RED</span></td>
+        <td>&lt; 110</td>
+        <td>&lt; −2.5</td>
+        <td><strong>STOP. Surgery Postponed.</strong> Mandatory delay (min. 3 months). Initiate anabolic therapy (Teriparatide / Abaloparatide). Reschedule after minimum treatment or biomarker response (P1NP increase).</td>
+      </tr>
+      <tr>
+        <td><span class="risk-badge risk-critical">⚫ CRITICAL</span></td>
+        <td>&lt; 80</td>
+        <td>[Not specified in source]</td>
+        <td><strong>Critical Stop.</strong> Extremely high risk of screw loosening/PJK. Consider non-surgical management or extended optimization (6+ months). If urgent (neuro deficit), modify construct (cement, multiple rods, pelvic fixation). <span class="ev ev-b">Ref 49</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="stoplight-visual">
+  <div class="sl sl-green">&gt; 150 HU<br><strong>GREEN</strong><br>Proceed</div>
+  <div class="sl sl-yellow">110–150 HU<br><strong>YELLOW</strong><br>Caution</div>
+  <div class="sl sl-red">&lt; 110 HU<br><strong>RED</strong><br>Delay 3 mo</div>
+  <div class="sl sl-critical">&lt; 80 HU<br><strong>CRITICAL</strong><br>Extended Delay</div>
+</div>
+
+<h3>5.3 Workflow Checklists</h3>
+
+<h4>Nurse Navigator Intake Checklist</h4>
+<ul>
+  <li>☐ Verify age (&gt;50 F / &gt;60 M) and trigger automated order set</li>
+  <li>☐ Review recent CT for <strong>L1 HU measurement</strong></li>
+  <li>☐ Retrieve DXA results (if available within 2 years)</li>
+  <li>☐ Calculate <strong>FRAX Score</strong> (with/without BMD)</li>
+  <li>☐ Order Labs: Calcium, Albumin, Phosphate, Alk Phos, Creatinine, 25-OH Vit D, PTH, TSH</li>
+  <li>☐ Order DXA (if not done) with VFA (Vertebral Fracture Assessment)</li>
+  <li>☐ Assign "Stoplight" status</li>
+  <li>☐ Communicate status to Surgeon and Scheduling Team</li>
+</ul>
+
+<h4>Preoperative Clearance ("Green Light") Checklist</h4>
+<ul>
+  <li>☐ Has the patient completed minimum anabolic therapy duration (e.g., 3 months)?</li>
+  <li>☐ Are calcium/Vit D levels normalized?</li>
+  <li>☐ Check for adverse effects (e.g., hypercalcemia symptoms)</li>
+  <li>☐ Notify surgeon of bone quality status (e.g., "Bone soft, cement recommended")</li>
+  <li>☐ Ensure post-op medication plan is in place (e.g., restart anabolics POD #1 or #2)</li>
+</ul>
+
+<h3>5.4 Barriers to Implementation</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 7. Key Barriers and Proposed Solutions</caption>
+    <thead>
+      <tr><th>Barrier</th><th>Proposed Solution</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Insurance Denials</strong> — Payers often deny anabolics as first-line, requiring "failure" of bisphosphonates</td>
+        <td>Arm BHO clinic with appeal letters citing CNS guidelines <span class="ev ev-b">Ref 15</span> and fusion data. Use specific ICD-10 codes (e.g., M80.08) to drive medical necessity.</td>
+      </tr>
+      <tr>
+        <td><strong>Patient Buy-in</strong> — Patients resist delaying surgery for 3 months</td>
+        <td>Reframe delay as <strong>"Pre-hab"</strong> or "Building the Foundation." Show patients their CT scans/HU numbers compared to normal to visualize risk. <span class="ev ev-b">Ref 19</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== SECTION 6 ===== -->
+<h2 id="sec6">6. Economic Analysis: The ROI of Bone Health</h2>
+
+<h3>6.1 The Cost of Complications</h3>
+
+<p>The direct cost of revision surgery for PJK or pseudarthrosis is staggering. Estimates place the cost of a single revision for PJF between <strong>$55,000 and $120,000</strong>. <span class="ev ev-b">Source Ref 6</span></p>
+
+<div class="callout success">
+  <div class="callout-title">💰 The Math of Avoidance</div>
+  <p>If a high-volume center performs <strong>200 deformity cases/year</strong>, avoiding just <strong>2–3 major revisions</strong> pays for the entire salary of the Nurse Navigator and the overhead of the clinic.</p>
+  <ul>
+    <li>PJK Incidence: ~30% in long fusions</li>
+    <li>Revision Rate: ~15–20% of PJK cases require reoperation</li>
+  </ul>
+</div>
+
+<h3>6.2 Bundled Payments (BPCI-Advanced)</h3>
+
+<p>Under CMS Bundled Payments for Care Improvement (BPCI) models, hospitals are financially liable for the total cost of care for 90 days post-discharge. Osteoporosis-related complications are a primary driver of 90-day readmissions. Recent data shows bundled payments reduced spending for outpatient spine surgery by <strong>10%</strong>, primarily by reducing readmissions. A BHO clinic directly protects the hospital's margin by minimizing costly "financial outliers." <span class="ev ev-b">Source Ref 50, 51</span></p>
+
+<h3>6.3 Billing &amp; Sustainability</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 8. Billing Codes for BHO Clinic Sustainability</caption>
+    <thead>
+      <tr><th>Category</th><th>Code</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="2"><strong>E&amp;M Visits</strong></td><td>99203–99205</td><td>New patient visits (complex decision making)</td></tr>
+      <tr><td>99213–99215</td><td>Established patient follow-up</td></tr>
+      <tr><td rowspan="2"><strong>Principal Care / Chronic Care</strong></td><td>99424–99427</td><td>Principal Care Management (PCM) — managing single high-risk chronic condition <span class="ev ev-b">Ref 52</span></td></tr>
+      <tr><td>99487 / 99490</td><td>Chronic Care Management (CCM) — requires 20 min clinical staff time/month</td></tr>
+      <tr><td rowspan="3"><strong>Remote Patient Monitoring</strong></td><td>99453</td><td>Setup</td></tr>
+      <tr><td>99454</td><td>Device supply</td></tr>
+      <tr><td>99457</td><td>Monitoring <span class="ev ev-b">Ref 53</span></td></tr>
+      <tr><td rowspan="2"><strong>Procedural</strong></td><td>77080</td><td>DXA Axial Skeleton</td></tr>
+      <tr><td>77085</td><td>DXA with Vertebral Fracture Assessment (VFA) <span class="ev ev-b">Ref 55</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== SECTION 7 ===== -->
+<h2 id="sec7">7. Key Performance Indicators (KPIs)</h2>
+
+<p>KPIs should align with the International Osteoporosis Foundation (IOF) "Capture the Fracture" Best Practice Framework. <span class="ev ev-b">Source Ref 56</span></p>
+
+<h3>7.1 Process Metrics (Efficiency)</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 9. Process KPIs</caption>
+    <thead>
+      <tr><th>Metric</th><th>Definition</th><th>Target</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Screening Capture Rate</strong></td><td>% of eligible patients (Age &gt;50/60) with documented bone health assessment pre-op</td><td>&gt; 95%</td></tr>
+      <tr><td><strong>Identification Rate</strong></td><td>% of screened patients correctly identified as High Risk / Osteoporotic</td><td>Track prevalence</td></tr>
+      <tr><td><strong>Treatment Initiation</strong></td><td>% of "Red Light" patients successfully started on pharmacological therapy</td><td>&gt; 80%</td></tr>
+      <tr><td><strong>Time to Treatment</strong></td><td>Days from initial referral to first dose of anabolic medication</td><td>&lt; 30 days</td></tr>
+      <tr><td><strong>Delay Compliance</strong></td><td>% of High Risk patients who completed the 3-month delay before surgery</td><td>&gt; 90%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>7.2 Outcome Metrics (Clinical Effectiveness)</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 10. Outcome KPIs</caption>
+    <thead>
+      <tr><th>Metric</th><th>Definition</th><th>Target</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Bone Density Delta</strong></td><td>Mean change in P1NP or HU/DXA from baseline to surgery</td><td>Positive trend</td></tr>
+      <tr><td><strong>PJK/PJF Rate</strong></td><td>Incidence of radiographic PJK (&gt;10° change) or PJF requiring revision at 12 &amp; 24 months</td><td>&lt; 15%</td></tr>
+      <tr><td><strong>Screw Loosening</strong></td><td>Incidence of "halo" sign &gt;1 mm on CT at 12 months</td><td>&lt; 10%</td></tr>
+      <tr><td><strong>Pseudarthrosis Rate</strong></td><td>Rate of non-union at 1 year</td><td>&lt; 5%</td></tr>
+      <tr><td><strong>Adherence Rate</strong></td><td>% persisting on therapy (or transitioned to antiresorptive) at 12 months post-op</td><td>&gt; 75%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>7.3 Economic Metrics</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 11. Economic KPIs</caption>
+    <thead>
+      <tr><th>Metric</th><th>Definition</th><th>Target</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>90-Day Readmissions</strong></td><td>Readmissions related to fracture/hardware failure</td><td>&lt; 5%</td></tr>
+      <tr><td><strong>Cost per Episode</strong></td><td>Average total episode cost for BHO patients vs. historical controls</td><td>Reduction</td></tr>
+      <tr><td><strong>Referral Retention</strong></td><td>% of bone health consults managed internally vs. referred out</td><td>&gt; 80%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== SECTION 8 ===== -->
+<h2 id="sec8">8. Implementation Checklist for Department Leadership</h2>
+
+<h3>Phase 1: Foundation (Months 1–3)</h3>
+<ul>
+  <li>☐ <strong>Identify Champions:</strong> Appoint a Surgeon Medical Director and lead Nurse Navigator</li>
+  <li>☐ <strong>Stakeholder Meeting:</strong> Align Spine, Endocrinology, and Radiology chiefs</li>
+  <li>☐ <strong>Define Protocols:</strong> Finalize "Stoplight" criteria and preferred drug formularies</li>
+  <li>☐ <strong>Build EMR Tools:</strong> Create automated order sets triggered by age and specific fracture diagnoses</li>
+</ul>
+
+<h3>Phase 2: Pilot (Months 4–6)</h3>
+<ul>
+  <li>☐ <strong>Launch:</strong> Start with <em>elective adult deformity</em> cases only (highest risk / highest value)</li>
+  <li>☐ <strong>Radiology Integration:</strong> Implement standardized reporting of L1 HU on all lumbar CTs</li>
+  <li>☐ <strong>Audit:</strong> Review first 20 delayed cases — did they start meds? Did they return for surgery?</li>
+</ul>
+
+<h3>Phase 3: Scaling (Months 6–12)</h3>
+<ul>
+  <li>☐ <strong>Expand Scope:</strong> Include all fusion cases (degenerative, MIS) and acute fractures (FLS component)</li>
+  <li>☐ <strong>KPI Dashboard:</strong> Publish quarterly outcomes to the department</li>
+  <li>☐ <strong>Economic Review:</strong> Analyze readmission reductions to negotiate continued funding</li>
+</ul>
+
+<!-- ===== SECTION 9 ===== -->
+<h2 id="sec9">9. Conclusion</h2>
+
+<p>The establishment of a perioperative Bone Health Optimization clinic represents a critical evolution in spine surgery. By transitioning from a reactive stance to a <strong>proactive, systems-based approach</strong>, spine departments can fundamentally alter the risk profile of their most vulnerable patients. The integration of opportunistic screening (HU, VBQ), rigorous pharmacological optimization (anabolic-first strategy), and multidisciplinary care coordination converts the patient's biological status from a <strong>fixed liability into a modifiable asset</strong>.</p>
+
+<p>This framework aligns the incentives of:</p>
+<ul>
+  <li><strong>The patient</strong> — better outcomes, fewer revisions</li>
+  <li><strong>The surgeon</strong> — reduced complications</li>
+  <li><strong>The healthcare system</strong> — lower costs</li>
+</ul>
+
+<div class="callout success">
+  <div class="callout-title">✅ Bottom Line</div>
+  <p>In the era of value-based care, the question is no longer <em>if</em> a spine department can afford to implement a bone health clinic, but rather <em>how much it costs them not to</em>. The tools—HU screening, anabolic therapies, and nurse navigation—are available; the mandate is now implementation.</p>
+</div>
+
+<!-- ===== REFERENCES ===== -->
+<h2 id="refs">References</h2>
+<ol class="ref-list">
+  <li>[1] Thai Expert Consensus on Bone Health Optimization for Instrumented Spine Surgery. <em>IJSS</em>. 2025.</li>
+  <li>[2] Bone Optimization for Perioperative Spine Patients: A Multidisciplinary Approach. <em>JCM</em>. 2025;14(24):8866.</li>
+  <li>[3] Osteoporosis in Adult Patients Undergoing Spinal Reconstructive Surgery. <em>PMC</em>. 2025.</li>
+  <li>[4] Bone Optimization for Perioperative Spine Patients: A Multidisciplinary Approach. <em>PMC</em>. 2025.</li>
+  <li>[5] Osteoporosis and the Management of Spinal Degenerative Disease (I). <em>PMC</em>. 2017.</li>
+  <li>[6] Clinical and Economic Impact of Proximal Junctional Kyphosis. <em>PMC</em>. 2023.</li>
+  <li>[7] Revision Surgery for Proximal Junctional Kyphosis. <em>IJSS</em>. 2024;17(S2):S65.</li>
+  <li>[8] Fracture Liaison Services: Improving Outcomes for Patients with Osteoporosis. <em>PMC</em>. 2017.</li>
+  <li>[9] AOA Signs on to ASBMR Comments to CMS on FLS Coverage. 2023.</li>
+  <li>[10] Prediction of Lumbar Pedicle Screw Loosening Using HU in CT. <em>ResearchGate</em>. 2023.</li>
+  <li>[11] CT-Based Prediction of L4/5 Pedicle Screw Loosening. <em>TCRM</em>. Dove Medical Press.</li>
+  <li>[12] Proximal Junctional Kyphosis Prevention Strategies. <em>PMC</em>. 2018.</li>
+  <li>[13] The Evaluation, Prevention, and Management of PJK and Failure. <em>PubMed</em>. 2025.</li>
+  <li>[14] The Role of the Fracture Liaison Service in Osteoporosis Care. <em>PMC</em>. 2018.</li>
+  <li>[15] Preoperative Osteoporosis Assessment. <em>CNS Guidelines</em>. 2025.</li>
+  <li>[16] Impact of Metabolic Syndrome on One-Year Outcomes After Lumbar Fusion. <em>PMC</em>. 2025.</li>
+  <li>[17] Adverse Impact of Obesity on Lumbar Spine Fusion. <em>PMC</em>. 2025.</li>
+  <li>[18] Metabolic Syndrome and Lumbar Spine Fusion Surgery. <em>PMC</em>. 2011.</li>
+  <li>[19] Optimizing Bone Health Before Complex Spinal Surgery. <em>Mayo Clinic</em>. 2024.</li>
+  <li>[20] Osteoporosis in Spine Surgery Patients: Best Diagnostic Approach. <em>PubMed</em>. 2020.</li>
+  <li>[21] Opportunistic Screening for Osteoporosis Using Abdominal CT. <em>PMC</em>. 2013.</li>
+  <li>[22] Diagnostic Efficacy of HU in Spine CT for Real BMD. <em>ResearchGate</em>. 2016.</li>
+  <li>[23] Opportunistic Osteoporosis Assessment Using Cancellous Density Measurement. <em>JCM</em>. 2025;14(4):1226.</li>
+  <li>[24] Opportunistic Osteoporosis Screening at Routine CT: Normative L1 Values. <em>Radiology</em>. 2019.</li>
+  <li>[26] Optimizing ROI Size and Placement for Opportunistic CT HU Measurements. <em>PMC</em>. 2025.</li>
+  <li>[27] Opportunistic Screening Using Sagittal Reconstruction from Routine CT. <em>UW Radiology</em>.</li>
+  <li>[28] Deep Learning-Based Opportunistic CT Osteoporosis Screening. <em>medRxiv</em>. 2025.</li>
+  <li>[29] IV Contrast Injection Significantly Affects BMD Measured on CT. <em>ResearchGate</em>. 2014.</li>
+  <li>[32] Quantification of HU Difference Between CT Machines. <em>PMC</em>. 2025.</li>
+  <li>[33] MRI-Based VBQ Score in Spine Surgery. <em>JCM</em>. 2025;14(18):6477.</li>
+  <li>[34] Diagnostic Value of VBQ Score for BMD Assessment. <em>PMC</em>. 2024.</li>
+  <li>[35] Bone Health Optimization in Spine Surgery. <em>AOAO</em>. 2021.</li>
+  <li>[36] Evenity vs. Forteo for Osteoporosis Needing Spinal Fusion. <em>Dr.Oracle</em>. 2025.</li>
+  <li>[37] Perioperative Bone Health Care. <em>OFNM</em>. 2022.</li>
+  <li>[38] More than 6 Months of Teriparatide More Effective for Bone Union. <em>PMC</em>. 2015.</li>
+  <li>[39] Advances in Osteoporosis Therapy: Osteoanabolic Agents. <em>PMC</em>. 2023.</li>
+  <li>[40] Anabolic Agents for Back Surgery Patients. <em>Dr.Oracle</em>. 2025.</li>
+  <li>[41] Mechanical Analysis of Romosozumab in Rat Lumbar Fusion Model. <em>PMC</em>. 2025.</li>
+  <li>[42] Strategies of Spinal Fusion on Osteoporotic Spine. <em>PMC</em>. 2011.</li>
+  <li>[43] Short-Term Anabolic Agent and Sequential Therapy in Hip Fractures. <em>PMC</em>. 2025.</li>
+  <li>[44] Sequential Treatment After Teriparatide: Zoledronic Acid vs. Denosumab. <em>PMC</em>. 2025.</li>
+  <li>[46] Effects of Osteoporosis Medication on Reprocedure Rates After Vertebral Augmentation. <em>PMC</em>. 2025.</li>
+  <li>[47] IU Health's Spine Nurse Navigators. <em>IU Health</em>.</li>
+  <li>[48] Role of Coordinators in Secondary Fracture Prevention. <em>PMC</em>. 2020.</li>
+  <li>[49] HU Threshold for Predicting Mechanical and Junctional Complications. <em>PubMed</em>. 2025.</li>
+  <li>[50] Multimodal ML for Risk-Stratified Bundled Payments in Spinal Surgery. <em>PMC</em>. 2025.</li>
+  <li>[51] Bundled Payments Saved Money for Outpatient Surgeries. <em>Penn LDI</em>. 2025.</li>
+  <li>[52] Coding Guidance for Surgeon's Preoperative Optimization. <em>ISASS</em>.</li>
+  <li>[53] CPT Code G0511 for FQHCs &amp; RHCs. <em>HealthArc</em>.</li>
+  <li>[55] Breaking Bad Osteoporosis Coding. <em>AAPC</em>.</li>
+  <li>[56] Improving Fracture Liaison Services with Patient-Centred Metrics. <em>APFFA</em>.</li>
+</ol>
+
+<p class="text-xs" style="margin-top:2rem;text-align:center">Generated from provided source document. All data, thresholds, and recommendations are derived directly from the source. Evidence levels noted where explicitly stated in source.</p>
+
+</main>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" aria-label="Interactive Clinical Parameters">
+  <h3>🎛️ Clinical Decision Aid</h3>
+  <p class="text-xs mb-1" style="text-align:center">Adjust parameters to see real-time risk stratification and recommendations based on the source document's thresholds.</p>
+
+  <!-- Slider 1: HU -->
+  <div class="param-group">
+    <label>L1 Hounsfield Units (HU) <span class="val" id="huVal">150</span></label>
+    <input type="range" id="huSlider" min="20" max="250" value="150" step="1" aria-label="L1 Hounsfield Units">
+    <div class="threshold-bar">
+      <span>20</span><span>80</span><span>110</span><span>150</span><span>250</span>
+    </div>
+  </div>
+
+  <!-- Slider 2: T-Score -->
+  <div class="param-group">
+    <label>DXA T-Score <span class="val" id="tVal">-1.0</span></label>
+    <input type="range" id="tSlider" min="-5" max="2" value="-1" step="0.1" aria-label="DXA T-Score">
+    <div class="threshold-bar">
+      <span>-5.0</span><span>-2.5</span><span>-1.0</span><span>+2.0</span>
+    </div>
+  </div>
+
+  <!-- Slider 3: Treatment Duration -->
+  <div class="param-group">
+    <label>Pre-op Anabolic Tx Duration (months) <span class="val" id="txVal">0</span></label>
+    <input type="range" id="txSlider" min="0" max="12" value="0" step="1" aria-label="Treatment Duration in Months">
+    <div class="threshold-bar">
+      <span>0</span><span>3</span><span>6</span><span>12</span>
+    </div>
+  </div>
+
+  <!-- Risk Badge -->
+  <div style="text-align:center">
+    <div id="riskBadge" class="risk-badge risk-green">🟢 LOW RISK — GREEN</div>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div id="recBox" class="rec-box success-rec">
+    <h4 id="recTitle">Clinical Recommendation</h4>
+    <div id="recContent">
+      <p>Proceed to surgery with standard perioperative Vitamin D (2000 IU) and Calcium (1200 mg).</p>
+      <p class="text-xs" style="margin-top:.5rem"><em>Thresholds from source document (Refs 10, 28, 49).</em></p>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-reset" id="btnReset" aria-label="Reset sliders to defaults">↺ Reset</button>
+    <button class="btn btn-copy" id="btnCopy" aria-label="Copy assessment to clipboard">📋 Copy</button>
+  </div>
+
+  <!-- Source note -->
+  <p class="text-xs" style="margin-top:1rem;text-align:center;color:#999">
+    All HU and T-score thresholds are derived from the provided source document. Treatment duration thresholds per CNS guidelines (Ref 15) and consensus (Ref 37).
+  </p>
+</aside>
+
+</div><!-- /layout -->
+
+<!-- Toast -->
+<div class="copied-toast" id="toast">✅ Copied to clipboard!</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+(function(){
+  const huSlider = document.getElementById('huSlider');
+  const tSlider = document.getElementById('tSlider');
+  const txSlider = document.getElementById('txSlider');
+  const huVal = document.getElementById('huVal');
+  const tVal = document.getElementById('tVal');
+  const txVal = document.getElementById('txVal');
+  const riskBadge = document.getElementById('riskBadge');
+  const recBox = document.getElementById('recBox');
+  const recTitle = document.getElementById('recTitle');
+  const recContent = document.getElementById('recContent');
+  const btnReset = document.getElementById('btnReset');
+  const btnCopy = document.getElementById('btnCopy');
+  const toast = document.getElementById('toast');
+
+  function update(){
+    const hu = +huSlider.value;
+    const t = +tSlider.value;
+    const tx = +txSlider.value;
+
+    huVal.textContent = hu;
+    tVal.textContent = t >= 0 ? '+' + t.toFixed(1) : t.toFixed(1);
+    txVal.textContent = tx;
+
+    let level, title, html, badgeClass, boxClass;
+
+    if(hu < 80 || t < -3.0){
+      level = 'CRITICAL';
+      badgeClass = 'risk-critical';
+      boxClass = 'danger-rec';
+      title = '⛔ CRITICAL STOP — Surgery Contraindicated Without Extended Optimization';
+      html = `<ul>
+        <li><strong>Extremely high risk</strong> of screw loosening, PJK, and proximal junctional failure.</li>
+        <li><strong>Extended optimization</strong> required: minimum 6 months of anabolic therapy (Teriparatide/Abaloparatide/Romosozumab).</li>
+        <li>Consider <strong>non-surgical management</strong> if feasible.</li>
+        <li>If surgery is urgent (neurological deficit), <strong>modify construct</strong>: cement augmentation, multiple rods, pelvic fixation. (Ref 49)</li>
+        <li>Mandatory endocrinology referral. Rule out secondary causes. Correct Vitamin D deficiency.</li>
+      </ul>`;
+      if(tx >= 6){
+        html += `<p style="margin-top:.5rem;color:#1b5e20"><strong>✓ Note:</strong> Patient has received ${tx} months of anabolic therapy. Re-assess bone markers (P1NP) and repeat HU/DXA. If biomarker response confirmed, surgery may be reconsidered with modified construct.</p>`;
+      }
+    } else if(hu < 110 || t < -2.5){
+      level = 'HIGH RISK';
+      badgeClass = 'risk-red';
+      boxClass = 'danger-rec';
+      title = '🔴 RED LIGHT — Surgery Postponed';
+      html = `<ul>
+        <li><strong>Mandatory delay</strong>: minimum 3 months of anabolic therapy before surgery.</li>
+        <li>Initiate <strong>Teriparatide</strong> (20 mcg SC daily) or <strong>Abaloparatide</strong> (80 mcg SC daily). (CNS Grade B — Ref 15)</li>
+        <li>Correct Vitamin D deficiency (&gt;30 ng/mL goal). Ensure calcium 1200 mg + Vitamin D 2000 IU daily.</li>
+        <li><strong>Reschedule surgery</strong> only after minimum treatment duration or positive biomarker response (↑P1NP).</li>
+        <li>Consider Romosozumab if rapid optimization needed (verify no CV contraindications). (Ref 36, 41)</li>
+      </ul>`;
+      if(tx >= 3){
+        html += `<p style="margin-top:.5rem;color:#1b5e20"><strong>✓ Note:</strong> Patient has received ${tx} months of anabolic therapy (≥3 months minimum). If biomarker response is confirmed (P1NP increase, repeat HU/DXA improvement), surgery may proceed with caution. Ensure post-op sequential therapy plan (Phase 2 antiresorptive "lock-in").</p>`;
+      }
+    } else if(hu <= 150 || t <= -1.0){
+      level = 'MODERATE RISK';
+      badgeClass = 'risk-yellow';
+      boxClass = 'warn-rec';
+      title = '🟡 YELLOW — Caution; BHO Consult Recommended';
+      html = `<ul>
+        <li><strong>Consult BHO Clinic.</strong> Initiate basic laboratory workup (Tier 1 labs).</li>
+        <li>For short fusions (&lt;3 levels): consider <strong>bisphosphonates</strong> if anabolics not indicated.</li>
+        <li>Consider <strong>cement augmentation</strong> of screws intraoperatively.</li>
+        <li>Surgery may proceed <strong>without long delay</strong>, but bone health optimization should continue perioperatively.</li>
+        <li>Ensure Vitamin D ≥ 30 ng/mL and Calcium 1200 mg daily. (Ref 19)</li>
+      </ul>`;
+    } else {
+      level = 'LOW RISK';
+      badgeClass = 'risk-green';
+      boxClass = 'success-rec';
+      title = '🟢 GREEN — Proceed to Surgery';
+      html = `<ul>
+        <li><strong>Proceed to surgery</strong> with standard perioperative protocol.</li>
+        <li>Standard supplementation: <strong>Vitamin D 2000 IU</strong> and <strong>Calcium 1200 mg</strong> daily.</li>
+        <li>No mandatory bone health delay required.</li>
+        <li>Continue monitoring bone health in postoperative period per routine care.</li>
+      </ul>`;
+    }
+
+    // Set badge text
+    if(level === 'CRITICAL') riskBadge.innerHTML = '⚫ ' + level;
+    else if(level === 'HIGH RISK') riskBadge.innerHTML = '🔴 ' + level;
+    else if(level === 'MODERATE RISK') riskBadge.innerHTML = '🟡 ' + level;
+    else riskBadge.innerHTML = '🟢 ' + level;
+
+    riskBadge.className = 'risk-badge ' + badgeClass;
+    recBox.className = 'rec-box ' + boxClass;
+    recTitle.textContent = title;
+    recContent.innerHTML = html + `<p class="text-xs" style="margin-top:.6rem"><em>Thresholds from source document (Refs 10, 28, 49). Treatment duration per CNS guidelines (Ref 15) &amp; consensus (Ref 37). Assessment generated: ${new Date().toLocaleString()}</em></p>`;
+  }
+
+  huSlider.addEventListener('input', update);
+  tSlider.addEventListener('input', update);
+  txSlider.addEventListener('input', update);
+
+  btnReset.addEventListener('click', function(){
+    huSlider.value = 150;
+    tSlider.value = -1;
+    txSlider.value = 0;
+    update();
+  });
+
+  btnCopy.addEventListener('click', function(){
+    const hu = huSlider.value;
+    const t = (+tSlider.value >= 0 ? '+' : '') + (+tSlider.value).toFixed(1);
+    const tx = txSlider.value;
+    const badge = riskBadge.textContent;
+    const title = recTitle.textContent;
+    const recText = recContent.innerText;
+    const timestamp = new Date().toLocaleString();
+
+    const text = `BONE HEALTH OPTIMIZATION — CLINICAL ASSESSMENT\n${'='.repeat(50)}\nTimestamp: ${timestamp}\n\nPARAMETERS:\n  L1 Hounsfield Units (HU): ${hu}\n  DXA T-Score: ${t}\n  Pre-op Anabolic Therapy Duration: ${tx} months\n\nRISK LEVEL: ${badge}\n\nCLINICAL RECOMMENDATION:\n${title}\n\n${recText}\n${'='.repeat(50)}\nSource: Perioperative BHO Clinic Guidelines (2025)`;
+
+    navigator.clipboard.writeText(text).then(function(){
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

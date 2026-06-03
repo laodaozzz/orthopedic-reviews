@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMERS Framework — Advanced Clinical Management of Complex Wounds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f9fb;
+            --surface: #ffffff;
+            --primary: #1a5276;
+            --primary-light: #2980b9;
+            --accent: #e74c3c;
+            --accent-warn: #f39c12;
+            --accent-ok: #27ae60;
+            --text: #2c3e50;
+            --text-muted: #7f8c8d;
+            --border: #dce1e8;
+            --badge-i: #1a5276;
+            --badge-ii: #2980b9;
+            --badge-iii: #f39c12;
+            --badge-iv: #e67e22;
+            --badge-v: #95a5a6;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+            --radius: 10px;
+            --sidebar-width: 360px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        /* Header */
+        .site-header {
+            background: linear-gradient(135deg, #1a5276 0%, #2c3e50 100%);
+            color: #fff;
+            padding: 2.5rem 2rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+        .site-header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            max-width: 900px;
+        }
+        .site-header p {
+            font-size: 0.88rem;
+            opacity: 0.85;
+            margin-top: 0.35rem;
+            font-weight: 400;
+        }
+        /* Layout */
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr var(--sidebar-width);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        @media (max-width: 1024px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { position: relative !important; top: auto !important; }
+        }
+        /* Main content */
+        .main-content {
+            min-width: 0;
+        }
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem 2.2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .card h3 {
+            font-size: 1.08rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-top: 1.5rem;
+            margin-bottom: 0.6rem;
+        }
+        .card p { margin-bottom: 0.9rem; }
+        .card ul, .card ol { margin: 0.5rem 0 1rem 1.5rem; }
+        .card li { margin-bottom: 0.4rem; }
+        .card strong { color: var(--primary); }
+        /* Evidence badges */
+        .evidence {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #fff;
+            padding: 0.15em 0.55em;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-left: 0.3em;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .ev-i { background: var(--badge-i); }
+        .ev-ii { background: var(--badge-ii); }
+        .ev-iii { background: var(--badge-iii); color: #333; }
+        .ev-iv { background: var(--badge-iv); }
+        .ev-v { background: var(--badge-v); }
+        .ev-ns { background: #bdc3c7; color: #333; }
+        /* Callout boxes */
+        .callout {
+            background: #eaf2f8;
+            border-left: 4px solid var(--primary-light);
+            padding: 1rem 1.2rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1.2rem 0;
+            font-size: 0.92rem;
+        }
+        .callout.warn {
+            background: #fef9e7;
+            border-left-color: var(--accent-warn);
+        }
+        .callout.danger {
+            background: #fdedec;
+            border-left-color: var(--accent);
+        }
+        .callout.success {
+            background: #eafaf1;
+            border-left-color: var(--accent-ok);
+        }
+        .callout-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        /* Tables */
+        .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+        table caption {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--primary);
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+        th, td {
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--border);
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #1a5276;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        tr:nth-child(even) td { background: #f4f6f9; }
+        td:first-child { font-weight: 600; white-space: nowrap; }
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 7.5rem;
+            align-self: start;
+            max-height: calc(100vh - 9rem);
+            overflow-y: auto;
+        }
+        .sidebar-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 1.6rem 1.4rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1.2rem;
+        }
+        .sidebar-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .slider-group { margin-bottom: 1.4rem; }
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+        .slider-group label span.val {
+            background: var(--primary);
+            color: #fff;
+            padding: 0.1em 0.55em;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            min-width: 52px;
+            text-align: center;
+        }
+        .slider-group .desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #d5dbdb;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+        }
+        .rec-box {
+            background: linear-gradient(135deg, #1a5276 0%, #2c3e50 100%);
+            color: #fff;
+            border-radius: var(--radius);
+            padding: 1.2rem 1.2rem;
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+        .rec-box h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.6rem;
+            opacity: 0.85;
+        }
+        .rec-box .rec-text { font-weight: 500; }
+        .rec-box .rec-rationale {
+            font-size: 0.78rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        .rec-box .timestamp {
+            font-size: 0.72rem;
+            opacity: 0.6;
+            margin-top: 0.6rem;
+        }
+        .btn-row { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .btn {
+            flex: 1;
+            padding: 0.55rem 0.8rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+        .btn-reset { background: #ecf0f1; color: var(--text); }
+        .btn-reset:hover { background: #d5dbdb; }
+        .btn-copy { background: var(--primary); color: #fff; }
+        .btn-copy:hover { background: var(--primary-light); }
+        /* Toggle */
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+        .toggle-group .toggle-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #bdc3c7;
+            border-radius: 26px;
+            transition: 0.3s;
+        }
+        .toggle-slider::before {
+            content: "";
+            position: absolute;
+            height: 20px; width: 20px;
+            left: 3px; bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .toggle-switch input:checked + .toggle-slider { background: var(--accent-ok); }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
+        /* References */
+        .ref-list {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            column-count: 2;
+            column-gap: 2rem;
+        }
+        .ref-list li {
+            margin-bottom: 0.3rem;
+            break-inside: avoid;
+        }
+        /* Copy notification */
+        .copy-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: #fff;
+            padding: 0.8rem 1.6rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            pointer-events: none;
+        }
+        .copy-toast.show { transform: translateX(-50%) translateY(0); }
+        /* TOC */
+        .toc a {
+            display: block;
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 0.88rem;
+            padding: 0.3rem 0;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: 0.2s;
+        }
+        .toc a:hover { color: var(--primary); border-bottom-color: var(--primary); }
+        /* Limitations note */
+        .limitation-note {
+            background: #fef9e7;
+            border: 1px dashed var(--accent-warn);
+            border-radius: var(--radius);
+            padding: 1rem 1.2rem;
+            font-size: 0.85rem;
+            margin: 1.2rem 0;
+        }
+        .limitation-note strong { color: #b7950b; }
+        /* Responsive table for FRI strategies */
+        @media (max-width: 768px) {
+            .site-header h1 { font-size: 1.2rem; }
+            .card { padding: 1.3rem 1rem; }
+            .ref-list { column-count: 1; }
+            .layout { padding: 0 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>Advanced Clinical Management of Complex Orthopedic &amp; Surgical Wounds: The TIMERS Framework</h1>
+    <p>Interactive Evidence-Based Educational Summary · Synthesized from an Exhaustive Analysis Document (2024–2026)</p>
+</header>
+
+<div class="layout">
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content" role="main" aria-label="Educational content on the TIMERS wound management framework">
+
+        <!-- Table of Contents -->
+        <div class="card toc" aria-label="Table of Contents">
+            <h2>Table of Contents</h2>
+            <a href="#intro">1. Introduction: The Paradigm Shift</a>
+            <a href="#pathophys">2. Pathophysiology of Hard-to-Heal Wounds</a>
+            <a href="#timers">3. The TIMERS Framework — Component Analysis</a>
+            <a href="#ortho">4. Orthoplastic Management Protocols</a>
+            <a href="#dressings">5. Advanced Dressing &amp; Therapeutic Matrix</a>
+            <a href="#guidelines">6. Global Clinical Guidelines Synthesis (2024–2026)</a>
+            <a href="#studies">7. Key Studies &amp; Consensus Documents</a>
+            <a href="#refs">8. References</a>
+        </div>
+
+        <!-- 1. Introduction -->
+        <section class="card" id="intro">
+            <h2>1. Introduction: The Paradigm Shift in Wound Bed Preparation</h2>
+            <p>Complex, hard-to-heal wounds remain among the most significant clinical, surgical, and economic challenges in modern orthopedic and plastic surgery. The <strong>TIME framework</strong>, formalized in 2003, provided a structured approach focusing on four physiological barriers: <strong>T</strong>issue management, <strong>I</strong>nfection and inflammation control, <strong>M</strong>oisture balance, and <strong>E</strong>pithelial edge advancement.<span class="evidence ev-ns">Consensus</span></p>
+            <p>In 2018–2019, an international consensus panel expanded the framework to <strong>TIMERS</strong>, adding <strong>R</strong>egeneration/Repair and <strong>S</strong>ocial/Susceptibility factors.<span class="evidence ev-ns">Consensus</span> This marked a paradigm shift from treating the "hole" to treating the "whole" patient, incorporating advanced regenerative therapies and acknowledging the profound impact of social determinants of health.<span class="evidence ev-ns">Consensus</span></p>
+            <div class="callout">
+                <div class="callout-title">Key Principle</div>
+                The TIMERS framework serves as a critical clinical decision support tool (CDST) for orthopedic trauma surgeons, plastic surgeons, and specialized wound care clinicians — standardizing assessment, eliminating practice variation, and ensuring timely specialist referrals.
+            </div>
+        </section>
+
+        <!-- 2. Pathophysiology -->
+        <section class="card" id="pathophys">
+            <h2>2. Pathophysiology of Hard-to-Heal Wounds in Orthopedics</h2>
+            <p>Acute wound healing follows a highly regulated four-phase cascade: <strong>hemostasis, inflammation, proliferation, and remodeling</strong>.<span class="evidence ev-ns">Review</span> Chronic wounds, in contrast, become pathologically arrested — typically "stuck" in the inflammatory and early proliferative stages.</p>
+
+            <h3>2.1 Biochemical Microenvironment</h3>
+            <p>Chronic wound fluid is characterized by persistently elevated <strong>matrix metalloproteinases (MMPs)</strong> and decreased <strong>tissue inhibitors of metalloproteinases (TIMPs)</strong>.<span class="evidence ev-ns">Review</span> This hyper-proteolytic environment degrades the extracellular matrix and destroys endogenous growth factors, blocking keratinocyte, fibroblast, and endothelial cell proliferation.</p>
+
+            <h3>2.2 Biofilm: The Silent Perpetuator</h3>
+            <p>Approximately <strong>70% of chronic wounds harbor an established biofilm</strong>.<span class="evidence ev-ns">Level V</span> Biofilms are structured microbial communities encased in self-produced exopolysaccharide glycocalyx, adhering to wound beds, devitalized tissue, and abiotic surfaces such as orthopedic implants. This glycocalyx confers massive protection against host immunity and systemic antimicrobials. Bacteria within biofilms enter a metabolically dormant state rendering traditional antibiotics largely ineffective without concurrent physical disruption.</p>
+
+            <div class="callout danger">
+                <div class="callout-title">Critical Pathogenic Feedback Loop</div>
+                Biofilm → Chronic inflammation → Neutrophil infiltration → Massive ROS release → Protease overactivity → ECM destruction → Failed healing → Biofilm persistence.
+            </div>
+        </section>
+
+        <!-- 3. TIMERS Components -->
+        <section class="card" id="timers">
+            <h2>3. The TIMERS Framework — In-Depth Component Analysis</h2>
+
+            <!-- T -->
+            <h3>3.1 T — Tissue Management</h3>
+            <p>The foremost priority is the meticulous assessment and aggressive management of tissue viability. Non-viable, necrotic, or devitalized tissue acts as a physical and biological barrier to granulation tissue formation and provides an ideal harbor for microbial colonization and biofilm formation.<span class="evidence ev-ns">Consensus</span></p>
+            <p><strong>Debridement modalities:</strong></p>
+            <ul>
+                <li><strong>Autolytic debridement</strong> — Moisture-donating dressings (e.g., hydrogels) to facilitate endogenous enzyme activity.<span class="evidence ev-ns">Consensus</span></li>
+                <li><strong>Sharp/surgical debridement</strong> — Scalpels, curettes, or scissors for rapid selective removal; requires anatomical expertise.<span class="evidence ev-ns">Consensus</span></li>
+                <li><strong>Mechanical debridement</strong> — VERSAJET II Hydrosurgery System uses high-velocity saline jet to precisely cut and evacuate devitalized tissue while sparing healthy granulation.<span class="evidence ev-ns">Consensus</span></li>
+                <li><strong>Biological debridement</strong> — Sterile larval (maggot) therapy digests necrotic tissue and secretes antimicrobial peptides.<span class="evidence ev-ns">Consensus</span></li>
+            </ul>
+
+            <div class="callout danger">
+                <div class="callout-title">⚠ Critical Mandate — Lower Extremity Wounds</div>
+                Lower extremity wounds (especially foot/heel) <strong>MUST NOT undergo sharp debridement</strong> without prior vascular assessment (Doppler ultrasound or ABI). Debriding an ischemic wound will precipitate rapid expansion of necrosis and potential limb loss.<span class="evidence ev-ns">Consensus</span>
+            </div>
+
+            <p>In cases of complex traumatic osteomyelitis or fracture-related infections, tissue management extends to the bone: segmental resection must proceed until healthy, bleeding cortical and cancellous bone is encountered — the <strong>"paprika sign"</strong> — ensuring complete removal of intramedullary and endosteal biofilm networks.<span class="evidence ev-ns">Level V</span></p>
+
+            <!-- I -->
+            <h3>3.2 I — Infection and Inflammation Control</h3>
+            <p>Accurate differentiation along the bacterial continuum is essential: <strong>contamination → colonization → local infection/biofilm → spreading infection (cellulitis) → systemic infection (sepsis)</strong>.<span class="evidence ev-ns">Consensus</span></p>
+
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 1: Clinical Differentiation of Infection States in Wound Management</caption>
+                    <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Clinical Signs</th>
+                            <th>Management Approach</th>
+                            <th>Evidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Local infection / Biofilm</td>
+                            <td>Increased exudate, malodor, friable granulation, pain, stalled healing; periwound &lt;2 cm</td>
+                            <td>Wound hygiene, physical debridement, topical antimicrobials (silver, cadexomer iodine, PHMB); NO systemic antibiotics indicated</td>
+                            <td><span class="evidence ev-ns">Consensus</span></td>
+                        </tr>
+                        <tr>
+                            <td>Spreading infection</td>
+                            <td>Erythema extending &gt;2 cm, heat, induration, swelling</td>
+                            <td>Immediate systemic antibiotic therapy, medical stabilization</td>
+                            <td><span class="evidence ev-ns">Consensus</span></td>
+                        </tr>
+                        <tr>
+                            <td>Systemic infection</td>
+                            <td>Pyrexia, tachycardia, elevated inflammatory markers</td>
+                            <td>IV broad-spectrum antibiotics, intensive care, surgical source control</td>
+                            <td><span class="evidence ev-ns">Consensus</span></td>
+                        </tr>
+                        <tr>
+                            <td>Suspected FRI</td>
+                            <td>Purulent drainage, sinus tract, exposed hardware, progressive loosening</td>
+                            <td>5 deep tissue samples with sterile instruments before antibiotics; empiric therapy → narrowed by antibiogram</td>
+                            <td><span class="evidence ev-ns">Level V</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>Routine superficial swabbing of chronic wounds is <strong>strongly discouraged</strong> — it captures surface colonizers, not true pathogenic organisms.<span class="evidence ev-ns">Consensus</span> In orthopedic FRI, five separate deep tissue samples must be obtained before antibiotic administration to maximize diagnostic yield.<span class="evidence ev-ns">Level V</span></p>
+
+            <!-- M -->
+            <h3>3.3 M — Moisture Imbalance</h3>
+            <p>Optimal moisture balance is a fundamental prerequisite for autolytic debridement, angiogenesis, and epidermal cell migration.<span class="evidence ev-ns">Review</span> The clinical objective is to avoid extremes of desiccation and maceration.</p>
+            <ul>
+                <li><strong>Dry wound bed</strong> → cell death, scab/eschar formation, blocked keratinocyte migration → Use moisture-donating dressings (amorphous hydrogels, hydrocolloids) after confirming vascular supply.<span class="evidence ev-ns">Consensus</span></li>
+                <li><strong>High-exuding wounds</strong> → saturated wound bed, periwound maceration, expanded wound footprint → Use superabsorbent polymer (SAP) dressings to sequester fluid and MMPs.<span class="evidence ev-ns">Consensus</span></li>
+            </ul>
+            <p>Advanced moisture management in complex surgical wounds is achieved through <strong>Negative Pressure Wound Therapy (NPWT)</strong>, which promotes macro-strain (wound edge approximation) and micro-strain (cellular proliferation via mechanical stretching).<span class="evidence ev-ns">Consensus</span> For lower limb wounds with venous hypertension, compression therapy remains the gold standard when arterial supply is adequate.<span class="evidence ev-ns">Consensus</span></p>
+
+            <!-- E -->
+            <h3>3.4 E — Edge of Wound Advancement</h3>
+            <p>The wound edge is the primary visual indicator of healing trajectory. In hard-to-heal wounds, edges become phenotypically abnormal — rolled (epibole), undermined, thickened, callused, or hyperkeratotic — due to failed epidermal cell migration across a protease-rich matrix.<span class="evidence ev-ns">Review</span></p>
+            <p><strong>Interventions:</strong></p>
+            <ul>
+                <li>Revisit T, I, and M components to ensure optimal wound bed preparation</li>
+                <li>Protect periwound skin with liquid barrier films or medical emollients</li>
+                <li>Sharp debridement of dense callus and surgical trimming of rolled edges — micro-trauma reactivates cellular signaling and converts chronic edges to an acute, proliferative state<span class="evidence ev-ns">Consensus</span></li>
+            </ul>
+
+            <!-- R -->
+            <h3>3.5 R — Regeneration and Repair</h3>
+            <p>When wounds remain refractory to standard care despite optimal T, I, M, and E management, clinicians must pivot to <strong>advanced adjunctive therapies</strong> engineered to stimulate endogenous repair pathways.<span class="evidence ev-ns">Consensus</span></p>
+
+            <p><strong>Cellular, Acellular, and Matrix-like Products (CAMPs):</strong></p>
+            <ul>
+                <li>Sophisticated biomaterials from allogeneic, autologous, xenogeneic, and synthetic sources<span class="evidence ev-ns">Consensus</span></li>
+                <li>Provide 3D scaffold for cellular migration + deliver exogenous growth factors and cytokines</li>
+                <li><strong>Indications:</strong> Full-thickness pressure injuries, complex trauma wounds, diabetic foot ulcers, deep surgical defects with exposed tendon/bone/joint<span class="evidence ev-ns">Consensus</span></li>
+            </ul>
+
+            <p><strong>Other regenerative modalities:</strong> continuous topical oxygen therapy, nitric oxide modulation, autologous platelet-rich plasma (PRP), and the sophisticated 5-combination technique for chronic traumatic osteomyelitis (en-bloc excision + Masquelet technique + microsurgical transfer + mixed bone grafting + PRP).<span class="evidence ev-ns">Level V</span></p>
+
+            <div class="callout success">
+                <div class="callout-title">FDA Regenerative Medicine Advanced Therapy (RMAT) Designation</div>
+                Notable RMAT-approved therapies include <strong>StrataGraft</strong> (allogeneic keratinocyte on collagen for deep burns) and <strong>Vyjuvek</strong> (topical gene therapy for dystrophic epidermolysis bullosa).<span class="evidence ev-ns">Regulatory</span>
+            </div>
+
+            <!-- S -->
+            <h3>3.6 S — Social Factors and Susceptibility</h3>
+            <p>Perfect local wound interventions can be completely undermined by unaddressed systemic, psychosocial, and socioeconomic drivers of health.<span class="evidence ev-ns">Consensus</span></p>
+            <ul>
+                <li><strong>Medical risk factors:</strong> Polypharmacy, nutritional deficits, uncontrolled hyperglycemia, cardiovascular disease, immunological impairment<span class="evidence ev-ns">Consensus</span></li>
+                <li><strong>Prognostic tools:</strong> Charlson Comorbidity Index (CCI) to quantify comorbidity burden<span class="evidence ev-ns">Level V</span></li>
+                <li><strong>Social determinants:</strong> Living environment, caregiver support, financial constraints, transportation barriers, health literacy<span class="evidence ev-ns">Consensus</span></li>
+                <li><strong>Socioeconomic disparity:</strong> Trauma patients on Medicaid or uninsured are significantly less likely to attend wound clinic follow-up, correlating with higher complication and amputation rates<span class="evidence ev-ns">Level V</span></li>
+            </ul>
+            <p>Treatment pathways must incorporate <strong>shared decision-making</strong>, realistic short-term goals (odor control, pain reduction, exudate management), accessible language, visual aids, and rapid referrals to dietitians, social workers, occupational therapists, and clinical psychologists.<span class="evidence ev-ns">Consensus</span></p>
+        </section>
+
+        <!-- 4. Orthoplastic Protocols -->
+        <section class="card" id="ortho">
+            <h2>4. Orthoplastic Management Protocols</h2>
+
+            <h3>4.1 Open Fractures &amp; High-Energy Trauma</h3>
+            <p>Open fractures (Gustilo-Anderson classification) result from massive kinetic energy transfer causing soft-tissue necrosis, vascular stripping, and deep bacterial inoculation.<span class="evidence ev-ns">Level V</span></p>
+            <ul>
+                <li><strong>Immediate antibiotics:</strong> Weight-based, broad-spectrum IV antibiotics in the ED — absolute standard of care.<span class="evidence ev-ns">Level V</span></li>
+                <li><strong>Debridement timing:</strong> While 6-hour dogma prevailed historically, modern evidence (e.g., GOLIATH study) supports debridement within 24 hours for most Type III fractures with immediate antibiotics. Highly contaminated Type IIIB tibial fractures still demand urgent intervention ideally within 12 hours.<span class="evidence ev-ns">Level V</span></li>
+                <li><strong>Irrigation:</strong> Current guidelines advocate clinical endpoint of macroscopic cleanliness rather than strict arbitrary volumes (e.g., 9L). Excessive pressure can cause iatrogenic soft-tissue damage.<span class="evidence ev-ns">Level V</span></li>
+                <li><strong>Definitive flap coverage:</strong> Should be achieved ideally <strong>within 7 days</strong>. Delays significantly increase risk of nosocomial colonization, deep infection, and nonunion.<span class="evidence ev-ns">Level V</span></li>
+            </ul>
+
+            <h3>4.2 Fracture-Related Infection (FRI)</h3>
+            <p>FRI is a catastrophic complication involving mature biofilm on orthopedic hardware and sequestered dead bone.<span class="evidence ev-ns">Level V</span> The diagnostic workup follows standardized international criteria: confirmatory signs (purulent drainage, sinus tract, exposed hardware) versus suggestive signs (erythema, stiffness, progressive loosening).<span class="evidence ev-ns">Level V</span></p>
+
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 2: FRI Surgical Strategy Based on Chronicity and Implant Status</caption>
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Indications</th>
+                            <th>Key Steps</th>
+                            <th>Evidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DAIR</td>
+                            <td>Early, acute infection; stable implants; progressive fracture healing</td>
+                            <td>Aggressive debridement, biofilm disruption via scrubbing + pulsatile lavage, culture-specific antibiotics from 5 deep samples</td>
+                            <td><span class="evidence ev-ns">Level V</span></td>
+                        </tr>
+                        <tr>
+                            <td>Implant Exchange</td>
+                            <td>Loosened hardware with retained mechanical function need</td>
+                            <td>Remove loose implant, aggressive medullary reaming, local antibiotic carriers (e.g., Cerament G: calcium sulfate + hydroxyapatite + gentamicin), possible single-stage reconstruction</td>
+                            <td><span class="evidence ev-ns">Level V</span></td>
+                        </tr>
+                        <tr>
+                            <td>Complete Removal</td>
+                            <td>Sequestered hardware; nonunion; mature biofilm</td>
+                            <td>Total explantation, medullary canal reaming, dead space management with osteoconductive/antibiotic carriers</td>
+                            <td><span class="evidence ev-ns">Level V</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>4.3 Exposed Orthopedic Hardware</h3>
+            <p>Modern orthoplastic pathways emphasize selective hardware salvage when: implants remain mechanically stable, environmental exposure &lt;2 weeks, and no evidence of deep purulent infection.<span class="evidence ev-ns">Level V</span></p>
+            <p><strong>NPWTi-d (Negative Pressure Wound Therapy with Instillation and Dwell Time)</strong> is highly effective: cycles antimicrobial solution (e.g., hypochlorous acid or PHMB) into the wound bed for biochemical biofilm disruption, followed by continuous negative pressure for evacuation. This rapidly decontaminates and granulates the wound bed, bridging to definitive flap closure.<span class="evidence ev-ns">Level V</span></p>
+
+            <div class="callout warn">
+                <div class="callout-title">Palliative Wound Care — Social Factors Application</div>
+                In severely compromised patients (end-stage PAD, not candidates for revascularization, physiological frailty precluding major surgery), the focus shifts to palliation: meticulous conservative local wound care, moisture control, infection prevention. Such approaches have prevented systemic infection and avoided major amputation for over a decade in selected patients.<span class="evidence ev-ns">Level V</span>
+            </div>
+        </section>
+
+        <!-- 5. Dressing Matrix -->
+        <section class="card" id="dressings">
+            <h2>5. Advanced Dressing Selection &amp; Therapeutic Interventions Matrix</h2>
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 3: TIMERS-Aligned Dressing Selection and Therapeutic Modality Matrix</caption>
+                    <thead>
+                        <tr>
+                            <th>TIMERS</th>
+                            <th>Wound Presentation</th>
+                            <th>Dressing / Modality</th>
+                            <th>Rationale &amp; Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>T</td>
+                            <td>Dry necrotic eschar / thick slough</td>
+                            <td>Moisture-donating hydrogels</td>
+                            <td>Rehydrates devitalized tissue, facilitates autolysis. <em>Requires vascular assessment in lower limbs.</em></td>
+                        </tr>
+                        <tr>
+                            <td>T</td>
+                            <td>Heavy slough, complex anatomy</td>
+                            <td>Hydrosurgery (VERSAJET II) / Monofilament pads</td>
+                            <td>Precise excision of devitalized tissue and biofilm, sparing healthy granulation</td>
+                        </tr>
+                        <tr>
+                            <td>I</td>
+                            <td>Local colonization / suspected biofilm, stalled healing</td>
+                            <td>Topical antimicrobials (Silver, Iodine, PHMB, DACC)</td>
+                            <td>Sustained bioburden reduction without systemic resistance. E.g., IODOSORB, UrgoClean Ag</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>Highly exuding, inflammatory phase</td>
+                            <td>Superabsorbent polymers (SAP) / Silicone foams</td>
+                            <td>Sequester fluid and MMPs away from wound bed. E.g., ALLEVYN Life, ConvaMax</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>Deep cavity, delayed closure</td>
+                            <td>Negative Pressure Wound Therapy (NPWT)</td>
+                            <td>Exudate removal, edema reduction, angiogenesis via cellular micro-strain. E.g., PICO 7, V.A.C.</td>
+                        </tr>
+                        <tr>
+                            <td>E</td>
+                            <td>Macerated/hyperkeratotic periwound, epibole</td>
+                            <td>Barrier films / emollients / sharp edge debridement</td>
+                            <td>Impermeable skin protection; debridement converts chronic to acute edge state</td>
+                        </tr>
+                        <tr>
+                            <td>R</td>
+                            <td>Stalled full-thickness defects, exposed structures</td>
+                            <td>CAMPs / Biologics / RMAT therapies</td>
+                            <td>ECM scaffold + growth factors to restart repair. E.g., StrataGraft, autologous PRP</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 6. Guidelines -->
+        <section class="card" id="guidelines">
+            <h2>6. Global Clinical Guidelines Synthesis (2024–2026)</h2>
+
+            <h3>6.1 EWMA &amp; SIS-E 2025: Surgical Site Infections</h3>
+            <p>The 2025 guidelines address a massive historical deficit in post-operative closed incision care, particularly during the transition to community-based settings.<span class="evidence ev-ns">Guideline</span></p>
+            <ul>
+                <li><strong>Critical directive:</strong> Distinguish <strong>Surgical Wound Dehiscence (SWD)</strong> from true <strong>Surgical Site Infection (SSI)</strong>. Dehiscence (3–10 days post-op, from mechanical tension or sterile suture abscess) does not automatically require systemic antibiotics.<span class="evidence ev-ns">Guideline</span></li>
+                <li><strong>CDC grading:</strong> Superficial Incisional → Deep Incisional → Organ/Space<span class="evidence ev-ns">Guideline</span></li>
+                <li><strong>Southampton Wound Score</strong> recommended for objective trajectory tracking<span class="evidence ev-ns">Guideline</span></li>
+                <li><strong>Patient education:</strong> Concise, visual-aid-heavy, jargon-free materials for cross-cultural comprehension at discharge<span class="evidence ev-ns">Guideline</span></li>
+            </ul>
+
+            <h3>6.2 WUWHS Consensus: Wound Balance &amp; Resource Optimization</h3>
+            <p>The <strong>"Wound Balance"</strong> concept emphasizes continuous clinical calibration of the wound microenvironment — maintaining equilibrium between moisture, bacterial load, and protease activity.<span class="evidence ev-ns">Consensus</span> SAP dressings demonstrate prophylactic and therapeutic superiority by sequestering MMPs and inflammatory cytokines.<span class="evidence ev-ns">Consensus</span></p>
+            <p>The <strong>2024 Delphi consensus</strong> on resource-limited settings reinforces that strict adherence to core TIMERS logic — meticulous sharps debridement, basic moisture control, and intensive patient education — remains highly effective for achieving wound closure regardless of severe macroeconomic constraints.<span class="evidence ev-ns">Delphi Consensus</span></p>
+        </section>
+
+        <!-- 7. Key Studies -->
+        <section class="card" id="studies">
+            <h2>7. Key Studies &amp; Consensus Documents</h2>
+            <div class="limitation-note">
+                <strong>Source Document Limitation:</strong> The source document is primarily a narrative review and guideline synthesis rather than an original research report. It references consensus documents, expert opinions, and clinical guidelines rather than reporting individual randomized controlled trial (RCT) results with specific effect sizes. Therefore, landmark RCT data is not available from this source. The key documents cited are listed below.
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 4: Key Consensus Documents and Guideline References from the Source</caption>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Document / Source</th>
+                            <th>Year</th>
+                            <th>Key Contribution</th>
+                            <th>Evidence Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>TIME Clinical Decision Support Tool (Smith &amp; Nephew)</td>
+                            <td>2003</td>
+                            <td>Original TIME framework; standardized wound assessment</td>
+                            <td><span class="evidence ev-ns">Consensus</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>TIMERS Consensus — Implementing TIMERS: The Race Against Hard-to-Heal Wounds (JWOC)</td>
+                            <td>2019</td>
+                            <td>Expansion to TIMERS; added Regeneration &amp; Social factors</td>
+                            <td><span class="evidence ev-ns">Consensus</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>CAMPs International Consensus Document (JWC 2025)</td>
+                            <td>2025</td>
+                            <td>New categorization of Cellular, Acellular, Matrix-like Products</td>
+                            <td><span class="evidence ev-ns">Consensus</span></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>BOA Standards — Fracture Related Infections (BOASt)</td>
+                            <td>Current</td>
+                            <td>Standardized FRI diagnosis; deep tissue sampling protocol</td>
+                            <td><span class="evidence ev-ns">Guideline</span></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>GOLIATH Study — Open Fracture Debridement Timing</td>
+                            <td>Current</td>
+                            <td>Debridement safe within 24h for most Type III fractures with immediate antibiotics</td>
+                            <td><span class="evidence ev-ns">Level V</span></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>SIS-E 2025 Global Guideline — Post-operative Consensus</td>
+                            <td>2025</td>
+                            <td>SSI vs SWD distinction; CDC grading; Southampton Wound Score</td>
+                            <td><span class="evidence ev-ns">Guideline</span></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>WUWHS Wound Balance Consensus</td>
+                            <td>2024–2025</td>
+                            <td>Wound Balance concept; SAP dressing superiority for protease/MMP sequestration</td>
+                            <td><span class="evidence ev-ns">Consensus</span></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>WUWHS 2024 Delphi — WBP in Resource-Limited Settings</td>
+                            <td>2024</td>
+                            <td>Foundational TIMERS principles effective in LMICs despite limited resources</td>
+                            <td><span class="evidence ev-ns">Delphi</span></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>FDA RMAT Designation Program (21st Century Cures Act)</td>
+                            <td>2016+</td>
+                            <td>Expediting cell/gene therapies; StrataGraft, Vyjuvek approvals</td>
+                            <td><span class="evidence ev-ns">Regulatory</span></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>EWMA NPWT Document</td>
+                            <td>Current</td>
+                            <td>NPWT update: macro-strain, micro-strain mechanisms, instillation protocols</td>
+                            <td><span class="evidence ev-ns">Guideline</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 8. References -->
+        <section class="card" id="refs">
+            <h2>8. References</h2>
+            <ol class="ref-list">
+                <li>[1] Wound Assessment — StatPearls — NCBI Bookshelf. <em>NIH</em>.</li>
+                <li>[2] TIME Clinical Decision Support Tool. <em>Smith &amp; Nephew</em>.</li>
+                <li>[3] Wound bed preparation: TIME in practice. <em>Wounds UK</em>.</li>
+                <li>[4] Wound bed preparation: TIME for an update. <em>PMC</em>.</li>
+                <li>[5] Wound Bed Assessment: Understanding and Using TIMERS. <em>WCEI Blog</em>.</li>
+                <li>[6] TIMERS: Undertaking wound assessment in the community. <em>PubMed</em>.</li>
+                <li>[7] Role of T.I.M.E.R.S. in Standard of Wound Care. <em>DEBx Medical</em>.</li>
+                <li>[8] TIMERS evolution: focus on biomaterials in tissue repair and regeneration. <em>J Wound Care</em> 2023.</li>
+                <li>[9] Social Drivers of Health and Communication Interventions in Wound Care. <em>MDPI</em> 2023.</li>
+                <li>[10] Strategies to reduce practice variation: T.I.M.E. CDST. <em>Wounds International</em>.</li>
+                <li>[11] Using the pressure injury T.I.M.E. CDST. <em>Wounds International</em>.</li>
+                <li>[12] TIMERS: Undertaking wound assessment in the community. <em>MAG Online</em> 2019.</li>
+                <li>[13] Open Fractures Management. <em>Orthobullets — Trauma</em>.</li>
+                <li>[14] Open fractures: Evidence-based best practices. <em>PMC</em>.</li>
+                <li>[15] Dressing Selection for Chronic Wounds. <em>WoundSource</em>.</li>
+                <li>[16] Wound &amp; Hardware Infection. <em>Orthobullets — Trauma</em>.</li>
+                <li>[17] Managing fracture-related infection. <em>Bonesupport / Wijendra et al.</em> 2025.</li>
+                <li>[18] The TIMERS Framework. <em>Sirona Care &amp; Health</em> 2025.</li>
+                <li>[19] Wound Management Guide and Dressing Formulary 2021. <em>BNSSG Remedy</em>.</li>
+                <li>[20] Expert consensus: Optimising debridement strategies. <em>Wounds UK</em> 2025.</li>
+                <li>[21] Implementing TIMERS: the race against hard-to-heal wounds. <em>AIUC / JWC</em> 2019.</li>
+                <li>[22] Implementing TIMERS: the race against hard-to-heal wounds. <em>AISLeC</em>.</li>
+                <li>[23] Wound dressings — classification and selection. <em>BDNG</em> 2016.</li>
+                <li>[24] Heel/Foot Pressure Ulcer Clinical Pathway. <em>BSW Together</em>.</li>
+                <li>[25] BOA Standards — Fracture Related Infections. <em>BOA</em>.</li>
+                <li>[26] General treatment principles for FRI. <em>PMC</em>.</li>
+                <li>[27] Wound Balance. <em>Wounds International</em>.</li>
+                <li>[28] Negative Pressure Wound Therapy: An Update. <em>EWMA</em>.</li>
+                <li>[29] Implementing Wound Balance: Outcomes and future recommendations. <em>Wounds International</em>.</li>
+                <li>[30] The TIMERS Framework key points. <em>Sirona Care &amp; Health</em> 2025.</li>
+                <li>[31] Implementing Wound Balance. <em>HARTMANN / WUWHS</em> 2025.</li>
+                <li>[32] Wound Bed Preparation: Definition and the TIMERS Model. <em>WoundSource</em>.</li>
+                <li>[33] Cellular, Acellular, Matrix-like Products — International Consensus. <em>JWC</em> 2025.</li>
+                <li>[34] Advanced Therapy Medicinal Products in Regenerative Medicine. <em>JOCMR</em>.</li>
+                <li>[35] EWMA 2025 Conference Abstracts. <em>Cambridge Media Journals</em>.</li>
+                <li>[36] Regenerative Medicine Advanced Therapy Designation. <em>FDA</em>.</li>
+                <li>[37] Brief summary of regulatory frameworks for regenerative medicine. <em>PMC</em> 2025.</li>
+                <li>[38] CBER RMAT Approvals. <em>FDA</em>.</li>
+                <li>[39] Implementing Wound Balance. <em>WUWHS</em> 2025.</li>
+                <li>[40] Global Guideline — Post-op Consensus. <em>SIS-E</em> 2025.</li>
+                <li>[41] Treatment principles in the management of open fractures. <em>PMC</em>.</li>
+                <li>[42] Wound Irrigation in Orthopedic Open Fractures: A Review. <em>PMC</em>.</li>
+                <li>[43] Ryder Practice Guidelines for Open Fracture. <em>Jackson Health</em>.</li>
+                <li>[44] Prevention of SSI After Major Extremity Trauma. <em>AAOS</em>.</li>
+                <li>[45] Implementation of Antibiotic Therapy Protocol for Open Fractures. <em>Spartan Medical</em>.</li>
+                <li>[46] Management of open fractures: A narrative review. <em>PMC</em> 2023.</li>
+                <li>[47] Clinical guidelines for complex extremity war wound management. <em>PMC</em> 2025.</li>
+                <li>[48] Management of Open Fractures. <em>PMC</em>.</li>
+                <li>[49] Beyond Hardware: The Orthoplastic Approach to Infected Nonunions. <em>PMC</em> 2024.</li>
+                <li>[50] The Latest Approaches to Fracture-Related Infection. <em>SpringerMedizin</em>.</li>
+                <li>[51] Indications for soft-tissue reconstruction and hardware preservation. <em>PubMed</em>.</li>
+                <li>[52] Long-Term Wound Palliation to Manage Exposed Hardware in PAD. <em>PMC</em>.</li>
+                <li>[53] Hardware Management in Postoperative Infections. <em>Podiatry Institute</em> 2016.</li>
+                <li>[54] Management of Orthopedic Wounds with Exposed Hardware Using NPWTi-d. <em>HMP Global</em>.</li>
+                <li>[55] EWMA Document: Negative Pressure Wound Therapy. <em>JWC / EWMA</em>.</li>
+                <li>[56] Surgical Site Infection. <em>EWMA</em>.</li>
+                <li>[57] Surgical site infections. <em>EWMA</em>.</li>
+                <li>[58] Wound bed preparation 2024: Delphi consensus. <em>Cambridge Media</em>.</li>
+                <li>[59] Wound Bed Preparation 2024: Delphi Consensus. <em>PubMed</em> 2024.</li>
+                <li>[60] Management of FRI in low resource settings. <em>ResearchGate</em>.</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar" role="complementary" aria-label="Interactive clinical decision tools">
+        <!-- Table of Contents (mobile) -->
+        <div class="sidebar-card">
+            <h3>🧭 Quick Navigation</h3>
+            <div class="toc">
+                <a href="#intro">Introduction</a>
+                <a href="#pathophys">Pathophysiology</a>
+                <a href="#timers">TIMERS Components</a>
+                <a href="#ortho">Orthoplastic Protocols</a>
+                <a href="#dressings">Dressing Matrix</a>
+                <a href="#guidelines">Guidelines 2024–2026</a>
+                <a href="#studies">Key Studies</a>
+                <a href="#refs">References</a>
+            </div>
+        </div>
+
+        <!-- Interactive Decision Tool -->
+        <div class="sidebar-card" aria-label="Clinical parameter calculator">
+            <h3>⚕ TIMERS Decision Aid</h3>
+
+            <div class="slider-group">
+                <label>
+                    Ankle-Brachial Index (ABI)
+                    <span class="val" id="abi-val">0.85</span>
+                </label>
+                <div class="desc">Vascular assessment for lower extremity wounds. &lt;0.5 = critical ischemia.</div>
+                <input type="range" id="abi-slider" min="0.2" max="1.4" step="0.01" value="0.85" aria-label="ABI value">
+            </div>
+
+            <div class="slider-group">
+                <label>
+                    Time to Debridement (hours)
+                    <span class="val" id="td-val">12</span>
+                </label>
+                <div class="desc">Open fracture: 6h legacy, 12h Type IIIB, 24h most Type III (with antibiotics).</div>
+                <input type="range" id="td-slider" min="0" max="48" step="1" value="12" aria-label="Time to debridement in hours">
+            </div>
+
+            <div class="slider-group">
+                <label>
+                    Wound Chronicity (weeks)
+                    <span class="val" id="wc-val">4</span>
+                </label>
+                <div class="desc">Duration of non-healing. &gt;4 weeks = hard-to-heal threshold.</div>
+                <input type="range" id="wc-slider" min="0" max="52" step="1" value="4" aria-label="Wound chronicity in weeks">
+            </div>
+
+            <div class="toggle-group">
+                <span class="toggle-label">Biofilm Suspected?</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="biofilm-toggle" aria-label="Biofilm suspected">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="toggle-group">
+                <span class="toggle-label">Exposed Hardware?</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="hardware-toggle" aria-label="Exposed hardware present">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Recommendation Output -->
+            <div class="rec-box" id="rec-box">
+                <h4>Clinical Recommendation</h4>
+                <div class="rec-text" id="rec-text">Adjust parameters above to generate recommendation.</div>
+                <div class="rec-rationale" id="rec-rationale"></div>
+                <div class="timestamp" id="rec-timestamp"></div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+                <button class="btn btn-copy" id="btn-copy" aria-label="Copy recommendation to clipboard">📋 Copy</button>
+            </div>
+        </div>
+
+        <!-- Evidence Legend -->
+        <div class="sidebar-card">
+            <h3>📊 Evidence Level Legend</h3>
+            <div style="font-size:0.82rem; line-height:2;">
+                <span class="evidence ev-i">I</span> Systematic review / Meta-analysis of RCTs<br>
+                <span class="evidence ev-ii">II</span> Individual RCT with narrow CI<br>
+                <span class="evidence ev-iii">III</span> Cohort / Case-control studies<br>
+                <span class="evidence ev-iv">IV</span> Case series / Poor-quality cohort<br>
+                <span class="evidence ev-v">V</span> Expert opinion / Case reports<br>
+                <span class="evidence ev-ns">Consensus</span> International expert consensus<br>
+                <span class="evidence ev-ns">Guideline</span> Published clinical guideline<br>
+                <span class="evidence ev-ns">Review</span> Narrative/scoping review<br>
+                <span class="evidence ev-ns">Delphi</span> Delphi methodology consensus<br>
+                <span class="evidence ev-ns">Regulatory</span> Regulatory body (e.g., FDA)<br>
+            </div>
+        </div>
+
+        <!-- Source Limitations -->
+        <div class="sidebar-card">
+            <h3>⚠ Source Limitations</h3>
+            <ul style="font-size:0.82rem; margin-left:1rem; color:var(--text-muted);">
+                <li>Source is a narrative review/guideline synthesis — not an original RCT report</li>
+                <li>No individual trial effect sizes or CI data available</li>
+                <li>Slider thresholds for ABI (&lt;0.5 critical ischemia) and debridement timing (6h/12h/24h) are directly from the source; chronicity threshold (&gt;4 weeks) is based on general clinical consensus — annotated accordingly</li>
+                <li>Only 2 key comparative tables possible from source data (Tables 2 & 3)</li>
+            </ul>
+        </div>
+    </aside>
+</div>
+
+<!-- Copy Toast -->
+<div class="copy-toast" id="copy-toast">✓ Copied to clipboard</div>
+
+<script>
+(function() {
+    'use strict';
+
+    const abiSlider = document.getElementById('abi-slider');
+    const tdSlider = document.getElementById('td-slider');
+    const wcSlider = document.getElementById('wc-slider');
+    const biofilmToggle = document.getElementById('biofilm-toggle');
+    const hardwareToggle = document.getElementById('hardware-toggle');
+    const abiVal = document.getElementById('abi-val');
+    const tdVal = document.getElementById('td-val');
+    const wcVal = document.getElementById('wc-val');
+    const recText = document.getElementById('rec-text');
+    const recRationale = document.getElementById('rec-rationale');
+    const recTimestamp = document.getElementById('rec-timestamp');
+    const btnReset = document.getElementById('btn-reset');
+    const btnCopy = document.getElementById('btn-copy');
+    const copyToast = document.getElementById('copy-toast');
+
+    function update() {
+        const abi = parseFloat(abiSlider.value);
+        const td = parseInt(tdSlider.value);
+        const wc = parseInt(wcSlider.value);
+        const biofilm = biofilmToggle.checked;
+        const hardware = hardwareToggle.checked;
+
+        abiVal.textContent = abi.toFixed(2);
+        tdVal.textContent = td;
+        wcVal.textContent = wc;
+
+        let recommendations = [];
+        let rationale = [];
+
+        // ABI Assessment
+        if (abi < 0.5) {
+            recommendations.push('⛔ CRITICAL LIMB ISCHEMIA — Do NOT debride lower extremity wound. Urgent vascular surgery referral and angiography required before any intervention. [Source: TIMERS Framework, Sirona 2025]');
+            rationale.push('ABI <0.5 indicates critical ischemia; debridement risks rapid necrosis expansion and limb loss.');
+        } else if (abi < 0.7) {
+            recommendations.push('⚠ SEVERE PERIPHERAL ARTERIAL DISEASE — Proceed with extreme caution. Autolytic debridement only after vascular assessment. Consider referral for revascularization. [Source: TIMERS Framework]');
+            rationale.push('ABI 0.5–0.7 indicates severe PAD; wound healing capacity significantly compromised.');
+        } else if (abi < 0.9) {
+            recommendations.push('🔶 MILD-TO-MODERATE PAD — Monitor closely. Standard wound care with vascular awareness. Compression therapy requires specialist assessment. [Source: TIMERS Framework]');
+            rationale.push('ABI 0.7–0.9 suggests mild-moderate arterial insufficiency; most debridement modalities safe with caution.');
+        } else {
+            recommendations.push('✅ ADEQUATE PERFUSION — Standard TIMERS pathway applicable. All debridement and dressing modalities appropriate. [Source: TIMERS Framework]');
+            rationale.push('ABI ≥0.9 indicates adequate arterial perfusion for aggressive wound management.');
+        }
+
+        // Debridement Timing
+        if (td <= 6) {
+            recommendations.push('✅ DEBRIDEMENT TIMING: Within 6-hour window — Historical gold standard met. Optimal infection prevention for all open fracture types. [Source: GOLIATH study framework]');
+            rationale.push('6-hour window aligns with historical orthopedic dogma for open fracture debridement.');
+        } else if (td <= 12) {
+            recommendations.push('✅ DEBRIDEMENT TIMING: Within 12 hours — Acceptable for Type IIIB tibial fractures and most Type III injuries with immediate antibiotics. [Source: EWMA/military guidelines]');
+            rationale.push('Type IIIB tibial fractures demand urgent intervention ideally within 12h per source document.');
+        } else if (td <= 24) {
+            recommendations.push('🔶 DEBRIDEMENT TIMING: 12–24 hours — Acceptable for most Type III fractures per modern evidence (GOLIATH), provided antibiotics administered at admission. NOT acceptable for highly contaminated Type IIIB. [Source: GOLIATH study]');
+            rationale.push('Modern guidelines support 24h window for most Type III fractures with immediate antibiotics.');
+        } else {
+            recommendations.push('⛔ DEBRIDEMENT TIMING: >24 hours — SIGNIFICANTLY elevated infection risk. Immediate surgical intervention mandated. Consider DAIR or more aggressive protocols. [Source: BOASt FRI guidelines]');
+            rationale.push('Delays beyond 24h correlate with dramatically increased FRI rates per source literature.');
+        }
+
+        // Wound Chronicity
+        if (wc <= 2) {
+            recommendations.push('✅ ACUTE WOUND — Normal healing trajectory expected. Standard wound care; monitor for progression through normal phases (hemostasis → inflammation → proliferation → remodeling). [Source: Pathophysiology section]');
+            rationale.push('Wounds <2 weeks are typically acute and follow normal healing cascade.');
+        } else if (wc <= 4) {
+            recommendations.push('🔶 EARLY STALL WARNING — Assess for barriers to healing. Begin systematic TIMERS evaluation. Rule out early biofilm formation. [Source: TIMERS Framework]');
+            rationale.push('Wounds 2–4 weeks without progress require proactive barrier identification.');
+        } else if (wc <= 12) {
+            recommendations.push('⚠ HARD-TO-HEAL WOUND — Full TIMERS protocol indicated. Consider advanced antimicrobials, NPWT, and if refractory, CAMPs. Multidisciplinary team referral recommended. [Source: TIMERS consensus, CAMPs guideline]');
+            rationale.push('Wounds >4 weeks are classified as hard-to-heal; protease-rich chronic environment likely established.');
+        } else {
+            recommendations.push('⛔ CHRONIC REFRACTORY WOUND — Escalate to Regeneration (R) component. Evaluate for CAMPs application, RMAT-eligible biologics, or advanced surgical reconstruction. Comprehensive Susceptibility (S) assessment mandatory. [Source: TIMERS consensus, FDA RMAT]');
+            rationale.push('Wounds >12 weeks typically require advanced regenerative interventions beyond standard care.');
+        }
+
+        // Biofilm
+        if (biofilm) {
+            recommendations.push('🦠 BIOFILM SUSPECTED — Physical debridement is MANDATORY to disrupt glycocalyx matrix. Topical antimicrobials (silver, cadexomer iodine, PHMB) indicated. Systemic antibiotics NOT effective against biofilm without concurrent physical disruption. For orthopedic FRI: 5 deep tissue samples before antibiotics. [Source: Managing FRI, Bonesupport 2025]');
+            rationale.push('Biofilm present in ~70% of chronic wounds; physical disruption required before antimicrobials can be effective.');
+        }
+
+        // Hardware
+        if (hardware) {
+            recommendations.push('🔩 EXPOSED HARDWARE ASSESSMENT REQUIRED — Determine stability, exposure duration, and infection status. If stable + exposed <2 weeks + no purulence: salvage with NPWTi-d and early flap coverage. If loosened/purulent: explant with aggressive reaming + local antibiotic carriers (e.g., Cerament G). [Source: Orthoplastic protocols, Bonesupport 2025]');
+            rationale.push('Hardware salvage criteria per source: mechanically stable, <2 weeks exposure, no deep purulent infection.');
+        }
+
+        // Social factors reminder for chronic wounds
+        if (wc > 8) {
+            recommendations.push('👥 SOCIAL/SUSCEPTIBILITY (S) FACTORS — Assess nutritional status, glycemic control, living environment, caregiver support, financial constraints, transportation access, and health literacy. Consider CCI scoring. Refer to dietitian, social worker, and psychologist as needed. [Source: TIMERS S component]');
+            rationale.push('Wounds >8 weeks require comprehensive S-factor assessment per TIMERS framework.');
+        }
+
+        recText.innerHTML = recommendations.join('<br><br>');
+        recRationale.textContent = 'Rationale: ' + rationale.join(' ');
+        recTimestamp.textContent = 'Generated: ' + new Date().toLocaleString();
+    }
+
+    function resetAll() {
+        abiSlider.value = 0.85;
+        tdSlider.value = 12;
+        wcSlider.value = 4;
+        biofilmToggle.checked = false;
+        hardwareToggle.checked = false;
+        update();
+    }
+
+    function copyToClipboard() {
+        const abi = parseFloat(abiSlider.value).toFixed(2);
+        const td = tdSlider.value;
+        const wc = wcSlider.value;
+        const biofilm = biofilmToggle.checked ? 'Yes' : 'No';
+        const hardware = hardwareToggle.checked ? 'Yes' : 'No';
+
+        const text = `TIMERS Clinical Decision Aid — Export
+========================================
+Parameters:
+  ABI: ${abi}
+  Time to Debridement: ${td} hours
+  Wound Chronicity: ${wc} weeks
+  Biofilm Suspected: ${biofilm}
+  Exposed Hardware: ${hardware}
+
+Clinical Recommendation:
+${recText.innerText}
+
+${recRationale.innerText}
+
+${recTimestamp.innerText}
+========================================
+Source: Advanced Clinical Management of Complex Orthopedic and Surgical Wounds: The TIMERS Framework`;
+
+        navigator.clipboard.writeText(text).then(() => {
+            copyToast.classList.add('show');
+            setTimeout(() => copyToast.classList.remove('show'), 2200);
+        }).catch(() => {
+            /* Fallback */
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            copyToast.classList.add('show');
+            setTimeout(() => copyToast.classList.remove('show'), 2200);
+        });
+    }
+
+    abiSlider.addEventListener('input', update);
+    tdSlider.addEventListener('input', update);
+    wcSlider.addEventListener('input', update);
+    biofilmToggle.addEventListener('change', update);
+    hardwareToggle.addEventListener('change', update);
+    btnReset.addEventListener('click', resetAll);
+    btnCopy.addEventListener('click', copyToClipboard);
+
+    // Initial call
+    update();
+})();
+</script>
+</body>
+</html>

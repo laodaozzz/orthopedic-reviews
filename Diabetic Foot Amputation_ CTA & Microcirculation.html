@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optimal Level Determination for Minor Amputation in the Diabetic Foot</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2b6cb0;
+    --accent: #e53e3e;
+    --accent-light: #fc8181;
+    --success: #276749;
+    --success-bg: #c6f6d5;
+    --warning: #975a16;
+    --warning-bg: #fefcbf;
+    --danger: #9b2c2c;
+    --danger-bg: #fed7d7;
+    --gray-50: #f7fafc;
+    --gray-100: #edf2f7;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e0;
+    --gray-400: #a0aec0;
+    --gray-600: #718096;
+    --gray-700: #4a5568;
+    --gray-800: #2d3748;
+    --gray-900: #1a202c;
+    --white: #ffffff;
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .site-header {
+    background: linear-gradient(135deg, var(--primary) 0%, #234e8e 100%);
+    color: var(--white);
+    padding: 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  .site-header h1 {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    max-width: 1280px;
+    margin: 0 auto;
+    line-height: 1.3;
+  }
+  .site-header .subtitle {
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.85;
+    margin-top: 0.35rem;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    max-width: 1280px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .sidebar { order: -1; }
+  }
+
+  /* Main content */
+  .main-content {
+    min-width: 0;
+  }
+  .main-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--primary-light);
+    letter-spacing: -0.01em;
+  }
+  .main-content h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin: 1.8rem 0 0.7rem;
+  }
+  .main-content p {
+    margin-bottom: 1rem;
+    text-align: justify;
+  }
+  .main-content ul, .main-content ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+  }
+  .main-content li {
+    margin-bottom: 0.4rem;
+  }
+
+  /* Evidence badges */
+  .evidence-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    vertical-align: middle;
+    margin-left: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .ev-1 { background: #276749; color: #c6f6d5; }
+  .ev-2 { background: #2b6cb0; color: #bee3f8; }
+  .ev-3 { background: #975a16; color: #fefcbf; }
+  .ev-4 { background: #9b2c2c; color: #fed7d7; }
+  .ev-ns { background: var(--gray-400); color: var(--white); }
+
+  /* Callout boxes */
+  .callout {
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 1.2rem 0;
+    border-left: 4px solid;
+    font-size: 0.92rem;
+  }
+  .callout strong { display: block; margin-bottom: 0.25rem; }
+  .callout-info {
+    background: #ebf8ff;
+    border-color: var(--primary-light);
+    color: var(--primary);
+  }
+  .callout-warning {
+    background: var(--warning-bg);
+    border-color: #d69e2e;
+    color: var(--warning);
+  }
+  .callout-danger {
+    background: var(--danger-bg);
+    border-color: var(--accent);
+    color: var(--danger);
+  }
+  .callout-success {
+    background: var(--success-bg);
+    border-color: var(--success);
+    color: var(--success);
+  }
+  .callout-limitation {
+    background: #faf5ff;
+    border-color: #805ad5;
+    color: #553c9a;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    background: var(--white);
+  }
+  caption {
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    background: var(--primary);
+    color: var(--white);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  th {
+    background: var(--gray-100);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.65rem 0.85rem;
+    border-bottom: 2px solid var(--gray-300);
+    color: var(--gray-700);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  td {
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid var(--gray-200);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f0f7ff; }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  .sidebar-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 1.5rem;
+    border-top: 4px solid var(--primary-light);
+  }
+  .sidebar-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Sliders */
+  .slider-group {
+    margin-bottom: 1.5rem;
+  }
+  .slider-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--gray-700);
+    margin-bottom: 0.3rem;
+  }
+  .slider-group .range-wrapper {
+    position: relative;
+    margin-bottom: 0.2rem;
+  }
+  .slider-group input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--gray-200);
+    outline: none;
+    cursor: pointer;
+  }
+  .slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    border: 3px solid var(--white);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .slider-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  .slider-group input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    border: 3px solid var(--white);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+  .slider-value {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--primary);
+    margin: 0.2rem 0 0.4rem;
+  }
+  .slider-thresholds {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--gray-400);
+    padding: 0 0.2rem;
+  }
+  .slider-annotation {
+    font-size: 0.72rem;
+    color: var(--gray-600);
+    font-style: italic;
+    margin-top: 0.2rem;
+    line-height: 1.4;
+  }
+
+  /* Recommendation box */
+  .recommendation-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+  }
+  .recommendation-box h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .recommendation-box .rec-level {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+  .rec-safe { background: var(--success-bg); color: var(--success); border: 1px solid #9ae6b4; }
+  .rec-caution { background: var(--warning-bg); color: var(--warning); border: 1px solid #f6e05e; }
+  .rec-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid #feb2b2; }
+  .recommendation-box ul { margin: 0.5rem 0 0 1rem; font-size: 0.82rem; }
+  .recommendation-box li { margin-bottom: 0.25rem; }
+
+  /* Buttons */
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+  .btn {
+    flex: 1;
+    padding: 0.55rem 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-reset {
+    background: var(--gray-200);
+    color: var(--gray-700);
+  }
+  .btn-reset:hover { background: var(--gray-300); }
+  .btn-export {
+    background: var(--primary);
+    color: var(--white);
+  }
+  .btn-export:hover { background: var(--primary-light); }
+
+  /* References */
+  .references {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: var(--shadow);
+  }
+  .references h2 {
+    margin-top: 0;
+  }
+  .references ol {
+    margin-left: 1.2rem;
+    font-size: 0.82rem;
+    color: var(--gray-600);
+  }
+  .references li {
+    margin-bottom: 0.3rem;
+    line-height: 1.5;
+  }
+  .references a {
+    color: var(--primary-light);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .references a:hover { text-decoration: underline; }
+
+  /* Figures / Diagrams */
+  .diagram-box {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  .diagram-box .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+  }
+  .flow-step {
+    background: var(--gray-100);
+    border: 2px solid var(--gray-300);
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    min-width: 100px;
+    text-align: center;
+  }
+  .flow-step.highlight { border-color: var(--primary-light); background: #ebf8ff; color: var(--primary); }
+  .flow-arrow {
+    font-size: 1.2rem;
+    color: var(--gray-400);
+    font-weight: 700;
+  }
+  .flow-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .flow-label {
+    font-size: 0.7rem;
+    color: var(--gray-500);
+    font-weight: 600;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--primary);
+    color: var(--white);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Divider */
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-200);
+    margin: 2rem 0;
+  }
+
+  /* Scrollbar */
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 2px; }
+
+  /* Print */
+  @media print {
+    .site-header { position: static; }
+    .sidebar { position: static; max-height: none; }
+    .btn-group { display: none; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Optimal Level Determination for Minor Amputation in the Diabetic Foot</h1>
+  <p class="subtitle">Integrating Macrovascular Imaging, Microcirculatory Assessment &amp; the Angiosome Concept — Evidence-Based Educational Summary</p>
+</header>
+
+<div class="layout">
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content" id="mainContent" role="main">
+
+    <!-- Section 1: Introduction -->
+    <h2 id="intro">1. Introduction: The Paradigm of Tissue Preservation</h2>
+    <p>The diabetic foot represents one of the most clinically complex, economically burdensome, and physically devastating complications of diabetes mellitus. The underlying pathology is classically characterized by a detrimental triad: <strong>profound peripheral sensory and motor neuropathy</strong>, <strong>severe multi-level peripheral artery disease (PAD)</strong>, and <strong>a high susceptibility to superimposed polymicrobial infection</strong>.<span class="evidence-badge ev-1">Level I</span></p>
+
+    <p>Epidemiological data indicate that <strong>15% to 25% of all individuals diagnosed with diabetes</strong> will develop a diabetic foot ulcer (DFU) during their lifetime.<sup>[1]</sup> The five-year mortality rate following a major lower extremity amputation is approximately <strong>50%</strong>—a figure that eclipses the mortality rates of breast, colon, and prostate cancer.<sup>[3]</sup> Furthermore, up to <strong>55% of patients</strong> who undergo a major limb amputation will require a contralateral amputation within two to three years.<sup>[3]</sup></p>
+
+    <div class="callout callout-danger">
+      <strong>⚠ Critical Clinical Imperative</strong>
+      Modern surgical philosophy has decisively shifted toward aggressive tissue preservation and limb salvage. The primary objective is maintenance of maximal ambulatory function, reduced metabolic demand during gait, and enhanced quality of life — realized by prioritizing partial foot amputations (PFAs) whenever anatomical and hemodynamic parameters permit.<sup>[6]</sup>
+    </div>
+
+    <p>Minor amputations encompass a spectrum of distal surgical interventions:</p>
+    <ul>
+      <li><strong>Single or multiple digit disarticulations</strong> (toe amputations)</li>
+      <li><strong>Partial or complete ray resections</strong> (digit plus corresponding metatarsal)</li>
+      <li><strong>Transmetatarsal amputations (TMA)</strong></li>
+      <li><strong>Midfoot procedures</strong> (Chopart or Lisfranc amputations)<sup>[6]</sup></li>
+    </ul>
+
+    <p>However, these tissue-sparing procedures carry significant risks of surgical site failure:</p>
+
+    <!-- Table: Failure Rates -->
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 1. Major Amputation and Re-ulceration Rates Following Initial Minor Amputation<sup>[6]</sup></caption>
+        <thead>
+          <tr>
+            <th>Amputation Level</th>
+            <th>Major Amputation Rate</th>
+            <th>Re-ulceration Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Simple digit / metatarsal amputation</td>
+            <td>0% – 10%</td>
+            <td>Data not specified individually in source</td>
+          </tr>
+          <tr>
+            <td>Transmetatarsal amputation (TMA)</td>
+            <td>8% – 54%</td>
+            <td>Up to 69%</td>
+          </tr>
+          <tr>
+            <td>Midfoot amputation (Chopart / Lisfranc)</td>
+            <td>11% – 44%</td>
+            <td>Data not specified individually in source</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The fundamental clinical challenge lies in the accurate preoperative determination of the optimal amputation level — balancing <strong>maximal biomechanical preservation</strong> against the imperative of <strong>definitive primary wound healing</strong>.<sup>[6]</sup></p>
+
+    <!-- Section 2: Pathophysiology -->
+    <h2 id="pathophysiology">2. Pathophysiology of the Neuro-Ischemic Diabetic Foot</h2>
+    <p>The vascular complications of diabetes simultaneously attack the macrovascular arterial conduits and the terminal microvascular capillary beds, creating a compounded ischemic environment uniquely resistant to standard interventions.<sup>[16]</sup></p>
+
+    <h3>2.1 Macrovascular Disease</h3>
+    <p>Diabetic patients suffer from accelerated atherosclerosis that distinctively favors the <strong>distal infrapopliteal vessels</strong> (anterior tibial, posterior tibial, and peroneal arteries), while frequently sparing the more proximal aortoiliac and femoropopliteal segments.<sup>[4]</sup> Concurrently, <strong>Monckeberg's medial calcific sclerosis (MAC)</strong> — characterized by extensive calcium deposition within the tunica media — renders tibial and pedal arteries rigid, inelastic, and entirely incompressible, profoundly confounding traditional non-invasive hemodynamic assessments.<sup>[9,11]</sup></p>
+
+    <h3>2.2 Microangiopathy</h3>
+    <p>Microvascular disease manifests as:</p>
+    <ul>
+      <li>Profound <strong>capillary basement membrane thickening</strong></li>
+      <li>Pervasive <strong>endothelial dysfunction</strong></li>
+      <li>Impaired local vasodilation in response to tissue hypoxia<sup>[16]</sup></li>
+    </ul>
+    <p>Autonomic neuropathy induces <strong>autosympathectomy</strong>, leading to arteriovenous shunting that bypasses nutritional capillary beds — creating a paradoxical presentation: a warm, erythematous foot with bounding pulses yet suffering from profound cellular hypoxia.<sup>[16]</sup></p>
+
+    <div class="callout callout-warning">
+      <strong>📊 Compounded Risk Data (Veteran Cohort Studies)<sup>[16,19]</sup></strong>
+      <ul style="margin-top:0.4rem;">
+        <li><strong>Microvascular disease alone:</strong> 3.7-fold to 6.8-fold increase in amputation risk</li>
+        <li><strong>Macrovascular PAD alone:</strong> 13.9-fold to 19.7-fold increase</li>
+        <li><strong>Combined micro- + macrovascular disease:</strong> <span style="color:#e53e3e;font-weight:800;">22.7-fold to 23-fold increase</span></li>
+      </ul>
+      <span class="evidence-badge ev-2">Level II</span> Retrospective cohort data
+    </div>
+
+    <!-- Section 3: Guidelines -->
+    <h2 id="guidelines">3. Contemporary Clinical Guidelines (2024–2026)</h2>
+
+    <h3>3.1 IWGDF / SVS / ESVS Multisociety Directives</h3>
+    <p>The IWGDF, in collaboration with SVS and ESVS, emphasizes that the overwhelming majority of non-healing diabetic wounds are "neuro-ischemic" requiring objective quantification of perfusion deficits prior to any surgical intervention.<sup>[21,25]</sup> These guidelines heavily endorse the <strong>WIfI classification system</strong> (Wound, Ischemia, and foot Infection) for predicting spontaneous wound healing, estimating major amputation risk, and determining the benefit of revascularization.<span class="evidence-badge ev-1">Level I</span></p>
+
+    <div class="callout callout-info">
+      <strong>🔑 WIfI-Directed Decision Framework<sup>[29]</sup></strong>
+      <ul style="margin-top:0.4rem;">
+        <li><strong>WIfI Stage 4</strong> (advanced tissue loss or severe infection): Revascularization is <em>unequivocally beneficial</em>, even with only mild-to-moderate ischemia (grades 1–2)</li>
+        <li><strong>WIfI Stages 1–3</strong> + mild-to-moderate ischemia: Decision depends on continuous monitoring of hemodynamic parameters and clinical trajectory</li>
+      </ul>
+    </div>
+
+    <h3>3.2 2024 ACC/AHA PAD Guidelines</h3>
+    <p>The 2024 ACC/AHA guidelines deliver a critical update, explicitly highlighting the inadequacies of the Ankle-Brachial Index (ABI):<sup>[23]</sup></p>
+    <ul>
+      <li>In nearly <strong>25% of patients with CLTI</strong>, the ABI appears falsely "normal" (0.90–1.40)</li>
+      <li>An additional <strong>29% have an ABI between 0.70 and 1.40</strong> masking ischemia severity</li>
+      <li>Diagnostic concordance between ABI and toe pressure is merely <strong>58%</strong><sup>[23]</sup></li>
+    </ul>
+    <p>The consensus <strong>strongly mandates</strong> utilization of the Toe-Brachial Index (TBI) and absolute Toe Pressure (TP) for reliable screening and amputation level planning.<span class="evidence-badge ev-1">Level I</span></p>
+
+    <h3>3.3 2025 IDF Clinical Practice Recommendations</h3>
+    <p>The 2025 IDF update emphasizes a dual-tier approach distinguishing optimal from basic care strategies. Microvascular and macrovascular complications must be assessed and managed concurrently, with tight glycemic, blood pressure, and lipid management as foundational to slowing systemic progression.<sup>[18,24]</sup></p>
+
+    <h3>3.4 2025 Chinese Practical Guidelines</h3>
+    <p>The 2025 Chinese guidelines present <strong>46 specific evidence-graded recommendations</strong> and note that minor amputations currently account for <strong>16.88% of all diabetic amputations</strong> in the region, compared to 2.14% for major amputations. These must be strictly preceded by rigorous vascular evaluation and, when necessary, targeted vascular reconstruction.<sup>[33]</sup></p>
+
+    <h3>3.5 Antimicrobial Stewardship Post-Amputation</h3>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 2. Post-Amputation Antibiotic Duration Guidelines (IDSA / IWGDF)<sup>[34,35]</sup></caption>
+        <thead>
+          <tr>
+            <th>Surgical Margin Status</th>
+            <th>Recommended Duration</th>
+            <th>Evidence Basis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Clean bone margins (positive proximal culture, no gross residual necrosis)</td>
+            <td>Up to 3 weeks targeted therapy</td>
+            <td>Joint IDSA/IWGDF consensus</td>
+          </tr>
+          <tr>
+            <td>Residual infected bone without proximal resection</td>
+            <td>Full 6-week course</td>
+            <td>Joint IDSA/IWGDF consensus</td>
+          </tr>
+          <tr>
+            <td>Successful complete debridement of moderate-to-severe soft-tissue infection</td>
+            <td>10-day course (conditional recommendation)</td>
+            <td>Emerging antimicrobial stewardship evidence</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 4: CTA -->
+    <h2 id="cta">4. Macrovascular Evaluation: Computed Tomography Angiography (CTA)</h2>
+    <p>CTA has definitively emerged as the <strong>primary non-invasive cross-sectional imaging modality</strong> for comprehensive anatomical evaluation of the macrovascular arterial tree in diabetic foot ulcers and CLTI.<sup>[36]</sup></p>
+
+    <h3>4.1 Critical Diagnostic Functions in Amputation Planning</h3>
+    <ol>
+      <li><strong>Vessel Patency &amp; Run-off Quantification:</strong> Objective quantification of patent infrapopliteal vessels — directly correlated with minor amputation healing probability<sup>[3]</sup></li>
+      <li><strong>Angiosome &amp; Collateral Mapping:</strong> Determining whether the proposed incision lies within a well-perfused angiosome or an ischemic watershed zone<sup>[15]</sup></li>
+      <li><strong>GLASS Stage Calculation:</strong> Defining the Target Arterial Path (TAP) for restoring direct in-line pulsatile flow<sup>[28]</sup></li>
+    </ol>
+
+    <h3>4.2 Limitations of Standard CTA in the Diabetic Foot</h3>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 3. CTA Limitations in Diabetic Foot Imaging<sup>[9,11,16,41]</sup></caption>
+        <thead>
+          <tr>
+            <th>Limitation</th>
+            <th>Mechanism</th>
+            <th>Clinical Consequence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Blooming Artifact</strong></td>
+            <td>High-density calcium creates beam-hardening artifacts expanding beyond plaque boundaries</td>
+            <td>Overestimation of stenosis; misdiagnosis of patent vessels as occluded<sup>[41]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Contrast-Induced Nephropathy</strong></td>
+            <td>Requires 70–100 mL iodinated contrast<sup>[41]</sup></td>
+            <td>Prohibitive in CKD/ESRD patients<sup>[11]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Microcirculatory Blind Spot</strong></td>
+            <td>Physical resolution limits prevent capillary visualization</td>
+            <td>Microangiopathy may prevent healing despite patent macrovessels<sup>[16]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Altered Flow Dynamics</strong></td>
+            <td>Extreme peripheral resistance causes delayed arterial flow</td>
+            <td>Contrast bolus may fail to reach pedal vessels within acquisition window<sup>[41]</sup></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4.3 Advanced CT Modalities (2025–2026)</h3>
+    <p>Emerging technologies address these limitations:</p>
+    <ul>
+      <li><strong>Dual-Energy CT (DECT):</strong> Virtual Monoenergetic Imaging and Virtual Non-Calcium (VNCa) mapping digitally remove heavy medial calcifications, mitigating blooming artifacts. VNCa algorithms also identify bone marrow edema, distinguishing osteomyelitis from Charcot neuro-osteoarthropathy<sup>[27,41]</sup></li>
+      <li><strong>Dynamic Volume Perfusion CT:</strong> Captures contrast passage over time, generating color-coded perfusion maps that evaluate both macrocirculation and microcirculation simultaneously<sup>[45,49]</sup></li>
+      <li><strong>Photon-Counting CT (PCCT):</strong> The most significant 2025–2026 leap — drastically improves spatial resolution, reduces noise, and requires significantly lower radiation and contrast doses, promising to finally resolve sub-millimeter pedal artery visualization<sup>[50,52]</sup></li>
+    </ul>
+
+    <!-- Section 5: Run-off Scoring -->
+    <h2 id="runoff">5. Run-off Vessel Evaluation &amp; SVS Scoring</h2>
+    <p>The patency of the three primary infrapopliteal vessels — anterior tibial, posterior tibial, and peroneal arteries — represents the most critical macrovascular determinant of minor amputation success.<sup>[38]</sup></p>
+
+    <div class="callout callout-info">
+      <strong>ℹ Modified SVS Run-off Score<sup>[38,53]</strong><br>
+      Aggregates severity of atherosclerotic/calcific disease across the three infrapopliteal vessels. Points assigned based on degree of stenosis and length of occlusion. Low score = good run-off; High score = poor run-off.
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 4. Patent Run-off Vessels vs. TMA Outcomes (Dallas VA Medical Center, 10-Year Review)<sup>[3]</sup></caption>
+        <thead>
+          <tr>
+            <th>Patent Infrapopliteal Vessels</th>
+            <th>TMA Failure Rate</th>
+            <th>Limb Salvage Rate</th>
+            <th>Clinical Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Zero</strong></td>
+            <td style="color:#e53e3e;font-weight:700;">100%</td>
+            <td>0%</td>
+            <td>Minor amputation <strong>absolutely contraindicated</strong>; mandate revascularization or primary major amputation</td>
+          </tr>
+          <tr>
+            <td><strong>One</strong></td>
+            <td style="color:#d69e2e;font-weight:700;">56.3%</td>
+            <td>43.7%</td>
+            <td>Precarious hemodynamic state; aggressive discussion regarding failure risk and need for revascularization</td>
+          </tr>
+          <tr>
+            <td><strong>Two or Three</strong></td>
+            <td style="color:#276749;font-weight:700;">&lt; 25%</td>
+            <td style="font-weight:700;">&gt; 75%</td>
+            <td>Favorable anatomy; TMA may be confidently attempted as primary limb salvage procedure</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.85rem;color:var(--gray-600);font-style:italic;">Note: Source document reports this as a single-center 10-year retrospective review from the Dallas VA Medical Center. Level of Evidence: III (retrospective cohort).<sup>[3]</sup></p>
+
+    <!-- Section 6: Angiosome -->
+    <h2 id="angiosome">6. The Angiosome Concept &amp; Woundosome Paradigm</h2>
+    <p>The angiosome concept divides the foot and ankle into distinct three-dimensional tissue blocks, each supplied by specific identifiable source arteries:<sup>[15]</sup></p>
+    <ul>
+      <li><strong>Anterior tibial artery</strong> (continues as dorsalis pedis) → <em>entire dorsum of the foot</em></li>
+      <li><strong>Posterior tibial artery</strong> → <em>plantar surface and heel</em></li>
+      <li><strong>Peroneal artery</strong> → <em>lateral calcaneal region</em></li>
+    </ul>
+
+    <h3>6.1 Direct vs. Indirect Revascularization</h3>
+    <p>Systematic reviews consistently demonstrate that <strong>angiosome-guided Direct Revascularization (DR)</strong> yields significantly superior outcomes compared to Indirect Revascularization (IR):<span class="evidence-badge ev-1">Level I</span></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 5. Direct vs. Indirect Revascularization Outcomes in Diabetic CLTI<sup>[57]</sup></caption>
+        <thead>
+          <tr>
+            <th>Outcome Measure</th>
+            <th>Direct Revascularization (DR)</th>
+            <th>Indirect Revascularization (IR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Major amputation rate</td>
+            <td style="color:#276749;font-weight:700;">3.2%</td>
+            <td style="color:#e53e3e;font-weight:700;">9.2%</td>
+          </tr>
+          <tr>
+            <td>Overall mortality</td>
+            <td style="color:#276749;font-weight:700;">14%</td>
+            <td style="color:#e53e3e;font-weight:700;">24%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>For patients where conventional revascularization is impossible, <strong>surgical Deep Vein Arterialization</strong> has demonstrated a <strong>limb salvage rate of 100% at one year</strong> with overall survival of 88.88% at 12 and 24 months.<sup>[58]</sup></p>
+
+    <h3>6.2 Limitations and the Woundosome Evolution</h3>
+    <p>In advanced diabetes with end-stage renal dysfunction, "choke vessels" connecting adjacent angiosomes are frequently obliterated or severely calcified, preventing collateral compensation.<sup>[59]</sup> Current guidelines are transitioning to the <strong>"woundosome" concept</strong> — focusing on individualized, perfusion-oriented targeting based on real-time functional hemodynamics rather than static anatomical maps.<sup>[15]</sup></p>
+
+    <!-- Section 7: Microcirculatory Assessment -->
+    <h2 id="micro">7. Microcirculatory Assessment: TcPO2, TBP, and ABI Limitations</h2>
+
+    <h3>7.1 The Inadequacy of the ABI</h3>
+
+    <div class="callout callout-danger">
+      <strong>⛔ ABI Is Demonstrably Obsolete in Diabetic PAD<sup>[11,18,23]</sup></strong>
+      <ul style="margin-top:0.4rem;">
+        <li>In MAC-prone patients: ABI cutoff &gt; 0.7 yields <strong>PLR of only 2.0</strong> and <strong>NLR of 0.53</strong> — very poor diagnostic accuracy</li>
+        <li>Pooled <strong>Diagnostic Odds Ratio (DOR) for ABI = 1.02</strong> — clinically insignificant<sup>[65]</sup></li>
+        <li>Falsely elevated supranormal values (&gt;1.30) completely mask severe ischemia</li>
+      </ul>
+      <span class="evidence-badge ev-1">Level I</span> Systematic review &amp; meta-analysis
+    </div>
+
+    <h3>7.2 Toe Blood Pressure (TBP) and Toe-Brachial Index (TBI)</h3>
+    <p>Because digital arteries are less susceptible to medial calcification, TBP and TBI provide far more accurate reflections of distal perfusion:<sup>[18]</sup></p>
+    <ul>
+      <li><strong>TBI ≤ 0.70</strong> — abnormal; supports definitive PAD diagnosis<sup>[23]</sup></li>
+      <li><strong>Absolute TBP &lt; 30 mmHg</strong> — indicates severe critical limb ischemia; linked to substantially higher major amputation risk and minor amputation failure<sup>[11]</sup></li>
+    </ul>
+
+    <h3>7.3 Transcutaneous Oxygen Pressure (TcPO2)</h3>
+    <p>TcPO2 represents the <strong>non-invasive clinical gold standard</strong> for assessing microvascular perfusion and predicting minor amputation success.<sup>[4,62]</sup> Measurements are entirely independent of arterial calcification.<sup>[60]</sup></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 6. TcPO2 Predictive Thresholds for Minor Amputation Healing<sup>[11,12,65]</sup></caption>
+        <thead>
+          <tr>
+            <th>TcPO2 Value</th>
+            <th>Healing Prediction</th>
+            <th>Statistical Performance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>≥ 30–40 mmHg</strong></td>
+            <td style="color:#276749;font-weight:700;">Strong predictor of successful healing</td>
+            <td>86%–91% success rate even without palpable pulses<sup>[12]</sup>; PLR 5.9, NLR 0.2<sup>[11]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>&lt; 30 mmHg</strong></td>
+            <td style="color:#e53e3e;font-weight:700;">Prohibitive ischemic risk</td>
+            <td>Tissue too hypoxic for wound repair phases; vascular reconstruction required<sup>[11]</sup></td>
+          </tr>
+          <tr>
+            <td colspan="3" style="background:var(--gray-50);font-size:0.82rem;">
+              <strong>Pooled DOR for TcPO2 = 15.81</strong> vs. ABI DOR of 1.02<sup>[65]</sup>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>7.4 Stimulation TcPO2 Testing</h3>
+    <p>Novel protocols incorporating a modified Ratschow test (post-exercise stimulation) coupled with continuous TcPO2 measurement have been shown to significantly increase sensitivity and specificity for detecting PAD in the diabetic foot.<sup>[66]</sup> Patients with monophasic flow exhibit significantly longer TcPO2 recovery times (446 vs. 370 ms) and deeper ischemic drops (minimal TcPO2 26.2 vs. 31.4 mmHg) compared to those with triphasic flow.<span class="evidence-badge ev-2">Level II</span></p>
+
+    <!-- Section 8: Integrated Algorithms & ML -->
+    <h2 id="algorithms">8. Integrated Clinical Algorithms &amp; Machine Learning Models</h2>
+
+    <h3>8.1 The Standard Integrated Decision Protocol</h3>
+    <p>Modern 2025–2026 clinical pathways rely exclusively on the synergistic integration of macrovascular and microvascular data:<sup>[11,12]</sup></p>
+
+    <div class="diagram-box" aria-label="Clinical decision algorithm flowchart">
+      <strong style="font-size:0.9rem;color:var(--primary);">Integrated Minor Amputation Decision Algorithm</strong>
+      <div class="flow-row">
+        <div class="flow-step highlight">1. Wound Assessment<br>&amp; WIfI Staging</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step highlight">2. TcPO2 Mapping<br>at Proposed Margins</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-branch">
+          <div class="flow-label">TcPO2 ≥ 30–40 mmHg</div>
+          <div class="flow-step" style="border-color:#276749;background:#c6f6d5;">3a. Proceed with<br>Minor Amputation<br>(86–91% success)</div>
+        </div>
+        <div style="padding:0 1rem;color:var(--gray-400);font-weight:700;">OR</div>
+        <div class="flow-branch">
+          <div class="flow-label">TcPO2 &lt; 30 mmHg</div>
+          <div class="flow-step" style="border-color:#e53e3e;background:#fed7d7;">3b. Obtain CTA<br>for Run-off &amp;<br>Angiosome Mapping</div>
+        </div>
+      </div>
+      <div class="flow-row" style="margin-top:0.5rem;">
+        <div class="flow-step" style="border-color:#d69e2e;background:#fefcbf;">4. Targeted DR (Angiosome-Guided)<br>→ Re-check TcPO2 &gt; 30 mmHg<br>→ Delayed Minor Amputation</div>
+      </div>
+    </div>
+
+    <h3>8.2 Machine Learning Predictive Models</h3>
+    <p>Advanced AI models have been integrated to predict optimal amputation levels by synthesizing CTA run-off scores, TcPO2 values, angiosome mapping, systemic inflammatory markers, renal function, and comorbidities.<sup>[67,68]</sup></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 7. Machine Learning Model Performance for Amputation Outcome Prediction<sup>[68,69,70]</sup></caption>
+        <thead>
+          <tr>
+            <th>Algorithm</th>
+            <th>Key Features</th>
+            <th>Performance Metrics</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>XGBoost</strong></td>
+            <td>UT Grade 3 DFU prediction</td>
+            <td>Accuracy 0.94, Precision 0.96, F1 0.94, AUC 0.93<sup>[70]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Artificial Neural Network (ANN)</strong></td>
+            <td>Clinical data + CTA integration</td>
+            <td>AUC 0.955, Sensitivity 92.3%, Specificity 93.5%<sup>[69]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>LASSO Feature Selection</strong></td>
+            <td>Identifies CRP, WBC, BUN, Wagner grade as independently powerful predictors alongside vascular parameters<sup>[68]</sup></td>
+            <td>Emphasizes overriding role of systemic infection and renal impairment</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>These models are increasingly accessible via web-based clinical decision support calculators.<sup>[72]</sup></p>
+
+    <!-- Section 9: Surgical Considerations -->
+    <h2 id="surgical">9. Anatomical &amp; Surgical Considerations for Specific Levels</h2>
+
+    <h3>9.1 Toe Amputation vs. Ray Amputation</h3>
+    <p>The choice between toe disarticulation and ray resection depends on the proximal extent of soft tissue infection and underlying osteomyelitis.<sup>[73]</sup></p>
+
+    <div class="callout callout-warning">
+      <strong>⚠ Ray Amputation Risks<sup>[8,10,75]</sup></strong>
+      <ul style="margin-top:0.4rem;">
+        <li><strong>Biomechanical disruption:</strong> Removal of a central metatarsal compromises the transverse metatarsal arch, radically altering plantar pressure distribution</li>
+        <li><strong>Transfer lesions:</strong> First-ray amputation carries a hazard ratio of <strong>2.853 for re-ulceration</strong> compared to other minor amputation types<sup>[10]</sup></li>
+        <li><strong>Adjacent toe ischemia risk:</strong> Aggressive dissection or TNPWT in the web space can damage common digital arteries, triggering domino-effect serial amputations<sup>[75]</sup></li>
+      </ul>
+    </div>
+
+    <h3>9.2 Transmetatarsal Amputation (TMA)</h3>
+    <p>TMA is preferred when multiple adjacent rays are deeply involved or the first ray must be resected. Success is completely beholden to run-off: <strong>at least two patent infrapopliteal vessels are required</strong>.<sup>[3]</sup> Clinical studies strongly indicate that <strong>delayed primary closure</strong> yields significantly lower rates of further intervention compared to immediate primary closure for severely infected wounds.<sup>[77]</sup></p>
+
+    <hr>
+
+    <!-- Section 10: Conclusion -->
+    <h2 id="conclusion">10. Conclusion</h2>
+    <p>The preoperative determination of optimal minor amputation level has evolved from subjective visual assessment into a highly precise, data-driven, algorithmically guided medical science. The mandatory integration of:</p>
+    <ul>
+      <li><strong>CTA</strong> for macrovascular infrastructure and run-off patency</li>
+      <li><strong>TcPO2 / TBP</strong> for microcirculatory tissue perfusion</li>
+      <li><strong>Angiosome/woundosome concepts</strong> for targeted revascularization</li>
+      <li><strong>Machine learning algorithms</strong> for predictive modeling</li>
+    </ul>
+    <p>establishes a new global standard of care characterized by <strong>maximal tissue preservation, targeted hemodynamic assessment, and precision revascularization</strong>. By meticulously matching the chosen amputation level to objective, measurable perfusion capabilities, clinicians can optimize biomechanical function, mitigate catastrophic wound failure, prevent proximal limb loss, and significantly improve long-term survival and quality of life.</p>
+
+    <!-- References -->
+    <section class="references" aria-label="References">
+      <h2 id="references" style="margin-top:0;">References</h2>
+      <ol>
+        <li>[1] Predictors for Amputation in Patients with Diabetic Foot Wound. <em>VSI Journal</em> 2018;34(4):109. <a href="https://www.vsijournal.org/journal/view.html?volume=34&number=4&spage=109&year=2018" target="_blank" rel="noopener">Source</a></li>
+        <li>[3] Success of transmetatarsal amputation for limb salvage in patients with peripheral artery disease. <em>PMC</em> 2023. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10781589/" target="_blank" rel="noopener">Source</a></li>
+        <li>[4] A Guide To Microvascular Assessment For Wound Healing. <em>HMP Global Learning Network</em>. <a href="https://www.hmpgloballearningnetwork.com/site/podiatry/guide-microvascular-assessment-wound-healing" target="_blank" rel="noopener">Source</a></li>
+        <li>[6] A systematic review and meta-analysis on partial foot amputation in diabetic foot ulcers. <em>PubMed</em> 2025. <a href="https://pubmed.ncbi.nlm.nih.gov/41232818/" target="_blank" rel="noopener">Source</a></li>
+        <li>[9] Therapeutic approach to "diabetic foot" complications. <em>Mattioli 1885 / Acta Biomedica</em>. <a href="https://mattioli1885journals.com/index.php/actabiomedica/article/download/4094/3094" target="_blank" rel="noopener">Source</a></li>
+        <li>[10] Validation of an algorithm to predict reulceration in amputation patients with diabetes. <em>PMC</em> 2021. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7949664/" target="_blank" rel="noopener">Source</a></li>
+        <li>[11] Prognostic performance of bedside tests for predicting ulcer healing. <em>PMC</em> 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12014953/" target="_blank" rel="noopener">Source</a></li>
+        <li>[12] TcPO2 as an accurate predictor of therapy in limb salvage. <em>PubMed</em> 1996. <a href="https://pubmed.ncbi.nlm.nih.gov/8792989/" target="_blank" rel="noopener">Source</a></li>
+        <li>[15] The angiosome and woundosome concepts in guiding revascularization for CLTI and diabetic foot ulcers. <em>PMC</em> 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12775154/" target="_blank" rel="noopener">Source</a></li>
+        <li>[16] Diabetic Foot Microangiopathy: Risks and Management. <em>European Science</em>. <a href="https://esmed.org/diabetic-foot-microangiopathy-risks-and-management/" target="_blank" rel="noopener">Source</a></li>
+        <li>[18] IDF Clinical Practice Recommendations on the Diabetic Foot, 2025 Update. <a href="https://idf.org/media/uploads/2019/06/IDF-DFCR-2025-update.pdf" target="_blank" rel="noopener">Source</a></li>
+        <li>[19] Microvascular Disease Associated with Increased Risk of Amputation. <em>HCPLive</em>. <a href="https://www.hcplive.com/view/microvascular-disease-associated-with-increased-risk-of-amputation" target="_blank" rel="noopener">Source</a></li>
+        <li>[21] IWGDF Guidelines. <a href="https://iwgdfguidelines.org/" target="_blank" rel="noopener">Source</a></li>
+        <li>[23] 2024 ACC/AHA/AACVPR/APMA/ABC/SCAI/SVM/SVN Guidelines. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12782132/" target="_blank" rel="noopener">Source</a></li>
+        <li>[24] IDF Global Clinical Practice Recommendations for Managing Type 2 Diabetes, 2025. <a href="https://idf.org/media/uploads/2025/04/IDF_Rec_2025.pdf" target="_blank" rel="noopener">Source</a></li>
+        <li>[27] Clinical Utility of Lower Extremity DECT in Detection of Bone Marrow Edema. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10970906/" target="_blank" rel="noopener">Source</a></li>
+        <li>[33] Practical guidelines for prevention and management of diabetic foot disease in China. <em>PMC</em> 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12680013/" target="_blank" rel="noopener">Source</a></li>
+        <li>[34] IWGDF/IDSA Guidelines on Diagnosis and Treatment of Diabetes-Related Foot Infections. <em>Oxford Academic</em>. <a href="https://academic.oup.com/cid/advance-article/doi/10.1093/cid/ciad527/7287196" target="_blank" rel="noopener">Source</a></li>
+        <li>[38] Influence of Infrapopliteal Runoff Vessels on Primary Patency. <em>PubMed</em> 2021. <a href="https://pubmed.ncbi.nlm.nih.gov/33293487/" target="_blank" rel="noopener">Source</a></li>
+        <li>[41] Subtraction CTA for Evaluation of Lower Extremity Artery Disease with Severe Calcification. <em>MDPI</em>. <a href="https://www.mdpi.com/2308-3425/12/4/131" target="_blank" rel="noopener">Source</a></li>
+        <li>[45] Dynamic Volume Perfusion CT of the Foot in Critical Limb Ischemia. <em>AJR</em>. <a href="https://ajronline.org/doi/full/10.2214/AJR.19.21520" target="_blank" rel="noopener">Source</a></li>
+        <li>[57] Effect of Direct Endovascular Revascularization Based on Angiosome Model on Major Amputation Risk. <em>PubMed</em> 2021. <a href="https://pubmed.ncbi.nlm.nih.gov/33533936/" target="_blank" rel="noopener">Source</a></li>
+        <li>[58] Angiosome-targeted revascularisation in diabetic foot ulcers. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7951040/" target="_blank" rel="noopener">Source</a></li>
+        <li>[65] A systematic review and meta-analysis of tests to predict wound healing in diabetic foot. <em>PubMed</em> 2016. <a href="https://pubmed.ncbi.nlm.nih.gov/26804365/" target="_blank" rel="noopener">Source</a></li>
+        <li>[66] Stimulation TcPO2 Testing Improves Diagnosis of PAD in Diabetic Foot. <em>Frontiers in Endocrinology</em> 2021. <a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2021.744195/full" target="_blank" rel="noopener">Source</a></li>
+        <li>[68] A Machine-Learning-Based Clinical Decision Model for Predicting Amputation Risk. <em>PMC</em> 2025. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12731953/" target="_blank" rel="noopener">Source</a></li>
+        <li>[69] CT-Angiography-Based Outcome Prediction on Diabetic Foot Ulcer Patients. <em>MDPI Diagnostics</em>. <a href="https://www.mdpi.com/2075-4418/12/5/1076" target="_blank" rel="noopener">Source</a></li>
+        <li>[70] Interpreting ML models to predict amputation risk in DFU patients. <em>Frontiers in Endocrinology</em> 2025. <a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2025.1526098/full" target="_blank" rel="noopener">Source</a></li>
+        <li>[72] Machine learning for prediction of minor amputation in UT grade 3 DFU. <em>PMC</em> 2022. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9725167/" target="_blank" rel="noopener">Source</a></li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive Clinical Assessment Panel">
+    <div class="sidebar-card">
+      <h3>🎯 Amputation Level Assessment</h3>
+      <p style="font-size:0.75rem;color:var(--gray-600);text-align:center;margin-bottom:1rem;">Adjust parameters below to receive real-time, evidence-based recommendations</p>
+
+      <!-- Slider 1: TcPO2 -->
+      <div class="slider-group">
+        <label for="tcpo2Slider">Transcutaneous Oxygen Pressure (TcPO2)</label>
+        <div class="range-wrapper">
+          <input type="range" id="tcpo2Slider" min="0" max="100" value="35" step="1" aria-label="TcPO2 value in mmHg">
+        </div>
+        <div class="slider-value" id="tcpo2Value">35 mmHg</div>
+        <div class="slider-thresholds">
+          <span>0</span>
+          <span style="color:#e53e3e;">▼ 30</span>
+          <span style="color:#276749;">▲ 40</span>
+          <span>100</span>
+        </div>
+        <p class="slider-annotation">Threshold: ≥30–40 mmHg predicts 86–91% healing success. PLR 5.9, NLR 0.2.<sup>[11,12]</sup></p>
+      </div>
+
+      <!-- Slider 2: Run-off Vessels -->
+      <div class="slider-group">
+        <label for="runoffSlider">Patent Infrapopliteal Run-off Vessels</label>
+        <div class="range-wrapper">
+          <input type="range" id="runoffSlider" min="0" max="3" value="2" step="1" aria-label="Number of patent run-off vessels">
+        </div>
+        <div class="slider-value" id="runoffValue">2 vessels</div>
+        <div class="slider-thresholds">
+          <span>0</span>
+          <span style="color:#e53e3e;">▼ 1</span>
+          <span style="color:#276749;">▲ 2</span>
+          <span>3</span>
+        </div>
+        <p class="slider-annotation">0 vessels: 100% failure. 1 vessel: 56.3% failure. 2–3 vessels: &lt;25% failure (TMA).<sup>[3]</sup></p>
+      </div>
+
+      <!-- Slider 3: Toe Blood Pressure -->
+      <div class="slider-group">
+        <label for="tbpSlider">Toe Blood Pressure (TBP)</label>
+        <div class="range-wrapper">
+          <input type="range" id="tbpSlider" min="0" max="120" value="40" step="1" aria-label="Toe blood pressure in mmHg">
+        </div>
+        <div class="slider-value" id="tbpValue">40 mmHg</div>
+        <div class="slider-thresholds">
+          <span>0</span>
+          <span style="color:#e53e3e;">▼ 30</span>
+          <span style="color:#276749;">▲ 50</span>
+          <span>120</span>
+        </div>
+        <p class="slider-annotation">TBP &lt;30 mmHg = severe CLTI. TBI ≤0.70 = abnormal.<sup>[11,23]</sup></p>
+      </div>
+
+      <!-- Recommendation Box -->
+      <div class="recommendation-box" id="recommendationBox" aria-live="polite" aria-atomic="true">
+        <!-- Filled dynamically by JS -->
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-group">
+        <button class="btn btn-reset" id="resetBtn" aria-label="Reset all parameters to defaults">↺ Reset</button>
+        <button class="btn btn-export" id="exportBtn" aria-label="Copy assessment summary to clipboard">📋 Export</button>
+      </div>
+    </div>
+
+    <!-- Supplementary Info Card -->
+    <div class="sidebar-card" style="margin-top:1.25rem;">
+      <h3>📋 Quick Reference</h3>
+      <div style="font-size:0.78rem;color:var(--gray-700);line-height:1.6;">
+        <p><strong>ABI Pitfall:</strong> In 25% of CLTI patients, ABI is falsely normal (0.90–1.40) due to medial calcification.<sup>[23]</sup></p>
+        <p style="margin-top:0.5rem;"><strong>TcPO2 DOR:</strong> 15.81 vs. ABI DOR of 1.02.<sup>[65]</sup></p>
+        <p style="margin-top:0.5rem;"><strong>5-Year Mortality Post-Major Amputation:</strong> ~50%<sup>[3]</sup></p>
+        <p style="margin-top:0.5rem;"><strong>Contralateral Amputation Risk:</strong> Up to 55% within 2–3 years<sup>[3]</sup></p>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Element references
+  const tcpo2Slider = document.getElementById('tcpo2Slider');
+  const runoffSlider = document.getElementById('runoffSlider');
+  const tbpSlider = document.getElementById('tbpSlider');
+  const tcpo2Value = document.getElementById('tcpo2Value');
+  const runoffValue = document.getElementById('runoffValue');
+  const tbpValue = document.getElementById('tbpValue');
+  const recBox = document.getElementById('recommendationBox');
+  const resetBtn = document.getElementById('resetBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const toast = document.getElementById('toast');
+
+  // Defaults
+  const defaults = { tcpo2: 35, runoff: 2, tbp: 40 };
+
+  function updateSliderDisplay() {
+    const tcpo2 = parseInt(tcpo2Slider.value);
+    const runoff = parseInt(runoffSlider.value);
+    const tbp = parseInt(tbpSlider.value);
+
+    tcpo2Value.textContent = tcpo2 + ' mmHg';
+    runoffValue.textContent = runoff + (runoff === 1 ? ' vessel' : ' vessels');
+    tbpValue.textContent = tbp + ' mmHg';
+
+    updateRecommendation(tcpo2, runoff, tbp);
+  }
+
+  function updateRecommendation(tcpo2, runoff, tbp) {
+    let riskLevel, riskClass, title, recommendation, notes = [];
+
+    // Calculate composite risk
+    let riskScore = 0;
+
+    // TcPO2 scoring
+    if (tcpo2 >= 40) riskScore += 0;
+    else if (tcpo2 >= 30) riskScore += 1;
+    else riskScore += 3;
+
+    // Run-off scoring
+    if (runoff >= 2) riskScore += 0;
+    else if (runoff === 1) riskScore += 2;
+    else riskScore += 4;
+
+    // TBP scoring
+    if (tbp >= 50) riskScore += 0;
+    else if (tbp >= 30) riskScore += 1;
+    else riskScore += 3;
+
+    // Generate recommendation
+    if (riskScore <= 1) {
+      riskLevel = 'FAVORABLE';
+      riskClass = 'rec-safe';
+      title = '✅ Minor Amputation May Proceed';
+      recommendation = 'Hemodynamic parameters indicate <strong>adequate tissue perfusion</strong> for primary wound healing at the proposed minor amputation level.';
+      notes.push('Primary healing expected in 86–91% of cases.<sup>[12]</sup>');
+      notes.push('CTA remains recommended to confirm angiosome-targeted perfusion and rule out occult macrovascular disease.');
+      if (tcpo2 >= 40 && runoff >= 2 && tbp >= 50) {
+        notes.push('All parameters well above critical thresholds — <strong>highest confidence level</strong>.');
+      }
+    } else if (riskScore <= 3) {
+      riskLevel = 'CAUTION';
+      riskClass = 'rec-caution';
+      title = '⚠ Proceed with Enhanced Vigilance';
+      recommendation = 'Hemodynamic parameters are <strong>borderline</strong>. Minor amputation is technically feasible but carries an elevated risk of delayed healing or failure.';
+      if (tcpo2 >= 30 && tcpo2 < 40) notes.push('TcPO2 is within the borderline range (30–40 mmHg). Close post-operative monitoring is essential.');
+      if (runoff === 1) notes.push('Single-vessel run-off confers <strong>56.3% failure risk for TMA</strong>.<sup>[3]</sup> Consider revascularization prior to amputation.');
+      if (tbp >= 30 && tbp < 50) notes.push('TBP is borderline. Monitor for signs of wound ischemia.');
+      notes.push('Strongly consider <strong>delayed primary closure</strong> over immediate closure to allow staged infection clearance.<sup>[77]</sup>');
+    } else if (riskScore <= 5) {
+      riskLevel = 'HIGH RISK';
+      riskClass = 'rec-danger';
+      title = '⛔ High Risk of Amputation Failure';
+      recommendation = 'One or more critical hemodynamic parameters are below accepted healing thresholds. <strong>Minor amputation without preceding revascularization carries an unacceptably high failure risk.</strong>';
+      if (tcpo2 < 30) notes.push('TcPO2 &lt;30 mmHg: Tissue is too hypoxic for wound repair.<sup>[11]</sup> <strong>CTA mandatory</strong> to identify correctable proximal lesions.');
+      if (runoff === 1) notes.push('Single-vessel run-off: 56.3% TMA failure rate. <strong>Revascularization strongly recommended.</strong><sup>[3]</sup>');
+      if (runoff === 0) notes.push('<strong>Zero patent run-off vessels: 100% TMA failure rate.</strong> Minor amputation is absolutely contraindicated.<sup>[3]</sup>');
+      if (tbp < 30) notes.push('TBP &lt;30 mmHg indicates severe CLTI with high major amputation risk.<sup>[11]</sup>');
+      notes.push('Recommend <strong>angiosome-guided Direct Revascularization (DR)</strong>, with post-intervention TcPO2 re-assessment &gt;30 mmHg prior to delayed amputation.<sup>[15]</sup>');
+    } else {
+      riskLevel = 'CONTRAINDICATED';
+      riskClass = 'rec-danger';
+      title = '🚫 Minor Amputation Contraindicated';
+      recommendation = 'Multiple critical parameters are severely deranged. <strong>Minor amputation is not viable</strong> at the proposed level without comprehensive revascularization.';
+      if (runoff === 0) notes.push('<strong>Zero patent infrapopliteal vessels</strong>: 100% failure rate. Primary major amputation or urgent revascularization mandated.<sup>[3]</sup>');
+      if (tcpo2 < 30 && tbp < 30) notes.push('Both TcPO2 (&lt;30 mmHg) and TBP (&lt;30 mmHg) confirm severe combined macro-microvascular ischemia.');
+      notes.push('Consider advanced rescue options: endovascular DR, surgical bypass, or Deep Vein Arterialization (limb salvage ~100% at 1 year).<sup>[58]</sup>');
+      notes.push('If revascularization is not feasible, primary major amputation may be necessary to prevent sepsis and reduce overall mortality risk.');
+    }
+
+    // Build HTML
+    let html = '<h4>Clinical Assessment</h4>';
+    html += '<div class="rec-level ' + riskClass + '">' + riskLevel + '</div>';
+    html += '<h4 style="margin-top:0.5rem;">' + title + '</h4>';
+    html += '<p>' + recommendation + '</p>';
+    if (notes.length > 0) {
+      html += '<ul>';
+      notes.forEach(function(n) { html += '<li>' + n + '</li>'; });
+      html += '</ul>';
+    }
+    html += '<p style="font-size:0.72rem;color:var(--gray-500);margin-top:0.75rem;font-style:italic;">Thresholds derived from source document evidence. DOR = diagnostic odds ratio. PLR/NLR from meta-analysis.<sup>[11,65]</sup></p>';
+
+    recBox.innerHTML = html;
+    recBox.className = 'recommendation-box ' + riskClass;
+  }
+
+  // Event listeners
+  tcpo2Slider.addEventListener('input', updateSliderDisplay);
+  runoffSlider.addEventListener('input', updateSliderDisplay);
+  tbpSlider.addEventListener('input', updateSliderDisplay);
+
+  // Reset
+  resetBtn.addEventListener('click', function() {
+    tcpo2Slider.value = defaults.tcpo2;
+    runoffSlider.value = defaults.runoff;
+    tbpSlider.value = defaults.tbp;
+    updateSliderDisplay();
+    showToast('Parameters reset to defaults');
+  });
+
+  // Export
+  exportBtn.addEventListener('click', function() {
+    const tcpo2 = tcpo2Slider.value;
+    const runoff = runoffSlider.value;
+    const tbp = tbpSlider.value;
+    const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+    // Get recommendation text
+    const recText = recBox.innerText || recBox.textContent;
+
+    const exportText =
+      '=== DIABETIC FOOT MINOR AMUPATION ASSESSMENT ===\n' +
+      'Date/Time: ' + timestamp + '\n\n' +
+      '--- PARAMETER VALUES ---\n' +
+      'TcPO2: ' + tcpo2 + ' mmHg (Threshold: ≥30-40 mmHg for healing)\n' +
+      'Patent Infrapopliteal Run-off Vessels: ' + runoff + ' (Threshold: ≥2 for TMA)\n' +
+      'Toe Blood Pressure: ' + tbp + ' mmHg (Threshold: ≥30 mmHg; <30 = severe CLTI)\n\n' +
+      '--- CLINICAL RECOMMENDATION ---\n' +
+      recText + '\n\n' +
+      '--- EVIDENCE BASIS ---\n' +
+      '• TcPO2: PLR 5.9, NLR 0.2, DOR 15.81 (Ref: [11,65])\n' +
+      '• Run-off scoring: Dallas VA 10-year review (Ref: [3])\n' +
+      '• TBP thresholds: 2024 ACC/AHA Guidelines (Ref: [23])\n' +
+      '• Angiosome-guided DR: Meta-analysis (Ref: [15,57])\n\n' +
+      'Source: "Optimal Level Determination for Minor Amputation in the Diabetic Foot"\n' +
+      'Generated by Evidence-Based Educational Summary Tool';
+
+    navigator.clipboard.writeText(exportText).then(function() {
+      showToast('✓ Assessment copied to clipboard');
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = exportText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Assessment copied to clipboard');
+    });
+  });
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
+  // Initial render
+  updateSliderDisplay();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biomechanical Analysis of Vertebral Pedicle Fractures</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a365d;
+  --primary-light: #2b6cb0;
+  --accent: #c53030;
+  --accent-light: #fc8181;
+  --bg: #f7fafc;
+  --card-bg: #ffffff;
+  --text: #2d3748;
+  --text-muted: #718096;
+  --border: #e2e8f0;
+  --evidence-ii: #2b6cb0;
+  --evidence-iii: #38a169;
+  --evidence-iv: #d69e2e;
+  --evidence-v: #e53e3e;
+  --sidebar-bg: #edf2f7;
+  --success: #276749;
+  --warning: #c05621;
+  --danger: #9b2c2c;
+  --info: #2c5282;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Source Serif 4', serif;
+  color: var(--primary);
+  line-height: 1.3;
+}
+
+h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.6rem; margin: 2rem 0 1rem; border-bottom: 3px solid var(--primary-light); padding-bottom: 0.4rem; }
+h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; color: var(--primary-light); }
+h4 { font-size: 1.1rem; margin: 1.2rem 0 0.5rem; }
+
+p { margin-bottom: 1rem; }
+
+ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+li { margin-bottom: 0.4rem; }
+
+strong { color: var(--primary); }
+
+a { color: var(--primary-light); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  padding: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+header h1 { color: white; font-size: 1.6rem; }
+header p { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin-bottom: 0; }
+
+main {
+  min-width: 0;
+}
+
+.content-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+
+.callout {
+  background: #ebf8ff;
+  border-left: 4px solid var(--primary-light);
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.callout.warning {
+  background: #fffaf0;
+  border-left-color: var(--warning);
+}
+
+.callout.danger {
+  background: #fff5f5;
+  border-left-color: var(--danger);
+}
+
+.callout.success {
+  background: #f0fff4;
+  border-left-color: var(--success);
+}
+
+.evidence-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  vertical-align: middle;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+.evidence-badge.level-ii { background: #ebf4ff; color: var(--evidence-ii); border: 1px solid #bee3f8; }
+.evidence-badge.level-iii { background: #f0fff4; color: var(--evidence-iii); border: 1px solid #c6f6d5; }
+.evidence-badge.level-iv { background: #fffff0; color: var(--evidence-iv); border: 1px solid #fefcbf; }
+.evidence-badge.level-v { background: #fff5f5; color: var(--evidence-v); border: 1px solid #fed7d7; }
+.evidence-badge.level-na { background: #f7fafc; color: var(--text-muted); border: 1px solid var(--border); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.88rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table caption {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+thead {
+  background: var(--primary);
+  color: white;
+}
+
+th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) { background: #f7fafc; }
+tbody tr:hover { background: #edf2f7; }
+
+/* Sidebar */
+aside {
+  position: relative;
+}
+
+.sidebar {
+  position: sticky;
+  top: 100px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  font-size: 1.1rem;
+  margin: 0 0 1rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.3rem;
+  color: var(--accent);
+}
+
+.slider-group {
+  margin-bottom: 1.5rem;
+}
+
+.slider-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+
+.slider-group .range-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.slider-group input[type="range"] {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.slider-group input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.slider-value {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary);
+  min-width: 70px;
+  text-align: right;
+}
+
+.slider-group .threshold-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  font-style: italic;
+}
+
+.recommendation-box {
+  background: #f7fafc;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.recommendation-box.high-risk {
+  border-color: var(--danger);
+  background: #fff5f5;
+}
+
+.recommendation-box.moderate-risk {
+  border-color: var(--warning);
+  background: #fffaf0;
+}
+
+.recommendation-box.low-risk {
+  border-color: var(--success);
+  background: #f0fff4;
+}
+
+.recommendation-box h4 {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem;
+}
+
+.recommendation-box p {
+  font-size: 0.82rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
+}
+
+.risk-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.risk-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.risk-dot.red { background: var(--danger); }
+.risk-dot.orange { background: var(--warning); }
+.risk-dot.green { background: var(--success); }
+
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover { background: var(--primary-light); }
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover { background: #cbd5e0; }
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.references {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.references ol {
+  padding-left: 1.2rem;
+}
+
+.references li {
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
+}
+
+.sup-ref {
+  font-size: 0.7rem;
+  vertical-align: super;
+  color: var(--primary-light);
+  cursor: help;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    order: -1;
+  }
+  .sidebar {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+}
+
+@media (max-width: 640px) {
+  header { padding: 1rem; }
+  header h1 { font-size: 1.3rem; }
+  .content-card { padding: 1.25rem; }
+  table { font-size: 0.78rem; }
+  th, td { padding: 6px 8px; }
+  .btn-group { flex-direction: column; }
+}
+
+@media print {
+  header { position: relative; }
+  .sidebar { display: none; }
+  .container { grid-template-columns: 1fr; }
+  .btn-group { display: none; }
+}
+
+.scroll-indicator {
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-light), var(--accent));
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  transition: width 0.1s;
+}
+
+.toc {
+  background: #f7fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.toc h3 { margin: 0 0 0.5rem; font-size: 1rem; color: var(--primary); }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { padding: 3px 0; }
+.toc a { font-size: 0.88rem; color: var(--primary-light); }
+.toc a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="scroll-indicator" id="scrollIndicator"></div>
+
+<header>
+  <h1>Biomechanical Analysis of Vertebral Pedicle Fractures</h1>
+  <p>Injury Dynamics, Stability Paradigms, and Modern Fixation Strategies — Interactive Educational Summary</p>
+</header>
+
+<div class="container">
+<main>
+
+<!-- Table of Contents -->
+<nav class="toc" aria-label="Table of Contents">
+  <h3>📑 Table of Contents</h3>
+  <ul>
+    <li><a href="#keystone">1. The Vertebral Pedicle as a Biomechanical Keystone</a></li>
+    <li><a href="#pathomechanics">2. Pathomechanics of Pedicle Fracture</a></li>
+    <li><a href="#classification">3. Classification and Spinal Instability Assessment</a></li>
+    <li><a href="#fixation">4. Challenges and Innovations in Pedicle Screw Fixation</a></li>
+    <li><a href="#augmentation">5. Advanced Augmentation and Future Directions</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+
+<!-- Section 1 -->
+<section id="keystone" class="content-card">
+  <h2>1. The Vertebral Pedicle as a Biomechanical Keystone</h2>
+  
+  <p>The vertebral pedicle is not merely a structural component of the vertebral arch—it is a <strong>critical biomechanical entity</strong> that dictates the stability and load-bearing capacity of the entire spinal motion segment. Its unique anatomical position as the <strong>sole osseous link between the anterior and posterior spinal columns</strong> endows it with significance far exceeding its modest size.<sup class="sup-ref" title="Ref 1">1</sup> A pedicle fracture is not a localized bone injury but a profound disruption of mechanical integrity with significant implications for physiological function and surgical stabilization.</p>
+
+  <h3>1.1 Anatomical and Functional Significance</h3>
+  
+  <p>The vertebral pedicles are paired, short, thick, and robust bony projections extending posteriorly from the dorsolateral aspect of the vertebral body.<sup class="sup-ref" title="Ref 1">1</sup> They serve as the foundational pillars of the vertebral arch, connecting the anterior weight-bearing vertebral body to the posterior elements (laminae, facet joints, transverse processes, and spinous process).<sup class="sup-ref" title="Ref 3">3</sup> This arrangement forms a complete osseous ring—the vertebral foramen—providing a rigid conduit for the spinal cord.<sup class="sup-ref" title="Ref 1">1</sup></p>
+  
+  <p>The superior and inferior notches of adjacent pedicles align to form the <strong>intervertebral foramina</strong>, critical passageways for exiting spinal nerves.<sup class="sup-ref" title="Ref 2">2</sup></p>
+
+  <div class="callout">
+    <strong>Three-Column Model (Denis):</strong> The pedicles, along with the posterior wall of the vertebral body and the posterior longitudinal ligament, constitute the <strong>middle column</strong>.<sup class="sup-ref" title="Ref 5">5</sup> <span class="evidence-badge level-iv">Evidence Level IV</span> Integrity of this middle column is considered paramount; its disruption is a primary indicator of spinal instability, often necessitating surgical intervention.<sup class="sup-ref" title="Ref 6">6</sup>
+  </div>
+
+  <p><strong>Surgical importance:</strong> Pedicle screws placed through the pedicles engage all three spinal columns, providing superior three-dimensional control compared to hooks or sublaminar wires.<sup class="sup-ref" title="Ref 4">4</sup> The success of complex spinal procedures—fracture fixation, deformity correction, degenerative stabilization—hinges on the pedicles' capacity to provide a secure anchor for instrumentation.<sup class="sup-ref" title="Ref 1">1</sup></p>
+
+  <h3>1.2 Load Transmission Pathways</h3>
+  
+  <p>Under physiological conditions, the spine experiences axial compression, flexion, extension, lateral bending, and torsion. The pedicles act as the <strong>critical force transducer</strong> between the anterior column (vertebral body + disc, primarily resisting compression<sup class="sup-ref" title="Ref 2">2</sup>) and the posterior elements (laminae, facet joints, ligaments functioning as a tension band<sup class="sup-ref" title="Ref 10">10</sup>).</p>
+
+  <p>The pedicles transmit bending and tensile forces from posterior elements forward to the vertebral body, and distribute compressive loads from the body to the posterior arch.<sup class="sup-ref" title="Ref 12">12</sup> They behave as short, stout <strong>cantilever beams</strong>, experiencing significant bending moments, shear forces, and torsional loads during normal movement.<sup class="sup-ref" title="Ref 12">12</sup></p>
+
+  <div class="callout danger">
+    <strong>Critical Concept — The Biomechanical Fulcrum:</strong> The pedicle mediates opposing forces between anterior compression and posterior tension. Any bending moment (flexion/extension) concentrates stress at the pedicle-body junction. A fracture of this fulcrum causes <strong>functional dissociation between anterior and posterior columns</strong>, creating inherently unstable injuries with high risk of neurological compromise and progressive deformity.<sup class="sup-ref" title="Ref 11">11</sup>
+  </div>
+</section>
+
+<!-- Section 2 -->
+<section id="pathomechanics" class="content-card">
+  <h2>2. Pathomechanics of Pedicle Fracture</h2>
+  
+  <p>Pedicle failure spans a spectrum from single high-energy traumatic impacts to cumulative repetitive microtrauma or intrinsic bone fragility. The specific mechanism dictates fracture pattern, degree of instability, and optimal management strategy.</p>
+
+  <h3>2.1 Mechanisms of Traumatic Injury</h3>
+  
+  <p>Traumatic pedicle fractures result predominantly from high-energy events generating forces far exceeding physiological tolerance.<sup class="sup-ref" title="Ref 13">13</sup></p>
+
+  <h4>Axial Loading with Flexion (Burst Fractures)</h4>
+  <p>Particularly common at the biomechanically vulnerable <strong>thoracolumbar junction (T10–L2)</strong>, this mechanism causes explosive vertebral body failure. As the body collapses, the posterior wall retropulses into the spinal canal, and lateral walls displace outward, exerting outward-directed force on the pedicles—often causing splaying or basal fracture.<sup class="sup-ref" title="Ref 6">6</sup> The resulting <strong>increased interpedicular distance</strong> on AP radiographs is pathognomonic for burst fractures and signifies middle column failure.<sup class="sup-ref" title="Ref 6">6</sup> <span class="evidence-badge level-iv">Level IV</span></p>
+
+  <h4>Flexion-Distraction (Chance Fractures)</h4>
+  <p>Classically associated with lap-belt use in head-on collisions, the axis of rotation lies anterior to the vertebral column, placing posterior and middle columns under extreme tension.<sup class="sup-ref" title="Ref 16">16</sup> The fracture propagates horizontally from posterior to anterior, potentially traversing the spinous process, laminae, pedicles, and vertebral body.<sup class="sup-ref" title="Ref 8">8</sup> When purely osseous, classified as <strong>AO Spine Type B1</strong>.<sup class="sup-ref" title="Ref 11">11</sup> <span class="evidence-badge level-iv">Level IV</span></p>
+
+  <h4>Hyperextension and Shear Forces</h4>
+  <p>Anteroposterior shear forces during hyperextension can cause posterior element fractures including pedicles, leading to complete dissociation of the posterior arch—a <strong>"free-floating neural arch"</strong>—with gross instability and high neurological injury risk.<sup class="sup-ref" title="Ref 18">18</sup> <span class="evidence-badge level-v">Level V</span></p>
+
+  <h4>Rotational Forces</h4>
+  <p>Torsional loads rarely occur in isolation and are typically combined with compression or flexion.<sup class="sup-ref" title="Ref 6">6</sup> Biomechanical studies demonstrate that torsional loading induces significant morphological changes and stress concentrations, contributing to complex fracture patterns such as burst-rotation fractures (Denis Type D).<sup class="sup-ref" title="Ref 6">6</sup> <span class="evidence-badge level-iii">Level III</span></p>
+
+  <h3>2.2 Pediculolysis: Repetitive Stress and Fatigue Failure</h3>
+  
+  <p>In contrast to high-energy trauma, pediculolysis develops insidiously through <strong>fatigue failure</strong>—accumulation of microdamage from repetitive sub-maximal loading that outpaces bone repair.<sup class="sup-ref" title="Ref 21">21</sup> It is most frequently observed in young athletes involved in repetitive spinal hyperextension: gymnasts, cricket bowlers, and football linemen.<sup class="sup-ref" title="Ref 13">13</sup> <span class="evidence-badge level-v">Level V</span></p>
+
+  <div class="callout warning">
+    <strong>Predisposing Factors:</strong> The most common predisposing condition is a <strong>contralateral spondylolysis</strong> (pars interarticularis defect). Instability from the unilateral pars defect redistributes forces, overloading the contralateral pedicle.<sup class="sup-ref" title="Ref 21">21</sup> Iatrogenic changes from prior surgery (laminectomy, fusion) also alter stress distribution at adjacent segments.<sup class="sup-ref" title="Ref 13">13</sup>
+  </div>
+
+  <p>Clinical presentation is subtle: activity-related low back pain and localized tenderness, often misdiagnosed. CT is the modality of choice for definitive identification.<sup class="sup-ref" title="Ref 21">21</sup></p>
+
+  <h3>2.3 The Influence of Bone Mineral Density (BMD)</h3>
+  
+  <p>Osteoporosis—characterized by low BMD and deteriorated microarchitecture—dramatically lowers the fracture threshold of all vertebral components including pedicles.<sup class="sup-ref" title="Ref 13,28">13,28</sup> Osteoporotic fractures can occur from low-energy trauma or even normal physiological loading.<sup class="sup-ref" title="Ref 14">14</sup> <span class="evidence-badge level-ii">Level II</span></p>
+
+  <div class="callout danger">
+    <strong>Critical BMD Threshold:</strong> A cadaveric study identified a critical threshold of <strong>BMD &lt; 0.7 g/cm²</strong>, below which the risk of pedicle fracture during screw placement increases substantially, particularly if screw diameter exceeds <strong>70% of the pedicle's outer diameter</strong>.<sup class="sup-ref" title="Ref 30">30</sup> <span class="evidence-badge level-iii">Level III</span>
+  </div>
+
+  <p>Age-related changes include loss of bone mass, thinning of cortical and trabecular bone, reduced trabecular connectivity, and endplate thinning.<sup class="sup-ref" title="Ref 29">29</sup> Additionally, increased thoracic kyphosis and sarcopenia shift the center of gravity and increase baseline compressive/shear loads on vertebrae, further elevating fracture risk.<sup class="sup-ref" title="Ref 33">33</sup> Advanced age is an independent risk factor for vertebral fractures even after accounting for BMD.<sup class="sup-ref" title="Ref 32">32</sup></p>
+
+  <div class="callout">
+    <strong>Clinical Pearl:</strong> A pedicle fracture is rarely isolated. In trauma, it signals failure of the entire vertebral segment. In non-traumatic settings, it should prompt investigation for underlying causes—stress fracture from pre-existing instability or fragility fracture from systemic bone disease.<sup class="sup-ref" title="Ref 21,27">21,27</sup>
+  </div>
+</section>
+
+<!-- Section 3 -->
+<section id="classification" class="content-card">
+  <h2>3. Classification and Spinal Instability Assessment</h2>
+  
+  <p>Clinical management is dictated by systematic instability assessment. Classification systems provide a common language for predicting mechanical instability and guiding treatment. A pedicle fracture almost invariably signifies a high-grade, unstable injury warranting surgical consideration.</p>
+
+  <h3>3.1 Denis Three-Column System</h3>
+  
+  <p>This landmark system defines stability based on three conceptual columns:<sup class="sup-ref" title="Ref 5">5</sup></p>
+  <ul>
+    <li><strong>Anterior column:</strong> Anterior longitudinal ligament, anterior vertebral body, anterior annulus fibrosus</li>
+    <li><strong>Middle column:</strong> Posterior vertebral body, posterior annulus fibrosus, posterior longitudinal ligament, <strong>pedicles</strong></li>
+    <li><strong>Posterior column:</strong> Posterior arch (laminae, facet joints, spinous process), posterior ligaments</li>
+  </ul>
+  
+  <p>An injury is <strong>unstable if two or more columns are disrupted</strong>.<sup class="sup-ref" title="Ref 34">34</sup> Since pedicle fracture compromises the middle column, any associated anterior or posterior column injury immediately classifies the injury as unstable.<sup class="sup-ref" title="Ref 6">6</sup> <span class="evidence-badge level-iv">Level IV</span></p>
+
+  <h3>3.2 AO Spine Thoracolumbar Injury Classification System (TLICS)</h3>
+  
+  <p>The AO system represents a more sophisticated, mechanism-based approach with hierarchical severity:<sup class="sup-ref" title="Ref 11">11</sup></p>
+  <ul>
+    <li><strong>Type A (Compression):</strong> Includes burst fractures (A3: one endplate + posterior wall; A4: both endplates + posterior wall). Both frequently involve pedicles through fracture or splaying.<sup class="sup-ref" title="Ref 11">11</sup></li>
+    <li><strong>Type B (Tension Band):</strong> Distraction injuries. B1 (bony Chance) involves trans-osseous failure through pedicles. B2 involves posterior ligamentous failure with possible bony fractures including pedicles.<sup class="sup-ref" title="Ref 11">11</sup></li>
+    <li><strong>Type C (Translation/Dislocation):</strong> Most severe—involves complete disruption of all spinal elements. Pedicle fractures almost invariably present.<sup class="sup-ref" title="Ref 14">14</sup></li>
+  </ul>
+
+  <p>The <strong>Thoracolumbar AOSpine Injury Score (TL AOSIS)</strong> assigns points: A3 (3 pts), A4 (5 pts), B-type (5–7 pts), C-type (8 pts). A total score <strong>≥6 is a strong recommendation for surgical intervention</strong>.<sup class="sup-ref" title="Ref 14,35">14,35</sup></p>
+
+  <div class="callout">
+    <strong>Evolution of Understanding:</strong> While Denis correctly identifies the pedicle within the middle column (binary assessment: intact vs. disrupted), the AO system provides granularity by considering the <em>mechanism</em> of failure. A compressive burst pedicle fracture (Type A) is biomechanically distinct from a tensile distraction pedicle fracture (Type B)—distinction vital for surgical planning.<sup class="sup-ref" title="Ref 11">11</sup>
+  </div>
+
+  <!-- Table 1 -->
+  <table>
+    <caption>Table 1: Role of Pedicle Fractures in Spinal Injury Classification and Treatment</caption>
+    <thead>
+      <tr>
+        <th>Classification System</th>
+        <th>Role of the Pedicle</th>
+        <th>Example Involvement</th>
+        <th>Stability Assessment</th>
+        <th>Treatment Indication</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Denis Three-Column</strong></td>
+        <td>Key component of the <strong>Middle Column</strong></td>
+        <td>Burst fracture with retropulsion and widened interpedicular distance</td>
+        <td>Middle + anterior OR posterior column = <strong>unstable</strong></td>
+        <td>Surgical stabilization if ≥2 columns disrupted</td>
+      </tr>
+      <tr>
+        <td rowspan="3"><strong>AO Spine TLICS</strong></td>
+        <td rowspan="3">Osseous component of the <strong>Posterior Tension Band</strong></td>
+        <td><strong>A3/A4 (Burst):</strong> Posterior wall involvement, pedicle splaying</td>
+        <td>Compression failure; depends on PLC integrity</td>
+        <td>Score 3–5 pts; borderline; depends on neurological status</td>
+      </tr>
+      <tr>
+        <td><strong>B1 (Bony Chance):</strong> Trans-osseous failure through pedicles</td>
+        <td>Distraction failure of PTB; <strong>inherently unstable</strong></td>
+        <td>Score 5–6+ pts; almost always surgical</td>
+      </tr>
+      <tr>
+        <td><strong>C (Translational):</strong> All elements disrupted including pedicles</td>
+        <td>Highest degree of instability</td>
+        <td>Score 8 pts; always surgical</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3.3 Biomechanical Consequences of Pedicle Disruption</h3>
+  
+  <p><strong>Loss of Posterior Tension Band Integrity:</strong> Bilateral pedicle fracture severs the link between anterior body and posterior stabilizing complex, creating highly unstable flexion-type injury with progressive kyphotic deformity risk.<sup class="sup-ref" title="Ref 18">18</sup></p>
+  
+  <p><strong>Increased Segmental Motion:</strong> Breaching the vertebral ring causes dramatic increase in pathological translation and rotation, threatening neural structures.<sup class="sup-ref" title="Ref 37,38">37,38</sup></p>
+  
+  <p><strong>Spinal Stiffness Reduction:</strong> Biomechanical studies show marked decrease in stiffness across all loading planes. Finite element analysis demonstrates that removal of posterior elements (analogous to bilateral pedicle fracture) can decrease cervical motion segment stiffness by <strong>up to 50%</strong>.<sup class="sup-ref" title="Ref 42,43">42,43</sup> <span class="evidence-badge level-iii">Level III</span></p>
+</section>
+
+<!-- Section 4 -->
+<section id="fixation" class="content-card">
+  <h2>4. Challenges and Innovations in Pedicle Screw Fixation</h2>
+  
+  <p>When the pedicle—the cornerstone of posterior fixation—is fractured, it presents a profound biomechanical challenge. The very structure intended to provide the strongest purchase is compromised.</p>
+
+  <h3>4.1 The Compromised Screw-Bone Interface</h3>
+  
+  <p><strong>Drastic Reduction in Pullout Strength:</strong> Screws in fractured pedicles retain only <strong>29%–45%</strong> of the pullout strength of intact pedicles.<sup class="sup-ref" title="Ref 45">45</sup> The screw can no longer engage dense cortical bone and must rely on weaker cancellous bone.<sup class="sup-ref" title="Ref 44">44</sup> <span class="evidence-badge level-iii">Level III</span></p>
+
+  <p><strong>Increased Screw Toggle and Micromotion:</strong> Poor resistance to off-axis loading creates a "windshield-wiper" effect at the screw-bone interface, preventing osseointegration and forming a radiolucent "halo"—indicator of loosening.<sup class="sup-ref" title="Ref 47">47</sup> Incidence rates of loosening reach <strong>up to 60%</strong> in osteoporotic patients.<sup class="sup-ref" title="Ref 27">27</sup></p>
+
+  <p><strong>Risk of Iatrogenic Fracture:</strong> In osteoporotic bone (BMD &lt; 0.7 g/cm²), using a screw diameter &gt;70% of pedicle outer diameter substantially increases intraoperative fracture risk.<sup class="sup-ref" title="Ref 30">30</sup></p>
+
+  <h3>4.2 Comparative Analysis of Fixation Strategies</h3>
+
+  <!-- Table 2 -->
+  <table>
+    <caption>Table 2: Biomechanical Comparison of Pedicle Screw Fixation Constructs for Unstable Fractures</caption>
+    <thead>
+      <tr>
+        <th>Fixation Construct</th>
+        <th>Primary Goal</th>
+        <th>Stiffness/Stability</th>
+        <th>ROM Effect</th>
+        <th>Key Trade-offs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Short-Segment (SSPF)</strong><br>1 above + 1 below</td>
+        <td>Preserve motion segments</td>
+        <td>Often <strong>insufficient</strong>; less stiff than intact spine. High failure rate.</td>
+        <td>Minimal ROM reduction</td>
+        <td>High risk of screw breakage, pullout, progressive kyphosis<sup class="sup-ref" title="Ref 49,50">49,50</sup></td>
+      </tr>
+      <tr>
+        <td><strong>Long-Segment (LSPF)</strong><br>≥2 above + ≥2 below</td>
+        <td>Maximize stability & load distribution</td>
+        <td><strong>High</strong>; stiffer than SSPF and often stiffer than intact spine</td>
+        <td>Significantly reduces ROM</td>
+        <td>Robust stability at cost of more fused segments; potential adjacent segment disease<sup class="sup-ref" title="Ref 50">50</sup></td>
+      </tr>
+      <tr>
+        <td><strong>SSPF + Intermediate Screw</strong><br>at fracture level</td>
+        <td>Enhance SSPF without extending fusion</td>
+        <td><strong>Increased</strong> vs. SSPF alone, especially in axial torsion</td>
+        <td>More than SSPF; less than LSPF</td>
+        <td>Biomechanically superior to SSPF; "three-point bending" fixation; efficacy debated<sup class="sup-ref" title="Ref 54,55">54,55</sup></td>
+      </tr>
+      <tr>
+        <td><strong>Circumferential</strong><br>Anterior + Posterior</td>
+        <td>360° stabilization</td>
+        <td><strong>Very High</strong>; biomechanical gold standard</td>
+        <td>Most restrictive</td>
+        <td>Most invasive but maximum stability<sup class="sup-ref" title="Ref 67">67</sup></td>
+      </tr>
+      <tr>
+        <td><strong>Cortical Bone Trajectory (CBT)</strong></td>
+        <td>Maximize cortical bone purchase</td>
+        <td><strong>High</strong>; superior pullout strength in osteoporotic bone</td>
+        <td>Under evaluation</td>
+        <td>Bypasses compromised cancellous bone; smaller, less invasive constructs<sup class="sup-ref" title="Ref 59">59</sup></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>The "Race Against Time":</strong> The ultimate goal of fixation is not permanence but to provide a temporary stable internal brace until solid biological fusion occurs.<sup class="sup-ref" title="Ref 7">7</sup> Every physiological movement imparts cyclical loads leading to material fatigue and micromotion.<sup class="sup-ref" title="Ref 12">12</sup> When the pedicle is fractured, weaker initial fixation permits greater micromotion from the outset—doubly detrimental: accelerating mechanical loosening and disrupting bone healing, increasing non-union risk.<sup class="sup-ref" title="Ref 69">69</sup>
+  </div>
+</section>
+
+<!-- Section 5 -->
+<section id="augmentation" class="content-card">
+  <h2>5. Advanced Augmentation and Future Directions</h2>
+  
+  <p>The challenge of durable fixation in fractured or osteoporotic pedicles has driven innovation in implant technology and surgical technique—moving beyond simple mechanical stabilization toward strategies that actively augment the bone-implant interface.</p>
+
+  <h3>5.1 Cement Augmentation (PMMA)</h3>
+  
+  <p>Injecting polymethylmethacrylate cement creates a composite screw-cement-bone structure, increasing functional diameter and distributing loads over a larger surface area.<sup class="sup-ref" title="Ref 70">70</sup></p>
+
+  <p><strong>Biomechanical Efficacy:</strong> Cement augmentation increases axial pullout strength by <strong>100%–400%</strong> (2–5× increase) and significantly enhances resistance to cyclical toggling.<sup class="sup-ref" title="Ref 71,72">71,72</sup> <span class="evidence-badge level-iii">Level III</span></p>
+
+  <p><strong>Techniques:</strong> (1) Vertebroplasty/pre-filling: cement injected before screw placement. (2) Fenestrated/cannulated screws: cement injected through hollow screw with distal fenestrations.<sup class="sup-ref" title="Ref 70">70</sup></p>
+
+  <p><strong>Kyphoplasty Augmentation:</strong> For burst fractures, balloon kyphoplasty can restore vertebral body height and provide anterior column support in addition to cement augmentation of pedicle screws, reducing cantilever bending forces on posterior instrumentation.<sup class="sup-ref" title="Ref 83">83</sup> <span class="evidence-badge level-iv">Level IV</span></p>
+
+  <h3>5.2 Novel Screw Technologies</h3>
+  
+  <p><strong>Expandable Pedicle Screws:</strong> Feature deployable fins or wings that compact surrounding cancellous bone, increasing purchase <em>in situ</em>.<sup class="sup-ref" title="Ref 48,86">48,86</sup> Studies show <strong>50%–100% increase</strong> in pullout strength vs. conventional screws in osteoporotic models. The combination of expandable screws + cement augmentation yields the highest fixation strength (~250% increase over non-cemented expandable screws).<sup class="sup-ref" title="Ref 77,87">77,87</sup> <span class="evidence-badge level-iii">Level III</span></p>
+
+  <!-- Table 3 -->
+  <table>
+    <caption>Table 3: Efficacy of Advanced Pedicle Screw Fixation and Augmentation Techniques</caption>
+    <thead>
+      <tr>
+        <th>Technique</th>
+        <th>Biomechanical Principle</th>
+        <th>Pullout Strength Increase</th>
+        <th>Key Advantages</th>
+        <th>Limitations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>PMMA Cement Augmentation</strong></td>
+        <td>Composite screw-bone-cement anchor; wider load distribution</td>
+        <td><strong>100–400%</strong> over non-augmented</td>
+        <td>Widely available; significant improvement in poor bone</td>
+        <td>Cement leakage risk; thermal necrosis; difficult revision<sup class="sup-ref" title="Ref 70">70</sup></td>
+      </tr>
+      <tr>
+        <td><strong>Kyphoplasty + Fixation</strong></td>
+        <td>Restores body height + anterior column support</td>
+        <td>Indirect improvement via anterior support</td>
+        <td>Addresses anterior column failure + posterior fixation</td>
+        <td>Same PMMA risks + balloon inflation risks<sup class="sup-ref" title="Ref 83">83</sup></td>
+      </tr>
+      <tr>
+        <td><strong>Expandable Screws</strong></td>
+        <td>Mechanical expansion compacts cancellous bone</td>
+        <td><strong>~50–100%</strong> over conventional</td>
+        <td>No cement needed; less leakage/thermal risk</td>
+        <td>Mechanical failure risk; may be less robust in severe osteoporosis<sup class="sup-ref" title="Ref 87">87</sup></td>
+      </tr>
+      <tr>
+        <td><strong>Cemented Expandable Screws</strong></td>
+        <td>Mechanical expansion + cement interdigitation</td>
+        <td><strong>~250%</strong> over non-cemented expandable</td>
+        <td>Highest reported fixation strength</td>
+        <td>Combined risks of both techniques<sup class="sup-ref" title="Ref 77">77</sup></td>
+      </tr>
+      <tr>
+        <td><strong>Hydroxyapatite (HA) Coating</strong></td>
+        <td>Osteoconductive material enhances fixation + biological integration</td>
+        <td>Significant increase in pullout and insertion torque</td>
+        <td>Biocompatible; potentially better long-term fusion</td>
+        <td>Lower initial strength vs. PMMA<sup class="sup-ref" title="Ref 66,90">66,90</sup></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>5.3 Unresolved Controversies</h3>
+  <ul>
+    <li><strong>Operative vs. Non-operative:</strong> For neurologically intact patients with unstable burst fractures (A3/A4), surgery provides superior radiographic correction but does <em>not</em> consistently lead to better long-term functional outcomes vs. bracing.<sup class="sup-ref" title="Ref 92">92</sup> <span class="evidence-badge level-ii">Level II</span></li>
+    <li><strong>Timing of Surgery:</strong> Evidence in humans is conflicting regarding whether early surgery (&lt;24–72 hours) in hemodynamically stable patients improves outcomes or increases "second hit" inflammatory risk in polytrauma.<sup class="sup-ref" title="Ref 96">96</sup></li>
+    <li><strong>Optimal Construct Design:</strong> Persistent debates on fixation length, fracture-level screws, and surgical approach.<sup class="sup-ref" title="Ref 92,93">92,93</sup></li>
+  </ul>
+
+  <h3>5.4 Future Directions</h3>
+  <ul>
+    <li><strong>Patient-Specific FEA:</strong> High-fidelity models from CT scans allow virtual testing of different fixation strategies, predicting stress concentrations and optimizing surgical plans.<sup class="sup-ref" title="Ref 99,101">99,101</sup></li>
+    <li><strong>Robotics and Navigation:</strong> Computer-assisted systems significantly improve screw placement accuracy, particularly valuable for complex trajectories like CBT.<sup class="sup-ref" title="Ref 105,107">105,107</sup></li>
+    <li><strong>Augmented Reality (AR):</strong> Overlaying virtual 3D models directly onto the surgeon's field of view for real-time guidance.<sup class="sup-ref" title="Ref 106">106</sup></li>
+    <li><strong>Biologics and Tissue Engineering:</strong> Bioactive implant surfaces, drug-eluting screws (antibiotics, BMP-2), and tissue-engineered scaffolds with stem cells to accelerate fusion.<sup class="sup-ref" title="Ref 111">111</sup></li>
+  </ul>
+
+  <div class="callout success">
+    <strong>Paradigm Shift:</strong> Management is evolving from a standardized, hardware-centric model to a <strong>proactive, patient-specific biomechanical engineering strategy</strong>. Advanced modeling enables diagnosis of the precise failure mode; robotics and AR provide execution precision; biologics enhance the biological healing component. The surgeon's role expands to that of a biomechanical engineer.<sup class="sup-ref" title="Ref 106,111">106,111</sup>
+  </div>
+</section>
+
+<!-- References -->
+<section id="references" class="content-card references">
+  <h2>References</h2>
+  <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">All references are derived from the source document. Numbers correspond to the original citation list.</p>
+  <ol>
+    <li><sup>1</sup> Vertebral Pedicles: Anatomy, Function, and Spine Surgery. <em>Ruthless Spine</em>.</li>
+    <li><sup>2</sup> Anatomy, Back, Lumbar Vertebrae. <em>StatPearls – NCBI Bookshelf</em>.</li>
+    <li><sup>3</sup> The Vertebral Column – Joints – Vertebrae. <em>TeachMeAnatomy</em>.</li>
+    <li><sup>4</sup> Dorsal Thoracic and Lumbar Screw Fixation and Pedicle Fixation Techniques. <em>Neupsy Key</em>.</li>
+    <li><sup>5</sup> Vertebral Fracture. <em>StatPearls – NCBI Bookshelf</em>.</li>
+    <li><sup>6</sup> Thoracolumbar Burst Fractures. <em>Orthobullets</em>.</li>
+    <li><sup>7</sup> Section 11, Chapter 9: Pedicle Screw Fixation and Design. <em>Wheelessonline</em>.</li>
+    <li><sup>8</sup> Management of fractures of the pedicle after instrumentation. <em>ResearchGate</em>.</li>
+    <li><sup>10</sup> Anatomy, Biomechanics, and Radiology of the Thoracic Spine. <em>UCalgary</em>.</li>
+    <li><sup>11</sup> AO Spine Classification of Thoracolumbar Injuries. <em>The Radiology Assistant</em>.</li>
+    <li><sup>12</sup> Matthews et al. Pullout force of MIS and open pedicle screws. <em>J Spine Surg</em>.</li>
+    <li><sup>13</sup> Fracture of Pedicle – Causes, Detection & Preventive Strategies. <em>Ruthless Spine</em>.</li>
+    <li><sup>14</sup> Vertebral Compression Fractures. <em>StatPearls – NCBI Bookshelf</em>.</li>
+    <li><sup>16</sup> Fractures of the Thoracic and Lumbar Spine. <em>AAOS OrthoInfo</em>.</li>
+    <li><sup>18</sup> Bilateral L3 and L4 pedicle traumatic fracture: a case report. <em>JCM Images Case Rep</em>.</li>
+    <li><sup>21</sup> Pedicle stress fracture. <em>Radiopaedia</em>.</li>
+    <li><sup>27</sup> Innovation of Surgical Techniques for Screw Fixation in Osteoporotic Spine. <em>MDPI JCM</em>.</li>
+    <li><sup>28</sup> Anatomical and biomechanical factors of osteoporotic vertebral fracture. <em>Rev Esp Cir Ortop Traumatol</em>.</li>
+    <li><sup>29</sup> Biomechanics of the aging spine. <em>PubMed</em>.</li>
+    <li><sup>30</sup> Fracture Risk During Pedicle Screw Insertion in Osteoporotic Spine. <em>ResearchGate</em>.</li>
+    <li><sup>32</sup> Frequency of Spontaneous Vertebral Fracture in Geriatric Patients. <em>Turk J Osteoporos</em>.</li>
+    <li><sup>33</sup> Sarcopenia: Implications of Age-Related Muscle Loss for Spinal Posture. <em>ETH Zurich</em>.</li>
+    <li><sup>34</sup> Stable vs. Unstable Spine Injuries. <em>Clinical Imaging of Spinal Trauma, Cambridge</em>.</li>
+    <li><sup>35</sup> AO Spine classification of thoracolumbar injuries. <em>Radiopaedia</em>.</li>
+    <li><sup>37</sup> Surgical Stabilization of the Spine. <em>MDPI JCM</em>.</li>
+    <li><sup>38</sup> Spondylolysis and Spondylolisthesis. <em>AAOS OrthoInfo</em>.</li>
+    <li><sup>42</sup> Biomechanical effect of vertebral body fracture extent on thoracolumbar spine. <em>PubMed</em>.</li>
+    <li><sup>43</sup> Finite Element Analysis of Cervical Spinal Instability. <em>ResearchGate</em>.</li>
+    <li><sup>44</sup> The biomechanics of pedicle screw-based instrumentation. <em>ResearchGate</em>.</li>
+    <li><sup>45</sup> Biomechanical study of fixation stability of broken pedicle screws. <em>ResearchGate</em>.</li>
+    <li><sup>47</sup> Pedicle Cement Augmentation with Proximal Screw. <em>PMC</em>.</li>
+    <li><sup>48</sup> Feasibility and efficacy of modified technique to augment pedicle screw strength. <em>Asian Spine J</em>.</li>
+    <li><sup>49</sup> Biomechanical Analysis of Pedicle Screw Fixation for Thoracolumbar Burst Fractures. <em>Healio</em>.</li>
+    <li><sup>50</sup> Biomechanical Analysis of Pedicle Screw Fixation (ResearchGate). <em>ResearchGate</em>.</li>
+    <li><sup>54</sup> Short-Segment Fixation of Lumbar Burst Fractures Using Pedicle Fixation at Fracture Level. <em>ResearchGate</em>.</li>
+    <li><sup>55</sup> Effect of pedicle screw placement into fractured vertebra. <em>ResearchGate</em>.</li>
+    <li><sup>59</sup> Comparison of three different screw trajectories in osteoporotic bone. <em>PMC</em>.</li>
+    <li><sup>66</sup> Innovation of Surgical Techniques for Screw Fixation in Osteoporotic Spine. <em>PMC</em>.</li>
+    <li><sup>67</sup> Biomechanical comparison of three fixation techniques for unstable burst fractures. <em>ResearchGate</em>.</li>
+    <li><sup>69</sup> Risk factors for pedicle screw loosening. <em>PMC</em>.</li>
+    <li><sup>70</sup> Biomechanics of Pedicle Screw Augmentation with Cement. <em>ResearchGate</em>.</li>
+    <li><sup>71</sup> Biomechanical Properties of Cement-Augmented Pedicle Screws. <em>PMC</em>.</li>
+    <li><sup>72</sup> Clinical Results of Augmented Solid Pedicle Screws. <em>Adv Spine J</em>.</li>
+    <li><sup>77</sup> Biomechanical study of pedicle screw fixation in severely osteoporotic bone. <em>ResearchGate</em>.</li>
+    <li><sup>83</sup> Kyphoplasty-augmented short-segment pedicle screw fixation. <em>ResearchGate</em>.</li>
+    <li><sup>86</sup> Surgical Treatment with Expandable Pedicle Screw Fixation. <em>CNS</em>.</li>
+    <li><sup>87</sup> Titanium Expandable Pedicle Screw for Osteoporotic Patients. <em>ResearchGate</em>.</li>
+    <li><sup>90</sup> Benefit of HA-augmented Pedicle Screw Fixation in Degenerative Spondylolisthesis. <em>JMISST</em>.</li>
+    <li><sup>92</sup> Principles of Management of Thoracolumbar Fractures. <em>PMC</em>.</li>
+    <li><sup>93</sup> Comparison of Three Different Methods of Fixation. <em>PMC</em>.</li>
+    <li><sup>96</sup> Controversies in Surgical Management of Spinal Cord Injuries. <em>PMC</em>.</li>
+    <li><sup>99</sup> FEA of different pedicle screw fixations for first lumbar vertebral fracture. <em>PubMed</em>.</li>
+    <li><sup>101</sup> Patient-Specific FE Models of Posterior Pedicle Screw Fixation. <em>Frontiers</em>.</li>
+    <li><sup>105</sup> Impact of Navigation in Lumbar Spine Surgery. <em>MDPI JCM</em>.</li>
+    <li><sup>106</sup> Challenges in Contemporary Spine Surgery. <em>ResearchGate</em>.</li>
+    <li><sup>107</sup> New Trajectory of Percutaneous S1 Pedicle Screw. <em>JMISST</em>.</li>
+    <li><sup>111</sup> Pedicle Screw Systems: Design Evolution, Biomechanics, and Applications. <em>Invamed</em>.</li>
+  </ol>
+</section>
+
+</main>
+
+<!-- Sidebar -->
+<aside>
+  <div class="sidebar" aria-label="Interactive Clinical Parameter Calculator">
+    <h2>⚙️ Clinical Parameter Calculator</h2>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">Adjust parameters below to receive real-time clinical recommendations based on the source document's evidence.</p>
+
+    <!-- Slider 1: BMD -->
+    <div class="slider-group">
+      <label for="bmdSlider">Bone Mineral Density (g/cm²)</label>
+      <div class="range-container">
+        <input type="range" id="bmdSlider" min="0.3" max="1.5" step="0.05" value="0.85">
+        <span class="slider-value" id="bmdValue">0.85</span>
+      </div>
+      <div class="threshold-note">Critical threshold: &lt;0.7 g/cm² (high fracture risk during instrumentation)<sup>30</sup></div>
+    </div>
+
+    <!-- Slider 2: Screw/Pedicle Diameter Ratio -->
+    <div class="slider-group">
+      <label for="diameterSlider">Screw-to-Pedicle Diameter Ratio (%)</label>
+      <div class="range-container">
+        <input type="range" id="diameterSlider" min="30" max="100" step="1" value="65">
+        <span class="slider-value" id="diameterValue">65%</span>
+      </div>
+      <div class="threshold-note">Risk threshold: &gt;70% in osteoporotic bone increases iatrogenic fracture risk<sup>30</sup></div>
+    </div>
+
+    <!-- Slider 3: AO Spine TL AOSIS Score -->
+    <div class="slider-group">
+      <label for="tlaisSlider">AO Spine TL AOSIS Score (points)</label>
+      <div class="range-container">
+        <input type="range" id="tlaisSlider" min="1" max="10" step="1" value="4">
+        <span class="slider-value" id="tlaisValue">4</span>
+      </div>
+      <div class="threshold-note">Score ≥6 strongly recommends surgical intervention<sup>14,35</sup></div>
+    </div>
+
+    <!-- Recommendation Box -->
+    <div class="recommendation-box" id="recBox">
+      <h4 id="recTitle">📋 Clinical Recommendation</h4>
+      <div class="risk-indicator">
+        <span class="risk-dot green" id="riskDot"></span>
+        <strong id="riskLabel">Low Risk Profile</strong>
+      </div>
+      <p id="recText">Adjust the parameters above to generate a personalized clinical recommendation based on the source document's evidence and thresholds.</p>
+      <p id="recRationale" style="font-style:italic;color:var(--text-muted);"></p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+      <button class="btn btn-secondary" id="resetBtn" onclick="resetSliders()">↺ Reset</button>
+      <button class="btn btn-primary" id="copyBtn" onclick="copyRecommendation()">📋 Copy Summary</button>
+    </div>
+  </div>
+</aside>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<footer style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.8rem;border-top:1px solid var(--border);margin-top:2rem;">
+  <p>Interactive Educational Summary | Generated from provided research document</p>
+  <p>All content, thresholds, and evidence levels are derived exclusively from the source document.</p>
+</footer>
+
+<script>
+const bmdSlider = document.getElementById('bmdSlider');
+const diameterSlider = document.getElementById('diameterSlider');
+const tlaisSlider = document.getElementById('tlaisSlider');
+const bmdValue = document.getElementById('bmdValue');
+const diameterValue = document.getElementById('diameterValue');
+const tlaisValue = document.getElementById('tlaisValue');
+const recBox = document.getElementById('recBox');
+const recTitle = document.getElementById('recTitle');
+const riskDot = document.getElementById('riskDot');
+const riskLabel = document.getElementById('riskLabel');
+const recText = document.getElementById('recText');
+const recRationale = document.getElementById('recRationale');
+
+function updateRecommendation() {
+  const bmd = parseFloat(bmdSlider.value);
+  const diam = parseInt(diameterSlider.value);
+  const tlais = parseInt(tlaisSlider.value);
+
+  bmdValue.textContent = bmd.toFixed(2);
+  diameterValue.textContent = diam + '%';
+  tlaisValue.textContent = tlais;
+
+  let riskScore = 0;
+  let risks = [];
+  let recommendations = [];
+  let rationale = [];
+
+  // BMD Assessment
+  if (bmd < 0.7) {
+    riskScore += 3;
+    risks.push('Severely compromised bone quality');
+    recommendations.push('Cement augmentation (PMMA) strongly recommended to increase pullout strength by 100–400% [Ref 70,71]');
+    recommendations.push('Consider expandable pedicle screws for additional 50–100% pullout strength improvement [Ref 87]');
+    recommendations.push('Hydroxyapatite-coated screws may enhance long-term osseointegration [Ref 66,90]');
+    rationale.push('BMD <0.7 g/cm² is the critical threshold below which pedicle fracture risk during screw insertion increases substantially (Ref 30).');
+  } else if (bmd < 0.9) {
+    riskScore += 1;
+    risks.push('Borderline bone mineral density');
+    recommendations.push('Consider cement augmentation if fracture pattern is highly unstable [Ref 70]');
+    recommendations.push('Close monitoring for screw loosening (radiolucent halos) post-operatively');
+    rationale.push('BMD between 0.7–0.9 g/cm² represents moderate risk; fixation strength may be adequate with standard technique but augmentation should be considered for complex injuries.');
+  } else {
+    recommendations.push('Standard pedicle screw fixation likely adequate');
+    recommendations.push('Bone quality sufficient for conventional screw trajectories');
+    rationale.push('BMD ≥0.9 g/cm² suggests adequate bone quality for standard fixation techniques.');
+  }
+
+  // Diameter Ratio Assessment
+  if (diam > 70 && bmd < 0.7) {
+    riskScore += 3;
+    risks.push('Screw diameter too large for osteoporotic pedicle');
+    recommendations.push('CRITICAL: Reduce screw diameter to ≤70% of pedicle outer diameter to prevent iatrogenic fracture [Ref 30]');
+    recommendations.push('Consider cortical bone trajectory (CBT) to maximize engagement with denser cortical bone [Ref 59]');
+    rationale.push('In osteoporotic bone (BMD <0.7), screw diameter >70% of pedicle outer diameter significantly increases iatrogenic fracture risk (Ref 30).');
+  } else if (diam > 70) {
+    riskScore += 1;
+    risks.push('Screw diameter approaching upper limits');
+    recommendations.push('Ensure careful pedicle preparation; consider CBT if anatomy permits [Ref 59]');
+    rationale.push('Screw diameter >70% of pedicle outer diameter increases fracture risk, particularly in compromised bone (Ref 30).');
+  } else {
+    rationale.push('Screw-to-pedicle diameter ratio within acceptable range.');
+  }
+
+  // TL AOSIS Score Assessment
+  if (tlais >= 6) {
+    riskScore += 3;
+    risks.push('High instability score (surgical indication met)');
+    recommendations.push('Surgical stabilization strongly recommended (TL AOSIS ≥6) [Ref 14,35]');
+    if (tlais >= 8) {
+      recommendations.push('Type C injury (score 8): Requires long-segment fixation or circumferential stabilization [Ref 67]');
+      rationale.push('TL AOSIS score of 8 indicates Type C (translational/dislocation) injury—the most severe pattern with gross instability (Ref 14).');
+    } else {
+      recommendations.push('Consider long-segment posterior fixation (LSPF) for superior stiffness vs. short-segment constructs [Ref 50]');
+      recommendations.push('If using short-segment construct, add intermediate screws at fracture level to enhance stability [Ref 54]');
+      rationale.push('TL AOSIS ≥6 represents a strong surgical indication per the AO Spine scoring system (Ref 14,35).');
+    }
+  } else if (tlais >= 4) {
+    riskScore += 1;
+    risks.push('Moderate instability score');
+    recommendations.push('Surgical vs. conservative management debated—consider neurological status, PLC integrity, and patient factors [Ref 92]');
+    recommendations.push('If surgical: Short-segment fixation with intermediate screws may be sufficient [Ref 54]');
+    rationale.push('TL AOSIS 4–5 represents borderline instability; clinical decision depends on additional modifiers (neurological status, posterior ligamentous complex integrity) per the source document (Ref 92).');
+  } else {
+    recommendations.push('Conservative management with bracing may be appropriate if neurologically intact [Ref 92]');
+    rationale.push('Lower TL AOSIS scores suggest compression-type injuries that may be managed conservatively in neurologically intact patients (Ref 92).');
+  }
+
+  // Set visual state
+  let riskLevel, riskText, riskClass;
+  if (riskScore >= 6) {
+    riskLevel = 'red';
+    riskText = 'High Risk Profile';
+    riskClass = 'high-risk';
+  } else if (riskScore >= 3) {
+    riskLevel = 'orange';
+    riskText = 'Moderate Risk Profile';
+    riskClass = 'moderate-risk';
+  } else {
+    riskLevel = 'green';
+    riskText = 'Low Risk Profile';
+    riskClass = 'low-risk';
+  }
+
+  riskDot.className = 'risk-dot ' + riskLevel;
+  riskLabel.textContent = riskText;
+  recBox.className = 'recommendation-box ' + riskClass;
+
+  let html = '';
+  if (risks.length > 0) {
+    html += '<strong>Identified Risks:</strong><br>';
+    risks.forEach(r => { html += '• ' + r + '<br>'; });
+    html += '<br>';
+  }
+  html += '<strong>Recommendations:</strong><br>';
+  recommendations.forEach(r => { html += '✓ ' + r + '<br>'; });
+
+  recText.innerHTML = html;
+  recRationale.innerHTML = '<strong>Rationale:</strong> ' + rationale.join(' ');
+}
+
+function resetSliders() {
+  bmdSlider.value = 0.85;
+  diameterSlider.value = 65;
+  tlaisSlider.value = 4;
+  updateRecommendation();
+}
+
+function copyRecommendation() {
+  const bmd = parseFloat(bmdSlider.value).toFixed(2);
+  const diam = diameterSlider.value + '%';
+  const tlais = tlaisSlider.value;
+  const timestamp = new Date().toLocaleString();
+  
+  const text = `VERTEBRAL PEDICLE FRACTURE — CLINICAL PARAMETER SUMMARY
+Generated: ${timestamp}
+Source: "A Biomechanical Analysis of Vertebral Pedicle Fractures" (provided document)
+
+=== PARAMETER VALUES ===
+• Bone Mineral Density (BMD): ${bmd} g/cm² [Threshold: <0.7 g/cm² for high risk]
+• Screw-to-Pedicle Diameter Ratio: ${diam} [Threshold: >70% in osteoporotic bone]
+• AO Spine TL AOSIS Score: ${tlais} points [Threshold: ≥6 for surgical indication]
+
+=== CURRENT RECOMMENDATION ===
+${recText.innerText}
+
+=== RATIONALE ===
+${recRationale.innerText}
+
+=== NOTES ===
+• All thresholds and evidence levels derived exclusively from the source document.
+• Critical BMD threshold (0.7 g/cm²) and diameter ratio threshold (70%) from cadaveric biomechanical study (Ref 30).
+• TL AOSIS surgical threshold (≥6 points) from AO Spine classification system (Ref 14,35).
+• This summary is for educational purposes only and does not constitute clinical advice.`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Summary copied to clipboard!');
+  }).catch(() => {
+    // Fallback
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('Summary copied to clipboard!');
+  });
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); }, 2500);
+}
+
+// Event listeners
+bmdSlider.addEventListener('input', updateRecommendation);
+diameterSlider.addEventListener('input', updateRecommendation);
+tlaisSlider.addEventListener('input', updateRecommendation);
+
+// Scroll indicator
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const progress = (scrollTop / scrollHeight) * 100;
+  document.getElementById('scrollIndicator').style.width = progress + '%';
+});
+
+// Initialize
+updateRecommendation();
+</script>
+</body>
+</html>

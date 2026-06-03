@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence-Based Management of Geriatric Distal Femur Fractures</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #059669;
+            --accent-light: #d1fae5;
+            --warning: #d97706;
+            --warning-light: #fef3c7;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 0.5rem;
+            --shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-50);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+            color: white;
+            padding: 2rem 0;
+            border-bottom: 4px solid var(--primary);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            max-width: 900px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            font-weight: 300;
+            opacity: 0.9;
+            max-width: 700px;
+        }
+        
+        .evidence-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-level-i {
+            background-color: var(--accent-light);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        
+        .badge-level-ii {
+            background-color: #dbeafe;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .badge-level-iii {
+            background-color: var(--warning-light);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .badge-level-iv {
+            background-color: var(--danger-light);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .badge-meta {
+            background-color: #f3f4f6;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-300);
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+        }
+        
+        .main-content {
+            min-width: 0;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 1.5rem;
+            align-self: start;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .sidebar h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        .slider-value {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 3.5rem;
+            text-align: right;
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--gray-200);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .slider-description {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 0.35rem;
+            line-height: 1.4;
+        }
+        
+        .recommendation-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .recommendation-box h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .recommendation-text {
+            font-size: 0.9375rem;
+            line-height: 1.5;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 0.625rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--gray-200);
+        }
+        
+        .section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+        
+        h2 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 1.75rem 0 0.75rem;
+        }
+        
+        h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 1.25rem 0 0.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray-700);
+        }
+        
+        ul, ol {
+            margin: 0 0 1.25rem 1.5rem;
+            color: var(--gray-700);
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .callout {
+            background-color: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1.25rem 0;
+            font-size: 0.9375rem;
+        }
+        
+        .callout-warning {
+            background-color: var(--warning-light);
+            border-left-color: var(--warning);
+        }
+        
+        .callout-danger {
+            background-color: var(--danger-light);
+            border-left-color: var(--danger);
+        }
+        
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        
+        caption {
+            padding: 0.75rem;
+            background-color: var(--gray-100);
+            font-weight: 600;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-800);
+        }
+        
+        th {
+            background-color: var(--gray-800);
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: top;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--gray-50);
+        }
+        
+        tr:hover {
+            background-color: var(--gray-100);
+        }
+        
+        .highlight {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .stat {
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        
+        .p-value {
+            font-family: monospace;
+            font-size: 0.8125rem;
+            background-color: var(--gray-100);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+        }
+        
+        .reference {
+            font-size: 0.8125rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+            display: block;
+        }
+        
+        .references-section {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-top: 2rem;
+        }
+        
+        .references-section h2 {
+            margin-top: 0;
+            color: var(--gray-900);
+        }
+        
+        .reference-list {
+            list-style-type: decimal;
+            margin-left: 1.25rem;
+        }
+        
+        .reference-list li {
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+        
+        .reference-number {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        footer {
+            background-color: var(--gray-900);
+            color: var(--gray-400);
+            padding: 2rem 0;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .footer-note {
+            font-style: italic;
+            max-width: 600px;
+        }
+        
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                order: -1;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            header {
+                padding: 1.5rem 0;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.25rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Evidence-Based Management of Geriatric Distal Femur Fractures</h1>
+                <p class="subtitle">A Comprehensive Decision-Making Framework for Orthopedic Trauma Surgeons and Geriatricians</p>
+                <div class="evidence-summary">
+                    <span class="badge badge-level-i">Level I: Meta-Analyses & RCTs</span>
+                    <span class="badge badge-level-ii">Level II: Prospective Cohorts</span>
+                    <span class="badge badge-level-iii">Level III: Comparative Studies</span>
+                    <span class="badge badge-meta">Based on Provided Document</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="content-grid">
+                <div class="main-content">
+                    <section class="section">
+                        <h2 class="section-title">Introduction & Epidemiology</h2>
+                        <p>Geriatric distal femur fractures represent a growing orthopedic crisis with outcomes paralleling or exceeding proximal femur fractures. These injuries typically result from low-energy trauma in osteoporotic bone and present formidable challenges due to systemic frailty and compromised bone stock.</p>
+                        
+                        <div class="callout">
+                            <div class="callout-title">🔍 Key Insight</div>
+                            <p>Management goals have shifted from perfect anatomical reconstruction to facilitating <strong>immediate, unrestricted postoperative mobilization</strong> to prevent the devastating cascade of immobility-related complications.</p>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <caption>Table 1: Biomechanical Constructs for Distal Femur Fractures (Based on Source Document)</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Construct</th>
+                                        <th>Principle</th>
+                                        <th>Axial Stiffness</th>
+                                        <th>Torsional Stiffness</th>
+                                        <th>Biological Impact</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Single Lateral LCP</strong></td>
+                                        <td>Relative stability, bridge plating</td>
+                                        <td>Baseline</td>
+                                        <td>Baseline</td>
+                                        <td>Low (MIPO technique)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Double-Plate</strong></td>
+                                        <td>Dual-column support</td>
+                                        <td>+70% vs LCP</td>
+                                        <td>+260% vs LCP</td>
+                                        <td>High (extensive dissection)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nail-Plate Hybrid</strong></td>
+                                        <td>Load-sharing + rotational control</td>
+                                        <td>Superior to single LCP</td>
+                                        <td>Superior to single LCP</td>
+                                        <td>Moderate (dual incisions)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    
+                    <section class="section">
+                        <h2 class="section-title">Fracture Classification & Osteoporotic Substrate</h2>
+                        <p>The AO/OTA classification remains the gold standard. In geriatric osteoporotic bone, even low-energy trauma can cause severely comminuted fractures due to the "eggshell" architecture of depleted metaphyseal bone.</p>
+                        
+                        <div class="callout callout-warning">
+                            <div class="callout-title">⚠️ Critical Biomechanical Principle</div>
+                            <p>When the medial cortical buttress is pulverized, the entire axial load transfers to the lateral fixation construct, creating high risk for varus collapse in osteoporotic bone.</p>
+                        </div>
+                        
+                        <h3>Working Length Optimization in Bridge Plating</h3>
+                        <p>According to Perren's strain theory, optimal working length (75-90% of femoral shaft) with low screw density (<0.5) reduces strain to 2-10%, promoting secondary bone healing. However, medial fracture gaps >5mm serve as independent predictors of non-union regardless of plate optimization.</p>
+                    </section>
+                    
+                    <section class="section">
+                        <h2 class="section-title">Clinical Outcomes: RIMN vs. LCP in AO/OTA 33-C Fractures</h2>
+                        <p>Level I-III evidence demonstrates significant differences between retrograde intramedullary nailing and lateral locking plates in complete articular fractures:</p>
+                        
+                        <div class="table-container">
+                            <table>
+                                <caption>Table 2: Comparative Clinical Outcomes (Source Document Data)</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>RIMN</th>
+                                        <th>LCP</th>
+                                        <th>Significance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Non-Union Rate (33-C)</strong></td>
+                                        <td class="stat">11.8%</td>
+                                        <td class="stat">27.5%</td>
+                                        <td><span class="p-value">p = 0.008</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Coronal Alignment (aLDFA)</strong></td>
+                                        <td>83.7° (anatomic)</td>
+                                        <td>87.9° (varus risk)</td>
+                                        <td><span class="p-value">p = 0.005</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Early Weight-Bearing</strong></td>
+                                        <td class="stat">61.1%</td>
+                                        <td class="stat">44.4%</td>
+                                        <td>Trend favoring RIMN</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Knee Flexion ROM</strong></td>
+                                        <td>115.2°</td>
+                                        <td>110.4°</td>
+                                        <td><span class="p-value">p = 0.03</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Infection Rate</strong></td>
+                                        <td>2.1-5.6%</td>
+                                        <td>2.6-8.3%</td>
+                                        <td>Level I/III evidence</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="callout callout-danger">
+                            <div class="callout-title">🚨 Source Limitation</div>
+                            <p>The document identifies only 2-3 high-quality comparative studies. While evidence favors RIMN, this represents a gap in the literature compared to hip fracture evidence.</p>
+                        </div>
+                    </section>
+                    
+                    <section class="section">
+                        <h2 class="section-title">Primary Distal Femur Replacement (DFR)</h2>
+                        <p>DFR has emerged as a paradigm shift for fractures exceeding fixation limits. Validated indications include:</p>
+                        <ul>
+                            <li>Severe intra-articular comminution (AO/OTA 33-C3)</li>
+                            <li>Incompetent cortical bone stock ("eggshell" bone)</li>
+                            <li>Pre-existing severe osteoarthritis</li>
+                            <li>Periprosthetic fracture with loose implant (Rorabeck Type III)</li>
+                            <li>Contralateral limb impairment requiring immediate weight-bearing</li>
+                        </ul>
+                        
+                        <div class="table-container">
+                            <table>
+                                <caption>Table 3: Primary vs. Salvage DFR Outcomes (Source Document Meta-Analysis)</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Primary DFR</th>
+                                        <th>Salvage DFR</th>
+                                        <th>Significance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Complication Rate</strong></td>
+                                        <td class="stat">15.7%</td>
+                                        <td class="stat">43.1%</td>
+                                        <td><span class="p-value">p < 0.001</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Re-operation Rate</strong></td>
+                                        <td class="stat">12.2%</td>
+                                        <td class="stat">23.5%</td>
+                                        <td><span class="p-value">p = 0.04</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Baseline ASA Score</strong></td>
+                                        <td>2.99</td>
+                                        <td>2.34</td>
+                                        <td><span class="p-value">p < 0.001</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Biological Substrate</strong></td>
+                                        <td>Native hematoma, normal vascularity</td>
+                                        <td>Scarred tissue, compromised vascularity</td>
+                                        <td>Clinical concept</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                    
+                    <section class="section">
+                        <h2 class="section-title">Early Weight-Bearing & Mortality Impact</h2>
+                        <p>Immediate full weight-bearing (FWB) as tolerated is both mechanically viable and life-saving in geriatric fractures:</p>
+                        
+                        <div class="table-container">
+                            <table>
+                                <caption>Table 4: Mortality Timeline Following Geriatric Distal Femur Fractures (Source Document Meta-Analysis)</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Time Point</th>
+                                        <th>Mortality Rate</th>
+                                        <th>Key Drivers</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>30-Day</strong></td>
+                                        <td class="stat">6.3-8.14%</td>
+                                        <td>Surgical stress, PE, MI</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>6-Month</strong></td>
+                                        <td class="stat">13.0-19.5%</td>
+                                        <td>Pneumonia, decubitus ulcers</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>1-Year</strong></td>
+                                        <td class="stat">26.1-34.3%</td>
+                                        <td>Frailty decompensation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Periprosthetic (1-Year)</strong></td>
+                                        <td class="stat">27.0-46.0%</td>
+                                        <td>Advanced age, complex revision</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="callout">
+                            <div class="callout-title">💡 Clinical Pearl</div>
+                            <p>All fatalities in one prospective cohort study occurred in the non-weight-bearing group, establishing a direct correlation between immediate orthostatic loading and reduced mortality.</p>
+                        </div>
+                    </section>
+                    
+                    <section class="section references-section">
+                        <h2 class="section-title">References from Source Document</h2>
+                        <p>The following references are derived exclusively from the provided document. In some instances, incomplete citation information was available.</p>
+                        <ol class="reference-list">
+                            <li><span class="reference-number">1</span> Double plating versus nail–plate construct in AO 33C distal femur fractures. <em>PMC Article</em></li>
+                            <li><span class="reference-number">2</span> Management of Distal Femoral Fractures in the Elderly. <em>British Journal of Hospital Medicine</em></li>
+                            <li><span class="reference-number">3</span> Early and 1-year mortality of native geriatric distal femur fractures: A systematic review. <em>PMC Article</em></li>
+                            <li><span class="reference-number">4</span> Osteoporotic distal femur fractures in the elderly: peculiarities and treatment strategies. <em>PMC Article</em></li>
+                            <li><span class="reference-number">5</span> Management of Distal Femoral Fractures in the Elderly. <em>PubMed</em></li>
+                            <li><span class="reference-number">9</span> Osteoporotic Distal Femur Fractures: An Overview. <em>PMC Article</em></li>
+                            <li><span class="reference-number">13</span> Double fixation for complex distal femoral fractures. <em>EFORT Open Reviews</em></li>
+                            <li><span class="reference-number">23</span> Retrograde Intramedullary Nailing vs. Lateral Locking Plate Fixation. <em>Orthopedic Reviews</em></li>
+                            <li><span class="reference-number">24</span> Is retrograde nailing superior to lateral locked plating for complete articular distal femur fractures? <em>PubMed</em></li>
+                            <li><span class="reference-number">31</span> Distal Femoral Replacement for Fragility and Periprosthetic Fractures. <em>PMC Article</em></li>
+                            <li><span class="reference-number">35</span> Distal Femoral Replacement Versus Open Reduction and Internal Fixation. <em>PMC Article</em></li>
+                            <li><span class="reference-number">45</span> Primary Versus Salvage Distal Femoral Endoprosthetic Replacement. <em>PubMed</em></li>
+                            <li><span class="reference-number">58</span> Early Weight Bearing after Distal Femur Fractures in the Elderly. <em>Journal of Orthopaedic Experience & Innovation</em></li>
+                            <li><span class="reference-number">59</span> Immediate Full Weight-Bearing Versus Partial Weight-Bearing After Distal Femur Fractures. <em>PMC Article</em></li>
+                        </ol>
+                        <p><strong>Note:</strong> Some references from the source document contained incomplete information or were not fully accessible for verification.</p>
+                    </section>
+                </div>
+                
+                <aside class="sidebar" aria-label="Interactive clinical decision support tools">
+                    <h2>🎯 Clinical Decision Support</h2>
+                    
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Lateral Distal Femoral Angle (LDFA)</span>
+                            <span class="slider-value" id="ldfa-value">85.0°</span>
+                        </div>
+                        <input type="range" id="ldfa-slider" min="75" max="95" step="0.5" value="85">
+                        <div class="slider-description">
+                            Normal: 85°±2°. <strong>>87° indicates varus malalignment</strong> risk (source data: RIMN 83.7° vs LCP 87.9°).
+                        </div>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Medial Fracture Gap</span>
+                            <span class="slider-value" id="gap-value">5.0mm</span>
+                        </div>
+                        <input type="range" id="gap-slider" min="0" max="15" step="0.5" value="5">
+                        <div class="slider-description">
+                            <strong>>5mm medial gap</strong> is independent predictor of non-union regardless of plate optimization (source threshold).
+                        </div>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Patient ASA Score</span>
+                            <span class="slider-value" id="asa-value">3</span>
+                        </div>
+                        <input type="range" id="asa-slider" min="1" max="4" step="1" value="3">
+                        <div class="slider-description">
+                            ASA 4 is primary mortality predictor, superseding surgical modality (source: OR 4.31, p<0.001).
+                        </div>
+                    </div>
+                    
+                    <div id="recommendation" class="recommendation-box fade-in">
+                        <h3>✅ Current Recommendation</h3>
+                        <div id="recommendation-text" class="recommendation-text">
+                            Based on LDFA 85.0°, medial gap 5.0mm, and ASA 3: Consider RIMN or nail-plate construct. Primary DFR indicated if >25% ORIF failure risk anticipated. Immediate weight-bearing strongly advised.
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button id="reset-btn" class="btn btn-secondary">
+                            ↻ Reset
+                        </button>
+                        <button id="export-btn" class="btn btn-primary">
+                            📋 Export
+                        </button>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-note">This educational summary is based exclusively on the provided source document. Thresholds marked with an asterisk (*) reflect data directly from the source. Clinical application requires individualized patient assessment.</p>
+                <p>Generated on: <span id="timestamp"></span> | For educational purposes only</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Slider elements
+            const ldfaSlider = document.getElementById('ldfa-slider');
+            const gapSlider = document.getElementById('gap-slider');
+            const asaSlider = document.getElementById('asa-slider');
+            
+            // Value displays
+            const ldfaValue = document.getElementById('ldfa-value');
+            const gapValue = document.getElementById('gap-value');
+            const asaValue = document.getElementById('asa-value');
+            
+            // Recommendation elements
+            const recommendationText = document.getElementById('recommendation-text');
+            const recommendationBox = document.getElementById('recommendation');
+            
+            // Buttons
+            const resetBtn = document.getElementById('reset-btn');
+            const exportBtn = document.getElementById('export-btn');
+            
+            // Timestamp
+            const timestampElement = document.getElementById('timestamp');
+            timestampElement.textContent = new Date().toLocaleString();
+            
+            // Update all values and recommendations
+            function updateAll() {
+                // Update displayed values
+                ldfaValue.textContent = parseFloat(ldfaSlider.value).toFixed(1) + '°';
+                gapValue.textContent = parseFloat(gapSlider.value).toFixed(1) + 'mm';
+                asaValue.textContent = asaSlider.value;
+                
+                // Generate recommendation based on source document thresholds
+                const ldfa = parseFloat(ldfaSlider.value);
+                const gap = parseFloat(gapSlider.value);
+                const asa = parseInt(asaSlider.value);
+                
+                let recommendation = '';
+                let recommendationClass = '';
+                
+                // Decision logic based on source document data
+                if (asa === 4) {
+                    recommendation = `<strong>ASA 4 - High Mortality Risk:</strong> Regardless of surgical technique, 1-year mortality risk is substantially elevated (HR 4.31, p<0.001). Prioritize immediate mobilization with primary DFR if fixation is questionable.`;
+                    recommendationClass = 'callout-danger';
+                } else if (ldfa > 87 && gap > 5) {
+                    recommendation = `<strong>High Failure Risk:</strong> Varus malalignment (LDFA ${ldfa}°) with significant medial gap (${gap}mm) predicts non-union. Strongly consider primary DFR if >25% ORIF failure risk anticipated. Avoid double-plating due to biological penalty.`;
+                    recommendationClass = 'callout-danger';
+                } else if (ldfa > 87 || gap > 5) {
+                    recommendation = `<strong>Moderate Risk:</strong> ${ldfa > 87 ? 'Varus malalignment' : 'Medial gap'} present. Consider RIMN or nail-plate construct over LCP. If using plate, optimize working length (75-90% span ratio, screw density <0.5).`;
+                    recommendationClass = 'callout-warning';
+                } else {
+                    recommendation = `<strong>Standard Management:</strong> Favorable parameters (LDFA ${ldfa}°, gap ${gap}mm). RIMN or LCP appropriate. Prioritize constructs allowing immediate weight-bearing. Consider primary DFR if severe comminution or bone stock prevents stable fixation.`;
+                    recommendationClass = '';
+                }
+                
+                recommendationText.innerHTML = recommendation;
+                
+                // Update recommendation box styling
+                recommendationBox.className = 'recommendation-box fade-in ' + recommendationClass;
+            }
+            
+            // Event listeners for sliders
+            ldfaSlider.addEventListener('input', updateAll);
+            gapSlider.addEventListener('input', updateAll);
+            asaSlider.addEventListener('input', updateAll);
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                ldfaSlider.value = 85;
+                gapSlider.value = 5;
+                asaSlider.value = 3;
+                updateAll();
+            });
+            
+            // Export button
+            exportBtn.addEventListener('click', function() {
+                const ldfa = parseFloat(ldfaSlider.value).toFixed(1);
+                const gap = parseFloat(gapSlider.value).toFixed(1);
+                const asa = asaSlider.value;
+                const recommendation = recommendationText.textContent;
+                const timestamp = new Date().toLocaleString();
+                
+                const exportText = `GERIATRIC DISTAL FEMUR FRACTURE DECISION SUPPORT\n` +
+                                  `Generated: ${timestamp}\n\n` +
+                                  `CLINICAL PARAMETERS:\n` +
+                                  `• Lateral Distal Femoral Angle: ${ldfa}°\n` +
+                                  `• Medial Fracture Gap: ${gap}mm\n` +
+                                  `• ASA Score: ${asa}\n\n` +
+                                  `RECOMMENDATION:\n${recommendation}\n\n` +
+                                  `EVIDENCE BASIS:\n` +
+                                  `• RIMN vs LCP: RIMN demonstrates lower non-union (11.8% vs 27.5%, p=0.008)\n` +
+                                  `• Primary DFR: Validated for ASA 3-4, 33-C3 fractures, >25% ORIF failure risk\n` +
+                                  `• Weight-Bearing: Immediate FWB reduces mortality vs restricted protocols\n\n` +
+                                  `SOURCE: Evidence-Based Management of Geriatric Distal Femur Fractures (Document)`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(exportText).then(() => {
+                    // Show feedback
+                    const originalText = exportBtn.innerHTML;
+                    exportBtn.innerHTML = '✓ Copied!';
+                    exportBtn.style.backgroundColor = 'var(--accent)';
+                    
+                    setTimeout(() => {
+                        exportBtn.innerHTML = originalText;
+                        exportBtn.style.backgroundColor = 'var(--primary)';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = exportText;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    
+                    const originalText = exportBtn.innerHTML;
+                    exportBtn.innerHTML = '✓ Copied!';
+                    setTimeout(() => {
+                        exportBtn.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+            
+            // Initial update
+            updateAll();
+        });
+    </script>
+</body>
+</html>

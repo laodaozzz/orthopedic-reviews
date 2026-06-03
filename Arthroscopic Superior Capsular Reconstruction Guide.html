@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arthroscopic Superior Capsular Reconstruction — Evidence-Based Surgical Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #f8f9fa; --surface: #ffffff; --border: #e2e8f0; --border-light: #f1f5f9;
+            --text: #1e293b; --text-secondary: #475569; --text-muted: #94a3b8;
+            --primary: #0f766e; --primary-light: #14b8a6; --primary-bg: #f0fdfa;
+            --accent: #7c3aed; --accent-light: #a78bfa; --accent-bg: #f5f3ff;
+            --danger: #dc2626; --danger-bg: #fef2f2;
+            --warning: #d97706; --warning-bg: #fffbeb;
+            --success: #16a34a; --success-bg: #f0fdf4;
+            --blue: #2563eb; --blue-bg: #eff6ff;
+            --sidebar-w: 340px; --header-h: 64px;
+            --radius: 10px; --radius-sm: 6px;
+        }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.7;
+        }
+        h1, h2, h3, h4 { font-family: 'Source Serif 4', Georgia, serif; line-height: 1.3; }
+        h1 { font-size: 2rem; font-weight: 700; }
+        h2 { font-size: 1.55rem; font-weight: 600; margin: 2.2rem 0 1rem; color: var(--primary); border-bottom: 2px solid var(--border-light); padding-bottom: .4rem; }
+        h3 { font-size: 1.2rem; font-weight: 600; margin: 1.6rem 0 .6rem; color: var(--text); }
+        h4 { font-size: 1.05rem; font-weight: 600; margin: 1.2rem 0 .4rem; }
+        p { margin-bottom: .9rem; color: var(--text-secondary); }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        strong { color: var(--text); }
+        ul, ol { margin: 0 0 1rem 1.4rem; color: var(--text-secondary); }
+        li { margin-bottom: .35rem; }
+        li strong { color: var(--text); }
+
+        /* Header */
+        .site-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); height: var(--header-h);
+            display: flex; align-items: center; padding: 0 1.5rem;
+        }
+        .site-header h1 { font-size: 1.15rem; color: var(--primary); margin: 0; }
+        .site-header .subtitle { font-family: 'Inter', sans-serif; font-size: .78rem; color: var(--text-muted); margin-left: .75rem; font-weight: 400; }
+
+        /* Layout */
+        .layout {
+            display: grid; grid-template-columns: 1fr var(--sidebar-w);
+            gap: 1.5rem; max-width: 1400px; margin: calc(var(--header-h) + 1.5rem) auto 2rem;
+            padding: 0 1.5rem;
+        }
+        .main-content { min-width: 0; }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky; top: calc(var(--header-h) + 1rem);
+            height: fit-content; max-height: calc(100vh - var(--header-h) - 2rem);
+            overflow-y: auto;
+        }
+        .sidebar-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 1.4rem; margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,.04);
+        }
+        .sidebar-card h3 {
+            font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .05em; color: var(--primary);
+            margin: 0 0 1rem; display: flex; align-items: center; gap: .4rem;
+        }
+        .sidebar-card h3 .icon { font-size: 1.1rem; }
+
+        /* Slider group */
+        .slider-group { margin-bottom: 1.2rem; }
+        .slider-group:last-of-type { margin-bottom: 0; }
+        .slider-label {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-size: .82rem; font-weight: 600; color: var(--text); margin-bottom: .3rem;
+        }
+        .slider-value {
+            font-family: 'Inter', monospace; font-size: 1.1rem; font-weight: 700;
+            color: var(--primary); min-width: 60px; text-align: right;
+        }
+        .slider-note { font-size: .7rem; color: var(--text-muted); margin-bottom: .4rem; }
+        input[type="range"] {
+            -webkit-appearance: none; width: 100%; height: 6px;
+            background: var(--border); border-radius: 3px; outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 20px; height: 20px;
+            background: var(--primary); border-radius: 50%; cursor: pointer;
+            box-shadow: 0 2px 6px rgba(15,118,110,.3);
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 20px; height: 20px; background: var(--primary);
+            border-radius: 50%; cursor: pointer; border: none;
+            box-shadow: 0 2px 6px rgba(15,118,110,.3);
+        }
+
+        /* Toggle */
+        .toggle-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; }
+        .toggle-label { font-size: .82rem; font-weight: 600; color: var(--text); }
+        .toggle {
+            position: relative; width: 44px; height: 24px; cursor: pointer;
+        }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle-track {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--border); border-radius: 12px; transition: .25s;
+        }
+        .toggle-track::before {
+            content: ''; position: absolute; height: 18px; width: 18px;
+            left: 3px; bottom: 3px; background: #fff; border-radius: 50%;
+            transition: .25s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+        }
+        .toggle input:checked + .toggle-track { background: var(--primary); }
+        .toggle input:checked + .toggle-track::before { transform: translateX(20px); }
+
+        /* Recommendation box */
+        .recommendation-box {
+            background: var(--primary-bg); border: 2px solid var(--primary-light);
+            border-radius: var(--radius); padding: 1rem; margin-top: .8rem;
+            transition: all .3s ease;
+        }
+        .recommendation-box.warning { background: var(--warning-bg); border-color: var(--warning); }
+        .recommendation-box.danger { background: var(--danger-bg); border-color: var(--danger); }
+        .rec-header {
+            font-family: 'Inter', sans-serif; font-size: .75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .06em; margin-bottom: .4rem;
+        }
+        .rec-header.ok { color: var(--success); }
+        .rec-header.warn { color: var(--warning); }
+        .rec-header.dang { color: var(--danger); }
+        .rec-text { font-size: .88rem; color: var(--text); line-height: 1.5; font-weight: 500; }
+        .rec-detail { font-size: .78rem; color: var(--text-secondary); margin-top: .3rem; line-height: 1.4; }
+
+        /* Buttons */
+        .btn-row { display: flex; gap: .5rem; margin-top: 1rem; }
+        .btn {
+            flex: 1; padding: .55rem .8rem; border: none; border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif; font-size: .78rem; font-weight: 600;
+            cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: .3rem;
+        }
+        .btn-reset { background: var(--border); color: var(--text-secondary); }
+        .btn-reset:hover { background: #cbd5e1; }
+        .btn-export { background: var(--primary); color: #fff; }
+        .btn-export:hover { background: var(--primary-light); }
+
+        /* Section cards */
+        .section-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 1.8rem; margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,.04);
+        }
+
+        /* Evidence badge */
+        .evidence {
+            display: inline-flex; align-items: center; gap: .25rem;
+            font-size: .68rem; font-weight: 700; padding: .15rem .5rem;
+            border-radius: 999px; vertical-align: middle; margin-left: .3rem;
+            letter-spacing: .03em; white-space: nowrap;
+        }
+        .ev-i { background: #dcfce7; color: #166534; }
+        .ev-ii { background: #dbeafe; color: #1e40af; }
+        .ev-iii { background: #fef3c7; color: #92400e; }
+        .ev-iv { background: #fce7f3; color: #9d174d; }
+        .ev-v { background: #f1f5f9; color: #475569; }
+        .ev-ns { background: #e2e8f0; color: #64748b; }
+
+        /* Callout */
+        .callout {
+            border-left: 4px solid; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: 1rem 1.2rem; margin: 1rem 0; font-size: .9rem;
+        }
+        .callout p { margin-bottom: .3rem; }
+        .callout.info { border-color: var(--blue); background: var(--blue-bg); }
+        .callout.warning { border-color: var(--warning); background: var(--warning-bg); }
+        .callout.success { border-color: var(--success); background: var(--success-bg); }
+        .callout .callout-title { font-weight: 700; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .3rem; }
+        .callout.info .callout-title { color: var(--blue); }
+        .callout.warning .callout-title { color: var(--warning); }
+        .callout.success .callout-title { color: var(--success); }
+
+        /* Tables */
+        .table-wrap { overflow-x: auto; margin: 1rem 0; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+        caption { text-align: left; font-weight: 700; font-size: .9rem; padding: .6rem .8rem; background: var(--primary-bg); color: var(--primary); border-bottom: 1px solid var(--border); }
+        th {
+            background: #f1f5f9; font-weight: 600; text-align: left;
+            padding: .6rem .8rem; border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+        td { padding: .55rem .8rem; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f8fafc; }
+        td ul { margin: 0; padding-left: 1rem; }
+
+        /* Collapsible */
+        details { margin: .8rem 0; }
+        details summary {
+            cursor: pointer; font-weight: 600; font-size: .95rem;
+            color: var(--primary); padding: .4rem 0;
+        }
+        details summary:hover { color: var(--accent); }
+        details[open] summary { margin-bottom: .5rem; }
+
+        /* References */
+        .references { font-size: .78rem; color: var(--text-muted); }
+        .references li { margin-bottom: .3rem; }
+
+        /* TOC */
+        .toc { list-style: none; padding: 0; margin: 0; }
+        .toc li { margin-bottom: .15rem; }
+        .toc a {
+            display: block; padding: .35rem .6rem; border-radius: var(--radius-sm);
+            font-size: .82rem; color: var(--text-secondary); transition: .15s;
+        }
+        .toc a:hover { background: var(--primary-bg); color: var(--primary); text-decoration: none; }
+        .toc a.active { background: var(--primary-bg); color: var(--primary); font-weight: 600; }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+            background: var(--text); color: #fff; padding: .8rem 1.4rem;
+            border-radius: var(--radius-sm); font-size: .85rem; font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,.2); transform: translateY(120%);
+            transition: transform .3s ease;
+        }
+        .toast.show { transform: translateY(0); }
+
+        /* Mobile */
+        .mobile-toggle {
+            display: none; position: fixed; bottom: 1.5rem; right: 1.5rem;
+            z-index: 150; width: 56px; height: 56px; border-radius: 50%;
+            background: var(--primary); color: #fff; border: none; font-size: 1.4rem;
+            box-shadow: 0 4px 16px rgba(15,118,110,.35); cursor: pointer;
+        }
+        @media (max-width: 1024px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar {
+                position: fixed; top: var(--header-h); right: -100%; bottom: 0;
+                width: min(var(--sidebar-w), 90vw); z-index: 90;
+                background: var(--bg); padding: 1rem; transition: right .3s ease;
+                overflow-y: auto; border-left: 1px solid var(--border);
+            }
+            .sidebar.open { right: 0; }
+            .mobile-toggle { display: flex; align-items: center; justify-content: center; }
+            .sidebar-overlay {
+                display: none; position: fixed; inset: 0; z-index: 80;
+                background: rgba(0,0,0,.3);
+            }
+            .sidebar-overlay.open { display: block; }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; } h2 { font-size: 1.25rem; }
+            .section-card { padding: 1.2rem; }
+            table { font-size: .75rem; } th, td { padding: .4rem .5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+    <h1>ASCR Surgical Guide</h1>
+    <span class="subtitle">Arthroscopic Superior Capsular Reconstruction — Evidence-Based Review</span>
+</header>
+
+<div class="layout">
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="main-content" role="main">
+
+        <!-- Section I -->
+        <article class="section-card" id="intro">
+            <h2>I. Introduction &amp; Biomechanical Rationale</h2>
+            <p>The management of <strong>massive, irreparable rotator cuff tears (IRCTs)</strong> represents one of the most significant challenges in modern shoulder surgery. These injuries—characterized by substantial tendon retraction, advanced muscle atrophy, and fatty infiltration—are often not amenable to a direct, tension-free anatomic repair to the humeral footprint.<span class="evidence ev-iv">Level IV</span></p>
+            <p>Historically, treatment options ranged from nonoperative management to debridement, partial repair, tendon transfers, and reverse shoulder arthroplasty (RSA), many yielding mixed results. High failure rates of traditional repair attempts can <strong>exceed 60%</strong> for large and massive tears, underscoring the biomechanical complexity of this pathology.<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Superior Humeral Escape</h3>
+            <p>A massive tear of the posterosuperior rotator cuff disrupts the "force couple" between the rotator cuff and deltoid. The supraspinatus tendon and superior capsule normally act as a <strong>"suspension bridge"</strong> resisting superior shear forces. When lost, the unopposed deltoid pull causes progressive <strong>superior humeral escape</strong>, leading to:</p>
+            <ul>
+                <li>Painful subacromial impingement</li>
+                <li>Altered glenohumeral kinematics</li>
+                <li>Pseudoparalysis (inability to actively elevate &gt;90°)</li>
+                <li>Eventual cuff tear arthropathy</li>
+            </ul>
+
+            <h3>The Superior Capsule as a Critical Static Stabilizer</h3>
+            <p>Cadaveric studies demonstrated that creating a defect in the superior capsule alone—even with an intact rotator cuff—significantly increases glenohumeral translation in all directions and markedly elevates subacromial contact pressure.<span class="evidence ev-iii">Level III</span> A patch graft sutured only to tendon edges fails to restore the critical medial attachment to the glenoid neck, leading to persistent instability and mechanical failure.</p>
+
+            <div class="callout info">
+                <div class="callout-title">Key Conceptual Shift</div>
+                <p>The transition from viewing an IRCT as a "tendon problem" to understanding it as a profound <strong>"stability problem"</strong> is the foundational premise of ASCR.</p>
+            </div>
+
+            <h3>Biomechanical Goal of ASCR</h3>
+            <p>Pioneered by Dr. Teruhisa Mihata, ASCR is designed to restore the <strong>passive superior static restraint</strong> by securing a durable tissue graft from the superior glenoid neck to the greater tuberosity.<span class="evidence ev-iv">Level IV</span> The reconstructed capsule acts as a passive "checkrein," re-centering the humeral head and allowing the deltoid and remaining intact muscles to function on a mechanically sound joint.</p>
+            <p>This principle dictates stringent patient selection: a robust, fully functional <strong>deltoid</strong> and an intact, repairable <strong>subscapularis</strong> are absolute prerequisites.</p>
+        </article>
+
+        <!-- Section II -->
+        <article class="section-card" id="selection">
+            <h2>II. Patient Selection: Indications &amp; Contraindications</h2>
+            <p>The ideal candidate is a relatively young (<strong>&lt;65–70 years</strong>), active individual with a symptomatic, massive, irreparable posterosuperior tear seeking a joint-preserving option to delay RSA.<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Key Anatomical &amp; Functional Criteria</h3>
+            <ul>
+                <li><strong>Minimal Glenohumeral Arthritis:</strong> Hamada grade 1–2 (some surgeons consider select grade 3).<span class="evidence ev-iv">Level IV</span></li>
+                <li><strong>Intact Deltoid Function:</strong> Fully functional deltoid with intact axillary nerve—non-negotiable.<span class="evidence ev-iv">Level IV</span></li>
+                <li><strong>Intact or Repairable Subscapularis:</strong> Critical anterior force couple. Irreparable subscapularis = absolute contraindication.<span class="evidence ev-iv">Level IV</span></li>
+                <li><strong>Failed Conservative Management:</strong> Adequate physical therapy and injections have been attempted.</li>
+            </ul>
+
+            <h3>Table 1: Indications &amp; Contraindications for ASCR</h3>
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 1 — Consolidated Indications and Contraindications for ASCR</caption>
+                    <thead>
+                        <tr><th style="width:50%">Indications</th><th style="width:50%">Contraindications</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Primary Indications</strong>
+                                <ul>
+                                    <li>Massive, irreparable posterosuperior RCT (supraspinatus ± infraspinatus)</li>
+                                    <li>Younger, active patient (&lt;70 y) seeking joint preservation</li>
+                                    <li>Minimal to no glenohumeral arthritis (Hamada 1–2)</li>
+                                    <li>Intact, functional deltoid muscle</li>
+                                    <li>Intact or repairable subscapularis tendon</li>
+                                    <li>Persistent pain/dysfunction despite failed conservative management</li>
+                                </ul>
+                            </td>
+                            <td><strong>Absolute Contraindications</strong>
+                                <ul>
+                                    <li>Moderate-to-severe arthritis (Hamada ≥ 4)</li>
+                                    <li>Irreparable subscapularis tear</li>
+                                    <li>Deltoid dysfunction or axillary nerve palsy</li>
+                                    <li>Active infection</li>
+                                    <li>Severe, fixed superior humeral head migration</li>
+                                    <li>Significant glenoid/humeral bone defects</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Relative Indications</strong>
+                                <ul>
+                                    <li>Revision of failed massive RCT repair</li>
+                                    <li>Correctable pseudoparalysis</li>
+                                </ul>
+                            </td>
+                            <td><strong>Relative Contraindications</strong>
+                                <ul>
+                                    <li>Poor bone quality / severe osteoporosis</li>
+                                    <li>Significant shoulder stiffness</li>
+                                    <li>Patient non-compliance with rehab</li>
+                                    <li>Substantial medical comorbidities</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <!-- Section III -->
+        <article class="section-card" id="preop">
+            <h2>III. Preoperative Assessment &amp; Surgical Planning</h2>
+
+            <h3>Clinical Examination</h3>
+            <p>Comprehensive history and physical examination focusing on active/passive ROM, pseudoparalysis signs, rotator cuff strength, and specific subscapularis tests (lift-off, belly-press).<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Imaging Workup</h3>
+            <ul>
+                <li><strong>Radiographs:</strong> True AP (Grashey), scapular-Y, axillary views—evaluate Hamada grade, acromiohumeral distance (AHD), and bone defects.<span class="evidence ev-iv">Level IV</span></li>
+                <li><strong>MRI:</strong> Cornerstone for soft tissue assessment—tear pattern (Patte classification), muscle atrophy, and fatty infiltration (Goutallier classification).<span class="evidence ev-iv">Level IV</span></li>
+            </ul>
+
+            <h3>Advanced 3D-CT Planning</h3>
+            <p>Two-dimensional imaging can be unreliable for measuring glenoid version and inclination due to out-of-plane errors.<span class="evidence ev-iii">Level III</span> <strong>3D virtual planning</strong> represents the new gold standard, enabling precise calculation of glenoid morphology and preoperative mapping of optimal glenoid anchor trajectories. This transforms the medial fixation step from "freehand" to meticulously planned, improving accuracy and reproducibility.</p>
+
+            <div class="callout success">
+                <div class="callout-title">Clinical Pearl</div>
+                <p>3D-CT planning software used for RSA baseplate positioning can be repurposed to plan superior glenoid anchor placement in ASCR.</p>
+            </div>
+        </article>
+
+        <!-- Section IV -->
+        <article class="section-card" id="technique">
+            <h2>IV. Operative Technique: Step-by-Step</h2>
+
+            <h3>Positioning &amp; Setup</h3>
+            <p>General anesthesia + interscalene block. <strong>Beach chair</strong> or <strong>lateral decubitus</strong> per surgeon preference. Arm in neutral rotation, 20–30° abduction.<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Portal Strategy</h3>
+            <ul>
+                <li><strong>Posterior portal:</strong> Primary viewing for glenohumeral arthroscopy</li>
+                <li><strong>Anterior portal:</strong> Rotator interval, instrumentation</li>
+                <li><strong>Lateral portal:</strong> 3–4 cm distal to acromion; large-bore (10 mm) flexible cannula (e.g., PassPort) for suture management and graft passage—<em>critical technical pearl</em><span class="evidence ev-iv">Level IV</span></li>
+                <li><strong>Neviaser portal:</strong> Posterosuperior glenoid anchor trajectory</li>
+                <li><strong>Accessory portals:</strong> Anterosuperior / superolateral as needed</li>
+            </ul>
+
+            <h3>Diagnostic Arthroscopy &amp; Preparation</h3>
+            <p>Confirm irreparability after mobilization. Assess cartilage, biceps, labrum. Address subscapularis tears and biceps pathology. Complete subacromial bursectomy.<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Bone Bed Preparation</h3>
+            <ul>
+                <li><strong>Glenoid:</strong> Decorticate superior glenoid neck from coracoid base anteriorly to posterosuperior glenoid—just medial to the superior labrum (native capsule attachment).</li>
+                <li><strong>Humeral:</strong> Prepare entire RCT footprint on greater tuberosity to bleeding cancellous surface.</li>
+            </ul>
+
+            <h3>Anchor Placement</h3>
+            <ul>
+                <li><strong>Glenoid:</strong> 2–3 suture anchors (3.0 mm knotless or knotted) at 10 o'clock and 2 o'clock (right shoulder); optional 12 o'clock anchor.<span class="evidence ev-iv">Level IV</span></li>
+                <li><strong>Humeral medial row:</strong> Two anchors (e.g., 4.75 mm) with high-strength suture tape (FiberTape) adjacent to articular margin.</li>
+            </ul>
+
+            <h3>Graft Sizing &amp; Preparation</h3>
+            <p>Measure inter-anchor distances arthroscopically. Transfer to graft on back table. <strong>Oversize by 5 mm medially/anteriorly/posteriorly and 10 mm laterally</strong>—typically resulting in a trapezoidal shape. Create suture passage holes with 1.5 mm biopsy punch.<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Graft Passage &amp; Medial Fixation</h3>
+            <p>Retrieve all suture limbs through lateral cannula; organize by quadrant. Fold graft like a cigar, introduce through lateral cannula. Use glenoid eyelets as pulleys to shuttle medial edge to glenoid neck. Secure medial sutures (lock knotless or tie arthroscopic knots).<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Lateral Fixation: Transosseous-Equivalent SpeedBridge</h3>
+            <p>Tension suture tapes from medial row humeral anchors; fix laterally with two additional knotless anchors. Creates a wide, compressive interface maximizing healing surface area.<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Side-to-Side Integration</h3>
+            <p>Secure posterior graft margin to anterior infraspinatus edge; anterior margin to remnant supraspinatus or rotator interval. This <strong>margin convergence</strong> closes defects, restores the rotator cable, and seals the construct.<span class="evidence ev-iv">Level IV</span></p>
+
+            <div class="callout warning">
+                <div class="callout-title">Technical Pitfall</div>
+                <p>Failure to achieve secure medial fixation to the glenoid neck is the most common technical error leading to graft failure—3D preoperative planning can mitigate this risk.</p>
+            </div>
+        </article>
+
+        <!-- Section V -->
+        <article class="section-card" id="graft">
+            <h2>V. Graft Selection: Comparative Analysis</h2>
+
+            <h3>Table 2: Graft Comparison — TFL Autograft vs. Dermal Allograft</h3>
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 2 — Comparative Features of ASCR Graft Options</caption>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Tensor Fascia Lata (TFL) Autograft</th>
+                            <th>Acellular Dermal Allograft</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Source</strong></td>
+                            <td>Patient's own thigh fascia</td>
+                            <td>Processed human donor skin</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thickness</strong></td>
+                            <td>6–8 mm</td>
+                            <td>~3 mm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Elongation under load</strong></td>
+                            <td>Minimal (~0%)<span class="evidence ev-iii">Level III</span></td>
+                            <td>~15% cyclic elongation<span class="evidence ev-iii">Level III</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reported re-tear rates</strong></td>
+                            <td>5–32%<span class="evidence ev-ii">Level II</span></td>
+                            <td>20–75%<span class="evidence ev-ii">Level II</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Advantages</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Biologically active, promotes healing</li>
+                                    <li>Superior biomechanical stability</li>
+                                    <li>Potentially lower re-tear rates</li>
+                                    <li>No disease transmission risk</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>No donor site morbidity</li>
+                                    <li>Reduced operative time</li>
+                                    <li>Consistent sizes and thicknesses</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disadvantages</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Donor site morbidity (pain, hematoma, nerve injury)</li>
+                                    <li>Increased operative time</li>
+                                    <li>Technically demanding harvest</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Higher cost</li>
+                                    <li>Potential for graft elongation</li>
+                                    <li>Theoretical disease transmission risk</li>
+                                    <li>Higher reported re-tear rates in some series</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clinical Outcomes</strong></td>
+                            <td colspan="2" style="text-align:center;">Both demonstrate significant improvements in VAS, ASES, and ROM<span class="evidence ev-ii">Level II</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Long Head of Biceps Tendon (LHBT) Autograft</strong> is an emerging option that uses an often-pathologic tendon removed during surgery, avoiding additional donor morbidity. Its limited size restricts use to smaller defects or augmentation roles.<span class="evidence ev-iv">Level IV</span></p>
+
+            <div class="callout info">
+                <div class="callout-title">Evidence Summary</div>
+                <p>A systematic review found neither graft demonstrated clear superiority overall, with high variability in complication and failure rates across studies. The choice should be individualized based on patient anatomy, defect size, and surgeon experience.<span class="evidence ev-ii">Level II</span></p>
+            </div>
+        </article>
+
+        <!-- Section VI -->
+        <article class="section-card" id="outcomes">
+            <h2>VI. Clinical Outcomes, Complications &amp; Failure Management</h2>
+
+            <h3>Patient-Reported Outcomes</h3>
+            <p>In appropriately selected patients, ASCR consistently produces clinically meaningful improvements:<span class="evidence ev-ii">Level II</span></p>
+            <ul>
+                <li><strong>Pain (VAS):</strong> Pre-op ~4–6/10 → Post-op ~1–2/10</li>
+                <li><strong>Function (ASES):</strong> 30–40-point improvement (significant disability → high function)</li>
+                <li><strong>Active Forward Flexion:</strong> +30–40° average gain</li>
+                <li><strong>Acromiohumeral Distance (AHD):</strong> +2–3 mm increase on radiographs</li>
+            </ul>
+
+            <h3>Graft Healing &amp; Failure</h3>
+            <p>Reported graft failure rates vary widely (4.5%–75%),<span class="evidence ev-ii">Level II</span> influenced by graft type, technique, and follow-up modality. One study reported a 67.8% graft healing rate on MRI at 1 year.<span class="evidence ev-iv">Level IV</span></p>
+
+            <div class="callout success">
+                <div class="callout-title">Important Clinical Finding</div>
+                <p>Radiographic graft integrity does <strong>not</strong> always correlate with clinical outcome. Patients with MRI-confirmed re-tears often maintain excellent pain relief and function—suggesting the graft may function as a <strong>"biologic spacer"</strong> inducing scarring that provides passive restraint even without true ligamentization.<span class="evidence ev-iii">Level III</span></p>
+            </div>
+
+            <h3>Complications</h3>
+            <ul>
+                <li><strong>Postoperative stiffness</strong> — managed with aggressive PT; may require MUA or capsular release</li>
+                <li><strong>Suture anchor pullout</strong> — particularly in osteoporotic bone; highlights need for preoperative bone quality assessment</li>
+                <li><strong>Persistent pain</strong> — may indicate progression of arthritis, AC joint pathology, or other undiagnosed issues</li>
+                <li><strong>Infection</strong> — low rate (&lt;1%), but devastating if it occurs</li>
+            </ul>
+
+            <h3>Salvage: Reverse Shoulder Arthroplasty</h3>
+            <p>ASCR does <strong>not "burn bridges"</strong>—failed ASCR remains a candidate for RSA without compromising bone stock or soft tissues. This makes it an attractive first-line option in younger patients.<span class="evidence ev-iv">Level IV</span></p>
+        </article>
+
+        <!-- Section VII -->
+        <article class="section-card" id="rehab">
+            <h2>VII. Postoperative Rehabilitation Protocol</h2>
+            <p>Rehabilitation following ASCR is more conservative and protracted than standard RCT repair due to non-vascularized graft healing.<span class="evidence ev-iv">Level IV</span></p>
+
+            <h3>Table 3: Phased Rehabilitation Protocol</h3>
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 3 — ASCR Postoperative Rehabilitation Protocol (Consensus-Based)</caption>
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Timeline</th>
+                            <th>Goals</th>
+                            <th>Precautions</th>
+                            <th>Exercises</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>I. Maximum Protection</strong></td>
+                            <td>0–6 weeks</td>
+                            <td>Protect graft; control pain; maintain distal ROM</td>
+                            <td>Sling + abduction pillow 24/7 for 4–6 wks; NO active shoulder ROM; NO lifting</td>
+                            <td>Hand/wrist/elbow AROM; supported pendulums; scapular retractions; gentle PROM at 2–4 wks (flexion ≤90°, ER ≤30°)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>II. Early Motion</strong></td>
+                            <td>6–12 weeks</td>
+                            <td>Wean sling; increase PROM; begin AAROM/AROM</td>
+                            <td>Discontinue sling ~wk 6; avoid lifting &gt;1–2 lbs; NO resistance</td>
+                            <td>Progress PROM (flexion 130°+); pulleys/wand AAROM; isometrics at 8–9 wks; biceps/triceps exercises</td>
+                        </tr>
+                        <tr>
+                            <td><strong>III. Early Strengthening</strong></td>
+                            <td>12–16 weeks</td>
+                            <td>Full AROM; gentle strengthening; neuromuscular control</td>
+                            <td>No heavy lifting (&gt;5 lbs); avoid pain with exercises</td>
+                            <td>Light therabands (ER focus); seated rows; wall push-ups; proprioceptive drills</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IV. Advanced Strengthening</strong></td>
+                            <td>4–6 months</td>
+                            <td>Progress strength/endurance; functional movements</td>
+                            <td>Gradual progression; monitor for pain/fatigue</td>
+                            <td>Multi-plane strengthening; light plyometrics; sport-specific drills</td>
+                        </tr>
+                        <tr>
+                            <td><strong>V. Return to Activity</strong></td>
+                            <td>&gt;6 months</td>
+                            <td>Safe full activity/sport return</td>
+                            <td>Must be cleared by surgeon; gradual return</td>
+                            <td>Full participation as tolerated; continue maintenance program</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <!-- Section VIII -->
+        <article class="section-card" id="algorithm">
+            <h2>VIII. ASCR in the Treatment Algorithm</h2>
+
+            <h3>Table 4: ASCR vs. Alternative Surgical Options</h3>
+            <div class="table-wrap">
+                <table>
+                    <caption>Table 4 — Comparative Indications and Outcomes for Irreparable RCT Management</caption>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Partial Repair (PR)</th>
+                            <th>ASCR</th>
+                            <th>Tendon Transfer (e.g., LTT)</th>
+                            <th>Reverse Arthroplasty (RSA)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ideal Patient</strong></td>
+                            <td>Any age; at least one repairable tendon</td>
+                            <td>&lt;70 y; joint preservation desired</td>
+                            <td>&lt;65 y; specific functional deficit (e.g., ER lag)</td>
+                            <td>&gt;70 y; lower demand; or salvage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Arthritis Status</strong></td>
+                            <td>Hamada ≤ 2</td>
+                            <td>Hamada ≤ 2</td>
+                            <td>Hamada ≤ 2</td>
+                            <td>Any; especially cuff tear arthropathy (≥3)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Primary Goal</strong></td>
+                            <td>Restore force couple; "functional cuff"</td>
+                            <td>Restore superior static stability; center humeral head</td>
+                            <td>Restore lost dynamic function (e.g., active ER)</td>
+                            <td>Pain relief &amp; restore elevation via deltoid</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Key Advantage</strong></td>
+                            <td>Technically simpler; preserves native tissue</td>
+                            <td>Joint-preserving; does not "burn bridges"</td>
+                            <td>Dynamic reconstruction; restores specific motion</td>
+                            <td>Reliable even with severe pathology</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Key Disadvantage</strong></td>
+                            <td>High re-tear (&gt;50%); may not address superior instability<span class="evidence ev-iii">Level III</span></td>
+                            <td>Technically demanding; variable graft healing; long rehab</td>
+                            <td>Donor site morbidity; transfer failure risk</td>
+                            <td>Joint-sacrificing; implant longevity concerns; rotation deficits</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Typical Outcome</strong></td>
+                            <td>Good pain relief; lower strength vs. ASCR<span class="evidence ev-iii">Level III</span></td>
+                            <td>Excellent pain relief &amp; function; improved strength<span class="evidence ev-ii">Level II</span></td>
+                            <td>Good pain relief; targeted motion improvement<span class="evidence ev-iv">Level IV</span></td>
+                            <td>Excellent pain relief &amp; elevation; often limited rotation<span class="evidence ev-ii">Level II</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout info">
+                <div class="callout-title">Key Decision Point: ASCR vs. RSA</div>
+                <p>ASCR is joint-preserving; RSA is joint-replacing. In the "gray zone" of younger patients with preserved joints, ASCR offers comparable outcomes with superior rotational motion and preserves the option of future RSA.<span class="evidence ev-iii">Level III</span> A prospective RCT comparing PR vs. ASCR is currently underway.<span class="evidence ev-ii">Level II (registered)</span></p>
+            </div>
+        </article>
+
+        <!-- Section IX -->
+        <article class="section-card" id="conclusion">
+            <h2>IX. Conclusion</h2>
+            <p>Arthroscopic Superior Capsular Reconstruction has emerged as a transformative, joint-preserving procedure for massive irreparable rotator cuff tears. Rooted in a sophisticated understanding of shoulder biomechanics, ASCR restores the superior static restraint, recenters the humeral head, and enables the deltoid and remaining muscles to function efficiently.</p>
+            <p>Success depends on: <strong>(1)</strong> meticulous patient selection (young, active, minimal arthritis, intact deltoid and subscapularis); <strong>(2)</strong> precise surgical execution with robust medial and lateral fixation; <strong>(3)</strong> advanced preoperative planning (3D-CT); and <strong>(4)</strong> a prolonged, disciplined rehabilitation protocol.</p>
+            <p>While graft choice debates continue and long-term data mature, the existing evidence supports ASCR as a valuable intervention that provides outcomes comparable or superior to alternatives, with the profound advantage of preserving the native joint. ASCR has rightfully earned its place as a cornerstone in the modern treatment algorithm for irreparable rotator cuff tears.</p>
+        </article>
+
+        <!-- References -->
+        <article class="section-card" id="references">
+            <h2>References</h2>
+            <ol class="references">
+                <li>[1] Shoulderdoc.co.uk — Superior Capsular Reconstruction (SCR). Accessed 2025.</li>
+                <li>[2] ResearchGate — Complications of Superior Capsular Reconstruction.</li>
+                <li>[3] ClinicalTrials.gov NCT04742452 — Comparison of Partial RCT Repair vs. SCR. [Registered trial]</li>
+                <li>[4] Mihata T et al. Arthroscopic SCR for Treatment of Massive Irreparable RCT. <em>ResearchGate</em>.</li>
+                <li>[5] Orthobullets — Complications of SCR for Functionally Irreparable RCT: Systematic Review.</li>
+                <li>[6] ResearchGate — Indication and Contraindications diagram.</li>
+                <li>[7] Orthobullets — Superior Capsular Reconstruction evidence summary.</li>
+                <li>[8] Lovy AJ et al. Tendon transfers to avoid RSA. <em>Annals of Joint</em>.</li>
+                <li>[9] Kholinne E et al. Arthroscopic SCR of the shoulder: a narrative review. <em>PMC</em>.</li>
+                <li>[10] Leclerc L — Arthroscopic SCR technique overview.</li>
+                <li>[11] Joyce C — Arthroscopic SCR positioning and technique.</li>
+                <li>[12] Superior Capsular Reconstruction: Clinical Outcomes After Minimum 2-Year Follow-Up.</li>
+                <li>[13] SCR with Superimposition of RCT Repair for Massive RCT. <em>Orthobullets</em>.</li>
+                <li>[14] Mihata T et al. Arthroscopic SCR for Massive Irreparable RCT. <em>PMC / Arthroscopy</em>.</li>
+                <li>[15] Fascia Lata vs. Acellular Dermal Allograft: Systematic Review. <em>PMC</em>.</li>
+                <li>[16–17] Arthrex — Superior Capsular Reconstruction technique guides.</li>
+                <li>[20] Arthroscopic SCR and Over-the-Top RCT Repair. <em>Orthobullets</em>.</li>
+                <li>[23] Arthroscopic SCR — detailed technique. <em>PMC</em>.</li>
+                <li>[24] Pifer M — SCR indications. <em>Orthobullets</em>.</li>
+                <li>[25–29] Preoperative planning in RSA: 2D vs. 3D vs. navigation. <em>Annals of Joint / PubMed</em>.</li>
+                <li>[36] Acellular Dermal Allograft vs. TFL Autograft: Systematic Review. <em>ResearchGate</em>.</li>
+                <li>[37–38] Fascia Lata vs. Dermal Allograft outcomes. <em>ResearchGate / PubMed</em>.</li>
+                <li>[40] Clinical Outcomes of SCR: Systematic Review Comparing Allograft and Autograft. <em>PMC</em>.</li>
+                <li>[44] SCR with TFL vs. RSA in Patients ≥65 Years. <em>PubMed</em>.</li>
+                <li>[45] Comparison: SCR vs. Partial Repair vs. Debridement. <em>PMC / ResearchGate</em>.</li>
+                <li>[46] ASCR vs. Reverse Shoulder Arthroplasty. <em>PMC</em>.</li>
+                <li>[50–56] Multiple rehabilitation protocols (MGH, OrthoNC, Cole MD, Sohn, Hamilton, KUHS).</li>
+                <li>[57] Salvaging the 'irreparable' tear: SCR augmented with partial cuff repair. <em>PMC</em>.</li>
+                <li>[58] Outcomes: SCR vs. Partial Repair vs. Debridement. <em>PMC</em>.</li>
+                <li>[59] Lower Trapezius Transfer vs. RSA. <em>ResearchGate</em>.</li>
+                <li>[60] AAOS — Reverse Total Shoulder Replacement.</li>
+                <li>[62] RCT Repair vs. RSA in Massive RCT with High-Grade Atrophy. <em>PMC</em>.</li>
+            </ol>
+        </article>
+    </main>
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar" role="complementary" aria-label="Interactive clinical parameters">
+        <!-- TOC -->
+        <div class="sidebar-card">
+            <h3><span class="icon">📋</span> Contents</h3>
+            <ul class="toc">
+                <li><a href="#intro">I. Introduction &amp; Biomechanics</a></li>
+                <li><a href="#selection">II. Patient Selection</a></li>
+                <li><a href="#preop">III. Preoperative Assessment</a></li>
+                <li><a href="#technique">IV. Operative Technique</a></li>
+                <li><a href="#graft">V. Graft Selection</a></li>
+                <li><a href="#outcomes">VI. Outcomes &amp; Complications</a></li>
+                <li><a href="#rehab">VII. Rehabilitation</a></li>
+                <li><a href="#algorithm">VIII. Treatment Algorithm</a></li>
+                <li><a href="#conclusion">IX. Conclusion</a></li>
+                <li><a href="#references">References</a></li>
+            </ul>
+        </div>
+
+        <!-- Decision Tool -->
+        <div class="sidebar-card">
+            <h3><span class="icon">🔬</span> ASCR Decision Support</h3>
+            <p style="font-size:.75rem; color:var(--text-muted); margin-bottom:.8rem;">Adjust parameters to receive a real-time clinical recommendation based on source document criteria.</p>
+
+            <div class="slider-group">
+                <div class="slider-label">
+                    <span>Patient Age</span>
+                    <span class="slider-value" id="ageVal">55 years</span>
+                </div>
+                <input type="range" id="ageSlider" min="40" max="80" value="55" step="1" aria-label="Patient age">
+                <div class="slider-note">Ideal ASCR candidate: &lt;65–70 years (Source: Section II)</div>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label">
+                    <span>Acromiohumeral Distance (AHD)</span>
+                    <span class="slider-value" id="ahdVal">5 mm</span>
+                </div>
+                <input type="range" id="ahdSlider" min="0" max="15" value="5" step="0.5" aria-label="Acromiohumeral distance in mm">
+                <div class="slider-note">Normal &gt;7 mm; &lt;5 mm = massive tear (Source: Section III)</div>
+            </div>
+
+            <div class="slider-group">
+                <div class="slider-label">
+                    <span>Hamada Classification Grade</span>
+                    <span class="slider-value" id="hamadaVal">Grade 2</span>
+                </div>
+                <input type="range" id="hamadaSlider" min="1" max="5" value="2" step="1" aria-label="Hamada classification grade">
+                <div class="slider-note">1–2 = ASCR candidate; ≥4 = RSA indicated (Source: Section II)</div>
+            </div>
+
+            <div class="toggle-group">
+                <span class="toggle-label">Deltoid Function Intact?</span>
+                <label class="toggle">
+                    <input type="checkbox" id="deltoidToggle" checked aria-label="Deltoid function intact">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+
+            <div class="toggle-group">
+                <span class="toggle-label">Subscapularis Repairable?</span>
+                <label class="toggle">
+                    <input type="checkbox" id="subscapToggle" checked aria-label="Subscapularis repairable">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+
+            <div class="recommendation-box" id="recBox">
+                <div class="rec-header ok" id="recHeader">✓ FAVORABLE FOR ASCR</div>
+                <div class="rec-text" id="recText">This patient profile meets criteria for Arthroscopic Superior Capsular Reconstruction.</div>
+                <div class="rec-detail" id="recDetail">Young patient with preserved cartilage, adequate AHD, and intact deltoid/subscapularis. Consider 3D-CT planning for optimal anchor placement.</div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-reset" id="resetBtn" aria-label="Reset parameters">↺ Reset</button>
+                <button class="btn btn-export" id="exportBtn" aria-label="Export summary">📋 Copy Summary</button>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- Mobile sidebar toggle -->
+<button class="mobile-toggle" id="mobileToggle" aria-label="Toggle decision panel">⚙</button>
+<div class="sidebar-overlay" id="overlay"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+(function() {
+    'use strict';
+
+    // Elements
+    const ageSlider = document.getElementById('ageSlider');
+    const ahdSlider = document.getElementById('ahdSlider');
+    const hamadaSlider = document.getElementById('hamadaSlider');
+    const deltoidToggle = document.getElementById('deltoidToggle');
+    const subscapToggle = document.getElementById('subscapToggle');
+    const ageVal = document.getElementById('ageVal');
+    const ahdVal = document.getElementById('ahdVal');
+    const hamadaVal = document.getElementById('hamadaVal');
+    const recBox = document.getElementById('recBox');
+    const recHeader = document.getElementById('recHeader');
+    const recText = document.getElementById('recText');
+    const recDetail = document.getElementById('recDetail');
+    const resetBtn = document.getElementById('resetBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const toast = document.getElementById('toast');
+    const mobileToggle = document.getElementById('mobileToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    // Mobile sidebar
+    mobileToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    });
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    });
+
+    // Update recommendation
+    function update() {
+        const age = +ageSlider.value;
+        const ahd = +ahdSlider.value;
+        const hamada = +hamadaSlider.value;
+        const deltoid = deltoidToggle.checked;
+        const subscap = subscapToggle.checked;
+
+        ageVal.textContent = age + ' years';
+        ahdVal.textContent = ahd + ' mm';
+        hamadaVal.textContent = 'Grade ' + hamada;
+
+        let issues = [];
+        let isAbsoluteContra = false;
+
+        // Absolute contraindications
+        if (!deltoid) { issues.push('Deltoid dysfunction (absolute contraindication)'); isAbsoluteContra = true; }
+        if (!subscap) { issues.push('Irreparable subscapularis (absolute contraindication)'); isAbsoluteContra = true; }
+        if (hamada >= 4) { issues.push('Hamada grade ≥ 4 (moderate-severe arthritis; RSA indicated)'); isAbsoluteContra = true; }
+
+        // Relative considerations
+        if (age > 70) { issues.push('Age >70 years (relative contraindication; RSA may be preferred)'); }
+        if (age > 65 && age <= 70) { issues.push('Age 65–70 (borderline; shared decision-making recommended)'); }
+        if (ahd < 3) { issues.push('AHD < 3 mm (severe superior migration; fixed migration risk)'); }
+        if (hamada === 3) { issues.push('Hamada grade 3 (select cases may be considered; surgeon discretion)'); }
+
+        // Determine recommendation
+        recBox.className = 'recommendation-box';
+        if (isAbsoluteContra) {
+            recBox.classList.add('danger');
+            recHeader.className = 'rec-header dang';
+            recHeader.textContent = '✖ ASCR CONTRAINDICATED';
+            recText.textContent = 'This patient has one or more absolute contraindications to ASCR.';
+            recDetail.textContent = 'Issues: ' + issues.join('; ') + '. Consider Reverse Shoulder Arthroplasty (RSA) or alternative treatment per source document guidelines.';
+        } else if (issues.length > 0) {
+            recBox.classList.add('warning');
+            recHeader.className = 'rec-header warn';
+            recHeader.textContent = '⚠ PROCEED WITH CAUTION';
+            recText.textContent = 'Some relative contraindications or borderline parameters are present.';
+            recDetail.textContent = 'Considerations: ' + issues.join('; ') + '. Clinical judgment and shared decision-making recommended. Ensure 3D-CT planning is utilized.';
+        } else {
+            recBox.className = 'recommendation-box';
+            recHeader.className = 'rec-header ok';
+            recHeader.textContent = '✓ FAVORABLE FOR ASCR';
+            recText.textContent = 'This patient profile meets criteria for Arthroscopic Superior Capsular Reconstruction.';
+            let detail = 'Age <65 y, preserved cartilage (Hamada ' + hamada + '), AHD ' + ahd + ' mm, intact deltoid and subscapularis.';
+            if (ahd < 7) { detail += ' Reduced AHD confirms superior migration consistent with massive tear. '; }
+            detail += 'Recommend 3D-CT preoperative planning. Consider TFL autograft for lower re-tear rates if donor morbidity acceptable.';
+            recDetail.textContent = detail;
+        }
+    }
+
+    [ageSlider, ahdSlider, hamadaSlider].forEach(el => el.addEventListener('input', update));
+    [deltoidToggle, subscapToggle].forEach(el => el.addEventListener('change', update));
+
+    // Reset
+    resetBtn.addEventListener('click', () => {
+        ageSlider.value = 55;
+        ahdSlider.value = 5;
+        hamadaSlider.value = 2;
+        deltoidToggle.checked = true;
+        subscapToggle.checked = true;
+        update();
+    });
+
+    // Export
+    exportBtn.addEventListener('click', () => {
+        const now = new Date();
+        const timestamp = now.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+        const age = ageSlider.value;
+        const ahd = ahdSlider.value;
+        const hamada = hamadaSlider.value;
+        const deltoid = deltoidToggle.checked ? 'Yes' : 'No';
+        const subscap = subscapToggle.checked ? 'Yes' : 'No';
+        const rec = recText.textContent;
+        const det = recDetail.textContent;
+        const status = recHeader.textContent;
+
+        const summary = [
+            '═══════════════════════════════════════════',
+            'ASCR Clinical Decision Support Summary',
+            '═══════════════════════════════════════════',
+            'Timestamp: ' + timestamp,
+            '',
+            '--- Patient Parameters ---',
+            'Patient Age: ' + age + ' years',
+            'Acromiohumeral Distance (AHD): ' + ahd + ' mm',
+            'Hamada Classification: Grade ' + hamada,
+            'Deltoid Function Intact: ' + deltoid,
+            'Subscapularis Repairable: ' + subscap,
+            '',
+            '--- Recommendation ---',
+            'Status: ' + status,
+            'Assessment: ' + rec,
+            'Details: ' + det,
+            '',
+            '--- Source ---',
+            'Based on: "Arthroscopic Superior Capsular Reconstruction:',
+            'A Comprehensive Surgical Technique Guide"',
+            '(Evidence-based review; thresholds from Sections II & III)',
+            '═══════════════════════════════════════════'
+        ].join('\n');
+
+        navigator.clipboard.writeText(summary).then(() => {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }).catch(() => {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = summary;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        });
+    });
+
+    // TOC active state
+    const sections = document.querySelectorAll('.section-card[id]');
+    const tocLinks = document.querySelectorAll('.toc a');
+    function updateTOC() {
+        let current = '';
+        sections.forEach(sec => {
+            if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+        });
+        tocLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+    }
+    window.addEventListener('scroll', updateTOC, { passive: true });
+    updateTOC();
+
+    // Initial
+    update();
+})();
+</script>
+</body>
+</html>

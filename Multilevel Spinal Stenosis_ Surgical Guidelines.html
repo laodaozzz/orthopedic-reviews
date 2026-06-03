@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence-Based Determination of Surgical Segments in Multilevel Spinal Stenosis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #1a365d;
+  --primary-light: #2b6cb0;
+  --accent: #c53030;
+  --accent-light: #fc8181;
+  --bg: #f7fafc;
+  --bg-card: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+  --success: #276749;
+  --success-bg: #f0fff4;
+  --warning: #975a16;
+  --warning-bg: #fffff0;
+  --danger: #9b2c2c;
+  --danger-bg: #fff5f5;
+  --info: #2b6cb0;
+  --info-bg: #ebf8ff;
+  --sidebar-width: 340px;
+  --header-height: 64px;
+}
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: linear-gradient(135deg, var(--primary) 0%, #234e8e 100%);
+  color: #fff;
+  padding: 0 2rem;
+  height: var(--header-height);
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+.site-header h1 {
+  font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em;
+  max-width: 70%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.site-header .badge-header {
+  background: rgba(255,255,255,0.15);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Layout */
+.page-wrapper {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Main Content */
+.main-content { min-width: 0; }
+.main-content section {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+.main-content h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid var(--primary-light);
+  letter-spacing: -0.02em;
+}
+.main-content h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary-light);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.main-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.main-content p { margin-bottom: 1rem; }
+.main-content ul, .main-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+.main-content li { margin-bottom: 0.5rem; }
+
+/* Evidence Badge */
+.loe {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.loe-1 { background: #c6f6d5; color: #22543d; }
+.loe-2 { background: #bee3f8; color: #2a4365; }
+.loe-3 { background: #fefcbf; color: #744210; }
+.loe-4 { background: #feebc8; color: #7b341e; }
+.loe-5 { background: #fed7d7; color: #742a2a; }
+.loe-na { background: #e2e8f0; color: #4a5568; }
+.rec-strong { background: #c6f6d5; color: #22543d; padding: 0.15rem 0.55rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; }
+.rec-conditional { background: #fefcbf; color: #744210; padding: 0.15rem 0.55rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+table caption {
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary);
+  padding: 0.5rem 0;
+}
+th {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: #f7fafc; }
+tr:hover td { background: #edf2f7; }
+
+/* Callout boxes */
+.callout {
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin: 1.25rem 0;
+  border-left: 4px solid;
+  font-size: 0.9rem;
+}
+.callout-info { background: var(--info-bg); border-color: var(--info); }
+.callout-warning { background: var(--warning-bg); border-color: var(--warning); }
+.callout-danger { background: var(--danger-bg); border-color: var(--danger); }
+.callout-success { background: var(--success-bg); border-color: var(--success); }
+.callout strong { display: block; margin-bottom: 0.25rem; }
+
+/* Sidebar */
+.sidebar {
+  position: relative;
+}
+.sidebar-inner {
+  position: sticky;
+  top: calc(var(--header-height) + 2rem);
+  max-height: calc(100vh - var(--header-height) - 4rem);
+  overflow-y: auto;
+}
+.sidebar-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+.sidebar-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border);
+}
+.slider-group { margin-bottom: 1.25rem; }
+.slider-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+.slider-group .slider-value {
+  font-weight: 700;
+  color: var(--primary-light);
+  font-size: 0.85rem;
+  min-width: 50px;
+  text-align: right;
+}
+.slider-group .slider-hint {
+  font-size: 0.7rem;
+  color: var(--text-light);
+  margin-bottom: 0.4rem;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  outline: none;
+  transition: background 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Recommendation Output */
+.reco-box {
+  background: linear-gradient(135deg, #ebf8ff, #f0fff4);
+  border: 2px solid var(--primary-light);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  min-height: 120px;
+  transition: all 0.3s ease;
+}
+.reco-box h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.reco-box .reco-text { margin-bottom: 0.5rem; }
+.reco-box .reco-rationale {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  border-top: 1px dashed var(--border);
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-light); }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-secondary:hover { background: #cbd5e0; }
+.btn-export { background: #276749; color: #fff; }
+.btn-export:hover { background: #38a169; }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* Refs section */
+.ref-section { font-size: 0.8rem; }
+.ref-section ol { padding-left: 1.25rem; }
+.ref-section li {
+  margin-bottom: 0.4rem;
+  color: var(--text-light);
+  word-break: break-all;
+}
+.ref-section a { color: var(--primary-light); text-decoration: none; }
+.ref-section a:hover { text-decoration: underline; }
+
+/* Limitation note */
+.limitation-note {
+  background: #fffbeb;
+  border: 1px solid #f6e05e;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: #975a16;
+  margin: 1rem 0;
+}
+
+/* Nav */
+.toc-nav {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.toc-nav a {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  background: #edf2f7;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.toc-nav a:hover { background: var(--primary); color: #fff; }
+
+/* Dynamic highlighting */
+.highlight-cervical { border-left: 4px solid #3182ce; }
+.highlight-thoracic { border-left: 4px solid #d69e2e; }
+.highlight-lumbar { border-left: 4px solid #38a169; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .page-wrapper {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .sidebar-inner { position: relative; top: 0; max-height: none; }
+  .site-header h1 { font-size: 0.9rem; max-width: 60%; }
+}
+@media (max-width: 640px) {
+  .site-header { padding: 0 1rem; }
+  .main-content section { padding: 1.25rem; }
+  .main-content h2 { font-size: 1.2rem; }
+  table { font-size: 0.75rem; }
+  th, td { padding: 0.5rem 0.6rem; }
+}
+
+/* Print */
+@media print {
+  .sidebar, .site-header, .toc-nav, .btn { display: none !important; }
+  .page-wrapper { grid-template-columns: 1fr; }
+  .main-content section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Multilevel Spinal Stenosis: Evidence-Based Surgical Segment Determination</h1>
+  <span class="badge-header">Comprehensive EBM Review</span>
+</header>
+
+<div class="page-wrapper">
+  <!-- ======================== MAIN CONTENT ======================== -->
+  <main class="main-content" role="main">
+
+    <!-- Table of Contents -->
+    <section aria-label="Table of Contents">
+      <h2>Table of Contents</h2>
+      <nav class="toc-nav" aria-label="Page navigation">
+        <a href="#intro">Introduction</a>
+        <a href="#cervical">Cervical: Kang &amp; K-Line</a>
+        <a href="#thoracic">Thoracic: Sato Classification</a>
+        <a href="#lumbar">Lumbar: Schizas &amp; SNRB</a>
+        <a href="#summary-table">Summary Table</a>
+        <a href="#guidelines">Consensus Guidelines</a>
+        <a href="#decision-algorithm">Decision Algorithm</a>
+        <a href="#refs">References</a>
+      </nav>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section id="intro">
+      <h2>Introduction: The Clinical–Radiological Paradox</h2>
+      <p>The surgical management of multilevel spinal stenosis represents one of the most formidable challenges in contemporary spine surgery. As the global population ages, the prevalence of degenerative spinal disorders has increased exponentially, resulting in a rising cohort of patients presenting with complex, multi-segmental neural compression.</p>
+      <p>The core dilemma is the <strong>clinical–radiological paradox</strong>: the profound structural narrowing visualized on MRI and CT does not reliably correlate with the precise severity, anatomical location, or objective manifestations of the patient's symptomatic neurogenic deficit. This discordance mandates a rigorous, evidence-based medicine (EBM) approach to surgical planning.</p>
+
+      <div class="callout callout-warning">
+        <strong>⚠ Over-Reliance on Imaging Carries Risk</strong>
+        Relying solely on macroscopic imaging to dictate surgical decompression frequently leads to either the under-treatment of occult pathological generators or the over-treatment of asymptomatic anatomical narrowing, resulting in unnecessary multilevel laminectomies and fusions with elevated complication risks (massive hemorrhage, CSF fistulas, adjacent segment disease, biomechanical destabilization).
+      </div>
+
+      <p>Across the cervical, thoracic, and lumbar regions, differing biomechanical profiles, vascular watershed zones, and resident neural elements (spinal cord vs. cauda equina) necessitate <strong>region-specific classification systems</strong> that function as highly prognostic instruments directly informing surgical trajectories. Anchored within guidelines from AO Spine, AANS/CNS, and NASS, a standardized, Level of Evidence (LoE)-based algorithmic pathway can be constructed.</p>
+    </section>
+
+    <!-- ======================== CERVICAL SPINE ======================== -->
+    <section id="cervical" class="highlight-cervical">
+      <h2>1. Cervical Spine: CSM, OPLL, the Kang Classification &amp; K-Line</h2>
+
+      <h3>1.1 The Kang Classification <span class="loe loe-3">LoE III — Diagnostic</span></h3>
+      <p>The Kang classification is a widely adopted, highly reliable predictive tool for cervical spinal canal stenosis, based primarily on <strong>T2-weighted sagittal MRI sequences</strong>. It stratifies the continuum of cervical stenosis into four distinct, progressive grades, mapping the biological journey from simple fluid displacement to irreversible intrinsic cord damage. <span class="loe loe-3">LoE III</span></p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 1 — Kang Classification of Cervical Spinal Canal Stenosis</caption>
+          <thead>
+            <tr><th>Kang Grade</th><th>Radiological Definition (Sagittal T2 MRI)</th><th>Pathophysiological Implication</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Grade 0</strong></td><td>Complete absence of spinal canal stenosis</td><td>Uncompromised CSF flow; normal cord morphology</td></tr>
+            <tr><td><strong>Grade 1</strong></td><td>Subarachnoid space obliteration exceeding 50%</td><td>Significant CSF displacement, without macroscopic cord deformity</td></tr>
+            <tr><td><strong>Grade 2</strong></td><td>Morphological spinal cord deformity present</td><td>Cord flattening/indentation without intrinsic intramedullary signal changes</td></tr>
+            <tr><td><strong>Grade 3</strong></td><td>Severe cord deformity with intramedullary signal intensity (SI) changes</td><td>T2 hyperintensity indicates irreversible myelomalacia, edema, gliosis, or microcystic degeneration</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-danger">
+        <strong>🚨 Critical Transition: Grade 2 → Grade 3</strong>
+        Intramedullary hyperintensity on T2-weighted imaging (Grade 3) is a well-documented biomarker of structural cord distress. Studies show that <strong>100% of patients with Kang Grade 3</strong> present with a Nurick Grade of 2 or higher, whereas Grade 1 patients predominantly present with subclinical or mild disease. Identification of Grade 3 at multiple levels dictates immediate expansion of surgical decompression boundaries.
+      </div>
+
+      <h4>Reliability &amp; Validity</h4>
+      <p>The Kang classification yields good-to-excellent intraobserver and interobserver reliability, with <strong>ICC ranging from 0.716 to 0.802</strong>. Agreement for detecting critical spinal cord signal change (Grade 0–2 vs. Grade 3) achieves <strong>92–95% concordance</strong> (Cohen's Kappa = 0.70–0.73). <span class="loe loe-3">LoE III</span></p>
+      <p>Clinical validation studies demonstrate substantial agreement between Kang grades and the presence of neurological symptoms (<strong>Cohen's Kappa = 0.81</strong>, 95% CI 0.70–0.92, p &lt; 0.001), particularly in patients over 55 years of age, female patients, and those with symptom duration &gt; 5 months.</p>
+
+      <h4>AI-Enhanced Kang Grading</h4>
+      <p>Deep learning convolutional neural networks (CNN) processing sagittal T2-weighted MR images achieved a correlation coefficient (<strong>R = 0.526</strong>) with clinical manifestations that was comparable to experienced clinicians (R = 0.503–0.517) and outperformed junior residents (R = 0.448). <span class="loe loe-2">LoE II/III</span></p>
+
+      <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+
+      <h3>1.2 The K-Line: Approach Selection in Multilevel OPLL <span class="loe loe-1">LoE I/II — Therapeutic</span></h3>
+      <p>The K-line is a straight virtual line connecting the midpoints of the spinal canal at C2 and C7 on a neutral or dynamic lateral cervical radiograph. It elegantly integrates the magnitude of the ventral ossified mass with global sagittal alignment. <span class="loe loe-2">LoE II</span></p>
+
+      <ul>
+        <li><strong>K-line (+):</strong> The peak of the ossified mass does not cross the K-line posteriorly.</li>
+        <li><strong>K-line (−):</strong> The peak of the ossified mass crosses the K-line posteriorly, indicating profound ventral encroachment.</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <strong>ℹ Biomechanical Principle</strong>
+        Posterior decompression relies on the "bow-string" or "drift-back" effect — allowing the spinal cord to move posteriorly away from ventral pathology. In K-line (−) patients, massive ventral OPLL or global cervical kyphosis mechanically prevents this drift, resulting in inadequate decompression and universally poor outcomes.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 2 — Evidence-Based Approach Selection Algorithm Based on K-Line &amp; COR <span class="loe loe-1">LoE I/II</span></caption>
+          <thead>
+            <tr><th>K-Line Status &amp; Alignment</th><th>Canal Occupying Ratio (COR)</th><th>Recommended Approach</th><th>Rationale</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>K-Line (+), Lordosis</strong></td><td>COR &lt; 50–60%</td><td><span class="rec-strong">Posterior</span> (Laminoplasty or Laminectomy + Fusion)</td><td>Cord drifts back effectively; avoids high morbidity of multi-level anterior surgery</td></tr>
+            <tr><td><strong>K-Line (+), Lordosis</strong></td><td>COR ≥ 60%</td><td><span class="rec-conditional">Anterior</span> (ACDF, ACCF, or ACAF)</td><td>Massive ventral masses prevent adequate cord drift; direct ventral unroofing required</td></tr>
+            <tr><td><strong>K-Line (−) or Kyphosis</strong></td><td>Any COR</td><td><span class="rec-conditional">Anterior</span> (ACDF, ACCF, or ACAF)</td><td>Posterior cord shift impossible; anterior approach corrects kyphotic deformity</td></tr>
+            <tr><td><strong>Dynamic K-Line (−)</strong></td><td>Any COR</td><td><span class="rec-conditional">Anterior or Posterior Fusion</span></td><td>Cord impinged dynamically in flexion; motion preservation contraindicated</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Dynamic K-Line Stratification</h4>
+      <p>Patients who maintain a neutral K-line (+) but shift to a flexion K-line (−) are classified as having <strong>"latent K-line negativity."</strong> These patients are at elevated risk for dynamic, repetitive cord impingement during normal daily activities. Isolated laminoplasty (which preserves motion) yields inferior outcomes; they are best served by ACDF or laminectomy with rigid instrumented fusion. <span class="loe loe-2">LoE II</span></p>
+
+      <h4>ACAF for Multilevel K-line (−) OPLL</h4>
+      <p>The Anterior Controllable Antedisplacement and Fusion (ACAF) technique has emerged as a highly effective alternative. A <strong>randomized controlled trial</strong> comparing ACAF to laminoplasty demonstrated significantly higher JOA recovery rates at 1-year follow-up when COR ≥ 60% or K-line was negative. <span class="loe loe-1">LoE I/II</span></p>
+    </section>
+
+    <!-- ======================== THORACIC SPINE ======================== -->
+    <section id="thoracic" class="highlight-thoracic">
+      <h2>2. Thoracic Spine: OLF &amp; the Sato Classification</h2>
+
+      <p>Multilevel Thoracic Spinal Stenosis (TSS) is a rare but devastating condition predominantly driven by <strong>Ossification of the Ligamentum Flavum (OLF)</strong>, particularly at the thoracolumbar junction (T9–T12). The rigid thoracic rib cage minimizes physiological range of motion, but the intrinsic narrowness of the thoracic spinal canal and the fragile watershed arterial supply to the thoracic spinal cord render neural elements exquisitely vulnerable. Conservative management invariably fails; aggressive surgical decompression is the sole efficacious intervention. <span class="loe loe-3">LoE III</span></p>
+
+      <h3>2.1 The Sato Classification for Thoracic OLF <span class="loe loe-3">LoE III — Prognostic</span></h3>
+      <p>The Sato classification, based on <strong>axial CT morphology</strong>, is the definitive taxonomy for grading thoracic OLF progression, predicting dural involvement, and determining posterior decompression complexity.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 3 — Sato Classification of Thoracic Ossification of the Ligamentum Flavum (OLF)</caption>
+          <thead>
+            <tr><th>Sato Type</th><th>CT Morphological Findings</th><th>Clinical &amp; Anatomical Impact</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Lateral</strong></td><td>Ossification confined to capsular portion</td><td>Mild lateral recess stenosis; often asymptomatic</td></tr>
+            <tr><td><strong>Extended</strong></td><td>Ossification extends medially into interlaminar portion; remains thin</td><td>Begins to encroach on posterior canal</td></tr>
+            <tr><td><strong>Enlarged</strong></td><td>Pronounced anteromedial thickening toward spinal canal</td><td>Compresses posterolateral dural sac; bilateral masses remain separate</td></tr>
+            <tr><td><strong>Fused</strong></td><td>Complete midline fusion of bilateral masses</td><td>V-shaped bony arch severely constricting posterior cord</td></tr>
+            <tr><td><strong>Tuberous</strong></td><td>Nodular, tumor-like bony mass growing anteriorly into canal</td><td>Most advanced; profound central cord compression</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-danger">
+        <strong>🚨 Dural Ossification (DO) Risk</strong>
+        The Tuberous type carries a massive, statistically significant independent risk for Dural Ossification (<strong>Odds Ratio = 9.75</strong>, p &lt; 0.01). <span class="loe loe-3">LoE III</span> Standard laminectomy with Kerrison rongeurs is <strong>strictly contraindicated</strong> in Tuberous/Fused lesions — surgeons must use "floating decompression" techniques or en bloc resection with a high-speed diamond burr. Purely percutaneous endoscopic approaches are also contraindicated due to unacceptably high risk of catastrophic cord contusion.
+      </div>
+
+      <h4>Neurological Progression by Sato Stage</h4>
+      <ul>
+        <li><strong>Lateral &amp; Extended:</strong> Mild posterior compression → loss of vibration sense and proprioception (posterior columns)</li>
+        <li><strong>Enlarged &amp; Fused:</strong> Lateral corticospinal tract compression → spastic paraparesis (upper motor neuron signs)</li>
+        <li><strong>Tuberous:</strong> Canal obliteration → loss of temperature/pain sensation, bowel/bladder dysfunction</li>
+      </ul>
+
+      <h3>2.2 Surgical Execution in Multilevel Thoracic Stenosis</h3>
+      <p>Whole-spine sagittal T2 MRI identifies all symptomatic segments; fine-cut CT dictates bone resection strategy at each level. <span class="loe loe-5">LoE V — Expert Consensus</span></p>
+      <ul>
+        <li><strong>Isolated Multilevel OLF:</strong> Posterior en bloc laminectomy, segmental laminectomy, or "cave-in" floating decompression technique.</li>
+        <li><strong>Combined OLF + OPLL:</strong> If anterior compression is mild → wide posterior laminectomy alone. If both anterior and posterior compression are severe → combined posterior circumferential decompression.</li>
+      </ul>
+      <p>Outcomes are tracked via the <strong>mJOA scoring system for thoracic myelopathy</strong> (11-point scale). Patients with higher preoperative JOA scores demonstrate significantly better recovery ratios, underlining the mandate for early, aggressive decompression. <span class="loe loe-3">LoE III</span></p>
+    </section>
+
+    <!-- ======================== LUMBAR SPINE ======================== -->
+    <section id="lumbar" class="highlight-lumbar">
+      <h2>3. Lumbar Spine: Schizas Classification &amp; Selective Nerve Root Block</h2>
+
+      <p>Degenerative Lumbar Spinal Stenosis (LSS) is the most ubiquitous cause of neurogenic claudication. Because the lumbar canal contains the mobile nerve roots of the <strong>cauda equina</strong> (rather than the solid spinal cord), patients can tolerate astonishing degrees of morphological stenosis without objective neurological catastrophe. This discrepancy requires combining morphological grading with physiological diagnostic mapping to identify the true "culprit" segments.</p>
+
+      <h3>3.1 The Schizas Classification <span class="loe loe-3">LoE III — Prognostic</span></h3>
+      <p>Introduced by Constantin Schizas et al. in <em>Spine</em> (2010), the Schizas classification is a qualitative MRI grading system based on the morphological deformation of the dural sac and the ratio of CSF to nerve rootlets on <strong>axial T2-weighted images</strong> at the maximally stenotic disc level.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 4 — Schizas Classification of Lumbar Spinal Stenosis</caption>
+          <thead>
+            <tr><th>Schizas Grade</th><th>Morphological Definition (Axial T2 MRI)</th><th>Clinical Implications</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Grade A</strong> (No/Mild)</td><td>CSF clearly visible; nerve rootlets separated and identifiable. Subdivided A1–A4.</td><td>Not a candidate for decompression surgery.</td></tr>
+            <tr><td><strong>Grade B</strong> (Moderate)</td><td>Rootlets occupy entire dural sac but can be visually separated.</td><td>Equivocal surgical indication.</td></tr>
+            <tr><td><strong>Grade C</strong> (Severe)</td><td>No individual rootlets distinguishable; dural sac = homogenous gray signal.</td><td>Critical structural stenosis; epidural fat obliterated.</td></tr>
+            <tr><td><strong>Grade D</strong> (Extreme)</td><td>Complete obliteration of dural sac; neural elements compressed into featureless mass.</td><td>Accompanied by epidural venous stasis.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Reliability &amp; Predictive Value</h4>
+      <p>The Schizas classification demonstrates excellent reliability: <strong>ICC 0.827–0.983</strong>. It shows a very strong negative correlation (ρ = −0.821, p &lt; 0.001) with the quantitative Stenosis Ratio, validating it as an efficient, software-free grading tool. <span class="loe loe-3">LoE III</span></p>
+      <p>Patients classified <strong>Grade C and D</strong> have an <strong>odds ratio (OR) of 29.8</strong> for failing non-operative pathways and ultimately requiring surgical decompression compared to Grades A and B. <span class="loe loe-3">LoE III</span></p>
+
+      <div class="callout callout-warning">
+        <strong>⚠ Complication Prediction</strong>
+        Patients with Grade C/D stenosis exhibit a significantly higher risk of dural tears (CSF fistulas) and inadequate decompression during tubular "over-the-top" microdecompression. Severe Schizas grades dictate more meticulous, sometimes open, surgical execution.
+      </div>
+
+      <p><strong>Quantitative Adjunct:</strong> A Dural Sac Cross-Sectional Area (DSCA) of <strong>&lt; 62 mm² or &lt; 75 mm²</strong> serves as a highly specific cutoff defining critical morphological stenosis.</p>
+
+      <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+
+      <h3>3.2 Selective Nerve Root Block (SNRB): The Gold Standard <span class="roe loe-3">LoE III/IV — Diagnostic</span></h3>
+      <p>The central diagnostic dilemma in multilevel lumbar stenosis is that MRI is exceptionally sensitive but notoriously poor in specificity regarding actual pain generators. The <strong>Selective Nerve Root Block (SNRB)</strong> emerges as the definitive diagnostic adjunct to identify the symptomatic "culprit level."</p>
+
+      <p>SNRB is performed under fluoroscopic or CT guidance using a transforaminal approach. A minimal volume of local anesthetic (1–2 mL of lidocaine or bupivacaine) is injected to bathe a single nerve root. <strong>Immediate ≥ 70% pain relief</strong> on a Visual Analog Scale localizes the specific level as the primary pain generator.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 5 — Diagnostic Accuracy Parameters of SNRB</caption>
+          <thead>
+            <tr><th>Parameter</th><th>Estimated Value (95% CI)</th><th>Clinical Implication</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Sensitivity</strong></td><td>90.9% – 93.5%</td><td>Highly effective at identifying a truly compressed, painful nerve root</td></tr>
+            <tr><td><strong>Specificity</strong></td><td>22.0% – 50.0%</td><td>High rate of false positives due to injectate overflow, overlapping dermatomes, or placebo</td></tr>
+            <tr><td><strong>Accuracy (≥70% relief)</strong></td><td>73% (83% with strict criteria)</td><td>Strict pain relief threshold drastically improves predictive accuracy</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-success">
+        <strong>✅ NASS Guideline Endorsement</strong>
+        NASS officially recognizes SNRB as a valuable diagnostic tool (<strong>Level III/IV evidence</strong>) for diagnosing the culprit nerve root in multilevel disease or when clinical and MRI findings are discordant. Patients undergoing targeted decompression guided by preoperative SNRB demonstrate significantly superior outcomes: <strong>88.5% favorable outcome rate</strong> vs. 72.5% for MRI-guided surgery alone (p = 0.041). <span class="loe loe-3">LoE III</span>
+      </div>
+
+      <p>The SNRB cannot be used in isolation; it must be correlated with the patient's exact dermatomal pain map and the Schizas grading for optimal surgical decision-making.</p>
+    </section>
+
+    <!-- ======================== SUMMARY TABLE ======================== -->
+    <section id="summary-table">
+      <h2>Summary: Core Diagnostic &amp; Morphological Verification Methods</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 6 — Comprehensive Comparison of Region-Specific Classification &amp; Diagnostic Tools</caption>
+          <thead>
+            <tr><th>Spinal Region</th><th>Primary Tool</th><th>Modality</th><th>Clinical Role &amp; Guideline Execution</th><th>LoE / Grade</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Cervical</strong></td><td>Kang Classification</td><td>Sagittal T2 MRI</td><td>Assesses canal obliteration and intramedullary signal change. Grade 3 mandates aggressive early decompression.</td><td><span class="loe loe-3">LoE III</span> / Strong Rec.</td></tr>
+            <tr><td><strong>Cervical</strong></td><td>K-Line (Fujiyoshi)</td><td>Dynamic Lateral Radiograph</td><td>K-line (+) permits posterior if COR &lt; 60%. K-line (−) mandates anterior approach regardless of COR.</td><td><span class="loe loe-1">LoE I/II</span> / Strong Rec.</td></tr>
+            <tr><td><strong>Thoracic</strong></td><td>Sato Classification</td><td>Axial CT</td><td>Maps OLF progression. Tuberous/Fused types → high DO risk; contraindicate endoscopic approaches.</td><td><span class="loe loe-3">LoE III</span> / Consensus</td></tr>
+            <tr><td><strong>Lumbar</strong></td><td>Schizas Classification</td><td>Axial T2 MRI</td><td>Grades CSF obliteration. Grade C/D → OR 29.8 for failure of conservative management.</td><td><span class="loe loe-3">LoE III</span></td></tr>
+            <tr><td><strong>Lumbar</strong></td><td>SNRB</td><td>Fluoroscopic/CT-guided Injection</td><td>Functional "culprit level" isolation. Enables targeted microdecompression; avoids unnecessary multilevel fusions.</td><td><span class="loe loe-3">LoE III/IV</span> / NASS Grade C</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================== CONSENSUS GUIDELINES ======================== -->
+    <section id="guidelines">
+      <h2>4. AO Spine &amp; AANS/CNS Consensus Guidelines for CSM &amp; OPLL</h2>
+
+      <h3>Indications for Surgery</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>Table 7 — Guideline Recommendations for Degenerative Cervical Myelopathy</caption>
+          <thead>
+            <tr><th>Severity</th><th>Recommendation</th><th>LoE</th><th>Details</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Severe / Moderate DCM</strong></td><td><span class="rec-strong">Strong — Immediate Surgery</span></td><td><span class="loe loe-1">LoE I/II</span></td><td>Natural history = stepwise or continuous decline. Surgery halts progression and fosters recovery.</td></tr>
+            <tr><td><strong>Mild DCM</strong></td><td><span class="rec-conditional">Conditional — Surgery or Supervised Rehab</span></td><td><span class="loe loe-2">LoE II/III</span></td><td>Surgery provides favorable outcomes and mitigates risk of catastrophic minor-trauma SCI.</td></tr>
+            <tr><td><strong>Asymptomatic Cord Compression</strong></td><td><span class="rec-conditional">Conditional — Against Prophylactic Surgery</span></td><td><span class="loe loe-2">LoE II/III</span></td><td>Observe clinically; counsel on warning signs of progression.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Clinical Equipoise: Anterior vs. Posterior for Multilevel CSM</h3>
+      <p>A landmark prospective multicenter study (AO Spine North America CSM network, <strong>264 patients</strong>) demonstrated that clinical equipoise exists between ventral and dorsal approaches for multilevel CSM (≥ 3 levels) when the cervical spine maintains normal lordotic alignment without massive focal anterior compression. <span class="loe loe-1">LoE I/II</span></p>
+      <p>However, nuanced boundaries override this general equipoise:</p>
+      <ul>
+        <li><strong>Anterior approaches</strong> are virtually mandatory for 1–2 level focal disease and kyphotic deformities.</li>
+        <li><strong>Posterior decompression</strong> is heavily favored for diffuse congenital canal stenosis ≥ 3 levels, due to exponentially increasing morbidity of multi-level anterior corpectomies (dysphagia, recurrent laryngeal nerve palsy, pseudoarthrosis).</li>
+      </ul>
+    </section>
+
+    <!-- ======================== DECISION ALGORITHM ======================== -->
+    <section id="decision-algorithm">
+      <h2>5. Integrated Decision Algorithm</h2>
+      <p>The following algorithm synthesizes the morphological, physiological, and alignment-based parameters detailed above into a structured decision-making pathway for multilevel spinal stenosis:</p>
+
+      <div class="callout callout-info">
+        <strong>ℹ Step-by-Step Approach</strong>
+        <ol style="margin-top: 0.5rem;">
+          <li><strong>Region Identification:</strong> Cervical, thoracic, or lumbar pathology → apply region-specific classification.</li>
+          <li><strong>Morphological Grading:</strong> Kang (cervical), Sato (thoracic), or Schizas (lumbar) to assess structural severity.</li>
+          <li><strong>Dynamic Assessment (Cervical OPLL):</strong> Evaluate K-line status (neutral + dynamic flexion) and COR to determine anterior vs. posterior approach.</li>
+          <li><strong>Physiological Mapping (Lumbar):</strong> If multilevel Schizas Grade C/D with clinical–radiological discordance → perform SNRB to isolate true culprit level(s).</li>
+          <li><strong>Surgical Execution:</strong> Apply region-specific technical considerations (floating decompression for Sato Tuberous; fusion for dynamic K-line negativity; targeted microdecompression for SNRB-positive lumbar levels).</li>
+          <li><strong>Follow-up &amp; Outcomes Tracking:</strong> mJOA (cervical/thoracic), Nurick scale (cervical), VAS/ODI (lumbar).</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ======================== REFERENCES ======================== -->
+    <section id="refs" class="ref-section">
+      <h2>References</h2>
+      <ol>
+        <li>[1] Correlation of Cervical Spinal Canal Stenosis Severity with NDI. <em>J Rare Cardiovasc Dis</em>.</li>
+        <li>[2] Cervical Spondylotic Myelopathy and OPLL. <em>WFNS Spine Committee Book</em>.</li>
+        <li>[3] New MRI Grading System for Cervical Canal Stenosis. <em>AJR Online</em>.</li>
+        <li>[4–5] Kang grading system of cervical canal stenosis. <em>ResearchGate</em>.</li>
+        <li>[7] CSM: Natural Course and Diagnostic Techniques – WFNS Recommendations. <em>PMC</em>.</li>
+        <li>[9] Dynamic K-Line Status and Surgical Outcomes in Multilevel Cervical OPLL. <em>PMC</em>.</li>
+        <li>[10] Deep-Learning-Based CAD Grading of Cervical Stenosis from MR Images. <em>MDPI</em>.</li>
+        <li>[11–12] Fujiyoshi T et al. The K-line. <em>Spine</em> 2008; <em>ResearchGate</em>.</li>
+        <li>[14] Long-term Outcomes of Multilevel Anterior Cervical Osteotomy for OPLL with Kyphosis. <em>PMC</em>.</li>
+        <li>[15] Effect of K-line on Surgical Outcomes in Cervical OPLL: Systematic Review &amp; Meta-Analysis. <em>PMC</em>.</li>
+        <li>[16–18] Surgical Decision-Making for OPLL vs. Other DCM. <em>PubMed; PMC</em>.</li>
+        <li>[19] Comparison of ACAF with Posterior Laminoplasty in Multilevel OPLL: RCT. <em>PubMed</em>.</li>
+        <li>[20–23] AO Spine/AANS/CNS Clinical Practice Guidelines for DCM. <em>PMC; AANS</em>.</li>
+        <li>[24–26] Anterior vs. Posterior Surgical Approaches for CSM. <em>DukeSpace; PMC</em>.</li>
+        <li>[27–30] Meta-Analysis: Anterior vs. Posterior Surgery for Multilevel CSM. <em>PMC; WFNS</em>.</li>
+        <li>[31–34] Pathogenesis of Thoracic OLF. <em>Frontiers; PMC; ResearchGate</em>.</li>
+        <li>[35–36] Clinical Guideline for Symptomatic Thoracic Spinal Stenosis. <em>PMC; PubMed</em>.</li>
+        <li>[38] Factors Related to Long-Term Outcome After Thoracic OLF Decompression. <em>PubMed</em>.</li>
+        <li>[39] Incidence and Risk Factors of Dural Ossification in Thoracic OLF. <em>PubMed</em>.</li>
+        <li>[42] Thoracic Full-Endoscopic Unilateral Laminotomy for OLF. <em>Ann Transl Med</em>.</li>
+        <li>[44] JOA Scoring System for Thoracic Myelopathy. <em>ResearchGate</em>.</li>
+        <li>[45] Schizas C et al. Qualitative Grading of Lumbar Stenosis. <em>Spine</em> 2010; <em>PubMed</em>.</li>
+        <li>[46–54] Schizas Classification: Reliability, Validation, and Complication Prediction. <em>Scribd; ResearchGate; PMC</em>.</li>
+        <li>[55] Surgeon Reliability for Lumbar Stenosis Assessment on MRI. <em>PMC</em>.</li>
+        <li>[56–63] Selective Nerve Root Block: Mechanism, Accuracy, and Surgical Prognostication. <em>MDPI; PMC; Neurospine</em>.</li>
+        <li>[64–66] NASS Clinical Guidelines – Degenerative Lumbar Spinal Stenosis. <em>Spine.org</em>.</li>
+        <li>[67–69] Utility of Diagnostic SNRB in Lumbar Radiculopathy: Systematic Review. <em>PMC; The Nerve</em>.</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- ======================== SIDEBAR ======================== -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Tools">
+    <div class="sidebar-inner">
+
+      <!-- Slider Card -->
+      <div class="sidebar-card">
+        <h3>🎯 Interactive Clinical Parameters</h3>
+        <p style="font-size: 0.75rem; color: var(--text-light); margin-bottom: 1rem;">Adjust parameters to receive real-time clinical recommendations based on the source document's evidence and thresholds.</p>
+
+        <!-- Slider 1: COR -->
+        <div class="slider-group">
+          <label>
+            Canal Occupying Ratio (COR)
+            <span class="slider-value" id="cor-value">30%</span>
+          </label>
+          <div class="slider-hint">Cervical OPLL — Threshold: &lt;50% (posterior eligible) vs. ≥60% (anterior preferred) <em>[Source: Fujiyoshi et al., Ref 11–12]</em></div>
+          <input type="range" id="cor-slider" min="0" max="100" value="30" step="1" aria-label="Canal Occupying Ratio percentage">
+        </div>
+
+        <!-- Slider 2: DSCA -->
+        <div class="slider-group">
+          <label>
+            Dural Sac Cross-Sectional Area (DSCA)
+            <span class="slider-value" id="dsca-value">90 mm²</span>
+          </label>
+          <div class="slider-hint">Lumbar — Critical threshold: &lt;62–75 mm² indicates severe stenosis <em>[Source: Ref 50]</em></div>
+          <input type="range" id="dsca-slider" min="0" max="200" value="90" step="1" aria-label="Dural Sac Cross-Sectional Area in mm²">
+        </div>
+
+        <!-- Slider 3: SNRB Pain Relief -->
+        <div class="slider-group">
+          <label>
+            SNRB Pain Relief (%)
+            <span class="slider-value" id="snrb-value">50%</span>
+          </label>
+          <div class="slider-hint">Lumbar — Diagnostic threshold: ≥70% relief = positive block <em>[Source: Ref 57–61]</em></div>
+          <input type="range" id="snrb-slider" min="0" max="100" value="50" step="1" aria-label="Selective Nerve Root Block pain relief percentage">
+        </div>
+
+        <!-- Kang Grade Toggle -->
+        <div class="slider-group">
+          <label>Kang Grade (Cervical)</label>
+          <select id="kang-select" style="width:100%; padding:0.4rem; border-radius:6px; border:1px solid var(--border); font-size:0.82rem; font-family:inherit;">
+            <option value="0">Grade 0 — No stenosis</option>
+            <option value="1">Grade 1 — &gt;50% subarachnoid obliteration</option>
+            <option value="2">Grade 2 — Cord deformity, no signal change</option>
+            <option value="3" selected>Grade 3 — Cord deformity + T2 hyperintensity</option>
+          </select>
+        </div>
+
+        <!-- K-Line Toggle -->
+        <div class="slider-group">
+          <label>K-Line Status (Cervical OPLL)</label>
+          <select id="kline-select" style="width:100%; padding:0.4rem; border-radius:6px; border:1px solid var(--border); font-size:0.82rem; font-family:inherit;">
+            <option value="positive">K-Line (+) — Mass does not cross K-line</option>
+            <option value="negative">K-Line (−) — Mass crosses K-line posteriorly</option>
+            <option value="dynamic">Dynamic K-Line (−) — Flexion negativity</option>
+          </select>
+        </div>
+
+        <!-- Sato Type Toggle -->
+        <div class="slider-group">
+          <label>Sato Type (Thoracic OLF)</label>
+          <select id="sato-select" style="width:100%; padding:0.4rem; border-radius:6px; border:1px solid var(--border); font-size:0.82rem; font-family:inherit;">
+            <option value="lateral">Lateral</option>
+            <option value="extended">Extended</option>
+            <option value="enlarged">Enlarged</option>
+            <option value="fused">Fused</option>
+            <option value="tuberous" selected>Tuberous</option>
+          </select>
+        </div>
+
+        <!-- Schizas Grade Toggle -->
+        <div class="slider-group">
+          <label>Schizas Grade (Lumbar)</label>
+          <select id="schizas-select" style="width:100%; padding:0.4rem; border-radius:6px; border:1px solid var(--border); font-size:0.82rem; font-family:inherit;">
+            <option value="A">Grade A — No/Mild stenosis</option>
+            <option value="B">Grade B — Moderate</option>
+            <option value="C" selected>Grade C — Severe</option>
+            <option value="D">Grade D — Extreme</option>
+          </select>
+        </div>
+
+        <!-- Buttons -->
+        <button class="btn btn-primary" id="btn-reset" aria-label="Reset all parameters">↺ Reset All</button>
+        <button class="btn btn-export" id="btn-export" aria-label="Copy recommendation to clipboard">📋 Copy Summary to Clipboard</button>
+      </div>
+
+      <!-- Recommendation Box -->
+      <div class="sidebar-card">
+        <h3>📋 Real-Time Recommendation</h3>
+        <div class="reco-box" id="reco-box" aria-live="polite">
+          <h4>⏳ Clinical Recommendation</h4>
+          <div class="reco-text" id="reco-text">Adjust parameters above to generate a recommendation…</div>
+          <div class="reco-rationale" id="reco-rationale"></div>
+        </div>
+      </div>
+
+      <!-- Key Thresholds Reference -->
+      <div class="sidebar-card">
+        <h3>📐 Key Thresholds from Source</h3>
+        <div style="font-size: 0.78rem; line-height: 1.8;">
+          <div style="margin-bottom:0.6rem;">
+            <strong>Cervical — K-Line + COR:</strong><br>
+            COR &lt; 50–60% + K-line (+) → Posterior eligible<br>
+            COR ≥ 60% or K-line (−) → Anterior preferred
+          </div>
+          <div style="margin-bottom:0.6rem;">
+            <strong>Cervical — Kang Grade 3:</strong><br>
+            T2 hyperintensity → Irreversible cord damage<br>
+            100% present with Nurick ≥ 2
+          </div>
+          <div style="margin-bottom:0.6rem;">
+            <strong>Thoracic — Sato Tuberous:</strong><br>
+            Dural Ossification OR = 9.75 (p &lt; 0.01)<br>
+            Endoscopic approaches contraindicated
+          </div>
+          <div style="margin-bottom:0.6rem;">
+            <strong>Lumbar — DSCA:</strong><br>
+            &lt; 62–75 mm² → Critical morphological stenosis
+          </div>
+          <div>
+            <strong>Lumbar — SNRB:</strong><br>
+            ≥ 70% pain relief → Positive diagnostic block<br>
+            Sensitivity 90.9–93.5%, Specificity 22–50%
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert">Copied to clipboard!</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Elements
+  const corSlider = document.getElementById('cor-slider');
+  const corValue = document.getElementById('cor-value');
+  const dscaSlider = document.getElementById('dsca-slider');
+  const dscaValue = document.getElementById('dsca-value');
+  const snrbSlider = document.getElementById('snrb-slider');
+  const snrbValue = document.getElementById('snrb-value');
+  const kangSelect = document.getElementById('kang-select');
+  const klineSelect = document.getElementById('kline-select');
+  const satoSelect = document.getElementById('sato-select');
+  const schizasSelect = document.getElementById('schizas-select');
+  const recoText = document.getElementById('reco-text');
+  const recoRationale = document.getElementById('reco-rationale');
+  const recoBox = document.getElementById('reco-box');
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  // Default values
+  const defaults = {
+    cor: 30, dsca: 90, snrb: 50,
+    kang: '3', kline: 'positive', sato: 'tuberous', schizas: 'C'
+  };
+
+  function updateSliderDisplays() {
+    corValue.textContent = corSlider.value + '%';
+    dscaValue.textContent = dscaSlider.value + ' mm²';
+    snrbValue.textContent = snrbSlider.value + '%';
+
+    // Color coding for COR
+    const cor = parseInt(corSlider.value);
+    corValue.style.color = cor >= 60 ? '#c53030' : cor >= 50 ? '#975a16' : '#2b6cb0';
+
+    // Color coding for DSCA
+    const dsca = parseInt(dscaSlider.value);
+    dscaValue.style.color = dsca < 62 ? '#c53030' : dsca < 75 ? '#975a16' : '#276749';
+
+    // Color coding for SNRB
+    const snrb = parseInt(snrbSlider.value);
+    snrbValue.style.color = snrb >= 70 ? '#276749' : snrb >= 50 ? '#975a16' : '#c53030';
+  }
+
+  function generateRecommendation() {
+    const cor = parseInt(corSlider.value);
+    const dsca = parseInt(dscaSlider.value);
+    const snrb = parseInt(snrbSlider.value);
+    const kang = kangSelect.value;
+    const kline = klineSelect.value;
+    const sato = satoSelect.value;
+    const schizas = schizasSelect.value;
+
+    let recommendations = [];
+    let rationales = [];
+
+    // === CERVICAL ANALYSIS ===
+    // Kang
+    if (kang === '3') {
+      recommendations.push('🔶 <strong>Cervical (Kang Grade 3):</strong> Urgent surgical decompression recommended. T2 intramedullary hyperintensity indicates irreversible myelomalacia. Grade 3 at multiple levels mandates expansion of decompression boundaries. Failure to decompress all contiguous T2-positive regions predicts incomplete recovery. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('Kang Grade 3: 100% of patients present with Nurick ≥ 2. Strong correlation with severe neurological impairment (Ref 7–8).');
+    } else if (kang === '2') {
+      recommendations.push('🟡 <strong>Cervical (Kang Grade 2):</strong> Surgical decompression strongly recommended. Cord deformity present without intrinsic signal change — intervention before Grade 3 transition optimizes recovery. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('Kang Grade 2: Cord flattening/indentation present. Pre-irreversible phase — surgery favored per AO Spine guidelines (Ref 1–5).');
+    } else if (kang === '1') {
+      recommendations.push('🟢 <strong>Cervical (Kang Grade 1):</strong> Consider observation or structured rehabilitation per AO Spine conditional recommendation. Close clinical monitoring for progression. <span class="roe rec-conditional" style="display:inline;">Conditional Rec.</span>');
+      rationales.push('Kang Grade 1: Subclinical/mild disease predominant. Conditional recommendation for conservative management (Ref 20).');
+    } else {
+      recommendations.push('🟢 <strong>Cervical (Kang Grade 0):</strong> No cervical stenosis identified. No surgical intervention indicated.');
+      rationales.push('Kang Grade 0: Normal canal, no cord compromise.');
+    }
+
+    // K-Line + COR
+    if (kline === 'negative') {
+      if (cor >= 60) {
+        recommendations.push('🔴 <strong>Cervical OPLL (K-line −, COR ≥ 60%):</strong> <strong>Anterior approach mandatory</strong> (ACDF/ACCF/ACAF). Posterior cord drift impossible due to massive ventral mass crossing K-line. ACAF demonstrated superior JOA recovery rates vs. laminoplasty in RCT. <span class="loe loe-1" style="display:inline;">LoE I/II</span>');
+      } else {
+        recommendations.push('🔴 <strong>Cervical OPLL (K-line −, COR &lt; 60%):</strong> <strong>Anterior approach mandatory</strong> despite lower COR. K-line negativity overrides COR threshold — posterior drift is biomechanically impossible. <span class="loe loe-2" style="display:inline;">LoE II</span>');
+      }
+      rationales.push('K-line (−): Ventral mass crosses K-line posteriorly. Posterior decompression universally yields poor outcomes (Ref 14–16).');
+    } else if (kline === 'dynamic') {
+      recommendations.push('🟠 <strong>Cervical OPLL (Dynamic K-line −):</strong> <strong>Fusion required.</strong> Laminoplasty (motion-preserving) contraindicated due to dynamic flexion cord impingement. ACDF or laminectomy with rigid instrumented fusion recommended. <span class="loe loe-2" style="display:inline;">LoE II</span>');
+      rationales.push('Dynamic K-line negativity: Latent cord impingement in flexion. Motion preservation fails to protect against repetitive trauma (Ref 9).');
+    } else { // positive
+      if (cor >= 60) {
+        recommendations.push('🟠 <strong>Cervical OPLL (K-line +, COR ≥ 60%):</strong> <strong>Anterior approach preferred.</strong> Even with favorable lordosis, massive ventral mass (COR ≥ 60%) prevents adequate cord drift. Direct ventral unroofing required. <span class="loe loe-2" style="display:inline;">LoE II</span>');
+        rationales.push('K-line (+) but COR ≥ 60%: Threshold for anterior approach per EBM algorithm (Ref 11–12, 16).');
+      } else {
+        recommendations.push('🟢 <strong>Cervical OPLL (K-line +, COR &lt; 50–60%):</strong> <strong>Posterior approach eligible</strong> (laminoplasty or laminectomy + fusion). Lordotic alignment and low COR allow effective cord drift-back. <span class="roe rec-strong" style="display:inline;">Strong Rec.</span>');
+        rationales.push('K-line (+) with COR &lt; 50–60%: Cord drifts back effectively. Avoids high morbidity of multi-level anterior surgery (Ref 11–12, 22).');
+      }
+    }
+
+    // === THORACIC ANALYSIS ===
+    const satoLabels = { lateral: 'Lateral', extended: 'Extended', enlarged: 'Enlarged', fused: 'Fused', tuberous: 'Tuberous' };
+    if (sato === 'tuberous' || sato === 'fused') {
+      recommendations.push('🔴 <strong>Thoracic OLF (Sato ' + satoLabels[sato] + '):</strong> <strong>High-risk for Dural Ossification.</strong> DO risk OR = 9.75 (p &lt; 0.01). Standard laminectomy with Kerrison rongeurs <strong>contraindicated</strong>. Must use "floating decompression" or en bloc resection with high-speed diamond burr. Percutaneous endoscopic approaches absolutely contraindicated. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('Sato ' + satoLabels[sato] + ': Predicts dural ossification and need for complex open microsurgical techniques (Ref 39, 42).');
+    } else if (sato === 'enlarged') {
+      recommendations.push('🟠 <strong>Thoracic OLF (Sato Enlarged):</strong> Posterolateral cord compression present. Posterior decompression via laminectomy recommended. Assess CT carefully for DO risk before surgery. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('Sato Enlarged: Significant but not fused mass. Standard posterior decompression feasible with caution (Ref 35–38).');
+    } else {
+      recommendations.push('🟢 <strong>Thoracic OLF (Sato ' + satoLabels[sato] + '):</strong> Mild morphology. Monitor for progression. May present as localized radicular pain. Surgical decompression only if symptomatic myelopathy develops. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('Sato ' + satoLabels[sato] + ': Early stage; often asymptomatic or causes localized symptoms (Ref 34–36).');
+    }
+
+    // === LUMBAR ANALYSIS ===
+    // Schizas
+    if (schizas === 'C' || schizas === 'D') {
+      let schText = schizas === 'D' ? 'Extreme' : 'Severe';
+      if (dsca < 62) {
+        recommendations.push('🔴 <strong>Lumbar (Schizas ' + schizas + ' [' + schText + '], DSCA &lt; 62 mm²):</strong> Critical structural stenosis confirmed. OR = 29.8 for failure of conservative management. <strong>Surgical decompression strongly indicated.</strong> High risk of dural tears during MIS — consider open approach. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      } else if (dsca < 75) {
+        recommendations.push('🟠 <strong>Lumbar (Schizas ' + schizas + ' [' + schText + '], DSCA &lt; 75 mm²):</strong> Severe stenosis with borderline cross-sectional area. Conservative management likely to fail (OR 29.8). Surgical decompression recommended after SNRB confirmation. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      } else {
+        recommendations.push('🟡 <strong>Lumbar (Schizas ' + schizas + ' [' + schText + '], DSCA ' + dsca + ' mm²):</strong> Severe qualitative grading but larger cross-sectional area. <span style="font-style:italic;">Note: Source indicates Schizas grade more predictive than DSCA alone.</span> SNRB recommended to confirm culprit level before surgery. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      }
+      rationales.push('Schizas ' + schizas + ': OR 29.8 for failure of conservative management (Ref 46). DSCA < 62–75 mm² = critical threshold (Ref 50).');
+    } else if (schizas === 'B') {
+      recommendations.push('🟡 <strong>Lumbar (Schizas B [Moderate]):</strong> Equivocal surgical indication. Trial of conservative management (NSAIDs, PT, epidural injections) reasonable. If symptoms persist and SNRB confirms culprit level → consider targeted decompression. <span class="rec-conditional" style="display:inline;">Conditional</span>');
+      rationales.push('Schizas B: Intermediate grade. Conservative management may be effective; SNRB can help clarify surgical need (Ref 45–46).');
+    } else {
+      recommendations.push('🟢 <strong>Lumbar (Schizas A [No/Mild]):</strong> No surgical decompression indicated. Conservative management. Monitor for progression. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('Schizas A: CSF visible, rootlets separated. Not a surgical candidate (Ref 45).');
+    }
+
+    // SNRB
+    if (snrb >= 70) {
+      recommendations.push('✅ <strong>SNRB Result (≥ 70% relief):</strong> <strong>Positive diagnostic block.</strong> This level is confirmed as a primary pain generator. Targeted microdecompression at this level is supported — expect 88.5% favorable outcome rate. <span class="loe loe-3" style="display:inline;">LoE III</span> / <span class="roe rec-strong" style="display:inline;">NASS Grade C</span>');
+      rationales.push('SNRB ≥ 70%: Positive block per NASS criteria. Sensitivity 90.9–93.5%. Significantly superior outcomes vs. MRI-only guided surgery (Ref 57, 62, 64).');
+    } else if (snrb >= 50) {
+      recommendations.push('⚠️ <strong>SNRB Result (50–69% relief):</strong> Partial/inconclusive response. May indicate multi-level pathology or non-concordant pain generator. Consider repeat block with stricter criteria or alternative diagnostic pathway. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('SNRB 50–69%: Below diagnostic threshold. Specificity concerns at lower thresholds (Ref 61, 67).');
+    } else {
+      recommendations.push('❌ <strong>SNRB Result (&lt; 50% relief):</strong> <strong>Negative block.</strong> This level is unlikely the primary pain generator. Reconsider clinical diagnosis; evaluate other levels or alternative pain etiologies. <span class="loe loe-3" style="display:inline;">LoE III</span>');
+      rationales.push('SNRB < 50%: Negative. Very low false-negative rate (sensitivity 90.9–93.5%) suggests this root is not the primary pain source (Ref 67).');
+    }
+
+    recoText.innerHTML = recommendations.join('<br><br>');
+    recoRationale.innerHTML = '<strong>Evidence Rationale:</strong><br>' + rationales.join('<br>');
+
+    // Subtle animation
+    recoBox.style.borderColor = '#2b6cb0';
+    setTimeout(() => { recoBox.style.borderColor = 'var(--primary-light)'; }, 600);
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg || 'Copied to clipboard!';
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); }, 2500);
+  }
+
+  function exportSummary() {
+    const now = new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' });
+    const cor = corSlider.value;
+    const dsca = dscaSlider.value;
+    const snrb = snrbSlider.value;
+    const kang = kangSelect.options[kangSelect.selectedIndex].text;
+    const kline = klineSelect.options[klineSelect.selectedIndex].text;
+    const sato = satoSelect.options[satoSelect.selectedIndex].text;
+    const schizas = schizasSelect.options[schizasSelect.selectedIndex].text;
+    const reco = recoText.innerText;
+    const rationale = recoRationale.innerText;
+
+    const summary = [
+      '═══════════════════════════════════════════════',
+      'MULTILEVEL SPINAL STENOSIS — CLINICAL SUMMARY',
+      '═══════════════════════════════════════════════',
+      'Generated: ' + now,
+      '',
+      '─── CERVICAL PARAMETERS ───',
+      'Kang Grade: ' + kang,
+      'K-Line Status: ' + kline,
+      'Canal Occupying Ratio (COR): ' + cor + '%',
+      '',
+      '─── THORACIC PARAMETERS ───',
+      'Sato Classification Type: ' + sato,
+      '',
+      '─── LUMBAR PARAMETERS ───',
+      'Schizas Grade: ' + schizas,
+      'Dural Sac Cross-Sectional Area (DSCA): ' + dsca + ' mm²',
+      'SNRB Pain Relief: ' + snrb + '%',
+      '',
+      '─── CLINICAL RECOMMENDATION ───',
+      reco.replace(/<[^>]*>/g, ''),
+      '',
+      '─── EVIDENCE RATIONALE ───',
+      rationale.replace(/<[^>]*>/g, ''),
+      '',
+      '═══════════════════════════════════════════════',
+      'Source: Evidence-Based Determination of Surgical Segments and',
+      'Morphological Classifications in Multilevel Spinal Stenosis',
+      '═══════════════════════════════════════════════'
+    ].join('\n');
+
+    navigator.clipboard.writeText(summary).then(() => {
+      showToast('✅ Summary copied to clipboard!');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = summary;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✅ Summary copied to clipboard!');
+    });
+  }
+
+  function resetAll() {
+    corSlider.value = defaults.cor;
+    dscaSlider.value = defaults.dsca;
+    snrbSlider.value = defaults.snrb;
+    kangSelect.value = defaults.kang;
+    klineSelect.value = defaults.kline;
+    satoSelect.value = defaults.sato;
+    schizasSelect.value = defaults.schizas;
+    updateSliderDisplays();
+    generateRecommendation();
+    showToast('↺ Parameters reset to defaults');
+  }
+
+  // Event listeners
+  [corSlider, dscaSlider, snrbSlider].forEach(s => {
+    s.addEventListener('input', () => { updateSliderDisplays(); generateRecommendation(); });
+  });
+  [kangSelect, klineSelect, satoSelect, schizasSelect].forEach(s => {
+    s.addEventListener('change', generateRecommendation);
+  });
+  btnReset.addEventListener('click', resetAll);
+  btnExport.addEventListener('click', exportSummary);
+
+  // Initial render
+  updateSliderDisplays();
+  generateRecommendation();
+})();
+</script>
+
+</body>
+</html>

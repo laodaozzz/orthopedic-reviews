@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sovereign Scholar: Independent Clinical Research & Publication in the Dry Lab Era</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a365d;
+  --primary-light: #2c5282;
+  --accent: #e53e3e;
+  --accent-light: #fc8181;
+  --success: #276749;
+  --success-bg: #f0fff4;
+  --warning: #975a16;
+  --warning-bg: #fffff0;
+  --info: #2b6cb0;
+  --info-bg: #ebf8ff;
+  --gray-50: #f7fafc;
+  --gray-100: #edf2f7;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e0;
+  --gray-400: #a0aec0;
+  --gray-500: #718096;
+  --gray-600: #4a5568;
+  --gray-700: #2d3748;
+  --gray-800: #1a202c;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--gray-700);
+  background: var(--gray-50);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.site-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+.site-header h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.3rem;
+}
+.site-header .subtitle {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+/* Layout */
+.page-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+@media (max-width: 1024px) {
+  .page-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Main Content */
+main {
+  min-width: 0;
+}
+main h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--primary);
+}
+main h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--primary-light);
+  margin: 1.8rem 0 0.6rem;
+}
+main h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin: 1.2rem 0 0.4rem;
+}
+main p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+main ul, main ol {
+  margin: 0.5rem 0 1rem 1.5rem;
+}
+main li {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+main strong { color: var(--gray-800); }
+
+/* Evidence Badges */
+.evidence-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.ev-I   { background: #c6f6d5; color: #22543d; }
+.ev-II  { background: #bee3f8; color: #2a4365; }
+.ev-III { background: #fefcbf; color: #744210; }
+.ev-IV  { background: #fed7d7; color: #9b2c2c; }
+.ev-V   { background: #e9d8fd; color: #553c9a; }
+.ev-NA  { background: var(--gray-200); color: var(--gray-600); }
+
+/* Callout Boxes */
+.callout {
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  margin: 1.2rem 0;
+  font-size: 0.92rem;
+  border-left: 4px solid;
+}
+.callout-tip {
+  background: var(--success-bg);
+  border-color: var(--success);
+}
+.callout-tip::before {
+  content: "💡 ";
+}
+.callout-warning {
+  background: var(--warning-bg);
+  border-color: var(--warning);
+}
+.callout-warning::before {
+  content: "⚠️ ";
+}
+.callout-info {
+  background: var(--info-bg);
+  border-color: var(--info);
+}
+.callout-info::before {
+  content: "📘 ";
+}
+
+/* Tables */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.2rem 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: var(--white);
+}
+caption {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--primary);
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  background: var(--gray-100);
+  border-bottom: 2px solid var(--gray-200);
+}
+th {
+  background: var(--primary);
+  color: var(--white);
+  padding: 0.65rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--gray-200);
+  vertical-align: top;
+}
+tr:nth-child(even) { background: var(--gray-50); }
+tr:hover { background: #edf2f7; }
+.highlight-free { color: var(--success); font-weight: 600; }
+.highlight-low  { color: #2b6cb0; font-weight: 500; }
+.highlight-high { color: var(--accent); font-weight: 500; }
+
+/* Workflow Steps */
+.step-list {
+  list-style: none;
+  margin-left: 0;
+  counter-reset: step-counter;
+}
+.step-list li {
+  counter-increment: step-counter;
+  position: relative;
+  padding-left: 3rem;
+  margin-bottom: 1.2rem;
+}
+.step-list li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Cards */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  margin: 1.2rem 0;
+}
+.card-title {
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* References */
+.references-section {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--gray-300);
+}
+.references-section h2 { border-bottom: none; font-size: 1.3rem; }
+.ref-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 1;
+}
+.ref-list li {
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--gray-100);
+  break-inside: avoid;
+}
+.ref-list li a {
+  color: var(--info);
+  word-break: break-all;
+}
+
+/* Sidebar */
+aside {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+@media (max-width: 1024px) {
+  aside {
+    position: static;
+    max-height: none;
+    order: -1;
+  }
+}
+.sidebar-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.sidebar-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+/* Sliders */
+.slider-group {
+  margin-bottom: 1.3rem;
+}
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 0.3rem;
+}
+.slider-value {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--gray-200);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--primary);
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--primary);
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  cursor: pointer;
+}
+.slider-label-note {
+  font-size: 0.72rem;
+  color: var(--gray-500);
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+
+/* Recommendation Box */
+#recommendation-box {
+  background: linear-gradient(135deg, #ebf8ff 0%, #f0fff4 100%);
+  border: 2px solid var(--info);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-top: 0.8rem;
+  min-height: 120px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+#recommendation-box h4 {
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+#recommendation-box ul {
+  margin: 0.3rem 0 0 1.2rem;
+}
+#recommendation-box li {
+  margin-bottom: 0.25rem;
+  font-size: 0.82rem;
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.btn {
+  flex: 1;
+  padding: 0.55rem 0.8rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+}
+.btn-primary:hover { background: var(--primary-light); }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline:hover { background: var(--primary); color: var(--white); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--success);
+  color: var(--white);
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 200;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--gray-500);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--gray-200);
+  margin-top: 2rem;
+}
+
+/* Prose styling */
+.prose p { margin-bottom: 0.9rem; }
+.prose ul, .prose ol { margin-bottom: 1rem; }
+
+/* Section anchor spacing */
+.section-anchor { scroll-margin-top: 100px; }
+
+/* TOC */
+.toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.toc li {
+  margin-bottom: 0.3rem;
+}
+.toc a {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  display: block;
+  padding: 0.2rem 0;
+}
+.toc a:hover { color: var(--accent); }
+.toc a::before {
+  content: "› ";
+  color: var(--gray-400);
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .site-header { padding: 1.2rem 1rem; }
+  .page-wrapper { padding: 1rem; gap: 1rem; }
+  main h2 { font-size: 1.3rem; margin-top: 1.8rem; }
+  .btn-row { flex-direction: column; }
+}
+
+/* Print styles */
+@media print {
+  .site-header { position: static; }
+  aside { display: none; }
+  .page-wrapper { grid-template-columns: 1fr; }
+  .btn-row { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>The Sovereign Scholar</h1>
+  <p class="subtitle">A Definitive Guide to Independent Clinical Research &amp; Publication in the Dry Lab Era</p>
+</header>
+
+<div class="page-wrapper">
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main>
+
+<!-- Executive Summary -->
+<h2 id="executive-summary" class="section-anchor">Executive Summary</h2>
+<p>The contemporary landscape of academic medicine presents a paradox: the imperative to publish is ubiquitous, yet the resources required to do so—funding, protected time, and research teams—are increasingly concentrated in elite institutions. For the independent clinical doctor, traditional pathways of prospective randomized controlled trials (RCTs) or wet-lab basic science are often insurmountable due to financial and logistical barriers.</p>
+
+<p>A parallel avenue of scientific inquiry exists that requires <strong>zero financial capital</strong>, relies solely on intellectual capital, and yields high-impact publications: <strong>Dry Lab Research</strong>. This guide delineates how to leverage existing public datasets (NHANES, SEER, MIMIC-IV), perform advanced bibliometric analyses, and conduct rigorous systematic reviews to produce SCI-level work. It also introduces free, open-source statistical tools (JASP, Jamovi) that rival expensive proprietary software, and curates a "Green Zone" of target journals offering a balance of respectability (Impact Factor 1–3) and affordability (low or no Article Processing Charges).</p>
+
+<div class="callout callout-info">
+<strong>Source Document Limitations:</strong> This guide is based entirely on the provided document. No external studies or data have been invented. Evidence levels are inferred from study design descriptions within the source where applicable; otherwise marked as <em>"not specified in source."</em> The document is a narrative expert guide rather than an RCT or systematic review, so most claims carry Level V (expert opinion) or Level III–IV evidence where specific datasets and methodologies are cited.
+</div>
+
+<!-- Section 1 -->
+<h2 id="paradox" class="section-anchor">1. The Clinical Research Paradox &amp; the Dry Lab Solution</h2>
+
+<h3>1.1 The Resource Asymmetry in Modern Medicine</h3>
+<p>Modern academic medicine is characterized by a "publish or perish" culture that alienates the full-time clinician. Grant funding rates are at historical lows, and the administrative burden of running prospective trials—requiring IRB oversight, patient coordinators, and insurance protocols—effectively shuts out independent doctors. This creates a <strong>"knowledge gap"</strong> where frontline clinicians' insights are underrepresented in the literature.</p>
+
+<p>The digitalization of healthcare has created a counter-force: the explosion of <strong>secondary data</strong>. Governments, national health bodies, and large hospital systems now release massive, de-identified datasets to the public. Simultaneously, the metadata of science itself—citations, keywords, and authorship trends—has become an analyzable dataset, giving rise to the "Dry Lab" researcher.</p>
+<span class="evidence-badge ev-NA">Not specified in source</span>
+
+<h3>1.2 Defining the Dry Lab Advantage</h3>
+<p>"Dry lab" research refers to computational or statistical research that does not require biological samples or direct patient recruitment. For the solo clinician, three distinct strategic advantages exist:</p>
+
+<div class="card">
+<div class="card-title">Three Pillars of the Dry Lab Advantage</div>
+<ol>
+  <li><strong>Zero Marginal Cost:</strong> Raw materials (data) are free. Tools (software) are open-source. The only investment is time. <span class="evidence-badge ev-V">Level V – Expert Opinion</span></li>
+  <li><strong>Regulatory Efficiency:</strong> Most public datasets (NHANES, SEER) are completely de-identified, generally exempting them from full IRB review or qualifying for expedited "Not Human Subjects Research" determination, saving months of administrative delay. <span class="evidence-badge ev-NA">Not specified in source</span></li>
+  <li><strong>Scalability &amp; Pivotability:</strong> A clinical trial takes years and cannot easily change course. A dry lab project can be tested in days. If a hypothesis fails, the researcher can pivot to a new variable immediately without losing money. <span class="evidence-badge ev-V">Level V – Expert Opinion</span></li>
+</ol>
+</div>
+
+<h3>1.3 The Independent Clinician's Competitive Edge</h3>
+<p>If public data is freely available, why haven't data scientists already mined it all? The answer lies in <strong>domain expertise</strong>. A data scientist sees columns of numbers; an orthopedic surgeon sees "Kellgren-Lawrence Grade" and "WOMAC scores" and understands their clinical relationship. The independent doctor's competitive advantage is the ability to ask <em>clinically relevant second-order questions</em> that pure statisticians overlook.</p>
+
+<div class="callout callout-tip">
+<strong>Example Domain-Specific Question:</strong> While a statistician might look for general mortality trends, an orthopedist might ask: "How does the timing of surgery in hip fracture patients with concomitant renal failure affect 30-day mortality in the ICU?" using the MIMIC-IV database.
+</div>
+
+<!-- Section 2 -->
+<h2 id="bibliometrics" class="section-anchor">2. Bibliometrics: Mapping the Intellectual Landscape</h2>
+<p>Bibliometric analysis is perhaps the most accessible entry point for the solo researcher. Instead of measuring patients, you measure the <em>science itself</em>—statistically analyzing written publications to answer questions about intellectual structure, collaboration patterns, and emerging trends.</p>
+
+<h3>2.1 The Theoretical Framework: Science Mapping</h3>
+<p>Bibliometrics moves beyond the subjective "Narrative Review" by applying quantitative rigor to literature review. It answers questions such as: "What are the intellectual silos in this field?", "How has the research focus shifted over the last decade?", and "Who are the hidden collaborators?" <span class="evidence-badge ev-III">Level III – Methodology Described</span></p>
+
+<h4>Key Methodologies</h4>
+
+<div class="table-wrapper">
+<table>
+<caption>Table 1: Core Bibliometric Methodologies</caption>
+<thead>
+<tr>
+  <th>Methodology</th>
+  <th>Purpose</th>
+  <th>What It Reveals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Citation Analysis</strong></td>
+  <td>Measures impact</td>
+  <td>The more a paper is cited, the more influence it is presumed to have</td>
+</tr>
+<tr>
+  <td><strong>Co-Citation Analysis</strong></td>
+  <td>Identifies intellectual structure</td>
+  <td>If Paper A and B are frequently co-cited by Papers C, D, E, they are likely related, revealing "foundational knowledge" of a field</td>
+</tr>
+<tr>
+  <td><strong>Co-word Analysis</strong></td>
+  <td>Maps conceptual structure</td>
+  <td>If "Artificial Intelligence" and "Diagnosis" frequently co-occur, they form a thematic cluster. Tracks topic evolution over time</td>
+</tr>
+<tr>
+  <td><strong>Bibliographic Coupling</strong></td>
+  <td>Identifies research fronts</td>
+  <td>When two papers cite the same third paper, useful for identifying current trends (vs. co-citation which identifies historical foundations)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<span class="evidence-badge ev-NA">Not specified in source – derived from source methodology descriptions</span>
+
+<h3>2.2 The Zero-Cost Tech Stack for Bibliometrics</h3>
+
+<h4>2.2.1 Data Acquisition: The Scopus/WoS Workaround</h4>
+<p>The gold standard data sources are <strong>Web of Science (WoS)</strong> and <strong>Scopus</strong> due to curated metadata and citation tracking. However, these sit behind expensive paywalls.</p>
+
+<div class="callout callout-tip">
+<strong>Strategy for Unaffiliated Doctors:</strong> Use <strong>Dimensions</strong> (free version offers robust citation data) or <strong>Lens.org</strong>. Lens.org is particularly powerful for independent scholars—it aggregates data from PubMed, CrossRef, and Microsoft Academic, allows exporting of citation networks, and is entirely free. PubMed does not natively store "cited by" data for easy network analysis export.
+</div>
+
+<h4>2.2.2 Visualization Tools Comparison</h4>
+
+<div class="table-wrapper">
+<table>
+<caption>Table 2: Open-Source Bibliometric Visualization Tools</caption>
+<thead>
+<tr>
+  <th>Tool</th>
+  <th>Best Use Case</th>
+  <th>Learning Curve</th>
+  <th>Output Quality</th>
+  <th>Key Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>VOSviewer</strong></td>
+  <td>Network Visualization</td>
+  <td>Low (Intuitive)</td>
+  <td>Publication-Ready</td>
+  <td>Industry standard for keyword/author "maps." Excellent cluster visualization</td>
+</tr>
+<tr>
+  <td><strong>CiteSpace</strong></td>
+  <td>Temporal Trends</td>
+  <td>High (Steep)</td>
+  <td>Complex</td>
+  <td>Best for detecting "burst phrases"—topics that suddenly became hot. Essential for historical analysis</td>
+</tr>
+<tr>
+  <td><strong>Bibliometrix (Biblioshiny)</strong></td>
+  <td>Comprehensive Metrics</td>
+  <td>Low (Web GUI)</td>
+  <td>Statistical Tables</td>
+  <td>R-package with Shiny web interface. Non-coders can generate Three-Field Plots and H-indices automatically</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>2.3 Workflow: Conducting a Bibliometric Study in 4 Steps</h3>
+<ol class="step-list">
+  <li>
+    <strong>The Search Strategy</strong><br>
+    Define a specific, mature topic. "Orthopedics" is too broad. "Robotic-Assisted Total Knee Arthroplasty" or "Platelet-Rich Plasma in Rotator Cuff Tears" is perfect.<br>
+    <em>Example Query:</em> (TITLE-ABS-KEY("robotic" OR "robot-assisted") AND TITLE-ABS-KEY("arthroplasty" OR "replacement") AND TITLE-ABS-KEY("knee")). Filter to "Articles" and "Reviews"; set time range (e.g., 2000–2024).
+  </li>
+  <li>
+    <strong>Data Extraction</strong><br>
+    Export search results with "Full Record and Cited References." Select "Tab-delimited" for VOSviewer or "BibTeX" for Bibliometrix. Target between 500 and 5,000 papers—fewer than 300 is too small; more than 10,000 becomes noisy.
+  </li>
+  <li>
+    <strong>Data Cleaning</strong><br>
+    Create a thesaurus file to merge duplicates (e.g., "total knee arthroplasty," "TKA," "total knee replacement" → "TKA"). Disambiguate authors ("Smith J" vs. "Smith JA"). <em>Without this, maps will be fragmented and inaccurate.</em>
+  </li>
+  <li>
+    <strong>Visualization &amp; Interpretation</strong><br>
+    Import into VOSviewer. <strong>Interpretation is key</strong>: Do not just describe the map. Explain <em>why</em> clusters exist. For example: "The red cluster is dominated by 'kinematics' and 'alignment,' representing the early focus on mechanical accuracy. The newer blue cluster features 'patient-reported outcomes' and 'satisfaction,' suggesting a paradigm shift."
+  </li>
+</ol>
+
+<div class="callout callout-warning">
+<strong>Critical Point:</strong> A bibliometric paper without a compelling narrative interpretation will be rejected. The map is evidence; your domain-expertise-driven story is the argument. Pure description of cluster patterns is insufficient for publication.
+</div>
+
+<!-- Section 3 -->
+<h2 id="databases" class="section-anchor">3. Public Database Mining: The Engine of Observation</h2>
+<p>For the dry lab researcher, public databases replace the patient ward. These datasets are generated by government agencies with budgets in the millions, yet they are available to you for free.</p>
+
+<h3>3.1 NHANES: The Epidemiology of Musculoskeletal Health</h3>
+<p>The <strong>National Health and Nutrition Examination Survey (NHANES)</strong> assesses the health and nutritional status of adults and children in the United States through combined interviews and physical examinations. <span class="evidence-badge ev-III">Level III – Public Dataset</span></p>
+
+<h4>3.1.1 Why NHANES for Orthopedics?</h4>
+<p>NHANES is under-utilized in orthopedics despite containing rich variables:</p>
+<ul>
+  <li><strong>Bone Mineral Density (BMD):</strong> Comprehensive DEXA scan data (femur and spine) available for many cycles</li>
+  <li><strong>Arthritis:</strong> Specific questionnaires on pain, stiffness, and doctor-diagnosed arthritis (OA and RA)</li>
+  <li><strong>Fracture History:</strong> Self-reported history of hip, wrist, and spine fractures</li>
+  <li><strong>Physical Function:</strong> Objective measures including grip strength, gait speed, and balance</li>
+  <li><strong>Serum Biomarkers:</strong> Vitamin D, Calcium, C-Reactive Protein (CRP), Uric Acid, and heavy metals</li>
+</ul>
+
+<h4>3.1.2 The "Weighting" Hurdle</h4>
+<p>The most common reason NHANES papers are rejected is improper statistical handling. NHANES uses a complex, multistage probability design to oversample certain populations (e.g., minorities, elderly).</p>
+
+<div class="callout callout-warning">
+<strong>The Rule:</strong> You <em>must</em> use sample weights (WTMEC2YR or WTINT2YR) to make results representative of the US population. Unweighted analysis is biased and scientifically invalid for prevalence estimates. <span class="evidence-badge ev-III">Level III – Methodology</span><br><br>
+<strong>The Solution:</strong> While SAS and Stata are industry standards, <strong>Jamovi</strong> (survey module) and <strong>R</strong> (survey package) are free alternatives that correctly handle stratification (SDMVSTRA) and clustering (SDMVPSU) variables.
+</div>
+
+<h4>3.1.3 Sample Workflow for a Solo Doctor</h4>
+<div class="card">
+<div class="card-title">Example Hypothesis: "Is serum heavy metal exposure associated with lower BMD in post-menopausal women?"</div>
+<ol>
+  <li><strong>Data Download:</strong> CDC NHANES website → "Demographics," "Examination" (DEXA), "Laboratory" (metals) files for 2017-2020 cycle</li>
+  <li><strong>Merging:</strong> Import into JASP/Jamovi → Merge using unique identifier SEQN</li>
+  <li><strong>Filtration:</strong> Filter for Gender = Female, Age > 50, Menopause Status = Yes</li>
+  <li><strong>Analysis:</strong> Weighted linear regression with BMD as dependent variable, serum Cadmium as independent, adjusting for age, BMI, smoking, income</li>
+  <li><strong>Reporting:</strong> Report "Weighted Beta Coefficient" and 95% Confidence Intervals</li>
+</ol>
+</div>
+
+<h3>3.2 SEER: The Gold Standard for Oncology</h3>
+<p>The <strong>Surveillance, Epidemiology, and End Results (SEER)</strong> program provides cancer statistics covering approximately 48% of the US population. <span class="evidence-badge ev-III">Level III – Public Dataset</span></p>
+
+<h4>3.2.1 Orthopedic Relevance</h4>
+<p>SEER is the primary source for studying rare orthopedic malignancies where no single institution has enough cases:</p>
+<ul>
+  <li><strong>Target Pathologies:</strong> Osteosarcoma, Chondrosarcoma, Ewing Sarcoma, Chordoma, Soft Tissue Sarcomas</li>
+  <li><strong>Key Variables:</strong> Histology (ICD-O-3 codes), Tumor Size, Primary Site (Axial vs. Appendicular), Surgical Treatment (Limb Salvage vs. Amputation), Radiotherapy sequence, Cause-Specific Survival</li>
+</ul>
+
+<h4>3.2.2 Software: SEER*Stat</h4>
+<p>SEER provides its own free software, <strong>SEER*Stat</strong>, available after signing the data use agreement. It calculates incidence rates, frequencies, and survival rates (Kaplan-Meier) instantly and handles millions of records efficiently. For multivariate analysis (Cox Proportional Hazards), use SEER*Stat to export a "Case Listing" for analysis in JASP or Jamovi.</p>
+
+<h4>3.2.3 Crucial Limitation: Treatment Data</h4>
+<div class="callout callout-warning">
+<strong>Trap for New Researchers:</strong> SEER records "Yes/No/Unknown" for chemotherapy and radiation. Studies have shown the sensitivity of chemotherapy data in SEER is only around <strong>68%</strong>. You can analyze the survival of patients who received chemotherapy, but be very cautious comparing them to those who didn't—the "No" group includes patients who actually received treatment but weren't recorded. <strong>Always acknowledge this in the "Limitations" section.</strong> <span class="evidence-badge ev-IV">Level IV – Reported Limitation</span>
+</div>
+
+<h3>3.3 MIMIC-IV: The Critical Care Window</h3>
+<p><strong>MIMIC-IV</strong> is a large, freely-available database of de-identified health data from critical care units at Beth Israel Deaconess Medical Center. <span class="evidence-badge ev-III">Level III – Public Dataset</span></p>
+
+<h4>3.3.1 Orthopedic Relevance</h4>
+<p>While an ICU database, MIMIC is invaluable for studying:</p>
+<ul>
+  <li><strong>Trauma:</strong> Pelvic fractures, multiple rib fractures, spinal cord injury</li>
+  <li><strong>Geriatric Orthopedics:</strong> Outcomes of elderly patients admitted to ICU after hip fracture surgery (sepsis, pneumonia, delirium)</li>
+  <li><strong>Comorbidities:</strong> Interaction between orthopedic injury and severe systemic disease (e.g., mortality in dialysis patients with femoral shaft fractures)</li>
+</ul>
+
+<h4>3.3.2 Credentialing Process for Independent Researchers</h4>
+<ol class="step-list">
+  <li><strong>CITI Training:</strong> Complete the "Data or Specimens Only Research" course via CITI Program. Free if you affiliate with "Massachusetts Institute of Technology Affiliates" on registration.</li>
+  <li><strong>PhysioNet Account:</strong> Register on PhysioNet.org</li>
+  <li><strong>Reference:</strong> List a senior colleague, department head, or mentor. Explain: "I am an independent clinical researcher/attending physician conducting retrospective analysis."</li>
+  <li><strong>Data Use Agreement:</strong> Sign legal agreement not to attempt re-identification of patients</li>
+</ol>
+
+<h4>3.3.3 Data Structure</h4>
+<p>MIMIC is a relational database requiring table merges: <strong>patients</strong> (demographics, date of death), <strong>admissions</strong> (hospital details), <strong>diagnoses_icd</strong> (ICD codes for fractures), <strong>labevents</strong> (Creatinine, Hemoglobin). Linking keys: <code>subject_id</code> (Patient) and <code>hadm_id</code> (Admission).</p>
+
+<!-- Section 4 -->
+<h2 id="systematic-reviews" class="section-anchor">4. Systematic Reviews: Synthesis as Science</h2>
+
+<h3>4.1 The Myth of Meta-Analysis</h3>
+<p>Many clinicians believe they <em>must</em> perform a meta-analysis to publish a review. <strong>This is false.</strong> If included studies are heterogeneous (different populations, interventions, outcome measures), a meta-analysis is inappropriate and often misleading. <span class="evidence-badge ev-V">Level V – Expert Opinion</span></p>
+
+<div class="callout callout-info">
+<strong>The Narrative Synthesis:</strong> A "Systematic Review without Meta-Analysis" is a perfectly valid and respected publication type. It involves describing findings in text and tables, looking for patterns, strengths, and gaps. This is often <em>safer</em> for a solo researcher than attempting a flawed meta-analysis.
+</div>
+
+<h3>4.2 The Solo Protocol</h3>
+<ol class="step-list">
+  <li>
+    <strong>Protocol Registration</strong><br>
+    Register your review on <strong>PROSPERO</strong> (free). This proves to journal editors that you followed a pre-specified plan, reducing bias. Alternative: <strong>Open Science Framework (OSF)</strong>—faster, valid alternative if PROSPERO has backlogs.
+  </li>
+  <li>
+    <strong>PICO Framework</strong><br>
+    Define your question clearly:
+    <ul>
+      <li><strong>P</strong>opulation: Elderly patients with distal radius fractures</li>
+      <li><strong>I</strong>ntervention: Volar Locking Plate</li>
+      <li><strong>C</strong>omparison: K-wire fixation</li>
+      <li><strong>O</strong>utcome: DASH score at 1 year</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Search Strategy</strong><br>
+    Use PubMed and Google Scholar. Scopus/WoS preferred if accessible via Dimensions workaround. Export citations to Rayyan or similar tool.
+  </li>
+  <li>
+    <strong>Screening</strong><br>
+    Use <strong>Rayyan</strong> (free web tool) for rapid abstract screening. Standard methodology requires two reviewers; for the solo doctor, recruit a medical student or resident in exchange for authorship. If absolutely no one is available, state single-reviewer limitation explicitly.
+  </li>
+</ol>
+
+<h3>4.3 Reporting Standards: PRISMA</h3>
+<p>You must adhere to <strong>PRISMA 2020</strong> (27-item checklist). Failure to include a PRISMA flow diagram (showing screening/rejection numbers) is the most common cause of desk rejection. <span class="evidence-badge ev-IV">Level IV – Editorial Policy</span></p>
+
+<!-- Section 5 -->
+<h2 id="statistical-tools" class="section-anchor">5. The Zero-Cost Statistical Workbench</h2>
+<p>The era of needing a $5,000 license for SPSS or SAS is over. The open-source community has developed powerful, GUI-based tools that run on the R engine but look and feel like SPSS.</p>
+
+<h3>5.1 JASP</h3>
+<p><strong>JASP (Jeffrey's Amazing Statistics Program)</strong> is the premier choice for clinicians wanting simplicity and publication-ready output:</p>
+<ul>
+  <li><strong>Dynamic Updating:</strong> Tables and graphs update in real-time as you drag variables, enabling rapid data exploration</li>
+  <li><strong>APA Formatting:</strong> Tables formatted in APA style by default—copy-paste directly into manuscripts</li>
+  <li><strong>Bayesian Statistics:</strong> JASP is a world leader in making Bayesian analysis accessible, providing a methodological "edge" for small clinical studies</li>
+</ul>
+
+<h3>5.2 Jamovi</h3>
+<p><strong>Jamovi</strong> focuses on community-developed modules:</p>
+<ul>
+  <li><strong>ClinicoPath &amp; jSurvival:</strong> Essential for SEER analysis—Kaplan-Meier curves, risk tables, and Cox regression via drag-and-drop</li>
+  <li><strong>GAMLj:</strong> Generalized Linear Models for complex regressions</li>
+  <li><strong>Syntax Mode:</strong> Creates underlying R code for reproducibility verification by reviewers</li>
+</ul>
+
+<h3>5.3 Comparative Analysis</h3>
+<div class="table-wrapper">
+<table>
+<caption>Table 3: Statistical Software Comparison for the Independent Researcher</caption>
+<thead>
+<tr>
+  <th>Feature</th>
+  <th>JASP</th>
+  <th>Jamovi</th>
+  <th>SPSS (Legacy)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Cost</strong></td>
+  <td class="highlight-free">Free</td>
+  <td class="highlight-free">Free</td>
+  <td class="highlight-high">Expensive</td>
+</tr>
+<tr>
+  <td><strong>Survival Analysis</strong></td>
+  <td>Limited</td>
+  <td><strong>Excellent</strong> (via modules)</td>
+  <td>Good</td>
+</tr>
+<tr>
+  <td><strong>Bayesian Statistics</strong></td>
+  <td><strong>Superior</strong></td>
+  <td>Basic</td>
+  <td>Limited</td>
+</tr>
+<tr>
+  <td><strong>User Interface</strong></td>
+  <td>Clean, minimalist</td>
+  <td>Spreadsheet-like</td>
+  <td>Cluttered</td>
+</tr>
+<tr>
+  <td><strong>Table Output</strong></td>
+  <td>APA (Copy-Paste Ready)</td>
+  <td>Clean, Exportable</td>
+  <td>Proprietary Format</td>
+</tr>
+<tr>
+  <td><strong>Best For…</strong></td>
+  <td>General stats, Bayesian</td>
+  <td>Survival analysis, survey data</td>
+  <td>Institutional legacy</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+<strong>Recommendation:</strong> Install both. Use <strong>Jamovi</strong> for data cleaning, survey weighting (NHANES), and survival analysis (SEER). Use <strong>JASP</strong> for standard t-tests, ANOVA, and regression where you want beautiful, instant APA tables.
+</div>
+
+<!-- Section 6 -->
+<h2 id="journals" class="section-anchor">6. The "Green Zone": Target Journals</h2>
+<p>Finding a home for your research is a strategic decision. You need a journal that is (1) indexed in SCI/SCIE/Scopus, (2) achievable (IF 1–3), and (3) affordable (low or no APCs).</p>
+
+<h3>6.1 Orthopedic Journals</h3>
+<div class="table-wrapper">
+<table>
+<caption>Table 4: "Green Zone" Orthopedic Journals for the Independent Clinician</caption>
+<thead>
+<tr>
+  <th>Journal</th>
+  <th>IF (approx.)</th>
+  <th>APC (USD)</th>
+  <th>Region / Publisher</th>
+  <th>Strategic Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Malaysian Orthopaedic Journal</strong></td>
+  <td>0.6 – 1.1</td>
+  <td class="highlight-free">$60</td>
+  <td>Malaysia (MOA)</td>
+  <td><strong>Best Value.</strong> Scopus/ESCI indexed. Very welcoming to international submissions</td>
+</tr>
+<tr>
+  <td><strong>Revista Brasileira de Ortopedia</strong></td>
+  <td>1.0 – 1.5</td>
+  <td class="highlight-free">Free</td>
+  <td>Thieme / Brazil (SBOT)</td>
+  <td><strong>Diamond OA.</strong> Sponsored by Brazilian Society. PubMed/Scopus indexed</td>
+</tr>
+<tr>
+  <td><strong>Hip &amp; Pelvis</strong></td>
+  <td>1.0 – 2.0</td>
+  <td class="highlight-low">$100</td>
+  <td>Korea (Hip Society)</td>
+  <td><strong>Niche Value.</strong> Very affordable for international authors. PubMed Central indexed</td>
+</tr>
+<tr>
+  <td><strong>J Limb Lengthening &amp; Reconstruction</strong></td>
+  <td>~1.0</td>
+  <td class="highlight-low">~$100</td>
+  <td>India / Wolters Kluwer</td>
+  <td><strong>Specialized.</strong> Excellent for deformity/trauma reconstruction</td>
+</tr>
+<tr>
+  <td><strong>Indian Journal of Orthopaedics</strong></td>
+  <td>1.1 – 1.4</td>
+  <td class="highlight-low">$175</td>
+  <td>India / Springer</td>
+  <td><strong>High Volume.</strong> Reputable society journal. Accepts bibliometrics and reviews</td>
+</tr>
+<tr>
+  <td><strong>Acta Orthop Traumatol Turcica</strong></td>
+  <td>1.1 – 1.3</td>
+  <td>$990</td>
+  <td>Turkey</td>
+  <td>Mid-Tier. Higher cost but solid IF. Check for waivers</td>
+</tr>
+<tr>
+  <td><strong>Int Orthopaedics (SICOT)</strong></td>
+  <td>2.8 – 3.0</td>
+  <td class="highlight-free">Free (Hybrid)</td>
+  <td>Springer / SICOT</td>
+  <td><strong>Prestige.</strong> Choose "Subscription" track for $0. High rejection rate but achievable</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>6.2 General Medicine Journals</h3>
+<ul>
+  <li><strong>J West African College of Surgeons:</strong> Low/no fee options; good for tropical medicine or resource-limited orthopedics</li>
+  <li><strong>Int J General Medicine (DovePress):</strong> Open Access (~$2500) but robust waivers for low-income countries</li>
+  <li><strong>Cureus:</strong> PubMed/WoS indexed. Publish free via "Preferred Editing" if English and formatting are perfect</li>
+</ul>
+
+<h3>6.3 The "Hybrid" Loophole</h3>
+<div class="callout callout-tip">
+<strong>Golden Ticket:</strong> Many prestigious journals (e.g., <em>International Orthopaedics</em>, <em>Archives of Orthopaedic and Trauma Surgery</em>) are "Hybrid." They offer two tracks: (1) <strong>Open Access</strong> (~$3000) and (2) <strong>Subscription</strong> ($0—article behind paywall). For the unfunded researcher, the Subscription track delivers prestige at zero cost. Always check "Instructions for Authors" for this option.
+</div>
+
+<!-- Section 7 -->
+<h2 id="execution" class="section-anchor">7. Execution Strategy: From Idea to Acceptance</h2>
+
+<h3>7.1 The "Micro-Team" Strategy</h3>
+<p>You do not need a paid team. You need a "Micro-Team" of mutually interested parties:</p>
+<ul>
+  <li><strong>Medical Students:</strong> Desperate for publications for residency applications. They perform data extraction, formatting, and screening in exchange for 2nd/3rd authorship</li>
+  <li><strong>Virtual Collaboration:</strong> Use ResearchGate or Academic MedTwitter to find statisticians seeking clinical collaborators. You provide the hypothesis; they provide JASP/R expertise</li>
+</ul>
+
+<h3>7.2 Avoiding "Salami Slicing"</h3>
+<p>While maximizing output is important, avoid splitting one dataset into thin, weak papers. However, large datasets like NHANES allow legitimate multiple publications by focusing on <em>distinct</em> hypotheses (e.g., "Vitamin D and Fracture Risk" vs. "Knee OA Prevalence in Metabolic Syndrome" using the same NHANES cycle).</p>
+
+<h3>7.3 The Zero-Budget 5-Week Workflow</h3>
+<div class="card">
+<div class="card-title">Week-by-Week Execution Plan</div>
+<ol class="step-list">
+  <li><strong>Week 1 (Setup):</strong> Download JASP, Jamovi, VOSviewer. Register on PhysioNet (CITI training). Register on Lens.org</li>
+  <li><strong>Week 2 (Data):</strong> Select topic → Run Lens.org search → Export data → Generate VOSviewer map. OR: Download NHANES 2017-2020 and merge files</li>
+  <li><strong>Week 3 (Analysis):</strong> Bibliometrics → Identify clusters, write interpretation. NHANES/SEER → Run weighted regressions in Jamovi, generate tables</li>
+  <li><strong>Week 4 (Drafting):</strong> Write manuscript. Use "Micro-team" student to format references and create Table 1</li>
+  <li><strong>Week 5 (Submission):</strong> Submit to Malaysian Orthopaedic Journal ($60) or Revista Brasileira de Ortopedia (Free). If rejected, cascade to Indian Journal of Orthopaedics</li>
+</ol>
+</div>
+
+<!-- Section 8 -->
+<h2 id="conclusion" class="section-anchor">8. Conclusion</h2>
+<p>The barriers to entry for clinical research are high, but not impermeable. By shifting focus from <em>resource-intensive</em> data creation (clinical trials) to <em>intellectual-intensive</em> data curation (Dry Lab), independent clinicians can bypass the need for funding.</p>
+
+<p>The combination of <strong>Bibliometric Analysis</strong> (mapping the field), <strong>Public Database Mining</strong> (NHANES/SEER/MIMIC), and <strong>Systematic Reviews</strong> provides a robust, renewable pipeline of content. When paired with free tools like <strong>JASP/Jamovi</strong> and targeted at high-value society journals like <strong>RBO</strong> or <strong>MOJ</strong>, the solo doctor can build a formidable academic portfolio. The lack of resources is no longer an excuse—it is merely a constraint that forces a more strategic, data-driven approach to medical science.</p>
+
+<!-- References -->
+<div class="references-section">
+<h2 id="references" class="section-anchor">References</h2>
+<ol class="ref-list">
+<li>Research Using Publicly Available Data. Johns Hopkins Medicine IRB. <a href="https://www.hopkinsmedicine.org/institutional-review-board/guidelines-policies/guidelines/publicly-available-data" target="_blank">Source</a></li>
+<li>EXEMPT RESEARCH UNDER THE REVISED COMMON Rule. Southern Oregon University IRB, 2019.</li>
+<li>Secondary Analysis of Public Use Datasets. University of Utah IRB Guidance Series.</li>
+<li>Bibliometric analysis methods for the medical literature. Academic Medicine &amp; Surgery.</li>
+<li>A Step-By-Step Guide of Bibliometric Study for Healthcare and Allied Research. PMC/NIH.</li>
+<li>Bibliometric Analysis Research Tool. Eduindex News, 2024.</li>
+<li>Main software to analyze bibliometric data. Bibliometrix.org.</li>
+<li>VOSviewer – Visualizing scientific landscapes. VOSviewer.com.</li>
+<li>CiteSpace101 – List of Freely Available Tools for Studying Scholarly Publications.</li>
+<li>VOSviewer: A Powerful Tool for Literature Review and Bibliometric Analysis. Track2Training, 2025.</li>
+<li>Bibliometric Analysis of the Publications of Malaysian Orthopaedic Journal (2015-2024). InfoResCom, 2025.</li>
+<li>Bibliometric analysis of AI in orthopedic imaging. PMC/NIH.</li>
+<li>The Rise of Artificial Intelligence in Orthopedics: A Bibliometric and Visualization Analysis. PMC/NIH.</li>
+<li>Bibliometric Analysis of Foreign Orthopaedics Research in the Indian Journal of Orthopaedics. ResearchGate, 2024.</li>
+<li>NHANES Tutorials – Datasets and Documentation Module. CDC.</li>
+<li>Dataset: National Health and Nutrition Examination Survey (NHANES). DisabilityStatistics.org.</li>
+<li>Commentary: Negative association between Body Roundness Index and BMD: insights from NHANES. Frontiers in Nutrition, 2025.</li>
+<li>The importance of weighted analysis in NHANES data. PMC/NIH, 2024.</li>
+<li>Analysis of data from the NHANES 1999-2018 and Mendelian randomization: alcohol use and rheumatoid arthritis. PubMed, 2024.</li>
+<li>NHANES Tutorials. CDC.</li>
+<li>NHANES Tutorials – Sample Code Module. CDC.</li>
+<li>SEER Incidence Data, 1975-2022. National Cancer Institute.</li>
+<li>A comparison of upper vs. lower extremity rhabdomyosarcoma survival: SEER analysis. Via Medica Journals.</li>
+<li>The effect of intraoperative radiotherapy in musculoskeletal malignancy: A SEER population study. PMC/NIH.</li>
+<li>How to Access the Data. U.S. Cancer Statistics / CDC.</li>
+<li>SEER*Stat Survival Exercise 1: Relative Survival. SEER.</li>
+<li>Using jSurvival in jamovi: Complete Workflow. Serdar Balci MD, 2024.</li>
+<li>SEER Treatment Data Limitations (November 2024 Submission). SEER/NCI.</li>
+<li>MIMIC-IV demo data in the Medical Event Data Standard (MEDS). PhysioNet.</li>
+<li>MIMIC-IV: Data Tutorial. Alistair Johnson, 2020.</li>
+<li>CITI Course Instructions. PhysioNet.</li>
+<li>MIMIC IV/Physionet Datasets for Independent Access. Reddit r/datasets.</li>
+<li>Competition: SNOMED CT Entity Linking Challenge. DrivenData.</li>
+<li>My Credentialing Applications. n2c2 / HMS.</li>
+<li>MIMIC-IV v3.1. PhysioNet.</li>
+<li>MIMIC-IV, a freely accessible EHR dataset. PMC/NIH.</li>
+<li>A Systematic Review of Conflicting Meta-Analyses in Orthopaedic Surgery. PMC/NIH.</li>
+<li>A comprehensive guide to conduct a systematic review and meta-analysis in medical research. PMC/NIH.</li>
+<li>Is it possible to publish a systematic review without any included study? ResearchGate.</li>
+<li>How to make a systematic review live up to its name: perspectives from journal editors. PMC/NIH.</li>
+<li>Assessing Research Support in Orthopaedic Surgery Training. Int J Surg Education.</li>
+<li>Systematic Review Guidelines. HRB Open Research.</li>
+<li>JASP – A Fresh Way to Do Statistics. JASP-stats.org.</li>
+<li>Ultimate Guide – Automated Statistical Analysis Plan Tools of 2025. Dip-AI.com.</li>
+<li>JASP vs Jamovi open source SPSS software. ResearchGate.</li>
+<li>A Step-by-Step Guide to Survival Analysis in jamovi with jSurvival. Serdar Balci MD.</li>
+<li>jamovi – open statistical software. Jamovi.org.</li>
+<li>General Information on Manuscript Submission. Malaysian Orthopaedic Journal.</li>
+<li>Editorial Policy. Malaysian Orthopaedic Journal.</li>
+<li>Revista Brasileira de Ortopedia / Brazilian Journal of Orthopaedics. Thieme.</li>
+<li>Submissions – The Hip and Knee Journal.</li>
+<li>Hip and Pelvis (The Korean Hip Society). SciSpace.</li>
+<li>Journal of Limb Lengthening &amp; Reconstruction: IF and Key Metrics. Editage.</li>
+<li>Journal of Limb Lengthening &amp; Reconstruction: IF &amp; More. Researcher.life.</li>
+<li>Publication Charges. Indian J Orthop Surg.</li>
+<li>Shining a Light on Indian Orthopaedics. Springer Nature Communities.</li>
+<li>Acta Orthopaedica et Traumatologica Turcica. Researcher.life.</li>
+<li>Clinics in Orthopedic Surgery – Instructions. ClinicsInSurgery.com.</li>
+<li>Clinics in Orthopedic Surgery: Impact Factor, Ranking. Researcher.life.</li>
+<li>Hybrid Open Research. Springer Nature.</li>
+<li>Costs of publishing in Springer Nature journal. Springer Support.</li>
+<li>Open Access Journals from Lippincott. Wolters Kluwer.</li>
+<li>Orthopedic Research and Reviews – Article processing fees. Dove Press.</li>
+<li>Elsevier Orthopaedic Journals. Elsevier.</li>
+</ol>
+</div>
+
+</main>
+
+<!-- ===================== SIDEBAR ===================== -->
+<aside>
+
+<!-- Table of Contents -->
+<div class="sidebar-card">
+<h3>📋 Table of Contents</h3>
+<ul class="toc">
+  <li><a href="#executive-summary">Executive Summary</a></li>
+  <li><a href="#paradox">1. The Research Paradox</a></li>
+  <li><a href="#bibliometrics">2. Bibliometrics</a></li>
+  <li><a href="#databases">3. Public Database Mining</a></li>
+  <li><a href="#systematic-reviews">4. Systematic Reviews</a></li>
+  <li><a href="#statistical-tools">5. Statistical Workbench</a></li>
+  <li><a href="#journals">6. Green Zone Journals</a></li>
+  <li><a href="#execution">7. Execution Strategy</a></li>
+  <li><a href="#conclusion">8. Conclusion</a></li>
+  <li><a href="#references">References</a></li>
+</ul>
+</div>
+
+<!-- Interactive Decision Advisor -->
+<div class="sidebar-card">
+<h3>🔬 Personalized Research Advisor</h3>
+
+<div class="slider-group">
+  <div class="slider-label">
+    <span>Research Experience</span>
+    <span class="slider-value" id="exp-value">Novice</span>
+  </div>
+  <div class="slider-label-note">Your familiarity with statistics &amp; research methods</div>
+  <input type="range" id="slider-exp" min="1" max="5" value="2" step="1" aria-label="Research experience level">
+</div>
+
+<div class="slider-group">
+  <div class="slider-label">
+    <span>Available Hours / Week</span>
+    <span class="slider-value" id="hours-value">4 hrs</span>
+  </div>
+  <div class="slider-label-note">Protected time dedicated to research activities</div>
+  <input type="range" id="slider-hours" min="1" max="20" value="4" step="1" aria-label="Available hours per week">
+</div>
+
+<div class="slider-group">
+  <div class="slider-label">
+    <span>Publication Budget</span>
+    <span class="slider-value" id="budget-value">$0</span>
+  </div>
+  <div class="slider-label-note">Maximum APC you can afford (USD)</div>
+  <input type="range" id="slider-budget" min="0" max="2000" value="0" step="50" aria-label="Publication budget in USD">
+</div>
+
+<div id="recommendation-box">
+  <h4>📌 Recommended Pathway</h4>
+  <div id="rec-content">
+    <p><em>Adjust the sliders above to receive a personalized recommendation.</em></p>
+  </div>
+</div>
+
+<div class="btn-row">
+  <button class="btn btn-outline" id="btn-reset" aria-label="Reset sliders to defaults">↺ Reset</button>
+  <button class="btn btn-primary" id="btn-copy" aria-label="Copy recommendation to clipboard">📋 Export</button>
+</div>
+</div>
+
+<!-- Quick Reference: Tool Links -->
+<div class="sidebar-card">
+<h3>🔗 Quick Access Tools</h3>
+<ul style="list-style:none; margin:0; padding:0; font-size:0.82rem;">
+  <li style="margin-bottom:0.4rem;"><strong>Data Sources:</strong></li>
+  <li style="margin-bottom:0.3rem;"><a href="https://lens.org" target="_blank">Lens.org</a> – Free citation data</li>
+  <li style="margin-bottom:0.3rem;"><a href="https://wwwn.cdc.gov/nchs/nhanes" target="_blank">NHANES (CDC)</a></li>
+  <li style="margin-bottom:0.3rem;"><a href="https://seer.cancer.gov/data/" target="_blank">SEER (NCI)</a></li>
+  <li style="margin-bottom:0.3rem;"><a href="https://physionet.org/content/mimiciv/" target="_blank">MIMIC-IV (PhysioNet)</a></li>
+  <li style="margin-bottom:0.6rem;"><a href="https://dimensions.ai" target="_blank">Dimensions.ai</a></li>
+  <li style="margin-bottom:0.4rem;"><strong>Software:</strong></li>
+  <li style="margin-bottom:0.3rem;"><a href="https://jasp-stats.org" target="_blank">JASP</a> – Bayesian &amp; APA tables</li>
+  <li style="margin-bottom:0.3rem;"><a href="https://www.jamovi.org" target="_blank">Jamovi</a> – Survival &amp; survey analysis</li>
+  <li style="margin-bottom:0.3rem;"><a href="https://www.vosviewer.com" target="_blank">VOSviewer</a> – Bibliometric maps</li>
+  <li style="margin-bottom:0.3rem;"><a href="https://www.bibliometrix.org" target="_blank">Bibliometrix</a> – R-based bibliometrics</li>
+  <li style="margin-bottom:0.3rem;"><a href="https://www.rayyan.ai" target="_blank">Rayyan</a> – Systematic review screening</li>
+  <li style="margin-bottom:0.6rem;"><a href="https://osf.io" target="_blank">OSF</a> – Protocol registration</li>
+  <li style="margin-bottom:0.4rem;"><strong>Registration:</strong></li>
+  <li style="margin-bottom:0.3rem;"><a href="https://about.citiprogram.org" target="_blank">CITI Program</a> – Ethics training</li>
+  <li style="margin-bottom:0.3rem;"><a href="https://www.crd.york.ac.uk/PROSPERO/" target="_blank">PROSPERO</a> – Review registration</li>
+</ul>
+</div>
+
+</aside>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast">✅ Copied to clipboard!</div>
+
+<footer class="site-footer">
+  <p>Generated from the source document: "The Sovereign Scholar: A Definitive Guide to Independent Clinical Research and Publication in the Dry Lab Era."</p>
+  <p>All content derived exclusively from the provided source. No external data invented. Evidence levels inferred where not explicitly stated.</p>
+  <p style="margin-top:0.3rem;">© 2025 – Educational Summary Generator | Self-Contained HTML</p>
+</footer>
+
+<script>
+// === Slider logic ===
+const sliderExp = document.getElementById('slider-exp');
+const sliderHours = document.getElementById('slider-hours');
+const sliderBudget = document.getElementById('slider-budget');
+const expValue = document.getElementById('exp-value');
+const hoursValue = document.getElementById('hours-value');
+const budgetValue = document.getElementById('budget-value');
+const recContent = document.getElementById('rec-content');
+
+const expLabels = {
+  1: 'Novice',
+  2: 'Beginner',
+  3: 'Intermediate',
+  4: 'Advanced',
+  5: 'Expert'
+};
+
+function getExpLabel(val) {
+  return expLabels[val] || 'Unknown';
+}
+
+function formatBudget(val) {
+  if (val == 0) return '$0';
+  return '$' + Number(val).toLocaleString();
+}
+
+function getWeeksEstimate(hours) {
+  if (hours <= 3) return '8–10';
+  if (hours <= 6) return '5–6';
+  if (hours <= 10) return '4–5';
+  if (hours <= 15) return '3–4';
+  return '2–3';
+}
+
+function generateRecommendation() {
+  const exp = parseInt(sliderExp.value);
+  const hrs = parseInt(sliderHours.value);
+  const budget = parseInt(sliderBudget.value);
+
+  let method = '';
+  let journal = '';
+  let software = '';
+  let timeline = '';
+  let tips = [];
+
+  // Method recommendation based on experience and time
+  if (exp <= 2 && hrs <= 5) {
+    method = '<strong>Bibliometric Analysis</strong> – Lowest barrier to entry. No statistics expertise required beyond VOSviewer\'s GUI. Ideal first project.';
+    tips.push('Start with VOSviewer—it\'s the most intuitive tool');
+    tips.push('Choose a narrow, well-defined topic (e.g., "PRP in rotator cuff" not "orthopedics")');
+    tips.push('Recruit a medical student for co-authorship and data cleaning help');
+  } else if (exp <= 2 && hrs > 5) {
+    method = '<strong>Bibliometric Analysis</strong> as your first project, then transition to <strong>NHANES mining</strong>.';
+    tips.push('Complete your first bibliometric paper while learning Jamovi\'s survey module');
+    tips.push('Use NHANES tutorials on the CDC website for weighted analysis guidance');
+    tips.push('Consider registering on PROSPERO/OSF for a future systematic review');
+  } else if (exp >= 3 && exp <= 4) {
+    method = '<strong>NHANES/SEER Database Mining</strong> – Your intermediate skills allow weighted regression and survival analysis. High publication potential.';
+    tips.push('Install Jamovi + jSurvival module for Kaplan-Meier and Cox regression');
+    tips.push('Always use NHANES sample weights (WTMEC2YR) for prevalence estimates');
+    tips.push('For SEER, be cautious with treatment data interpretation (68% sensitivity)');
+    if (hrs <= 5) tips.push('With limited time, focus on a single NHANES cycle (e.g., 2017-2020)');
+  } else {
+    method = '<strong>MIMIC-IV + Systematic Review</strong> – Your advanced skills allow complex database queries (SQL) and rigorous review methodology. Highest impact ceiling.';
+    tips.push('Complete CITI training and PhysioNet credentialing immediately');
+    tips.push('Register your systematic review protocol on OSF before starting');
+    tips.push('Use Rayyan for screening + recruit a co-reviewer');
+    tips.push('Consider Bayesian analysis in JASP for methodological novelty');
+  }
+
+  // Journal recommendation based on budget
+  if (budget === 0) {
+    journal = '<strong>Revista Brasileira de Ortopedia</strong> (IF ~1.0–1.5, Free) or <strong>International Orthopaedics</strong> subscription track (IF ~2.8, Free).';
+  } else if (budget <= 100) {
+    journal = '<strong>Malaysian Orthopaedic Journal</strong> ($60, best value) or <strong>Hip & Pelvis</strong> ($100). Both are Scopus/ESCI indexed.';
+  } else if (budget <= 200) {
+    journal = '<strong>Indian Journal of Orthopaedics</strong> ($175, reputable society journal) plus any of the above zero/low-cost options as first attempts.';
+  } else {
+    journal = 'You have flexibility—aim for <strong>International Orthopaedics</strong> (subscription track, free) or <strong>Clinics in Orthopedic Surgery</strong>. Higher budget allows cascade submission strategy.';
+  }
+
+  // Software
+  if (exp <= 2) {
+    software = '<strong>VOSviewer</strong> (bibliometrics) + <strong>JASP</strong> (basic stats, APA tables)';
+  } else if (exp <= 4) {
+    software = '<strong>Jamovi</strong> (survey weighting, survival analysis) + <strong>JASP</strong> (regression, Bayesian) + <strong>VOSviewer</strong>';
+  } else {
+    software = '<strong>Jamovi + JASP + R</strong> (maximum flexibility) + <strong>VOSviewer</strong> + <strong>CiteSpace</strong> (temporal burst detection)';
+  }
+
+  timeline = getWeeksEstimate(hrs) + ' weeks (estimated at ' + hrs + ' hrs/week)';
+
+  let html = '<ul>';
+  html += '<li><strong>Method:</strong> ' + method + '</li>';
+  html += '<li><strong>Software:</strong> ' + software + '</li>';
+  html += '<li><strong>Target Journal:</strong> ' + journal + '</li>';
+  html += '<li><strong>Timeline:</strong> ' + timeline + '</li>';
+  if (tips.length > 0) {
+    html += '<li><strong>Tips:</strong><ul>';
+    tips.forEach(function(t) { html += '<li>' + t + '</li>'; });
+    html += '</ul></li>';
+  }
+  html += '</ul>';
+
+  recContent.innerHTML = html;
+}
+
+function updateDisplay() {
+  expValue.textContent = getExpLabel(parseInt(sliderExp.value));
+  hoursValue.textContent = sliderHours.value + ' hrs';
+  budgetValue.textContent = formatBudget(sliderBudget.value);
+  generateRecommendation();
+}
+
+sliderExp.addEventListener('input', updateDisplay);
+sliderHours.addEventListener('input', updateDisplay);
+sliderBudget.addEventListener('input', updateDisplay);
+
+// Reset
+document.getElementById('btn-reset').addEventListener('click', function() {
+  sliderExp.value = 2;
+  sliderHours.value = 4;
+  sliderBudget.value = 0;
+  updateDisplay();
+});
+
+// Copy/Export
+document.getElementById('btn-copy').addEventListener('click', function() {
+  const exp = getExpLabel(parseInt(sliderExp.value));
+  const hrs = sliderHours.value;
+  const budget = formatBudget(sliderBudget.value);
+  const recText = recContent.innerText;
+  const timestamp = new Date().toLocaleString();
+
+  const exportText = [
+    '═══════════════════════════════════════',
+    'THE SOVEREIGN SCHOLAR – Research Advisor',
+    '═══════════════════════════════════════',
+    'Generated: ' + timestamp,
+    '',
+    '── Current Parameters ──',
+    'Research Experience: ' + exp + ' (Level ' + sliderExp.value + '/5)',
+    'Available Time: ' + hrs + ' hours/week',
+    'Publication Budget: ' + budget,
+    '',
+    '── Personalized Recommendation ──',
+    recText,
+    '',
+    '── Source ──',
+    '"The Sovereign Scholar: A Definitive Guide to Independent Clinical Research and Publication in the Dry Lab Era"',
+    '───────────────────────────────────────',
+    'Note: All content derived exclusively from the provided source document. No external data was invented.'
+  ].join('\n');
+
+  navigator.clipboard.writeText(exportText).then(function() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }).catch(function() {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = exportText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  });
+});
+
+// Initialize on load
+updateDisplay();
+</script>
+</body>
+</html>

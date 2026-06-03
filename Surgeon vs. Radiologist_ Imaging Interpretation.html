@@ -1,0 +1,819 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dual Lenses of Musculoskeletal Imaging – Interactive Educational Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#1a5276;--primary-light:#2980b9;--accent:#e74c3c;--accent-warm:#f39c12;
+  --bg:#f8f9fa;--card:#ffffff;--text:#2c3e50;--text-light:#5d6d7e;--border:#dee2e6;
+  --success:#27ae60;--warning:#f39c12;--danger:#e74c3c;
+  --evidence1:#1a7f37;--evidence2:#2e7d32;--evidence3:#f57f17;--evidence4:#e65100;--evidence5:#bf360c;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 30px rgba(0,0,0,.12);
+  --sidebar-width:320px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--text);background:var(--bg);line-height:1.7;overflow-x:hidden}
+
+/* HEADER */
+.site-header{
+  background:linear-gradient(135deg,var(--primary) 0%,#1a3c5e 100%);color:#fff;
+  padding:2rem 2rem 1.8rem;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.15);
+}
+.site-header h1{font-size:1.65rem;font-weight:800;letter-spacing:-.5px;line-height:1.3;max-width:900px}
+.site-header p{font-size:.88rem;opacity:.85;margin-top:.4rem;max-width:900px}
+
+/* LAYOUT */
+.page-wrapper{display:flex;max-width:1400px;margin:0 auto;padding:1.5rem 1rem;gap:1.5rem}
+main{flex:1;min-width:0}
+aside{width:var(--sidebar-width);flex-shrink:0}
+
+/* SIDEBAR */
+.sidebar-box{
+  position:sticky;top:110px;background:var(--card);border-radius:var(--radius);
+  box-shadow:var(--shadow-lg);padding:1.5rem;border:1px solid var(--border);max-height:calc(100vh - 130px);overflow-y:auto;
+}
+.sidebar-box h3{font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--primary-light)}
+.slider-group{margin-bottom:1.4rem}
+.slider-group label{display:block;font-weight:600;font-size:.82rem;margin-bottom:.3rem;color:var(--text)}
+.slider-group .value-display{
+  display:inline-block;background:var(--primary);color:#fff;padding:2px 10px;border-radius:20px;
+  font-size:.78rem;font-weight:600;margin-left:.4rem;
+}
+.slider-group input[type=range]{
+  width:100%;height:6px;-webkit-appearance:none;appearance:none;background:var(--border);border-radius:3px;outline:none;margin-top:.4rem;
+}
+.slider-group input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary-light);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+.slider-note{font-size:.72rem;color:var(--text-light);font-style:italic;margin-top:.2rem}
+.toggle-group{margin-bottom:1.2rem}
+.toggle-group label{font-weight:600;font-size:.82rem;display:flex;align-items:center;gap:.6rem;cursor:pointer}
+.toggle-switch{
+  position:relative;width:48px;height:26px;background:#ccc;border-radius:13px;transition:.3s;flex-shrink:0;
+}
+.toggle-switch::after{
+  content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;
+}
+.toggle-group input{display:none}
+.toggle-group input:checked + .toggle-switch{background:var(--primary-light)}
+.toggle-group input:checked + .toggle-switch::after{transform:translateX(22px)}
+.toggle-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-light);margin-top:.2rem}
+
+.recommendation-box{
+  background:linear-gradient(135deg,#eaf2f8,#d5e8f7);border-radius:var(--radius);padding:1rem;
+  margin-top:1rem;border-left:4px solid var(--primary-light);min-height:120px;transition:all .3s;
+}
+.recommendation-box h4{font-size:.85rem;font-weight:700;color:var(--primary);margin-bottom:.5rem}
+.recommendation-box .rec-text{font-size:.82rem;line-height:1.5;color:var(--text)}
+.recommendation-box.alert{background:linear-gradient(135deg,#fdf2f2,#fce4e4);border-left-color:var(--accent)}
+.recommendation-box.warn{background:linear-gradient(135deg,#fef9e7,#fdf2d0);border-left-color:var(--warning)}
+
+.btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.btn{
+  padding:8px 14px;border:none;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;
+  transition:all .2s;font-family:inherit;
+}
+.btn-reset{background:var(--border);color:var(--text)}
+.btn-reset:hover{background:#c5ced6}
+.btn-copy{background:var(--primary-light);color:#fff}
+.btn-copy:hover{background:var(--primary)}
+.btn-copy.copied{background:var(--success)}
+
+/* MAIN CONTENT */
+.content-card{
+  background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:2rem;margin-bottom:1.5rem;border:1px solid var(--border);
+}
+.content-card h2{
+  font-size:1.35rem;font-weight:800;color:var(--primary);margin-bottom:1rem;
+  padding-bottom:.5rem;border-bottom:2px solid var(--primary-light);
+}
+.content-card h3{font-size:1.1rem;font-weight:700;color:var(--text);margin:1.4rem 0 .6rem}
+.content-card h4{font-size:.95rem;font-weight:600;color:var(--primary);margin:1rem 0 .4rem}
+.content-card p{margin-bottom:.8rem;font-size:.93rem}
+.content-card ul,.content-card ol{margin:.5rem 0 .8rem 1.4rem}
+.content-card li{margin-bottom:.4rem;font-size:.93rem}
+.content-card strong{color:var(--primary)}
+
+/* EVIDENCE BADGE */
+.ev-badge{
+  display:inline-block;padding:2px 8px;border-radius:12px;font-size:.68rem;font-weight:700;
+  color:#fff;vertical-align:middle;margin-left:4px;letter-spacing:.3px;
+}
+.ev-1{background:var(--evidence1)}.ev-2{background:var(--evidence2)}.ev-3{background:var(--evidence3)}
+.ev-4{background:var(--evidence4)}.ev-5{background:var(--evidence5)}
+.ev-na{background:#7f8c8d}
+
+/* CALLOUT BOX */
+.callout{
+  padding:1rem 1.2rem;border-radius:var(--radius);margin:1rem 0;font-size:.88rem;
+  border-left:4px solid;position:relative;
+}
+.callout-info{background:#eaf2f8;border-color:var(--primary-light)}
+.callout-warn{background:#fef9e7;border-color:var(--warning)}
+.callout-danger{background:#fdf2f2;border-color:var(--accent)}
+.callout::before{font-size:1.1rem;margin-right:.4rem}
+.callout strong{display:block;margin-bottom:.3rem}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+caption{font-weight:700;font-size:.9rem;padding:.6rem;text-align:left;color:var(--primary);background:#f0f4f8}
+thead th{
+  background:var(--primary);color:#fff;padding:10px 12px;text-align:left;font-weight:600;
+  font-size:.8rem;text-transform:uppercase;letter-spacing:.3px;
+}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:nth-child(even){background:#f8fafc}
+tbody tr:hover{background:#edf4fb}
+
+/* CASE STUDY */
+.case-box{
+  background:#f7f9fc;border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.4rem;margin:1rem 0;position:relative;
+}
+.case-box::before{
+  content:'CASE';position:absolute;top:-10px;left:14px;background:var(--accent);
+  color:#fff;font-size:.65rem;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:.5px;
+}
+
+/* REFERENCE LIST */
+.ref-list{font-size:.8rem;color:var(--text-light);line-height:1.6}
+.ref-list li{margin-bottom:.3rem}
+
+/* TOC */
+.toc{background:#f0f4f8;border-radius:var(--radius);padding:1.2rem 1.5rem;margin-bottom:1.5rem}
+.toc h3{font-size:.9rem;font-weight:700;color:var(--primary);margin-bottom:.6rem}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc li{margin-bottom:.3rem}
+.toc a{color:var(--primary-light);text-decoration:none;font-size:.85rem;font-weight:500;transition:.2s}
+.toc a:hover{color:var(--primary);text-decoration:underline}
+.toc ol{margin-left:1.2rem}
+.toc ol li{font-size:.83rem}
+
+/* TIMELINE */
+.timeline-item{
+  display:flex;gap:1rem;margin-bottom:1.2rem;align-items:flex-start;
+}
+.timeline-dot{
+  width:12px;height:12px;border-radius:50%;background:var(--primary-light);flex-shrink:0;margin-top:5px;
+  box-shadow:0 0 0 3px rgba(41,128,185,.2);
+}
+.timeline-content{font-size:.9rem}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .page-wrapper{flex-direction:column}
+  aside{width:100%;order:-1}
+  .sidebar-box{position:static;max-height:none}
+  .site-header h1{font-size:1.3rem}
+}
+@media(max-width:600px){
+  .content-card{padding:1.2rem}
+  .site-header{padding:1.2rem 1rem}
+  .btn-row{flex-direction:column}
+  table{font-size:.78rem}
+}
+
+/* PRINT */
+@media print{
+  .sidebar-box,.btn-row{display:none!important}
+  .site-header{position:static}
+  .content-card{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>The Dual Lenses of Musculoskeletal Imaging</h1>
+  <p>A Comprehensive, Evidence-Based Interactive Educational Summary — Comparative Analysis of the Radiologist's and Orthopedic Surgeon's Interpretive Frameworks</p>
+</header>
+
+<div class="page-wrapper">
+
+<!-- ============ MAIN CONTENT ============ -->
+<main id="main-content" role="main">
+
+  <!-- TABLE OF CONTENTS -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#sec1">Foundational Roles &amp; Training Paradigms</a></li>
+      <li><a href="#sec2">The Interpretive Lens: Divergent Focus in Image Analysis</a></li>
+      <li><a href="#sec3">Comparative Analysis Table</a></li>
+      <li><a href="#sec4">Case Studies in Contrasting Interpretation</a></li>
+      <li><a href="#sec5">The Collaborative Nexus</a></li>
+      <li><a href="#sec6">Interactive Clinical Decision Support</a></li>
+      <li><a href="#sec7">Conclusion &amp; Future Directions</a></li>
+      <li><a href="#refs">References</a></li>
+    </ol>
+  </nav>
+
+  <!-- SECTION 1: FOUNDATIONAL ROLES -->
+  <section class="content-card" id="sec1">
+    <h2>1. Foundational Roles and Training Paradigms</h2>
+    <p>The analysis of musculoskeletal (MSK) images for clinical diagnosis and surgical planning is a sophisticated process undertaken by two distinct medical specialists: the <strong>orthopedic surgeon</strong> and the <strong>musculoskeletal radiologist</strong>. While both are experts in the anatomy and pathology of the MSK system, their interpretive frameworks are shaped by fundamentally different training paradigms and ultimate clinical responsibilities. The surgeon's perspective is forged in the operating room, focused on functional restoration and intervention, while the radiologist's is honed in the reading room, centered on diagnostic precision and pathologic characterization.<sup>[1,11,13]</sup></p>
+
+    <div class="callout callout-info">
+      <strong>🔑 Core Concept</strong>
+      The divergent approaches of these two specialists are not a matter of superior or inferior skill but are the logical outcomes of expert systems optimized for different, yet interdependent, tasks. The surgeon's action-oriented training cultivates a <em>functional and pragmatic</em> interpretive lens, whereas the radiologist's diagnostic training fosters a <em>descriptive and systematic</em> one.
+    </div>
+
+    <h3>The Orthopedic Surgeon: The Functional Architect</h3>
+    <p>The core mandate of the orthopedic surgeon is to diagnose, treat, and manage injuries and diseases of the musculoskeletal system — bones, joints, ligaments, tendons, muscles, and nerves.<sup>[1]</sup> Their primary objective is the <strong>restoration of mobility, function, and quality of life</strong>.<sup>[3]</sup> This mission is inherently interventional, with a focus on actively correcting pathology to help patients "walk longer or be able to pick up their grandkids or play sports."<sup>[4]</sup></p>
+
+    <p>The scope of orthopedic practice is vast, encompassing conditions from acute trauma (broken bones, dislocations) to chronic degenerative diseases (arthritis, osteoporosis).<sup>[5]</sup> Surgeons treat sports injuries, bone tumors, and congenital deformities like scoliosis and hip dysplasia.<sup>[1]</sup></p>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Common Misconception</strong>
+      A common misconception is that orthopedists invariably recommend surgery. In practice, <strong>surgical intervention is often a last resort</strong>, considered only after conservative treatments — physical therapy, medications, injections, casting, or lifestyle modifications — have been exhausted or deemed inappropriate.<sup>[1]</sup>
+    </div>
+
+    <h4>Training Pathway</h4>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content"><strong>Medical School (4 years)</strong> — Foundational sciences and clinical rotations</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content"><strong>Orthopedic Surgery Residency (5 years)</strong> — Intense focus on comprehensive patient care, preoperative planning, operative skills, and postoperative management. Substantial time in the OR correlating 2D imaging with 3D "living anatomy."<sup>[7,10]</sup></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content"><strong>Fellowship (1 year, optional)</strong> — Subspecialization: sports medicine, adult reconstruction (joint replacement), spine, hand, or orthopedic trauma.<sup>[7]</sup></div>
+    </div>
+
+    <p>Throughout their practice, orthopedic surgeons order and interpret a high volume of medical images (X-rays, CT scans, MRI).<sup>[1]</sup> This interpretation is not a separate academic exercise but an <strong>integral component of their clinical workflow</strong>, directly informing diagnostic conclusions and therapeutic strategies.<sup>[4]</sup></p>
+
+    <h3>The Musculoskeletal Radiologist: The Diagnostic Virtuoso</h3>
+    <p>The primary role of the MSK radiologist is the expert-level acquisition, interpretation, and reporting of medical images to diagnose injuries and diseases of bones, joints, and soft tissues.<sup>[13]</sup> Their fundamental goal is to provide a <strong>precise, objective, and comprehensive description of pathology</strong>, serving as a diagnostic consultant to referring physicians. They are masters of imaging physics, cross-sectional anatomy, and the myriad ways pathology manifests across different modalities.</p>
+
+    <p>Their scope involves all imaging technologies: <strong>radiography, CT, MRI, and sonography</strong>.<sup>[14]</sup> Beyond interpretation, they perform image-guided procedures — both diagnostic (biopsies, joint aspirations) and therapeutic (steroid injections, cyst drainage, percutaneous radiofrequency ablation).<sup>[15]</sup></p>
+
+    <p>MSK radiologists function as <strong>"doctor's doctors,"</strong> providing consultation to orthopedic surgeons, rheumatologists, and sports medicine physicians.<sup>[13]</sup> They are essential members of multidisciplinary care teams, particularly in complex tumor or trauma cases.<sup>[13]</sup></p>
+
+    <h4>Training Pathway</h4>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--accent-warm);box-shadow:0 0 0 3px rgba(243,156,18,.2)"></div>
+      <div class="timeline-content"><strong>Medical School (4 years)</strong></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--accent-warm);box-shadow:0 0 0 3px rgba(243,156,18,.2)"></div>
+      <div class="timeline-content"><strong>Diagnostic Radiology Residency (4 years)</strong> — Foundations of imaging physics, cross-sectional anatomy, systematic interpretation.<sup>[20]</sup></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--accent-warm);box-shadow:0 0 0 3px rgba(243,156,18,.2)"></div>
+      <div class="timeline-content"><strong>MSK Radiology Fellowship (1–2 years)</strong> — Intensive training in advanced interpretation across all modalities, procedural skills, and complex pathology in sports medicine, orthopedic oncology, trauma, and rheumatologic disorders.<sup>[18,20]</sup></div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: INTERPRETIVE LENS -->
+  <section class="content-card" id="sec2">
+    <h2>2. The Interpretive Lens: Divergent Focus in Image Analysis</h2>
+    <p>The distinct training and clinical objectives of the two specialists give rise to fundamentally different cognitive and methodological approaches to image analysis. The core cognitive difference: the <strong>radiologist performs an act of expert observation and classification</strong>, while the <strong>surgeon performs an act of virtual surgical simulation</strong>.<sup>[11]</sup></p>
+
+    <h3>2.1 The Radiologist's Perspective: Systematic Pathologic Characterization</h3>
+    <p>The radiologist's approach is defined by a commitment to a <strong>systematic, checklist-driven methodology</strong> designed to ensure no finding is overlooked.<sup>[24]</sup> Guiding principles include maxims such as <em>"a single view is no view,"</em> emphasizing multiple projections for full 3D evaluation.<sup>[24]</sup></p>
+
+    <h4>The "ABCS" Framework for Radiographs (X-rays)</h4>
+    <div class="table-wrap">
+      <table>
+        <caption>Table: The ABCS Systematic Search Pattern for MSK Radiographs</caption>
+        <thead>
+          <tr><th style="width:80px">Step</th><th>Focus</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>A</strong></td><td>Alignment &amp; Joint Space</td><td>Assess overall alignment; look for dislocation/subluxation; evaluate joint space for narrowing (cartilage loss, arthritis).<sup>[24]</sup></td></tr>
+          <tr><td><strong>B</strong></td><td>Bone Texture</td><td>Evaluate bone mineral density and trabecular pattern. Look for alterations suggesting systemic disease (Paget's, renal osteodystrophy), metabolic conditions, or tumors.<sup>[24]</sup></td></tr>
+          <tr><td><strong>C</strong></td><td>Cortical Outline</td><td>Meticulous tracing of the outer cortex of every bone. Any break, step-off, or irregularity = potential fracture (often subtle).<sup>[24]</sup></td></tr>
+          <tr><td><strong>S</strong></td><td>Soft Tissues</td><td>Scrutinize for swelling, foreign bodies, joint effusions. Lipohemarthrosis (fat-blood level) = strong secondary sign of intra-articular fracture.<sup>[24]</sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>MRI Interpretation: A Multi-Step Process</h4>
+    <ol>
+      <li><strong>Sequence Identification</strong> — Inventory all pulse sequences (T1, T2, STIR, gradient-echo) and imaging planes.<sup>[27]</sup></li>
+      <li><strong>Pathology Detection</strong> — Begin with fluid-sensitive sequences (T2/STIR). Pathology (edema, fluid, inflammation, tumor) appears as bright high-signal areas — acts as a "searchlight."<sup>[27]</sup></li>
+      <li><strong>Anatomic Correlation</strong> — Correlate T2 abnormalities with T1 images for precise localization and anatomic characterization.<sup>[27]</sup></li>
+      <li><strong>Specialized Sequence Evaluation</strong> — Gradient-echo for cartilage; post-contrast T1 for tumors/infections.<sup>[27]</sup></li>
+      <li><strong>Synthesis and Differential Diagnosis</strong> — Integrate all findings with clinical history → concise impression, conclusion, and differential diagnoses.<sup>[27]</sup></li>
+    </ol>
+
+    <h3>2.2 The Surgeon's Perspective: A Blueprint for Intervention</h3>
+    <p>The orthopedic surgeon's interpretation is fundamentally <strong>pragmatic and goal-oriented</strong>. They interrogate images for actionable intelligence directly influencing treatment decisions and surgical plans.<sup>[11]</sup></p>
+
+    <p>The process begins <em>before</em> the image is viewed, rooted in the patient's history, symptoms, and physical examination findings.<sup>[1]</sup> The image serves to confirm, refute, or refine a pre-formed clinical hypothesis. The surgeon mentally translates 2D slices into a <strong>dynamic, 3D biomechanical model</strong>.<sup>[29]</sup></p>
+
+    <h4>Key Questions the Surgeon Asks</h4>
+    <ul>
+      <li><strong>Structural Integrity:</strong> Is the fracture stable or unstable? Is the joint congruous? Does the articular surface require fixation?</li>
+      <li><strong>Tissue Quality:</strong> Is bone stock sufficient to hold screws, or is it osteoporotic? Is tendon/ligament tissue robust enough for primary repair?</li>
+      <li><strong>Surgical Approach:</strong> What is the safest corridor? Which critical neurovascular structures are nearby?</li>
+      <li><strong>Reduction &amp; Fixation:</strong> How will fragments be realigned? Where to place screws/plates? What implant size/type is needed?<sup>[30]</sup></li>
+    </ul>
+
+    <div class="callout callout-info">
+      <strong>💡 Virtual Surgical Planning</strong>
+      Surgeons increasingly utilize <strong>3D reconstructions</strong> from CT/MRI for virtual surgery. These models enable precise measurements, identification of anatomical abnormalities, customization of patient-specific approaches, and design of custom guides/implants.<sup>[29,30,31]</sup>
+    </div>
+  </section>
+
+  <!-- SECTION 3: COMPARATIVE TABLE -->
+  <section class="content-card" id="sec3">
+    <h2>3. Comparative Analysis of Interpretive Focus</h2>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1: Comparative Analysis of Interpretive Focus in Musculoskeletal Imaging <sup>[1,11,13,17,27,28,30,33]</sup></caption>
+        <thead>
+          <tr>
+            <th>Interpretive Domain</th>
+            <th>MSK Radiologist's Primary Focus</th>
+            <th>Orthopedic Surgeon's Primary Focus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Primary Goal</strong></td>
+            <td>Accurate, comprehensive diagnosis and description of pathology</td>
+            <td>Formulation of a treatment plan (surgical or non-surgical) to restore function</td>
+          </tr>
+          <tr>
+            <td><strong>Image Acquisition</strong></td>
+            <td>Designing and optimizing protocols to maximize diagnostic yield and answer the clinical question<sup>[17]</sup></td>
+            <td>Ordering the appropriate study to confirm clinical suspicion and provide necessary data for treatment planning<sup>[1]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Anatomic Description</strong></td>
+            <td>Precise, objective description of normal and variant anatomy using standardized terminology</td>
+            <td>Functional assessment of anatomy and biomechanical competence; identifying "living anatomy" landmarks for surgery<sup>[11]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Pathology Characterization</strong></td>
+            <td>Detailed description of lesion characteristics (size, signal, location, extent) and differential diagnosis<sup>[28]</sup></td>
+            <td>Assessing <em>implications</em>: Is it stable? Repairable? Does it require fixation?</td>
+          </tr>
+          <tr>
+            <td><strong>Biomechanical Implications</strong></td>
+            <td>Identifying injury patterns suggesting specific mechanisms (e.g., pivot-shift injury)</td>
+            <td>Evaluating impact on joint stability, load-bearing capacity, and overall limb function</td>
+          </tr>
+          <tr>
+            <td><strong>Surgical Planning</strong></td>
+            <td>Identifying findings relevant to surgery (proximity to nerves/vessels, post-op complications)<sup>[33]</sup></td>
+            <td>Using images as a direct blueprint: measuring for implants, planning osteotomies, determining screw trajectories, simulating the procedure<sup>[30]</sup></td>
+          </tr>
+          <tr>
+            <td><strong>Clinical Correlation</strong></td>
+            <td>Integrating findings with provided clinical history to refine the differential diagnosis<sup>[27]</sup></td>
+            <td>Synthesizing imaging with history, symptoms, <em>and physical exam findings</em> for final diagnosis and treatment plan<sup>[11]</sup></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2: Training Pathway Comparison</caption>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Orthopedic Surgeon</th>
+            <th>MSK Radiologist</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Residency Duration</strong></td><td>5 years (orthopedic surgery)<sup>[7]</sup></td><td>4 years (diagnostic radiology)<sup>[20]</sup></td></tr>
+          <tr><td><strong>Fellowship Duration</strong></td><td>1 year (optional subspecialization)<sup>[7]</sup></td><td>1–2 years (MSK radiology)<sup>[18,20]</sup></td></tr>
+          <tr><td><strong>Total Training (min.)</strong></td><td>5 years post-medical school</td><td>5–6 years post-medical school</td></tr>
+          <tr><td><strong>Core Training Focus</strong></td><td>Patient care, operative skills, pre/post-op management<sup>[10]</sup></td><td>Imaging physics, cross-sectional anatomy, pathologic patterns<sup>[23]</sup></td></tr>
+          <tr><td><strong>Primary Setting</strong></td><td>Operating room + outpatient clinic<sup>[4]</sup></td><td>Reading room + interventional suite<sup>[13,15]</sup></td></tr>
+          <tr><td><strong>Patient Contact</strong></td><td>Direct, ongoing</td><td>Primarily via interventional procedures; increasing direct communication<sup>[15]</sup></td></tr>
+          <tr><td><strong>Subspecialty Areas</strong></td><td>Sports medicine, joint replacement, spine, hand, trauma<sup>[7,12]</sup></td><td>Sports imaging, oncologic imaging, trauma, rheumatologic disorders<sup>[18]</sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CASE STUDIES -->
+  <section class="content-card" id="sec4">
+    <h2>4. Case Studies in Contrasting Interpretation</h2>
+    <p>Applying the distinct interpretive frameworks to specific clinical scenarios illuminates their practical differences. The radiologist is focused on <strong>"What is the full extent of the pathology?"</strong> while the surgeon pivots to <strong>"How am I going to fix this?"</strong></p>
+
+    <h3>Case 1: Anterior Cruciate Ligament (ACL) Tear</h3>
+    <div class="case-box">
+      <h4>Radiologist's Interpretation</h4>
+      <p>The radiologist's primary task is to definitively confirm or exclude an ACL tear, searching for <strong>primary signs</strong> (fiber discontinuity, abnormal signal) and <strong>secondary signs</strong> (bone bruise on lateral femoral condyle and posterolateral tibial plateau, anterior tibial translation).<sup>[33]</sup></p>
+      <p>Recognizing that ACL tears rarely occur in isolation, the radiologist performs a <strong>meticulous assessment of the entire knee</strong> for associated injuries: medial and lateral menisci (especially subtle ramp or root tears), other ligaments (PCL, MCL, LCL), and articular cartilage.<sup>[33]</sup></p>
+      <p>In the postoperative setting, focus shifts to <strong>graft integrity, tunnel placement/widening, hardware complications, and arthrofibrosis</strong>.<sup>[33]</sup></p>
+    </div>
+    <div class="case-box" style="margin-top:1.2rem">
+      <h4>Surgeon's Interpretation</h4>
+      <p>The surgeon approaches the MRI with strong clinical suspicion from history ("pop" during pivot) and physical exam (positive Lachman/pivot shift test).<sup>[34]</sup> Key actionable questions include:</p>
+      <ul>
+        <li>Is the remnant ACL tissue sufficient for <strong>primary repair</strong>, or is full reconstruction needed?<sup>[37]</sup></li>
+        <li>What is the meniscal/cartilage status — does it require a more complex combined procedure?</li>
+        <li>What is the anatomy of the intercondylar notch and tibial plateau for <strong>bone tunnel planning</strong>?<sup>[33]</sup></li>
+      </ul>
+    </div>
+
+    <div class="callout callout-info">
+      <strong>📊 Evidence Note</strong>
+      Studies comparing interpretive accuracy between the two specialties show that while both are highly effective at diagnosing complete ACL tears, <strong>discrepancies can arise in the assessment of associated injuries</strong>.<sup>[35,36]</sup> This may reflect the surgeon's interpretation being primed by specific symptoms and physical findings, while the radiologist's is guided by objective visual patterns.<span class="ev-badge ev-3">Level III</span>
+    </div>
+
+    <h3>Case 2: Tibial Plateau Fracture (Schatzker Classification)</h3>
+    <div class="case-box">
+      <h4>Radiologist's Interpretation</h4>
+      <p>The radiologist provides a detailed, objective characterization using CT: exact location of fracture lines, degree of comminution, amount of articular depression, and extent of condylar widening.<sup>[39]</sup> The report provides the raw data necessary for <strong>Schatzker classification</strong> (Types I–VI), which guides prognosis and treatment.<sup>[38]</sup></p>
+    </div>
+    <div class="case-box" style="margin-top:1.2rem">
+      <h4>Surgeon's Interpretation</h4>
+      <p>The surgeon uses the Schatzker classification as the foundation for surgical strategy:<sup>[39]</sup></p>
+      <ul>
+        <li><strong>Type II</strong> (lateral split + depression): Single anterolateral incision approach</li>
+        <li><strong>Type V/VI</strong> (bicondylar): Both medial and lateral incisions</li>
+        <li><strong>Articular depression measurement:</strong> Determines need for elevation + bone graft</li>
+        <li><strong>Posteromedial shear fragment:</strong> Often best seen on axial CT; requires specific posterior approach<sup>[39]</sup></li>
+      </ul>
+      <p>The surgeon also integrates soft tissue assessment — severe swelling may dictate <strong>temporizing external fixation</strong> before definitive surgery.<sup>[39]</sup></p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3: Case Study Comparison — ACL Tear vs. Tibial Plateau Fracture</caption>
+        <thead>
+          <tr><th>Aspect</th><th>ACL Tear</th><th>Tibial Plateau Fracture</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Primary Modality</strong></td><td>MRI<sup>[34]</sup></td><td>CT (with 2D/3D reconstructions); X-ray initial<sup>[38]</sup></td></tr>
+          <tr><td><strong>Classification System</strong></td><td>Complete vs. partial; location (mid-substance vs. avulsion)</td><td>Schatzker Types I–VI<sup>[38]</sup></td></tr>
+          <tr><td><strong>Associated Injury Assessment</strong></td><td>Menisci, other ligaments, cartilage<sup>[33]</sup></td><td>Soft tissue envelope, meniscal/ligamentous tears<sup>[38]</sup></td></tr>
+          <tr><td><strong>Key Surgical Planning Data</strong></td><td>Notch anatomy, tunnel placement, graft choice<sup>[33]</sup></td><td>Depression depth, fragment location, condylar width<sup>[39]</sup></td></tr>
+          <tr><td><strong>Surgical Approach Decision</strong></td><td>Arthroscopic reconstruction (standard)</td><td>Approach varies significantly by Schatzker type<sup>[39]</sup></td></tr>
+          <tr><td><strong>Post-Op Imaging Focus</strong></td><td>Graft integrity, tunnel widening, arthrofibrosis<sup>[33]</sup></td><td>Hardware position, articular congruency, alignment</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 5: COLLABORATIVE NEXUS -->
+  <section class="content-card" id="sec5">
+    <h2>5. The Collaborative Nexus: Bridging the Interpretive Gap</h2>
+    <p>Effective collaboration between MSK radiologists and orthopedic surgeons is not merely a professional courtesy — it is a <strong>fundamental component of patient safety and high-quality healthcare</strong>. Ineffective team communication is a leading cause of medical errors, making the structured mechanisms bridging these interpretive domains critical safety systems.<sup>[19]</sup></p>
+
+    <h3>5.1 The Radiology Report as a Critical Communication Tool</h3>
+    <p>Despite universal PACS adoption allowing surgeons to view images directly, the <strong>formal written radiology report remains the primary communication instrument</strong>.<sup>[28]</sup></p>
+
+    <h4>Characteristics of a High-Value Report (from the Surgeon's Perspective)<sup>[28]</sup></h4>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 4: Elements of an Effective Radiology Report</caption>
+        <thead><tr><th>Element</th><th>Description</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Clinical Question Focus</strong></td><td>Report directly addresses the clinical question posed in the request</td><td>"R/O meniscal tear" → detailed meniscal assessment</td></tr>
+          <tr><td><strong>Clear &amp; Concise Impression</strong></td><td>Summary synthesizes critical findings with definitive diagnostic conclusion</td><td>Unambiguous, especially for high-stakes scenarios (tumor evaluation)</td></tr>
+          <tr><td><strong>Actionable Information</strong></td><td>Recommendations for follow-up, clinically relevant grading systems</td><td>Goutallier classification for fatty infiltration (prognostic for rotator cuff repair)</td></tr>
+          <tr><td><strong>Structured Reporting</strong></td><td>Templates with logical subheadings and standardized terminology</td><td>Enables rapid information retrieval and consistent quality</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ The Clinical History Gap</strong>
+      A query of <em>"right knee pain"</em> is far less helpful than <em>"right knee pain with mechanical locking after twisting injury, rule out meniscal tear."</em> A focused clinical query allows the radiologist to tailor their search pattern and provide more relevant interpretation.<sup>[28]</sup>
+    </div>
+
+    <h3>5.2 Direct Consultation and Interdisciplinary Conferences</h3>
+    <p>For complex cases, the written report may be insufficient. Formal, scheduled interdisciplinary conferences provide real-time dialogue for deeper synthesis, collaborative problem-solving, and consensus-based treatment planning.<sup>[16]</sup></p>
+
+    <ul>
+      <li><strong>Musculoskeletal Tumor Boards:</strong> MSK radiologists, orthopedic oncologists, pathologists, medical and radiation oncologists collectively review imaging to stage tumors, plan biopsy approach, and develop comprehensive multidisciplinary treatment plans.<sup>[16]</sup></li>
+      <li><strong>Orthopedic Trauma Rounds:</strong> Typically held daily; surgeons and radiologists review complex trauma imaging admitted in the previous 24 hours to finalize surgical plans and fixation strategies.<sup>[40]</sup></li>
+      <li><strong>Subspecialty Conferences:</strong> Regular meetings focused on sports medicine, spine surgery, or joint replacement. Difficult cases discussed; preoperative imaging correlated with intraoperative findings and patient outcomes.<sup>[16]</sup></li>
+    </ul>
+
+    <p>Beyond patient care, these conferences serve as <strong>powerful educational platforms</strong> for trainees, fostering a culture of collaboration that carries throughout their careers.<sup>[16]</sup></p>
+
+    <h3>5.3 Intraoperative Collaboration: Real-Time Image Interpretation</h3>
+    <p>During many orthopedic procedures (especially fracture fixation and spine surgery), surgeons rely on <strong>real-time fluoroscopy</strong> via C-arm, operated by a radiographer — requiring constant, clear communication.<sup>[42]</sup></p>
+
+    <div class="callout callout-danger">
+      <strong>🔴 Communication Challenge</strong>
+      Studies demonstrate that <strong>lack of standardized terminology</strong> for directing C-arm movements leads to inefficiency, frustration, increased procedure time, and critically, <strong>increased radiation exposure</strong> to patient and OR staff.<sup>[42]</sup>
+    </div>
+
+    <p>To address this, many institutions have developed and implemented a <strong>shared lexicon</strong> — a standardized set of clear, unambiguous commands for each C-arm movement (vertical lift, horizontal travel, orbital rotation, cranio-caudal angulation). Research shows that training surgical teams in such a universal language <strong>significantly reduces image acquisition time and total radiation dose</strong>.<sup>[42,44]</sup> <span class="ev-badge ev-3">Level III</span></p>
+  </section>
+
+  <!-- SECTION 6: INTERACTIVE DECISION SUPPORT -->
+  <section class="content-card" id="sec6">
+    <h2>6. Interactive Clinical Decision Support</h2>
+    <p>Use the sidebar sliders to explore how the two interpretive frameworks apply to common clinical parameters drawn from the case studies discussed in the source document. Adjusting these parameters will generate context-sensitive recommendations reflecting both the radiologist's and surgeon's perspectives.</p>
+
+    <div class="callout callout-warn">
+      <strong>📋 Source Document Limitation</strong>
+      The source document is an analytical/educational article and does not provide specific numerical thresholds for clinical decision-making. The slider parameters and thresholds below are <strong>based on commonly accepted clinical knowledge</strong> and are included to demonstrate the interactive decision-support concept. They are clearly annotated as such in the sidebar.
+    </div>
+
+    <h3>Parameters Available for Adjustment</h3>
+    <ul>
+      <li><strong>Articular Depression Depth</strong> (0–20 mm) — Relevant to tibial plateau fracture assessment<sup>[39]</sup></li>
+      <li><strong>Concomitant Meniscal Injury Severity</strong> (0–100%) — Relevant to ACL tear management planning<sup>[33]</sup></li>
+      <li><strong>Interpretive Lens Toggle</strong> — Switch between radiologist and surgeon perspective to see how the same data yields different recommendations</li>
+    </ul>
+  </section>
+
+  <!-- SECTION 7: CONCLUSION -->
+  <section class="content-card" id="sec7">
+    <h2>7. Conclusion and Future Directions</h2>
+    <p>The analysis of musculoskeletal imaging by the orthopedic surgeon and the MSK radiologist represents a <strong>powerful synergy</strong> within modern medicine. The radiologist, as the diagnostic virtuoso, provides a systematic, descriptive, and comprehensive analysis of pathology — creating a detailed and objective map of the patient's condition. The surgeon, as the functional architect, interprets that map through the pragmatic lens of intervention, biomechanics, and virtual surgical simulation — charting a course for therapeutic action.<sup>[11]</sup></p>
+
+    <p>The optimal patient outcome is achieved not when one perspective dominates, but through their <strong>thoughtful and deliberate synthesis</strong>. The radiologist's precise characterization provides the essential foundation for safe and effective treatment plans. The surgeon's focused clinical questions allow the radiologist to tailor examinations and reports to be maximally relevant and impactful.</p>
+
+    <h3>Future Technological Convergence</h3>
+    <ul>
+      <li><strong>Quantitative imaging</strong> and <strong>AI-assisted analysis</strong> will provide unprecedented diagnostic information<sup>[31]</sup></li>
+      <li><strong>3D printing</strong> of anatomical models for preoperative planning</li>
+      <li><strong>Weight-bearing CT</strong> enabling dynamic joint assessment</li>
+      <li><strong>Robotic assistance</strong>, <strong>computer navigation</strong>, and <strong>patient-specific instrumentation</strong> for surgical precision<sup>[31]</sup></li>
+    </ul>
+
+    <p>The ability to successfully leverage these innovations will depend entirely on the strength of the collaborative bridge between radiology and orthopedics. Structured communication, reporting standards, and interdisciplinary review will become even more essential in translating technological potential into tangible improvements in patient care.</p>
+
+    <div class="callout callout-info">
+      <strong>🎯 Key Takeaway</strong>
+      The distinct roles and interpretive focuses of the orthopedic surgeon and the MSK radiologist are a testament to the power of medical specialization. While their lenses are different, they are focused on the same objective: <strong>the well-being of the patient</strong>. The successful integration of the radiologist's diagnostic precision with the surgeon's therapeutic vision is the hallmark of excellence in musculoskeletal care.
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="content-card" id="refs">
+    <h2>References</h2>
+    <p style="font-size:.82rem;color:var(--text-light);margin-bottom:1rem">All references are derived directly from the source document's Works Cited list. Numbered citations in the text correspond to the original reference numbers.</p>
+    <ol class="ref-list">
+      <li value="1">University of Utah Health. "What Is an Orthopedic Doctor?" <em>healthcare.utah.edu</em>. Accessed Oct 11, 2025.</li>
+      <li value="3">RYC Orthopaedics. "What is General Orthopaedics?" <em>rycorthopaedics.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="4">UCLA Medical School. "What Is an Orthopedic Doctor?" <em>medschool.ucla.edu</em>. Accessed Oct 11, 2025.</li>
+      <li value="5">St. George's University. "What Does an Orthopedic Surgeon Do?" <em>sgu.edu</em>. Accessed Oct 11, 2025.</li>
+      <li value="7">American College of Surgeons. "Orthopaedic Surgery." <em>facs.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="10">Riverside University Health System. "Curriculum — Orthopaedic Surgery Residency." <em>ruhealth.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="11">AAOS. "Position Statement: In-Office Diagnostic Imaging Studies by Orthopaedic Surgeons." <em>aaos.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="12">AAOS. "Guide to Orthopaedic Practices and Subspecialties." <em>aaos.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="13">AMN Healthcare. "Musculoskeletal Radiologist Jobs in the US." <em>amnhealthcare.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="14">AAMC Careers in Medicine. "Musculoskeletal Imaging Radiology." <em>careersinmedicine.aamc.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="15">University of Michigan Medical School. "Musculoskeletal Radiology." <em>medschool.umich.edu</em>. Accessed Oct 11, 2025.</li>
+      <li value="16">Columbia Radiology. "Division of Musculoskeletal Radiology." <em>columbiaradiology.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="17">University of Cincinnati. "MSK Radiology Fellowship — Curriculum/Duties." <em>med.uc.edu</em>. Accessed Oct 11, 2025.</li>
+      <li value="18">UT Southwestern. "Musculoskeletal Radiology Division." <em>utsouthwestern.edu</em>. Accessed Oct 11, 2025.</li>
+      <li value="19">RSNA News. "The Key to Success in Radiology? Build Your Communication Skills." <em>rsna.org</em>. May 2021. Accessed Oct 11, 2025.</li>
+      <li value="20">University of Michigan. "Musculoskeletal Radiology Fellowship." <em>medschool.umich.edu</em>. Accessed Oct 11, 2025.</li>
+      <li value="23">ACGME. "Supplemental Guide: Musculoskeletal Radiology." <em>acgme.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="24">Geeky Medics. "Musculoskeletal (MSK) X-ray Interpretation — OSCE Guide." <em>geekymedics.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="27">RadiologyKey. "A Systematic Approach to the Review of Musculoskeletal MRI Studies." <em>radiologykey.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="28">PMC. "What does the orthopaedic surgeon want in the radiology report?" <em>PMC 8333142</em>. Accessed Oct 11, 2025.</li>
+      <li value="29">Lake Zurich Open MRI. "3D Imaging for Orthopedic Surgery." <em>lakezurichopenmri.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="30">Lake Zurich Open MRI. "3D Imaging for Orthopedic Surgery Planning." <em>lakezurichopenmri.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="31">PeekMed Blog. "The Role of Advanced Imaging Technology in Orthopedics." <em>blog.peekmed.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="33">AJR. "Imaging of Anterior Cruciate Ligament Repair and Its Complications." <em>ajronline.org</em>. 2009. Accessed Oct 11, 2025.</li>
+      <li value="34">PMC 5065670. "Magnetic resonance imaging after ACL reconstruction: A practical guide." Accessed Oct 11, 2025.</li>
+      <li value="35">SciELO Brasil / PMC 5771798. "Use of MRI by radiologists and orthopaedic surgeons to detect intra-articular injuries of the knee." Accessed Oct 11, 2025.</li>
+      <li value="37">Caring Medical. "Can an MRI be inaccurate in diagnosing an ACL injury?" <em>caringmedical.com</em>. Accessed Oct 11, 2025.</li>
+      <li value="38">PubMed 8010201. "Evaluation of tibial plateau fractures: efficacy of MR imaging." Accessed Oct 11, 2025.</li>
+      <li value="39">RadioGraphics (RSNA). "Schatzker Classification of Tibial Plateau Fractures: Use of CT and MR Imaging." <em>pubs.rsna.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="40">RWJBarnabas Health. "Resident Education — Orthopedic Surgery Residency." <em>rwjbh.org</em>. Accessed Oct 11, 2025.</li>
+      <li value="42">PubMed 24299566. "Improving operating theatre communication between the orthopaedics surgeon and radiographer." Accessed Oct 11, 2025.</li>
+      <li value="44">PMC 2966205. "A Language for Effective Communication between Surgeons and Radiographers in Trauma Theatre." Accessed Oct 11, 2025.</li>
+    </ol>
+    <p style="font-size:.78rem;color:var(--text-light);margin-top:1rem">Note: Only references explicitly cited within the source document text are included above. The complete original reference list (45 items) is available in the source document.</p>
+  </section>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside role="complementary" aria-label="Interactive Clinical Parameters">
+  <div class="sidebar-box">
+    <h3>⚙️ Interactive Clinical Parameters</h3>
+
+    <!-- SLIDER 1: Articular Depression -->
+    <div class="slider-group">
+      <label for="slider-depression">
+        Articular Depression Depth
+        <span class="value-display" id="val-depression">0 mm</span>
+      </label>
+      <input type="range" id="slider-depression" min="0" max="20" step="0.5" value="0" aria-label="Articular depression depth in millimeters">
+      <div class="slider-note">
+        Thresholds based on common clinical practice — not from source document. <br>
+        &lt;2 mm: Non-operative | 2–5 mm: Borderline | &gt;5 mm: Surgical elevation recommended
+      </div>
+    </div>
+
+    <!-- SLIDER 2: Meniscal Injury Severity -->
+    <div class="slider-group">
+      <label for="slider-meniscal">
+        Concomitant Meniscal Injury
+        <span class="value-display" id="val-meniscal">0%</span>
+      </label>
+      <input type="range" id="slider-meniscal" min="0" max="100" step="5" value="0" aria-label="Concomitant meniscal injury severity percentage">
+      <div class="slider-note">
+        Estimated % of meniscal tissue involved — Assumed parameter for ACL planning context.<br>
+        0%: Intact | &lt;33%: Minor tear | 33–66%: Moderate | &gt;66%: Extensive (prognostic impact)
+      </div>
+    </div>
+
+    <!-- TOGGLE: Interpretive Lens -->
+    <div class="toggle-group">
+      <label>
+        <span>Interpretive Lens</span>
+        <input type="checkbox" id="toggle-lens">
+        <span class="toggle-switch"></span>
+      </label>
+      <div class="toggle-labels">
+        <span>Radiologist</span>
+        <span>Surgeon</span>
+      </div>
+    </div>
+
+    <!-- RECOMMENDATION BOX -->
+    <div class="recommendation-box" id="rec-box">
+      <h4>📋 Clinical Recommendation</h4>
+      <div class="rec-text" id="rec-text">
+        Adjust the sliders above to see real-time, perspective-sensitive clinical recommendations based on the case studies discussed in the source document.
+      </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy summary to clipboard">📋 Copy Summary</button>
+    </div>
+  </div>
+</aside>
+
+</div><!-- /page-wrapper -->
+
+<script>
+(function(){
+  const sliderDep = document.getElementById('slider-depression');
+  const sliderMen = document.getElementById('slider-meniscal');
+  const toggleLens = document.getElementById('toggle-lens');
+  const valDep = document.getElementById('val-depression');
+  const valMen = document.getElementById('val-meniscal');
+  const recBox = document.getElementById('rec-box');
+  const recText = document.getElementById('rec-text');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+
+  function getLens(){
+    return toggleLens.checked ? 'surgeon' : 'radiologist';
+  }
+
+  function update(){
+    const dep = parseFloat(sliderDep.value);
+    const men = parseInt(sliderMen.value);
+    const lens = getLens();
+
+    valDep.textContent = dep + ' mm';
+    valMen.textContent = men + '%';
+
+    // Build recommendation
+    let rec = '';
+    let alertLevel = 'normal'; // normal, warn, alert
+
+    if(lens === 'radiologist'){
+      // Radiologist perspective — descriptive, systematic
+      rec += '<strong>Radiologist\'s Descriptive Focus:</strong><br>';
+
+      // Depression assessment
+      if(dep > 0){
+        rec += '• Articular depression: <strong>' + dep + ' mm</strong>. ';
+        if(dep < 2) rec += 'Mild depression — describe exact location and extent. ';
+        else if(dep <= 5) rec += 'Moderate depression — detail comminution, fragment involvement. Recommend clinical correlation for surgical planning. ';
+        else { rec += 'Significant depression (>' + dep + ' mm) — comprehensive description required including condylar widening, posteromedial fragment if present. '; alertLevel = 'warn'; }
+        rec += '<br>';
+      } else {
+        rec += '• No articular depression measured. Assess for occult fracture lines, ABCS method applied.<br>';
+      }
+
+      // Meniscal assessment
+      rec += '• Meniscal integrity: ';
+      if(men === 0) rec += 'Intact — no signal abnormality identified on fluid-sensitive sequences.';
+      else if(men <= 33) rec += 'Minor tear involving ' + men + '% of cross-section. Describe morphology (horizontal, radial, bucket-handle) and precise location (anterior horn, body, posterior horn, root).';
+      else if(men <= 66) rec += 'Moderate tear (' + men + '%). Characterize signal intensity, displacement, and associated parameniscal cysts.';
+      else { rec += 'Extensive tear (' + men + '%). Detailed description of tear pattern, fragment displacement, and associated bone marrow edema patterns. '; alertLevel = 'alert'; }
+
+      rec += '<br>• Impression should include differential diagnosis if findings are atypical.';
+      rec += '<br><br><em style="font-size:.78rem">Source: Systematic ABCS method [24]; MRI interpretation framework [27]; Report quality [28]</em>';
+
+    } else {
+      // Surgeon perspective — action-oriented
+      rec += '<strong>Surgeon\'s Actionable Analysis:</strong><br>';
+
+      // Depression assessment
+      if(dep < 2){
+        rec += '• Depression ' + dep + ' mm: <strong>Non-operative management</strong> likely appropriate. Consider brace/limited weight-bearing.<br>';
+      } else if(dep <= 5){
+        rec += '• Depression ' + dep + ' mm: <strong>Borderline surgical indication.</strong> Decision based on patient age, activity level, and associated injuries. Consider arthroscopic elevation vs. formal ORIF.<br>';
+        alertLevel = 'warn';
+      } else {
+        rec += '• Depression ' + dep + ' mm: <strong>Surgical elevation and bone grafting indicated.</strong> Plan for buttress plate fixation. Assess for posteromedial fragment requiring posterior approach.<br>';
+        alertLevel = 'alert';
+      }
+
+      // Meniscal assessment + ACL context
+      rec += '• Meniscal injury (' + men + '%): ';
+      if(men === 0) rec += 'No meniscal involvement — standard ACL reconstruction.';
+      else if(men <= 33) rec += 'Minor tear — <strong>meniscal repair preferred</strong> over resection to preserve joint biomechanics.';
+      else if(men <= 66) rec += 'Moderate tear — <strong>combined ACL reconstruction + meniscal repair</strong>. Modify rehabilitation protocol.';
+      else rec += 'Extensive tear — <strong>complex procedure anticipated.</strong> May require staged approach. Significant prognostic impact on long-term joint health.';
+
+      rec += '<br>• Key planning: Assess bone stock for tunnel placement, notch anatomy, and patient-specific anatomy for graft selection.';
+      rec += '<br><br><em style="font-size:.78rem">Source: Surgeon\'s interpretive framework [11]; Surgical planning [29,30]; ACL case [33,34,37]; Tibial plateau case [38,39]</em>';
+    }
+
+    recText.innerHTML = rec;
+
+    // Update recommendation box styling
+    recBox.className = 'recommendation-box';
+    if(alertLevel === 'alert') recBox.classList.add('alert');
+    else if(alertLevel === 'warn') recBox.classList.add('warn');
+  }
+
+  sliderDep.addEventListener('input', update);
+  sliderMen.addEventListener('input', update);
+  toggleLens.addEventListener('change', update);
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    sliderDep.value = 0;
+    sliderMen.value = 0;
+    toggleLens.checked = false;
+    update();
+    btnReset.style.transform = 'scale(0.95)';
+    setTimeout(()=> btnReset.style.transform = '', 150);
+  });
+
+  // Copy
+  btnCopy.addEventListener('click', function(){
+    const dep = sliderDep.value;
+    const men = sliderMen.value;
+    const lens = getLens();
+    const timestamp = new Date().toISOString();
+    const plainRec = recText.textContent;
+
+    const summary = [
+      '═══════════════════════════════════════════',
+      'DUAL LENSES OF MSK IMAGING — CLINICAL SUMMARY',
+      '═══════════════════════════════════════════',
+      '',
+      'Timestamp: ' + timestamp,
+      'Interpretive Lens: ' + (lens === 'surgeon' ? 'Orthopedic Surgeon' : 'MSK Radiologist'),
+      '',
+      'PARAMETERS:',
+      '  • Articular Depression Depth: ' + dep + ' mm',
+      '  • Concomitant Meniscal Injury: ' + men + '%',
+      '',
+      'RECOMMENDATION:',
+      plainRec,
+      '',
+      '───────────────────────────────────────────',
+      'Source: "The Dual Lenses of Musculoskeletal Imaging"',
+      'Evidence-based interactive educational summary.',
+      '═══════════════════════════════════════════'
+    ].join('\n');
+
+    navigator.clipboard.writeText(summary).then(function(){
+      btnCopy.textContent = '✓ Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(function(){
+        btnCopy.textContent = '📋 Copy Summary';
+        btnCopy.classList.remove('copied');
+      }, 2000);
+    }).catch(function(){
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = summary;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btnCopy.textContent = '✓ Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(function(){
+        btnCopy.textContent = '📋 Copy Summary';
+        btnCopy.classList.remove('copied');
+      }, 2000);
+    });
+  });
+
+  // Initial update
+  update();
+})();
+</script>
+
+</body>
+</html>

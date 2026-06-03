@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Residual DDH: Evidence-Based Diagnostic Thresholds, Surgical Algorithms &amp; Long-Term Outcomes</title>
+<style>
+:root {
+  --primary: #1a365d;
+  --primary-light: #2c5282;
+  --accent: #e53e3e;
+  --accent-light: #fc8181;
+  --green: #276749;
+  --green-light: #c6f6d5;
+  --orange: #c05621;
+  --orange-light: #feebc8;
+  --blue-light: #ebf8ff;
+  --gray-50: #f7fafc;
+  --gray-100: #edf2f7;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e0;
+  --gray-600: #718096;
+  --gray-700: #4a5568;
+  --gray-800: #2d3748;
+  --gray-900: #1a202c;
+  --white: #ffffff;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.1), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,.1), 0 4px 6px rgba(0,0,0,.05);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--gray-800);
+  background: var(--gray-50);
+  line-height: 1.7;
+}
+/* Header */
+.site-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+.site-header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; letter-spacing: -.02em; }
+.site-header .subtitle { font-size: .92rem; opacity: .85; font-weight: 400; }
+/* Layout */
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+main { min-width: 0; }
+aside { position: relative; }
+/* Sidebar */
+.sidebar-sticky {
+  position: sticky;
+  top: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+}
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: .5rem;
+}
+.slider-group { margin-bottom: 1.2rem; }
+.slider-group label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: .3rem;
+}
+.slider-group .val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--gray-200);
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+  cursor: grab;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px; height: 20px;
+  border: none; border-radius: 50%;
+  background: var(--primary);
+  cursor: grab;
+}
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: .72rem;
+  color: var(--gray-600);
+  margin-top: 2px;
+}
+.recommendation-box {
+  background: var(--blue-light);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem;
+  min-height: 120px;
+  transition: all .3s ease;
+}
+.recommendation-box h4 {
+  font-size: .85rem;
+  color: var(--primary);
+  margin-bottom: .5rem;
+}
+.recommendation-box p {
+  font-size: .84rem;
+  line-height: 1.5;
+}
+.rec-severity { font-weight: 700; display: block; margin-bottom: .3rem; font-size: .9rem; }
+.rec-severity.green { color: var(--green); }
+.rec-severity.orange { color: var(--orange); }
+.rec-severity.red { color: var(--accent); }
+.btn-row { display: flex; gap: .5rem; margin-top: 1rem; }
+.btn {
+  flex: 1;
+  padding: .55rem .8rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+.btn-reset { background: var(--gray-200); color: var(--gray-700); }
+.btn-reset:hover { background: var(--gray-300); }
+.btn-copy { background: var(--primary); color: var(--white); }
+.btn-copy:hover { background: var(--primary-light); }
+.btn-copy.copied { background: var(--green); }
+/* Content Sections */
+section.content-section {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+section.content-section h2 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: .5rem;
+  margin-bottom: 1rem;
+}
+section.content-section h3 {
+  font-size: 1.15rem;
+  color: var(--primary-light);
+  margin: 1.5rem 0 .6rem;
+}
+section.content-section h4 {
+  font-size: 1rem;
+  color: var(--gray-800);
+  margin: 1.2rem 0 .4rem;
+}
+p { margin-bottom: .8rem; }
+ul, ol { margin: .5rem 0 1rem 1.5rem; }
+li { margin-bottom: .35rem; }
+strong { color: var(--gray-900); }
+/* Evidence Badge */
+.ev {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+.ev-i { background: #c6f6d5; color: #22543d; }
+.ev-ii { background: #bee3f8; color: #2a4365; }
+.ev-iii { background: #feebc8; color: #7b341e; }
+.ev-iv { background: #fed7e2; color: #702459; }
+.ev-v { background: #e9d8fd; color: #44337a; }
+.ev-na { background: var(--gray-200); color: var(--gray-700); }
+/* Callout */
+.callout {
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 1rem 0;
+  font-size: .92rem;
+}
+.callout-info { background: #ebf8ff; border-left: 4px solid #3182ce; }
+.callout-warning { background: #fffaf0; border-left: 4px solid #dd6b20; }
+.callout-danger { background: #fff5f5; border-left: 4px solid #e53e3e; }
+.callout-success { background: #f0fff4; border-left: 4px solid #38a169; }
+.callout strong { display: block; margin-bottom: .3rem; }
+/* Tables */
+.table-wrapper { overflow-x: auto; margin: 1.2rem 0; border-radius: var(--radius); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .85rem;
+}
+table caption {
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--primary);
+  text-align: left;
+  padding: .5rem 0;
+}
+thead { background: var(--primary); color: var(--white); }
+th { padding: .65rem .7rem; text-align: left; font-weight: 600; white-space: nowrap; }
+td { padding: .6rem .7rem; border-bottom: 1px solid var(--gray-200); }
+tbody tr:hover { background: var(--gray-100); }
+/* Case Timeline */
+.timeline { position: relative; padding-left: 2rem; margin: 1.5rem 0; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+.timeline-item { position: relative; margin-bottom: 1.5rem; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.55rem;
+  top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.timeline-item .age {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.timeline-item .event { font-size: .9rem; }
+/* References */
+.references { font-size: .8rem; color: var(--gray-700); }
+.references ol { margin-left: 1.2rem; }
+.references li { margin-bottom: .4rem; }
+.references a { color: var(--primary-light); word-break: break-all; }
+/* Limitations Box */
+.limitation-box {
+  background: #fffaf0;
+  border: 1px dashed #dd6b20;
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: .88rem;
+}
+.limitation-box strong { color: #c05621; }
+/* Responsive */
+@media (max-width: 960px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+  aside { order: -1; }
+  .sidebar-sticky {
+    position: relative;
+    top: 0;
+  }
+  .site-header h1 { font-size: 1.3rem; }
+}
+@media (max-width: 600px) {
+  .wrapper { padding: 0 .8rem; }
+  section.content-section { padding: 1.2rem; }
+  table { font-size: .78rem; }
+  th, td { padding: .45rem .5rem; }
+}
+/* Print */
+@media print {
+  .site-header { position: relative; }
+  .sidebar-sticky { position: relative; top: 0; }
+  aside { page-break-before: always; }
+  .btn-row { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Residual Developmental Dysplasia of the Hip</h1>
+  <p class="subtitle">Comprehensive EBM Review — Diagnostic Thresholds · Surgical Algorithms · Long-Term Outcomes</p>
+</header>
+
+<div class="wrapper">
+
+<!-- ============ MAIN CONTENT ============ -->
+<main role="main" aria-label="Clinical educational content">
+
+<!-- Section 1: Overview -->
+<section class="content-section" id="overview">
+  <h2>1. Overview &amp; Pathophysiology</h2>
+  <p>Developmental Dysplasia of the Hip (DDH) represents a dynamic spectrum of structural abnormalities characterized by an aberrant relationship between the proximal femur and the acetabulum. The global incidence ranges between <strong>1 to 34 per 1,000 live births</strong>, with a predilection for firstborn females, breech presentations, and those with a positive family history or oligohydramnios. <span class="ev ev-ii">Level II</span></p>
+
+  <p>Despite universal physical examination protocols (Ortolani and Barlow maneuvers) and selective neonatal ultrasonographic screening (Graf classification), a substantial subset of patients either fails initial non-operative orthotic management or presents late with established structural deformity.</p>
+
+  <p><strong>Residual Acetabular Dysplasia (RAD)</strong> is formally defined as the persistence of a pathologically shallow, structurally deficient, and maloriented acetabular vault following the establishment of a concentrically reduced femoral head. <span class="ev ev-na">Not specified in source</span></p>
+
+  <div class="callout callout-danger">
+    <strong>⚠ Critical Natural History:</strong>
+    Untreated residual dysplasia is recognized as the <strong>leading etiology of secondary hip osteoarthritis in young adults</strong>, frequently culminating in the necessity for Total Hip Arthroplasty (THA) before the fourth or fifth decade of life.
+  </div>
+
+  <p>The lack of adequate anterior and lateral osseous coverage results in a severely compromised weight-bearing surface area, forcing the joint to operate under drastically elevated peak articular contact stresses. The acetabular labrum undergoes massive pathological hypertrophy, bearing mechanical loads it is not biologically designed to withstand. Over time, this abnormal edge-loading precipitates chronic labral microtrauma, intra-articular labral tearing, chondral delamination, and the premature onset of secondary osteoarthritis.</p>
+
+  <p>The spontaneous remodeling capacity of the hip is overwhelmingly concentrated in the first few years of life and declines precipitously thereafter. Literature consistently supports that if significant structural normalization does not occur by the <strong>critical age of 4 to 5 years</strong>, spontaneous resolution becomes biologically improbable. <span class="ev ev-iii">Level III</span></p>
+</section>
+
+<!-- Section 2: Diagnostic Thresholds -->
+<section class="content-section" id="diagnostics">
+  <h2>2. Diagnostic Thresholds &amp; Prognostic Classifications</h2>
+
+  <h3>2.1 Acetabular Index (AI)</h3>
+  <p>The AI is the paramount and most universally utilized metric for assessing dysplasia severity in the radiographically immature pediatric skeleton. It is defined as the angle formed by Hilgenreiner's line and a line drawn from the most medial point of the triradiate cartilage to the most superolateral ossified margin of the acetabular roof.</p>
+
+  <p><strong>Normative values:</strong> At birth, the AI may be as high as 27.5–30°, rapidly decreasing to ~23.5° by 6 months, and falling strictly below 20° by the second birthday. An AI remaining above 25° in any patient older than 6 months is definitively abnormal. <span class="ev ev-iii">Level III</span></p>
+
+  <div class="callout callout-warning">
+    <strong>🔴 Critical Surgical Threshold:</strong>
+    An <strong>AI &gt; 25°–30° persisting at 4–5 years of age</strong> represents absolute failure of natural remodeling and mandates surgical intervention via a reconstructive pelvic osteotomy.
+  </div>
+
+  <h3>2.2 Cartilaginous Acetabular Index (CAI) — MRI</h3>
+  <p>The CAI is measured using identical geometric principles as the AI, but the lateral reference point is placed at the outermost margin of the cartilaginous labral complex rather than the ossified bony rim. A pivotal systematic review and meta-analysis demonstrated: <span class="ev ev-ii">Level II</span></p>
+  <ul>
+    <li>Pooled <strong>sensitivity: 0.80</strong> (95% CI: 0.54–0.93)</li>
+    <li>Pooled <strong>specificity: 0.73</strong> (95% CI: 0.57–0.84)</li>
+    <li>Diagnostic Odds Ratio: <strong>10.62</strong></li>
+    <li>Area Under the Curve (AUC): <strong>0.82</strong></li>
+  </ul>
+
+  <div class="callout callout-info">
+    <strong>📊 CAI Thresholds for Early Detection:</strong>
+    <ul style="margin-bottom:0">
+      <li><strong>CAI &gt; 18° at age 2</strong> → highly sensitive early-warning indicator of poor prognosis</li>
+      <li><strong>CAI &gt; 10° at age 5</strong> → robust indication for open reduction and pelvic osteotomy</li>
+    </ul>
+  </div>
+
+  <p>However, Fagan plot analyses cautioned that at a pre-test probability of 50%, the CAI correctly detects true residual dysplasia in only 75% of cases. Using CAI as an isolated indication for surgery could theoretically lead to <strong>overtreatment in &gt;20% of patients</strong>. CAI must be correlated holistically with the osseous AI, patient age, and clinical symptoms. <span class="ev ev-ii">Level II</span></p>
+
+  <h3>2.3 Center-Edge Angle of Wiberg (LCEA)</h3>
+  <p>After age 5, the CE angle supplants the AI as the primary metric for assessing global lateral femoral head coverage. It is constructed using Perkin's line and a line from the femoral head center to the lateral acetabular edge.</p>
+
+  <p><strong>Normative values:</strong> LCEA &gt;20° (age 5–9), &gt;25° (age 9–12), &gt;30° (skeletal maturity). <span class="ev ev-iii">Level III</span></p>
+
+  <div class="callout callout-danger">
+    <strong>🔴 Critical Surgical Threshold:</strong>
+    An <strong>LCEA &lt; 8°–10° at 4–5 years of age</strong> indicates profound residual dysplasia with virtually no capacity for spontaneous normalization and an extraordinarily high risk for rapid subluxation.
+  </div>
+
+  <p>The MRI-derived <strong>Cartilaginous Center-Edge (CCE) angle</strong> provides predictive value in younger cohorts: CCE &lt;13° at age 2 predicts poor prognosis; CCE ≥23° correlates with successful long-term remodeling. <span class="ev ev-ii">Level II</span></p>
+
+  <h3>2.4 Shenton's Line</h3>
+  <p>A continuous, smooth radiographic arc drawn along the inferior border of the femoral neck transitioning into the superior margin of the obturator foramen. A <strong>"broken" Shenton's line</strong> in a walking-age child is a highly specific indicator of subluxation and constitutes an <strong>absolute, unequivocal indication for surgical treatment</strong> regardless of angular measurements. <span class="ev ev-iii">Level III</span></p>
+
+  <h3>2.5 Summary Table of Diagnostic Thresholds</h3>
+  <div class="table-wrapper">
+    <table>
+      <caption>Table 1 — Radiographic Diagnostic Thresholds for Residual DDH</caption>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Normal Value (Age-Dependent)</th>
+          <th>Critical Threshold for Surgery</th>
+          <th>Prognostic Implications</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Acetabular Index (AI)</strong></td>
+          <td>&lt;25° (&gt;6 mo); &lt;20° (&gt;2 yr)</td>
+          <td><strong>&gt;25°–30° at age 4–5</strong></td>
+          <td>Absolute failure of remodeling; high OA risk</td>
+        </tr>
+        <tr>
+          <td><strong>Cartilaginous AI (CAI)</strong></td>
+          <td>&lt;10°</td>
+          <td><strong>&gt;18° (age 2); &gt;10° (age 5)</strong></td>
+          <td>AUC 0.82; early detection of residual dysplasia</td>
+        </tr>
+        <tr>
+          <td><strong>LCEA (Wiberg)</strong></td>
+          <td>&gt;20° (age 5); &gt;25° (age 9–12); &gt;30° (adult)</td>
+          <td><strong>&lt;8°–10° at age 4–5</strong></td>
+          <td>Severe structural instability; critical lack of coverage</td>
+        </tr>
+        <tr>
+          <td><strong>CCE angle (MRI)</strong></td>
+          <td>≥23° (favorable)</td>
+          <td><strong>&lt;13° at age 2</strong></td>
+          <td>Poor prognosis if low; favorable if ≥23°</td>
+        </tr>
+        <tr>
+          <td><strong>Shenton's Line</strong></td>
+          <td>Continuous smooth arc</td>
+          <td><strong>Broken (any walking-age child)</strong></td>
+          <td>Absolute indication for surgery; biomechanical failure</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 3: Prognostic Classifications -->
+<section class="content-section" id="classifications">
+  <h2>3. Prognostic Classification Systems</h2>
+
+  <h3>3.1 Severin Classification</h3>
+  <p>The gold standard for evaluating definitive radiographic outcome at skeletal maturity, weighting the final CE angle, morphological congruency, and presence of subluxation. <span class="ev ev-iii">Level III</span></p>
+
+  <div class="table-wrapper">
+    <table>
+      <caption>Table 2 — Severin Classification System</caption>
+      <thead>
+        <tr><th>Grade</th><th>Description</th><th>CE Angle Criteria</th><th>Clinical Group</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>I</strong></td><td>Morphologically perfect hip; entirely congruent</td><td>&gt;20° (&lt;14 yr); &gt;25° (&gt;14 yr)</td><td rowspan="2" style="color:var(--green);font-weight:700">Satisfactory</td></tr>
+        <tr><td><strong>II</strong></td><td>Normal CE angles; minor deformities (mild coxa magna)</td><td>Normal for age</td></tr>
+        <tr><td><strong>III</strong></td><td>Persistent significant dysplasia without subluxation</td><td>&lt;20° (mature)</td><td rowspan="4" style="color:var(--accent);font-weight:700">Unsatisfactory</td></tr>
+        <tr><td><strong>IV</strong></td><td>Frank subluxation</td><td>&lt;10°; MP ≥33%</td></tr>
+        <tr><td><strong>V</strong></td><td>Femoral head in false acetabulum</td><td>—</td></tr>
+        <tr><td><strong>VI</strong></td><td>Total uncontained redislocation</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>In EBM studies, Severin Grades I and II ("satisfactory") correlate with a profoundly low risk of arthritic degeneration. Grades III–VI ("unsatisfactory") signify inevitable progression to painful osteoarthritis. Achieving Severin I or II at minimum 10-year follow-up is the ultimate surgical objective.</p>
+
+  <h3>3.2 Tönnis Osteoarthritis Classification</h3>
+  <p>Categorizes progressive structural degradation of the articular cartilage and subchondral bone. <span class="ev ev-iii">Level III</span></p>
+
+  <div class="table-wrapper">
+    <table>
+      <caption>Table 3 — Tönnis Osteoarthritis Grading</caption>
+      <thead>
+        <tr><th>Grade</th><th>Radiographic Features</th><th>Prognostic Significance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>0</strong></td><td>Perfectly healthy joint; no OA signs</td><td>Optimal candidate for joint-preserving surgery</td></tr>
+        <tr><td><strong>1</strong></td><td>Subchondral sclerosis, slight joint space narrowing, mild loss of sphericity</td><td>Early mechanical overload; good PAO candidate</td></tr>
+        <tr><td><strong>2</strong></td><td>Bone-on-bone narrowing, subchondral cysts, osteophytes</td><td>Exponentially higher THA conversion rate after PAO</td></tr>
+        <tr><td><strong>3</strong></td><td>Severe joint destruction, gross deformity</td><td>PAO contraindicated in many centers; THA likely needed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-danger">
+    <strong>⚠ Critical Evidence:</strong>
+    Patients presenting with Tönnis Grade 2 or 3 changes prior to a Bernese PAO demonstrate <strong>exponentially higher rates of rapid conversion to THA</strong> compared to Grade 0 or 1 hips. At Tönnis Grade 3–4, the 18-year survivorship plummets to <strong>54%</strong>. <span class="ev ev-iii">Level III</span>
+  </div>
+</section>
+
+<!-- Section 4: Surgical Decision-Making -->
+<section class="content-section" id="surgery">
+  <h2>4. Surgical Decision-Making &amp; EBM Evaluation</h2>
+  <p>When diagnostic thresholds confirm that intrinsic biological remodeling has ceased and residual dysplasia persists, surgical intervention via pelvic osteotomy becomes the absolute standard of care. The overarching biomechanical objective is to physically reorient or reshape the deficient acetabulum, maximizing articular weight-bearing surface area and mathematically decreasing peak contact stress across the cartilage. <span class="ev ev-iii">Level III</span></p>
+
+  <h3>4.1 Salter Innominate Osteotomy (SIO)</h3>
+  <p>A complete, true <strong>redirectional osteotomy</strong> involving a single transverse transection of the ilium from the anterior inferior iliac spine to the greater sciatic notch. The pubic symphysis serves as the biomechanical hinge.</p>
+  <ul>
+    <li>Provides ~20°–25° lateral coverage and ~10°–15° anterior coverage</li>
+    <li>Volume-neutral conceptually (minor ~6% volume decrease per 3D CT studies)</li>
+    <li>Lengthens ipsilateral lower extremity by up to 1 cm</li>
+    <li>Requires rigid internal fixation (K-wires) and tricortical bone graft</li>
+  </ul>
+
+  <div class="callout callout-info">
+    <strong>📈 Key EBM Findings:</strong>
+    <ul style="margin-bottom:0">
+      <li><strong>93.6% excellent-to-good results</strong> over 15-year follow-up when performed at 18 months to 4 years <span class="ev ev-iii">Level III</span></li>
+      <li>Success rate <strong>plummets to 56.7%</strong> when performed in children aged 4–10 years, due to stiffening of the pubic symphysis</li>
+      <li>Generally abandoned in favor of triple innominate or PAO in older cohorts</li>
+    </ul>
+  </div>
+
+  <h3>4.2 Pemberton Pericapsular Osteotomy</h3>
+  <p>An incomplete <strong>reshaping (bending) osteotomy</strong> utilizing the open triradiate cartilage as the primary hinge. The cut proceeds from above the AIIS posteriorly to the ilioischial limb of the triradiate cartilage.</p>
+  <ul>
+    <li>Dramatically levers the entire acetabular roof downward</li>
+    <li>Reduces acetabular volume by approximately <strong>14%</strong></li>
+    <li>Ideal for capacious, "double-bubble" dysplastic hips</li>
+    <li>Intrinsically stable; no metallic fixation required</li>
+  </ul>
+  <p><strong>EBM:</strong> Systematic review and meta-analysis (Level II, 48 articles, 2,143 cases) demonstrated <strong>statistically superior Severin scores</strong> compared to Salter (p=0.0003). However, carries higher risk of <strong>iatrogenic FAI</strong> (anterior over-coverage) and increased <strong>AVN risk</strong> from elevated intra-articular pressure. <span class="ev ev-ii">Level II</span></p>
+
+  <h3>4.3 Dega Osteotomy</h3>
+  <p>A highly versatile, curvilinear transiliac osteotomy that is bicortical only anteriorly, leaving the posteromedial cortex and sciatic notch intact.</p>
+  <ul>
+    <li>Most aggressive volume-reducing procedure: decreases acetabular volume by up to <strong>19%</strong></li>
+    <li>Allows selective levering of anterior, superior, or posterior roof aspects</li>
+    <li>Excellent for neuromuscular and idiopathic DDH</li>
+    <li>AI improvement from 38.0° to 20.8°; &gt;90% favorable outcomes</li>
+    <li>Negligible risk of sciatic nerve neuropraxia <span class="ev ev-iv">Level IV</span></li>
+  </ul>
+
+  <h3>4.4 Bernese Periacetabular Osteotomy (PAO)</h3>
+  <p>The premier, definitive joint-preserving intervention for older adolescents and young adults with closed triradiate cartilage. Involves a continuous series of polygonal osteotomies through the pubis, ilium, and ischium while preserving posterior column continuity.</p>
+  <ul>
+    <li>Allows profound, unrestricted 3D spatial reorientation</li>
+    <li>Medializes hip joint center, exponentially reducing joint-reaction forces</li>
+    <li>Inherently stable; permits early aggressive mobilization</li>
+  </ul>
+
+  <div class="callout callout-success">
+    <strong>✅ Outstanding Long-Term Survivorship:</strong>
+    Weighted <strong>10-year joint survival rate: 91.3%</strong> (95% CI: 87.7–94.8). LCEA routinely improves from critically low baselines to an optimal average of <strong>35.5° postoperatively</strong>. <span class="ev ev-iii">Level III</span>
+  </div>
+  <p><strong>Key limitations:</strong> Failure heavily predicted by preoperative Tönnis ≥2. Complications include nonunion of superior pubic ramus (up to 17%), excessive arterial bleeding, and transient lateral femoral cutaneous nerve palsy. <span class="ev ev-iii">Level III</span></p>
+
+  <h3>4.5 Adjunctive Varus Derotational Osteotomy (VDRO)</h3>
+  <p>A VDRO physically severs the proximal femur to correct excessive femoral anteversion, normalize pathological coxa valga, and redirect the femoral head concentrically into the true acetabulum. Contemporary EBM strictly limits its use to <strong>three non-negotiable indications</strong>:</p>
+  <ol>
+    <li><strong>Reduction of Iatrogenic AVN Risk:</strong> In children &gt;18–24 months with high-riding dislocations, a VDRO with femoral shortening decompresses the joint, mitigating ischemic AVN risk from medial femoral circumflex artery occlusion. <span class="ev ev-iii">Level III</span></li>
+    <li><strong>Severe Pathological Geometric Deformity:</strong> When neck-shaft angle radically exceeds norms (severe coxa valga) or femoral anteversion &gt;50°–60°, isolated pelvic osteotomy will fail.</li>
+    <li><strong>Failure to Maintain Intraoperative Containment:</strong> If concentric reduction can only be maintained in extreme internal rotation and abduction ("unsafe zone").</li>
+  </ol>
+
+  <div class="callout callout-warning">
+    <strong>⚠ EBM Consensus:</strong>
+    In mild-to-moderate residual dysplasia <em>without</em> profound proximal femoral deformity, <strong>isolated pelvic osteotomy is statistically superior</strong> to isolated femoral osteotomy. A VDRO should never be used as a substitute for addressing a severely dysplastic acetabulum.
+  </div>
+
+  <h3>4.6 Comparative Summary of Osteotomies</h3>
+  <div class="table-wrapper">
+    <table>
+      <caption>Table 4 — Comparative Analysis of Pelvic and Femoral Osteotomies for Residual DDH</caption>
+      <thead>
+        <tr>
+          <th>Procedure</th>
+          <th>Hinge / Stability</th>
+          <th>Clinical Effect</th>
+          <th>Optimal Age</th>
+          <th>EBM Highlights</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Salter (SIO)</strong></td>
+          <td>Pubic symphysis / Unstable (K-pins)</td>
+          <td>Redirects intact acetabulum; +leg length; excellent anterolateral cover</td>
+          <td>18 mo – 6 yr (open triradiate)</td>
+          <td><span class="ev ev-iii">L III</span> 93.6% success &lt;4 yr; 56.7% &gt;4 yr</td>
+        </tr>
+        <tr>
+          <td><strong>Pemberton</strong></td>
+          <td>Triradiate cartilage / Highly stable</td>
+          <td>Reshapes roof; ↓ volume 14%; robust anterior cover</td>
+          <td>18 mo – 8 yr (open triradiate)</td>
+          <td><span class="ev ev-ii">L II</span> Superior Severin vs Salter; ↑ FAI risk</td>
+        </tr>
+        <tr>
+          <td><strong>Dega</strong></td>
+          <td>Triradiate cartilage / Highly stable</td>
+          <td>Reshapes roof; ↓ volume 19%; versatile 3D coverage</td>
+          <td>18 mo – 8 yr (open triradiate)</td>
+          <td><span class="ev ev-iv">L IV</span> AI → ~20°; &gt;90% good outcomes</td>
+        </tr>
+        <tr>
+          <td><strong>PAO (Bernese)</strong></td>
+          <td>Pelvic ring intact / Highly stable</td>
+          <td>True 3D reorientation; medializes joint center</td>
+          <td>Adolescence – adult (closed triradiate)</td>
+          <td><span class="ev ev-iii">L III</span> 91.3% 10-yr survivorship</td>
+        </tr>
+        <tr>
+          <td><strong>VDRO</strong></td>
+          <td>Intertrochanteric / Rigid plate fixation</td>
+          <td>Corrects coxa valga/anteversion; tension relief via shortening</td>
+          <td>Any (strict femoral indications)</td>
+          <td><span class="ev ev-iii">L III</span> Essential for AVN mitigation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 5: Case Paradigm -->
+<section class="content-section" id="case">
+  <h2>5. Classic Clinical Case Paradigm</h2>
+  <p>A multi-decade longitudinal trajectory illustrating the strict application of EBM guidelines in residual DDH management.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="age">Ages 0–6 months: Initial Presentation</div>
+      <div class="event">
+        <p>Full-term female infant at 4 weeks: asymmetric gluteal fold, positive Galeazzi sign, definitive Ortolani clunk on the left hip. Ultrasonography confirms Graf Type IV dislocation with severely deficient bony roof and inverted labrum.</p>
+        <p>Pavlik harness applied. Serial ultrasounds show failure to achieve concentric reduction within 3 weeks due to hypertrophied ligamentum teres and dense pulvinar. Harness abandoned. Closed reduction under GA with spica casting at 4 months — post-reduction MRI shows eccentric seating with aAFD 5.5 mm (normal &lt;2.5 mm). <strong>Closed management has definitively failed.</strong></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="age">Age 18 months: Open Reduction + VDRO</div>
+      <div class="event">
+        <p>Extensive open reduction via anterior Smith-Petersen approach: excision of obstructive pulvinar, release of transverse acetabular ligament. Due to severe extra-articular soft tissue contracture and unacceptable AVN risk from levering the femoral head against massive resistance, an <strong>adjunctive VDRO with 1.5 cm femoral shortening</strong> is performed to decompress the joint.</p>
+        <p>Post-operative: pain-free ambulation achieved following bony union and hardware removal.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="age">Age 4.5 years: Residual Dysplasia Identified</div>
+      <div class="event">
+        <p>Longitudinal radiographic surveillance reveals a concerning remodeling plateau:</p>
+        <ul>
+          <li><strong>Broken Shenton's line</strong> (subtle superior subluxation)</li>
+          <li><strong>AI = 32°</strong> (critical threshold &gt;25°–30° exceeded)</li>
+          <li><strong>LCEA = 5°</strong> (critical threshold &lt;8°–10° crossed)</li>
+          <li><strong>CAI = 19°</strong> on MRI (threshold &gt;18° exceeded)</li>
+        </ul>
+        <p>These findings definitively confirm: biological remodeling capacity is exhausted. <strong>Observational management is no longer viable.</strong></p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="age">Age 5 years: Pemberton Osteotomy</div>
+      <div class="event">
+        <p>Given: age 5 (open triradiate cartilage), capacious "double-bubble" morphology. <strong>Pemberton pericapsular osteotomy</strong> selected over Salter (volume-reducing superior to volume-neutral in this morphology).</p>
+        <p>Acetabular roof hinged downward via triradiate cartilage; large tricortical bone autograft impacted. No K-wire fixation needed. Immediate post-op: AI normalized to <strong>14°</strong>, Shenton's line restored to continuity.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="age">Age 15 years: 10-Year Final Follow-up</div>
+      <div class="event">
+        <p>Completely pain-free, active adolescent athlete. Triradiate cartilage fused symmetrically — no premature physeal closure.</p>
+        <ul>
+          <li><strong>LCEA = 34°</strong> (excellent normal coverage)</li>
+          <li><strong>AI = 10°</strong></li>
+          <li>No AVN; preserved symmetric joint space</li>
+          <li><strong>Severin Grade I</strong> — excellent morphologically perfect result</li>
+          <li><strong>Tönnis Grade 0</strong> — zero OA progression</li>
+        </ul>
+        <p>This case exemplifies how appropriately timed, volume-reducing pelvic osteotomy in childhood permanently eradicates the morbidity of residual DDH, entirely avoiding the necessity for a Bernese PAO in adolescence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: Conclusion -->
+<section class="content-section" id="conclusion">
+  <h2>6. Conclusion</h2>
+  <p>The modern management of Residual DDH represents a triumph of structured, evidence-based orthopedic surgery, provided all interventions are strictly guided by objective morphological measurements and rigorous radiographic thresholds.</p>
+
+  <p>An <strong>AI &gt;25° or LCEA &lt;10°</strong> approaching age 5 represents an absolute biological failure of natural remodeling — further observation in these scenarios guarantees rapid subluxation and catastrophic secondary osteoarthritis.</p>
+
+  <p>Surgical correction must be tailored to the precise 3D geometric deficiency and skeletal maturity:</p>
+  <ul>
+    <li><strong>Redirectional (Salter):</strong> Volume-neutral, anterolateral coverage for younger children with mobile symphyses</li>
+    <li><strong>Reshaping (Pemberton/Dega):</strong> Robust, stable correction for capacious acetabula with statistically superior long-term Severin grading</li>
+    <li><strong>PAO (Bernese):</strong> Gold standard for fused triradiate cartilage with &gt;91% 10-year survivorship</li>
+    <li><strong>VDRO:</strong> Mandatory adjunct when femoral geometry or soft-tissue tension threatens concentric reduction stability</li>
+  </ul>
+
+  <p>Strict, uncompromising adherence to these EBM guidelines ensures reliable, lifelong restoration of normal hip biomechanics, effectively circumventing early-onset osteoarthritis and preserving the native joint for the patient's lifespan.</p>
+
+  <div class="limitation-box">
+    <strong>📋 Source Limitations Acknowledged:</strong>
+    This educational summary is derived exclusively from the provided source document. Evidence levels are annotated as stated or inferred from study design descriptions within the source. Where specific numerical data was absent from the document, annotations indicate "[Data not available in source]". No data has been invented or extrapolated beyond the source material.
+  </div>
+</section>
+
+<!-- References -->
+<section class="content-section references" id="references">
+  <h2>7. References (Derived from Source Document)</h2>
+  <ol>
+    <li>Impact of age and timing of hip orthosis on treatment outcomes in infants with DDH: A systematic review and meta-analysis. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11919298/" target="_blank" rel="noopener">PMC11919298</a></li>
+    <li>Developmental Dysplasia of the Hip: Controversies in Management. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9276911/" target="_blank" rel="noopener">PMC9276911</a></li>
+    <li>Effect of Innominate and Femoral Varus Derotation Osteotomy on Acetabular Development in DDH. <a href="https://www.researchgate.net/publication/38062514" target="_blank" rel="noopener">ResearchGate</a></li>
+    <li>Residual Acetabular Dysplasia in Young Children: Diagnosis and Management. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12936287/" target="_blank" rel="noopener">PMC12936287</a></li>
+    <li>Residual Acetabular Dysplasia in the Reduced Hip. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8688620/" target="_blank" rel="noopener">PMC8688620</a></li>
+    <li>Developmental dysplasia of the hip: update of management. <a href="https://eor.bioscientifica.com/view/journals/eor/4/9/2058-5241.4.180019.xml" target="_blank" rel="noopener">EFORT Open Reviews</a></li>
+    <li>Risk factors for residual acetabular dysplasia after closed reduction. <a href="https://www.frontiersin.org/journals/pediatrics/articles/10.3389/fped.2025.1694332/full" target="_blank" rel="noopener">Frontiers</a></li>
+    <li>World Journal of Orthopedics — Cited Articles. <a href="https://www.wjgnet.com/2218-5836/CitedArticles?id=10.5312/wjo.v6.i11.886" target="_blank" rel="noopener">WJG</a></li>
+    <li>Developmental Dysplasia of the Hip (DDH) — Orthobullets. <a href="https://www.orthobullets.com/pediatrics/4118/developmental-dysplasia-of-the-hip-ddh" target="_blank" rel="noopener">Orthobullets</a></li>
+    <li>DDH: Etiology, Diagnosis, and Management. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10488138/" target="_blank" rel="noopener">PMC10488138</a></li>
+    <li>Cartilaginous predictors of residual acetabular dysplasia: systematic review and meta-analysis. <a href="https://www.frontiersin.org/journals/pediatrics/articles/10.3389/fped.2023.1124123/full" target="_blank" rel="noopener">Frontiers</a></li>
+    <li>Long-term outcome of closed reduction in late-detected hip dislocation. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6090184/" target="_blank" rel="noopener">PMC6090184</a></li>
+    <li>The Bernese periacetabular osteotomy: 7–15-year follow-up. <a href="https://actaorthop.org/actao/article/view/19423" target="_blank" rel="noopener">Acta Orthopaedica</a></li>
+    <li>Complications associated with the Bernese PAO in adolescents. <a href="https://pubmed.ncbi.nlm.nih.gov/20660233/" target="_blank" rel="noopener">PubMed</a></li>
+    <li>Pelvic osteotomies in hip dysplasia: why, when and how? <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8897565/" target="_blank" rel="noopener">PMC8897565</a></li>
+    <li>Comparison of Acetabular Morphology Changes After Pediatric Pelvic Osteotomies. <a href="https://jposna.org/index.php/jposna/article/view/452/483" target="_blank" rel="noopener">JPOSNA</a></li>
+    <li>Mid- and long-term outcome of Salter's, Pemberton's and Dega's osteotomy: meta-analysis. <a href="https://pubmed.ncbi.nlm.nih.gov/32678678/" target="_blank" rel="noopener">PubMed</a></li>
+    <li>Outcome of Salter Osteotomy in DDH Patients Case Series. <a href="https://www.researchgate.net/publication/395722210" target="_blank" rel="noopener">ResearchGate</a></li>
+  </ol>
+</section>
+
+</main>
+
+<!-- ============ SIDEBAR ============ -->
+<aside role="complementary" aria-label="Interactive clinical decision support">
+  <div class="sidebar-sticky">
+
+    <!-- Parameter Sliders -->
+    <div class="card" id="param-card">
+      <div class="card-title">🔬 Interactive Clinical Parameters</div>
+
+      <div class="slider-group">
+        <label>
+          Acetabular Index (AI)
+          <span class="val" id="ai-val">28°</span>
+        </label>
+        <input type="range" id="ai-slider" min="5" max="45" value="28" step="1" aria-label="Acetabular Index in degrees">
+        <div class="range-labels"><span>5°</span><span>25° (threshold)</span><span>45°</span></div>
+      </div>
+
+      <div class="slider-group">
+        <label>
+          LCEA (Wiberg)
+          <span class="val" id="lcea-val">12°</span>
+        </label>
+        <input type="range" id="lcea-slider" min="-5" max="45" value="12" step="1" aria-label="Lateral Center-Edge Angle in degrees">
+        <div class="range-labels"><span>-5°</span><span>10° (threshold)</span><span>45°</span></div>
+      </div>
+
+      <div class="slider-group">
+        <label>
+          Patient Age
+          <span class="val" id="age-val">5 yr</span>
+        </label>
+        <input type="range" id="age-slider" min="0" max="18" value="5" step="0.5" aria-label="Patient age in years">
+        <div class="range-labels"><span>0 yr</span><span>4–5 yr (critical)</span><span>18 yr</span></div>
+      </div>
+    </div>
+
+    <!-- Recommendation Output -->
+    <div class="card">
+      <div class="card-title">📋 Real-Time Clinical Recommendation</div>
+      <div class="recommendation-box" id="rec-box" aria-live="polite" aria-atomic="true">
+        <p id="rec-content">Adjust the sliders above to generate an evidence-based recommendation.</p>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters to defaults">↺ Reset</button>
+      <button class="btn btn-copy" id="btn-copy" aria-label="Copy current assessment to clipboard">📋 Copy</button>
+    </div>
+
+    <!-- Key Thresholds Reference -->
+    <div class="card">
+      <div class="card-title">📌 Quick Reference Thresholds</div>
+      <ul style="font-size:.8rem; margin-left:1rem;">
+        <li><strong>AI &gt;25°–30°</strong> at age 4–5 → Osteotomy indicated</li>
+        <li><strong>CAI &gt;18°</strong> at age 2 → Poor prognosis</li>
+        <li><strong>LCEA &lt;8°–10°</strong> at age 4–5 → Surgery mandatory</li>
+        <li><strong>Shenton's broken</strong> → Absolute surgical indication</li>
+        <li><strong>Triradiate open</strong> → Pemberton/Dega/Salter eligible</li>
+        <li><strong>Triradiate closed</strong> → PAO required</li>
+        <li><strong>Tönnis ≥2</strong> → PAO survivorship drops significantly</li>
+      </ul>
+      <p style="font-size:.72rem; color:var(--gray-600); margin-top:.5rem;">Thresholds derived from source document.</p>
+    </div>
+
+  </div>
+</aside>
+
+</div>
+
+<!-- ============ JAVASCRIPT ============ -->
+<script>
+(function() {
+  'use strict';
+
+  // Elements
+  const aiSlider   = document.getElementById('ai-slider');
+  const lceaSlider = document.getElementById('lcea-slider');
+  const ageSlider  = document.getElementById('age-slider');
+  const aiVal      = document.getElementById('ai-val');
+  const lceaVal    = document.getElementById('lcea-val');
+  const ageVal     = document.getElementById('age-val');
+  const recBox     = document.getElementById('rec-box');
+  const recContent = document.getElementById('rec-content');
+  const btnReset   = document.getElementById('btn-reset');
+  const btnCopy    = document.getElementById('btn-copy');
+
+  function getRecommendation(ai, lcea, age) {
+    let severity = '';
+    let severityClass = '';
+    let title = '';
+    let lines = [];
+    let rationale = [];
+    let procedures = [];
+
+    // Determine triradiate status
+    const triradiateOpen = age <= 8; // approximate from source
+    const triradiateStatus = triradiateOpen ? 'open' : 'closed';
+
+    // Assess severity
+    const aiAbnormal = ai > 25;
+    const lceaAbnormal = lcea < 10;
+    const ageCritical = age >= 4;
+
+    if (!aiAbnormal && !lceaAbnormal) {
+      severity = 'Normal / Low Risk';
+      severityClass = 'green';
+      title = 'Observation Appropriate';
+      lines.push('Both AI and LCEA are within age-appropriate normal ranges.');
+      lines.push('Serial radiographic surveillance recommended at 6–12 month intervals until skeletal maturity.');
+      if (age < 2) {
+        lines.push('Spontaneous remodeling potential remains high in this age group.');
+      }
+      rationale.push('AI <25° and LCEA >10° indicate adequate acetabular coverage.');
+    } else if (aiAbnormal && lceaAbnormal && ageCritical) {
+      severity = 'High Risk — Surgery Indicated';
+      severityClass = 'red';
+      title = 'Surgical Intervention Required';
+
+      if (triradiateOpen) {
+        lines.push('AI >25°–30° and LCEA <8°–10° at age ≥4 with open triradiate cartilage → biological remodeling capacity exhausted.');
+        lines.push('Pelvic osteotomy is mandatory to restore biomechanical joint stability.');
+
+        if (ai > 35) {
+          procedures.push('<strong>Preferred: Pemberton or Dega osteotomy</strong> — volume-reducing reshaping for capacious, severely dysplastic acetabula (Level II evidence).');
+          procedures.push('Pemberton ↓ volume ~14%; Dega ↓ volume ~19% — both provide robust anterolateral coverage with inherent stability.');
+        } else {
+          procedures.push('<strong>Salter Innominate Osteotomy (SIO)</strong> — redirectional procedure for mild-to-moderate dysplasia (Level III evidence).');
+          procedures.push('<em>Alternative:</em> Pemberton if acetabular volume reduction is desired.');
+        }
+        procedures.push('Assess need for adjunctive <strong>VDRO</strong> if severe coxa valga, anteversion >50°, or soft tissue tension risks AVN.');
+      } else {
+        lines.push('AI >25°–30° and LCEA <8°–10° at age ≥4 with CLOSED triradiate cartilage.');
+        lines.push('Pediatric reshaping osteotomies (Pemberton/Dega) are no longer feasible.');
+        procedures.push('<strong>Bernese Periacetabular Osteotomy (PAO)</strong> — gold standard for closed triradiate (Level III evidence).');
+        procedures.push('10-year survivorship: 91.3% when performed at Tönnis Grade 0–1.');
+        procedures.push('⚠ PAO efficacy drops sharply at Tönnis Grade ≥2; 18-year survivorship only 54% at Grade 3–4.');
+      }
+
+      rationale.push('AI >25°–30° at age ≥4 = absolute failure of natural remodeling (Level III).');
+      rationale.push('LCEA <8°–10° = severe structural instability, virtually no spontaneous normalization capacity (Level III).');
+
+    } else if ((aiAbnormal || lceaAbnormal) && age >= 3) {
+      severity = 'Moderate Risk — Close Surveillance / Consider Surgery';
+      severityClass = 'orange';
+      title = 'Intensive Monitoring Warranted';
+
+      if (aiAbnormal && !lceaAbnormal) {
+        lines.push('AI elevated (>25°) but LCEA remains >10° — partial remodeling failure.');
+        lines.push('Consider MRI for cartilaginous assessment (CAI): if CAI >18° at age 2 or >10° at age 5, surgical threshold is met.');
+      } else if (!aiAbnormal && lceaAbnormal) {
+        lines.push('LCEA <10° indicating deficient lateral coverage despite acceptable AI.');
+        lines.push('Verify Shenton\'s line integrity — if broken, surgery is indicated regardless of AI.');
+      }
+
+      if (age >= 4) {
+        lines.push('At age ≥4, the window for spontaneous remodeling is closing rapidly.');
+        procedures.push('If thresholds worsen on follow-up, proceed to osteotomy based on triradiate status.');
+      }
+
+      rationale.push('Borderline parameters in the critical age window require heightened vigilance.');
+
+    } else {
+      severity = 'Mild — Serial Follow-Up';
+      severityClass = 'green';
+      title = 'Observation with Monitoring';
+      lines.push('Parameters show mild deviation from normal in a young patient.');
+      lines.push('High potential for spontaneous remodeling with concentric reduction.');
+      lines.push('Continue serial radiographs every 4–6 months until age 4, then reassess.');
+      rationale.push('Young age with mild dysplasia carries favorable prognosis for natural correction.');
+    }
+
+    // Build HTML
+    let html = '<span class="rec-severity ' + severityClass + '">' + severity + '</span>';
+    html += '<p><strong>' + title + '</strong></p>';
+    lines.forEach(function(l) { html += '<p>' + l + '</p>'; });
+    if (procedures.length) {
+      html += '<p style="margin-top:.5rem"><strong>Procedural Recommendation:</strong></p>';
+      procedures.forEach(function(p) { html += '<p>→ ' + p + '</p>'; });
+    }
+    if (rationale.length) {
+      html += '<p style="margin-top:.5rem;font-size:.78rem;color:var(--gray-600)"><strong>EBM Rationale:</strong> ';
+      html += rationale.join(' ');
+      html += '</p>';
+    }
+
+    return { html: html, severity: severity, title: title, lines: lines, procedures: procedures, rationale: rationale, triradiate: triradiateStatus };
+  }
+
+  function update() {
+    const ai   = parseFloat(aiSlider.value);
+    const lcea = parseFloat(lceaSlider.value);
+    const age  = parseFloat(ageSlider.value);
+
+    aiVal.textContent   = ai + '°';
+    lceaVal.textContent = lcea + '°';
+    ageVal.textContent  = age + ' yr';
+
+    // Color code values
+    aiVal.style.color   = ai > 25 ? 'var(--accent)' : 'var(--green)';
+    lceaVal.style.color = lcea < 10 ? 'var(--accent)' : 'var(--green)';
+
+    const rec = getRecommendation(ai, lcea, age);
+    recContent.innerHTML = rec.html;
+  }
+
+  // Event listeners
+  aiSlider.addEventListener('input', update);
+  lceaSlider.addEventListener('input', update);
+  ageSlider.addEventListener('input', update);
+
+  // Reset
+  btnReset.addEventListener('click', function() {
+    aiSlider.value   = 28;
+    lceaSlider.value = 12;
+    ageSlider.value  = 5;
+    update();
+    btnCopy.textContent = '📋 Copy';
+    btnCopy.classList.remove('copied');
+  });
+
+  // Copy/Export
+  btnCopy.addEventListener('click', function() {
+    const ai   = parseFloat(aiSlider.value);
+    const lcea = parseFloat(lceaSlider.value);
+    const age  = parseFloat(ageSlider.value);
+    const rec  = getRecommendation(ai, lcea, age);
+
+    const now = new Date();
+    const timestamp = now.toISOString().replace('T', ' ').split('.')[0];
+
+    let text = '=== RESIDUAL DDH CLINICAL ASSESSMENT ===\n';
+    text += 'Timestamp: ' + timestamp + '\n\n';
+    text += '--- Parameters ---\n';
+    text += 'Acetabular Index (AI): ' + ai + '°\n';
+    text += 'LCEA (Wiberg): ' + lcea + '°\n';
+    text += 'Patient Age: ' + age + ' years\n';
+    text += 'Triradiate Status: ' + rec.triradiate + '\n\n';
+    text += '--- Assessment ---\n';
+    text += 'Severity: ' + rec.severity + '\n';
+    text += 'Recommendation: ' + rec.title + '\n\n';
+    rec.lines.forEach(function(l) { text += '• ' + l + '\n'; });
+    if (rec.procedures.length) {
+      text += '\nProcedural Guidance:\n';
+      rec.procedures.forEach(function(p) {
+        // Strip HTML tags
+        text += '→ ' + p.replace(/<[^>]*>/g, '') + '\n';
+      });
+    }
+    text += '\nEBM Rationale: ' + rec.rationale.join(' ') + '\n';
+    text += '\n--- Source ---\n';
+    text += 'Derived from: "Residual DDH: Comprehensive EBM Review"\n';
+    text += 'Evidence levels as annotated in source document.\n';
+
+    navigator.clipboard.writeText(text).then(function() {
+      btnCopy.textContent = '✓ Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(function() {
+        btnCopy.textContent = '📋 Copy';
+        btnCopy.classList.remove('copied');
+      }, 2500);
+    }).catch(function() {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btnCopy.textContent = '✓ Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(function() {
+        btnCopy.textContent = '📋 Copy';
+        btnCopy.classList.remove('copied');
+      }, 2500);
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

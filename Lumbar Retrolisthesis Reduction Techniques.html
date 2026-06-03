@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide: Open Reduction of Degenerative Lumbar Retrolisthesis</title>
+    <style>
+        :root {
+            --primary: #005f73;
+            --primary-light: #e8f4f8;
+            --accent: #0a9396;
+            --accent-light: #94d2bd;
+            --dark: #001219;
+            --gray: #4a4a4a;
+            --light-gray: #f4f4f4;
+            --white: #ffffff;
+            --badge-rct: #2a9d8f;
+            --badge-prospective: #e9c46a;
+            --badge-case: #f4a261;
+            --badge-review: #e76f51;
+            --border-radius: 8px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background-color: var(--white);
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        main {
+            min-width: 0;
+        }
+        aside {
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        h1, h2, h3, h4 {
+            color: var(--primary);
+            margin-bottom: 0.5em;
+        }
+        h1 { font-size: 2rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; }
+        h2 { font-size: 1.5rem; margin-top: 2rem; border-left: 4px solid var(--accent); padding-left: 0.75rem; }
+        h3 { font-size: 1.2rem; color: var(--accent); }
+        p { margin-bottom: 1rem; }
+        strong { color: var(--primary); }
+        .content-section { margin-bottom: 2rem; }
+        .evidence-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--white);
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .level-I { background-color: var(--badge-rct); }
+        .level-II { background-color: var(--badge-prospective); color: var(--dark); }
+        .level-III { background-color: var(--badge-case); }
+        .level-V { background-color: var(--badge-review); }
+        .level-N/A { background-color: var(--gray); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        table caption {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            color: var(--primary);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background-color: var(--primary);
+            color: var(--white);
+            font-weight: 600;
+        }
+        tr:nth-child(even) { background-color: var(--light-gray); }
+        .callout {
+            background: var(--primary-light);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        .callout p { margin-bottom: 0; }
+        .slider-group {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed #ccc;
+        }
+        .slider-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        .slider-group input[type="range"] {
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+        .slider-value {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        #recommendation-box {
+            background: var(--light-gray);
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            min-height: 120px;
+        }
+        #recommendation-box h4 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        .btn-primary:hover { background-color: var(--accent); }
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        .btn-secondary:hover { background-color: var(--primary-light); }
+        .limitation-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            aside {
+                position: static;
+                height: auto;
+                order: -1;
+            }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.2rem; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 8px 10px; }
+        }
+        .reference-list { font-size: 0.9rem; }
+        .reference-list li { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main>
+            <h1>Comprehensive Intraoperative Mechanics and Surgical Nuances in the Open Reduction of Degenerative Lumbar Retrolisthesis</h1>
+            <section class="content-section">
+                <h2>Introduction to Degenerative Lumbar Retrolisthesis</h2>
+                <p>Degenerative lumbar retrolisthesis is characterized by the posterior (dorsal) displacement of a cranial vertebral body relative to its caudal counterpart. It is a significant source of axial back pain, radiculopathy, and global sagittal malalignment. The pathology arises from advanced intervertebral disc degeneration, loss of segmental height, and altered facet joint kinematics <span class="evidence-badge level-V">Review</span><sup>[1,2,4]</sup>.</p>
+                <p>Unlike anterolisthesis, retrolisthesis is often a compensatory mechanism for severe ventral disc collapse. This collapse leads to laxity of anterior column ligaments and overriding of posterior elements, inducing severe foraminal stenosis as the superior articular process of the inferior vertebra impinges the exiting nerve root <span class="evidence-badge level-V">Review</span><sup>[4,5]</sup>.</p>
+                <p>Surgical management requires meticulous preoperative planning and precise execution. Open anatomical reduction restores neuroforaminal volume, optimizes the biomechanical milieu for arthrodesis, and restores global sagittal balance <span class="evidence-badge level-III">Case Series</span><sup>[9]</sup>. This demands a nuanced understanding of soft tissue release, pedicle screw integrity, rod contouring, and push-down/pull-up cantilever forces <span class="evidence-badge level-III">Case Series</span><sup>[10]</sup>.</p>
+            </section>
+            <section class="content-section">
+                <h2>The Biomechanics of Sagittal Balance and Spinopelvic Parameters</h2>
+                <p>The human spine maintains an energy-efficient upright posture through a delicate equilibrium of regional curvatures, governed by the "cone of economy." Retrolisthesis disrupts this by inducing a localized kyphotic deformity or severe segmental hypolordosis <span class="evidence-badge level-V">Review</span><sup>[4,13]</sup>.</p>
+                <h3>Defining the Spinopelvic Relationship</h3>
+                <p>The fundamental relationship is: <strong>Pelvic Incidence (PI) = Pelvic Tilt (PT) + Sacral Slope (SS)</strong>. PI is a fixed morphological parameter that dictates the required magnitude of Lumbar Lordosis (LL). Ideally, the physiological LL should be within 9-10 degrees of the PI <span class="evidence-badge level-V">Review</span><sup>[13,14]</sup>.</p>
+                <p>Retrolisthesis causes segmental hypolordosis, shifting the Sagittal Vertical Axis (SVA) anteriorly, creating positive sagittal imbalance <span class="evidence-badge level-V">Review</span><sup>[15]</sup>.</p>
+                <div class="callout">
+                    <p><strong>Clinical Consequence:</strong> Performing an in-situ fusion without correction locks the segment in a hypolordotic state, guaranteeing permanent compensatory mechanisms (increased PT), leading to flatback syndrome, intractable pain, and accelerated adjacent segment degeneration <span class="evidence-badge level-V">Review</span><sup>[13,20]</sup>.</p>
+                </div>
+                <table>
+                    <caption>Table 1: Impact of Retrolisthesis on Key Spinopelvic Parameters</caption>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Definition</th>
+                            <th>Impact of Retrolisthesis</th>
+                            <th>Compensatory Response</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pelvic Incidence (PI)</strong></td>
+                            <td>Angle between perpendicular to sacral endplate and line to femoral heads.</td>
+                            <td>None (Fixed).</td>
+                            <td>Dictates required LL magnitude.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pelvic Tilt (PT)</strong></td>
+                            <td>Angle between vertical axis and line to femoral heads.</td>
+                            <td>Pathologically increased.</td>
+                            <td>Pelvic retroversion to restore SVA.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sacral Slope (SS)</strong></td>
+                            <td>Angle of sacral endplate relative to horizontal.</td>
+                            <td>Pathologically decreased.</td>
+                            <td>Flattens to accommodate retroversion.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lumbar Lordosis (LL)</strong></td>
+                            <td>Cobb angle L1 to S1 superior endplates.</td>
+                            <td>Segmental and global reduction.</td>
+                            <td>Triggers thoracic hypokyphosis.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sagittal Vertical Axis (SVA)</strong></td>
+                            <td>Horizontal distance C7 plumb line to S1.</td>
+                            <td>Shifts anteriorly (positive SVA).</td>
+                            <td>Increases muscular energy expenditure.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Evidence shows patients with sagittal imbalance can have up to 45 degrees less LL than asymptomatic controls, corresponding to a 16.3 cm positive SVA shift despite maximum compensation <span class="evidence-badge level-II">Prospective Cohort</span><sup>[19]</sup>.</p>
+            </section>
+            <section class="content-section">
+                <h2>Preoperative Evaluation and Diagnostic Imaging</h2>
+                <p>Successful reduction relies on exhaustive preoperative evaluation. Standing, weight-bearing radiographs are mandatory for calculating PI-LL mismatch. Flexion/extension views identify dynamic instability <span class="evidence-badge level-V">Review</span><sup>[22]</sup>.</p>
+                <p><strong>MRI</strong> is required to evaluate central canal, lateral recess, and foraminal stenosis. It is crucial for assessing the spatial conflict between the superior articular process and exiting nerve root, and for vascular anatomy (aorta/IVC bifurcation at ~L4) if anterior approaches are planned <span class="evidence-badge level-V">Review</span><sup>[11,23]</sup>.</p>
+                <p><strong>CT</strong> provides the highest resolution of osseous anatomy, evaluating pars density, facet hypertrophy/auto-fusion, and pedicle morphological integrity, which dictates pedicle screw feasibility <span class="evidence-badge level-V">Review</span><sup>[20]</sup>.</p>
+            </section>
+            <section class="content-section">
+                <h2>The Prerequisite: Complete Soft Tissue and Bony Release</h2>
+                <p>A fundamental axiom: a segment cannot be safely reduced if tethered by contracted, fibrotic, or ossified tissues. Attempting reduction on a rigid, unreleased segment risks pedicle fracture, screw pullout, or thread stripping <span class="evidence-badge level-V">Review</span><sup>[12]</sup>. Meticulous release is the critical first step <span class="evidence-badge level-III">Case Series</span><sup>[9]</sup>.</p>
+                <h3>Posterior Column and Neural Decompression</h3>
+                <p>This begins with a wide laminectomy and bilateral facetectomies. This serves dual purposes: 1) direct decompression of neural elements, and 2) destroying the rigid posterior tether that restricts anterior-posterior translation <span class="evidence-badge level-V">Review</span><sup>[8,9]</sup>.</p>
+                <p>Myofascial release (thoracodorsal fascia) is essential to allow optimal medialization of pedicle screw trajectories <span class="evidence-badge level-V">Review</span><sup>[26]</sup>.</p>
+                <h3>Anterior Column Release: The Radical Discectomy</h3>
+                <p>Accessing the disc via PLIF/TLIF allows a near-total discectomy. This acts as the ultimate mobilization maneuver, transforming the segment into a highly mobile void. A fully released segment allows safe insertion of a structural interbody spacer, which acts as a fulcrum for reduction <span class="evidence-badge level-III">Case Series</span><sup>[9,10]</sup>.</p>
+                <table>
+                    <caption>Table 2: Required Soft Tissue and Bony Release for Retrolisthesis Reduction</caption>
+                    <thead>
+                        <tr>
+                            <th>Anatomical Structure</th>
+                            <th>Required Release Maneuver</th>
+                            <th>Biomechanical Objective</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ligamentum Flavum</strong></td>
+                            <td>Complete excision / flavectomy</td>
+                            <td>Un-tethers posterior elements; enables neural visualization.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facet Joints</strong></td>
+                            <td>Bilateral partial or total facetectomy</td>
+                            <td>Destroys bony interlock preventing translation; decompresses lateral recess.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thoracodorsal Fascia</strong></td>
+                            <td>Myofascial dissection and retraction</td>
+                            <td>Allows optimal medialization of pedicle screw trajectories.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nucleus Pulposus</strong></td>
+                            <td>Radical discectomy</td>
+                            <td>Eliminates central pivot point; creates void for interbody spacer fulcrum.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contralateral Annulus</strong></td>
+                            <td>Internal surgical release via TLIF/PLIF</td>
+                            <td>Severs final anterior column tether; enables free vertebral translation.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="content-section">
+                <h2>Pedicle Screw Anchor Optimization</h2>
+                <p>Reduction success relies entirely on the integrity of pedicle screw anchors. High-magnitude forces demand a flawless bone-screw interface <span class="evidence-badge level-V">Review</span><sup>[28]</sup>.</p>
+                <p>The standard entry point is the confluence of the pars, mamillary process, and superior articular facet. The trajectory must be parallel to the superior endplate, aiming for the anterior third of the vertebral body <span class="evidence-badge level-V">Review</span><sup>[29]</sup>.</p>
+                <p><strong>Screw Selection:</strong> Monoaxial screws offer rigid translation but are difficult to seat. Polyaxial screws with reduction towers are commonly used. In severe osteopenia, the <strong>Cortical Bone Trajectory (CBT)</strong> maximizes thread contact with dense cortical bone, dramatically increasing pull-out strength for aggressive reduction maneuvers <span class="evidence-badge level-V">Review</span><sup>[11,12,31]</sup>.</p>
+            </section>
+            <section class="content-section">
+                <h2>Step-by-Step Mechanics of Open Reduction</h2>
+                <p>Reducing retrolisthesis involves translating the cranial vertebra anteriorly (ventrally) and restoring segmental lordosis. This is the biomechanical inverse of anterolisthesis reduction <span class="evidence-badge level-III">Case Series</span><sup>[10]</sup>.</p>
+                <div class="callout">
+                    <p><strong>Directional Imperative:</strong><br>1. The <strong>cranial vertebra</strong> (retro-displaced) must be forced <strong>anteriorly/ventrally</strong>. In prone position, this requires <strong>pushing its pedicle screws down</strong>.<br>2. The <strong>caudal vertebra</strong> (stable) must be <strong>pulled up</strong> to re-establish alignment <span class="evidence-badge level-III">Case Series</span><sup>[10]</sup>.</p>
+                </div>
+                <table>
+                    <caption>Table 3: Reduction Techniques and Their Biomechanical Vectors</caption>
+                    <thead>
+                        <tr>
+                            <th>Reduction Technique</th>
+                            <th>Primary Mechanical Principle</th>
+                            <th>Biomechanical Vector for Retrolisthesis</th>
+                            <th>Clinical Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cantilever Maneuver</strong></td>
+                            <td>Lever-arm physics using rod rigidity.</td>
+                            <td>Locks caudal screw; levers cranial screw ventrally (Push-down).</td>
+                            <td>Effective for restoring severe angular lordosis.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Threaded Reduction Towers</strong></td>
+                            <td>Mechanical advantage via threaded shafts.</td>
+                            <td>Forces rod into deep cranial tulip, pushing vertebra anteriorly.</td>
+                            <td>Allows gradual, controlled, millimeter-by-millimeter translation.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Extended Tab Screws</strong></td>
+                            <td>Built-in break-away extensions.</td>
+                            <td>Set screw driven down tabs, drawing rod and screw together.</td>
+                            <td>Reduces hardware bulk compared to towers.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>T-Shaped Lever Tools</strong></td>
+                            <td>Manual pivoting on screw tulips.</td>
+                            <td>Pushes cranial screws down, pulls caudal screws up.</td>
+                            <td>Rapid, tactile feedback for immediate gross reduction.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Study Highlight:</strong> A specialized T-shaped lever reduction technique demonstrated a remarkable correction from an average preoperative slip of 36.9% to 1.2% postoperatively, representing a 96.7% correction rate <span class="evidence-badge level-III">Case Series</span><sup>[10]</sup>.</p>
+                <p><strong>Evidence Gap Note:</strong> The source document does not provide data from multiple large randomized controlled trials (RCTs) specifically comparing these reduction techniques for retrolisthesis. The cited study is a case series/report.</p>
+            </section>
+            <section class="content-section">
+                <h2>Evidence-Based Rod Contouring Methodology</h2>
+                <p>Poor rod contouring can introduce iatrogenic deformity, hardware failure, or neurological compromise <span class="evidence-badge level-V">Review</span><sup>[24]</sup>.</p>
+                <div class="limitation-note">
+                    <p><strong>Data Limitation:</strong> The source document provides specific data on rod contouring accuracy from one biomechanical study. It does not contain data from five or more landmark RCTs on this specific topic.</p>
+                </div>
+                <p>A controlled study found surgeons manually overbent rods by an average of 18.9 degrees. Overbending (excessive lordosis) can narrow neuroforamina and increase screw pullout risk. Underbending fails to correct SVA, guaranteeing flatback syndrome <span class="evidence-badge level-I">Biomechanical Study</span><sup>[38]</sup>.</p>
+                <p><strong>Solution:</strong> The use of intraoperative templates reduces contouring error from 18.9 degrees to 0.2 degrees <span class="evidence-badge level-I">Biomechanical Study</span><sup>[38]</sup>.</p>
+                <div class="callout">
+                    <p><strong>Critical Nuance at L5-S1:</strong> If the rod is contoured too flat relative to the screw tulips, tightening the set screws acts as a reverse-cantilever, iatrogenically inducing or worsening L5-S1 retrolisthesis. This crushes the exiting L5 nerve root, resulting in severe radiculopathy or foot drop <span class="evidence-badge level-V">Review</span><sup>[24]</sup>.</p>
+                </div>
+            </section>
+            <section class="content-section">
+                <h2>The Sequence of Locking and Construct Assembly</h2>
+                <p>The sequence of set screw tightening must be orchestrated to prevent iatrogenic injury and maintain alignment:</p>
+                <ol>
+                    <li><strong>Rod Seating:</strong> Place the contoured rod into tulip heads.</li>
+                    <li><strong>Provisional Tightening:</strong> Insert screws until the gold band contacts threads. <strong>Do not final torque yet.</strong></li>
+                    <li><strong>Alternating Reduction:</strong> Methodically alternate between left/right and cranial/caudal levels to prevent coronal tilt and asymmetrical stress.</li>
+                    <li><strong>Compression and Distraction:</strong> Apply mild posterior compression over an interbody cage to lock the cage in place and induce further lordosis.</li>
+                    <li><strong>Final Torque:</strong> Use a counter-torque device to isolate rotational force to the set screw, preventing pedicle fracture. Snap off the set screw heads <span class="evidence-badge level-V">Review</span><sup>[9,10,34]</sup>.</li>
+                </ol>
+            </section>
+            <section class="content-section">
+                <h2>Postoperative Outcomes and Clinical Considerations</h2>
+                <p>Successful reduction yields transformative outcomes. Normalization of SVA and PT correlates with enhanced HRQoL, precipitous drops in VAS pain scores, and profound improvements in ODI <span class="evidence-badge level-V">Review</span><sup>[16,41]</sup>.</p>
+                <div class="callout">
+                    <p><strong>Mandatory Intraoperative Safety:</strong> Reduction rapidly alters neural spatial relationships. Continuous intraoperative neuromonitoring (IONM: SSEPs, sEMG, tcMEPs) is completely mandatory to detect subclinical nerve stretch or compression instantaneously, allowing for immediate cessation of maneuvers <span class="evidence-badge level-V">Review</span><sup>[43]</sup>.</p>
+                </div>
+                <p>Ultimately, the surgical treatment represents an intricate exercise in applied biomechanics. When executed correctly, these maneuvers permanently arrest the degenerative cascade, restoring spinal harmony and patient function.</p>
+            </section>
+            <section class="content-section">
+                <h2>References (Derived from Source Document)</h2>
+                <ol class="reference-list">
+                    <li>Lumbar Retrolisthesis | We Treat mild to severe Spine Conditions [Internet]. Scoliosis Research Institute; [cited 2026 Mar 28]. Available from: https://scoliosisinstitute.com/lumbar-retrolisthesis/</li>
+                    <li>Retrolisthesis as a Compensatory Mechanism in Degenerative Lumbar Spine - PMC - NIH [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC4373046/</li>
+                    <li>Degenerative Spondylolisthesis and Retrolisthesis - relationship with whole body radiographic parameters - AO Foundation [Internet]. AO Foundation; [cited 2026 Mar 28]. Available from: https://www.aofoundation.org/spine/about-aospine/blog/2024_05-blog-risk-factors-of-degenerative-spondylolisthesis</li>
+                    <li>(PDF) Retrolisthesis: An update - ResearchGate [Internet]. ResearchGate; [cited 2026 Mar 28]. Available from: https://www.researchgate.net/publication/276509513_Retrolisthesis_An_update</li>
+                    <li>Management of Lumbar Disc Prolapse Associated with Retrolisthesis [Internet]. EMRO WHO; [cited 2026 Mar 28]. Available from: https://applications.emro.who.int/imemrf/Egypt_J_Hosp_Med/Egypt_J_Hosp_Med_2019_76_3_3647_3652.pdf</li>
+                    <li>Mechanisms of retrolisthesis in the lower lumbar spine. A radiographic study [Internet]. ResearchGate; [cited 2026 Mar 28]. Available from: https://www.researchgate.net/publication/12639366_Mechanisms_of_retrolisthesis_in_the_lower_lumbar_spine_A_radiographic_study</li>
+                    <li>Retrolisthesis Exercises for Stronger Core [Internet]. YouTube; [cited 2026 Mar 28]. Available from: https://www.youtube.com/watch?v=HCxYbkd3Jhw</li>
+                    <li>Surgical Tips to Preserve the Facet Joint during Microdiscectomy - PMC - NIH [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC3841285/</li>
+                    <li>Reduction of Spondylolisthesis with Pedicle Screw Fixation and Transforaminal Lumbar Interbody Fusion [Internet]. Thieme Connect; [cited 2026 Mar 28]. Available from: https://www.thieme-connect.de/products/ebooks/pdf/10.1055/b-0034-48878.pdf</li>
+                    <li>A New Technique for Lumbar Spondylolisthesis Reduction Using T-Shaped Tools - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC10622828/</li>
+                    <li>Degenerative Spondylolisthesis - Spine - Orthobullets [Internet]. Orthobullets; [cited 2026 Mar 28]. Available from: https://www.orthobullets.com/spine/2039/degenerative-spondylolisthesis</li>
+                    <li>Fixation Strategies and Rod Reduction Strategies for Sagittal Plane Deformities [Internet]. NeuroPsyKey; [cited 2026 Mar 28]. Available from: https://neupsykey.com/fixation-strategies-and-rod-reduction-strategies-for-sagittal-plane-deformities/</li>
+                    <li>Sagittal Alignment in the Degenerative Lumbar Spine: Surgical Planning - PMC - NIH [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC10906213/</li>
+                    <li>Criteria to restore the sagittal balance in deformity and degenerative spondylolisthesis [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC3325388/</li>
+                    <li>(PDF) The Importance of Restoring the Sagittal Balance in Small and Large Stabilization Procedures of the Spine - ResearchGate [Internet]. ResearchGate; [cited 2026 Mar 28]. Available from: https://www.researchgate.net/publication/304816274_The_Importance_of_Restoring_the_Sagittal_Balance_in_Small_and_Large_Stabilization_Procedures_of_the_Spine</li>
+                    <li>(PDF) Restoration of Sagittal Alignment as a Key Factor in Degenerative Spine Surgery... - ResearchGate [Internet]. ResearchGate; [cited 2026 Mar 28]. Available from: https://www.researchgate.net/publication/398589388_Restoration_of_Sagittal_Alignment_as_a_Key_Factor_in_Degenerative_Spine_Surgery_A_Comparative_Analysis_of_Outcomes_in_Postoperative_Balanced_and_Imbalanced_Cases</li>
+                    <li>The impact of sagittal balance on clinical results after posterior interbody fusion for patients with degenerative spondylolisthesis: A Pilot study - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC3080356/</li>
+                    <li>Effect of the reconstructed sagittal balance on outcomes in the elderly with degenerative low‑grade spondylolisthesis - SciSpace [Internet]. SciSpace; [cited 2026 Mar 28]. Available from: https://scispace.com/pdf/effect-of-the-reconstructed-sagittal-balance-on-outcomes-in-1dbkhmrogl.pdf</li>
+                    <li>Restoration of Sagittal Balance in Spinal Deformity Surgery - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC5853192/</li>
+                    <li>Fusion with and without lever reduction in degenerative lumbar spondylolisthesis: a retrospective study - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC10763449/</li>
+                    <li>Sagittal Balance Correction Following Lumbar Interbody Fusion... - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC6547387/</li>
+                    <li>Reducing Cervical Retrolisthesis With Long-Term Monthly Chiropractic Maintenance Care... - ResearchGate [Internet]. ResearchGate; [cited 2026 Mar 28]. Available from: https://www.researchgate.net/publication/362135548_Reducing_Cervical_Retrolisthesis_With_Long-Term_Monthly_Chiropractic_Maintenance_Care_A_Case_Report</li>
+                    <li>The modern application of anterior lumbar interbody fusion (ALIF)... - Journal of Spine Surgery [Internet]. J Spine Surg; [cited 2026 Mar 28]. Available from: https://jss.amegroups.org/article/view/6891/html</li>
+                    <li>A Technical Nuance to Avoid Lumbar Five Radiculopathy with ... [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC8016583/</li>
+                    <li>Advanced Reconstruction: Spine - DOKUMEN.PUB [Internet]. Dokumen.pub; [cited 2026 Mar 28]. Available from: https://dokumen.pub/advanced-reconstruction-spine.html</li>
+                    <li>Thoracolumbar Instrumentation: Anterior and Posterior - Clinical Gate [Internet]. Clinical Gate; [cited 2026 Mar 28]. Available from: https://clinicalgate.com/thoracolumbar-instrumentation-anterior-and-posterior/</li>
+                    <li>Correlation between direction of pedicle screw and restoration of lumbar degenerative scoliosis... - ResearchGate [Internet]. ResearchGate; [cited 2026 Mar 28]. Available from: https://www.researchgate.net/publication/367094228_Correlation_between_direction_of_pedicle_screw_and_restoration_of_lumbar_degenerative_scoliosis_in_degenerative_lumbar_spondylolisthesis_a_retrospective_study</li>
+                    <li>Section 11, Chapter 9: Pedicle Screw Fixation and Design [Internet]. Wheeless' Textbook of Orthopaedics; [cited 2026 Mar 28]. Available from: https://www.wheelessonline.com/issls/section-11-chapter-9-pedicle-screw-fixation-and-design/</li>
+                    <li>Pedicle screw insertion in the lumbar spine - AO Surgery Reference [Internet]. AO Surgery Reference; [cited 2026 Mar 28]. Available from: https://surgeryreference.aofoundation.org/spine/basic-technique/pedicle-screw-insertion-in-lumbar-spine</li>
+                    <li>Pedicle screw insertion in the thoracolumbar spine - AO Surgery Reference [Internet]. AO Surgery Reference; [cited 2026 Mar 28]. Available from: https://surgeryreference.aofoundation.org/spine/trauma/thoracolumbar/basic-technique/pedicle-screw-insertion</li>
+                    <li>Streamline® MIS - NeuroSpine [Internet]. NeuroSpine Product Review; [cited 2026 Mar 28]. Available from: http://www.neurospineproductreview.com/storage/products/pdfs/streamline-mis-surgical-technique-guide-stg-000036.pdf</li>
+                    <li>Spine_VIPER2 System_Guide - Vanderbilt University Medical Center [Internet]. VUMC; [cited 2026 Mar 28]. Available from: https://www.vumc.org/periop-services/sites/default/files/public_files/Depuy-Spine_VIPER2_System_System_Guide.pdf</li>
+                    <li>The articular surface technique for lumbar pedicle screw placement: a 3D feasibility study [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC10772663/</li>
+                    <li>Streamline® TL - OSSI [Internet]. OSS International; [cited 2026 Mar 28]. Available from: https://www.ossipr.com/wp-content/uploads/2020/08/Streamline-Deformity-and-Hooks.pdf</li>
+                    <li>Streamline® MIS - SPINEMarketGroup [Internet]. Spine Market Group; [cited 2026 Mar 28]. Available from: https://thespinemarketgroup.com/wp-content/uploads/2020/07/Streamline-MIS.SGT-RTI-Surgical.pdf</li>
+                    <li>CREO MCS® - Midline Cortical Screw System - NeuroSpine [Internet]. NeuroSpine Product Review; [cited 2026 Mar 28]. Available from: https://www.neurospineproductreview.com/storage/products/pdfs/globus-creo-mcs-medial-cortical-screw-modular-pedicle-techniqueguide-reve.pdf</li>
+                    <li>PEDICLE SCREW FIXATION SURGERY - Globus Medical [Internet]. Globus Medical; [cited 2026 Mar 28]. Available from: https://www.globusmedical.com/international/wp-content/uploads/sites/8/2021/12/GMPBR28OU_PedicleScrewFixationSurgery_PatientBrochure_RevA.pdf</li>
+                    <li>Accuracy of Rod Contouring to Desired Angles With and Without a Template... - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC9972287/</li>
+                    <li>The modern application of anterior lumbar interbody fusion (ALIF)... - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC11998050/</li>
+                    <li>Long-Term Experience With Reduction Technique in High-Grade Spondylolisthesis in the Young - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC6159655/</li>
+                    <li>Restoration of Sagittal Alignment as a Key Factor in Degenerative Spine Surgery... - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC12790697/</li>
+                    <li>(PDF) The impact of sagittal balance on clinical results... - ResearchGate [Internet]. ResearchGate; [cited 2026 Mar 28]. Available from: https://www.researchgate.net/publication/51019532_The_impact_of_sagittal_balance_on_clinical_results_after_posterior_interbody_fusion_for_patients_with_degenerative_spondylolisthesis_A_Pilot_study</li>
+                    <li>Radiological Outcomes of Reduction Surgery for Degenerative Lumbar Spondylolisthesis... - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC9624213/</li>
+                    <li>A novel approach to partial reduction of high-grade spondylolisthesis with offset rods – A report of two cases - PMC [Internet]. PubMed Central; [cited 2026 Mar 28]. Available from: https://pmc.ncbi.nlm.nih.gov/articles/PMC12029393/</li>
+                </ol>
+            </section>
+        </main>
+        <aside aria-label="Interactive Clinical Decision Support Sidebar">
+            <h3><strong>Interactive Clinical Parameters</strong></h3>
+            <p><em>Adjust parameters to see real-time surgical implications.</em></p>
+            <div class="slider-group">
+                <label for="pilm">PI-LL Mismatch (degrees)</label>
+                <input type="range" id="pilm" name="pilm" min="0" max="40" value="10">
+                <div class="slider-value">
+                    <span>0° (Harmonious)</span>
+                    <span id="pilmValue">10°</span>
+                    <span>40° (Severe)</span>
+                </div>
+                <small><em>Threshold based on general clinical knowledge – not from source.</em></small>
+            </div>
+            <div class="slider-group">
+                <label for="retroPercent">Retrolisthesis Slip (%)</label>
+                <input type="range" id="retroPercent" name="retroPercent" min="0" max="50" value="25">
+                <div class="slider-value">
+                    <span>0% (Normal)</span>
+                    <span id="retroPercentValue">25%</span>
+                    <span>50% (High Grade)</span>
+                </div>
+                <small><em>Based on case series in source document.</em></small>
+            </div>
+            <div class="slider-group">
+                <label for="canalArea">Central Canal Area (mm²)</label>
+                <input type="range" id="canalArea" name="canalArea" min="50" max="200" value="120">
+                <div class="slider-value">
+                    <span>50 (Stenotic)</span>
+                    <span id="canalAreaValue">120</span>
+                    <span>200 (Normal)</span>
+                </div>
+                <small><em>Threshold based on general clinical knowledge – not from source.</em></small>
+            </div>
+            <h4>Clinical Recommendation</h4>
+            <div id="recommendation-box">
+                <p id="recommendation-text">Adjust the sliders above to see personalized surgical recommendations based on the provided parameters.</p>
+            </div>
+            <div class="btn-group">
+                <button class="btn-secondary" id="resetBtn">Reset</button>
+                <button class="btn-primary" id="copyBtn">Copy Summary</button>
+            </div>
+            <p style="margin-top:1rem; font-size:0.8rem; color:var(--gray);"><strong>Disclaimer:</strong> This tool is for educational purposes only and does not constitute medical advice. All parameters and thresholds should be validated with clinical judgment and up-to-date guidelines.</p>
+        </aside>
+    </div>
+    <script>
+        const pilmSlider = document.getElementById('pilm');
+        const retroSlider = document.getElementById('retroPercent');
+        const canalSlider = document.getElementById('canalArea');
+        const pilmValue = document.getElementById('pilmValue');
+        const retroValue = document.getElementById('retroPercentValue');
+        const canalValue = document.getElementById('canalAreaValue');
+        const recommendationText = document.getElementById('recommendation-text');
+        const resetBtn = document.getElementById('resetBtn');
+        const copyBtn = document.getElementById('copyBtn');
+
+        function updateRecommendation() {
+            const pilm = parseInt(pilmSlider.value);
+            const retro = parseInt(retroSlider.value);
+            const canal = parseInt(canalSlider.value);
+            let recommendation = '';
+
+            // Update displayed values
+            pilmValue.textContent = pilm + '°';
+            retroValue.textContent = retro + '%';
+            canalValue.textContent = canal;
+
+            // Generate recommendation based on sliders
+            if (pilm > 10 || retro > 25) {
+                recommendation += '<strong>Surgical Reduction Strongly Indicated:</strong> ';
+                recommendation += 'The PI-LL mismatch of ' + pilm + '° and a retrolisthesis of ' + retro + '% indicate significant sagittal imbalance and segmental deformity. ';
+                recommendation += 'Based on the principles from the source document, open reduction with meticulous soft tissue release, appropriate rod contouring (using a template), and neuromonitoring is required to restore alignment and prevent adjacent segment disease.';
+            } else if (pilm > 5 || retro > 15) {
+                recommendation += '<strong>Surgical Consideration:</strong> ';
+                recommendation += 'A PI-LL mismatch of ' + pilm + '° and slip of ' + retro + '% suggest moderate pathology. ';
+                recommendation += 'The decision for surgery should weigh symptom severity against risks. If surgery is chosen, the principles of complete release and precise reduction mechanics remain critical.';
+            } else {
+                recommendation += '<strong>Observation / Conservative Management Possible:</strong> ';
+                recommendation += 'Parameters suggest mild imbalance (PI-LL: ' + pilm + '°, Slip: ' + retro + '%). ';
+                recommendation += 'The source document suggests in-situ fusion may be considered for mild slippages, but restoration of alignment is always biomechanically beneficial for long-term outcomes.';
+            }
+
+            if (canal < 80) {
+                recommendation += '<br><br><strong>Severe Stenosis Alert:</strong> Canal area of ' + canal + ' mm² indicates critical central stenosis. Neural decompression via laminectomy is a mandatory component of the surgical plan.';
+            } else if (canal < 120) {
+                recommendation += '<br><br><strong>Moderate Stenosis:</strong> Canal area of ' + canal + ' mm². Decompression should be performed as part of the posterior release to address neural compromise.';
+            }
+
+            recommendationText.innerHTML = recommendation;
+        }
+
+        // Event listeners for sliders
+        pilmSlider.addEventListener('input', updateRecommendation);
+        retroSlider.addEventListener('input', updateRecommendation);
+        canalSlider.addEventListener('input', updateRecommendation);
+
+        // Reset function
+        resetBtn.addEventListener('click', function() {
+            pilmSlider.value = 10;
+            retroSlider.value = 25;
+            canalSlider.value = 120;
+            updateRecommendation();
+        });
+
+        // Copy function
+        copyBtn.addEventListener('click', function() {
+            const timestamp = new Date().toLocaleString();
+            const pilm = pilmSlider.value;
+            const retro = retroSlider.value;
+            const canal = canalSlider.value;
+            const recommendation = recommendationText.textContent;
+
+            const textToCopy = `Clinical Parameter Assessment - Open Reduction of Degenerative Lumbar Retrolisthesis
+Date: ${timestamp}
+PI-LL Mismatch: ${pilm}°
+Retrolisthesis Slip: ${retro}%
+Central Canal Area: ${canal} mm²
+Recommendation: ${recommendation}
+Disclaimer: Based on interactive parameters and educational summary from provided clinical document.`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => { copyBtn.textContent = 'Copy Summary'; }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = textToCopy;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => { copyBtn.textContent = 'Copy Summary'; }, 2000);
+            });
+        });
+
+        // Initial update
+        updateRecommendation();
+    </script>
+</body>
+</html>

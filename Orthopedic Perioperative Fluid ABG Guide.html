@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perioperative Metabolic Resuscitation in Orthopedic Surgery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f8f9fb;--surface:#ffffff;--text:#1a1d23;--text-muted:#5f6577;
+--primary:#1e56a0;--primary-light:#e8f0fe;--primary-dark:#0d3b7a;
+--accent:#d4380d;--accent-light:#fff1ec;
+--success:#0d7a3e;--success-light:#ecfdf3;
+--warning:#b45309;--warning-light:#fffbeb;
+--danger:#b91c1c;--danger-light:#fef2f2;
+--border:#e2e5ea;--border-strong:#c8cdd6;
+--radius:10px;--radius-sm:6px;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+--shadow-lg:0 10px 25px rgba(0,0,0,.08);
+--sidebar-w:340px;
+--font:'Inter',system-ui,-apple-system,sans-serif;
+--mono:'JetBrains Mono',monospace;
+}
+html{font-size:15px;scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.7;min-height:100vh}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#fff;padding:1.2rem 2rem;box-shadow:var(--shadow-lg)}
+.site-header h1{font-size:1.25rem;font-weight:700;letter-spacing:-.02em}
+.site-header p{font-size:.82rem;opacity:.85;margin-top:.2rem;font-weight:400}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:1fr var(--sidebar-w);gap:2rem;max-width:1400px;margin:0 auto;padding:2rem 2rem 4rem}
+main{min-width:0}
+aside.sidebar{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto}
+
+/* Typography */
+h2{font-size:1.55rem;font-weight:800;color:var(--primary-dark);margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:3px solid var(--primary);letter-spacing:-.02em}
+h3{font-size:1.15rem;font-weight:700;color:var(--text);margin:1.8rem 0 .6rem}
+h4{font-size:1rem;font-weight:600;color:var(--text-muted);margin:1.2rem 0 .4rem;text-transform:uppercase;letter-spacing:.04em;font-size:.82rem}
+p{margin-bottom:1rem;color:var(--text)}
+ul,ol{margin:0 0 1rem 1.4rem}
+li{margin-bottom:.35rem}
+strong{font-weight:600;color:var(--text)}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+blockquote{border-left:4px solid var(--primary);background:var(--primary-light);padding:1rem 1.2rem;margin:1.2rem 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-style:italic;color:var(--primary-dark)}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
+.card-highlight{border-left:4px solid var(--primary)}
+
+/* Evidence Badge */
+.ev{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:500;padding:.15rem .5rem;border-radius:3px;vertical-align:middle;margin-left:.3rem;letter-spacing:.02em}
+.ev-i{background:#dcfce7;color:#166534}
+.ev-ii{background:#dbeafe;color:#1e40af}
+.ev-iii{background:#fef3c7;color:#92400e}
+.ev-iv{background:#fce7f3;color:#9d174d}
+.ev-v{background:#f3f4f6;color:#374151}
+.ev-ns{background:#f3f4f6;color:#6b7280;font-style:italic}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+table caption{font-weight:700;text-align:left;padding:.8rem 1rem;background:var(--primary-light);color:var(--primary-dark);font-size:.9rem}
+thead{background:#f1f3f7}
+th{text-align:left;padding:.65rem .8rem;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);border-bottom:2px solid var(--border-strong)}
+td{padding:.6rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#f8f9fb}
+
+/* Callout */
+.callout{padding:1rem 1.2rem;border-radius:var(--radius-sm);margin:1rem 0;font-size:.9rem}
+.callout-danger{background:var(--danger-light);border:1px solid #fca5a5;color:var(--danger)}
+.callout-warning{background:var(--warning-light);border:1px solid #fcd34d;color:var(--warning)}
+.callout-success{background:var(--success-light);border:1px solid #86efac;color:var(--success)}
+.callout-info{background:var(--primary-light);border:1px solid #93c5fd;color:var(--primary-dark)}
+
+/* Sidebar Controls */
+.sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
+.sidebar-card h3{font-size:1rem;margin:0 0 1rem;color:var(--primary-dark);border-bottom:2px solid var(--primary);padding-bottom:.5rem}
+.slider-group{margin-bottom:1.3rem}
+.slider-group label{display:block;font-weight:600;font-size:.82rem;margin-bottom:.3rem;color:var(--text)}
+.slider-group .val-display{font-family:var(--mono);font-size:.95rem;font-weight:600;float:right;color:var(--primary)}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(to right,var(--success) 0%,var(--warning) 50%,var(--danger) 100%);outline:none;margin:.5rem 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.slider-ticks{display:flex;justify-content:space-between;font-size:.68rem;color:var(--text-muted);margin-top:-.2rem}
+
+/* Recommendation Panel */
+.rec-panel{background:linear-gradient(135deg,#f0f7ff,#e8f0fe);border:2px solid var(--primary);border-radius:var(--radius);padding:1.2rem;margin-top:1rem}
+.rec-panel h4{font-size:.9rem;color:var(--primary-dark);margin-bottom:.5rem;text-transform:none;letter-spacing:0}
+.rec-panel .rec-text{font-size:.88rem;line-height:1.6;color:var(--text)}
+.rec-panel .rec-status{display:inline-block;font-weight:700;font-size:.82rem;padding:.2rem .7rem;border-radius:20px;margin-bottom:.6rem}
+.status-normal{background:#dcfce7;color:#166534}
+.status-warning{background:#fef3c7;color:#92400e}
+.status-danger{background:#fef2f2;color:#b91c1c}
+
+.btn-row{display:flex;gap:.6rem;margin-top:1rem}
+.btn{flex:1;padding:.6rem;border:none;border-radius:var(--radius-sm);font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-dark)}
+.btn-outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+.btn:active{transform:scale(.97)}
+
+/* Algorithm box */
+.algo{background:#f9fafb;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0;font-size:.88rem}
+.algo ol{margin-left:1.2rem}
+.algo li{margin-bottom:.4rem}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem;margin-bottom:2rem;box-shadow:var(--shadow)}
+.toc h3{margin:0 0 .8rem;color:var(--primary-dark);font-size:1rem}
+.toc ol{margin-left:1.2rem;counter-reset:toc}
+.toc li{counter-increment:toc;margin-bottom:.3rem;font-size:.88rem}
+.toc li::marker{content:counter(toc) ". ";font-weight:600;color:var(--primary)}
+
+/* References */
+.ref-section{margin-top:3rem;padding-top:2rem;border-top:2px solid var(--border)}
+.ref-list{font-size:.78rem;color:var(--text-muted);line-height:1.8}
+.ref-list li{margin-bottom:.3rem}
+
+/* Annotation */
+.annotation{font-size:.78rem;color:var(--text-muted);font-style:italic;padding:.4rem .6rem;background:#f9fafb;border-radius:var(--radius-sm);margin:.5rem 0}
+
+/* Responsive */
+@media(max-width:1024px){
+  .layout{grid-template-columns:1fr;gap:1.5rem;padding:1rem}
+  aside.sidebar{position:static;max-height:none;order:-1}
+  .site-header{padding:1rem}
+  .site-header h1{font-size:1.1rem}
+}
+@media(max-width:600px){
+  html{font-size:14px}
+  .card{padding:1rem}
+  .btn-row{flex-direction:column}
+}
+
+/* Copy toast */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--text);color:#fff;padding:.8rem 1.4rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;opacity:0;transform:translateY(20px);transition:all .3s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* Print */
+@media print{
+  .sidebar,.site-header,.btn-row{display:none!important}
+  .layout{grid-template-columns:1fr}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Perioperative Metabolic Resuscitation in Orthopedic Surgery</h1>
+  <p>A Comprehensive Interactive Guide to Fluid, Electrolyte &amp; Acid-Base Management &mdash; Based on Source Document</p>
+</header>
+
+<div class="layout">
+
+<!-- ========== MAIN CONTENT ========== -->
+<main>
+
+<!-- TOC -->
+<nav class="toc" aria-label="Table of Contents">
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#s1">Introduction: The Orthopedic Surgeon as Perioperative Physician</a></li>
+    <li><a href="#s2">Physiology of Perfusion &amp; Shock</a></li>
+    <li><a href="#s3">Fluid Resuscitation: Composition, Strategy &amp; Controversy</a></li>
+    <li><a href="#s4">Arterial Blood Gas (ABG) Interpretation</a></li>
+    <li><a href="#s5">Electrolyte Disorders: Potassium &amp; the Cardiac Membrane</a></li>
+    <li><a href="#s6">Geriatric Orthopedics: Frailty &amp; Occult Hypoperfusion</a></li>
+    <li><a href="#s7">Critical Scenarios in Orthopedic Trauma</a></li>
+    <li><a href="#s8">Systems of Safety: NEWS2 &amp; Rapid Response</a></li>
+    <li><a href="#s9">References</a></li>
+  </ol>
+</nav>
+
+<!-- Section 1 -->
+<h2 id="s1">I. Introduction: The Orthopedic Surgeon as Perioperative Physician</h2>
+
+<p>The contemporary practice of orthopedic surgery has transcended the historical boundaries of mechanical fixation and anatomical restoration. In the modern era, the orthopedic surgeon managing high-energy trauma or geriatric fragility fractures operates at the intersection of <strong>surgical intervention and critical care medicine</strong>. The successful management of a shattered pelvis or a geriatric hip fracture relies not merely on the precision of the reduction or the stability of the implant, but fundamentally on the <strong>physiological optimization of the patient</strong>. <span class="ev ev-ns">Context: ERAS &amp; ACS TQIP</span></p>
+
+<p>The concept of the orthopedic surgeon as a &ldquo;perioperative physician&rdquo; is no longer an academic ideal but a clinical necessity, driven by the increasing complexity of patient comorbidities, the severity of traumatic injuries, and the rigorous demands of quality improvement protocols such as <strong>Enhanced Recovery After Surgery (ERAS)</strong> and the <strong>American College of Surgeons Trauma Quality Improvement Program (ACS TQIP)</strong>. <span class="ev ev-ii">Source ref [1]</span></p>
+
+<div class="callout callout-info">
+  <strong>Key Principle:</strong> The decision to proceed with definitive fixation (Early Total Care) versus temporary stabilization (Damage Control Orthopedics) is predicated almost entirely on the patient&rsquo;s <strong>metabolic reserve and response to resuscitation</strong>, rather than the radiographic appearance of the bone. <span class="ev ev-ii">Source ref [4]</span>
+</div>
+
+<p>The physiological insults sustained by orthopedic patients&mdash;whether from the kinetic energy of a motor vehicle collision or the metabolic frailty associated with a syncopal fall&mdash;create a precarious homeostatic environment. <strong>Hemorrhagic shock, occult hypoperfusion, electrolyte dysregulation, and acid-base derangements</strong> are not merely bystanders to the fracture; they are active determinants of mortality, complications, and functional recovery.</p>
+
+<!-- Section 2 -->
+<h2 id="s2">II. The Physiology of Perfusion &amp; Shock: Beyond Vital Signs</h2>
+
+<h3>2.1 Defining Shock</h3>
+<p>Shock is <strong>not defined by hypotension</strong>; it is defined by <strong>cellular dysoxia</strong>&mdash;an imbalance between oxygen delivery (DO<sub>2</sub>) and oxygen consumption (VO<sub>2</sub>). In the orthopedic trauma patient, this is most commonly hypovolemic (hemorrhagic) shock, though obstructive (e.g., tension pneumothorax, fat embolism) and distributive (e.g., neurogenic) elements may coexist.</p>
+
+<h3>2.2 The Cellular Consequences of Hypoperfusion</h3>
+<p>When tissue perfusion fails to meet metabolic demand, the cell is forced to switch from efficient <strong>aerobic metabolism</strong> (oxidative phosphorylation &mdash; 38 ATP/glucose) to inefficient <strong>anaerobic glycolysis</strong> (2 ATP/glucose), with the concomitant production of lactate to regenerate NAD+.</p>
+
+<p>This &ldquo;energy crisis&rdquo; at the cellular level has profound systemic implications:</p>
+<ul>
+  <li>Failure of <strong>Na<sup>+</sup>/K<sup>+</sup>-ATPase</strong> leads to cellular swelling and extracellular potassium efflux (hyperkalemia). <span class="ev ev-ns">Source ref [5]</span></li>
+  <li>Hydrolysis of ATP releases H<sup>+</sup>, contributing to <strong>intracellular acidosis</strong>.</li>
+  <li>Compromised cell membranes leak potassium, myoglobin, and creatine kinase &mdash; precipitating <strong>rhabdomyolysis</strong>, commonly seen in crush injuries.</li>
+</ul>
+
+<div class="callout callout-warning">
+  <strong>Clinical Insight:</strong> Lactate is not merely a waste product; it is an active metabolic fuel preferred by the heart and brain during stress. The danger lies not in the lactate molecule itself, but in the <strong>acidosis (H<sup>+</sup>)</strong> generated by ATP hydrolysis that accompanies anaerobic metabolism. Acidosis depresses myocardial contractility, impairs coagulation, and blunts catecholamine response. <span class="ev ev-ii">Source ref [7]</span>
+</div>
+
+<h3>2.3 The Endothelial Glycocalyx</h3>
+<p>Recent research has revised the traditional Starling model, centering on the <strong>endothelial glycocalyx</strong>&mdash;a gel-like layer of glycoproteins and proteoglycans lining the luminal surface of vascular endothelium. This layer regulates vascular permeability, inhibits microvascular thrombosis, and modulates leukocyte adhesion.</p>
+
+<p>In orthopedic trauma, the glycocalyx is degraded by:</p>
+<ul>
+  <li>Mechanical shear stress of injury</li>
+  <li>Systemic inflammatory response (cytokine storm)</li>
+  <li><strong>Iatrogenic factors: hypervolemia and rapid fluid infusion</strong></li>
+</ul>
+
+<p>When the glycocalyx is shed, fluid administered to &ldquo;fill the tank&rdquo; extravasates into the interstitium, leading to tissue edema, ARDS, ileus, abdominal compartment syndrome, and lowered threshold for compartment syndrome. This insight underpins the modern preference for <strong>balanced crystalloids</strong> and the avoidance of &ldquo;salt water drowning&rdquo; with normal saline. <span class="ev ev-ii">Source ref [9]</span></p>
+
+<h3>2.4 Limitations of Standard Vital Signs</h3>
+
+<div class="card card-highlight">
+  <h4>Compensated Shock</h4>
+  <p>Young, healthy patients can maintain normal blood pressure despite losing up to <strong>30% of blood volume</strong> (Class II-III Shock) due to robust catecholamine-driven vasoconstriction. Tachycardia may be the only sign. <span class="ev ev-ii">Source ref [4]</span></p>
+
+  <h4>Geriatric Blunting &mdash; Occult Hypoperfusion</h4>
+  <p>Elderly patients often lack the physiological reserve to mount a tachycardia. A &ldquo;normal&rdquo; BP of 120/80 mmHg in a chronically hypertensive patient may represent relative hypotension sufficient to cause renal and cerebral ischemia. <strong>Relying solely on vital signs leads to under-resuscitation</strong> in a significant proportion of elderly patients who harbor profound metabolic acidosis despite stable hemodynamics. <span class="ev ev-ii">Source ref [11, 12]</span></p>
+</div>
+
+<!-- Section 3 -->
+<h2 id="s3">III. Fluid Resuscitation: Composition, Strategy &amp; Controversy</h2>
+
+<h3>3.1 The Case Against Normal Saline</h3>
+<p>0.9% saline has a chloride concentration of 154 mEq/L, significantly higher than physiological plasma chloride of ~100 mEq/L. Large-volume administration leads to <strong>Hyperchloremic Metabolic Acidosis</strong>.</p>
+
+<div class="algo">
+  <strong>Mechanism (Stewart Strong Ion Difference Theory):</strong>
+  <p>Increasing plasma Cl<sup>-</sup> relative to Na<sup>+</sup> decreases the Strong Ion Difference (SID). To maintain electrochemical neutrality, water dissociates, increasing H<sup>+</sup> concentration &rarr; lower pH.</p>
+</div>
+
+<p><strong>Clinical consequences:</strong> Iatrogenic acidosis mimics lactic acidosis (shock), confusing the clinical picture. Hyperchloremia triggers tubuloglomerular feedback, reducing GFR. The <strong>SMART and SALT-ED trials</strong> demonstrated that saline is associated with higher rates of AKI and renal replacement therapy compared to balanced crystalloids. <span class="ev ev-i">Source ref [10] &mdash; multiple RCTs/meta-analyses cited</span></p>
+
+<h3>3.2 The Rise of Balanced Crystalloids</h3>
+<p>Balanced crystalloids (Lactated Ringer&rsquo;s, Plasma-Lyte) mimic human plasma with physiological chloride levels and organic buffer anions.</p>
+
+<div class="callout callout-success">
+  <strong>Common Misconception:</strong> Lactated Ringer&rsquo;s does <em>not</em> worsen lactic acidosis. The sodium lactate in LR is metabolized by the liver into bicarbonate, consuming hydrogen ions and acting as an <strong>alkalizing agent</strong>. In the vast majority of trauma patients, LR <em>improves</em> acid-base balance. <span class="ev ev-ii">Source ref [10]</span>
+</div>
+
+<h3>3.3 The Neuro-Trauma Exception</h3>
+<p>There is one critical exception: <strong>Traumatic Brain Injury (TBI)</strong>. Balanced solutions are slightly hypotonic (~273-295 mOsm/L) vs. saline (308 mOsm/L). In the injured brain with a disrupted blood-brain barrier, even mild hypotonicity can exacerbate cerebral edema and raise ICP.</p>
+
+<div class="callout callout-danger">
+  <strong>Recommendation:</strong> For orthopedic patients with concomitant TBI, <strong>0.9% Saline</strong> remains the fluid of choice during acute resuscitation, even at the cost of mild hyperchloremic acidosis. <span class="ev ev-ii">Source ref [10]</span>
+</div>
+
+<h3>3.4 Comparative Fluid Table</h3>
+
+<div class="table-wrap">
+  <table>
+    <caption>Table 1: Comparison of Common Resuscitation Fluids</caption>
+    <thead>
+      <tr>
+        <th>Fluid Type</th>
+        <th>Na<sup>+</sup> (mEq/L)</th>
+        <th>Cl<sup>-</sup> (mEq/L)</th>
+        <th>K<sup>+</sup> (mEq/L)</th>
+        <th>Buffer</th>
+        <th>Osmolarity (mOsm/L)</th>
+        <th>pH</th>
+        <th>Clinical Indication</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>0.9% Saline</strong></td><td>154</td><td>154</td><td>0</td><td>None</td><td>308</td><td>5.5</td><td>TBI, Hyponatremia, Hypochloremic Alkalosis</td></tr>
+      <tr><td><strong>Lactated Ringer&rsquo;s</strong></td><td>130</td><td>109</td><td>4</td><td>Lactate</td><td>273</td><td>6.5</td><td>Trauma, Burn, GI Loss, Acidosis</td></tr>
+      <tr><td><strong>Plasma-Lyte</strong></td><td>140</td><td>98</td><td>5</td><td>Acetate/Gluconate</td><td>294</td><td>7.4</td><td>General Resuscitation, Intraoperative Maintenance</td></tr>
+      <tr><td><strong>Albumin 5%</strong></td><td>145 (varies)</td><td>145 (varies)</td><td>0</td><td>None</td><td>300</td><td>6.9</td><td>Hypoalbuminemia, Sepsis (2nd line)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>3.5 Colloids &amp; Blood Products</h3>
+<ul>
+  <li><strong>Albumin:</strong> The SAFE trial demonstrated safety in general trauma but potential harm in TBI. Generally reserved for specific indications. <span class="ev ev-ii">Source ref [10]</span></li>
+  <li><strong>Hydroxyethyl Starch (HES):</strong> Definitively linked to coagulopathy and renal failure. <strong>No role in modern orthopedic trauma resuscitation.</strong> <span class="ev ev-ii">Source ref [10]</span></li>
+  <li><strong>Blood Components:</strong> In hemorrhagic shock (Class III-IV), <strong>Damage Control Resuscitation</strong> emphasizes early use of Plasma:Platelets:RBC in a <strong>1:1:1 ratio</strong>. For geriatric hip fracture patients, restrictive transfusion thresholds (trigger &lt; 7-8 g/dL) are generally safe; 8-9 g/dL for those with symptomatic cardiovascular disease. <span class="ev ev-ii">Source ref [16]</span></li>
+</ul>
+
+<h3>3.6 Resuscitation Endpoints</h3>
+<div class="card card-highlight">
+  <p>The era of &ldquo;Liberal Fluid Therapy&rdquo; (giving fluid until CVP is high) is over. It has been replaced by <strong>Goal-Directed Fluid Therapy (GDFT)</strong> and &ldquo;Zero-Balance&rdquo; concepts, particularly in ERAS pathways. <span class="ev ev-ii">Source ref [1]</span></p>
+  <ul>
+    <li><strong>CVP:</strong> A static measure of preload; correlates poorly with fluid responsiveness.</li>
+    <li><strong>Pulse Pressure Variation (PPV):</strong> In mechanically ventilated patients, PPV &gt; 12&ndash;13% suggests the patient will benefit from a fluid bolus.</li>
+    <li><strong>Lactate Clearance:</strong> The biochemical gold standard. A reduction in serum lactate by <strong>&gt; 20% every 2 hours</strong> is a strong predictor of survival. <span class="ev ev-ii">Source ref [17, 18, 40]</span></li>
+  </ul>
+</div>
+
+<!-- Section 4 -->
+<h2 id="s4">IV. Arterial Blood Gas (ABG) Interpretation in Trauma</h2>
+
+<p>The ABG is the <strong>Rosetta Stone of perioperative physiology</strong>, providing immediate, actionable data on three critical axes: Oxygenation (PaO<sub>2</sub>), Ventilation (PaCO<sub>2</sub>), and Acid-Base Status (pH, HCO<sub>3</sub>, BE, Lactate). <span class="ev ev-ii">Source ref [19, 20, 22]</span></p>
+
+<h3>4.1 The Henderson-Hasselbalch Relationship</h3>
+<div class="algo">
+  <p>pH is determined by the ratio of metabolic base (HCO<sub>3</sub><sup>-</sup>) to respiratory acid (PaCO<sub>2</sub>):</p>
+  <p style="text-align:center;font-family:var(--mono);font-size:1rem;margin:.8rem 0"><strong>pH &asymp; pKa + log([HCO<sub>3</sub><sup>-</sup>] / PaCO<sub>2</sub>)</strong></p>
+  <p><strong>Golden Rules:</strong> Normal pH 7.35&ndash;7.45. Acidemia: &lt; 7.35. Alkalemia: &gt; 7.45. The body <em>never over-compensates</em>.</p>
+</div>
+
+<h3>4.2 Systematic ABG Approach for the Surgeon</h3>
+
+<div class="algo">
+  <ol>
+    <li><strong>Check Oxygenation (PaO<sub>2</sub>):</strong> PaO<sub>2</sub> &lt; 60 mmHg indicates respiratory failure. Calculate A-a gradient to distinguish hypoventilation (normal gradient) from intrinsic lung pathology (widened gradient). <span class="ev ev-ii">Source ref [21]</span></li>
+    <li><strong>Check the pH:</strong> Acidemia or alkalemia? This defines the primary direction of the disturbance.</li>
+    <li><strong>Check PaCO<sub>2</sub> (Respiratory Component):</strong>
+      <ul>
+        <li>pH LOW + PaCO<sub>2</sub> HIGH (&gt; 45) &rarr; <strong>Respiratory Acidosis</strong> (airway obstruction, flail chest, opioid OD)</li>
+        <li>pH LOW + PaCO<sub>2</sub> LOW (&lt; 35) &rarr; <strong>Metabolic Acidosis</strong> with compensatory hyperventilation &mdash; classic ABG of hemorrhagic shock</li>
+      </ul>
+    </li>
+    <li><strong>Check HCO<sub>3</sub> and Base Excess (Metabolic Component):</strong> pH LOW + HCO<sub>3</sub> LOW (&lt; 22) or BD &gt; 2 &rarr; <strong>Metabolic Acidosis</strong>.</li>
+    <li><strong>Calculate the Anion Gap:</strong> AG = Na<sup>+</sup> &minus; (Cl<sup>-</sup> + HCO<sub>3</sub><sup>-</sup>). Normal: 8&ndash;12 mEq/L.
+      <ul>
+        <li><strong>High AG (&gt; 12):</strong> Unmeasured acids (in trauma: <strong>Lactate</strong>) &rarr; requires perfusion (fluids/blood)</li>
+        <li><strong>Normal AG:</strong> Bicarbonate loss or chloride gain (saline) &rarr; switch to balanced crystalloids <span class="ev ev-ii">Source ref [19]</span></li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+<h3>4.3 Lactate vs. Base Excess: The Prognostic Battle</h3>
+
+<div class="card">
+  <p><strong>Lactate:</strong> Measures the product of anaerobic glycolysis. Normal &lt; 2.0 mmol/L. Levels &gt; 4.0 mmol/L are associated with significantly increased mortality. The <strong>rate of decline (lactate clearance)</strong> is more important than the initial value. <span class="ev ev-ii">Source ref [7, 40, 41]</span></p>
+  <p><strong>Base Deficit (Davis Classification):</strong></p>
+  <ul>
+    <li>Mild: BD &minus;2 to &minus;6</li>
+    <li>Moderate: BD &minus;6 to &minus;10</li>
+    <li>Severe: BD &lt; &minus;10 (high mortality risk) <span class="ev ev-ii">Source ref [23, 24]</span></li>
+  </ul>
+  <div class="callout callout-info" style="margin-top:.8rem">
+    <strong>Divergence Pattern:</strong> A patient may clear their lactate (restoring perfusion) but remain with a persistent base deficit due to <strong>hyperchloremic acidosis</strong> from large-volume saline resuscitation. Recognizing this iatrogenic component prevents over-resuscitation. <span class="ev ev-ii">Source ref [8]</span>
+  </div>
+</div>
+
+<!-- Section 5 -->
+<h2 id="s5">V. Electrolyte Disorders: Potassium &amp; the Cardiac Membrane</h2>
+
+<p>Potassium (K<sup>+</sup>) is the primary intracellular cation (~140 mEq/L intracellularly), while extracellular K<sup>+</sup> is low (3.5&ndash;5.0 mEq/L). This gradient, maintained by the Na/K-ATPase, determines the <strong>resting membrane potential</strong> of cardiac myocytes. <span class="ev ev-ii">Source ref [6, 44]</span></p>
+
+<h3>5.1 Hypokalemia in the Postoperative Patient</h3>
+<p>Common in elderly patients due to poor intake, diuretic use, and the perioperative stress response (catecholamines drive K<sup>+</sup> into cells). <span class="ev ev-ii">Source ref [45, 47]</span></p>
+<ul>
+  <li><strong>Risks:</strong> Ileus, muscle weakness (delaying mobilization), arrhythmias (especially with Digoxin).</li>
+  <li><strong>Rule of Thumb:</strong> 10 mEq KCl raises serum K by ~0.1 mEq/L.</li>
+  <li><strong>Route:</strong> Oral is safest. IV peripheral limit: 10 mEq/hr. Central access: 20 mEq/hr. <span class="ev ev-ii">Source ref [25]</span></li>
+  <li><strong>Magnesium:</strong> Hypomagnesemia makes hypokalemia refractory to treatment. Always check and replete Mg (&gt; 2.0 mg/dL) alongside K. <span class="ev ev-ii">Source ref [26]</span></li>
+</ul>
+
+<h3>5.2 Hyperkalemia: The Orthopedic Emergency</h3>
+
+<div class="callout callout-danger">
+  Hyperkalemia is the <strong>most lethal electrolyte disorder</strong>. In orthopedics, it is frequently seen in crush injury/rhabdomyolysis, AKI, massive transfusion, and succinylcholine use in denervation injuries. <span class="ev ev-ii">Source ref [27, 46]</span>
+</div>
+
+<h4>ECG Progression in Hyperkalemia</h4>
+<div class="table-wrap">
+  <table>
+    <caption>Table 2: ECG Progression in Hyperkalemia</caption>
+    <thead>
+      <tr><th>Serum K<sup>+</sup> (mEq/L)</th><th>ECG Findings</th><th>Clinical Implication</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>5.5 &ndash; 6.5</td><td>Peaked T waves (narrow base, tall)</td><td>Repolarization abnormality. Warning sign.</td></tr>
+      <tr><td>6.5 &ndash; 7.5</td><td>Prolonged PR interval, Flattened P waves</td><td>Atrial conduction delay. Urgent treatment needed.</td></tr>
+      <tr><td>7.0 &ndash; 8.0</td><td>QRS Widening, Bundle Branch Blocks</td><td>Ventricular conduction delay. Impending arrest.</td></tr>
+      <tr><td>&gt; 8.0</td><td>Sine Wave Pattern</td><td>Fusion of QRS and T. Pre-terminal.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h4>Hyperkalemia Treatment Algorithm</h4>
+<div class="algo">
+  <p><strong>Goal:</strong> Stabilize the Heart &rarr; Shift Potassium In &rarr; Eliminate Potassium Out. <span class="ev ev-ii">Source ref [28, 29, 30]</span></p>
+  <ol>
+    <li><strong>Stabilize (Membrane Protection):</strong> Calcium Gluconate 1&ndash;3 g IV push (or CaCl<sub>2</sub> 1 g via central line). Onset &lt; 3 min, duration 30&ndash;60 min. Does <em>not</em> lower K<sup>+</sup>.</li>
+    <li><strong>Shift (Intracellular Redistribution):</strong>
+      <ul>
+        <li>Insulin 10 U regular IV + D50W 50 mL (25 g glucose) &mdash; most reliable, onset 20 min</li>
+        <li>Albuterol 10&ndash;20 mg nebulized (high dose)</li>
+        <li>Bicarbonate 50 mEq IV &mdash; only effective if acidotic</li>
+      </ul>
+    </li>
+    <li><strong>Eliminate (Removal from Body):</strong>
+      <ul>
+        <li>Furosemide 40&ndash;80 mg IV</li>
+        <li>Potassium Binders (Sodium Zirconium Cyclosilicate / Lokelma)</li>
+        <li>Dialysis &mdash; definitive therapy for refractory cases</li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+<!-- Section 6 -->
+<h2 id="s6">VI. Geriatric Orthopedics: Frailty &amp; Occult Hypoperfusion</h2>
+
+<h3>6.1 Occult Hypoperfusion (OH)</h3>
+<p>Elderly patients mask shock. The combination of myocardial stiffness (diastolic dysfunction), vascular non-compliance, and polypharmacy means that &ldquo;normal&rdquo; vital signs are unreliable.</p>
+
+<div class="card card-highlight">
+  <p><strong>The Evidence:</strong> Maintaining a higher Mean Arterial Pressure (MAP) target (e.g., &gt; 80 mmHg) in elderly trauma patients may reduce AKI and mortality compared to standard targets (MAP &gt; 65), though this must be balanced against the risk of bleeding. <span class="ev ev-ii">Source ref [31]</span></p>
+  <p><strong>Protocol:</strong> Mandatory admission lactate and base deficit screening for all geriatric trauma. If <strong>Lactate &gt; 2.5</strong> or <strong>BD &lt; &minus;6</strong>, initiate aggressive resuscitation regardless of blood pressure. <span class="ev ev-ii">Source ref [11]</span></p>
+</div>
+
+<h3>6.2 ERAS &amp; Preoperative Optimization</h3>
+<ul>
+  <li><strong>Fasting Guidelines:</strong> Current guidelines allow clear liquids (including carbohydrate drinks) up to <strong>2 hours before surgery</strong>, reducing catabolism and postoperative insulin resistance. <span class="ev ev-ii">Source ref [1]</span></li>
+  <li><strong>Ortho-Geriatric Co-Management:</strong> A shared care model where geriatricians manage medical optimization while surgeons manage the fracture leads to significant reductions in length of stay and mortality. Focus on rapid optimization within 24 hours to facilitate <strong>surgery within 48 hours</strong>. <span class="ev ev-ii">Source ref [3]</span></li>
+</ul>
+
+<h3>6.3 Delirium &amp; Electrolytes</h3>
+<p>Delirium is a manifestation of acute brain failure. Electrolyte disturbances (hyponatremia, dehydration) are potent precipitants. Maintaining euvolemia and avoiding anticholinergic medications are key preventative strategies. <strong>Regional anesthesia (nerve blocks)</strong> is the gold standard for sparing systemic opioids. <span class="ev ev-ii">Source ref [17]</span></p>
+
+<!-- Section 7 -->
+<h2 id="s7">VII. Critical Scenarios in Orthopedic Trauma</h2>
+
+<h3>7.1 Damage Control Orthopedics (DCO)</h3>
+<p>DCO is a <strong>physiological strategy</strong>, not a surgical one. It recognizes that the &ldquo;First Hit&rdquo; (trauma) primes the immune system. A major surgery acts as a &ldquo;Second Hit,&rdquo; potentially overwhelming the host and causing SIRS/MODS. <span class="ev ev-ii">Source ref [4]</span></p>
+
+<div class="callout callout-danger">
+  <strong>DCO Indications:</strong> Unstable patients with <strong>pH &lt; 7.25, Temp &lt; 35&deg;C, Coagulopathy, or Lactate &gt; 4.0</strong> should undergo rapid external fixation (&lt; 30 min) rather than definitive nailing. Definitive fixation is delayed until the &ldquo;immunological window&rdquo; of stability returns (usually day 5&ndash;10). <span class="ev ev-ii">Source ref [4]</span>
+</div>
+
+<h3>7.2 Compartment Syndrome &amp; Fluid Overload</h3>
+<p>Acute Compartment Syndrome (ACS) is not purely a local mechanical event. <strong>Fluid resuscitation is a major systemic risk factor.</strong> Massive crystalloid infusion reduces plasma oncotic pressure and increases hydrostatic pressure, driving fluid into the interstitial space of the muscle compartment. <span class="ev ev-ii">Source ref [5, 49, 51]</span></p>
+
+<div class="callout callout-warning">
+  <strong>Clinical Pearl:</strong> In polytrauma patients receiving massive transfusion/fluids, be vigilant for ACS in <em>uninjured</em> limbs or limbs with minor injuries. &ldquo;Secondary&rdquo; compartment syndrome is purely iatrogenic from fluid overload.<br>
+  <strong>Diagnosis:</strong> Pain out of proportion is the hallmark. In obtunded patients: intracompartmental pressure monitoring &mdash; <strong>Delta pressure &lt; 30 mmHg indicates fasciotomy</strong>. <span class="ev ev-ii">Source ref [32]</span>
+</div>
+
+<h3>7.3 The Lethal Triad</h3>
+
+<div class="card" style="border-left:4px solid var(--danger)">
+  <p>The vicious cycle of <strong>Acidosis</strong>, <strong>Hypothermia</strong>, and <strong>Coagulopathy</strong> is the primary driver of death in the OR. <span class="ev ev-ii">Source ref [33]</span></p>
+  <ul>
+    <li><strong>Acidosis:</strong> Impairs thrombin generation and platelet function.</li>
+    <li><strong>Hypothermia:</strong> Inhibits coagulation cascade enzymes (optimal at 37&deg;C). A drop to 34&deg;C significantly prolongs clotting times.</li>
+    <li><strong>Coagulopathy:</strong> Consumptive (DIC) and dilutional.</li>
+  </ul>
+  <p><strong>Management:</strong> The surgeon must <strong>stop operating</strong> (packing/DCO) if this triad establishes. The &ldquo;bloody vicious cycle&rdquo; cannot be fixed with sutures; it requires physiological warming and resuscitation in the ICU.</p>
+</div>
+
+<!-- Section 8 -->
+<h2 id="s8">VIII. Systems of Safety: NEWS2 &amp; Rapid Response</h2>
+
+<h3>8.1 The National Early Warning Score (NEWS2)</h3>
+<p>NEWS2 aggregates respiratory rate, saturations, temperature, BP, pulse, and consciousness into a single score. It is <strong>highly sensitive for detecting sepsis and shock before hypotension occurs</strong>. A respiratory rate &gt; 25 is often the earliest sign of metabolic acidosis (compensatory hyperventilation) or pulmonary compromise. <span class="ev ev-ii">Source ref [34, 52]</span></p>
+
+<div class="algo">
+  <strong>Trigger Thresholds:</strong>
+  <ul>
+    <li><strong>Score 5&ndash;6 (Medium Risk):</strong> Urgent review by a clinician with critical care skills.</li>
+    <li><strong>Score 7+ (High Risk):</strong> Activation of Rapid Response Team (RRT).</li>
+  </ul>
+</div>
+
+<h3>8.2 Leveraging the RRT</h3>
+<p>The RRT brings ICU-level expertise to the bedside. For the orthopedic surgeon, RRT activation for a patient with refractory hypotension or unexplained tachycardia allows for rapid diagnostic ultrasound (POCUS), advanced airway management, and high-level decisions about transfer to higher care, preventing <strong>&ldquo;failure to rescue&rdquo; events</strong>. <span class="ev ev-ii">Source ref [36, 37]</span></p>
+
+<!-- Section 9: References -->
+<div class="ref-section" id="s9">
+  <h2>References (Derived from Source Document)</h2>
+  <ol class="ref-list">
+    <li>[1] Perioperative Fluid Management in Enhanced Recovery after Surgery. PMC6395091.</li>
+    <li>[2] ACS TQIP: Best Practices in Management of Orthopaedic Trauma. American College of Surgeons.</li>
+    <li>[3] How We Do It: Enhanced Recovery Pathway for Geriatric Hip Fracture. ASRA Newsletter, 2021.</li>
+    <li>[4] Evaluation, Resuscitation &amp; DCO. Orthobullets, Trauma.</li>
+    <li>[5] Compartment Syndrome in All Four Extremities (Systemic Capillary Leak). PMC3041888.</li>
+    <li>[6] Potassium and Anaesthesia. WFSAH Resources.</li>
+    <li>[7] Lactate as Predictor of Mortality in Polytrauma. PMC4737353.</li>
+    <li>[8] Roles of Lactate and Base Deficit in Predicting Traumatic Coagulopathy. PLOS One.</li>
+    <li>[9] Fluid Management in Patients with Trauma: Restrictive vs Liberal Approach. PMC4541175.</li>
+    <li>[10] Resuscitation Fluid Types in Sepsis, Surgical, and Trauma Patients (Network Meta-analyses). PMC7734863.</li>
+    <li>[11] Best Practices Guidelines: Geriatric Trauma. American College of Surgeons.</li>
+    <li>[12] Age-Dependent Association of Occult Hypoperfusion and Outcome in Trauma. PMC7719288.</li>
+    <li>[13] Safety &amp; Efficacy of Balanced Crystalloid vs Normal Saline in Non-Cardiac Surgeries. European Review.</li>
+    <li>[14] Comparison of Balanced Crystalloids vs Normal Saline in Critically Ill Patients. PMC10577264.</li>
+    <li>[15] Prehospital Trauma Compendium: Fluid Resuscitation (NAEMSP Position Statement). Taylor &amp; Francis.</li>
+    <li>[16] 2023 WSES Guidelines on Management of Trauma in the Elderly. PMC11140935.</li>
+    <li>[17] ERAS Protocol in Geriatric Hip Fractures: An Observational Study. PMC10434293.</li>
+    <li>[18] Lactate Clearance as Surrogate for Mortality in Cardiogenic Shock (DOREMI Trial). AHA Journals.</li>
+    <li>[19] Interpretation of Arterial Blood Gases (ABGs). American Thoracic Society.</li>
+    <li>[20] Arterial Blood Gases Made Easy. PMC5873626.</li>
+    <li>[21] ABG Analysis Made Easy with Tic-Tac-Toe Method. Nurseslabs.</li>
+    <li>[22] Arterial Blood Gas. StatPearls, NCBI Bookshelf, NBK536919.</li>
+    <li>[23] Base Deficit Is Superior to Lactate in Trauma. TREFF Fresno.</li>
+    <li>[24] Lactate and Base Deficit in Trauma: Prognostic Value. Colombian J Anesthesiology.</li>
+    <li>[25] Potassium Replacement. Vanderbilt University Medical Center Protocol.</li>
+    <li>[26] Calcium Gluconate. StatPearls, NCBI Bookshelf, NBK557463.</li>
+    <li>[27] Enhanced Recovery After Surgery for Major Orthopedic Surgery (Narrative Review). PMC8864772.</li>
+    <li>[28] Management Algorithm for Adults with Hyperkalemia (K &gt; 5.5). ACEP.</li>
+    <li>[29] Acute Management of Hyperkalemia. Gloucestershire Hospitals NHS.</li>
+    <li>[30] Hyperkalemia. EMCrit / IBCC.</li>
+    <li>[31] Mean Arterial Pressure Goal in Critically Ill Patients (Meta-Analysis of RCTs). PMC9187355.</li>
+    <li>[32] Compartment Syndrome: What It Is, Symptoms &amp; Treatments. Cleveland Clinic.</li>
+    <li>[33] Fluid Resuscitation in Trauma: Best Strategies and Fluids. PMC6894336.</li>
+    <li>[34] Using NEWS2: An Essential Component of Reliable Clinical Assessment. PMC9761428.</li>
+    <li>[35] National Early Warning Score Systems (NICE Advice MIB205).</li>
+    <li>[36] Development of Evidence-Based Rapid Response Team Protocols. Georgia College &amp; State University DNP.</li>
+    <li>[37] Clinical Sign-Based Rapid Response Team Call Criteria. PMC8619995.</li>
+    <li>[38] Podcast 289: Saline vs Balanced Crystalloids. EM:RAP / YouTube.</li>
+    <li>[39] Balanced Crystalloids vs Normal Saline in DKA (Meta-Analysis of RCTs). Frontiers in Endocrinology.</li>
+    <li>[40] Failure to Clear Elevated Lactate Predicts 24-Hour Mortality in Trauma. PMC4586044.</li>
+    <li>[41] Prognostic Value of Lactate Levels in Trauma Patients. PMC12036503.</li>
+    <li>[42] Effects of Occult Hypoperfusion on Local Circulation &amp; Inflammation. Frontiers in Immunology.</li>
+    <li>[43] Geriatric Trauma Resuscitation Protocol Using Venous Lactate. Boston University.</li>
+    <li>[44] Potassium. StatPearls, NCBI Bookshelf, NBK539791.</li>
+    <li>[45] Preoperative Hypokalemia and Postoperative Complications in the Elderly. PMC9469624.</li>
+    <li>[46] Impact of Hyperkalemia on Surgery Case Cancellation. Transpopmed.org.</li>
+    <li>[47] Postoperative Hypokalemia in Primary Total Joint Arthroplasty. PMC10782241.</li>
+    <li>[48] Mastering Blood Gas Interpretation (Primary Care). PMC12067511.</li>
+    <li>[49] Acute Compartment Syndrome. StatPearls, NCBI Bookshelf, NBK448124.</li>
+    <li>[50] Under Pressure: Compartment Syndrome Diagnostics. Taming the SRU.</li>
+    <li>[51] Compartment Syndrome. OrthoInfo, AAOS.</li>
+    <li>[52] National Early Warning Score (NEWS) 2. Royal College of Physicians.</li>
+    <li>[53] Predictive Power of NEWS2 (Multi-centre Trial). PMC8718668.</li>
+  </ol>
+</div>
+
+<p style="text-align:center;color:var(--text-muted);font-size:.78rem;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border)">
+  Educational content derived exclusively from the provided source document. Evidence badges indicate source references where applicable. <span class="ev ev-ns">ns</span> = not specified in source.
+</p>
+
+</main>
+
+<!-- ========== SIDEBAR ========== -->
+<aside class="sidebar" aria-label="Interactive Clinical Decision Tools">
+
+  <div class="sidebar-card">
+    <h3>&#128200; Metabolic Parameter Monitor</h3>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:1rem">Adjust sliders to simulate patient parameters. Recommendations update in real-time based on source document thresholds.</p>
+
+    <!-- Slider 1: Lactate -->
+    <div class="slider-group">
+      <label>Serum Lactate <span class="val-display" id="lactate-val">2.0 mmol/L</span></label>
+      <input type="range" id="lactate-slider" min="0.5" max="12" step="0.1" value="2.0" aria-label="Serum Lactate level">
+      <div class="slider-ticks"><span>0.5</span><span>2.0</span><span>4.0</span><span>8.0</span><span>12</span></div>
+    </div>
+
+    <!-- Slider 2: Base Deficit -->
+    <div class="slider-group">
+      <label>Base Deficit <span class="val-display" id="bd-val">0 mEq/L</span></label>
+      <input type="range" id="bd-slider" min="-15" max="5" step="0.5" value="0" aria-label="Base Deficit level">
+      <div class="slider-ticks"><span>-15</span><span>-10</span><span>-6</span><span>-2</span><span>0</span><span>+5</span></div>
+    </div>
+
+    <!-- Slider 3: Potassium -->
+    <div class="slider-group">
+      <label>Serum Potassium <span class="val-display" id="k-val">4.0 mEq/L</span></label>
+      <input type="range" id="k-slider" min="2.5" max="8.0" step="0.1" value="4.0" aria-label="Serum Potassium level">
+      <div class="slider-ticks"><span>2.5</span><span>3.5</span><span>5.0</span><span>6.5</span><span>8.0</span></div>
+    </div>
+
+    <!-- Recommendation Panel -->
+    <div class="rec-panel" id="rec-panel">
+      <div id="rec-status" class="rec-status status-normal">LOW RISK</div>
+      <h4>Clinical Assessment &amp; Recommendation</h4>
+      <div class="rec-text" id="rec-text">
+        All parameters within normal range. Continue standard perioperative monitoring per ERAS protocol.
+      </div>
+      <div style="font-size:.72rem;color:var(--text-muted);margin-top:.6rem;font-style:italic" id="rec-rationale">
+        Rationale: Thresholds derived from source document (Lactate: ref [7,40]; BD: ref [23,24]; K+: ref [6,44]).
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-primary" id="copy-btn" onclick="copyToClipboard()">&#128203; Copy Summary</button>
+      <button class="btn btn-outline" id="reset-btn" onclick="resetSliders()">&#8635; Reset</button>
+    </div>
+  </div>
+
+  <!-- Quick Reference -->
+  <div class="sidebar-card">
+    <h3>&#128218; Quick Reference</h3>
+    <div style="font-size:.8rem;line-height:1.8">
+      <p style="margin-bottom:.5rem"><strong>Lactate Thresholds</strong></p>
+      <ul style="margin-left:1rem;margin-bottom:.8rem">
+        <li>&lt; 2.0: Normal</li>
+        <li>2.0&ndash;4.0: Elevated &mdash; monitor closely</li>
+        <li>&gt; 4.0: Critical &mdash; DCO indication <span class="ev ev-ii">[4]</span></li>
+      </ul>
+      <p style="margin-bottom:.5rem"><strong>Base Deficit (Davis)</strong></p>
+      <ul style="margin-left:1rem;margin-bottom:.8rem">
+        <li>&minus;2 to &minus;6: Mild</li>
+        <li>&minus;6 to &minus;10: Moderate</li>
+        <li>&lt; &minus;10: Severe (high mortality) <span class="ev ev-ii">[23]</span></li>
+      </ul>
+      <p style="margin-bottom:.5rem"><strong>Potassium</strong></p>
+      <ul style="margin-left:1rem;margin-bottom:.8rem">
+        <li>3.5&ndash;5.0: Normal</li>
+        <li>5.5&ndash;6.5: Peaked T waves</li>
+        <li>6.5&ndash;7.5: PR prolongation</li>
+        <li>&gt; 8.0: Sine wave &mdash; pre-terminal <span class="ev ev-ii">[28]</span></li>
+      </ul>
+      <p style="margin-bottom:.5rem"><strong>DCO Indications</strong></p>
+      <ul style="margin-left:1rem">
+        <li>pH &lt; 7.25</li>
+        <li>Temp &lt; 35&deg;C</li>
+        <li>Coagulopathy</li>
+        <li>Lactate &gt; 4.0 <span class="ev ev-ii">[4]</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Annotation -->
+  <div style="font-size:.72rem;color:var(--text-muted);padding:.8rem;background:#f9fafb;border-radius:var(--radius-sm);border:1px solid var(--border)">
+    <strong>Source Attribution:</strong> All thresholds and recommendations in this interactive tool are derived directly from the provided source document. Where clinical context was absent, general accepted thresholds are annotated as such.
+  </div>
+
+</aside>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+const lactateSlider = document.getElementById('lactate-slider');
+const bdSlider = document.getElementById('bd-slider');
+const kSlider = document.getElementById('k-slider');
+const lactateVal = document.getElementById('lactate-val');
+const bdVal = document.getElementById('bd-val');
+const kVal = document.getElementById('k-val');
+const recPanel = document.getElementById('rec-panel');
+const recStatus = document.getElementById('rec-status');
+const recText = document.getElementById('rec-text');
+const recRationale = document.getElementById('rec-rationale');
+
+function updateAll() {
+  const lactate = parseFloat(lactateSlider.value);
+  const bd = parseFloat(bdSlider.value);
+  const k = parseFloat(kSlider.value);
+
+  lactateVal.textContent = lactate.toFixed(1) + ' mmol/L';
+  bdVal.textContent = (bd >= 0 ? '+' : '') + bd.toFixed(1) + ' mEq/L';
+  kVal.textContent = k.toFixed(1) + ' mEq/L';
+
+  let issues = [];
+  let recommendations = [];
+  let severity = 'normal'; // normal, warning, danger
+  let rationaleParts = [];
+
+  // Lactate assessment
+  if (lactate < 2.0) {
+    lactateVal.style.color = '#0d7a3e';
+    rationaleParts.push('Lactate ' + lactate.toFixed(1) + ' mmol/L: Normal (< 2.0). No anaerobic metabolism identified [ref 7,40].');
+  } else if (lactate < 4.0) {
+    lactateVal.style.color = '#b45309';
+    severity = 'warning';
+    issues.push('Elevated lactate (' + lactate.toFixed(1) + ' mmol/L) suggests occult hypoperfusion or early shock.');
+    recommendations.push('Obtain serial lactate q2h; target &gt; 20% clearance per measurement. Ensure adequate perfusion: consider fluid bolus with balanced crystalloid (LR or Plasma-Lyte). Avoid normal saline to prevent iatrogenic hyperchloremic acidosis.');
+    rationaleParts.push('Lactate 2.0-4.0: Elevated. Associated with increased complication risk. Clearance &gt; 20%/2h is prognostic gold standard [ref 7,17,40].');
+  } else {
+    lactateVal.style.color = '#b91c1c';
+    severity = 'danger';
+    issues.push('Critical lactate (' + lactate.toFixed(1) + ' mmol/L) — indicates significant cellular dysoxia.');
+    recommendations.push('<strong>URGENT:</strong> Initiate aggressive resuscitation with balanced crystalloids and blood products as indicated. If combined with pH &lt; 7.25, temp &lt; 35°C, or coagulopathy → <strong>Damage Control Orthopedics (DCO)</strong> with external fixation only. Transfer to ICU-level care. Serial lactate monitoring q1-2h.');
+    rationaleParts.push('Lactate &gt; 4.0: Critical. DCO indication per source document [ref 4]. Significantly increased mortality risk [ref 7,40,41].');
+  }
+
+  // Base Deficit assessment (Davis Classification)
+  if (bd >= -2) {
+    bdVal.style.color = '#0d7a3e';
+    rationaleParts.push('BD ' + bd.toFixed(1) + ': No significant metabolic deficit.');
+  } else if (bd >= -6) {
+    bdVal.style.color = '#b45309';
+    if (severity !== 'danger') severity = 'warning';
+    issues.push('Mild metabolic acidosis (BD ' + bd.toFixed(1) + ' — Davis: Mild).');
+    recommendations.push('Monitor closely. Assess for occult hypoperfusion in geriatric patients regardless of vital signs. Check anion gap to differentiate lactic vs. hyperchloremic etiology.');
+    rationaleParts.push('BD -2 to -6: Mild per Davis Classification. May indicate early shock or iatrogenic hyperchloremia from saline [ref 8,23].');
+  } else if (bd >= -10) {
+    bdVal.style.color = '#b45309';
+    if (severity !== 'danger') severity = 'warning';
+    issues.push('Moderate metabolic acidosis (BD ' + bd.toFixed(1) + ' — Davis: Moderate).');
+    recommendations.push('Aggressive volume resuscitation with balanced crystalloids. If geriatric: mandatory lactate screening and MAP target &gt; 80 mmHg. Prepare for potential DCO if trending poorly.');
+    rationaleParts.push('BD -6 to -10: Moderate. In geriatric patients, BD &lt; -6 warrants aggressive resuscitation regardless of BP [ref 11,23].');
+  } else {
+    bdVal.style.color = '#b91c1c';
+    severity = 'danger';
+    issues.push('Severe metabolic acidosis (BD ' + bd.toFixed(1) + ' — Davis: Severe, high mortality risk).');
+    recommendations.push('<strong>CRITICAL:</strong> High mortality risk. Initiate Damage Control Resuscitation (1:1:1 plasma:platelets:RBC). Consider DCO with external fixation. ICU transfer required. Address underlying cause (hemorrhage control, renal support).');
+    rationaleParts.push('BD &lt; -10: Severe. Associated with high mortality and large resuscitation requirements [ref 23,24]. DCO likely indicated [ref 4].');
+  }
+
+  // Potassium assessment
+  if (k >= 3.5 && k <= 5.0) {
+    kVal.style.color = '#0d7a3e';
+    rationaleParts.push('K+ ' + k.toFixed(1) + ' mEq/L: Normal range (3.5-5.0).');
+  } else if (k < 3.5) {
+    kVal.style.color = k < 3.0 ? '#b91c1c' : '#b45309';
+    if (k < 3.0) severity = 'danger'; else if (severity !== 'danger') severity = 'warning';
+    let deficit = ((3.5 - k) * 0.6 * 70).toFixed(0); // rough estimate: 0.6 L/kg x 70kg
+    issues.push('Hypokalemia (K+ ' + k.toFixed(1) + ' mEq/L). Risk of arrhythmias, ileus, and muscle weakness.');
+    recommendations.push('Replace K<sup>+</sup>: ~10 mEq KCl raises serum K by ~0.1 mEq/L. Oral route preferred. If IV: peripheral ≤ 10 mEq/hr, central ≤ 20 mEq/hr. <strong>Always check and replete Mg<sup>2+</sup> (&gt; 2.0 mg/dL)</strong> — hypomagnesemia makes hypokalemia refractory. Monitor for Digoxin toxicity if applicable.');
+    rationaleParts.push('K+ &lt; 3.5: Hypokalemia. Risk of arrhythmias especially with Digoxin. 10 mEq KCl → ~0.1 mEq/L rise [ref 25,26].');
+  } else if (k <= 6.5) {
+    kVal.style.color = '#b45309';
+    if (severity !== 'danger') severity = 'warning';
+    issues.push('Mild-moderate hyperkalemia (K+ ' + k.toFixed(1) + ' mEq/L). Expect peaked T waves on ECG.');
+    recommendations.push('<strong>Stabilize membrane:</strong> Calcium gluconate 1-3 g IV (if ECG changes present). <strong>Shift K+:</strong> Insulin 10 U + D50W 50 mL. <strong>Eliminate:</strong> Furosemide 40-80 mg IV, consider potassium binder. Check renal function and acid-base status. Avoid succinylcholine.');
+    rationaleParts.push('K+ 5.5-6.5: Peaked T waves expected. Membrane stabilization with calcium if ECG changes [ref 28,30].');
+  } else if (k <= 7.5) {
+    kVal.style.color = '#b91c1c';
+    severity = 'danger';
+    issues.push('Severe hyperkalemia (K+ ' + k.toFixed(1) + ' mEq/L). Expect prolonged PR, flattened P waves, QRS widening.');
+    recommendations.push('<strong>EMERGENCY:</strong> Calcium gluconate/cloride IV IMMEDIATELY. Insulin + glucose. Nebulized albuterol 10-20 mg. Bicarbonate 50 mEq if acidotic. Loop diuretics. Prepare for DIALYSIS. Continuous ECG monitoring. Avoid all K<sup>+</sup>-containing fluids.');
+    rationaleParts.push('K+ 6.5-7.5: Atrial/ventricular conduction delay. Urgent multi-modal treatment required. Dialysis may be needed [ref 28,29,30].');
+  } else {
+    kVal.style.color = '#b91c1c';
+    severity = 'danger';
+    issues.push('<strong>CRITICAL HYPERKALEMIA</strong> (K+ ' + k.toFixed(1) + ' mEq/L). Sine wave pattern — pre-terminal.');
+    recommendations.push('<strong>LIFE-THREATENING:</strong> Calcium chloride (central line) or calcium gluconate IV push NOW. Simultaneous insulin/glucose, albuterol, bicarbonate. <strong>EMERGENT DIALYSIS.</strong> Continuous cardiac monitoring. Full resuscitation team activation. If rhabdomyolysis suspected (crush injury), initiate aggressive crystalloid infusion (target UOP &gt; 200 mL/hr).');
+    rationaleParts.push('K+ &gt; 8.0: Sine wave pattern — pre-terminal cardiac rhythm. Emergent dialysis indicated [ref 28,30]. Rhabdomyolysis screen if crush mechanism [ref 5].');
+  }
+
+  // Build combined recommendation
+  let statusText = '';
+  let statusClass = '';
+  if (severity === 'normal') {
+    statusText = '✓ LOW RISK';
+    statusClass = 'status-normal';
+    recText.innerHTML = 'All parameters within normal range. Continue standard perioperative monitoring per ERAS protocol. Maintain euvolemia with balanced crystalloid maintenance. Reassess if clinical status changes.';
+  } else if (severity === 'warning') {
+    statusText = '⚠ MODERATE RISK';
+    statusClass = 'status-warning';
+    recText.innerHTML = '<strong>Findings:</strong><br>' + issues.map(i => '• ' + i).join('<br>') +
+      '<br><br><strong>Recommendations:</strong><br>' + recommendations.map(r => '• ' + r).join('<br>');
+  } else {
+    statusText = '🚨 HIGH RISK';
+    statusClass = 'status-danger';
+    recText.innerHTML = '<strong>Critical Findings:</strong><br>' + issues.map(i => '• ' + i).join('<br>') +
+      '<br><br><strong>Immediate Actions:</strong><br>' + recommendations.map(r => '• ' + r).join('<br>');
+  }
+
+  recStatus.textContent = statusText;
+  recStatus.className = 'rec-status ' + statusClass;
+  recRationale.textContent = 'Rationale: ' + rationaleParts.join(' ');
+
+  // Color intensity for slider backgrounds based on danger
+  if (severity === 'danger') {
+    recPanel.style.borderColor = 'var(--danger)';
+    recPanel.style.background = 'linear-gradient(135deg,#fef2f2,#fee2e2)';
+  } else if (severity === 'warning') {
+    recPanel.style.borderColor = 'var(--warning)';
+    recPanel.style.background = 'linear-gradient(135deg,#fffbeb,#fef3c7)';
+  } else {
+    recPanel.style.borderColor = 'var(--primary)';
+    recPanel.style.background = 'linear-gradient(135deg,#f0f7ff,#e8f0fe)';
+  }
+}
+
+lactateSlider.addEventListener('input', updateAll);
+bdSlider.addEventListener('input', updateAll);
+kSlider.addEventListener('input', updateAll);
+
+function resetSliders() {
+  lactateSlider.value = 2.0;
+  bdSlider.value = 0;
+  kSlider.value = 4.0;
+  updateAll();
+}
+
+function copyToClipboard() {
+  const now = new Date();
+  const timestamp = now.toISOString().replace('T', ' ').split('.')[0] + ' UTC';
+  const lactate = parseFloat(lactateSlider.value).toFixed(1);
+  const bd = parseFloat(bdSlider.value).toFixed(1);
+  const k = parseFloat(kSlider.value).toFixed(1);
+  const status = recStatus.textContent;
+  const rec = recText.innerText;
+  const rationale = recRationale.textContent;
+
+  const text = [
+    '=== PERIOPERATIVE METABOLIC ASSESSMENT ===',
+    'Generated: ' + timestamp,
+    '',
+    '--- Parameters ---',
+    'Serum Lactate: ' + lactate + ' mmol/L',
+    'Base Deficit: ' + (parseFloat(bd) >= 0 ? '+' : '') + bd + ' mEq/L',
+    'Serum Potassium: ' + k + ' mEq/L',
+    '',
+    '--- Clinical Assessment ---',
+    'Risk Level: ' + status,
+    '',
+    '--- Recommendation ---',
+    rec,
+    '',
+    '--- Rationale ---',
+    rationale,
+    '',
+    '--- Source ---',
+    'Content derived from: "Perioperative Metabolic Resuscitation in Orthopedic Surgery"',
+    'Interactive tool thresholds based on source document references.',
+    'Lactate: ref [7,40,41] | BD: ref [23,24] | K+: ref [6,28,44] | DCO: ref [4] | Geriatric: ref [11]'
+  ].join('\n');
+
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    } catch (e) {
+      alert('Copy failed. Please copy manually.');
+    }
+    document.body.removeChild(ta);
+  });
+}
+
+// Initialize
+updateAll();
+</script>
+
+</body>
+</html>

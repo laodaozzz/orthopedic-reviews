@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCS Fixation in Femoral Neck Fractures – Interactive Educational Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f9fb;
+  --card: #ffffff;
+  --border: #e2e6ed;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --success: #059669;
+  --success-light: #d1fae5;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --sidebar-w: 340px;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Sticky header */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+  color: #fff; padding: 1rem 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.15);
+}
+.site-header h1 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 700; letter-spacing: -.02em;
+}
+.site-header .subtitle {
+  font-size: .82rem; opacity: .85; margin-top: .15rem; font-weight: 400;
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-w);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+.main-content { min-width: 0; }
+.sidebar-wrapper { position: relative; }
+
+/* Sidebar */
+.sidebar {
+  position: sticky; top: 90px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+.sidebar h2 {
+  font-size: 1rem; font-weight: 700;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent-light);
+  padding-bottom: .5rem; margin-bottom: 1rem;
+}
+.slider-group { margin-bottom: 1.4rem; }
+.slider-group label {
+  display: block; font-size: .82rem; font-weight: 600;
+  color: var(--text); margin-bottom: .25rem;
+}
+.slider-group .range-row {
+  display: flex; align-items: center; gap: .6rem;
+}
+.slider-group input[type="range"] {
+  flex: 1; accent-color: var(--accent);
+  height: 6px; cursor: pointer;
+}
+.slider-val {
+  font-size: .9rem; font-weight: 700;
+  min-width: 48px; text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.slider-hint {
+  font-size: .72rem; color: var(--text-muted); margin-top: .15rem;
+}
+
+/* Recommendation box */
+.rec-box {
+  background: var(--accent-light);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1rem; margin-top: 1rem;
+  font-size: .85rem;
+}
+.rec-box.danger { background: var(--danger-light); border-color: var(--danger); }
+.rec-box.warning { background: var(--warning-light); border-color: var(--warning); }
+.rec-box.success { background: var(--success-light); border-color: var(--success); }
+.rec-box h3 { font-size: .88rem; margin-bottom: .4rem; }
+.rec-box .rec-text { font-size: .8rem; line-height: 1.55; }
+.rec-box .rec-level { font-size: .7rem; color: var(--text-muted); margin-top: .3rem; font-style: italic; }
+
+/* Buttons */
+.btn-row { display: flex; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
+.btn {
+  flex: 1; padding: .55rem .8rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: .78rem; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+  background: var(--card); color: var(--text);
+  text-align: center;
+}
+.btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-export { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-export:hover { background: #1d4ed8; }
+
+/* Main content cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.card h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.45rem; font-weight: 700;
+  color: var(--text); margin-bottom: .8rem;
+  border-left: 4px solid var(--accent);
+  padding-left: .8rem;
+}
+.card h3 {
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--text); margin: 1.4rem 0 .6rem;
+}
+.card h4 {
+  font-size: .95rem; font-weight: 600;
+  color: var(--text-muted); margin: 1rem 0 .4rem;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.card p { margin-bottom: .8rem; font-size: .92rem; }
+.card ul, .card ol { margin: 0 0 .8rem 1.4rem; }
+.card li { margin-bottom: .35rem; font-size: .9rem; }
+.card strong { color: var(--text); }
+
+/* Evidence badge */
+.eb {
+  display: inline-block;
+  font-size: .65rem; font-weight: 700;
+  padding: .15em .45em;
+  border-radius: 4px;
+  vertical-align: middle;
+  letter-spacing: .02em;
+  margin-left: .2em;
+  white-space: nowrap;
+}
+.eb-i { background: var(--success-light); color: var(--success); border: 1px solid #a7f3d0; }
+.eb-ii { background: var(--accent-light); color: var(--accent); border: 1px solid #93c5fd; }
+.eb-iii { background: var(--warning-light); color: var(--warning); border: 1px solid #fcd34d; }
+.eb-iv { background: var(--purple-light); color: var(--purple); border: 1px solid #c4b5fd; }
+.eb-v { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+/* Callout boxes */
+.callout {
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem; margin: 1rem 0;
+  font-size: .88rem;
+}
+.callout-danger { background: var(--danger-light); border-left: 4px solid var(--danger); }
+.callout-warning { background: var(--warning-light); border-left: 4px solid var(--warning); }
+.callout-info { background: var(--accent-light); border-left: 4px solid var(--accent); }
+.callout-success { background: var(--success-light); border-left: 4px solid var(--success); }
+.callout strong { display: block; margin-bottom: .2rem; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: .84rem;
+}
+caption {
+  text-align: left; font-weight: 700;
+  font-size: .92rem; margin-bottom: .5rem;
+  color: var(--text);
+}
+th {
+  background: #f1f5f9;
+  font-weight: 600; text-align: left;
+  padding: .65rem .8rem;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: .55rem .8rem;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:nth-child(even) { background: #f8fafc; }
+
+/* Metric cards */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .8rem; margin: 1.2rem 0;
+}
+.metric-card {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .9rem 1rem;
+  text-align: center;
+}
+.metric-card .metric-val {
+  font-size: 1.6rem; font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.metric-card .metric-label {
+  font-size: .75rem; color: var(--text-muted);
+  margin-top: .15rem; line-height: 1.3;
+}
+
+/* Timeline */
+.timeline { position: relative; padding-left: 2rem; margin: 1rem 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.tl-item { position: relative; margin-bottom: 1.2rem; }
+.tl-item::before {
+  content: ''; position: absolute;
+  left: -2rem; top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.tl-item h4 { margin: 0 0 .2rem; font-size: .9rem; color: var(--accent); text-transform: none; }
+.tl-item p { margin: 0; font-size: .85rem; }
+
+/* References */
+.ref-list { font-size: .78rem; color: var(--text-muted); column-count: 2; column-gap: 2rem; }
+.ref-list li { margin-bottom: .3rem; break-inside: avoid; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: #1e293b; color: #fff;
+  padding: .8rem 1.2rem; border-radius: 8px;
+  font-size: .82rem; font-weight: 500;
+  opacity: 0; transform: translateY(10px);
+  transition: all .3s; z-index: 200;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+  .sidebar-wrapper { order: -1; }
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+  .ref-list { column-count: 1; }
+  .card { padding: 1.2rem; }
+}
+@media (max-width: 500px) {
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .site-header { padding: .8rem 1rem; }
+}
+
+/* Print */
+@media print {
+  .sidebar-wrapper, .site-header, .btn-row, .toast { display: none; }
+  .layout { grid-template-columns: 1fr; }
+  .card { break-inside: avoid; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Cannulated Cancellous Screw Fixation in Femoral Neck Fractures</h1>
+  <p class="subtitle">Anatomical Topography · Radiographic Predictive Metrics · Iatrogenic Intra-Articular Penetration</p>
+</header>
+
+<div class="layout">
+  <!-- ======================== MAIN CONTENT ======================== -->
+  <main class="main-content" role="main" aria-label="Educational content">
+
+    <!-- Executive Summary -->
+    <section class="card" aria-labelledby="sec-summary">
+      <h2 id="sec-summary">Executive Summary</h2>
+      <p>
+        The surgical management of femoral neck fractures (FNFs), particularly in the physiologically young and highly active population, remains one of the most formidable challenges in orthopaedic trauma.
+        The primary objective is achieving <strong>anatomical reduction and robust, stable internal fixation</strong> to preserve the native hip joint architecture.
+        <span class="eb eb-ii">Level II/III</span>
+        <sup>[1]</sup>
+      </p>
+      <p>
+        <strong>Cannulated Cancellous Screws (CCS)</strong>, typically deployed in a parallel configuration (such as the standard inverted triangle), remain a foundational biomechanical technique delivering rotational stability and dynamic interfragmentary compression.
+        <span class="eb eb-i">Level I/II</span>
+        <sup>[2]</sup>
+        However, the complex, asymmetrical spherical geometry of the femoral head, combined with an exceptionally narrow margin for volumetric error, creates a perilous environment for <strong>iatrogenic intra-articular screw penetration</strong>.
+        <span class="eb eb-iii">Level III/IV</span>
+        <sup>[6]</sup>
+      </p>
+      <p>
+        This catastrophic complication violates the highly sensitive chondral environment, precipitating acute chondrolysis, mechanical joint destruction, and accelerated traumatic osteoarthritis (OA).
+        <span class="eb eb-iii">Level III</span>
+        <sup>[7]</sup>
+        This report synthesizes Level I–IV evidence, anatomical stereological studies, and advanced biomechanical models to elucidate exact anatomical dimensions, radiographic limitations, mechanical predictive algorithms, and evidence-based salvage protocols.
+      </p>
+    </section>
+
+    <!-- Dimension 1: Anatomical Mapping -->
+    <section class="card" aria-labelledby="sec-anatomy">
+      <h2 id="sec-anatomy">Dimension 1: Anatomical Mapping of the Femoral Head Articular Cartilage</h2>
+      <p>
+        Accurate CCS placement without breaching the articular surface demands exact, quantitative understanding of the hyaline cartilage topography. The FHAC is <strong>not uniformly distributed</strong>; it exhibits significant regional variation in thickness, adapted to biomechanical load-bearing requirements and tribological stresses.
+        <span class="eb eb-ii">Level II</span>
+        <sup>[9]</sup>
+      </p>
+
+      <h3>Morphometric Topography of the FHAC</h3>
+      <p>
+        Advanced 3D-MRI, stereological analyses, and CT arthrography have provided highly accurate, sub-millimeter measurements of the FHAC.
+        <span class="eb eb-ii">Level II</span>
+        <sup>[10]</sup>
+        Cartilage thickness generally <strong>increases from the periphery toward the central weight-bearing zenith</strong>.
+        <span class="eb eb-ii">Level II/III</span>
+        <sup>[10]</sup>
+      </p>
+
+      <h4>Superior Weight-Bearing Dome (Central Zenith)</h4>
+      <p>
+        The greatest cartilage thickness is consistently identified anterior to the zenith in the central portion of the femoral head.
+        <span class="eb eb-i">Level I/II</span>
+        <sup>[9]</sup>
+        3D-MRI evaluations (fast 3D spoiled gradient-recalled sequences, TR 22 ms / TE 5.6 ms, fat suppression) define the mean thickness in this central portion as <strong>2.8 mm</strong>.
+        <span class="eb eb-ii">Level II</span>
+        <sup>[12]</sup>
+        CT arthrography of cadaveric specimens supports these findings, demonstrating maximal thickness up to <strong>2.53 mm</strong> in superomedial aspects.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[10]</sup>
+        Between ages 20 and 45, the thickness of this zone has been observed to increase, independently of body weight, gender, or femur length.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[9]</sup>
+      </p>
+
+      <h4>Medial and Lateral Peripheral Zones</h4>
+      <p>
+        Cartilage attenuates significantly toward the joint periphery: medial mean <strong>1.3 mm</strong>, lateral mean <strong>1.1 mm</strong>.
+        <span class="eb eb-ii">Level II</span>
+        <sup>[12]</sup>
+        Specialized MRI protocols have documented superolateral thickness as critically low as <strong>0.8 mm</strong>.
+        <span class="eb eb-ii">Level II</span>
+        <sup>[14]</sup>
+        This peripheral thinning creates a high-risk scenario: screws directed toward the peripheral margins—often intentionally placed within 3 mm of the cortical endosteum—have a severely diminished cartilaginous buffer compared to centrally placed screws.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[15]</sup>
+      </p>
+
+      <h4>Fovea Centralis Region</h4>
+      <p>
+        The fovea capitis (attachment site for the ligamentum teres) has a mean perimeter of <strong>4.2 ± 0.9 cm</strong> and an area of <strong>4.84 ± 0.1 cm²</strong>.
+        <span class="eb eb-iv">Level IV</span>
+        <sup>[18]</sup>
+        While the fovea itself is devoid of hyaline cartilage, the cartilage immediately surrounding the foveal perimeter is relatively thick.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[10]</sup>
+        A <em>"fovea magna"</em> (FCI &gt; 35%) or <em>"fovea profunda"</em> (depth &gt; 4 mm) significantly alters the subchondral landscape, creating focal areas where an advancing screw may breach the joint space prematurely.
+        <span class="eb eb-iv">Level IV</span>
+        <sup>[19]</sup>
+      </p>
+
+      <!-- Zonal Metrics -->
+      <h3>Key Metrics: Zonal Distribution of FHAC Thickness</h3>
+      <div class="metrics-grid" role="list" aria-label="Cartilage thickness metrics">
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">2.80 mm</div>
+          <div class="metric-label">Central Portion (Zenith) Mean<br><span style="font-size:.68rem;">Range: 2.30–2.80 mm</span><br><span class="eb eb-ii" style="margin-top:.2rem;">Level II [12]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">1.18–1.78 mm</div>
+          <div class="metric-label">Superior Dome (General) Mean<br><span style="font-size:.68rem;">Range: 0.32–2.53 mm</span><br><span class="eb eb-ii" style="margin-top:.2rem;">Level II/III [10]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">1.30 mm</div>
+          <div class="metric-label">Medial Periphery Mean<br><span class="eb eb-ii" style="margin-top:.2rem;">Level II [12]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">1.10 mm</div>
+          <div class="metric-label">Lateral Periphery Mean<br><span style="font-size:.68rem;">Can thin to 0.80 mm</span><br><span class="eb eb-ii" style="margin-top:.2rem;">Level II [12]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">&lt; 0.60 mm</div>
+          <div class="metric-label">Advanced OA (Lateral)<br><span class="eb eb-ii" style="margin-top:.2rem;">Level II/III [12]</span></div>
+        </div>
+      </div>
+
+      <h3>Surgical &amp; Biomechanical Implications of Cartilage Topography</h3>
+      <div class="callout callout-warning">
+        <strong>⚠ High-Risk Peripheral Placement</strong>
+        The asymmetric, variable distribution of the FHAC implies the "safe zone" is deeply contingent on screw trajectory. A central-axis screw has up to <strong>2.8 mm</strong> of overlying cartilage buffer, while peripheral screws in the inverted triangle configuration face a cortical boundary with as little as <strong>0.8 mm</strong> of cartilage.
+        <span class="eb eb-iii">Level III [2]</span>
+        Consequently, peripheral screws require a highly conservative depth protocol, typically terminating <strong>5 mm short of the subchondral line</strong>.
+        <span class="eb eb-iii">Level III [15]</span>
+      </div>
+    </section>
+
+    <!-- Dimension 2: Radiographic Assessment & Biomechanical Metrics -->
+    <section class="card" aria-labelledby="sec-radiology">
+      <h2 id="sec-radiology">Dimension 2: Radiographic Assessment &amp; Biomechanical Metrics</h2>
+      <p>
+        The fundamental cause of unrecognized iatrogenic intra-articular screw penetration is the persistent reliance on <strong>two-dimensional orthogonal fluoroscopy</strong> to evaluate a complex three-dimensional spherical structure during surgery.
+      </p>
+
+      <h3>The Illusion of Standard AP and Lateral Radiographs</h3>
+      <p>
+        Standard AP and lateral intraoperative radiographs project the spherical femoral head as a 2D circle. However, the volume projected by two intersecting orthogonal beams forms a <strong>"Steinmetz solid"</strong> (intersection of two cylinders). The volume of this projection is approximately <strong>27% larger</strong> than the actual spherical volume of the femoral head.
+        <span class="eb eb-iv">Level IV</span>
+        <sup>[6]</sup>
+      </p>
+      <div class="callout callout-danger">
+        <strong>🚨 The 27% Volumetric Discrepancy</strong>
+        A screw tip positioned in the anterosuperior, anteroinferior, posterosuperior, or posteroinferior quadrants may <em>appear</em> safely contained within the femoral head boundary on both AP and lateral views. In reality, the screw has exited the subchondral bone and breached the joint space.
+        <span class="eb eb-iii">Level III/IV [6]</span>
+        The error is maximized at <strong>45-degree meridians</strong> away from the central axis.
+      </div>
+      <p>
+        Historical guidelines advised placing screws within the central two-thirds of the femoral head. However, this <strong>contradicts the modern biomechanical necessity</strong> of placing screws widely apart against the cortical endosteum for adequate three-point fixation and varus collapse resistance.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[6]</sup>
+      </p>
+
+      <h3>Necessity of Thin-Slice CT</h3>
+      <p>
+        To overcome the geometric limitations of 2D fluoroscopy, a dedicated high-resolution non-contrast <strong>multi-detector CT (MDCT)</strong> is the current gold standard for assessing intra-articular extension and hardware penetration.
+        <span class="eb eb-i">Level I/II</span>
+        <sup>[23]</sup>
+      </p>
+      <ul>
+        <li><strong>Slice Thickness Protocols:</strong> Thin-slice CT of <strong>0.5–1.0 mm</strong> is strictly necessary to detect a screw thread protruding 1–2 mm into the joint space.
+          <span class="eb eb-ii">Level II [24]</span>
+          Larger thicknesses (3.0–4.0 mm) are susceptible to <em>partial volume averaging artifacts</em>, where the radiodensity of metal obscures the precise subchondral boundary.
+          <span class="eb eb-ii">Level II/III [13]</span>
+        </li>
+        <li><strong>3D Reconstruction:</strong> 3D surface-rendered reconstructions coupled with metal-artifact reduction algorithms determine the exact length of hardware protrusion and evaluate secondary acetabular cartilage damage.
+          <span class="eb eb-iii">Level III [12]</span>
+        </li>
+      </ul>
+
+      <!-- Imaging Comparison Table -->
+      <h3>Imaging Modalities for Penetration Detection</h3>
+      <div class="table-wrap">
+        <table aria-label="Comparison of imaging modalities">
+          <caption>Table 1. Comparison of Imaging Modalities for Detecting Intra-Articular Screw Penetration</caption>
+          <thead>
+            <tr>
+              <th>Imaging Modality</th>
+              <th>Slice Thickness / Projection</th>
+              <th>Efficacy in Detecting Penetration</th>
+              <th>Primary Limitations</th>
+              <th>EBM Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Standard X-Ray (AP/Lat)</strong></td>
+              <td>2D Orthogonal</td>
+              <td style="color:var(--danger);font-weight:600;">Poor</td>
+              <td>27% volumetric error (Steinmetz solid); cannot detect diagonal breaches <sup>[6]</sup></td>
+              <td><span class="eb eb-iii">Level III/IV</span></td>
+            </tr>
+            <tr>
+              <td><strong>Standard CT</strong></td>
+              <td>3.0–4.0 mm</td>
+              <td style="color:var(--warning);font-weight:600;">Moderate</td>
+              <td>Partial volume averaging and beam-hardening artifacts obscure sub-millimeter breaches <sup>[26]</sup></td>
+              <td><span class="eb eb-ii">Level II</span></td>
+            </tr>
+            <tr>
+              <td><strong>High-Res MDCT</strong></td>
+              <td>0.5–1.0 mm</td>
+              <td style="color:var(--success);font-weight:600;">Excellent (Gold Standard)</td>
+              <td>Optimal spatial resolution; practically eliminates partial volume effect <sup>[24]</sup></td>
+              <td><span class="eb eb-i">Level I/II</span></td>
+            </tr>
+            <tr>
+              <td><strong>3D-MRI</strong></td>
+              <td>1.5–3.0 mm</td>
+              <td style="color:var(--success);font-weight:600;">Excellent for cartilage</td>
+              <td>Severe hardware magnetic susceptibility artifacts; largely unusable for post-op screw detection <sup>[12]</sup></td>
+              <td><span class="eb eb-ii">Level II</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Biomechanical Predictive Metrics: TAD and CCS Adaptations</h3>
+      <p>
+        Mechanical failure of FNF fixation manifests as varus collapse, non-union, or screw cut-out (dynamic failure where the screw migrates through the superior femoral head).
+      </p>
+
+      <h4>Tip-Apex Distance (TAD)</h4>
+      <p>
+        Baumgaertner et al. (1995) developed the TAD for sliding hip screws (SHS): the sum of the distance from the screw tip to the femoral head apex on AP and lateral views, correcting for magnification.
+        <span class="eb eb-i">Level I/II</span>
+        <sup>[29]</sup>
+        A TAD of <strong>&lt; 25 mm</strong> is universally recognized as highly protective against SHS cut-out.
+        <span class="eb eb-i">Level I/II</span>
+        <sup>[17]</sup>
+      </p>
+
+      <h4>Combined TAD for Multiple CCS</h4>
+      <p>
+        Translating TAD to multiple CCS is mechanically complex—CCS constructs rely on static length and friction rather than a single dynamic sliding barrel. A "Combined" or "Mean" TAD for multiple screws should be maintained between <strong>15–20 mm</strong>.
+        <span class="eb eb-ii">Level II/III</span>
+        <sup>[32]</sup>
+        For newer double-screw cephalomedullary systems (e.g., InterTAN, Femoral Neck System), ROC analyses establish a critical cut-off of <strong>29.50 mm</strong>, beyond which cut-out risk increases exponentially.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[33]</sup>
+      </p>
+
+      <h4>Screw-Subchondral Distance</h4>
+      <p>
+        CCS lack the massive surface area of an SHS lag screw. Positioning too far from the subchondral bone drastically reduces purchase in osteoporotic cancellous bone. The optimal protocol dictates screw tips should end <strong>5 mm short of the subchondral bone</strong> in all planes to balance maximum purchase with prevention of penetration.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[15]</sup>
+      </p>
+
+      <h4>Configuration Biomechanics</h4>
+      <p>
+        An <strong>inverted triangle configuration</strong> (one inferior calcar screw, two superior screws) placed parallel to the neck axis and spread as widely as possible against the cortical endosteum (within 3 mm) maximizes the area moment of inertia and dramatically resists shear forces.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[15]</sup>
+        Non-parallel trajectory results in significantly higher cut-out risk, as such screws fail to accommodate the natural physiological shortening of the femoral neck during healing.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[39]</sup>
+      </p>
+
+      <!-- Biomechanical Metrics -->
+      <h3>Key Metrics: Radiographic &amp; Biomechanical Thresholds</h3>
+      <div class="metrics-grid" role="list" aria-label="Biomechanical thresholds">
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">0.5–1.0 mm</div>
+          <div class="metric-label">CT Slice Thickness for Penetration Detection<br><span class="eb eb-i" style="margin-top:.2rem;">Level I/II [24]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">27%</div>
+          <div class="metric-label">Volumetric Error of 2D Fluoroscopy<br>(Steinmetz Solid Effect)<br><span class="eb eb-iv" style="margin-top:.2rem;">Level IV [6]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">&lt; 25 mm</div>
+          <div class="metric-label">Optimal TAD (Single Screw / SHS)<br><span class="eb eb-i" style="margin-top:.2rem;">Level I/II [17]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">15–20 mm</div>
+          <div class="metric-label">Optimal Mean TAD (Multiple CCS)<br><span class="eb eb-ii" style="margin-top:.2rem;">Level II/III [32]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">5 mm</div>
+          <div class="metric-label">Target Screw-Subchondral Distance<br><span class="eb eb-iii" style="margin-top:.2rem;">Level III [15]</span></div>
+        </div>
+        <div class="metric-card" role="listitem">
+          <div class="metric-val">29.50 mm</div>
+          <div class="metric-label">Critical TAD Cut-off (Double-Screw Cephalomedullary)<br><span class="eb eb-iii" style="margin-top:.2rem;">Level III [33]</span></div>
+        </div>
+      </div>
+
+      <!-- Biomechanical Parameters Comparison Table -->
+      <h3>Biomechanical Parameters: CCS vs. SHS Constructs</h3>
+      <div class="table-wrap">
+        <table aria-label="CCS vs SHS biomechanical parameters">
+          <caption>Table 2. Biomechanical Parameter Comparison: CCS vs. Sliding Hip Screw (SHS) Constructs</caption>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Cannulated Cancellous Screws (CCS)</th>
+              <th>Sliding Hip Screw (SHS)</th>
+              <th>Clinical Implication</th>
+              <th>EBM Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mechanism of Compression</strong></td>
+              <td>Static friction; separate stress distribution</td>
+              <td>Dynamic sliding barrel</td>
+              <td>CCS cannot accommodate shortening as effectively as SHS <sup>[39]</sup></td>
+              <td><span class="eb eb-iii">Level III</span></td>
+            </tr>
+            <tr>
+              <td><strong>Cut-Out Prediction</strong></td>
+              <td>Mean TAD 15–20 mm</td>
+              <td>TAD &lt; 25 mm</td>
+              <td>CCS have narrower tolerance window <sup>[32]</sup></td>
+              <td><span class="eb eb-ii">Level II/III</span></td>
+            </tr>
+            <tr>
+              <td><strong>Subchondral Distance Target</strong></td>
+              <td>5 mm from subchondral bone</td>
+              <td>To subchondral bone (apex)</td>
+              <td>CCS require conservative depth to avoid penetration <sup>[15]</sup></td>
+              <td><span class="eb eb-iii">Level III</span></td>
+            </tr>
+            <tr>
+              <td><strong>Optimal Configuration</strong></td>
+              <td>Inverted triangle; parallel; wide spread</td>
+td>
+              <td>Single lag screw + side plate</td>
+              <td>CCS spread maximizes moment of inertia <sup>[15]</sup></td>
+              <td><span class="eb eb-iii">Level III</span></td>
+            </tr>
+            <tr>
+              <td><strong>Rotational Stability</strong></td>
+              <td>High (multi-point fixation)</td>
+              <td>Moderate (single axis)</td>
+              <td>CCS superior for rotational control in non-displaced fractures <sup>[2]</sup></td>
+              <td><span class="eb eb-i">Level I/II</span></td>
+            </tr>
+            <tr>
+              <td><strong>Penetration Risk Profile</strong></td>
+              <td>High (multiple entry points near periphery)</td>
+              <td>Moderate (single axis)</td>
+              <td>Each CCS independently risks articular breach <sup>[6]</sup></td>
+              <td><span class="eb eb-iii">Level III/IV</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Dimension 3: Clinical Consequences -->
+    <section class="card" aria-labelledby="sec-sequelae">
+      <h2 id="sec-sequelae">Dimension 3: Clinical Consequences — Chondrolysis &amp; Traumatic OA</h2>
+      <p>
+        When the rigid thread of a titanium or stainless-steel cannulated screw breaches the delicate 0.8–2.8 mm hyaline cartilage layer, the biological and mechanical consequences are <strong>severe, rapid, and often irreversible</strong>.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[10]</sup>
+      </p>
+
+      <h3>Pathogenesis of Secondary Chondrolysis</h3>
+      <p>
+        Chondrolysis is clinically defined as acute, rapid, widespread necrosis of articular cartilage, characterized radiographically by severe global joint space narrowing, rapid subchondral cystic changes, and persistent juxta-articular osteoporosis.
+        <span class="eb eb-iii">Level III/IV</span>
+        <sup>[7]</sup>
+        Iatrogenic chondrolysis from screw penetration represents a distinct, accelerated, mechanically driven pathology.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[41]</sup>
+      </p>
+
+      <h4>1. Mechanical Scuffing and Tribology</h4>
+      <p>
+        The hip is a highly congruent, intense weight-bearing ball-and-socket joint. A protruding metallic screw thread acts as a <strong>mechanical rasp</strong> against the opposing acetabular cartilage during every physiological cycle of hip motion.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[8]</sup>
+        This causes immediate local chondrocyte death, full-thickness cartilage fissuring, and mechanical shearing of the acetabular labrum.
+        <span class="eb eb-iii">Level III/IV</span>
+        <sup>[14]</sup>
+      </p>
+
+      <h4>2. Thermal and Ischemic Insult</h4>
+      <p>
+        Drilling and tapping subchondral bone without adequate irrigation can induce <strong>thermal necrosis</strong> of adjacent cartilage.
+        <span class="eb eb-iv">Level IV</span>
+        <sup>[8]</sup>
+        Elevated intra-articular pressure from hematoma or effusion compromises synovial fluid diffusion required for chondrocyte nourishment, leading to ischemic cell death.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[45]</sup>
+        This mirrors the rapid chondrocyte apoptosis observed with continuous intra-articular bupivacaine infusions.
+        <span class="eb eb-ii">Level II/III</span>
+        <sup>[8]</sup>
+      </p>
+
+      <h4>3. Inflammatory Cascade</h4>
+      <p>
+        Microscopic metallic wear debris triggers an aggressive <strong>synovial inflammatory response</strong>.
+        <span class="eb eb-iii">Level III/IV</span>
+        <sup>[8]</sup>
+        Macrophages phagocytize the debris, releasing pro-inflammatory cytokines (IL-1, TNF-α) and matrix metalloproteinases (MMPs) that indiscriminately degrade the type II collagen and aggrecan matrix of the <em>entire</em> joint—not just the focal contact area—leading to global joint failure.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[8]</sup>
+      </p>
+
+      <h3>Timeline: Chondrolysis vs. Traumatic OA</h3>
+      <div class="timeline" role="list" aria-label="Timeline comparison">
+        <div class="tl-item" role="listitem">
+          <h4>Acute Chondrolysis: 6–18 Months Post-Op</h4>
+          <p>
+            Onset is characteristically acute or subacute. Severe, disproportionate resting pain, global ROM reduction, and aggressive arthrofibrosis manifest rapidly. Radiographic destruction (joint space loss &gt; 50%) is exceptionally rapid and symmetric.
+            <span class="eb eb-iii">Level III [7]</span>
+          </p>
+        </div>
+        <div class="tl-item" role="listitem">
+          <h4>Traumatic Osteoarthritis: Years to Decades</h4>
+          <p>
+            Secondary OA develops insidiously over years or decades. Presents with chronic radiographic signs: asymmetric joint space narrowing, subchondral sclerosis, and marginal osteophytes—characteristically absent in early chondrolysis.
+            <span class="eb eb-iii">Level III/IV [7][8]</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="callout callout-danger">
+        <strong>🔬 Critical Diagnostic Distinction</strong>
+        Acute chondrolysis presents with <strong>symmetric</strong> rapid joint space loss within 6–18 months, while traumatic OA presents with <strong>asymmetric</strong> narrowing and osteophytes over years. Misdiagnosis delays salvage intervention and results in irreversible joint destruction.
+      </div>
+
+      <!-- Chondrolysis vs OA Comparison Table -->
+      <h3>Comparative Features: Chondrolysis vs. Traumatic OA</h3>
+      <div class="table-wrap">
+        <table aria-label="Chondrolysis vs OA comparison">
+          <caption>Table 3. Comparative Features of Acute Chondrolysis vs. Traumatic Osteoarthritis After Screw Penetration</caption>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Acute Iatrogenic Chondrolysis</th>
+              <th>Secondary Traumatic OA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Onset</strong></td>
+              <td>6–18 months post-op (acute/subacute)</td>
+              <td>Years to decades (insidious)</td>
+            </tr>
+            <tr>
+              <td><strong>Pain Pattern</strong></td>
+              <td>Severe, disproportionate resting pain</td>
+              <td>Chronic, activity-related pain</td>
+            </tr>
+            <tr>
+              <td><strong>Joint Space Narrowing</strong></td>
+              <td>Rapid, symmetric (&gt; 50% loss)</td>
+              <td>Slow, asymmetric</td>
+            </tr>
+            <tr>
+              <td><strong>Osteophyte Formation</strong></td>
+              <td>Absent in early stages</td>
+              <td>Florid, marginal</td>
+            </tr>
+            <tr>
+              <td><strong>Subchondral Cysts</strong></td>
+              <td>Rapid, widespread</td>
+              <td>Gradual, localized</td>
+            </tr>
+            <tr>
+              <td><strong>Arthrofibrosis</strong></td>
+              <td>Aggressive, early</td>
+              <td>Mild, late</td>
+            </tr>
+            <tr>
+              <td><strong>Primary Mechanism</strong></td>
+              <td>Mechanical abrasion + cytokine-mediated global degradation</td>
+              <td>Altered biomechanics + chronic low-grade irritation</td>
+            </tr>
+            <tr>
+              <td><strong>EBM Evidence</strong></td>
+              <td><span class="eb eb-iii">Level III [7]</span></td>
+              <td><span class="eb eb-iii">Level III/IV [7][8]</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Dimension 4: Salvage Protocols -->
+    <section class="card" aria-labelledby="sec-salvage">
+      <h2 id="sec-salvage">Dimension 4: Evidence-Based Salvage Protocols</h2>
+      <p>
+        Clinical recognition of iatrogenic penetration demands <strong>immediate, decisive surgical intervention</strong>. Conservative management (NSAIDs, offloading, physical therapy) is uniformly unsuccessful in the presence of intra-articular hardware.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[42]</sup>
+        The specific salvage protocol is dictated by timing of detection and extent of cartilage damage.
+      </p>
+
+      <h3>1. Early Detection — Hardware Adjustment (Screw Back-Out)</h3>
+      <p>
+        If penetration is detected intraoperatively (e.g., via advanced 3D C-arm spin) or in the immediate postoperative period (thin-slice CT), the absolute standard is <strong>immediate hardware adjustment</strong>.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[49]</sup>
+      </p>
+      <div class="callout callout-success">
+        <strong>✅ The "Back-Out" Protocol</strong>
+        The offending screw must be withdrawn to achieve a safe subchondral distance. Clinical guidelines recommend backing the screw out by <strong>5 mm</strong> to ensure the tip rests within dense cancellous bone, well away from the subchondral plate.
+        <span class="eb eb-iii">Level III/IV [49]</span>
+      </div>
+      <div class="callout callout-info">
+        <strong>📊 Prognosis of Early Intervention</strong>
+        Extrapolating from SCFE pin penetration literature, if the penetrating hardware is removed or backed out promptly, there is an approximate <strong>75% chance of clinical recovery</strong> and complete cessation of the chondrolytic process.
+        <span class="eb eb-iii">Level III [52]</span>
+      </div>
+
+      <h3>2. Arthroscopic Salvage and Debridement</h3>
+      <p>
+        In young patients where penetration is discovered subacutely, modern hip arthroscopy provides an effective <strong>joint-preserving salvage</strong> option.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[43]</sup>
+      </p>
+      <ul>
+        <li><strong>Surgical Technique:</strong> A guide pin (2.8 mm) is inserted straight down the cannulated center of the offending screw from the lateral cortex, maintaining alignment and preventing displacement into the joint during removal.
+          <span class="eb eb-iii">Level III/IV [43]</span>
+        </li>
+        <li><strong>Osteochondroplasty:</strong> Targeted debridement of reactive bone at the breach site resolves secondary cam-type impingement. Acetabular cartilage and labral lesions from the prominent screw are debrided or reconstructed using soft-tissue allografts.
+          <span class="eb eb-iii">Level III [43]</span>
+        </li>
+        <li><strong>Dynamic Impingement Assessment:</strong> The surgeon can assess dynamic impingement under direct visualization and preserve native joint architecture.
+          <span class="eb eb-iii">Level III/IV [43]</span>
+        </li>
+      </ul>
+
+      <h3>3. Late Salvage: Conversion Arthroplasty</h3>
+      <p>
+        If intervention is delayed and progressive chondrolysis, massive AVN, or catastrophic mechanical cut-out occurs, joint preservation is no longer viable. In young, active patients (&lt; 65 years), AVN or severe mechanical failure necessitating salvage surgery occurs in approximately <strong>17–24.6%</strong> of cases following FNF fixation.
+        <span class="eb eb-ii">Level II/III</span>
+        <sup>[45]</sup>
+      </p>
+
+      <h4>THA vs. Hemiarthroplasty</h4>
+      <p>
+        For established chondrolysis or traumatic OA, <strong>Total Hip Arthroplasty (THA)</strong> is the definitive salvage of choice.
+        <span class="eb eb-ii">Level II/III</span>
+        <sup>[48]</sup>
+        Hemiarthroplasty is reserved strictly for older, lower-demand patients with profound comorbidities, as replacing only the femoral head while leaving a severely abraded acetabulum results in persistent, debilitating groin pain.
+        <span class="eb eb-iii">Level III</span>
+        <sup>[48]</sup>
+      </p>
+
+      <h4>Surgical Nuances in Conversion THA</h4>
+      <ul>
+        <li><strong>Approach:</strong> Frequently performed using a Direct Anterior Approach (DAA) to preserve posterior soft tissues and minimize dislocation risk, with a separate 3-cm lateral incision through prior surgical scar for safe screw extraction.
+          <span class="eb eb-iii">Level III [57]</span>
+        </li>
+        <li><strong>Bone Defects:</strong> Massive bone defects from screw tracts in the lateral cortex and greater trochanter must be bypassed using a long, fully porous-coated or diaphyseal-fitting cementless stem to prevent peri-prosthetic stress risers.
+          <span class="eb eb-iii">Level III/IV [48]</span>
+        </li>
+        <li><strong>Functional Outcomes:</strong> Patients with displaced fractures undergoing conversion THA report significant, long-lasting improvements in functional scores (e.g., Oxford Hip Score).
+          <span class="eb eb-ii">Level II/III [58]</span>
+        </li>
+      </ul>
+
+      <!-- Salvage Protocol Comparison Table -->
+      <h3>Salvage Protocol Summary</h3>
+      <div class="table-wrap">
+        <table aria-label="Salvage protocols comparison">
+          <caption>Table 4. Evidence-Based Salvage Protocols for Iatrogenic Screw Penetration</caption>
+          <thead>
+            <tr>
+              <th>Protocol</th>
+              <th>Timing / Indication</th>
+              <th>Key Technique</th>
+              <th>Expected Outcome</th>
+              <th>EBM Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Screw Back-Out</strong></td>
+              <td>Intraoperative or immediate post-op detection (pre-chondrolysis)</td>
+              <td>Withdraw screw by 5 mm into dense cancellous bone</td>
+              <td>~75% chance of clinical recovery; cessation of chondrolytic process <sup>[52]</sup></td>
+              <td><span class="eb eb-iii">Level III</span></td>
+            </tr>
+            <tr>
+              <td><strong>Hip Arthroscopy</strong></td>
+              <td>Subacute (months post-op); active chondrolysis</td>
+              <td>Guide pin through cannulated screw; osteochondroplasty; labral reconstruction</td>
+              <td>Joint preservation in select patients; impingement resolution <sup>[43]</sup></td>
+              <td><span class="eb eb-iii">Level III</span></td>
+            </tr>
+            <tr>
+              <td><strong>Conversion THA</strong></td>
+              <td>Delayed detection; established chondrolysis, AVN, or mechanical cut-out</td>
+              <td>DAA approach; long porous-coated cementless stem; separate lateral incision for screw extraction</td>
+              <td>Significant functional improvement (Oxford Hip Score); definitive salvage <sup>[58]</sup></td>
+              <td><span class="eb eb-ii">Level II/III</span></td>
+            </tr>
+            <tr>
+              <td><strong>Hemiarthroplasty</strong></td>
+              <td>Older, lower-demand patients with severe comorbidities</td>
+              <td>Femoral head replacement only</td>
+              <td>Risk of persistent groin pain from damaged acetabulum; limited to elderly <sup>[48]</sup></td>
+              <td><span class="eb eb-iii">Level III</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="card" aria-labelledby="sec-conclusion">
+      <h2 id="sec-conclusion">Conclusion</h2>
+      <p>
+        Internal fixation of femoral neck fractures with Cannulated Cancellous Screws represents a rigorous biomechanical challenge operating within exact millimeter tolerances. The anatomical topography of the femoral head articular cartilage is highly variable, providing a protective buffer of up to <strong>2.8 mm centrally</strong> but thinning dangerously to <strong>0.8 mm at the extreme periphery</strong>.
+      </p>
+      <p>
+        This reality, combined with the <strong>27% volumetric projection error</strong> inherent to standard orthogonal fluoroscopy (the Steinmetz solid phenomenon), renders peripherally placed screws highly susceptible to unrecognized joint penetration.
+      </p>
+      <p>
+        To mitigate risk, <strong>high-resolution thin-slice CT (0.5–1.0 mm)</strong> remains the gold standard for postoperative evaluation. In multiple screw constructs, maintaining a strict <strong>screw-subchondral distance of 5 mm</strong> and achieving a parallel, widely spread inverted-triangle configuration maximizes mechanical stability and minimizes cut-out risk.
+      </p>
+      <p>
+        Failure to respect these parameters precipitates an acute, devastating chondrolytic cascade driven by mechanical abrasion and metal-induced inflammatory cytokine storms. Full-thickness cartilage destruction typically occurs within <strong>6–18 months</strong>—significantly faster than the insidious onset of secondary traumatic osteoarthritis. Early detection with a 5 mm screw back-out yields a high likelihood of joint preservation, while delayed presentation necessitates complex conversion to Total Hip Arthroplasty.
+      </p>
+      <div class="callout callout-info">
+        <strong>🎯 Clinical Pearl</strong>
+        Modern orthopaedic surgeons must strictly balance the biomechanical requirement for wide screw spread against the unforgiving anatomical limits of the peripheral articular cartilage to ensure joint survival. The margin for error is measured in fractions of a millimeter.
+      </div>
+    </section>
+
+    <!-- References -->
+    <section class="card" aria-labelledby="sec-refs">
+      <h2 id="sec-refs">References</h2>
+      <ol class="ref-list" aria-label="Reference list">
+        <li>[1] Predictors of early failure in young patients with displaced femoral neck fractures. <em>PMC4421021</em></li>
+        <li>[2] Biomechanical rationale for implant choices in femoral neck fracture fixation in the non-elderly. <em>ResearchGate</em></li>
+        <li>[6] Unrecognised joint penetration in treatment of femoral neck fractures. <em>ResearchGate</em></li>
+        <li>[7] Acute chondrolysis complicating slipped capital femoral epiphysis. <em>PubMed 417597</em></li>
+        <li>[8] Update on Chondrolysis: Etiology and Implications Related to the Use of Intra-articular Local Anesthetic. <em>Brian Cole, MD</em></li>
+        <li>[9] Thickness and distribution of human femoral head articular cartilage: Changes with age. <em>PMC1000131</em></li>
+        <li>[10] Hyaline Cartilage Thickness in Radiographically Normal Cadaveric Hips. <em>Radiology (RSNA)</em></li>
+        <li>[12] MR-based three-dimensional presentation of cartilage thickness in the femoral head. <em>PubMed 11702157</em></li>
+        <li>[13] Cartilage thickness in the hip joint measured by MRI and stereology. <em>ResearchGate</em></li>
+        <li>[14] Regional Articular Cartilage Abnormalities of the Hip. <em>AJR Online</em></li>
+        <li>[15] Cannulated screws for impacted or nondisplaced subcapital femoral neck fractures. <em>AO Surgery Reference</em></li>
+        <li>[17] A review of tip apex distance in dynamic hip screw fixation of osteoporotic hip fractures. <em>ResearchGate</em></li>
+        <li>[18] Morphometry and Morphology of the Fovea Capitis. <em>PMC11965475</em></li>
+        <li>[19] Femoral Head Fovea Capitis Variant Configurations. <em>Brieflands</em></li>
+        <li>[23] Inter- and intra-observer reliability of injury diagnosis for peri-knee fractures. <em>PMC11862847</em></li>
+        <li>[24] Acute Trauma and Chronic Overuse. <em>Musculoskeletal Key</em></li>
+        <li>[29] Is the tip-apex distance a reliable predictor of implant failure? <em>PMC12866040</em></li>
+        <li>[32] Accuracy and awareness of lag screw placement when using the dynamic hip screw. <em>ResearchGate</em></li>
+        <li>[33] Tip-apex distance as a risk factor for cut-out in cephalic double-screw nailing. <em>ResearchGate</em></li>
+        <li>[39] Screw trajectory affects screw cut-out risk. <em>ResearchGate</em></li>
+        <li>[41] Idiopathic chondrolysis of the hip. <em>JOAS</em></li>
+        <li>[42] Bilateral Idiopathic Chondrolysis of the Hip. <em>Hip &amp; Pelvis</em></li>
+        <li>[43] Arthroscopic Treatment of Iatrogenic SCFE Screw Impingement. <em>PMC11887893</em></li>
+        <li>[45] Long-term outcomes following CRIF of FNFs with CCS. <em>PMC11466112</em></li>
+        <li>[48] Salvage Treatment for Postoperative Recurrent FNF. <em>Annals of Clinical Case Reports</em></li>
+        <li>[49] Orthopedics &amp; Rheumatology. <em>MedCrave</em></li>
+        <li>[52] Avascular necrosis and chondrolysis in SUFE. <em>SciELO SA</em></li>
+        <li>[57] Salvage of Failed FNF Fixation with Conversion THA Using DAA. <em>PMC7724028</em></li>
+        <li>[58] Outcomes of salvage THA after failed CCS fixation. <em>PMC11488450</em></li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- ======================== SIDEBAR ======================== -->
+  <aside class="sidebar-wrapper" role="complementary" aria-label="Interactive clinical parameters">
+    <div class="sidebar">
+      <h2>⚙️ Clinical Parameter Calculator</h2>
+      <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:1rem;">
+        Adjust sliders to simulate different intraoperative scenarios. Recommendations are based on source document thresholds.
+      </p>
+
+      <!-- Slider 1: Screw-Subchondral Distance -->
+      <div class="slider-group">
+        <label for="slider-ssd">Screw–Subchondral Distance (mm)</label>
+        <div class="range-row">
+          <input type="range" id="slider-ssd" min="0" max="15" step="0.5" value="5" aria-label="Screw-Subchondral Distance in millimeters">
+          <span class="slider-val" id="val-ssd">5.0 mm</span>
+        </div>
+        <div class="slider-hint">Target: 5 mm (Level III [15]). Source: "screw tips should end 5 mm short of the subchondral bone"</div>
+      </div>
+
+      <!-- Slider 2: Mean TAD -->
+      <div class="slider-group">
+        <label for="slider-tad">Mean Tip-Apex Distance (mm)</label>
+        <div class="range-row">
+          <input type="range" id="slider-tad" min="0" max="45" step="0.5" value="18" aria-label="Mean Tip-Apex Distance in millimeters">
+          <span class="slider-val" id="val-tad">18.0 mm</span>
+        </div>
+        <div class="slider-hint">Optimal: 15–20 mm (Level II/III [32]). Critical cut-off for double-screw: 29.5 mm (Level III [33])</div>
+      </div>
+
+      <!-- Slider 3: Peripheral Cartilage Thickness -->
+      <div class="slider-group">
+        <label for="slider-cart">Peripheral Cartilage Thickness (mm)</label>
+        <div class="range-row">
+          <input type="range" id="slider-cart" min="0" max="3" step="0.1" value="1.1" aria-label="Peripheral cartilage thickness in millimeters">
+          <span class="slider-val" id="val-cart">1.1 mm</span>
+        </div>
+        <div class="slider-hint">Lateral periphery: 1.1 mm (range to 0.8 mm). Central zenith: 2.8 mm. Source [12]</div>
+      </div>
+
+      <!-- Dynamic Recommendation Box -->
+      <div class="rec-box success" id="rec-box" role="status" aria-live="polite">
+        <h3 id="rec-title">✅ Clinical Recommendation</h3>
+        <div class="rec-text" id="rec-text">Loading parameters…</div>
+        <div class="rec-level" id="rec-level"></div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button class="btn" id="btn-reset" type="button" aria-label="Reset all parameters to default">↺ Reset</button>
+        <button class="btn btn-export" id="btn-export" type="button" aria-label="Copy assessment to clipboard">📋 Export</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">Copied to clipboard!</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Element references
+  const ssdSlider = document.getElementById('slider-ssd');
+  const tadSlider = document.getElementById('slider-tad');
+  const cartSlider = document.getElementById('slider-cart');
+  const ssdVal = document.getElementById('val-ssd');
+  const tadVal = document.getElementById('val-tad');
+  const cartVal = document.getElementById('val-cart');
+  const recBox = document.getElementById('rec-box');
+  const recTitle = document.getElementById('rec-title');
+  const recText = document.getElementById('rec-text');
+  const recLevel = document.getElementById('rec-level');
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  const defaults = { ssd: 5, tad: 18, cart: 1.1 };
+
+  function updateAll() {
+    const ssd = parseFloat(ssdSlider.value);
+    const tad = parseFloat(tadSlider.value);
+    const cart = parseFloat(cartSlider.value);
+
+    ssdVal.textContent = ssd.toFixed(1) + ' mm';
+    tadVal.textContent = tad.toFixed(1) + ' mm';
+    cartVal.textContent = cart.toFixed(1) + ' mm';
+
+    generateRecommendation(ssd, tad, cart);
+  }
+
+  function generateRecommendation(ssd, tad, cart) {
+    let riskLevel = 0; // 0=safe, 1=caution, 2=danger
+    let issues = [];
+    let safePoints = [];
+    let evidenceNotes = [];
+
+    // SSD Analysis (from source: target 5mm)
+    if (ssd < 2) {
+      riskLevel = Math.max(riskLevel, 2);
+      issues.push('Screw tip is critically close to the subchondral bone (SSD ' + ssd.toFixed(1) + ' mm). <strong>HIGH RISK of intra-articular penetration.</strong>');
+      evidenceNotes.push('SSD < 2 mm: Screw thread (typically 1–2 mm pitch) may breach cartilage. Source [15]');
+    } else if (ssd < 5) {
+      riskLevel = Math.max(riskLevel, 1);
+      issues.push('Screw–subchondral distance (' + ssd.toFixed(1) + ' mm) is below the recommended 5 mm target. Increased penetration risk, especially with peripheral screws.');
+      evidenceNotes.push('Source recommends 5 mm SSD [15]');
+    } else if (ssd === 5) {
+      safePoints.push('Screw–subchondral distance is at the recommended 5 mm target (Level III [15]).');
+    } else if (ssd > 5 && ssd <= 10) {
+      safePoints.push('SSD of ' + ssd.toFixed(1) + ' mm provides a safe margin. However, excessive distance from subchondral bone may reduce cancellous purchase, especially in osteoporotic bone.');
+      evidenceNotes.push('Source notes CCS lack the surface area of SHS; too far from subchondral bone reduces purchase [15]');
+    } else {
+      riskLevel = Math.max(riskLevel, 1);
+      issues.push('SSD of ' + ssd.toFixed(1) + ' mm is excessively far from the subchondral bone. <strong>Significantly reduced biomechanical purchase</strong> in cancellous bone increases risk of construct failure and cut-out.');
+      evidenceNotes.push('CCS require proximity to subchondral bone for adequate purchase [15]');
+    }
+
+    // TAD Analysis (from source: optimal 15-20mm for multiple CCS)
+    if (tad < 10) {
+      riskLevel = Math.max(riskLevel, 1);
+      issues.push('Mean TAD of ' + tad.toFixed(1) + ' mm is very low. While low TAD reduces cut-out risk, extremely short TAD with CCS may indicate screws are positioned very close to the subchondral bone—verify SSD on CT.');
+    } else if (tad >= 15 && tad <= 20) {
+      safePoints.push('Mean TAD of ' + tad.toFixed(1) + ' mm is within the optimal range for multiple CCS constructs (Level II/III [32]).');
+    } else if (tad > 20 && tad <= 25) {
+      safePoints.push('Mean TAD of ' + tad.toFixed(1) + ' mm is acceptable but approaching the upper limit. Monitor for hardware migration.');
+      evidenceNotes.push('Single-screw TAD threshold: < 25 mm (Level I/II [17])');
+    } else if (tad > 25 && tad <= 29.5) {
+      riskLevel = Math.max(riskLevel, 1);
+      issues.push('Mean TAD of ' + tad.toFixed(1) + ' mm exceeds the optimal 15–20 mm range for multiple CCS. Elevated cut-out risk.');
+      evidenceNotes.push('TAD > 25 mm increases failure risk [17]');
+    } else if (tad > 29.5) {
+      riskLevel = Math.max(riskLevel, 2);
+      issues.push('Mean TAD of ' + tad.toFixed(1) + ' mm exceeds the critical 29.5 mm cut-off for double-screw cephalomedullary systems. <strong>Exponentially increased cut-out risk.</strong> Consider repositioning screws more centrally.');
+      evidenceNotes.push('Critical TAD cut-off: 29.50 mm (Level III [33])');
+    }
+
+    // Cartilage Analysis (from source: lateral periphery 0.8-1.1mm, central 2.8mm)
+    if (cart < 0.8) {
+      riskLevel = Math.max(riskLevel, 2);
+      issues.push('Peripheral cartilage thickness of ' + cart.toFixed(1) + ' mm is below the minimum documented value (0.8 mm). <strong>This may represent an advanced OA hip or measurement error.</strong> Penetration buffer is virtually nonexistent.');
+      evidenceNotes.push('Superolateral cartilage can be as thin as 0.8 mm [14]. Advanced OA: < 0.6 mm [12]');
+    } else if (cart >= 0.8 && cart < 1.5) {
+      issues.push('Peripheral cartilage thickness of ' + cart.toFixed(1) + ' mm provides a minimal buffer. Peripheral screws in the inverted triangle configuration are at highest risk. Strictly enforce the 5 mm SSD protocol for all peripheral screws.');
+      evidenceNotes.push('Lateral periphery mean: 1.1 mm [12]. Peripheral screws face "severely diminished cartilaginous buffer" [15]');
+    } else if (cart >= 1.5 && cart < 2.5) {
+      safePoints.push('Cartilage thickness of ' + cart.toFixed(1) + ' mm suggests a more central screw trajectory with an adequate safety buffer.');
+    } else {
+      safePoints.push('Cartilage thickness of ' + cart.toFixed(1) + ' mm corresponds to the central weight-bearing zenith (2.8 mm mean). Maximum cartilaginous buffer available for centrally placed screws (Level II [12]).');
+    }
+
+    // Composite risk assessment
+    let riskClass, riskLabel;
+    if (riskLevel === 0) {
+      riskClass = 'success';
+      riskLabel = '✅ Low Risk — Safe Configuration';
+    } else if (riskLevel === 1) {
+      riskClass = 'warning';
+      riskLabel = '⚠️ Moderate Risk — Review Parameters';
+    } else {
+      riskClass = 'danger';
+      riskLabel = '🚨 High Risk — Intervention Required';
+    }
+
+    // Build HTML
+    recBox.className = 'rec-box ' + riskClass;
+    recTitle.textContent = riskLabel;
+
+    let html = '';
+    if (issues.length > 0) {
+      html += '<p style="margin-bottom:.5rem;"><strong>Identified Risks:</strong></p><ul style="margin:0 0 .6rem 1rem;">';
+      issues.forEach(function(i) { html += '<li style="margin-bottom:.3rem;">' + i + '</li>'; });
+      html += '</ul>';
+    }
+    if (safePoints.length > 0) {
+      html += '<p style="margin-bottom:.5rem;"><strong>Favorable Parameters:</strong></p><ul style="margin:0 0 .6rem 1rem;">';
+      safePoints.forEach(function(s) { html += '<li style="margin-bottom:.3rem;">' + s + '</li>'; });
+      html += '</ul>';
+    }
+
+    // Action summary
+    html += '<p style="margin-bottom:.3rem;"><strong>Recommended Action:</strong> ';
+    if (riskLevel === 0) {
+      html += 'Proceed with current screw placement. Obtain postoperative thin-slice CT (0.5–1.0 mm) to confirm intraosseous position (Level I/II [23,24]).</p>';
+    } else if (riskLevel === 1) {
+      html += 'Exercise increased caution. Consider intraoperative fluoroscopic reassessment in orthogonal and 45° oblique views. Strongly recommend postoperative thin-slice CT within 24 hours.</p>';
+    } else {
+      html += '<strong>Do not accept current configuration.</strong> Reposition screws to achieve SSD ≥ 5 mm and Mean TAD 15–20 mm. If penetration confirmed intraoperatively, immediately back out offending screw by 5 mm (Level III/IV [49]). If detected postoperatively, urgent thin-slice CT and surgical review for possible back-out or arthroscopic salvage.</p>';
+    }
+
+    // Hardware removal recommendation if applicable
+    if (riskLevel >= 1 && ssd < 3) {
+      html += '<p style="margin-top:.4rem;"><em>If intra-articular penetration is confirmed on CT: ~75% chance of recovery with prompt screw back-out (Level III [52]). Delay risks conversion to THA (Level II/III [45,48]).</em></p>';
+    }
+
+    recText.innerHTML = html;
+
+    // Evidence notes
+    if (evidenceNotes.length > 0) {
+      recLevel.innerHTML = '<strong>Source Evidence:</strong> ' + evidenceNotes.join(' · ');
+    } else {
+      recLevel.innerHTML = '';
+    }
+  }
+
+  // Event listeners
+  ssdSlider.addEventListener('input', updateAll);
+  tadSlider.addEventListener('input', updateAll);
+  cartSlider.addEventListener('input', updateAll);
+
+  btnReset.addEventListener('click', function() {
+    ssdSlider.value = defaults.ssd;
+    tadSlider.value = defaults.tad;
+    cartSlider.value = defaults.cart;
+    updateAll();
+  });
+
+  btnExport.addEventListener('click', function() {
+    const ssd = parseFloat(ssdSlider.value).toFixed(1);
+    const tad = parseFloat(tadSlider.value).toFixed(1);
+    const cart = parseFloat(cartSlider.value).toFixed(1);
+    const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+
+    // Determine risk level from current recommendation
+    const riskClass = recBox.className;
+    let riskLabel = 'Unknown';
+    if (riskClass.includes('success')) riskLabel = 'Low Risk — Safe Configuration';
+    else if (riskClass.includes('warning')) riskLabel = 'Moderate Risk — Review Parameters';
+    else if (riskClass.includes('danger')) riskLabel = 'High Risk — Intervention Required';
+
+    // Extract text content from recommendation
+    const recTextContent = recText.textContent.trim();
+    const recLevelContent = recLevel.textContent.trim();
+
+    const exportText =
+      '═══════════════════════════════════════════════════\n' +
+      'CCS FIXATION — CLINICAL PARAMETER ASSESSMENT\n' +
+      'Exhaustive Analysis of Cannulated Cancellous Screw\n' +
+      'Fixation in Femoral Neck Fractures\n' +
+      '═══════════════════════════════════════════════════\n\n' +
+      'Timestamp: ' + now + '\n\n' +
+      '── MEASURED PARAMETERS ──────────────────────────\n' +
+      'Screw–Subchondral Distance (SSD):  ' + ssd + ' mm\n' +
+      '  → Source target: 5 mm (Level III [15])\n' +
+      'Mean Tip-Apex Distance (TAD):      ' + tad + ' mm\n' +
+      '  → Optimal range: 15–20 mm (Level II/III [32])\n' +
+      '  → Critical cut-off: 29.5 mm (Level III [33])\n' +
+      'Peripheral Cartilage Thickness:    ' + cart + ' mm\n' +
+      '  → Lateral periphery: 1.1 mm [12]\n' +
+      '  → Central zenith: 2.8 mm [12]\n\n' +
+      '── RISK ASSESSMENT ──────────────────────────────\n' +
+      riskLabel + '\n\n' +
+      '── RECOMMENDATION ───────────────────────────────\n' +
+      recTextContent + '\n\n' +
+      (recLevelContent ? '── EVIDENCE BASE ────────────────────────────────\n' + recLevelContent + '\n\n' : '') +
+      '═══════════════════════════════════════════════════\n' +
+      'Source: Exhaustive Analysis of CCS Fixation in FNFs\n' +
+      'References: [6,12,14,15,17,23,24,29,32,33,39,49,52]\n' +
+      '═══════════════════════════════════════════════════\n';
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(exportText).then(function() {
+        showToast('Assessment copied to clipboard!');
+      }).catch(function() {
+        fallbackCopy(exportText);
+      });
+    } else {
+      fallbackCopy(exportText);
+    }
+  });
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast('Assessment copied to clipboard!');
+    } catch (e) {
+      showToast('Copy failed — please copy manually.');
+    }
+    document.body.removeChild(ta);
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }
+
+  // Initialize
+  updateAll();
+})();
+</script>
+</body>
+</html>

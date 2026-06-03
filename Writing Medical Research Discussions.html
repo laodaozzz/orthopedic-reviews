@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Structuring the Discussion Section in Comparative Medical Research</title>
+<style>
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2b6cb0;
+    --accent: #e53e3e;
+    --accent-light: #fc8181;
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --text: #2d3748;
+    --text-light: #718096;
+    --border: #e2e8f0;
+    --success: #38a169;
+    --warning: #d69e2e;
+    --info: #3182ce;
+    --sidebar-bg: #edf2f7;
+    --badge-i: #2b6cb0;
+    --badge-ii: #2c7a7b;
+    --badge-iii: #9b2c2c;
+    --badge-iv: #744210;
+    --badge-v: #553c9a;
+    --badge-na: #718096;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+  a { color: var(--primary-light); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Header */
+  .site-header {
+    background: linear-gradient(135deg, var(--primary) 0%, #234e8e 100%);
+    color: #fff;
+    padding: 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .site-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    max-width: 1200px;
+    margin: 0 auto;
+    line-height: 1.3;
+  }
+  .site-header p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    max-width: 1200px;
+    margin: 0.4rem auto 0;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+  }
+
+  /* Main Content */
+  main { min-width: 0; }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border: 1px solid var(--border);
+  }
+  .card h2 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--primary-light);
+  }
+  .card h3 {
+    color: var(--primary-light);
+    font-size: 1.2rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .card h4 {
+    color: var(--text);
+    font-size: 1.05rem;
+    margin: 1rem 0 0.5rem;
+  }
+  .card p { margin-bottom: 1rem; }
+  .card ul, .card ol { margin: 0 0 1rem 1.5rem; }
+  .card li { margin-bottom: 0.4rem; }
+
+  /* Evidence Badge */
+  .ev-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #fff;
+    vertical-align: middle;
+    margin-left: 4px;
+    letter-spacing: 0.5px;
+  }
+  .ev-badge.ev-i { background: var(--badge-i); }
+  .ev-badge.ev-ii { background: var(--badge-ii); }
+  .ev-badge.ev-iii { background: var(--badge-iii); }
+  .ev-badge.ev-iv { background: var(--badge-iv); }
+  .ev-badge.ev-v { background: var(--badge-v); }
+  .ev-badge.ev-na { background: var(--badge-na); }
+
+  /* Callout Boxes */
+  .callout {
+    border-left: 4px solid;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95rem;
+  }
+  .callout-info { border-color: var(--info); background: #ebf8ff; }
+  .callout-warning { border-color: var(--warning); background: #fefcbf; }
+  .callout-success { border-color: var(--success); background: #f0fff4; }
+  .callout-danger { border-color: var(--accent); background: #fff5f5; }
+  .callout strong { display: block; margin-bottom: 0.3rem; }
+
+  /* Tables */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  caption {
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 8px 8px 0 0;
+  }
+  th {
+    background: #edf2f7;
+    color: var(--primary);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f7fafc; }
+
+  /* Citation */
+  .cite {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    vertical-align: super;
+    font-weight: 600;
+    cursor: help;
+  }
+
+  /* Reference List */
+  .ref-list { font-size: 0.85rem; color: var(--text-light); }
+  .ref-list li { margin-bottom: 0.3rem; }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 140px;
+    align-self: start;
+  }
+  @media (max-width: 1024px) {
+    .sidebar { position: static; }
+  }
+  .sidebar-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border: 1px solid var(--border);
+  }
+  .sidebar-card h3 {
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--primary-light);
+  }
+
+  /* Slider Controls */
+  .slider-group {
+    margin-bottom: 1.25rem;
+  }
+  .slider-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 0.3rem;
+  }
+  .slider-group .slider-hint {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  .slider-group input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary-light);
+    cursor: pointer;
+  }
+  .slider-value {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 0.2rem;
+  }
+  .slider-value .current {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1rem;
+  }
+
+  /* Toggle */
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .toggle-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+    flex: 1;
+  }
+  .toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #cbd5e0;
+    border-radius: 26px;
+    transition: 0.3s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 20px; width: 20px;
+    left: 3px; bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .toggle-switch input:checked + .toggle-slider { background: var(--primary-light); }
+  .toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+  /* Recommendation Box */
+  .recommendation {
+    background: linear-gradient(135deg, #ebf8ff, #e9d8fd);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+    border: 1px solid var(--primary-light);
+    font-size: 0.9rem;
+    min-height: 120px;
+  }
+  .recommendation h4 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  .recommendation ul {
+    margin: 0.5rem 0 0 1.2rem;
+  }
+  .recommendation li { margin-bottom: 0.3rem; font-size: 0.85rem; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--primary-light); }
+  .btn-secondary {
+    background: var(--sidebar-bg);
+    color: var(--primary);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: #e2e8f0; }
+  .btn-group { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+
+  /* Paragraph Model Diagram */
+  .paragraph-model {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+  .para-step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: var(--sidebar-bg);
+    border-left: 4px solid var(--primary-light);
+  }
+  .para-step .para-num {
+    background: var(--primary);
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .para-step .para-title {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.95rem;
+  }
+  .para-step .para-desc {
+    font-size: 0.82rem;
+    color: var(--text-light);
+  }
+
+  /* Flow Arrow */
+  .flow-arrow {
+    text-align: center;
+    color: var(--primary-light);
+    font-size: 1.2rem;
+    padding: 0.1rem 0;
+  }
+
+  /* Phrasing Template Cards */
+  .phrase-card {
+    background: #f7fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+  .phrase-card .phrase-func {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+  .phrase-card .phrase-text {
+    font-style: italic;
+    color: var(--text);
+    font-size: 0.88rem;
+    background: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--info);
+  }
+
+  /* Resource Cards */
+  .resource-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin: 1rem 0;
+    background: #f9fafb;
+    transition: box-shadow 0.2s;
+  }
+  .resource-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .resource-card h4 {
+    color: var(--primary);
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+  }
+  .resource-card .resource-provider {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+  }
+  .resource-card p { font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .resource-link {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary-light);
+    margin-top: 0.3rem;
+  }
+
+  /* TOC */
+  .toc { font-size: 0.88rem; }
+  .toc a {
+    display: block;
+    padding: 0.35rem 0.75rem;
+    border-left: 3px solid transparent;
+    color: var(--text);
+    transition: all 0.2s;
+    border-radius: 0 4px 4px 0;
+  }
+  .toc a:hover, .toc a.active {
+    border-left-color: var(--primary-light);
+    background: #ebf8ff;
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--primary);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    z-index: 200;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  /* Limitations note */
+  .limitations-note {
+    background: #fefcbf;
+    border: 1px solid #d69e2e;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .limitations-note strong { color: #744210; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Advanced Methodologies for Structuring the Discussion Section in Comparative Medical Research</h1>
+  <p>Systematic Reviews, Meta-Analyses, and Clinical Trials — Interactive Educational Summary</p>
+</header>
+
+<div class="layout">
+<main>
+
+  <!-- INTRODUCTION -->
+  <section class="card" id="intro">
+    <h2>Introduction: The Critical Role of the Discussion Section</h2>
+    <p>The dissemination of rigorous medical knowledge depends fundamentally on the clarity, accuracy, and transparency of peer-reviewed literature. Within the universally recognized IMRaD structure (Introduction, Methods, Results, and Discussion), the Discussion section is frequently the most intellectually demanding component.<a href="#ref1" class="cite">[1]</a> While the Results section answers the <strong>"what"</strong> through empirical data, the Discussion bears the burden of answering <strong>"so what"</strong> — transforming raw data into actionable clinical meaning.<a href="#ref3" class="cite">[3][4]</a></p>
+
+    <p>When comparing two interventions — whether through primary data collection of a randomized controlled trial (RCT) or secondary evidence synthesis of a systematic review — the Discussion must meticulously balance observed therapeutic benefits against documented harms.<a href="#ref4" class="cite">[4]</a> Researchers must avoid common pitfalls: overstatement, inappropriate introduction of novel data, and failure to contextualize findings within the pre-existing evidence base.<a href="#ref7" class="cite">[7]</a></p>
+
+    <div class="callout callout-info">
+      <strong>📘 Purpose of This Guide</strong>
+      This educational summary details the optimal methodologies for drafting high-impact Discussion sections. It analyzes the five-paragraph structural model, logical flow, EQUATOR Network reporting requirements (PRISMA and CONSORT), academic phrasing templates, and curated educational resources — all based exclusively on the source document provided.
+    </div>
+
+    <div class="limitations-note">
+      <strong>⚠ Source Document Limitation:</strong> This document is a methodological writing guide, not a clinical study report. It does not contain RCT data, clinical outcome measurements, or traditional evidence hierarchies. Evidence-level badges below reflect the nature of each guideline or recommendation as described in the source (e.g., consensus guidelines = Level V; structured reporting standards from authoritative bodies).
+    </div>
+  </section>
+
+  <!-- FIVE-PARAGRAPH MODEL -->
+  <section class="card" id="model">
+    <h2>The Standard Structural Framework: The Five-Paragraph Model</h2>
+    <p>While medical writers possess a degree of creative freedom, the most universally recommended framework for the Discussion section is the <strong>four-to-six paragraph model</strong>, most commonly standardized as the <strong>five-paragraph model</strong>.<a href="#ref9" class="cite">[9]</a> This architecture provides a predictable, logical sequence that satisfies the cognitive expectations of editors, peer reviewers, and clinical readers.<a href="#ref10" class="cite">[10]</a></p>
+
+    <p>The model follows an <strong>"inverted funnel"</strong> conceptual shape: it begins with the highly specific (immediate, primary findings) and progressively broadens to the general (implications for the global medical community and future research).<a href="#ref3" class="cite">[3]</a></p>
+
+    <span class="ev-badge ev-v">Level V — Expert Consensus</span>
+
+    <div class="paragraph-model" id="paragraphModel">
+      <div class="para-step">
+        <div class="para-num">1</div>
+        <div>
+          <div class="para-title">Principal Findings & Answer to Research Question</div>
+          <div class="para-desc">Direct, declarative proclamation of primary results; answer the research hypothesis<a href="#ref12" class="cite">[12][13]</a></div>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="para-step">
+        <div class="para-num">2</div>
+        <div>
+          <div class="para-title">Contextualization with Existing Literature</div>
+          <div class="para-desc">Anchor findings within the corpus of published evidence; highlight concordance or discrepancy<a href="#ref7" class="cite">[7][8]</a></div>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="para-step">
+        <div class="para-num">3</div>
+        <div>
+          <div class="para-title">Mechanistic Explanations & Unexpected Results</div>
+          <div class="para-desc">Explore the "why" and "how"; propose evidence-based mechanisms; handle anomalies<a href="#ref8" class="cite">[8]</a></div>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="para-step">
+        <div class="para-num">4</div>
+        <div>
+          <div class="para-title">Methodological Limitations</div>
+          <div class="para-desc">Transparent accounting of design constraints, biases, and their directional impact<a href="#ref7" class="cite">[7]</a></div>
+        </div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="para-step">
+        <div class="para-num">5</div>
+        <div>
+          <div class="para-title">Conclusions, Clinical Implications & Future Directions</div>
+          <div class="para-desc">Actionable take-home message; translate statistics into clinical practice; propose future research<a href="#ref8" class="cite">[8]</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paragraph 1 Detail -->
+    <h3>Paragraph 1: Principal Findings</h3>
+    <p>The inaugural paragraph must serve as a direct, declarative, and succinct proclamation of the primary study results.<a href="#ref12" class="cite">[12]</a> It must immediately answer the primary research question or hypothesis posed in the Introduction.<a href="#ref13" class="cite">[13]</a></p>
+
+    <div class="callout callout-danger">
+      <strong>❌ Common Error: Redundant Statistical Reiteration</strong>
+      A critical error frequently observed in novice writing is the redundant listing of detailed statistical values (P-values, confidence intervals, raw patient numbers) already presented in the Results section. The objective is <em>conceptual summarization, not numerical reiteration</em>.<a href="#ref1" class="cite">[1][2]</a>
+    </div>
+
+    <div class="callout callout-success">
+      <strong>✅ Optimal Example</strong>
+      "Our findings suggest that endotracheal tube scraping with an endotracheal tube suction catheter with balloon-sweeping technology, compared to standard endotracheal tube suctioning, did not significantly improve subject outcomes."<a href="#ref12" class="cite">[12]</a>
+    </div>
+
+    <!-- Paragraph 2 Detail -->
+    <h3>Paragraph 2: Contextualization with Existing Literature</h3>
+    <p>No medical study exists in a vacuum. The second paragraph must anchor new data within the existing corpus of medical literature.<a href="#ref8" class="cite">[8]</a> If findings confirm prior studies, this concordance must be explicitly stated to reinforce the reliability of the current scientific consensus.<a href="#ref2" class="cite">[2][12]</a></p>
+    <p>If findings diverge from the established literature, the discrepancy must be addressed directly and transparently.<a href="#ref12" class="cite">[12]</a> Discrepancies commonly arise from differences in:</p>
+    <ul>
+      <li>Specific study populations</li>
+      <li>Variations in intervention dosing, frequency, or delivery mechanisms</li>
+      <li>Divergent follow-up periods<a href="#ref16" class="cite">[16]</a></li>
+    </ul>
+    <p>This paragraph also provides the crucial opportunity to remind the reader of the <strong>"knowledge gap"</strong> identified in the Introduction and explicitly state how the current comparison has bridged that void.<a href="#ref15" class="cite">[15]</a></p>
+
+    <!-- Paragraph 3 Detail -->
+    <h3>Paragraph 3: Mechanistic Explanations & Unexpected Results</h3>
+    <p>The third paragraph transitions from external comparisons to internal interpretations, exploring the biological, pharmacological, physiological, or behavioral mechanisms that account for observed differences in efficacy or safety.<a href="#ref8" class="cite">[8]</a></p>
+
+    <div class="callout callout-warning">
+      <strong>⚡ The "One Layer of Speculation" Rule</strong>
+      Top-tier medical journals allow for <strong>"one layer of speculation only."</strong> Excessive speculation bordering on ungrounded rhetoric weakens the credibility of the entire manuscript.<a href="#ref7" class="cite">[7][13]</a>
+    </div>
+
+    <p>Authors must demonstrate absolute scientific objectivity by considering alternative explanations for their findings.<a href="#ref12" class="cite">[12]</a> Despite efforts to maintain clinical equipoise, it is easy for researchers to consider only explanations that fit their inherent bias.<a href="#ref12" class="cite">[12]</a></p>
+
+    <!-- Paragraph 4 Detail -->
+    <h3>Paragraph 4: Acknowledgment of Methodological Limitations</h3>
+    <p>This paragraph is universally reserved for an exhaustive, transparent, and honest accounting of the study's limitations.<a href="#ref7" class="cite">[7]</a> Far from weakening a manuscript, a robust limitations paragraph <strong>significantly enhances credibility, integrity, and transparency</strong>.<a href="#ref7" class="cite">[7]</a> Peer reviewers are trained to identify methodological flaws; preemptively acknowledging them demonstrates nuanced understanding.</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1: Typical Limitations by Study Design</caption>
+        <thead>
+          <tr><th>Study Design</th><th>Typical Limitations to Address</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Clinical Trials (RCTs)</strong></td>
+            <td>
+              Allocation concealment failures; unblinding of clinicians/patients; protocol deviations; patient attrition and loss to follow-up; lack of sample diversity (external validity); follow-up period limitations<a href="#ref12" class="cite">[12][19]</a>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Systematic Reviews &amp; Meta-Analyses</strong></td>
+            <td>
+              Quality of included primary studies (high risk of bias); high statistical heterogeneity (I²); incomplete retrieval (publication bias, language restrictions); inability to pool data for secondary outcomes due to inconsistent reporting<a href="#ref7" class="cite">[7]</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-danger">
+      <strong>❌ Avoid: Superficial Balance</strong>
+      Authors should avoid the practice of superficially balancing every limitation with a self-congratulatory "strength," as this is often viewed by editors as defensive, self-congratulatory, or an attempt to minimize actual flaws.<a href="#ref12" class="cite">[12]</a>
+    </div>
+
+    <!-- Paragraph 5 Detail -->
+    <h3>Paragraph 5: Conclusions, Clinical Implications & Future Directions</h3>
+    <p>The final paragraph delivers the definitive <strong>"take-home message"</strong> to the reader.<a href="#ref8" class="cite">[8]</a> When comparing two interventions, this paragraph should state clearly which intervention (if any) should be prioritized in specific clinical scenarios, carefully balancing benefits against harms.<a href="#ref4" class="cite">[4]</a></p>
+    <p>Based explicitly on findings and acknowledged limitations, authors must propose <strong>highly specific avenues for future research</strong>.<a href="#ref2" class="cite">[2]</a> Vague statements such as "more research is needed" are heavily discouraged. Instead, authors should suggest precise methodologies, larger sample sizes, or different demographic cohorts.<a href="#ref2" class="cite">[2]</a></p>
+  </section>
+
+  <!-- LOGICAL FLOW -->
+  <section class="card" id="flow">
+    <h2>Navigating Logical Flow, Transitions & Paragraph Organization</h2>
+    <p>Logical flow is defined as the seamless, sequential progression of academic arguments, enabling comprehension of complex data interpretations without cognitive friction.<a href="#ref12" class="cite">[12]</a> When comparing multiple interventions, poor transitions can confuse the reader regarding which intervention demonstrated which outcome.</p>
+
+    <span class="ev-badge ev-v">Level V — Expert Consensus</span>
+
+    <h3>Sentence-Level Coherence & Micro-Transitions</h3>
+    <p>At the granular level, logical flow relies on sentence-to-sentence coherence.<a href="#ref23" class="cite">[23]</a> Connective tissue between concepts is provided by the judicious use of transitional adverbs and phrases:</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2: Transitional Phrases for Medical Discussion Sections</caption>
+        <thead>
+          <tr><th>Function</th><th>Recommended Phrases</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Showing Contrast</strong></td><td><em>Conversely; In contrast to our expectations; However; On the contrary</em><a href="#ref12" class="cite">[12]</a></td></tr>
+          <tr><td><strong>Showing Correlation/Causality</strong></td><td><em>Furthermore; Consequently; Consistent with this; Similarly</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Paragraphs should maintain a tight, unwavering focus on a single core idea. Paragraphs stretching beyond 200 words or improperly combining multiple disparate ideas severely disrupt logical flow.<a href="#ref12" class="cite">[12]</a></p>
+
+    <h3>Macro-Transitions & Structural Progression</h3>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3: Macro-Transition Strategies Between Discussion Paragraphs</caption>
+        <thead>
+          <tr><th>Structural Progression</th><th>Objective &amp; Example Strategy</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Paragraph 1 → 2</strong><br>(Findings → Context)</td>
+            <td>Pivot from the isolated study to the global literature. Signal whether findings are an anomaly or a confirmation. <em>"The superiority of Intervention A observed in this cohort is highly consistent with data generated by previous systematic reviews..."</em><a href="#ref24" class="cite">[24]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Paragraph 2 → 3</strong><br>(Context → Mechanisms)</td>
+            <td>Move from observing alignment/discrepancy to hypothesizing the root cause. <em>"While the concordance between our results and the broader literature is clear, the exact physiological mechanisms underlying this enhanced efficacy warrant further exploration..."</em><a href="#ref25" class="cite">[25]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Paragraph 3 → 4</strong><br>(Mechanisms → Limitations)</td>
+            <td>Introduce caution, reminding that preceding mechanisms are hypotheses bound by the study's design. <em>"Although these mechanistic hypotheses present a compelling rationale, these interpretations must be contextualized within the structural confines of the current study design..."</em><a href="#ref26" class="cite">[26]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Paragraph 4 → 5</strong><br>(Limitations → Conclusions)</td>
+            <td>Rescue the paper's value from its limitations, pivoting to overarching utility. <em>"Notwithstanding these methodological constraints, the robust sample size and strict inclusion criteria suggest that these comparative findings hold significant clinical relevance..."</em><a href="#ref26" class="cite">[26]</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Common Pitfalls to Avoid</h3>
+    <div class="callout callout-danger">
+      <strong>1. The "Rambling" Discussion</strong>
+      Jumping erratically between summarizing results, introducing literature, and discussing limitations creates a disorganized mix of unrelated information. Adhering strictly to the thematic boundaries of the five-paragraph model eliminates this error.<a href="#ref7" class="cite">[7]</a>
+    </div>
+    <div class="callout callout-danger">
+      <strong>2. Introducing New Results</strong>
+      Absolutely no novel data, unreported P-values, previously unmentioned secondary outcomes, or new statistical analyses should appear for the first time in the Discussion. If an interpretive insight requires new data, the manuscript must be revised to include it in the Results section.<a href="#ref7" class="cite">[7][8]</a>
+    </div>
+    <div class="callout callout-danger">
+      <strong>3. Overgeneralization & Misrepresentation</strong>
+      Clinical claims must never extend beyond what the empirical data can rigorously support. Extrapolating the success of an intervention in a controlled trial demographic to the general global population is a critical failure of logical reasoning.<a href="#ref7" class="cite">[7]</a>
+    </div>
+  </section>
+
+  <!-- EQUATOR NETWORK -->
+  <section class="card" id="equator">
+    <h2>Adherence to EQUATOR Network Reporting Guidelines</h2>
+    <p>The modern drive toward transparency, reproducibility, and rigorous methodological evaluation has led to the widespread adoption of structured reporting guidelines. The EQUATOR (Enhancing the QUAlity and Transparency Of health Research) Network acts as the central repository and governing body for these frameworks.<a href="#ref27" class="cite">[27]</a></p>
+
+    <span class="ev-badge ev-v">Level V — Structured Reporting Standard</span>
+
+    <h3>PRISMA 2020 Guidelines (Systematic Reviews & Meta-Analyses)</h3>
+    <p>The PRISMA 2020 statement provides a rigorous 27-item checklist to guarantee transparent reporting of evidence synthesis.<a href="#ref27" class="cite">[27]</a> Within this framework, the Discussion section is governed by <strong>Item 23</strong>, subdivided into four precise requirements:</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 4: PRISMA 2020 Discussion Section Requirements (Item 23)</caption>
+        <thead>
+          <tr><th>Checklist Item</th><th>Requirement</th><th>Model Integration</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Item 23a</strong></td>
+            <td>Provide a general interpretation of the results in the context of other evidence.</td>
+            <td>Paragraphs 1 &amp; 2 — Compare pooled effect estimates against prior umbrella reviews, historical guidelines, or disparate trials.<a href="#ref33" class="cite">[33]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Item 23b</strong></td>
+            <td>Discuss any limitations of the <em>evidence</em> included in the review.</td>
+            <td>Paragraph 4 — Evaluate risk of bias within primary studies, inconsistency of results, and imprecision of pooled estimates.<a href="#ref32" class="cite">[32]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Item 23c</strong></td>
+            <td>Discuss any limitations of the <em>review processes</em> used.</td>
+            <td>Paragraph 4 — Disclose methodological limitations by reviewers: database restrictions, language limitations, failure to acquire unpublished data.<a href="#ref34" class="cite">[34]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Item 23d</strong></td>
+            <td>Discuss implications of the results for practice, policy, and future research.</td>
+            <td>Paragraph 5 — Translate meta-analysis into real-world healthcare guidelines; identify future research needs.<a href="#ref33" class="cite">[33]</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-info">
+      <strong>📋 GRADE Integration</strong>
+      PRISMA 2020 also requires assessments of certainty (or confidence) in the body of evidence (e.g., using GRADE criteria) for each outcome assessed (Item 22), which should heavily inform the cautious tone of the Discussion.<a href="#ref33" class="cite">[33]</a>
+    </div>
+
+    <h3>CONSORT 2010 Guidelines (Randomized Clinical Trials)</h3>
+    <p>For manuscripts detailing primary empirical comparison of two interventions, the CONSORT 2010 statement serves as the absolute benchmark.<a href="#ref19" class="cite">[19]</a> Endorsed by nearly all leading medical journals globally, CONSORT mandates that the Discussion address three critical areas:</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Table 5: CONSORT 2010 Discussion Section Requirements</caption>
+        <thead>
+          <tr><th>Checklist Item</th><th>Requirement</th><th>Model Integration</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Item 20: Limitations</strong></td>
+            <td>Trial limitations addressing sources of potential bias, imprecision, and multiplicity of analyses.</td>
+            <td>Paragraph 4 — Transparency regarding losses to follow-up, unblinding issues, protocol deviations, and statistical dangers of exploratory subgroup analyses.<a href="#ref19" class="cite">[19]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Item 21: Generalisability</strong></td>
+            <td>External validity and applicability of the trial findings.</td>
+            <td>Paragraphs 4 &amp; 5 — Critically assess whether comparative findings apply to populations outside strict inclusion/exclusion criteria.<a href="#ref19" class="cite">[19]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Item 22: Interpretation</strong></td>
+            <td>Interpretation consistent with results, balancing benefits and harms, considering other relevant evidence.</td>
+            <td>Paragraphs 2, 3 &amp; 5 — Objective balancing of therapeutic efficacy against recorded adverse events; safety prioritized alongside efficacy.<a href="#ref4" class="cite">[4][19]</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PHRASING TEMPLATES -->
+  <section class="card" id="phrasing">
+    <h2>Academic Phrasing Templates for Discussion Sections</h2>
+    <p>The lexicon of academic medicine requires a tone that is simultaneously authoritative and deeply cautious, heavily reliant on <strong>"hedging"</strong>.<a href="#ref38" class="cite">[38]</a> Findings are "suggested," "indicated," or "associated with," rather than "proven" or "guaranteed."<a href="#ref18" class="cite">[18]</a></p>
+
+    <p>The preeminent global resource is the <strong>Manchester Academic Phrasebank</strong>, developed by Dr. John Morley at the University of Manchester.<a href="#ref39" class="cite">[39]</a> Phrases are structural and generic, so utilizing them does not constitute plagiarism.<a href="#ref39" class="cite">[39]</a></p>
+
+    <h3>Restating Principal Findings</h3>
+    <div class="phrase-card">
+      <div class="phrase-func">Reporting a clear difference</div>
+      <div class="phrase-text">"The most obvious finding to emerge from the analysis is that [Intervention A] significantly reduced the incidence of [Outcome] compared to."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-func">Reporting equivalence/null findings</div>
+      <div class="phrase-text">"Contrary to expectations, this study did not find a statistically significant difference between the two intervention cohorts regarding [Primary Outcome]."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-func">Highlighting a major discovery</div>
+      <div class="phrase-text">"Another finding that stands out from the results reported earlier is the substantial difference in [variable] between the treatment arms."</div>
+    </div>
+
+    <h3>Comparing with Existing Literature</h3>
+    <div class="phrase-card">
+      <div class="phrase-func">Demonstrating concordance</div>
+      <div class="phrase-text">"These results corroborate the findings of previous meta-analyses, which suggested that [Intervention A] is associated with a lower risk of [Adverse Event]."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-func">Addressing discrepancies</div>
+      <div class="phrase-text">"However, the findings of the current study do not support previous research demonstrating the superiority of [X]. This inconsistency may be due to [mechanism]."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-func">Reconciling conflicting data</div>
+      <div class="phrase-text">"These results differ from [Author]'s earlier estimate of therapeutic efficacy; however, they are broadly consistent with more recent longitudinal cohort studies."</div>
+    </div>
+
+    <h3>Mechanistic Interpretation & Hypothesizing</h3>
+    <div class="phrase-card">
+      <div class="phrase-func">Proposing a likely mechanism</div>
+      <div class="phrase-text">"It is possible, therefore, that the enhanced bioavailability of [Intervention A] may help to explain the rapid onset of clinical remission observed in this cohort."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-func">Offering alternative explanations</div>
+      <div class="phrase-text">"A plausible alternative explanation for these results is that the varying dosages of [X] altered the baseline physiological response."</div>
+    </div>
+
+    <h3>Acknowledging Limitations</h3>
+    <div class="phrase-card">
+      <div class="phrase-func">Addressing external validity</div>
+      <div class="phrase-text">"The generalizability of these results is subject to certain limitations. For instance, the exclusion of patients with severe comorbidities means that [X]."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-func">Addressing meta-analytical flaws</div>
+      <div class="phrase-text">"One source of potential bias in this systematic review, which could have affected the pooled effect estimates, was the high degree of statistical heterogeneity observed across the included trials (I² = [value]%)."</div>
+    </div>
+
+    <h3>Conclusions & Future Directions</h3>
+    <div class="phrase-card">
+      <div class="phrase-func">Recommending clinical action</div>
+      <div class="phrase-text">"The evidence presented thus far supports the integration of [Intervention A] as a first-line therapy for patients presenting with [Condition]."</div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-func">Targeting future research</div>
+      <div class="phrase-text">"Further rigorous, multi-center investigations are required to assess the long-term safety profile and rare adverse events associated with [X]."</div>
+    </div>
+  </section>
+
+  <!-- COMPARATIVE SUMMARY TABLE -->
+  <section class="card" id="comparison">
+    <h2>Comparative Summary: RCT vs. Systematic Review Discussion Sections</h2>
+    <div class="table-wrap">
+      <table>
+        <caption>Table 6: Key Differences in Discussion Requirements by Study Design</caption>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Randomized Controlled Trials (CONSORT)</th>
+            <th>Systematic Reviews / Meta-Analyses (PRISMA)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Primary Interpretation Focus</strong></td>
+            <td>Balance of efficacy vs. safety for two interventions; internal validity paramount</td>
+            <td>Pooled effect estimates; certainty of evidence (GRADE); breadth of included literature</td>
+          </tr>
+          <tr>
+            <td><strong>Limitations (P4)</strong></td>
+            <td>Allocation concealment, blinding, attrition, protocol deviations, exploratory analyses<a href="#ref19" class="cite">[19]</a></td>
+            <td>Risk of bias in primary studies, heterogeneity (I²), publication bias, incomplete retrieval<a href="#ref7" class="cite">[7]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Generalizability</strong></td>
+            <td>Explicitly required (CONSORT Item 21); assess external validity<a href="#ref19" class="cite">[19]</a></td>
+            <td>Inferred through scope of included studies and population diversity</td>
+          </tr>
+          <tr>
+            <td><strong>Future Research</strong></td>
+            <td>Larger trials, longer follow-up, different populations</td>
+            <td>Need for additional primary studies; gaps in outcome reporting; improved methodological standards</td>
+          </tr>
+          <tr>
+            <td><strong>Governing Guideline</strong></td>
+            <td>CONSORT 2010 (Items 20–22)</td>
+            <td>PRISMA 2020 (Item 23a–d)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="limitations-note">
+      <strong>⚠ Source Limitation Note:</strong> The source document provides this comparative framework as a methodological guide. It does not contain primary clinical data, effect sizes, or confidence intervals from actual trials. The tables above summarize structural and reporting requirements described in the source.
+    </div>
+  </section>
+
+  <!-- EDUCATIONAL RESOURCES -->
+  <section class="card" id="resources">
+    <h2>High-Quality Online Courses & Authoritative Guides</h2>
+    <p>The following resources are recognized globally for their academic rigor and practical utility in the specialized field of medical writing.<a href="#ref43" class="cite">[43]</a></p>
+
+    <div class="resource-card">
+      <h4>1. Stanford University: "Writing in the Sciences" (Coursera)</h4>
+      <div class="resource-provider">Taught by Dr. Kristin Sainani — Universally regarded as one of the most famous scientific writing courses available online.</div>
+      <p>Comprehensive beginner-to-intermediate course focusing on IMRaD structure, eliminating "clutter," utilizing active verbs, crafting better paragraphs, and streamlining structural editing.<a href="#ref45" class="cite">[45–47]</a></p>
+      <a href="https://www.coursera.org/learn/sciwrite" class="resource-link" target="_blank" rel="noopener">Access Course →</a>
+    </div>
+
+    <div class="resource-card">
+      <h4>2. Yale University: "Understanding Medical Research" (Coursera)</h4>
+      <div class="resource-provider">George M. O'Brien Kidney Center at Yale</div>
+      <p>Covers rigorous study design, advanced research methods, statistical interpretation, absolute vs. relative risk, P-values, heterogeneity, and the "dark side" of research — fraud, bias, and data misinterpretation.<a href="#ref48" class="cite">[48]</a></p>
+      <a href="https://www.coursera.org/learn/medical-research" class="resource-link" target="_blank" rel="noopener">Access Course →</a>
+    </div>
+
+    <div class="resource-card">
+      <h4>3. EQUATOR Network Publication School & Toolkits</h4>
+      <div class="resource-provider">UK EQUATOR Centre — The definitive global authority on health research transparency</div>
+      <p>Designed for early-career researchers to master scientific writing and ensure manuscripts are "fit for purpose" for rigorous peer review. Includes toolkits for integrating PRISMA, CONSORT, and other guidelines into narrative text.<a href="#ref49" class="cite">[49][50]</a></p>
+      <a href="https://www.equator-network.org/toolkits/writing-research/" class="resource-link" target="_blank" rel="noopener">Access Toolkits →</a>
+    </div>
+
+    <div class="resource-card">
+      <h4>4. Mayo Clinic: "Academic Publishing" Course</h4>
+      <div class="resource-provider">Mayo Clinic Executive Education — CME-accredited, self-paced (≈8 hours)</div>
+      <p>Specifically engineered for clinical and translational research manuscripts. Covers "Crafting the Message," "Rational Tone and Cohesion," publication bias, "spin," and ethical principles of academic authorship.<a href="#ref51" class="cite">[51]</a></p>
+      <a href="https://executiveeducation.mayo.edu/products/academic-publishing" class="resource-link" target="_blank" rel="noopener">Access Course →</a>
+    </div>
+
+    <div class="resource-card">
+      <h4>5. BMJ Learning: "Scientific Transparency"</h4>
+      <div class="resource-provider">British Medical Journal — Focus on research integrity and reporting standards</div>
+      <p>Teaches transparent use of evidence-based reporting guidelines (CONSORT, STROBE, PRISMA) and how to avoid selectively reporting methods and results to artificially inflate intervention significance.<a href="#ref37" class="cite">[37]</a></p>
+      <a href="https://new-learning.bmj.com/collection/10062727" class="resource-link" target="_blank" rel="noopener">Access Courses →</a>
+    </div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="card" id="references">
+    <h2>References</h2>
+    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:0.75rem;">All references are derived directly from the source document's works cited section.</p>
+    <ol class="ref-list">
+      <li id="ref1">[1] Systematic Review Reporting — Writing concisely and precisely. PMC/NIH. Available at: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10025746/" target="_blank">PMC10025746</a></li>
+      <li id="ref2">[2] How to Write Discussions and Conclusions. PLOS. Available at: <a href="https://plos.org/resource/how-to-write-conclusions/" target="_blank">PLOS Resource</a></li>
+      <li id="ref3">[3] How to Write a Well-Structured Discussion for Academic Papers. San Francisco Edit. Available at: <a href="https://www.sfedit.net/how-to-write-a-well-structured-discussion-for-academic-papers/" target="_blank">sfedit.net</a></li>
+      <li id="ref4">[4] Writing an effective discussion section in a manuscript. Cosmoderma. Available at: <a href="https://cosmoderma.org/writing-an-effective-discussion-section-in-a-manuscript/" target="_blank">cosmoderma.org</a></li>
+      <li id="ref7">[7] Stronger Research Paper Discussion Sections: A Practical Guide. JALT Publications. Available at: <a href="https://jalt-publications.org/articles/29736-stronger-research-paper-discussion-sections-practical-guide" target="_blank">JALT</a></li>
+      <li id="ref8">[8] Discussion Section for Research Papers. San Jose State University. Available at: <a href="https://www.sjsu.edu/writingcenter/docs/handouts/Discussion%20Section%20for%20Research%20Papers.pdf" target="_blank">SJSU PDF</a></li>
+      <li id="ref9">[9] How to Write a Discussion Section. CADC-UCSF. Available at: <a href="https://cadc.ucsf.edu/media/1106" target="_blank">UCSF</a></li>
+      <li id="ref10">[10] How to Prepare for the GRE Analytical Writing Section. Leland. Available at: <a href="https://www.joinleland.com/library/a/gre-analytical-writing-section" target="_blank">Leland</a></li>
+      <li id="ref12">[12] How to Write an Effective Discussion. PMC/NIH. Available at: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10676253/" target="_blank">PMC10676253</a></li>
+      <li id="ref13">[13] Discussion and paragraphs tips. Scientific Editing and Research Communication Core, University of Iowa. Available at: <a href="https://sercc.medicine.uiowa.edu/sites/sercc.medicine.uiowa.edu/files/2023-12/Tips%20on%20writing%20the%20Discussion%20section.pdf" target="_blank">UIowa PDF</a></li>
+      <li id="ref15">[15] Systematic Review Discussion Example. DistillerSR. Available at: <a href="https://www.distillersr.com/resources/systematic-literature-reviews/systematic-review-discussion-example" target="_blank">DistillerSR</a></li>
+      <li id="ref16">[16] Writing a Systematic Review and Meta-analysis: A Step-by-Step Guide. Available at: <a href="https://macupperextremity.ca/publications/writing-a-systematic-review-and-meta-analysis-a-step-by-step-guide/" target="_blank">MACUpperExtremity</a></li>
+      <li id="ref18">[18] How to Write a Discussion Section | Tips &amp; Examples. Scribbr. Available at: <a href="https://www.scribbr.com/dissertation/discussion/" target="_blank">Scribbr</a></li>
+      <li id="ref19">[19] CONSORT 2010 Checklist. Available at: <a href="https://legacyfileshare.elsevier.com/promis_misc/CONSORT-2010-Checklist.pdf" target="_blank">CONSORT PDF</a></li>
+      <li id="ref23">[23] Creating Logical Flow When Writing Scientific Articles. PMC/NIH. Available at: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8524230/" target="_blank">PMC8524230</a></li>
+      <li id="ref24">[24] Discussing Findings — Academic Phrasebank. University of Manchester. Available at: <a href="https://www.phrasebank.manchester.ac.uk/discussing-findings/" target="_blank">Manchester Phrasebank</a></li>
+      <li id="ref25">[25] Academic Phrasebank — Ref-n-Write. Available at: <a href="https://www.ref-n-write.com/academic-phrasebank/" target="_blank">Ref-n-Write</a></li>
+      <li id="ref26">[26] Writing Conclusions — Academic Phrasebank. University of Manchester. Available at: <a href="https://www.phrasebank.manchester.ac.uk/writing-conclusions/" target="_blank">Manchester Phrasebank</a></li>
+      <li id="ref27">[27] Navigating Research Reporting: A Guide to PRISMA, CONSORT, ACCORD, and STROBE. Enago Academy. Available at: <a href="https://www.enago.com/academy/research-reporting-guide-prisma-consort/" target="_blank">Enago</a></li>
+      <li id="ref32">[32] PRISMA 2020 Explanation and Elaboration. PMC/NIH. Available at: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8005925/" target="_blank">PMC8005925</a></li>
+      <li id="ref33">[33] The PRISMA 2020 Statement. PMC/NIH. Available at: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8008539/" target="_blank">PMC8008539</a></li>
+      <li id="ref34">[34] PRISMA 2020 Checklist. Available at: <a href="https://www.crd.york.ac.uk/PROSPEROFILES/ea672b2b8e147634cd7c21be6204e53b.pdf" target="_blank">CRD York PDF</a></li>
+      <li id="ref37">[37] How to write a research paper — BMJ Learning. Available at: <a href="https://new-learning.bmj.com/collection/10062727" target="_blank">BMJ Learning</a></li>
+      <li id="ref38">[38] Final Chapter — University of Leeds Library Resources. Available at: <a href="https://resources.library.leeds.ac.uk/final-chapter/writingupyourproject.html" target="_blank">Leeds</a></li>
+      <li id="ref39">[39] Academic Phrasebank. University of Manchester. Available at: <a href="https://www.phrasebank.manchester.ac.uk/" target="_blank">Manchester</a></li>
+      <li id="ref43">[43] Medical Writing Courses Online. Modern Med Ed. Available at: <a href="https://modernmeded.com/medical-writing-courses-online/" target="_blank">ModernMedEd</a></li>
+      <li id="ref45">[45] Writing in the Sciences. Coursera / Stanford University. Available at: <a href="https://www.coursera.org/learn/sciwrite" target="_blank">Coursera</a></li>
+      <li id="ref48">[48] Understanding Medical Research. Coursera / Yale University. Available at: <a href="https://www.coursera.org/learn/medical-research" target="_blank">Coursera</a></li>
+      <li id="ref49">[49] How to write a great research paper using reporting guidelines. EQUATOR Network. Available at: <a href="https://www.equator-network.org/toolkits/writing-research/" target="_blank">EQUATOR</a></li>
+      <li id="ref50">[50] Courses and workshops — EQUATOR Network. Available at: <a href="https://www.equator-network.org/category/events/courses-and-workshops/" target="_blank">EQUATOR Events</a></li>
+      <li id="ref51">[51] Academic Publishing Course. Mayo Clinic Executive Education. Available at: <a href="https://executiveeducation.mayo.edu/products/academic-publishing" target="_blank">Mayo Clinic</a></li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" aria-label="Interactive Discussion Section Tools">
+
+  <div class="sidebar-card">
+    <h3>📑 Navigation</h3>
+    <nav class="toc" aria-label="Table of Contents">
+      <a href="#intro">Introduction</a>
+      <a href="#model">Five-Paragraph Model</a>
+      <a href="#flow">Logical Flow & Transitions</a>
+      <a href="#equator">EQUATOR Guidelines</a>
+      <a href="#phrasing">Phrasing Templates</a>
+      <a href="#comparison">Comparative Summary</a>
+      <a href="#resources">Educational Resources</a>
+      <a href="#references">References</a>
+    </nav>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>🎛️ Discussion Section Planner</h3>
+    <p style="font-size:0.82rem; color:var(--text-light); margin-bottom:1rem;">Adjust parameters below to generate a customized Discussion section recommendation based on the five-paragraph model.</p>
+
+    <div class="slider-group">
+      <label for="paraSlider">Number of Paragraphs</label>
+      <div class="slider-hint">Source recommends 4–6 (standard = 5). Adjust based on manuscript complexity.<sup style="color:var(--badge-v)">[9]</sup></div>
+      <input type="range" id="paraSlider" min="3" max="7" value="5" step="1" aria-label="Number of discussion paragraphs">
+      <div class="slider-value">
+        <span>3 (minimal)</span>
+        <span class="current" id="paraValue">5</span>
+        <span>7 (extended)</span>
+      </div>
+    </div>
+
+    <div class="slider-group">
+      <label for="hetSlider">I² Heterogeneity Tolerance (%)</label>
+      <div class="slider-hint">For meta-analyses: I² &lt;40% low, 40–60% moderate, &gt;60% high heterogeneity. Affects limitations paragraph.<sup style="color:var(--badge-v)">[7]</sup></div>
+      <input type="range" id="hetSlider" min="0" max="100" value="60" step="5" aria-label="I² heterogeneity tolerance percentage">
+      <div class="slider-value">
+        <span>0% (strict)</span>
+        <span class="current" id="hetValue">60%</span>
+        <span>100% (permissive)</span>
+      </div>
+    </div>
+
+    <div class="slider-group">
+      <label for="specSlider">Speculation Tolerance</label>
+      <div class="slider-hint">Source recommends "one layer of speculation only" for top-tier journals.<sup style="color:var(--badge-v)">[13]</sup></div>
+      <input type="range" id="specSlider" min="1" max="3" value="1" step="1" aria-label="Speculation tolerance level">
+      <div class="slider-value">
+        <span>1 (cautious)</span>
+        <span class="current" id="specValue">1 — Cautious</span>
+        <span>3 (expansive)</span>
+      </div>
+    </div>
+
+    <div class="toggle-group">
+      <label for="prismaToggle">PRISMA Compliance</label>
+      <div class="toggle-switch">
+        <input type="checkbox" id="prismaToggle" aria-label="Enable PRISMA compliance mode">
+        <span class="toggle-slider"></span>
+      </div>
+    </div>
+
+    <div class="toggle-group">
+      <label for="consortToggle">CONSORT Compliance</label>
+      <div class="toggle-switch">
+        <input type="checkbox" id="consortToggle" aria-label="Enable CONSORT compliance mode">
+        <span class="toggle-slider"></span>
+      </div>
+    </div>
+
+    <div class="recommendation" id="recommendationBox">
+      <h4>📋 Personalized Recommendation</h4>
+      <div id="recommendationContent">
+        <p>Adjust the parameters above to generate a customized Discussion section structure recommendation based on the five-paragraph model and EQUATOR guidelines.</p>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" id="exportBtn" aria-label="Export current configuration and recommendation">📋 Copy to Clipboard</button>
+      <button class="btn btn-secondary" id="resetBtn" aria-label="Reset all sliders to default values">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>📊 Quick Reference</h3>
+    <div style="font-size:0.85rem;">
+      <p><strong>PRISMA Item 23:</strong><br>
+        23a — Context of other evidence<br>
+        23b — Limitations of evidence<br>
+        23c — Limitations of review process<br>
+        23d — Implications for practice/policy
+      </p>
+      <hr style="border:none; border-top:1px solid var(--border); margin:0.75rem 0;">
+      <p><strong>CONSORT Items 20–22:</strong><br>
+        20 — Limitations<br>
+        21 — Generalisability<br>
+        22 — Interpretation
+      </p>
+      <hr style="border:none; border-top:1px solid var(--border); margin:0.75rem 0;">
+      <p><strong>Manchester Academic Phrasebank</strong><br>
+        <a href="https://www.phrasebank.manchester.ac.uk/" target="_blank" rel="noopener">phrasebank.manchester.ac.uk</a>
+      </p>
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<footer>
+  <p>Educational summary generated from the provided source document. All content, references, and recommendations are derived exclusively from the source material.</p>
+  <p>This interactive tool is intended for educational purposes in medical writing and research methodology.</p>
+</footer>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+(function() {
+  const paraSlider = document.getElementById('paraSlider');
+  const hetSlider = document.getElementById('hetSlider');
+  const specSlider = document.getElementById('specSlider');
+  const prismaToggle = document.getElementById('prismaToggle');
+  const consortToggle = document.getElementById('consortToggle');
+  const paraValue = document.getElementById('paraValue');
+  const hetValue = document.getElementById('hetValue');
+  const specValue = document.getElementById('specValue');
+  const recBox = document.getElementById('recommendationContent');
+  const toast = document.getElementById('toast');
+
+  const specLabels = { 1: '1 — Cautious', 2: '2 — Moderate', 3: '3 — Expansive' };
+
+  function update() {
+    const para = parseInt(paraSlider.value);
+    const het = parseInt(hetSlider.value);
+    const spec = parseInt(specSlider.value);
+    const prisma = prismaToggle.checked;
+    const consort = consortToggle.checked;
+
+    paraValue.textContent = para;
+    hetValue.textContent = het + '%';
+    specValue.textContent = specLabels[spec] || spec;
+
+    let html = '<ul>';
+
+    // Paragraph structure
+    if (para === 5) {
+      html += '<li><strong>Optimal structure (5 paragraphs):</strong> Follow the standard inverted-funnel model exactly as described in the source.</li>';
+    } else if (para < 5) {
+      html += '<li><strong>Condensed structure (' + para + ' paragraphs):</strong> Consider combining Paragraphs 2 & 3 (context + mechanisms) and/or 4 & 5 (limitations + conclusions). Note: Source warns this reduces analytical depth.</li>';
+    } else {
+      html += '<li><strong>Extended structure (' + para + ' paragraphs):</strong> Split complex sections — e.g., separate concordance from discrepancy analysis (P2/P3), or separate clinical implications from future research (P5 into two).</li>';
+    }
+
+    // Heterogeneity
+    if (het < 40) {
+      html += '<li><strong>Low I² threshold (' + het + '%):</strong> Meta-analysis data shows minimal heterogeneity. Pooled estimates are likely reliable. Limitations paragraph can be brief regarding statistical inconsistency.</li>';
+    } else if (het <= 60) {
+      html += '<li><strong>Moderate I² threshold (' + het + '%):</strong> Moderate heterogeneity present. P4 should address potential sources (population differences, intervention variations). Consider subgroup analyses.</li>';
+    } else {
+      html += '<li><strong>High I² threshold (' + het + '%):</strong> Significant statistical heterogeneity detected. P4 must explicitly address this limitation, discuss its potential impact on pooled effect estimates, and consider narrative synthesis instead of meta-analysis.</li>';
+    }
+
+    // Speculation
+    if (spec === 1) {
+      html += '<li><strong>Cautious interpretation:</strong> Limit mechanistic explanations to one layer of speculation. Use hedged language ("It is possible…", "A plausible explanation…"). Recommended for top-tier journal submissions.</li>';
+    } else if (spec === 2) {
+      html += '<li><strong>Moderate interpretation:</strong> Two layers of speculation acceptable. Clearly distinguish evidence-based mechanisms from hypotheses. Label speculative statements explicitly.</li>';
+    } else {
+      html += '<li><strong>Expansive interpretation:</strong> Broader mechanistic discussion allowed, but guard against "overgeneralization" — a common pitfall noted in the source document. Ensure all claims remain grounded in data.</li>';
+    }
+
+    // Guideline compliance
+    if (prisma) {
+      html += '<li><strong style="color:#2c7a7b;">PRISMA 2020 mode active:</strong> Ensure Item 23a (context), 23b (evidence limitations), 23c (review process limitations), and 23d (implications) are each distinctly addressed. Integrate GRADE certainty assessments.</li>';
+    }
+    if (consort) {
+      html += '<li><strong style="color:#9b2c2c;">CONSORT 2010 mode active:</strong> Ensure Items 20 (limitations/bias), 21 (generalisability), and 22 (balanced interpretation of benefits vs. harms) are explicitly covered.</li>';
+    }
+    if (prisma && consort) {
+      html += '<li><strong style="color:#d69e2e;">⚠ Both guidelines active:</strong> Ensure your Discussion clearly distinguishes whether the manuscript reports primary trial data (CONSORT) or secondary evidence synthesis (PRISMA). Do not apply both simultaneously to the same study unless it is a trial within a review context.</li>';
+    }
+
+    html += '</ul>';
+    recBox.innerHTML = html;
+  }
+
+  paraSlider.addEventListener('input', update);
+  hetSlider.addEventListener('input', update);
+  specSlider.addEventListener('input', update);
+  prismaToggle.addEventListener('change', update);
+  consortToggle.addEventListener('change', update);
+
+  // Reset
+  document.getElementById('resetBtn').addEventListener('click', function() {
+    paraSlider.value = 5;
+    hetSlider.value = 60;
+    specSlider.value = 1;
+    prismaToggle.checked = false;
+    consortToggle.checked = false;
+    update();
+  });
+
+  // Export
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    const para = paraSlider.value;
+    const het = hetSlider.value;
+    const spec = specLabels[specSlider.value] || specSlider.value;
+    const prisma = prismaToggle.checked ? 'Yes' : 'No';
+    const consort = consortToggle.checked ? 'Yes' : 'No';
+    const timestamp = new Date().toISOString();
+
+    const recText = recBox.innerText;
+
+    const text = [
+      'DISCUSSION SECTION PLANNER — CONFIGURATION EXPORT',
+      '================================================',
+      'Generated: ' + timestamp,
+      '',
+      'PARAMETERS:',
+      '  Number of Paragraphs: ' + para,
+      '  I² Heterogeneity Tolerance: ' + het + '%',
+      '  Speculation Tolerance: ' + spec,
+      '  PRISMA Compliance: ' + prisma,
+      '  CONSORT Compliance: ' + consort,
+      '',
+      'RECOMMENDATION:',
+      recText,
+      '',
+      'SOURCE: Advanced Methodologies for Structuring the Discussion Section in Comparative Medical Research',
+      'Evidence Base: PRISMA 2020 (Item 23), CONSORT 2010 (Items 20–22), Five-Paragraph Model',
+      '================================================'
+    ].join('\n');
+
+    navigator.clipboard.writeText(text).then(function() {
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    });
+  });
+
+  // Highlight active TOC link
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('section[id]');
+  function highlightToc() {
+    let current = '';
+    sections.forEach(function(sec) {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 200) current = sec.getAttribute('id');
+    });
+    tocLinks.forEach(function(link) {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', highlightToc);
+  highlightToc();
+
+  // Initial render
+  update();
+})();
+</script>
+</body>
+</html>

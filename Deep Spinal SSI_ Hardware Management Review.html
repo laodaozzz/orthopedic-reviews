@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBM Review: Deep SSI Management in Lumbar Spinal Fusion</title>
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --secondary: #6c757d;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #0dcaf0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --bg: #f5f7f9;
+            --card-bg: #ffffff;
+            --border: #dee2e6;
+            --text: #333;
+            --text-light: #666;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+        }
+        header {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1a365d 0%, #2d4a7a 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+        main {
+            min-width: 0;
+        }
+        aside {
+            position: relative;
+        }
+        .sticky-sidebar {
+            position: sticky;
+            top: 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+        .slider-group {
+            margin-bottom: 25px;
+        }
+        .slider-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .slider-value {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 60px;
+            text-align: right;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .slider-description {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .recommendation-box {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f0f9ff 100%);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            min-height: 120px;
+            transition: all 0.3s ease;
+        }
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        .recommendation-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s;
+        }
+        .btn-reset {
+            background: #e9ecef;
+            color: var(--text);
+        }
+        .btn-reset:hover {
+            background: #dee2e6;
+        }
+        .btn-export {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-export:hover {
+            background: #0b5ed7;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+        h2 {
+            color: #1a365d;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        h3 {
+            color: #2d4a7a;
+            font-size: 1.2rem;
+            margin: 20px 0 15px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .evidence-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .level-I { background: #d4edda; color: #155724; }
+        .level-II { background: #cce5ff; color: #004085; }
+        .level-III { background: #fff3cd; color: #856404; }
+        .level-IV { background: #f8d7da; color: #721c24; }
+        .level-V { background: #e2e3e5; color: #383d41; }
+        .not-specified { background: #f8f9fa; color: #6c757d; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .callout {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+        .callout-info {
+            background-color: #e8f4fd;
+            border-color: #0dcaf0;
+        }
+        .callout-warning {
+            background-color: #fff3cd;
+            border-color: #ffc107;
+        }
+        .callout-danger {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        .reference {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .reference-item {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .reference-item::before {
+            content: attr(data-num) ".";
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            aside {
+                order: -1;
+            }
+            .sticky-sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Clinical Management of Deep Surgical Site Infections Following Lumbar Spinal Fusion</h1>
+            <div class="subtitle">An Exhaustive Evidence-Based Review for Spine Surgeons and Infectious Disease Specialists</div>
+        </header>
+
+        <main>
+            <div class="card">
+                <h2>Executive Summary & Clinical Dilemma</h2>
+                <p>Deep surgical site infections (SSIs) following instrumented lumbar spinal fusion occur in <strong>1.5% to 6.3%</strong> of cases and represent a catastrophic complication threatening patient survival and spinal integrity. <span class="evidence-badge level-III">Evidence Level: III</span></p>
+                <p>The central dilemma lies in calculating the threshold at which spinal hardware transforms from a stabilizing asset into an insurmountable bacterial liability. Modern evidence supports a nuanced, staged approach challenging the historical dogma of obligate hardware explantation, particularly with the advent of the <strong>Debridement, Antibiotics, and Implant Retention (DAIR)</strong> protocol.</p>
+                <div class="callout callout-warning">
+                    <strong>Key Clinical Decision Point:</strong> The management algorithm hinges entirely upon the precise chronological classification of the infection, which directly correlates with biofilm maturity and dictates the viability of retaining instrumentation.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Pathogenesis: The Biofilm & Glycocalyx Paradigm</h2>
+                <p>Spinal implant infection initiates a "race for the surface" between host tissue integration and bacterial colonization. <span class="evidence-badge level-II">Evidence Level: II</span></p>
+                <h3>Biofilm Development Stages</h3>
+                <table>
+                    <caption>Timeline and Clinical Implications of Biofilm Development on Spinal Hardware</caption>
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Timeline</th>
+                            <th>Clinical Consequence</th>
+                            <th>Surgical Implication</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Planktonic Adhesion</strong></td>
+                            <td>Minutes to Hours</td>
+                            <td>Reversible attachment to titanium/PEEK surfaces.</td>
+                            <td>Highly susceptible to intra-wound vancomycin and IV prophylaxis.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Microcolony Formation</strong></td>
+                            <td>5 to 24 Hours</td>
+                            <td>Phenotypic shift; initiation of glycocalyx (EPS) secretion.</td>
+                            <td>DAIR protocol is highly effective if executed promptly.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biofilm Maturation</strong></td>
+                            <td>2 to 4 Weeks</td>
+                            <td>Complete encasement in EPS; metabolic dormancy.</td>
+                            <td>Antibiotic resistance spikes; DAIR efficacy drops.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Detachment & Dispersal</strong></td>
+                            <td>> 3 to 4 Months</td>
+                            <td>Planktonic shedding causes systemic flares and osteolysis.</td>
+                            <td>Obligate hardware removal required.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Sonication of explanted hardware is superior to tissue cultures, with <strong>sensitivity 78.5%</strong> and <strong>specificity 98.8%</strong>. <span class="evidence-badge level-III">Evidence Level: III</span> Common low-virulence culprits include <em>Cutibacterium acnes</em> and coagulase-negative staphylococci.</p>
+            </div>
+
+            <div class="card">
+                <h2>Management Algorithm: DAIR vs. Hardware Removal</h2>
+                <h3>Success of DAIR in Acute Infection (≤3 months)</h3>
+                <p>The DAIR protocol achieves an <strong>84% healing rate</strong> when applied within 3 months. <span class="evidence-badge level-III">Evidence Level: III</span> A single debridement is often insufficient; iterative "double" or "triple" DAIR with 48-72 hour intervals is the current standard at tertiary centers.</p>
+                <div class="callout callout-info">
+                    <strong>EBM Consensus:</strong> Iterative debridements stabilize infection control rates at 70-84% for acute infections, sparing patients from early hardware explantation morbidity.
+                </div>
+                <h3>Mandate for Hardware Extraction</h3>
+                <p>Hardware removal is strictly mandated for: <span class="evidence-badge level-III">Evidence Level: III</span></p>
+                <ul>
+                    <li><strong>Delayed/Late-Onset Infection:</strong> >3-4 months post-index surgery.</li>
+                    <li><strong>Implant Loosening:</strong> Radiographic evidence of screw lucency or cage subsidence.</li>
+                    <li><strong>DAIR Failure:</strong> Persistent sepsis despite multiple adequate debridements.</li>
+                    <li><strong>Difficult Pathogens:</strong> Multi-drug resistant organisms or extensive fungal infections.</li>
+                    <li><strong>Achieved Arthrodesis:</strong> Solid fusion confirmed on CT; redundant hardware should be removed.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Biomechanical Consequences of Hardware Removal</h2>
+                <p>Hardware removal before solid arthrodesis leads to iatrogenic instability. In a cohort of 416 patients, <strong>5.0% developed symptomatic pseudarthrosis</strong> requiring major revision. <span class="evidence-badge level-III">Evidence Level: III</span></p>
+                <h3>Consequences Table</h3>
+                <table>
+                    <caption>Biomechanical and Clinical Consequences of Explantation</caption>
+                    <thead>
+                        <tr>
+                            <th>Consequence</th>
+                            <th>Incidence</th>
+                            <th>Clinical Manifestation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Symptomatic Pseudarthrosis</strong></td>
+                            <td>5.0%</td>
+                            <td>Severe mechanical back pain, recurrent micro-motion.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sagittal Alignment Loss</strong></td>
+                            <td>8°-10° loss of Lumbar Lordosis</td>
+                            <td>Iatrogenic flatback syndrome, anterior SVA shift.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coronal Decompensation</strong></td>
+                            <td>10°-26° in deformity cases</td>
+                            <td>Recurrent scoliotic deformity, pelvic obliquity.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout callout-danger">
+                    <strong>Predictors of Failure:</strong> Multivariate analysis identifies <strong>number of fused levels</strong> (OR: 1.356 per level) and <strong>elevated BMI</strong> (OR: 1.083 per point) as critical predictors of post-infectious pseudarthrosis.
+                </div>
+                <h3>Anterior Salvage Approach</h3>
+                <p>For infected posterior interbody cages, an anterior (ALIF/OLIF) approach through virgin tissue is superior, allowing safe cage removal, radical debridement, and restoration of lordosis with structural grafts. <span class="evidence-badge level-IV">Evidence Level: IV</span></p>
+            </div>
+
+            <div class="card">
+                <h2>Salvage Strategies: NPWT & Antimicrobial Protocols</h2>
+                <h3>Negative Pressure Wound Therapy (NPWT)</h3>
+                <p>NPWT at -75 to -125 mmHg promotes angiogenesis via VEGF upregulation and evacuates infectious exudate. A 2024 meta-analysis confirms NPWT reduces hospitalization (mean 17.45 days) and reinfection rate to 2%. <span class="evidence-badge level-II">Evidence Level: II</span></p>
+                <p>The <strong>"segmental reduction method"</strong> for sponge placement reduces hospital stay by nearly 40 days compared to central reduction. <span class="evidence-badge level-III">Evidence Level: III</span></p>
+                <h3>Targeted Antimicrobial Therapy</h3>
+                <table>
+                    <caption>IDSA-Based Antibiotic Durations for Spinal SSI</caption>
+                    <thead>
+                        <tr>
+                            <th>Surgical Status</th>
+                            <th>IV Phase</th>
+                            <th>Oral Phase</th>
+                            <th>Total Duration</th>
+                            <th>Key Adjunct</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hardware Retained</strong></td>
+                            <td>2-6 Weeks</td>
+                            <td>10 Weeks</td>
+                            <td>12 Weeks</td>
+                            <td>Rifampin (for Staph spp.)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hardware Removed</strong></td>
+                            <td>4-6 Weeks</td>
+                            <td>None</td>
+                            <td>4-6 Weeks</td>
+                            <td>Pathogen-specific</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DAIR Failure</strong></td>
+                            <td>2-6 Weeks</td>
+                            <td>Indefinite</td>
+                            <td>Lifelong</td>
+                            <td>Fluoroquinolone/TMP-SMX</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout callout-warning">
+                    <strong>Critical Pharmacological Note:</strong> Rifampin must never be used as monotherapy to prevent rapid resistance emergence. Always co-administer with a companion agent (e.g., fluoroquinolone or TMP-SMX).
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Staged Reimplantation & Biomarker Guidance</h2>
+                <p>The optimal time-to-reimplantation (TTR) is 4-11 weeks post-explantation. Delaying beyond 24-26 weeks is contraindicated due to exponentially higher failure rates. <span class="evidence-badge level-II">Evidence Level: II</span></p>
+                <p>Reimplantation should be guided by objective biomarkers: <strong>serum D-dimer</strong> and <strong>peri-spinal fluid alpha-defensin</strong> testing show superior diagnostic accuracy in confirming infection clearance. <span class="evidence-badge level-III">Evidence Level: III</span></p>
+                <p>Reconstruction often requires advanced fixation (S2AI screws, quad-rod constructs) to bypass compromised bone and achieve rigid purchase. <span class="evidence-badge level-IV">Evidence Level: IV</span></p>
+            </div>
+
+            <div class="card">
+                <h2>Landmark Studies Summary</h2>
+                <p>The following key studies inform the evidence base for this review. <span class="evidence-badge level-III">Evidence Level: III-IV for most observational studies</span></p>
+                <table>
+                    <caption>Key Studies Referenced in the Source Document</caption>
+                    <thead>
+                        <tr>
+                            <th>Study Title & Year</th>
+                            <th>Journal</th>
+                            <th>Clinical Takeaway</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pedicle screw loosening correlated to chronic subclinical infection (2018)</strong></td>
+                            <td>European Spine Journal</td>
+                            <td>29.1% of loose screws harbor biofilm infections detectable via sonication.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Incidence of pseudarthrosis after SSI in lumbar fusion (2019)</strong></td>
+                            <td>Global Spine Journal</td>
+                            <td>5.0% symptomatic pseudarthrosis rate; fused levels and BMI are key predictors.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Indolent infection as cause of TLIF pseudarthrosis (2022)</strong></td>
+                            <td>JAAOS Global Research & Reviews</td>
+                            <td><em>C. acnes</em> and CoNS drive pseudarthrosis; anterior revision is superior strategy.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NPWT meta-analysis for deep SSIs (2024)</strong></td>
+                            <td>The Spine Journal / PLOS One</td>
+                            <td>NPWT reduces hospitalization and reinfection rates to 2%.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Segmental vs. central NPWT reduction (2023)</strong></td>
+                            <td>PLoS ONE</td>
+                            <td>Segmental reduction reduces hospital stay by ~40 days.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><em>Evidence Gap Note:</em> The source document identifies a paucity of high-level RCTs specific to spinal SSI management. Most evidence is derived from retrospective cohorts, systematic reviews, and prosthetic joint infection guidelines extrapolated to the spine.</p>
+            </div>
+
+            <div class="reference">
+                <h3>Selected References from Source Document</h3>
+                <div class="reference-item" data-num="1">Spine Surgical Site Infections - Orthobullets (2026).</div>
+                <div class="reference-item" data-num="2">Bacterial adhesion on patient-specific implant materials - OuluREPO (2024).</div>
+                <div class="reference-item" data-num="6">Pedicle screw loosening correlated to chronic subclinical deep implant infection (2018).</div>
+                <div class="reference-item" data-num="8">Indolent Infection After Lumbar Interbody Fusion (2022).</div>
+                <div class="reference-item" data-num="10">Postoperative spine surgical site infections: High rate of failure of one-stage irrigation and debridement (2018).</div>
+                <div class="reference-item" data-num="13">Success rate of single versus multiple DAIR in PJI (2024).</div>
+                <div class="reference-item" data-num="15">Implant Retention or Removal for Management of SSI After Spinal Surgery (2020).</div>
+                <div class="reference-item" data-num="20">Risk Factors for Pseudarthrosis After SSI of the Spine (2019).</div>
+                <div class="reference-item" data-num="27">Negative pressure wound therapy in spinal fusion patients (2021).</div>
+                <div class="reference-item" data-num="32">IDSA Guidelines for Diagnosis and Management of Prosthetic Joint Infection (2013).</div>
+                <div class="reference-item" data-num="36">Is long time to reimplantation a risk factor for reinfection? (2023).</div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="sticky-sidebar">
+                <h3 class="sidebar-title">Interactive Clinical Decision Support</h3>
+                
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <label class="slider-label" for="infectionTiming">Infection Chronicity (Days Post-Op)</label>
+                        <span class="slider-value" id="timingValue">14</span>
+                    </div>
+                    <input type="range" id="infectionTiming" min="1" max="365" value="14">
+                    <div class="slider-description">Acute ≤42 days (6 weeks), Delayed >90 days (3 months)</div>
+                </div>
+                
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <label class="slider-label" for="biofilmMaturity">Biofilm Maturity Stage (Estimated)</label>
+                        <span class="slider-value" id="biofilmValue">Early</span>
+                    </div>
+                    <input type="range" id="biofilmMaturity" min="1" max="4" value="1">
+                    <div class="slider-description">1=Planktonic, 2=Microcolony, 3=Mature, 4=Dispersal</div>
+                </div>
+                
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <label class="slider-label" for="inflammatoryBurden">Serum CRP (mg/L)</label>
+                        <span class="slider-value" id="crpValue">50</span>
+                    </div>
+                    <input type="range" id="inflammatoryBurden" min="0" max="300" value="50">
+                    <div class="slider-description">Normal <5 mg/L; Elevated >50 suggests active infection</div>
+                </div>
+                
+                <div class="recommendation-box" id="recommendationBox">
+                    <div class="recommendation-title">Real-Time Recommendation</div>
+                    <div class="recommendation-text" id="recommendationText">
+                        Adjust sliders to receive evidence-based management recommendations.
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-reset" id="resetBtn">Reset</button>
+                    <button class="btn btn-export" id="exportBtn">Export Summary</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infectionTiming = document.getElementById('infectionTiming');
+            const biofilmMaturity = document.getElementById('biofilmMaturity');
+            const inflammatoryBurden = document.getElementById('inflammatoryBurden');
+            const timingValue = document.getElementById('timingValue');
+            const biofilmValue = document.getElementById('biofilmValue');
+            const crpValue = document.getElementById('crpValue');
+            const recommendationText = document.getElementById('recommendationText');
+            const resetBtn = document.getElementById('resetBtn');
+            const exportBtn = document.getElementById('exportBtn');
+            
+            const biofilmStages = ['Early', 'Microcolony', 'Mature', 'Dispersal'];
+            
+            function updateValues() {
+                const days = parseInt(infectionTiming.value);
+                timingValue.textContent = days;
+                
+                const biofilmStage = parseInt(biofilmMaturity.value);
+                biofilmValue.textContent = biofilmStages[biofilmStage - 1];
+                
+                const crp = parseInt(inflammatoryBurden.value);
+                crpValue.textContent = crp;
+                
+                updateRecommendation(days, biofilmStage, crp);
+            }
+            
+            function updateRecommendation(days, biofilmStage, crp) {
+                let recommendation = '';
+                
+                // Infection timing-based recommendations
+                if (days > 90) {
+                    recommendation += `<strong>Delayed Infection (>3 months):</strong> Hardware removal is strictly mandated per source document. `;
+                    recommendation += `Biofilm is mature (Stage ${biofilmStage}), antibiotics cannot penetrate EPS. `;
+                } else if (days > 42) {
+                    recommendation += `<strong>Subacute Infection (6 weeks - 3 months):</strong> DAIR protocol effectiveness decreasing. `;
+                    if (biofilmStage >= 3) {
+                        recommendation += `Biofilm maturity high - consider hardware removal. `;
+                    }
+                } else {
+                    recommendation += `<strong>Acute Infection (<6 weeks):</strong> DAIR protocol indicated. `;
+                    recommendation += `Iterative debridements (every 48-72 hours) recommended for success rates of 70-84%. `;
+                }
+                
+                // Biofilm maturity-based additions
+                if (biofilmStage === 4) {
+                    recommendation += `<strong>Biofilm Dispersal Phase:</strong> Obligate hardware removal required regardless of timing. `;
+                }
+                
+                // Inflammatory burden-based additions
+                if (crp > 100) {
+                    recommendation += `<strong>Severely Elevated CRP:</strong> Aggressive IV antibiotics for 4-6 weeks indicated. `;
+                } else if (crp > 50) {
+                    recommendation += `<strong>Elevated CRP:</strong> Monitor trend; consider extended IV phase. `;
+                }
+                
+                // Rifampin reminder for retained hardware
+                if (days <= 90 && biofilmStage < 3) {
+                    recommendation += `<div style="margin-top:10px;padding:8px;background:#fff3cd;border-radius:4px;"><strong>Pharmacologic Note:</strong> For staphylococcal infections with hardware retained, Rifampin combination therapy is mandatory per IDSA guidelines. Never use Rifampin monotherapy.</div>`;
+                }
+                
+                recommendationText.innerHTML = recommendation;
+            }
+            
+            function resetSliders() {
+                infectionTiming.value = 14;
+                biofilmMaturity.value = 1;
+                inflammatoryBurden.value = 50;
+                updateValues();
+            }
+            
+            function exportSummary() {
+                const days = infectionTiming.value;
+                const biofilm = biofilmStages[biofilmMaturity.value - 1];
+                const crp = inflammatoryBurden.value;
+                const recommendation = recommendationText.innerText;
+                const timestamp = new Date().toISOString();
+                
+                const exportText = `EBM Spinal SSI Management Summary\n` +
+                                  `Generated: ${timestamp}\n\n` +
+                                  `Clinical Parameters:\n` +
+                                  `- Infection Chronicity: ${days} days post-op\n` +
+                                  `- Biofilm Maturity: Stage ${biofilmMaturity.value} (${biofilm})\n` +
+                                  `- Serum CRP: ${crp} mg/L\n\n` +
+                                  `Evidence-Based Recommendation:\n` +
+                                  `${recommendation.replace(/<[^>]*>/g, '')}\n\n` +
+                                  `Source: Evidence-Based Review of Deep SSI Management in Lumbar Spinal Fusion\n` +
+                                  `Note: Recommendations based on source document evidence and general clinical thresholds where source data unavailable.`;
+                
+                navigator.clipboard.writeText(exportText).then(() => {
+                    alert('Summary copied to clipboard! (Contains parameter values, recommendation, and timestamp)');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = exportText;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Summary copied to clipboard!');
+                });
+            }
+            
+            // Event listeners
+            infectionTiming.addEventListener('input', updateValues);
+            biofilmMaturity.addEventListener('input', updateValues);
+            inflammatoryBurden.addEventListener('input', updateValues);
+            resetBtn.addEventListener('click', resetSliders);
+            exportBtn.addEventListener('click', exportSummary);
+            
+            // Initialize
+            updateValues();
+        });
+    </script>
+</body>
+</html>

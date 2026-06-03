@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence-Based Guide: AI-Powered Academic Literature Review</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f3f4f6;
+            --dark: #1f2937;
+            --text: #374151;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        aside {
+            position: sticky;
+            top: 120px;
+            height: calc(100vh - 140px);
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .slider-container {
+            margin-bottom: 2rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .slider-value {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--light);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .level-1 { background: #dbeafe; color: #1e40af; }
+        .level-2 { background: #d1fae5; color: #065f46; }
+        .level-3 { background: #fef3c7; color: #92400e; }
+        .level-4 { background: #fee2e2; color: #991b1b; }
+        .level-5 { background: #e5e7eb; color: #374151; }
+        .level-na { background: #e5e7eb; color: #6b7280; }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .callout-info {
+            background: #eff6ff;
+            border-color: var(--primary);
+        }
+
+        .callout-warning {
+            background: #fffbeb;
+            border-color: var(--warning);
+        }
+
+        .callout-success {
+            background: #ecfdf5;
+            border-color: var(--secondary);
+        }
+
+        .callout-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        caption {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            text-align: left;
+            color: var(--dark);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: var(--light);
+        }
+
+        tr:hover {
+            background: #e0e7ff;
+        }
+
+        .study-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .study-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .study-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .study-meta {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: var(--light);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .recommendation-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .recommendation-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .reference-list {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .reference-list h3 {
+            margin-top: 0;
+        }
+
+        .reference-item {
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .section-counter {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fef3c7 100%);
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            aside {
+                position: static;
+                height: auto;
+                margin-bottom: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            header {
+                padding: 1.5rem 0;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <h1>The AI-Powered Researcher</h1>
+            <p>A Comprehensive Guide to Revolutionizing Academic Literature Reviews</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+            <main>
+                <section>
+                    <h2><span class="section-counter">1</span> Advanced Search Strategy Formulation</h2>
+                    <p>Effective prompt engineering has become essential for leveraging Large Language Models (LLMs) in academic research. <span class="evidence-badge level-2">Level II</span></p>
+                    
+                    <h3>Prompt Engineering Techniques</h3>
+                    <p>Advanced prompting strategies significantly enhance AI output quality and relevance:</p>
+                    <ul>
+                        <li><strong>Role-Playing:</strong> Assigning domain-specific personas to LLMs improves contextual accuracy <span class="evidence-badge level-3">Level III</span></li>
+                        <li><strong>Chain-of-Thought (CoT):</strong> Breaking complex queries into sequential steps enhances reasoning coherence <span class="evidence-badge level-2">Level II</span></li>
+                        <li><strong>Framework Integration:</strong> Using PICO/SPIDER structures ensures comprehensive coverage of research questions <span class="evidence-badge level-1">Level I</span></li>
+                    </ul>
+                    
+                    <div class="callout callout-info">
+                        <div class="callout-title">Key Insight</div>
+                        <p>The integration of research frameworks (PICO/SPIDER) with LLMs creates a powerful synergy, combining human methodological rigor with computational efficiency.</p>
+                    </div>
+                    
+                    <h3>LLM Comparative Analysis</h3>
+                    <p>Different models exhibit distinct strengths for keyword generation:</p>
+                    <ul>
+                        <li><strong>GPT-4:</strong> Excels in creative, exploratory research but may require more curation <span class="evidence-badge level-3">Level III</span></li>
+                        <li><strong>Claude 3:</strong> Provides structured, ethically-aligned outputs for well-defined queries <span class="evidence-badge level-3">Level III</span></li>
+                        <li><strong>Gemini:</strong> Superior for emerging topics due to real-time search integration <span class="evidence-badge level-4">Level IV</span></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2><span class="section-counter">2</span> Modern Research Tool Landscape</h2>
+                    <p>The academic research ecosystem has evolved from traditional databases to AI-powered platforms.</p>
+                    
+                    <table>
+                        <caption>Comparative Analysis of AI-Powered Research Tools</caption>
+                        <thead>
+                            <tr>
+                                <th>Tool</th>
+                                <th>Primary Strength</th>
+                                <th>Best For</th>
+                                <th>Integration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Elicit</strong></td>
+                                <td>Systematic data extraction</td>
+                                <td>Meta-analyses, structured synthesis</td>
+                                <td>Zotero, CSV export</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Scite.ai</strong></td>
+                                <td>Citation context analysis</td>
+                                <td>Credibility assessment, impact evaluation</td>
+                                <td>Browser extension, API</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Consensus</strong></td>
+                                <td>Evidence synthesis</td>
+                                <td>Quick answers to specific questions</td>
+                                <td>Chat with paper feature</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ResearchRabbit</strong></td>
+                                <td>Citation network visualization</td>
+                                <td>Exploratory research, topic mapping</td>
+                                <td>Zotero, collaborative collections</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="callout callout-warning">
+                        <div class="callout-title">Important Limitation</div>
+                        <p>Source document identified only 4 major AI research tools for comparison. Additional platforms exist but were not covered in the provided material.</p>
+                    </div>
+                    
+                    <h3>Decision Framework for Tool Selection</h3>
+                    <p>Select tools based on research phase:</p>
+                    <ul>
+                        <li><strong>Exploratory Phase:</strong> ResearchRabbit for citation-based discovery</li>
+                        <li><strong>Evidence Synthesis:</strong> Consensus for quick answers to focused questions</li>
+                        <li><strong>Critical Appraisal:</strong> Scite.ai for credibility assessment</li>
+                        <li><strong>Systematic Reviews:</strong> Elicit for structured data extraction</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2><span class="section-counter">3</span> Systematic Review Methodologies</h2>
+                    
+                    <h3>PRISMA-AI Hybrid Model</h3>
+                    <p>AI integration requires careful documentation to maintain methodological integrity. <span class="evidence-badge level-2">Level II</span></p>
+                    
+                    <div class="callout callout-success">
+                        <div class="callout-title">PRISMA Compliance</div>
+                        <p>Researchers must document: exact prompts used, LLM versions, parameters, and human verification processes to ensure reproducibility.</p>
+                    </div>
+                    
+                    <h3>Automated Snowballing</h3>
+                    <p>AI transforms manual citation chaining into visual, network-based discovery. <span class="evidence-badge level-1">Level I</span></p>
+                    
+                    <p>Key advantages of AI-powered snowballing:</p>
+                    <ul>
+                        <li>Simultaneous visualization of entire citation networks</li>
+                        <li>Identification of intellectual clusters and bridging works</li>
+                        <li>Dynamic exploration rather than linear tracking</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2><span class="section-counter">4</span> Accelerating Insight & Critical Appraisal</h2>
+                    
+                    <h3>AI-Assisted Screening</h3>
+                    <p>Active learning with ASReview reduces screening workload by up to 95%. <span class="evidence-badge level-1">Level I</span></p>
+                    
+                    <div class="callout callout-info">
+                        <div class="callout-title">Active Learning Process</div>
+                        <p>1. Researcher labels initial papers<br>
+                        2. AI learns from decisions<br>
+                        3. Model prioritizes likely relevant papers<br>
+                        4. Iterative refinement continues</p>
+                    </div>
+                    
+                    <h3>Full-Text Analysis Tools</h3>
+                    <p>"Chat-with-document" AI tools transform full-text review into interactive dialogue. <span class="evidence-badge level-2">Level II</span></p>
+                    
+                    <p>Documented efficiency gains:</p>
+                    <ul>
+                        <li>Data extraction time reduced from 36 to 13 minutes per study</li>
+                        <li>High accuracy for study characteristics (>90%)</li>
+                        <li>Lower accuracy for complex statistics (77-87%)</li>
+                    </ul>
+                    
+                    <h3>Credibility Assessment</h3>
+                    <p>Scite.ai's Smart Citations classify citations as supporting, contrasting, or mentioning. <span class="evidence-badge level-2">Level II</span></p>
+                </section>
+
+                <section>
+                    <h2><span class="section-counter">5</span> Ethical Considerations & Future Horizons</h2>
+                    
+                    <h3>Key Pitfalls</h3>
+                    <ul>
+                        <li><strong>Algorithmic Bias:</strong> AI models inherit and amplify biases from training data <span class="evidence-badge level-3">Level III</span></li>
+                        <li><strong>Intellectual Echo Chambers:</strong> Recommendation algorithms may narrow exposure <span class="evidence-badge level-4">Level IV</span></li>
+                        <li><strong>Hallucinations:</strong> LLMs can generate plausible but false information <span class="evidence-badge level-2">Level II</span></li>
+                    </ul>
+                    
+                    <div class="callout callout-warning">
+                        <div class="callout-title">Critical Imperative</div>
+                        <p>All AI-generated content must be verified against original sources. Treat AI outputs as preliminary drafts, not final products.</p>
+                    </div>
+                    
+                    <h3>Human-AI Symbiosis</h3>
+                    <p>AI augments rather than replaces human intellect. Essential human functions include:</p>
+                    <ul>
+                        <li>Deep synthesis and cross-contextual interpretation</li>
+                        <li>Ethical judgment and accountability</li>
+                        <li>Creativity in question formulation</li>
+                    </ul>
+                    
+                    <h3>Future Perspectives</h3>
+                    <p>Emerging trends include semi-automated reviews, agentic AI, and challenges to traditional publishing models. <span class="evidence-badge level-4">Level IV</span></p>
+                </section>
+
+                <section>
+                    <h2>Landmark Studies & Evidence Summary</h2>
+                    <p>Based on analysis of the source document, the following key studies and evidence sources are identified:</p>
+                    
+                    <div class="study-card">
+                        <div class="study-title">PRISMA-AI Reporting Guidelines</div>
+                        <div class="study-meta">Standards for transparent documentation of AI use in systematic reviews</div>
+                        <div>
+                            <span class="tag">Guideline</span>
+                            <span class="tag">Transparency</span>
+                            <span class="tag">Reproducibility</span>
+                        </div>
+                    </div>
+                    
+                    <div class="study-card">
+                        <div class="study-title">ASReview Active Learning Evaluation</div>
+                        <div class="study-meta">Demonstrates up to 95% reduction in screening workload</div>
+                        <div>
+                            <span class="tag">Active Learning</span>
+                            <span class="tag">Efficiency</span>
+                            <span class="tag">Systematic Review</span>
+                        </div>
+                    </div>
+                    
+                    <div class="study-card">
+                        <div class="study-title">Elicit Systematic Review Evaluation</div>
+                        <div class="study-meta">High recall (94-96%) for identifying relevant papers</div>
+                        <div>
+                            <span class="tag">Data Extraction</span>
+                            <span class="tag">Sensitivity</span>
+                            <span class="tag">Automation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="study-card">
+                        <div class="study-title">Scite.ai Smart Citations Analysis</div>
+                        <div class="study-meta">Contextual classification of supporting/contrasting citations</div>
+                        <div>
+                            <span class="tag">Citation Analysis</span>
+                            <span class="tag">Credibility</span>
+                            <span class="tag">Impact Assessment</span>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <div class="callout-title">Evidence Gap Noted</div>
+                        <p>Source document referenced multiple studies but did not provide complete citation details for all. Only 4 landmark studies with specific outcomes were clearly identifiable from the provided material.</p>
+                    </div>
+                </section>
+
+                <section class="reference-list">
+                    <h3>References from Source Document</h3>
+                    <div class="reference-item">1. Prompt Engineering Guide. <a href="https://www.promptingguide.ai/" target="_blank">promptingguide.ai</a></div>
+                    <div class="reference-item">2. Systematic Survey of Prompt Engineering in LLMs. <a href="https://arxiv.org/html/2402.07927v2" target="_blank">arXiv:2402.07927</a></div>
+                    <div class="reference-item">3. Prompt Engineering for AI Guide. <a href="https://cloud.google.com/discover/what-is-prompt-engineering" target="_blank">Google Cloud</a></div>
+                    <div class="reference-item">4. Advanced Prompt Engineering for Data Science. <a href="https://towardsdatascience.com/advanced-prompt-engineering-for-data-science-projects/" target="_blank">Towards Data Science</a></div>
+                    <div class="reference-item">5. AI Search Tools in Literature Reviews. <a href="https://wiki.ubc.ca/Artificial_intelligence_(AI)_Search_Tools_Used_in_Literature_Reviews_and_Comprehensive_Searching" target="_blank">UBC Wiki</a></div>
+                    <div class="reference-item">6. PRISMA AI Reporting Guidelines. <a href="https://www.researchgate.net/publication/367180953_PRISMA_AI_reporting_guidelines_for_systematic_reviews_and_meta-analyses_on_AI_in_healthcare" target="_blank">ResearchGate</a></div>
+                    <div class="reference-item">7. ASReview: Active Learning for Systematic Reviews. <a href="https://asreview.readthedocs.io/en/stable/lab/about.html" target="_blank">Documentation</a></div>
+                    <div class="reference-item">8. Elicit Systematic Review Evaluation. <a href="https://blog.elicit.com/how-we-evaluated-elicit-systematic-review/" target="_blank">Elicit Blog</a></div>
+                </section>
+            </main>
+
+            <aside aria-label="Interactive Parameters">
+                <div class="sidebar-title">Research Parameters</div>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Seed Papers for Snowballing</span>
+                        <span class="slider-value" id="seedPapersValue">3</span>
+                    </div>
+                    <input type="range" id="seedPapers" min="1" max="10" value="3">
+                    <small style="color: var(--text-light); display: block; margin-top: 0.5rem;">
+                        Range: 1-10 papers (Assumed based on common practice - not from source)
+                    </small>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Screening Reduction Target</span>
+                        <span class="slider-value" id="screeningValue">80%</span>
+                    </div>
+                    <input type="range" id="screening" min="50" max="95" value="80">
+                    <small style="color: var(--text-light); display: block; margin-top: 0.5rem;">
+                        Based on ASReview studies (up to 95% reduction reported in source)
+                    </small>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>Data Extraction Papers</span>
+                        <span class="slider-value" id="extractionValue">100</span>
+                    </div>
+                    <input type="range" id="extraction" min="10" max="1000" value="100">
+                    <small style="color: var(--text-light); display: block; margin-top: 0.5rem;">
+                        For systematic reviews (Assumed based on common practice - not from source)
+                    </small>
+                </div>
+                
+                <div class="recommendation-box" id="recommendationBox">
+                    <div class="recommendation-title">Workflow Recommendation</div>
+                    <p id="recommendationText">Based on your parameters, consider using ResearchRabbit for initial discovery with 3 seed papers, followed by ASReview for screening with 80% reduction target, and Elicit for data extraction from 100 papers.</p>
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="copyBtn">Export Summary</button>
+                    <button class="btn btn-secondary" id="resetBtn">Reset Parameters</button>
+                </div>
+                
+                <div class="callout callout-warning" style="margin-top: 2rem;">
+                    <div class="callout-title">Source Limitation</div>
+                    <p>Continuous clinical parameters were not available in the source document. Slider values represent common research practice thresholds annotated where possible.</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <p>Evidence-Based Guide to AI-Powered Literature Reviews</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);">
+                Generated based exclusively on the provided source document
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Slider elements
+            const seedPapers = document.getElementById('seedPapers');
+            const screening = document.getElementById('screening');
+            const extraction = document.getElementById('extraction');
+            
+            // Value displays
+            const seedPapersValue = document.getElementById('seedPapersValue');
+            const screeningValue = document.getElementById('screeningValue');
+            const extractionValue = document.getElementById('extractionValue');
+            
+            // Recommendation text
+            const recommendationText = document.getElementById('recommendationText');
+            
+            // Buttons
+            const copyBtn = document.getElementById('copyBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            // Update recommendation based on slider values
+            function updateRecommendation() {
+                const seed = parseInt(seedPapers.value);
+                const screen = parseInt(screening.value);
+                const extract = parseInt(extraction.value);
+                
+                let recommendation = `Based on your parameters, `;
+                
+                if (seed <= 3) {
+                    recommendation += `start with ${seed} seed paper(s) in ResearchRabbit for focused discovery. `;
+                } else if (seed <= 7) {
+                    recommendation += `use ${seed} seed papers in ResearchRabbit for comprehensive mapping. `;
+                } else {
+                    recommendation += `consider ${seed} seed papers in ResearchRabbit for extensive network analysis. `;
+                }
+                
+                if (screen <= 70) {
+                    recommendation += `Use ASReview with ${screen}% reduction target for moderate efficiency gains. `;
+                } else if (screen <= 85) {
+                    recommendation += `Target ${screen}% screening reduction with ASReview for substantial time savings. `;
+                } else {
+                    recommendation += `Aim for ${screen}% screening reduction with ASReview for maximum efficiency. `;
+                }
+                
+                if (extract <= 50) {
+                    recommendation += `Extract data from ${extract} papers using Elicit for focused reviews. `;
+                } else if (extract <= 200) {
+                    recommendation += `Process ${extract} papers with Elicit for comprehensive systematic reviews. `;
+                } else {
+                    recommendation += `Scale to ${extract} papers with Elicit for large meta-analyses. `;
+                }
+                
+                recommendationText.textContent = recommendation;
+            }
+            
+            // Update slider value displays
+            function updateSliderValues() {
+                seedPapersValue.textContent = seedPapers.value;
+                screeningValue.textContent = screening.value + '%';
+                extractionValue.textContent = extraction.value;
+                updateRecommendation();
+            }
+            
+            // Initialize
+            updateSliderValues();
+            
+            // Event listeners for sliders
+            seedPapers.addEventListener('input', updateSliderValues);
+            screening.addEventListener('input', updateSliderValues);
+            extraction.addEventListener('input', updateSliderValues);
+            
+            // Copy/export function
+            copyBtn.addEventListener('click', function() {
+                const timestamp = new Date().toLocaleString();
+                const seedVal = seedPapers.value;
+                const screenVal = screening.value;
+                const extractVal = extraction.value;
+                const recommendation = recommendationText.textContent;
+                
+                const exportText = `AI-Powered Literature Review Summary\n` +
+                                  `Generated: ${timestamp}\n\n` +
+                                  `Research Parameters:\n` +
+                                  `- Seed Papers for Snowballing: ${seedVal}\n` +
+                                  `- Screening Reduction Target: ${screenVal}%\n` +
+                                  `- Data Extraction Papers: ${extractVal}\n\n` +
+                                  `Workflow Recommendation:\n${recommendation}\n\n` +
+                                  `Source Document Notes:\n` +
+                                  `- Continuous parameters not specified in source; values based on common practice\n` +
+                                  `- Evidence levels assigned based on study design described in source\n` +
+                                  `- Only 4 landmark studies clearly identifiable in source material`;
+                
+                navigator.clipboard.writeText(exportText).then(() => {
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = 'Copied!';
+                    copyBtn.style.background = 'var(--secondary)';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                        copyBtn.style.background = 'var(--primary)';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert('Failed to copy to clipboard. Please try again.');
+                });
+            });
+            
+            // Reset function
+            resetBtn.addEventListener('click', function() {
+                seedPapers.value = 3;
+                screening.value = 80;
+                extraction.value = 100;
+                updateSliderValues();
+                
+                resetBtn.textContent = 'Reset!';
+                resetBtn.style.background = 'var(--secondary)';
+                setTimeout(() => {
+                    resetBtn.textContent = 'Reset Parameters';
+                    resetBtn.style.background = 'var(--light)';
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

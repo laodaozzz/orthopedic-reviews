@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perren's Interfragmentary Strain Theory – Interactive Educational Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2a4a7f;
+    --accent: #e53e3e;
+    --accent-light: #fc8181;
+    --success: #38a169;
+    --warning: #d69e2e;
+    --info: #3182ce;
+    --bg: #f7fafc;
+    --bg-card: #ffffff;
+    --text: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    --radius: 12px;
+    --sidebar-width: 340px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* Header */
+  .site-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 2rem 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  .site-header h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    max-width: 1400px;
+    margin: 0 auto;
+    line-height: 1.3;
+  }
+  .site-header .subtitle {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    font-weight: 400;
+    margin-top: 0.3rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr var(--sidebar-width);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    align-items: start;
+  }
+
+  /* Main Content */
+  .main-content {
+    min-width: 0;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--accent);
+    display: inline-block;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-light);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p { margin-bottom: 1rem; color: var(--text-secondary); }
+  strong { color: var(--text); }
+
+  /* Evidence Badge */
+  .evidence-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .ev-I { background: #c6f6d5; color: #22543d; }
+  .ev-II { background: #bee3f8; color: #2a4365; }
+  .ev-III { background: #fefcbf; color: #744210; }
+  .ev-IV { background: #fed7d7; color: #9b2c2c; }
+  .ev-V { background: #e9d8fd; color: #553c9a; }
+  .ev-ns { background: #e2e8f0; color: #4a5568; }
+
+  /* Callout Box */
+  .callout {
+    border-left: 4px solid var(--info);
+    background: #ebf8ff;
+    padding: 1rem 1.25rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 1.25rem 0;
+  }
+  .callout.warning { border-left-color: var(--warning); background: #fefcbf; }
+  .callout.success { border-left-color: var(--success); background: #f0fff4; }
+  .callout.accent { border-left-color: var(--accent); background: #fff5f5; }
+  .callout p { margin-bottom: 0.3rem; }
+  .callout .callout-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--text); }
+
+  /* Formula Box */
+  .formula-box {
+    background: #1a202c;
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius);
+    margin: 1.25rem 0;
+    text-align: center;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    overflow-x: auto;
+  }
+  .formula-box .highlight { color: #fc8181; font-weight: 700; }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  caption {
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    background: var(--primary);
+    color: white;
+  }
+  th {
+    background: #edf2f7;
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary);
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f7fafc; }
+
+  /* Lists */
+  ul, ol {
+    margin: 0.75rem 0 1rem 1.5rem;
+    color: var(--text-secondary);
+  }
+  li { margin-bottom: 0.4rem; }
+  li strong { color: var(--text); }
+
+  /* References */
+  .references {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .references ol { margin-left: 1.2rem; }
+  .references li { margin-bottom: 0.3rem; }
+
+  /* Sup citation */
+  sup a {
+    color: var(--info);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.7rem;
+  }
+  sup a:hover { text-decoration: underline; }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 120px;
+  }
+
+  .sidebar-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-card h3 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sidebar-card h3 .icon { font-size: 1.1rem; }
+
+  /* Sliders */
+  .slider-group {
+    margin-bottom: 1.25rem;
+  }
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .slider-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 700;
+    min-width: 70px;
+    text-align: right;
+  }
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, var(--success), var(--warning), var(--accent));
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: grab;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: grab;
+  }
+  .slider-note {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    font-style: italic;
+  }
+
+  /* Recommendation Panel */
+  .recommendation-panel {
+    background: #1a202c;
+    color: #e2e8f0;
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    margin-top: 1rem;
+  }
+  .recommendation-panel h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-light);
+    margin-bottom: 0.5rem;
+  }
+  .recommendation-panel .rec-healing-path {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+  .recommendation-panel .rec-detail {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #a0aec0;
+  }
+  .recommendation-panel .rec-detail strong { color: #e2e8f0; }
+  .strain-bar-container {
+    margin-top: 0.75rem;
+  }
+  .strain-bar-bg {
+    height: 8px;
+    border-radius: 4px;
+    background: #2d3748;
+    position: relative;
+    overflow: hidden;
+  }
+  .strain-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+  .strain-zones {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    margin-top: 3px;
+    color: #718096;
+  }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    flex: 1;
+    padding: 0.55rem 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-reset {
+    background: #edf2f7;
+    color: var(--text);
+  }
+  .btn-reset:hover { background: #e2e8f0; }
+  .btn-export {
+    background: var(--primary);
+    color: white;
+  }
+  .btn-export:hover { background: var(--primary-light); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 999;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--accent), var(--info), var(--success));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.65rem;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--accent);
+  }
+  .timeline-item:nth-child(2)::before { border-color: var(--warning); }
+  .timeline-item:nth-child(3)::before { border-color: var(--info); }
+  .timeline-item:nth-child(4)::before { border-color: var(--success); }
+  .timeline-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.15rem;
+  }
+  .timeline-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Toggle Switch */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+  }
+  .toggle-label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
+  .toggle-switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+  }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #cbd5e0;
+    border-radius: 24px;
+    transition: 0.3s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  .toggle-switch input:checked + .toggle-slider { background: var(--success); }
+  .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+    }
+    .sidebar {
+      position: relative;
+      top: 0;
+      order: -1;
+    }
+    .site-header { padding: 1.25rem 1rem; }
+    .site-header h1 { font-size: 1.2rem; }
+    .card { padding: 1.25rem; }
+  }
+
+  /* Accessibility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Limitation Note */
+  .limitation-note {
+    background: #fefcbf;
+    border: 1px solid #d69e2e;
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: #744210;
+    margin: 1rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .limitation-note .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>The Mechanobiology of Fracture Repair: Perren's Interfragmentary Strain Theory</h1>
+  <p class="subtitle">An Interactive Educational Summary &mdash; Evidence-Based Analysis with Clinical Decision Support</p>
+</header>
+
+<div class="layout">
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content" role="main" aria-label="Main educational content">
+
+  <!-- SECTION 1: Introduction -->
+  <section class="card" aria-labelledby="sec-intro">
+    <h2 id="sec-intro">1. Introduction: The Mechanical Imperative in Bone Regeneration</h2>
+    <p>Bone is a uniquely regenerative organ, capable of repairing itself to its pre-injury state without the formation of scar tissue.<sup><a href="#ref1">[1]</a></sup> For centuries, fracture treatment was largely empirical. The mid-20th century, particularly with the work of the <strong>AO (Arbeitsgemeinschaft für Osteosynthesefragen)</strong> group, marked a turning point as fracture care was transformed from an art into a science grounded in biomechanical principles.<sup><a href="#ref2">[2]</a></sup></p>
+    <p>Central to this transformation was the work of <strong>Professor Stephan M. Perren</strong>, whose research provided the foundational concepts that continue to influence implant design and surgical philosophy over half a century later.<sup><a href="#ref2">[2]</a></sup> Fracture healing is fundamentally a repair process aimed at restoring a mechanical discontinuity, re-establishing the bone's structural integrity and capacity for force transmission.<sup><a href="#ref4">[4]</a></sup></p>
+
+    <div class="callout">
+      <p class="callout-title">The Orthopaedic Paradox Resolved</p>
+      <p>Before Perren, orthopaedic surgery faced a significant paradox: rigid internal fixation with compression plates resulted in <strong>direct bone healing</strong> with no visible callus ("soudure autogène"), while conservative treatments with casts led to robust healing with <strong>abundant external callus</strong>.<sup><a href="#ref7">[7]</a></sup> These two successful yet morphologically distinct outcomes were treated as separate phenomena until Perren's interfragmentary strain theory provided the single, elegant variable that resolved this paradox: <strong>local tissue strain</strong>.<sup><a href="#ref9">[9]</a></sup></p>
+    </div>
+
+    <p>The theory created a universal framework explaining the full spectrum of biological responses, establishing a <strong>continuum of stability</strong>—from the "absolute stability" afforded by compression plating to the "relative stability" provided by more flexible fixation methods.<sup><a href="#ref3">[3]</a></sup></p>
+    <span class="evidence-badge ev-I">Level I–II Foundational Evidence</span>
+  </section>
+
+  <!-- SECTION 2: Genesis -->
+  <section class="card" aria-labelledby="sec-genesis">
+    <h2 id="sec-genesis">2. The Genesis of Interfragmentary Strain Theory</h2>
+
+    <h3>2.1 Definition of Interfragmentary Strain</h3>
+    <p>The central physical concept is <strong>strain (ε)</strong>: the relative deformation of tissue within the fracture gap. It is the change in the fracture gap's length (ΔL) under load, divided by the original unloaded length of the gap (L).<sup><a href="#ref10">[10]</a></sup></p>
+
+    <div class="formula-box">
+      <span class="highlight">ε</span> = <span class="highlight">ΔL</span> / <span class="highlight">L</span>
+      <br><small style="opacity:0.6;">ε = interfragmentary strain · ΔL = change in gap length under load · L = original gap width</small>
+    </div>
+
+    <p>This yields a profound insight: for the same amount of absolute motion (ΔL), the strain experienced by cells within the gap is <strong>inversely proportional to the initial gap width</strong> (L).<sup><a href="#ref12">[12]</a></sup> A simple, well-reduced transverse fracture creates a very narrow gap—microscopic motion generates extremely high local strain. Conversely, in a comminuted fracture, the same total motion is distributed across multiple fracture lines and a much larger effective gap zone, resulting in significantly lower local strain.<sup><a href="#ref13">[13]</a></sup></p>
+
+    <h3>2.2 The Strain Tolerance Hypothesis</h3>
+    <p>Perren posited that <em>"a certain tissue simply cannot exist in an environment where strain exceeds the limit of elongation at rupture of the tissue under consideration."</em><sup><a href="#ref12">[12]</a></sup> Cells can only produce and maintain an extracellular matrix mechanically suited to its environment. This establishes a <strong>hierarchy of tissues</strong> based on strain tolerance.<sup><a href="#ref10">[10]</a></sup></p>
+
+    <h3>2.3 The Cascade of Tissue Differentiation</h3>
+    <div class="timeline" role="list" aria-label="Healing cascade timeline">
+      <div class="timeline-item" role="listitem">
+        <div class="timeline-title">1. Inflammation &amp; Granulation Tissue (ε up to 100%)</div>
+        <div class="timeline-desc">Hematoma organized into highly vascular, compliant granulation tissue of fibroblasts and capillaries. Extremely deformation-tolerant.<sup><a href="#ref10">[10]</a></sup></div>
+      </div>
+      <div class="timeline-item" role="listitem">
+        <div class="timeline-title">2. Fibrous Tissue &amp; Soft Callus (ε ~10%)</div>
+        <div class="timeline-desc">Collagen fiber deposition increases stiffness, reducing strain. Mesenchymal stem cells differentiate into chondrocytes → fibrocartilaginous soft callus.<sup><a href="#ref2">[2]</a></sup></div>
+      </div>
+      <div class="timeline-item" role="listitem">
+        <div class="timeline-title">3. Hard Callus &amp; Bony Bridging (ε &lt; 2%)</div>
+        <div class="timeline-desc">Endochondral ossification replaces cartilage with woven bone. Once strain falls below ~2%, osteoblasts directly form lamellar bone, bridging the fracture.<sup><a href="#ref10">[10]</a></sup></div>
+      </div>
+      <div class="timeline-item" role="listitem">
+        <div class="timeline-title">4. Remodeling</div>
+        <div class="timeline-desc">Woven bone remodeled into mechanically efficient lamellar bone guided by Wolff's Law, restoring original architecture.<sup><a href="#ref18">[18]</a></sup></div>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 1. Tissue Strain Tolerance in the Healing Cascade<sup><a href="#ref10">[10]</a></sup></caption>
+        <thead>
+          <tr><th>Tissue Type</th><th>Approximate Strain Tolerance (%)</th><th>Role in Healing Cascade</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Granulation Tissue</strong></td><td>Up to 100%</td><td>Initial hematoma organization; high compliance</td></tr>
+          <tr><td><strong>Fibrous Connective Tissue</strong></td><td>~17–30%</td><td>Early stabilization; extracellular matrix deposition</td></tr>
+          <tr><td><strong>Cartilage / Fibrocartilage</strong></td><td>~10%</td><td>Forms soft callus; significantly increases mechanical stability</td></tr>
+          <tr><td><strong>Lamellar Bone</strong></td><td>&lt; 2%</td><td>Final bony bridging; provides rigid structural integrity</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout success">
+      <p class="callout-title">Biological Intelligence: Bone Resorption as Strain Management</p>
+      <p>In simple fractures with very narrow gaps, initial strain can be destructively high. Osteoclastic resorption of fracture ends is <strong>not a sign of failure</strong> but a protective strategy: by increasing the gap width (L), the body lowers overall strain (ε) to a level tolerable for fibrocartilage formation, allowing the healing process to "reset."<sup><a href="#ref4">[4]</a></sup></p>
+    </div>
+
+    <span class="evidence-badge ev-I">Level I Foundational Theory</span>
+  </section>
+
+  <!-- SECTION 3: Primary vs Secondary Healing -->
+  <section class="card" aria-labelledby="sec-healing">
+    <h2 id="sec-healing">3. Primary vs. Secondary Healing: A Spectrum of Stability</h2>
+
+    <h3>3.1 Primary (Direct) Bone Healing</h3>
+    <p>Occurs only under <strong>absolute stability</strong> where interfragmentary motion is virtually eliminated and local tissue strain is maintained <strong>below 2%</strong>.<sup><a href="#ref2">[2]</a></sup> This requires anatomic reduction and interfragmentary compression.</p>
+    <p>Primary healing bypasses callus formation entirely, proceeding via <strong>direct Haversian remodeling</strong>—osteoclastic "cutting cones" advance across the fracture line, immediately followed by osteoblasts depositing new lamellae.<sup><a href="#ref21">[21]</a></sup> This is the goal of rigid fixation with compression plates and lag screws.<sup><a href="#ref7">[7]</a></sup></p>
+
+    <h3>3.2 Secondary (Indirect) Bone Healing</h3>
+    <p>The body's natural pathway, occurring under <strong>relative stability</strong> with interfragmentary strain in the range of <strong>2–10%</strong>.<sup><a href="#ref2">[2]</a></sup> Micromotion is the essential mechanical stimulus driving the healing cascade.<sup><a href="#ref13">[13]</a></sup></p>
+    <p>Characterized by robust formation of periosteal and endosteal callus through both <strong>intramembranous</strong> (direct bone formation in periosteal regions) and <strong>endochondral</strong> ossification (cartilage intermediate replaced by bone in the gap).<sup><a href="#ref24">[24]</a></sup> The volume of callus formed is inversely proportional to the degree of stability.<sup><a href="#ref18">[18]</a></sup></p>
+
+    <div class="callout warning">
+      <p class="callout-title">The Fundamental Strategic Trade-Off</p>
+      <p><strong>Absolute stability</strong> requires meticulous anatomic reduction and compression, often necessitating extensive soft-tissue stripping that compromises blood supply—creating a <strong>mechanically ideal but biologically fragile</strong> environment.<sup><a href="#ref7">[7]</a></sup></p>
+      <p><strong>Relative stability</strong> prioritizes preservation of the soft-tissue envelope and fracture hematoma, maintaining vascular supply and harnessing a powerful and <strong>forgiving biological response</strong>.<sup><a href="#ref7">[7]</a></sup></p>
+      <p>Over recent decades, particularly for complex comminuted fractures, the pendulum has swung decisively toward biological osteosynthesis.<sup><a href="#ref8">[8]</a></sup></p>
+    </div>
+
+    <span class="evidence-badge ev-II">Level II–III Clinical Evidence</span>
+  </section>
+
+  <!-- SECTION 4: The 2-10% Rule -->
+  <section class="card" aria-labelledby="sec-rule">
+    <h2 id="sec-rule">4. The "2–10% Strain Rule": Foundational Heuristic &amp; Limitations</h2>
+
+    <h3>4.1 The Prevailing Dogma</h3>
+    <ul>
+      <li><strong>Strain &lt; 2%:</strong> High stability zone. Ideal for primary healing with direct bone contact; risk of <strong>atrophic nonunion</strong> if a gap persists.<sup><a href="#ref13">[13]</a></sup></li>
+      <li><strong>Strain &gt; 10%:</strong> High instability zone. Excessive motion disrupts callus maturation → <strong>hypertrophic nonunion</strong>.<sup><a href="#ref13">[13]</a></sup></li>
+      <li><strong>Strain 2–10%:</strong> The optimal "sweet spot" for secondary bone healing—sufficient stimulus for callus without disrupting maturation.<sup><a href="#ref2">[2]</a></sup></li>
+    </ul>
+
+    <h3>4.2 Contradictory Evidence</h3>
+    <p>Decades of subsequent research demonstrate successful bone healing routinely occurs in environments with calculated strains far exceeding the 10% limit:<sup><a href="#ref23">[23]</a></sup></p>
+    <ul>
+      <li>Clinical studies on human tibial fractures with axial micromotion showed faster healing with calculated gap-closing strains of <strong>20–33%</strong>.</li>
+      <li>Hente and Perren's own sheep wedge osteotomy model showed successful callus formation at calculated strains up to <strong>24%</strong>.</li>
+      <li>Biomechanical analyses of plated distal femur fractures suggest strains <strong>&gt;50%</strong> without invariably leading to nonunion.</li>
+      <li>MicroCT/FEA studies on ovine osteotomies revealed successful healing with average gap-closing strains of <strong>51%</strong> at the cortex opposite the plate.</li>
+    </ul>
+
+    <div class="callout accent">
+      <p class="callout-title">Reconciling the Evidence</p>
+      <p>Perren's original theory was more nuanced than modern dogma suggests. He theorized fractures tolerate very high <em>initial</em> strains because early tissues (granulation, fibrous) are highly compliant. The healing process <strong>actively reduces local strain over time</strong>. The 2–10% range is the target environment for the <strong>less strain-tolerant woven and lamellar bone</strong> to successfully bridge the gap—not a rigid requirement for the entire healing period.<sup><a href="#ref23">[23]</a></sup></p>
+    </div>
+
+    <span class="evidence-badge ev-II">Level II Evidence – Re-evaluation Studies</span>
+  </section>
+
+  <!-- SECTION 5: Evolution to 3D -->
+  <section class="card" aria-labelledby="sec-3d">
+    <h2 id="sec-3d">5. Evolution: From 1D Gap Strain to 3D Mechanobiology</h2>
+
+    <h3>5.1 The Inadequacy of "Gap Strain"</h3>
+    <p>The one-dimensional gap strain metric (ΔL/L) is a profound oversimplification because it:<sup><a href="#ref23">[23]</a></sup></p>
+    <ul>
+      <li><strong>Ignores strain gradients</strong> — bending creates a gradient from low strain (compression under plate) to very high tensile strain at the far cortex.</li>
+      <li><strong>Neglects the periosteal region</strong> — secondary healing initiates in periosteal/endosteal regions <em>around</em> the gap, not within it.</li>
+    </ul>
+
+    <h3>5.2 Two Components of 3D Strain</h3>
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 2. Components of Three-Dimensional Strain in Fracture Healing<sup><a href="#ref23">[23]</a></sup></caption>
+        <thead>
+          <tr><th>Component</th><th>Also Known As</th><th>Description</th><th>Biological Relevance</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Volumetric Strain (ε<sub>vol</sub>)</strong></td>
+            <td>Dilatational strain</td>
+            <td>Change in tissue volume (compression/tension)</td>
+            <td>Associated with hydrostatic pressure</td>
+          </tr>
+          <tr>
+            <td><strong>Distortional Strain (ε<sub>dist</sub>)</strong></td>
+            <td>Shear strain</td>
+            <td>Change in tissue shape without volume change</td>
+            <td>Associated with sliding/shearing forces</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>5.3 Shear Dominance: A New Paradigm</h3>
+    <p>The critical finding from high-fidelity 3D models: the mechanical environment is overwhelmingly dominated by <strong>distortional (shear) strain</strong>.<sup><a href="#ref28">[28]</a></sup> In the pivotal ovine osteotomy study:</p>
+    <ul>
+      <li>Peak distortional strains averaged <strong>115%</strong>, with a mean tissue volume of <strong>3.3 cm³</strong> experiencing distortional strains &gt;10%.</li>
+      <li>Peak compressive volumetric strain averaged only <strong>32%</strong>, with only <strong>0.3 cm³</strong> experiencing compressive strains &gt;10%.</li>
+    </ul>
+    <p>The primary mechanical challenge for cells is <strong>not being compressed or stretched, but being sheared and distorted</strong>. Shear motion is significantly more detrimental to healing than purely axial motion.<sup><a href="#ref30">[30]</a></sup></p>
+
+    <div class="callout success">
+      <p class="callout-title">A Refined Model of Secondary Healing</p>
+      <p>High strain within the gap acts as a <strong>local inhibitor</strong> of tissue mineralization. Healing initiates in mechanically protected, lower-strain <strong>"sanctuaries"</strong> of the periosteum. Initial periosteal bone formation creates a biological "splint" that progressively stiffens the construct, reduces motion, and diminishes shear within the gap—allowing final bridging.<sup><a href="#ref23">[23]</a></sup></p>
+    </div>
+
+    <span class="evidence-badge ev-II">Level II Evidence – Computational &amp; Animal Studies</span>
+  </section>
+
+  <!-- SECTION 6: Clinical Applications -->
+  <section class="card" aria-labelledby="sec-clinical">
+    <h2 id="sec-clinical">6. Clinical Manifestations: Implant Design &amp; Surgical Strategy</h2>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 3. Fixation Methods, Stability Concepts, and Healing Pathways<sup><a href="#ref2">[2]</a></sup></caption>
+        <thead>
+          <tr><th>Fixation Method</th><th>Stability Concept</th><th>Strain Environment</th><th>Healing Pathway</th><th>Clinical Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Compression Plate</strong></td><td>Absolute Stability</td><td>&lt; 2%</td><td>Primary (Direct)</td><td>Simple transverse forearm fracture</td></tr>
+          <tr><td><strong>Intramedullary Nail</strong></td><td>Relative Stability</td><td>2–10% (axial)</td><td>Secondary (Indirect)</td><td>Diaphyseal femur/tibia fracture</td></tr>
+          <tr><td><strong>Bridge Plate (non-locking)</strong></td><td>Relative Stability</td><td>2–10%</td><td>Secondary (Indirect)</td><td>Comminuted diaphyseal fracture</td></tr>
+          <tr><td><strong>Locking Plate</strong></td><td>Relative Stability (high stiffness)</td><td>Variable; risk of shielding</td><td>Mixed/Delayed Secondary</td><td>Metaphyseal fracture in osteoporotic bone</td></tr>
+          <tr><td><strong>External Fixator</strong></td><td>Relative Stability (adjustable)</td><td>2–10% (modulatable)</td><td>Secondary (Indirect)</td><td>Open tibial fracture with soft tissue injury</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>6.1 Compression Plating &amp; the AO Philosophy</h3>
+    <p>Early AO principles achieved absolute stability with interfragmentary compression, enabling primary healing without external callus.<sup><a href="#ref17">[17]</a></sup> This was revolutionary for simple articular and diaphyseal fractures. However, the biological cost—compromised periosteal blood supply from plate-to-bone compression—led to delayed healing, bone necrosis, and increased infection risk in complex fractures.<sup><a href="#ref7">[7]</a></sup></p>
+
+    <h3>6.2 Biological Osteosynthesis</h3>
+    <p>The paradigm shift toward <strong>"biological osteosynthesis"</strong> prioritizes vascularity over perfect anatomic reduction:<sup><a href="#ref7">[7]</a></sup></p>
+    <ul>
+      <li><strong>Intramedullary nails:</strong> Internal splints controlling alignment while allowing controlled axial micromotion to stimulate callus.<sup><a href="#ref2">[2]</a></sup></li>
+      <li><strong>Bridge plates:</strong> Span comminuted segments, fixing proximal/distal fragments while leaving intermediate fragments untouched to preserve blood supply.<sup><a href="#ref14">[14]</a></sup></li>
+      <li><strong>LC-DCP (Limited Contact-Dynamic Compression Plate):</strong> Developed by Perren himself—an undercut surface design that dramatically reduced plate-bone contact area, preserving periosteal vasculature while still allowing compression.<sup><a href="#ref32">[32]</a></sup></li>
+    </ul>
+
+    <h3>6.3 The Locking Plate Dilemma &amp; Modern Innovations</h3>
+    <p>Locking plates create angularly stable constructs acting as "internal fixators" with minimal bone contact, preserving periosteal vasculature.<sup><a href="#ref20">[20]</a></sup> However, their rigidity can <strong>shield the fracture</strong> from necessary stimulation, creating mechanical limbo and risking atrophic nonunion or plate fatigue failure.<sup><a href="#ref15">[15]</a></sup></p>
+
+    <p>Modern solutions engineering optimal strain environments:<sup><a href="#ref36">[36]</a></sup><sup><a href="#ref37">[37]</a></sup></p>
+    <ul>
+      <li><strong>Far Cortical Locking (FCL):</strong> Screws with smooth shafts engaging only the far cortex, creating a longer effective bending length and reducing construct stiffness.</li>
+      <li><strong>Dynamic Locking Screws (DLS):</strong> Allow controlled axial micromotion within the locking plate hole.</li>
+      <li><strong>Micromotion-enabled implants:</strong> Commercially available systems with built-in mechanisms permitting predefined controlled axial micromotion (e.g., 0.6 mm or 1.0 mm).</li>
+    </ul>
+
+    <span class="evidence-badge ev-II">Level II–III Clinical &amp; Biomechanical Evidence</span>
+  </section>
+
+  <!-- SECTION 7: Nonunion -->
+  <section class="card" aria-labelledby="sec-nonunion">
+    <h2 id="sec-nonunion">7. The Challenge of Nonunion: Mechanics vs. Biology</h2>
+    <p>A nonunion represents failure of a fracture to heal, leading to prolonged disability.<sup><a href="#ref40">[40]</a></sup> Perren's theory provides a unifying framework: most nonunions are <strong>not failures of biology</strong>, but predictable consequences of an inappropriate sustained mechanical environment.<sup><a href="#ref41">[41]</a></sup></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 4. Nonunion Classification Through the Lens of Strain Theory<sup><a href="#ref13">[13]</a></sup><sup><a href="#ref42">[42]</a></sup></caption>
+        <thead>
+          <tr><th>Feature</th><th>Hypertrophic Nonunion</th><th>Atrophic Nonunion</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Radiographic Appearance</strong></td><td>Abundant callus ("elephant's foot")</td><td>Little/no callus; tapered, sclerotic bone ends</td></tr>
+          <tr><td><strong>Strain Environment</strong></td><td>Consistently &gt;10% (excessive)</td><td>Consistently &lt;2% (insufficient)</td></tr>
+          <tr><td><strong>Biological Interpretation</strong></td><td>Vigorous response, but constant disruption prevents bridging</td><td>Insufficient mechanical stimulation to initiate cascade</td></tr>
+          <tr><td><strong>Treatment Strategy</strong></td><td><strong>Increase stability</strong> (rigid fixation, compression plate, larger nail)</td><td><strong>Increase stimulation</strong> (dynamization, destabilize construct, or bone graft + compression)</td></tr>
+          <tr><td><strong>Biological Adjuncts Needed?</strong></td><td>Usually not required</td><td>Often required (bone graft, BMP)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p class="callout-title">Radiograph as "Mechanical Fossil Record"</p>
+      <p>The radiograph of a nonunion tells the story of the strain environment over preceding months. <strong>Hypertrophic callus → "excessive strain" → increase stability.</strong> <strong>Inert atrophic bone → "insufficient strain" → increase stimulation or eliminate gap.</strong> This transforms nonunion treatment into precise, targeted intervention based on mechanical diagnosis.<sup><a href="#ref13">[13]</a></sup></p>
+    </div>
+
+    <span class="evidence-badge ev-II">Level II–III Clinical Evidence</span>
+  </section>
+
+  <!-- SECTION 8: Modern Perspectives -->
+  <section class="card" aria-labelledby="sec-modern">
+    <h2 id="sec-modern">8. Modern Perspectives &amp; Future Directions</h2>
+
+    <h3>8.1 Temporal Modulation of Stability</h3>
+    <p>The understanding that the ideal mechanical environment is not constant has led to dynamization strategies:<sup><a href="#ref9">[9]</a></sup></p>
+    <ul>
+      <li><strong>Traditional Dynamization:</strong> Converting a static-locked nail to dynamic configuration weeks/months post-op to increase axial loading across maturing callus, stimulating final consolidation.<sup><a href="#ref9">[9]</a></sup></li>
+      <li><strong>Reverse Dynamization:</strong> Providing more flexible fixation <em>initially</em> to encourage rapid soft callus formation, then making fixation <em>more rigid</em> to protect the mineralizing callus. This biphasic approach (flexible → rigid) represents a significant evolution in thinking.<sup><a href="#ref43">[43]</a></sup><sup><a href="#ref46">[46]</a></sup></li>
+    </ul>
+
+    <h3>8.2 Computational Modeling &amp; the "Digital Twin"</h3>
+    <ul>
+      <li><strong>Finite Element Analysis (FEA):</strong> Virtually testing implant designs and surgical strategies, simulating 3D stress/strain fields in healing tissues.<sup><a href="#ref29">[29]</a></sup></li>
+      <li><strong>Mechanoregulation Algorithms:</strong> Computational models simulating the entire healing process over time, predicting spatial/temporal patterns of callus formation and outcomes (union, delayed union, nonunion).<sup><a href="#ref48">[48]</a></sup><sup><a href="#ref49">[49]</a></sup></li>
+      <li><strong>Patient-Specific "Digital Twin":</strong> Creating high-fidelity models from individual CT scans to virtually test treatment options pre-operatively, enabling truly personalized fracture care with mechanically optimized treatment plans.<sup><a href="#ref52">[52]</a></sup></li>
+    </ul>
+
+    <div class="callout success">
+      <p class="callout-title">The Future: From Description to Prediction</p>
+      <p>The trajectory from Perren's descriptive theory to the predictive and prescriptive power of the digital twin represents the full maturation of the field—transforming fracture care from experience-based practice to a true engineering science capable of quantitative prediction and patient-specific optimization.<sup><a href="#ref52">[52]</a></sup></p>
+    </div>
+
+    <span class="evidence-badge ev-II">Level II Evidence – Computational &amp; Preclinical Studies</span>
+  </section>
+
+  <!-- SECTION 9: Conclusion -->
+  <section class="card" aria-labelledby="sec-conclusion">
+    <h2 id="sec-conclusion">9. Conclusion: Perren's Enduring Legacy</h2>
+    <p>Stephan M. Perren's interfragmentary strain theory stands as one of the most significant intellectual contributions to orthopaedic surgery. It provided a <strong>unifying scientific framework</strong> that resolved the paradox of how fractures heal under both rigid and flexible conditions, establishing the fundamental principle that bone repair is inextricably governed by its local mechanical environment.<sup><a href="#ref3">[3]</a></sup><sup><a href="#ref4">[4]</a></sup></p>
+    <p>While some quantitative details—notably the simplified "2–10% strain rule"—have been superseded by a more complex three-dimensional understanding, the <strong>foundational principles remain unchallenged</strong>. Modern research on shear-dominated strain fields, periosteal initiation, and temporal modulation builds upon Perren's work, adding layers of sophistication made possible by new technology.<sup><a href="#ref23">[23]</a></sup></p>
+    <p>The journey from rigid compression plates to biological plating, and now to dynamically flexible constructs and micromotion-enabled nails, is a direct reflection of our progressively deeper understanding of strain principles. Perren's work fundamentally shifted fracture care from a purely mechanical pursuit to a <strong>holistic, biological philosophy</strong> seeking to create an optimal environment for the body's own powerful regenerative processes.<sup><a href="#ref7">[7]</a></sup><sup><a href="#ref8">[8]</a></sup></p>
+  </section>
+
+  <!-- REFERENCES -->
+  <section class="card references" aria-labelledby="sec-refs">
+    <h2 id="sec-refs">References</h2>
+    <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem;">Derived from the source document's reference list:</p>
+    <ol>
+      <li id="ref1">[1] Fracture healing: The diamond concept. SciSpace.</li>
+      <li id="ref2">[2] The influence of biomechanical stability on bone healing. Lirias KU Leuven.</li>
+      <li id="ref3">[3] Perren's Strain Theory and Fracture Healing. ResearchGate.</li>
+      <li id="ref4">[4] Perren SM. Physical and biological aspects of fracture healing with special reference to internal fixation. <em>Clin Orthop Relat Res</em>.</li>
+      <li id="ref5">[5] Perren SM. Physical and biological aspects of fracture healing. Semantic Scholar.</li>
+      <li id="ref6">[6] Halvachizadeh, Pape. Perren's Strain Theory and Fracture Healing. Semantic Scholar.</li>
+      <li id="ref7">[7] Review article on biological internal fixation. Orthobullets.</li>
+      <li id="ref8">[8] Evolution of the internal fixation of long bone fractures. SciSpace.</li>
+      <li id="ref9">[9] Interfragmentary Strain Theory (2). ResearchGate.</li>
+      <li id="ref10">[10] Fracture Healing. SlideShare.</li>
+      <li id="ref11">[11] Physics behind the implants used for high strain fractures. ResearchGate.</li>
+      <li id="ref12">[12] Perren SM. Physical and Biological Aspects of Fracture Healing. Inova.</li>
+      <li id="ref13">[13] Bone Healing. Orthopaedic Trauma Association.</li>
+      <li id="ref14">[14] Fracture Assessment. WSAVA2013/VIN.</li>
+      <li id="ref15">[15] The Influence of Fracture Fixation Biomechanics on Fracture Healing. ResearchGate.</li>
+      <li id="ref16">[16] Interfragmentary Strain Theory: tissue tolerance concept. ResearchGate.</li>
+      <li id="ref17">[17] Biomechanics of Locked Plates and Screws. Orthobullets.</li>
+      <li id="ref18">[18] Fracture Healing – Basic Science. Orthobullets.</li>
+      <li id="ref19">[19] Can Optimizing the Mechanical Environment Deliver a Clinically Significant Reduction in Fracture Healing Time? <em>Biomedicines</em>.</li>
+      <li id="ref20">[20] Evolution of internal fixation – biological internal fixation. ResearchGate.</li>
+      <li id="ref21">[21] Two Main Types of Bone Healing. OrthoPaedia.</li>
+      <li id="ref22">[22] Locking Plates: Do They Prevent Complications? HMP Global.</li>
+      <li id="ref23">[23] Don't mind the gap: reframing the Perren strain rule using virtual mechanical testing. <em>PMC/PubMed Central</em>.</li>
+      <li id="ref24">[24] Principles of bone healing. Ovid.</li>
+      <li id="ref25">[25] Basic Principles of Internal Fixation. OTA.</li>
+      <li id="ref26">[26] The Concept of Biological Internal Fixation Using Limited Contact Plates. NYU.</li>
+      <li id="ref27">[27] Stress limit at fractured site for bone remodeling. ResearchGate.</li>
+      <li id="ref28">[28] Don't mind the gap (PDF). ResearchGate.</li>
+      <li id="ref29">[29] Interfragmentary Strain Hypothesis and Fracture Healing. Grantome/NIH.</li>
+      <li id="ref30">[30] Disadvantages of interfragmentary shear on fracture healing. <em>PubMed</em>.</li>
+      <li id="ref31">[31] Biomechanics of Internal Fracture Fixation. Musculoskeletal Key.</li>
+      <li id="ref32">[32] The concept of biological plating using the LC-DCP. <em>PubMed</em>.</li>
+      <li id="ref33">[33] LC-DCP concept. Semantic Scholar.</li>
+      <li id="ref34">[34] Updated Basic Principles of Internal Fixation. <em>J Musculoskelet Trauma</em>.</li>
+      <li id="ref35">[35] The Current Status of Locked Plating. Dr. Eric Strauss.</li>
+      <li id="ref36">[36] SLR – February 2011. ACFAS.</li>
+      <li id="ref37">[37] Why is micromotion so valuable in fracture healing? OrthoXel.</li>
+      <li id="ref38">[38] Pilot study of micromotion nailing. ResearchGate.</li>
+      <li id="ref39">[39] Axial Micromotion Locking Plate in Ovine Osteotomy Model. <em>NIH/PMC</em>.</li>
+      <li id="ref40">[40] Micromotion Clinical Evidence. OrthoXel.</li>
+      <li id="ref41">[41] A unified theory of bone healing and nonunion: BHN theory. Orthobullets.</li>
+      <li id="ref42">[42] Nonunion, Delayed Union, and Malunion. Ivis.org.</li>
+      <li id="ref43">[43] Reverse Dynamisation: A Modern Perspective on Perren's Strain Theory. <em>Eur Cells Mater</em>.</li>
+      <li id="ref44">[44] Reverse dynamisation – Mayo Clinic. Elsevier Pure.</li>
+      <li id="ref45">[45] Reverse dynamisation. <em>PubMed</em>.</li>
+      <li id="ref46">[46] Current concepts: temporal dynamization and additive manufacturing. <em>NIH/PMC</em>.</li>
+      <li id="ref47">[47] Role of interfragmentary strain in fracture healing: ovine model. <em>PubMed</em>.</li>
+      <li id="ref48">[48] Developments in Computational Modeling of Bone Healing. <em>Biomed J Sci &amp; Tech Res</em>.</li>
+      <li id="ref49">[49] Strain-based bone-fracture healing algorithm predicts healing outcomes. <em>Front Bioeng Biotechnol</em>.</li>
+      <li id="ref50">[50] Computational Techniques for Assessment of Fracture Repair. <em>PMC</em>.</li>
+      <li id="ref51">[51] 3D Computational Model Simulating Initial Callus Growth. <em>MDPI Bioengineering</em>.</li>
+      <li id="ref52">[52] Computational models of treated tibiae. ResearchGate.</li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" role="complementary" aria-label="Interactive clinical decision support">
+
+  <!-- Slider Card -->
+  <div class="sidebar-card">
+    <h3><span class="icon">⚙️</span> Strain Environment Simulator</h3>
+    <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1rem;">
+      Adjust parameters to explore the mechanobiological response at the fracture site. Based on Perren's theory and supporting evidence from the source document.
+    </p>
+
+    <!-- Slider 1: Interfragmentary Strain -->
+    <div class="slider-group">
+      <label class="slider-label" for="slider-strain">
+        Interfragmentary Strain
+        <span class="slider-value" id="val-strain">5.0%</span>
+      </label>
+      <input type="range" id="slider-strain" min="0" max="100" step="0.5" value="5" aria-label="Interfragmentary strain percentage">
+      <div class="slider-note">Tissue deformation within the fracture gap (ε = ΔL/L)</div>
+    </div>
+
+    <!-- Slider 2: Fracture Gap Width -->
+    <div class="slider-group">
+      <label class="slider-label" for="slider-gap">
+        Fracture Gap Width
+        <span class="slider-value" id="val-gap">5.0 mm</span>
+      </label>
+      <input type="range" id="slider-gap" min="0" max="50" step="0.5" value="5" aria-label="Fracture gap width in millimeters">
+      <div class="slider-note">Original unloaded gap length (L) — inversely affects strain for a given motion</div>
+    </div>
+
+    <!-- Slider 3: Fixation Stiffness -->
+    <div class="slider-group">
+      <label class="slider-label" for="slider-stiffness">
+        Fixation Stiffness
+        <span class="slider-value" id="val-stiffness">50%</span>
+      </label>
+      <input type="range" id="slider-stiffness" min="0" max="100" step="1" value="50" aria-label="Fixation stiffness as a percentage">
+      <div class="slider-note">
+        <em>Assumed parameter – not a direct source threshold.</em><br>
+        0% = no fixation; 100% = absolute rigid fixation (compression plate)
+      </div>
+    </div>
+
+    <!-- Toggle: Soft Tissue Integrity -->
+    <div class="toggle-row">
+      <span class="toggle-label">Soft Tissue Envelope Intact</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-softtissue" checked aria-label="Toggle soft tissue integrity">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- Recommendation Panel -->
+    <div class="recommendation-panel" aria-live="polite" aria-label="Clinical recommendation">
+      <h4>📋 Predicted Healing Pathway</h4>
+      <div class="rec-healing-path" id="rec-pathway">Secondary (Indirect) Bone Healing</div>
+      <div class="strain-bar-container">
+        <div class="strain-bar-bg">
+          <div class="strain-bar-fill" id="strain-bar" style="width:5%; background: var(--success);"></div>
+        </div>
+        <div class="strain-zones">
+          <span>&lt;2% Primary</span>
+          <span>2–10% Optimal</span>
+          <span>&gt;10% Risk</span>
+        </div>
+      </div>
+      <div class="rec-detail" id="rec-detail" style="margin-top:0.75rem;">
+        <strong>Strain:</strong> 5.0% — Within the optimal zone for secondary healing. Robust callus formation expected.<br>
+        <strong>Gap:</strong> 5.0 mm — Moderate gap; strain distributed effectively.<br>
+        <strong>Biological Status:</strong> Soft tissue envelope intact — vascular supply preserved, favorable for healing.
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters to defaults">↺ Reset</button>
+      <button class="btn btn-export" id="btn-export" aria-label="Export current parameters and recommendation">📋 Export Summary</button>
+    </div>
+  </div>
+
+  <!-- Quick Reference Card -->
+  <div class="sidebar-card">
+    <h3><span class="icon">📐</span> Quick Reference: Strain Thresholds</h3>
+    <div style="font-size:0.82rem; line-height:1.8; color:var(--text-secondary);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+        <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:var(--success);"></span>
+        <strong>&lt; 2%</strong> — Primary healing zone (direct Haversian remodeling)
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+        <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:var(--info);"></span>
+        <strong>2–10%</strong> — Optimal secondary healing (callus-based) <sup><a href="#ref2">[2]</a></sup>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+        <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:var(--warning);"></span>
+        <strong>10–30%</strong> — High instability; granulation/fibrous tissue only
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+        <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:var(--accent);"></span>
+        <strong>&gt; 30%</strong> — Excessive motion; risk of hypertrophic nonunion <sup><a href="#ref13">[13]</a></sup>
+      </div>
+    </div>
+    <p style="font-size:0.72rem; color:var(--text-muted); margin-top:0.75rem; font-style:italic;">
+      Note: The 2–10% rule is a useful heuristic but has been challenged by evidence showing healing at strains up to 51% (microCT/FEA studies).<sup><a href="#ref23">[23]</a></sup>
+    </p>
+  </div>
+
+</aside>
+
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">Copied to clipboard!</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Elements
+  const sliderStrain = document.getElementById('slider-strain');
+  const sliderGap = document.getElementById('slider-gap');
+  const sliderStiffness = document.getElementById('slider-stiffness');
+  const toggleSoftTissue = document.getElementById('toggle-softtissue');
+
+  const valStrain = document.getElementById('val-strain');
+  const valGap = document.getElementById('val-gap');
+  const valStiffness = document.getElementById('val-stiffness');
+
+  const recPathway = document.getElementById('rec-pathway');
+  const recDetail = document.getElementById('rec-detail');
+  const strainBar = document.getElementById('strain-bar');
+
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  function updateSimulation() {
+    const strain = parseFloat(sliderStrain.value);
+    const gap = parseFloat(sliderGap.value);
+    const stiffness = parseFloat(sliderStiffness.value);
+    const softTissue = toggleSoftTissue.checked;
+
+    // Display values
+    valStrain.textContent = strain.toFixed(1) + '%';
+    valGap.textContent = gap.toFixed(1) + ' mm';
+    valStiffness.textContent = stiffness + '%';
+
+    // Strain bar
+    const barWidth = Math.min(strain, 100);
+    let barColor;
+    if (strain < 2) barColor = '#38a169';
+    else if (strain <= 10) barColor = '#3182ce';
+    else if (strain <= 30) barColor = '#d69e2e';
+    else barColor = '#e53e3e';
+
+    strainBar.style.width = barWidth + '%';
+    strainBar.style.background = barColor;
+
+    // Recommendation logic
+    let pathway, detailLines = [];
+
+    // Strain-based pathway (source: [2], [10], [13])
+    if (strain < 2) {
+      pathway = 'Primary (Direct) Bone Healing';
+      detailLines.push('<strong>Strain: ' + strain.toFixed(1) + '%</strong> — Below the 2% threshold. Environment favors primary healing via Haversian remodeling if direct bone contact exists. Risk of <strong>atrophic nonunion</strong> if a gap persists without adequate mechanical stimulation.');
+    } else if (strain <= 10) {
+      pathway = 'Secondary (Indirect) Bone Healing';
+      detailLines.push('<strong>Strain: ' + strain.toFixed(1) + '%</strong> — Within the optimal zone (2–10%) for secondary healing. Robust callus formation expected with endochondral ossification bridging the gap.');
+    } else if (strain <= 30) {
+      pathway = 'Secondary Healing — High Instability';
+      detailLines.push('<strong>Strain: ' + strain.toFixed(1) + '%</strong> — Exceeds the conventional 10% threshold. Note: Perren and others observed healing at up to 24–33% strain in some models.<sup>[23]</sup> Expect abundant callus but risk of delayed consolidation. Consider increasing fixation stiffness.');
+    } else {
+      pathway = 'Nonunion Risk — Hypertrophic';
+      detailLines.push('<strong>Strain: ' + strain.toFixed(1) + '%</strong> — Excessive instability. Fibrocartilaginous matrix cannot mature. Sustained environment risks <strong>hypertrophic nonunion</strong> with exuberant but non-bridging callus. Urgent need for increased stability.<sup>[13]</sup>');
+    }
+
+    // Gap considerations
+    if (gap < 1) {
+      detailLines.push('<strong>Gap: ' + gap.toFixed(1) + ' mm</strong> — Very narrow gap. For a given motion (ΔL), strain will be extremely high. Osteoclastic resorption of fragment ends may occur as a biological strategy to widen the gap and reduce strain.<sup>[4]</sup>');
+    } else if (gap <= 10) {
+      detailLines.push('<strong>Gap: ' + gap.toFixed(1) + ' mm</strong> — Moderate gap width. Strain effectively distributed across the healing zone.');
+    } else if (gap <= 30) {
+      detailLines.push('<strong>Gap: ' + gap.toFixed(1) + ' mm</strong> — Large gap. For the same absolute motion, local strain is reduced (ε = ΔL/L). May approach critical-size defect threshold; biological adjuncts or bone grafting may be needed.');
+    } else {
+      detailLines.push('<strong>Gap: ' + gap.toFixed(1) + ' mm</strong> — Very large gap, likely exceeding critical-size defect. Strain is low but biological bridging capacity is severely compromised. Bone grafting or vascularized graft strongly recommended.');
+    }
+
+    // Stiffness context
+    if (stiffness < 25) {
+      detailLines.push('<strong>Fixation: Very Flexible (' + stiffness + '%)</strong> — Minimal mechanical support. Suitable for highly comminuted fractures where relative stability stimulates callus, but risk of malalignment.');
+    } else if (stiffness <= 60) {
+      detailLines.push('<strong>Fixation: Moderate (' + stiffness + '%)</strong> — Represents biological osteosynthesis philosophy. Allows controlled micromotion while maintaining alignment. Consistent with intramedullary nails or bridge plates.<sup>[2]</sup>');
+    } else if (stiffness <= 85) {
+      detailLines.push('<strong>Fixation: Stiff (' + stiffness + '%)</strong> — High stability construct. Risk of stress shielding — may prevent necessary mechanical stimulation for secondary healing. Consider dynamization if delayed healing observed.<sup>[15]</sup>');
+    } else {
+      detailLines.push('<strong>Fixation: Rigid (' + stiffness + '%)</strong> — Approaching absolute stability. Appropriate for anatomic reduction of simple fractures requiring primary healing via compression plating. May compromise periosteal blood supply.<sup>[7]</sup>');
+    }
+
+    // Soft tissue
+    if (!softTissue) {
+      detailLines.push('<strong>Biological Status: Compromised</strong> — Soft tissue envelope damaged. Vascular supply to fracture site is impaired, significantly reducing healing potential. Biological osteosynthesis approach strongly favored to preserve remaining vascularity.<sup>[7]</sup>');
+    } else {
+      detailLines.push('<strong>Biological Status: Intact</strong> — Soft tissue envelope preserved. Vascular supply maintained, favorable for healing biology.');
+    }
+
+    recPathway.textContent = pathway;
+    recDetail.innerHTML = detailLines.join('<br>');
+  }
+
+  // Event listeners
+  sliderStrain.addEventListener('input', updateSimulation);
+  sliderGap.addEventListener('input', updateSimulation);
+  sliderStiffness.addEventListener('input', updateSimulation);
+  toggleSoftTissue.addEventListener('change', updateSimulation);
+
+  // Reset
+  btnReset.addEventListener('click', function() {
+    sliderStrain.value = 5;
+    sliderGap.value = 5;
+    sliderStiffness.value = 50;
+    toggleSoftTissue.checked = true;
+    updateSimulation();
+  });
+
+  // Export
+  btnExport.addEventListener('click', function() {
+    const strain = parseFloat(sliderStrain.value);
+    const gap = parseFloat(sliderGap.value);
+    const stiffness = parseFloat(sliderStiffness.value);
+    const softTissue = toggleSoftTissue.checked ? 'Yes' : 'No';
+    const pathway = recPathway.textContent;
+    const timestamp = new Date().toLocaleString();
+
+    const text = [
+      '=== FRACTURE HEALING STRAIN ENVIRONMENT SUMMARY ===',
+      'Generated: ' + timestamp,
+      '',
+      '--- PARAMETERS ---',
+      'Interfragmentary Strain: ' + strain.toFixed(1) + '%',
+      'Fracture Gap Width: ' + gap.toFixed(1) + ' mm',
+      'Fixation Stiffness: ' + stiffness + '%',
+      'Soft Tissue Envelope Intact: ' + softTissue,
+      '',
+      '--- PREDICTED HEALING PATHWAY ---',
+      pathway,
+      '',
+      '--- CLINICAL RATIONALE ---',
+      recDetail.textContent.replace(/\s+/g, ' ').trim(),
+      '',
+      '--- REFERENCE ---',
+      'Based on Perren SM. Interfragmentary Strain Theory.',
+      'Strain thresholds: <2% primary; 2-10% secondary; >10% risk.',
+      'Note: The 2-10% rule is a heuristic; healing observed at strains up to 51%.',
+      '(Ref: "Don\'t mind the gap" - PMC11688128)',
+      '',
+      '=== END SUMMARY ==='
+    ].join('\n');
+
+    navigator.clipboard.writeText(text).then(function() {
+      showToast('Summary copied to clipboard!');
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast('Summary copied to clipboard!'); }
+      catch(e) { showToast('Copy failed — please copy manually.'); }
+      document.body.removeChild(ta);
+    });
+  });
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }
+
+  // Initial render
+  updateSimulation();
+})();
+</script>
+
+</body>
+</html>

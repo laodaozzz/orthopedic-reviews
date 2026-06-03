@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orthopedic Preoperative Planning: Virtual Fracture Reduction & Fixation – Materialise Mimics Ecosystem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --primary-light: #2a5a8c;
+    --accent: #2e86de;
+    --accent-light: #54a0ff;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    --bg: #f7f9fc;
+    --surface: #ffffff;
+    --text: #2c3e50;
+    --text-light: #5a6b7d;
+    --border: #e1e8ed;
+    --sidebar-width: 320px;
+    --header-height: 64px;
+    --badge-i: #27ae60;
+    --badge-ii: #2ecc71;
+    --badge-iii: #f39c12;
+    --badge-iv: #e67e22;
+    --badge-v: #e74c3c;
+    --badge-na: #95a5a6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 0 24px;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  header h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  header .badge-header {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr var(--sidebar-width);
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 0;
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  main {
+    padding: 32px 40px 60px;
+    max-width: 860px;
+    overflow-x: hidden;
+  }
+
+  aside {
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    padding: 24px 20px;
+  }
+
+  h2 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-light);
+    margin: 28px 0 12px;
+  }
+
+  h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+
+  p { margin-bottom: 14px; }
+
+  ul, ol {
+    margin: 0 0 16px 24px;
+  }
+
+  li { margin-bottom: 6px; }
+
+  strong { color: var(--primary); }
+
+  .evidence-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+
+  .ev-1 { background: #d5f5e3; color: #1e8449; }
+  .ev-2 { background: #d4efdf; color: #27ae60; }
+  .ev-3 { background: #fef9e7; color: #d4ac0d; }
+  .ev-4 { background: #fdebd0; color: #ca6f1e; }
+  .ev-5 { background: #fadbd8; color: #c0392b; }
+  .ev-na { background: #eaecee; color: #7f8c8d; }
+  .ev-expert { background: #ebf5fb; color: #2e86de; }
+
+  .callout {
+    background: #eaf2fb;
+    border-left: 4px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-size: 0.93rem;
+  }
+
+  .callout.warning {
+    background: #fef9e7;
+    border-left-color: var(--warning);
+  }
+
+  .callout.danger {
+    background: #fdedec;
+    border-left-color: var(--danger);
+  }
+
+  .callout.success {
+    background: #eafaf1;
+    border-left-color: var(--success);
+  }
+
+  .callout-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.88rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  }
+
+  thead th {
+    background: var(--primary);
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody tr:hover { background: #eef3f8; }
+
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+    padding: 8px 0;
+  }
+
+  .phase-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 10px;
+    margin: 36px 0 20px;
+  }
+
+  .phase-header h2 {
+    color: white;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    margin: 0 0 4px;
+    font-size: 1.35rem;
+  }
+
+  .phase-header p {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+
+  /* Sidebar styles */
+  .sidebar-section {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-section:last-child { border-bottom: none; }
+
+  .sidebar-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--primary);
+    margin-bottom: 14px;
+  }
+
+  .slider-group {
+    margin-bottom: 18px;
+  }
+
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .slider-value {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.9rem;
+    min-width: 50px;
+    text-align: right;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+  }
+
+  .recommendation-box {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    min-height: 180px;
+    transition: all 0.3s;
+  }
+
+  .recommendation-box .rec-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .recommendation-box ul {
+    margin: 6px 0 0 16px;
+    font-size: 0.83rem;
+  }
+
+  .recommendation-box li { margin-bottom: 4px; }
+
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .btn-primary:hover { background: var(--primary-light); }
+
+  .btn-secondary {
+    background: var(--border);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover { background: #d5dce4; }
+
+  .status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+
+  .status-dot.green { background: var(--success); }
+  .status-dot.yellow { background: var(--warning); }
+  .status-dot.red { background: var(--danger); }
+
+  .ref-section {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 3px solid var(--border);
+  }
+
+  .ref-section ol {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+
+  .ref-section li::marker {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .limitation-note {
+    background: #fef9e7;
+    border: 1px dashed var(--warning);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+    color: #7d6608;
+  }
+
+  .limitation-note strong { color: #7d6608; }
+
+  .workflow-step {
+    display: flex;
+    gap: 14px;
+    margin: 16px 0;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .workflow-step .step-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .workflow-step .step-content {
+    font-size: 0.9rem;
+  }
+
+  .workflow-step .step-content strong {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .code-inline {
+    background: #edf2f7;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #c0392b;
+  }
+
+  .toc {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0 32px;
+  }
+
+  .toc-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+
+  .toc ol {
+    font-size: 0.9rem;
+    margin-left: 18px;
+  }
+
+  .toc li { margin-bottom: 4px; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .future-card {
+    background: linear-gradient(135deg, #f5f0ff 0%, #eef6ff 100%);
+    border: 1px solid #d4c4f0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+
+  .future-card h4 {
+    color: #6c3483;
+    margin: 0 0 6px;
+  }
+
+  .future-card p {
+    margin: 0;
+    font-size: 0.88rem;
+  }
+
+  .annotation {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  .copy-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  .copy-toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    aside {
+      position: relative;
+      top: 0;
+      height: auto;
+      border-left: none;
+      border-top: 3px solid var(--accent);
+    }
+    main { padding: 24px 18px 48px; }
+    header h1 { font-size: 1rem; }
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 0 14px; }
+    header h1 { font-size: 0.88rem; }
+    main { padding: 16px 12px 40px; }
+    h2 { font-size: 1.3rem; }
+    table { font-size: 0.78rem; }
+    thead th, tbody td { padding: 8px 10px; }
+  }
+
+  @media print {
+    aside { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    header { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Virtual Surgical Planning in Orthopedic Trauma: The Materialise Mimics Workflow</h1>
+  <span class="badge-header">Evidence-Based Educational Summary</span>
+</header>
+
+<div class="layout">
+<main role="main" aria-label="Main educational content">
+
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+      <li><a href="#intro">Introduction: The Digital Revolution</a></li>
+      <li><a href="#phase1">Phase 1: From Patient Scan to Virtual Anatomy (Segmentation)</a></li>
+      <li><a href="#phase2">Phase 2: Virtual Fracture Reduction</a></li>
+      <li><a href="#phase3">Phase 3: Fixation Strategy — Hardware Planning</a></li>
+      <li><a href="#phase4">Phase 4: Patient-Specific Implants & Guides</a></li>
+      <li><a href="#conclusion">Conclusion & Future Horizons</a></li>
+      <li><a href="#references">References</a></li>
+    </ol>
+  </div>
+
+  <!-- ======================== INTRODUCTION ======================== -->
+  <section id="intro">
+    <div class="phase-header">
+      <h2>I. Introduction: The Digital Revolution in Orthopedic Trauma Surgery</h2>
+      <p>Transforming fracture care from 2D approximation to 3D precision</p>
+    </div>
+
+    <h3>A. The Paradigm Shift: From 2D Art to 3D Science</h3>
+    <p>
+      Historically, preoperative planning in orthopedic trauma relied on <strong>two-dimensional (2D) radiographs and acetate templates</strong>, demanding significant mental reconstruction and intraoperative improvisation. <span class="evidence-badge ev-na">Not specified in source</span> This traditional approach has been characterized as more of an "art" than a science, subject to the individual surgeon's spatial reasoning and tactile feedback. <sup>[2]</sup>
+    </p>
+    <p>
+      The advent of advanced medical imaging and computational software has catalyzed a <strong>paradigm shift towards Virtual Surgical Planning (VSP)</strong> — a three-dimensional (3D), data-driven science. <sup>[4]</sup> VSP leverages high-resolution CT or MRI data to create a patient-specific, interactive 3D model of the anatomy. This virtual replica allows the surgical team to:
+    </p>
+    <ul>
+      <li>Diagnose complex pathologies with enhanced spatial understanding</li>
+      <li>Simulate the entire surgical procedure in a pressure-free digital environment</li>
+      <li>Anticipate challenges before the patient enters the operating room <sup>[4]</sup></li>
+    </ul>
+
+    <div class="callout success">
+      <div class="callout-title">📊 Clinical Benefits of VSP</div>
+      <p>Well-documented improvements include:</p>
+      <ul>
+        <li>Enhanced accuracy of fracture reduction and implant placement <sup>[4]</sup></li>
+        <li>Reduced surgical time and intraoperative blood loss <sup>[6]</sup></li>
+        <li>Minimized fluoroscopy exposure <sup>[6]</sup></li>
+        <li>More predictable procedure and potentially faster recovery <sup>[1]</sup></li>
+      </ul>
+    </div>
+
+    <div class="limitation-note">
+      <strong>⚠ Source limitation:</strong> The provided document is primarily a technical workflow guide rather than a clinical outcomes study. Evidence levels for clinical benefit claims are inferred from the referenced study designs (review articles, retrospective studies). No RCTs comparing VSP to traditional planning are explicitly cited within this source document.
+    </div>
+
+    <h3>B. The Materialise Mimics Ecosystem: An Integrated Platform Approach</h3>
+    <p>
+      A comprehensive orthopedic workflow is <strong>not performed within a single software program</strong> but across an integrated ecosystem of specialized tools. <sup>[8]</sup> The power of the platform lies in the seamless, bidirectional data exchange between its core components:
+    </p>
+
+    <div class="workflow-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Mimics Core</strong>
+        Foundational software for medical image processing. Handles segmentation — converting 2D DICOM stacks into patient-specific 3D models. Optimized for voxel-based image data (thresholding, region growing, mask editing). Includes anatomical measurement tools. <sup>[10]</sup>
+      </div>
+    </div>
+
+    <div class="workflow-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>3-matic Medical</strong>
+        The virtual surgical and engineering workbench for "engineering on anatomy." Handles virtual fracture reduction, plate positioning/contouring, and design of patient-specific implants and surgical guides. Geared towards geometric operations on 3D meshes (STL files). <sup>[9, 12]</sup>
+      </div>
+    </div>
+
+    <div class="workflow-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Mimics Flow</strong>
+        Cloud-based collaborative backbone. Facilitates secure case storage, version control, team sharing, and access to AI-driven segmentation and extended reality (XR) visualization. <sup>[9, 15]</sup>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-title">⚠ Critical Architectural Insight</div>
+      <p>
+        The distinction between <strong>Mimics Core</strong> (interpreting pixel/voxel data) and <strong>3-matic Medical</strong> (manipulating geometric/mesh data) reflects a fundamental difference in technology and purpose. Successful planning depends on leveraging each program's strengths and understanding the necessary data flow between them. <sup>[8]</sup>
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================== PHASE 1 ======================== -->
+  <section id="phase1">
+    <div class="phase-header">
+      <h2>II. Phase 1: From Patient Scan to Virtual Anatomy</h2>
+      <p>Foundational segmentation — the most critical phase of the workflow</p>
+    </div>
+
+    <h3>A. Data Acquisition and Import</h3>
+    <p>
+      The quality of the final 3D model is <strong>inherently limited by the source image quality</strong>. <sup>[16]</sup> For orthopedic applications, high-resolution CT scans are the standard.
+    </p>
+
+    <div class="callout">
+      <div class="callout-title">📋 Best Practices for CT Acquisition</div>
+      <ul>
+        <li>Thin axial slices: <strong>ideally ≤ 1 mm</strong></li>
+        <li>No gaps between slices</li>
+        <li>Standard DICOM format import into Mimics Core <sup>[16]</sup></li>
+      </ul>
+    </div>
+
+    <h4>Step-by-Step: Importing DICOM Data</h4>
+    <div class="workflow-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Launch & New Project</strong> — From the File menu, select <span class="code-inline">New Project Wizard</span>. <sup>[11]</sup>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>Navigate to DICOM Directory</strong> — Ensure all images for a single series are in one folder. <sup>[11]</sup>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Convert</strong> — Select the desired series and click Convert. <sup>[14]</sup>
+      </div>
+    </div>
+    <div class="workflow-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>Verify Orientation</strong> — Confirm correct anatomical orientation (Anterior/Posterior/Left/Right) in all four viewports. Adjust if necessary before segmentation. <sup>[14]</sup>
+      </div>
+    </div>
+
+    <h3>B. The Principle of Segmentation: Hounsfield Units (HU)</h3>
+    <p>
+      Tissue differentiation in CT is based on <strong>Hounsfield Units (HU)</strong>, a quantitative scale of radiodensity. <sup>[19]</sup> Distilled water = 0 HU; air = −1024 HU.
+    </p>
+
+    <table>
+      <caption>Table 1: Typical Hounsfield Unit Ranges for Tissue Types</caption>
+      <thead>
+        <tr>
+          <th>Tissue Type</th>
+          <th>HU Range</th>
+          <th>Relevance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Air</td>
+          <td>−1024 HU</td>
+          <td>Background / lung parenchyma</td>
+        </tr>
+        <tr>
+          <td>Fat</td>
+          <td>≈ −100 HU</td>
+          <td>Medullary canal, soft tissue</td>
+        </tr>
+        <tr>
+          <td>Water / Soft Tissue</td>
+          <td>0 – 100 HU</td>
+          <td>Muscle, organs</td>
+        </tr>
+        <tr>
+          <td>Trabecular (Spongy) Bone</td>
+          <td>≈ 200 – 700 HU</td>
+          <td>Cancellous bone; often requires <span class="code-inline">Fill Long Bones</span> to capture</td>
+        </tr>
+        <tr>
+          <td>Cortical (Dense) Bone</td>
+          <td>≈ 700 – 2000+ HU</td>
+          <td>Cortical shell; primary segmentation target</td>
+        </tr>
+        <tr>
+          <td>Metal Implants</td>
+          <td>Very high (up to 3071 HU)</td>
+          <td>Existing hardware; may produce artifacts</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="annotation">Data derived from source document [19].</p>
+
+    <h3>C. The Segmentation Triad: Method Comparison</h3>
+    <p>
+      Mimics offers a spectrum of bone segmentation tools balancing speed, automation, and manual control. <sup>[20]</sup>
+    </p>
+
+    <table>
+      <caption>Table 2: Comparison of Bone Segmentation Methodologies in Mimics</caption>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Key Tools</th>
+          <th>Control</th>
+          <th>Speed</th>
+          <th>Best Use Case</th>
+          <th>Potential Pitfalls</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Manual / Semi-Automated</strong></td>
+          <td>Thresholding, Region Growing, Edit Mask, Morphology Operations</td>
+          <td>Maximum</td>
+          <td>Slow</td>
+          <td>Complex/comminuted fractures, poor quality scans, metal artifacts, unusual anatomy</td>
+          <td>Time-consuming; requires expertise; risk of user-introduced inconsistencies</td>
+        </tr>
+        <tr>
+          <td><strong>CT Bone Wizard</strong></td>
+          <td>CT Bone Wizard (guided workflow)</td>
+          <td>Medium</td>
+          <td>Medium</td>
+          <td>Standard long bones (femur, tibia, humerus), knee/hip joints from good CT scans <sup>[23]</sup></td>
+          <td>May struggle with severe fractures, unusual anatomy, or poor contrast; <span class="code-inline">Fill Long Bones</span> setting critical <sup>[23]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>AI-Enabled</strong></td>
+          <td>Cloud-based AI via Mimics Flow</td>
+          <td>Low (initially)</td>
+          <td>Fast</td>
+          <td>High-volume workflows, standard anatomies (knee, hip, spine), reducing manual effort <sup>[7]</sup></td>
+          <td>Requires cloud connection; may need manual refinement for atypical pathology; less initial control</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="annotation">Adapted from source document [20, 23, 7].</p>
+
+    <h4>Detailed: Manual/Semi-Automated Method</h4>
+    <ol>
+      <li><strong>Thresholding:</strong> Segment → Thresholding → select "Bone (CT)" preset (lower bound ~226 HU, upper bound 3071 HU). Creates a mask of all pixels in this density range. <sup>[18]</sup></li>
+      <li><strong>Region Growing:</strong> Click inside the target bone to isolate connected pixels. Creates a new, isolated mask. <sup>[19]</sup></li>
+      <li><strong>Mask Editing & Refinement:</strong>
+        <ul>
+          <li><em>Morphology Operations:</em> <span class="code-inline">Open</span> (removes small islands) and <span class="code-inline">Close</span> (fills small holes) <sup>[11]</sup></li>
+          <li><em>Manual Editing:</em> Multiple Slice Edit, Draw, Erase for slice-by-slice modification <sup>[19]</sup></li>
+        </ul>
+      </li>
+    </ol>
+
+    <h4>Detailed: CT Bone Wizard</h4>
+    <ol>
+      <li>Launch via Segment → CT Bone Wizard <sup>[23]</sup></li>
+      <li>Place seed points within the target bone and in bones to be excluded <sup>[11]</sup></li>
+      <li>Adjust <span class="code-inline">Seed Threshold</span> and <span class="code-inline">Sensitivity</span>; enable <span class="code-inline">Fill Long Bones</span> for intramedullary canal <sup>[11, 23]</sup></li>
+      <li>Calculate and review the resulting mask <sup>[23]</sup></li>
+    </ol>
+
+    <h4>Detailed: AI-Enabled Segmentation</h4>
+    <p>
+      Upload DICOM data to Mimics Flow → AI automatically identifies and segments predefined anatomical structures (e.g., femur, tibia, pelvis) with high accuracy → Download resulting mask to Mimics Core for review. <sup>[7]</sup>
+    </p>
+
+    <h3>D. Finalizing the 3D Model</h3>
+    <p>
+      Navigate to <span class="code-inline">Segment → Calculate 3D from Mask</span>. Select the desired mask and quality setting:
+    </p>
+    <ul>
+      <li><strong>Optimal:</strong> Advanced smoothing and triangle reduction — recommended for final models <sup>[19]</sup></li>
+      <li><strong>Low/Medium:</strong> Faster calculation for quick previews <sup>[19]</sup></li>
+    </ul>
+
+    <div class="callout danger">
+      <div class="callout-title">🔒 Mandatory Quality Control</div>
+      <p>
+        Before proceeding to fracture reduction, <strong>meticulously compare the 3D model against the original 2D DICOM images in all three planes</strong>. Make the model semi-transparent and overlay it on the scans. Any deviation represents an error that will compromise the entire downstream plan. <sup>[19]</sup>
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================== PHASE 2 ======================== -->
+  <section id="phase2">
+    <div class="phase-header">
+      <h2>III. Phase 2: Reconstructing the Puzzle — Virtual Fracture Reduction</h2>
+      <p>Translating anatomical knowledge into a precise geometric plan</p>
+    </div>
+
+    <h3>A. Isolating Fragments in Mimics Core</h3>
+    <p>For complex, comminuted fractures, each fragment must become its own distinct 3D object:</p>
+    <ol>
+      <li><strong>Duplicate the Mask</strong> for each fragment to be isolated</li>
+      <li><strong>Separate Fragments</strong> using Edit Mask tools (primarily <span class="code-inline">Erase</span>) or <span class="code-inline">Split Mask</span> for automatic non-contiguous separation <sup>[24]</sup></li>
+      <li><strong>Calculate 3D Parts</strong> from each isolated fragment mask with descriptive names (e.g., "Femur_Shaft_Proximal") <sup>[13]</sup></li>
+    </ol>
+
+    <h3>B. Exporting to 3-matic Medical</h3>
+    <ol>
+      <li>Select all fragment parts in Mimics → export as STL files</li>
+      <li>Launch 3-matic → File → Import Part → import all fragment STLs <sup>[13]</sup></li>
+    </ol>
+
+    <h3>C. Anatomical Reduction Strategies</h3>
+
+    <h4>Method 1: Manual Reduction (Surgeon-Driven)</h4>
+    <p>Relies on the operator's anatomical expertise. Primary method for bilateral fractures or when no contralateral template is available.</p>
+    <ol>
+      <li>Identify a large, primary fragment as the <strong>fixed anchor</strong></li>
+      <li>Use <span class="code-inline">Interactive Translate</span> and <span class="code-inline">Interactive Rotate</span> (Align menu) to position each moving fragment <sup>[13]</sup></li>
+      <li>Iteratively fine-tune alignment based on fracture lines, cortical contours, and rotational alignment</li>
+    </ol>
+
+    <h4>Method 2: Mirrored Contralateral Template (Anatomy-Driven)</h4>
+    <p><strong>Gold-standard technique</strong> for unilateral fractures — uses the patient's own healthy anatomy as an objective guide. <span class="evidence-badge ev-expert">Expert Opinion</span></p>
+    <ol>
+      <li>Import the 3D model of the uninjured contralateral bone → use <span class="code-inline">Mirror</span> tool to create an anatomical target <sup>[13]</sup></li>
+      <li>Use <span class="code-inline">Global Registration</span> for coarse, automated alignment of the main fragment to the template</li>
+      <li>Use <span class="code-inline">N-Point Registration</span> or interactive manipulation for precise surface matching <sup>[13]</sup></li>
+    </ol>
+
+    <div class="callout success">
+      <div class="callout-title">💡 Clinical Implication for Imaging Protocol</div>
+      <p>
+        For complex unilateral fractures (especially articular fractures or malunion corrections), <strong>prospectively request that the CT scan includes the healthy contralateral anatomy</strong>. This provides the raw data for the most accurate, objective virtual reduction. <sup>[13]</sup>
+      </p>
+    </div>
+
+    <h3>D. Verifying and Unifying the Reduction</h3>
+    <ol>
+      <li><strong>Visual Inspection:</strong> Examine the assembled bone from all angles — no gaps, overlaps, or malalignments</li>
+      <li><strong>Boolean Union:</strong> Select all aligned fragments → Design menu → Boolean Union → merges into a single "healed" bone model <sup>[25]</sup></li>
+      <li><strong>Mesh Fixing:</strong> Run the unified model through <span class="code-inline">Fix Wizard</span> (Fix menu) to repair imperfections, resulting in a clean, manifold mesh <sup>[25]</sup></li>
+    </ol>
+  </section>
+
+  <!-- ======================== PHASE 3 ======================== -->
+  <section id="phase3">
+    <div class="phase-header">
+      <h2>IV. Phase 3: The Fixation Strategy — Hardware Planning</h2>
+      <p>Importing, positioning, and planning orthopedic implants</p>
+    </div>
+
+    <h3>A. Building the Digital Implant Library</h3>
+
+    <div class="callout warning">
+      <div class="callout-title">⚠ Common Misconception</div>
+      <p>
+        Mimics/3-matic does <strong>not</strong> come pre-loaded with commercial implant libraries. Each institution must build its own library from manufacturer-provided CAD files. <sup>[26]</sup>
+      </p>
+    </div>
+
+    <table>
+      <caption>Table 3: Supported CAD Formats and Import Considerations</caption>
+      <thead>
+        <tr>
+          <th>Format</th>
+          <th>Type</th>
+          <th>Common Source</th>
+          <th>Best For</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>STL</strong></td>
+          <td>Mesh</td>
+          <td>3D scanners, other medical software</td>
+          <td>Anatomical models, simple geometry</td>
+          <td>"Dumb" format — surface triangles only. Not ideal for precise implant models.</td>
+        </tr>
+        <tr>
+          <td><strong>STEP (.stp, .step)</strong></td>
+          <td>B-Rep (Solid/Surface)</td>
+          <td>CAD software, manufacturers</td>
+          <td>Precise implant models (plates, screws) — <em>Gold standard</em></td>
+          <td>Rich geometric data → high-quality mesh after conversion. Use high-tessellation settings. <sup>[27]</sup></td>
+        </tr>
+        <tr>
+          <td><strong>IGES (.igs)</strong></td>
+          <td>B-Rep (Solid/Surface)</td>
+          <td>CAD software, manufacturers</td>
+          <td>Precise implant models — older alternative to STEP</td>
+          <td>Similar quality to STEP. Use high-tessellation settings. <sup>[27]</sup></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Import Workflow in 3-matic</h4>
+    <ol>
+      <li>Obtain CAD files from manufacturer (STEP/IGES preferred)</li>
+      <li>File → Import Part → select the implant file <sup>[12]</sup></li>
+      <li>Set import options: high-resolution mesh conversion, enable <span class="code-inline">Fix Normals</span> and <span class="code-inline">Automatic Stitching</span> <sup>[12]</sup></li>
+    </ol>
+
+    <h3>B. Virtual Plate Placement and Contouring</h3>
+    <ol>
+      <li><strong>Coarse Positioning:</strong> Interactive Translate/Rotate to approximate location</li>
+      <li><strong>Fine Alignment:</strong> <span class="code-inline">Global Registration</span> for best-fit; <span class="code-inline">N-Point Registration</span> for controlled alignment <sup>[30]</sup></li>
+      <li><strong>Virtual Contouring:</strong> Advanced design tools to simulate bending the plate to conform to the patient's bone curvature</li>
+    </ol>
+
+    <h3>C. Virtual Screw Planning (Back in Mimics Core)</h3>
+
+    <div class="callout">
+      <div class="callout-title">🔄 Critical Bidirectional Workflow Step</div>
+      <p>
+        Screw trajectory planning must be performed in <strong>Mimics Core</strong>, where the screw trajectory can be overlaid on the original 2D CT scans. This enables precise assessment of bone quality and avoidance of critical structures. <sup>[14]</sup>
+      </p>
+    </div>
+
+    <ol>
+      <li>Export reduced bone + plate from 3-matic as STL files</li>
+      <li>Import back into the original Mimics project → register with original scan data</li>
+      <li>In MedCAD module → <span class="code-inline">Create Cylinder</span> tool to represent intended screws <sup>[14]</sup></li>
+      <li>Define screw properties: click plate for head position, click second point for tip → edit diameter and length in Properties <sup>[31]</sup></li>
+      <li><strong>Optimize trajectory</strong> in all three 2D viewports:
+        <ul>
+          <li><span class="status-dot green"></span><strong>Bicortical fixation:</strong> Engage both near and far cortex</li>
+          <li><span class="status-dot yellow"></span><strong>Length measurement:</strong> Precise screw length for bicortical purchase without excessive protrusion</li>
+          <li><span class="status-dot red"></span><strong>Collision avoidance:</strong> Verify safe distance from nerves, vessels, and adjacent joint spaces <sup>[14]</sup></li>
+        </ul>
+      </li>
+      <li>Repeat for every screw in the construct</li>
+    </ol>
+  </section>
+
+  <!-- ======================== PHASE 4 ======================== -->
+  <section id="phase4">
+    <div class="phase-header">
+      <h2>V. Phase 4: Patient-Specific Implants & Surgical Guides</h2>
+      <p>Beyond standard fixation for complex cases</p>
+    </div>
+
+    <h3>A. Rationale</h3>
+    <p>
+      Complex fractures with unusual patterns, significant bone loss, or corrective osteotomies may require <strong>patient-specific solutions</strong>. <sup>[2]</sup> Standard plates may not fit unique bone contours; custom implants can bridge large defects; patient-specific surgical guides are the key to translating virtual plans into surgical reality with high fidelity. <sup>[16]</sup>
+    </p>
+
+    <div class="callout">
+      <div class="callout-title">🎯 The Skill Paradigm Shift</div>
+      <p>
+        With conventional procedures, surgical skill is weighted towards intraoperative freehand execution. With a patient-specific guide, the <strong>guide itself enforces the geometry</strong> — entry point, angle, and depth are physically predetermined. This shifts critical skill from hands-on execution to the intellectual process of creating the optimal virtual plan, potentially <strong>democratizing highly complex, accurate surgery</strong>. <sup>[16]</sup>
+      </p>
+    </div>
+
+    <h3>B. Designing a Patient-Specific Fracture Plate</h3>
+    <p><em>Performed entirely within 3-matic</em> <sup>[34]</sup></p>
+    <ol>
+      <li><strong>Define Footprint:</strong> Use <span class="code-inline">Create Curve</span> tool to draw desired plate outline on bone surface</li>
+      <li><strong>Create Surface:</strong> Generate a surface patch from the curve that conforms to bone anatomy</li>
+      <li><strong>Add Thickness:</strong> <span class="code-inline">Offset</span> tool → uniform thickness (e.g., 2–3 mm) to create a 3D solid</li>
+      <li><strong>Design Screw Holes:</strong> Create cylinders at desired locations → <span class="code-inline">Boolean Subtraction</span> to cut holes</li>
+      <li><strong>Refine:</strong> Chamfers/fillets for smooth, biocompatible edges</li>
+    </ol>
+
+    <h3>C. Designing a Patient-Specific Surgical Guide</h3>
+    <p><em>The physical link between virtual plan and patient</em> <sup>[14]</sup></p>
+    <ol>
+      <li><strong>Contact Surface:</strong> Mark the stable bone area with unique surface features for single-position seating. Copy to new part. <sup>[14]</sup></li>
+      <li><strong>Guide Body:</strong> <span class="code-inline">Offset</span> to add thickness → main body <sup>[14]</sup></li>
+      <li><strong>Integrate Drill Guides:</strong> Position virtual screw cylinders from planning → <span class="code-inline">Boolean Subtraction</span> to cut aligned drill sleeves <sup>[35]</sup></li>
+      <li><strong>Finalize & Export:</strong> Add features (windows, labels) → export as STL for 3D printing in biocompatible material <sup>[14]</sup></li>
+    </ol>
+
+    <h3>D. Automating Workflows with Python Scripting</h3>
+    <p>
+      3-matic incorporates a <strong>Python scripting engine</strong> to automate repetitive design tasks. <sup>[10]</sup> A script can take a reduced bone model and planned screw trajectories as input and automatically execute the sequence of operations (Offset, Boolean Subtraction, etc.) to generate the final device design. <sup>[35]</sup> Benefits:
+    </p>
+    <ul>
+      <li>Dramatically reduced design time per case</li>
+      <li>High consistency and standardization</li>
+      <li>Reduced human error and lower learning curve <sup>[10]</sup></li>
+    </ul>
+  </section>
+
+  <!-- ======================== CONCLUSION ======================== -->
+  <section id="conclusion">
+    <div class="phase-header">
+      <h2>VI. Conclusion: From Virtual Plan to Surgical Reality</h2>
+      <p>A data-driven feedback loop for continuous improvement</p>
+    </div>
+
+    <h3>A. Finalizing and Communicating the Plan</h3>
+    <p>
+      The final output is a <strong>complete communication package</strong>: detailed surgical reports documenting measurements, implant models, and precise screw parameters. <sup>[38]</sup> This is disseminated via Mimics Flow and Mimics Viewer to align the entire surgical team before the operation. <sup>[9]</sup>
+    </p>
+
+    <h3>B. Summary of the Complete Workflow</h3>
+    <table>
+      <caption>Table 4: End-to-End VSP Workflow Summary</caption>
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Phase</th>
+          <th>Software</th>
+          <th>Key Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Segmentation</td>
+          <td>Mimics Core</td>
+          <td>Convert DICOM → 3D model via thresholding, region growing, mask editing</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Fragment Isolation</td>
+          <td>Mimics Core</td>
+          <td>Create separate 3D parts for each fragment</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Virtual Reduction</td>
+          <td>3-matic Medical</td>
+          <td>Manual or contralateral-template-guided reduction; Boolean Union; mesh fixing</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Implant Positioning</td>
+          <td>3-matic Medical</td>
+          <td>Import CAD plates/screws; position and contour on reduced bone</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Screw Planning</td>
+          <td>Mimics Core</td>
+          <td>Create cylinders for trajectories; verify on 2D CT for safety and bicortical fixation</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Patient-Specific Design</td>
+          <td>3-matic Medical</td>
+          <td>(Optional) Design custom plates or surgical guides</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>C. The Future Horizon</h3>
+
+    <div class="future-card">
+      <h4>🤖 AI-Driven Planning</h4>
+      <p>Future AI algorithms will propose entire surgical plans, learning individual surgeon preferences to provide high-quality initial plans requiring minimal adjustment. <sup>[39]</sup></p>
+    </div>
+
+    <div class="future-card">
+      <h4>⚙ Biomechanical Simulation (FEA)</h4>
+      <p>Integration of Finite Element Analysis will enable "virtual mechanical testing" — subjecting plans to simulated physiological loads before surgery to optimize implant choice and prevent hardware failure. <sup>[11]</sup></p>
+    </div>
+
+    <div class="future-card">
+      <h4>🥽 Extended Reality (XR)</h4>
+      <p>VR/AR will allow surgeons to step inside the plan — interacting with full-scale 3D anatomy and rehearsing complex steps in immersive environments. <sup>[9]</sup></p>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-title">🔁 The Data-Driven Feedback Loop</div>
+      <p>
+        VSP creates a powerful cycle: <strong>Plan → Execute → Measure → Learn</strong>. By comparing preoperative plans with postoperative scans, surgeons receive precise, quantitative feedback on accuracy — identifying tendencies to refine technique or customize future AI-assisted plans. This is the hallmark of a data-driven discipline. <sup>[39]</sup>
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================== REFERENCES ======================== -->
+  <section id="references" class="ref-section">
+    <h2>References</h2>
+    <p class="annotation">Numbered citations correspond to the reference list from the source document.</p>
+    <ol>
+      <li><sup>[1]</sup> Enhancing Preoperative Planning in Orthopedic Trauma Surgery Using a Presentation Software. <em>Repository.cam.ac.uk</em></li>
+      <li><sup>[2]</sup> 3D Visualization and Guidance: Transforming Musculoskeletal Trauma Surgery. <em>Materialise</em></li>
+      <li><sup>[4]</sup> Emerging Innovations in Preoperative Planning and Motion Analysis in Orthopedic Surgery. <em>PMC</em></li>
+      <li><sup>[5]</sup> How Virtual 3-D Planning Can Improve Orthopaedic Surgery Outcomes. <em>Yale Medicine</em></li>
+      <li><sup>[6]</sup> Computer-assisted preoperative planning of bone fracture fixation surgery: A state-of-the-art review. <em>Frontiers in Bioengineering and Biotechnology</em></li>
+      <li><sup>[7]</sup> Enhance Orthopaedic Surgery with 3D Planning and Printing. <em>Materialise</em></li>
+      <li><sup>[8]</sup> Mimics Innovation Suite — Medical Image Analysis Software. <em>Materialise</em></li>
+      <li><sup>[9]</sup> Materialise Mimics — Healthcare Software Platform. <em>Materialise</em></li>
+      <li><sup>[10]</sup> Materialise Mimics Core — 3D Medical Image Segmentation Software. <em>Materialise</em></li>
+      <li><sup>[11]</sup> A graphical guide for constructing a finite element model. <em>PMC (PMC7867904)</em></li>
+      <li><sup>[12]</sup> 3-Matic Tutorial PDF. <em>Scribd</em></li>
+      <li><sup>[13]</sup> Progress of fracture mapping technology based on CT three-dimensional reconstruction. <em>PMC (PMC11576209)</em></li>
+      <li><sup>[14]</sup> Design of a 3D navigation template to guide the screw trajectory in spine. <em>JSS / AME Groups</em></li>
+      <li><sup>[15]</sup> Materialise Mimics Flow — Medical Case Sharing. <em>Materialise</em></li>
+      <li><sup>[16]</sup> Clinical applications and prospects of 3D printing guide templates in orthopaedics. <em>PMC (PMC9117878)</em></li>
+      <li><sup>[18]</sup> Three-dimensional reconstructions in spine and screw trajectory simulation using Mimics. <em>JSS / AME Groups</em></li>
+      <li><sup>[19]</sup> Mimics Tutorials, Webinars, and Training Courses. <em>Materialise Academy</em></li>
+      <li><sup>[20]</sup> Tutorial: 3 Ways to Segment Bones in Mimics. <em>Materialise</em></li>
+      <li><sup>[23]</sup> Tutorial: Introduction to the CT Bone Wizard. <em>YouTube / Materialise</em></li>
+      <li><sup>[24]</sup> Tutorial: Introduction to the CT Bone Wizard (additional reference). <em>Materialise</em></li>
+      <li><sup>[25]</sup> How to segment bones in MIS & prepare them for 3D printing. <em>YouTube</em></li>
+      <li><sup>[26]</sup> Personalized Orthopaedic Solutions — Tutorials, Webinars, and More. <em>Materialise</em></li>
+      <li><sup>[27]</sup> STL files imported in Mimics fused with raw images of implants. <em>ResearchGate</em></li>
+      <li><sup>[30]</sup> Mimics Innovation Suite documentation. <em>Harn.co.th</em></li>
+      <li><sup>[31]</sup> Design of a 3D navigation template to guide screw trajectory in spine (step-by-step). <em>PMC (PMC6261751)</em></li>
+      <li><sup>[34]</sup> Tutorial: How to Design Surgical Plates. <em>Materialise</em></li>
+      <li><sup>[35]</sup> Tutorial: Automate Your Surgical Guide Design Workflow. <em>Materialise</em></li>
+      <li><sup>[38]</sup> Total Hip Arthroplasty Planning — Materialise OrthoView 7.0 Tutorial. <em>YouTube</em></li>
+      <li><sup>[39]</sup> AI Cuts Changes to Knee Surgery Planning by 50%. <em>Materialise</em></li>
+    </ol>
+  </section>
+
+  <footer style="margin-top: 48px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--text-light);">
+    <p>Generated as an evidence-based educational summary from the source document.<br>
+    All content derived exclusively from the provided material. Thresholds and recommendations in the interactive sidebar are annotated for source transparency.</p>
+  </footer>
+
+</main>
+
+<!-- ======================== SIDEBAR ======================== -->
+<aside role="complementary" aria-label="Interactive parameter controls and real-time recommendations">
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">🔬 Segmentation Parameters</div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Lower HU Threshold</span>
+        <span class="slider-value" id="hu-value">226</span>
+      </div>
+      <input type="range" id="hu-slider" min="100" max="500" value="226" step="1" aria-label="Lower Hounsfield Unit threshold for bone segmentation">
+      <div class="annotation">Default 226 HU — from source "Bone (CT)" preset [18]</div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>CT Slice Thickness</span>
+        <span class="slider-value" id="slice-value">1.0 mm</span>
+      </div>
+      <input type="range" id="slice-slider" min="0.5" max="3.0" value="1.0" step="0.25" aria-label="CT scan slice thickness in millimeters">
+      <div class="annotation">Ideal ≤ 1.0 mm — from source [16]</div>
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>Custom Plate Thickness</span>
+        <span class="slider-value" id="plate-value">2.5 mm</span>
+      </div>
+      <input type="range" id="plate-slider" min="1.0" max="5.0" value="2.5" step="0.5" aria-label="Patient-specific plate thickness in millimeters">
+      <div class="annotation">Typical 2–3 mm — from source [Phase 4 design workflow]</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">📋 Real-Time Clinical Guidance</div>
+    <div class="recommendation-box" id="recommendation-box">
+      <div class="rec-title">⚙ Workflow Recommendation</div>
+      <div id="recommendation-content">
+        <p>Adjust the sliders above to receive context-sensitive guidance based on the source document's workflow and parameters.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">🛠 Actions</div>
+    <div class="btn-group">
+      <button class="btn btn-secondary" id="reset-btn" aria-label="Reset all parameters to defaults">
+        ↺ Reset
+      </button>
+      <button class="btn btn-primary" id="copy-btn" aria-label="Copy current summary to clipboard">
+        📋 Copy Summary
+      </button>
+    </div>
+    <div class="annotation" style="margin-top: 10px; text-align: center;">
+      Copy exports: parameter values, recommendations, rationale, and timestamp.
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">📊 Evidence Summary</div>
+    <p style="font-size: 0.82rem; color: var(--text-light); line-height: 1.6;">
+      <strong>Source type:</strong> Technical workflow guide with narrative review elements<br>
+      <strong>Highest evidence cited:</strong> Review articles & retrospective case series<br>
+      <strong>Landmark RCTs:</strong> Not identified in source<br>
+      <strong>Total references:</strong> 42 (source document)<br>
+      <strong>Platform:</strong> Materialise Mimics Innovation Suite
+    </p>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">📚 Key Landmark Studies from Source</div>
+    <div style="font-size: 0.82rem; line-height: 1.7;">
+      <p><strong>[4]</strong> Emerging Innovations in Preoperative Planning — <em>PMC</em> <span class="evidence-badge ev-4">Review</span></p>
+      <p><strong>[6]</strong> Computer-assisted fracture fixation planning — <em>Frontiers</em> <span class="evidence-badge ev-4">Review</span></p>
+      <p><strong>[16]</strong> 3D printing guide templates in orthopaedics — <em>PMC</em> <span class="evidence-badge ev-4">Review</span></p>
+      <p><strong>[31]</strong> 3D navigation template for screw trajectory — <em>PMC</em> <span class="evidence-badge ev-4">Technical</span></p>
+      <p><strong>[39]</strong> AI in knee surgery planning — <em>Materialise</em> <span class="evidence-badge ev-3">Industry</span></p>
+    </div>
+    <div class="limitation-note" style="font-size: 0.78rem; margin-top: 10px;">
+      <strong>⚠ Evidence gap:</strong> The source document is a technical workflow guide, not a clinical outcomes study. No RCTs or prospective comparative studies were identified. Evidence levels are inferred from study design.
+    </div>
+  </div>
+
+</aside>
+</div>
+
+<div class="copy-toast" id="copy-toast">✓ Summary copied to clipboard</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const huSlider = document.getElementById('hu-slider');
+  const sliceSlider = document.getElementById('slice-slider');
+  const plateSlider = document.getElementById('plate-slider');
+  const huValue = document.getElementById('hu-value');
+  const sliceValue = document.getElementById('slice-value');
+  const plateValue = document.getElementById('plate-value');
+  const recBox = document.getElementById('recommendation-content');
+  const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-btn');
+  const toast = document.getElementById('copy-toast');
+
+  function getHURecommendation(hu) {
+    if (hu < 200) {
+      return {
+        level: 'yellow',
+        text: 'Low threshold — may include significant soft tissue and noise.',
+        details: [
+          'Increased risk of including fat, muscle, and noise in the bone mask',
+          'Expect more extensive mask editing and morphology operations required',
+          'Consider using Region Growing aggressively to isolate target anatomy',
+          'Best suited for: low-density trabecular bone or osteoporotic patients'
+        ]
+      };
+    } else if (hu <= 300) {
+      return {
+        level: 'green',
+        text: 'Standard threshold range — optimal for most cortical bone segmentation.',
+        details: [
+          'Default "Bone (CT)" preset range (226–3071 HU) [Ref 18]',
+          'Good balance between capturing cortical bone and excluding soft tissue',
+          'CT Bone Wizard typically operates effectively in this range',
+          'Apply Region Growing and morphology operations for refinement'
+        ]
+      };
+    } else if (hu <= 400) {
+      return {
+        level: 'yellow',
+        text: 'Elevated threshold — will primarily capture dense cortical bone only.',
+        details: [
+          'Trabecular bone (200–700 HU) may be partially excluded',
+          'Essential to enable "Fill Long Bones" in CT Bone Wizard [Ref 23]',
+          'Consider manual mask editing for intramedullary canal inclusion',
+          'Useful for: segmentation near metal implants where artifact is present'
+        ]
+      };
+    } else {
+      return {
+        level: 'red',
+        text: 'Very high threshold — risk of incomplete bone capture.',
+        details: [
+          'Will miss most trabecular bone and thin cortical regions',
+          'Recommended only for isolating very dense structures or metal artifacts',
+          'Significant manual editing will be required for a complete model',
+          'Consider lowering to the standard 226 HU range for most applications'
+        ]
+      };
+    }
+  }
+
+  function getSliceRecommendation(thickness) {
+    if (thickness <= 0.75) {
+      return {
+        level: 'green',
+        text: 'Excellent resolution — ideal for high-fidelity 3D reconstruction.',
+        details: [
+          'Sub-millimeter slices provide maximum data for accurate segmentation',
+          'Recommended for complex articular fractures and patient-specific guide design',
+          'Higher radiation dose — ensure clinical justification [Ref 16]'
+        ]
+      };
+    } else if (thickness <= 1.5) {
+      return {
+        level: 'green',
+        text: 'Good resolution — meets recommended standards for VSP.',
+        details: [
+          'Source recommends ≤ 1.0 mm as ideal [Ref 16]',
+          'Adequate for most fracture planning workflows',
+          'Slices at 1.0 mm provide good balance of quality and scan time'
+        ]
+      };
+    } else {
+      return {
+        level: 'yellow',
+        text: 'Thick slices — reduced 3D model accuracy.',
+        details: [
+          'Source recommends ≤ 1.0 mm [Ref 16]; current value exceeds this',
+          'May result in stepped surfaces and loss of fine anatomical detail',
+          'Articular surface morphology may be poorly represented',
+          'Consider requesting a repeat scan with thinner slices for complex cases'
+        ]
+      };
+    }
+  }
+
+  function getPlateRecommendation(thickness) {
+    if (thickness < 2.0) {
+      return {
+        level: 'yellow',
+        text: 'Thin plate — may lack sufficient rigidity for load-bearing applications.',
+        details: [
+          'Source indicates 2–3 mm as typical for custom plate design [Phase 4]',
+          'Consider: anatomical location, patient weight, fracture pattern',
+          'May be appropriate for non-load-bearing applications (e.g., clavicle, forearm)',
+          'FEA simulation recommended to verify construct strength before fabrication'
+        ]
+      };
+    } else if (thickness <= 3.0) {
+      return {
+        level: 'green',
+        text: 'Standard thickness — appropriate for most applications.',
+        details: [
+          'Within the 2–3 mm range specified in the source document [Phase 4]',
+          'Suitable for standard long bone fracture fixation',
+          'Combine with bicortical screw fixation for optimal stability',
+          'Virtual contouring in 3-matic ensures anatomical fit'
+        ]
+      };
+    } else {
+      return {
+        level: 'yellow',
+        text: 'Thick plate — increased rigidity but potential soft tissue irritation.',
+        details: [
+          'Above the typical 2–3 mm range from source [Phase 4]',
+          'Consider for: large bone defects, revision cases, or high-BMI patients',
+          'Risk of increased plate prominence and soft tissue irritation',
+          'May require countersinking or deeper placement'
+        ]
+      };
+    }
+  }
+
+  function updateRecommendations() {
+    const hu = parseInt(huSlider.value);
+    const slice = parseFloat(sliceSlider.value);
+    const plate = parseFloat(plateSlider.value);
+
+    huValue.textContent = hu;
+    sliceValue.textContent = slice.toFixed(1) + ' mm';
+    plateValue.textContent = plate.toFixed(1) + ' mm';
+
+    const huRec = getHURecommendation(hu);
+    const sliceRec = getSliceRecommendation(slice);
+    const plateRec = getPlateRecommendation(plate);
+
+    function renderRec(rec, label) {
+      return '<div style="margin-bottom:12px;">' +
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">' +
+          '<span class="status-dot ' + rec.level + '"></span>' +
+          '<strong style="font-size:0.82rem;">' + label + '</strong>' +
+        '</div>' +
+        '<div style="font-size:0.82rem;margin-bottom:4px;">' + rec.text + '</div>' +
+        '<ul style="margin:0 0 0 16px;font-size:0.78rem;color:#5a6b7d;">' +
+          rec.details.map(function(d) { return '<li>' + d + '</li>'; }).join('') +
+        '</ul>' +
+      '</div>';
+    }
+
+    recBox.innerHTML =
+      renderRec(huRec, 'HU Threshold: ' + hu) +
+      renderRec(sliceRec, 'Slice Thickness: ' + slice.toFixed(1) + ' mm') +
+      renderRec(plateRec, 'Plate Thickness: ' + plate.toFixed(1) + ' mm');
+  }
+
+  huSlider.addEventListener('input', updateRecommendations);
+  sliceSlider.addEventListener('input', updateRecommendations);
+  plateSlider.addEventListener('input', updateRecommendations);
+
+  // Initial call
+  updateRecommendations();
+
+  // Reset
+  resetBtn.addEventListener('click', function() {
+    huSlider.value = 226;
+    sliceSlider.value = 1.0;
+    plateSlider.value = 2.5;
+    updateRecommendations();
+  });
+
+  // Copy to clipboard
+  copyBtn.addEventListener('click', function() {
+    var now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+    var hu = huSlider.value;
+    var slice = parseFloat(sliceSlider.value).toFixed(1);
+    var plate = parseFloat(plateSlider.value).toFixed(1);
+
+    var huRec = getHURecommendation(parseInt(hu));
+    var sliceRec = getSliceRecommendation(parseFloat(slice));
+    var plateRec = getPlateRecommendation(parseFloat(plate));
+
+    var text = '=== ORTHOPEDIC VSP PARAMETER SUMMARY ===\n' +
+      'Timestamp: ' + now + '\n\n' +
+      '--- SEGMENTATION PARAMETERS ---\n' +
+      'Lower HU Threshold: ' + hu + ' HU\n' +
+      '  Status: ' + huRec.text + '\n\n' +
+      'CT Slice Thickness: ' + slice + ' mm\n' +
+      '  Status: ' + sliceRec.text + '\n\n' +
+      'Custom Plate Thickness: ' + plate + ' mm\n' +
+      '  Status: ' + plateRec.text + '\n\n' +
+      '--- CLINICAL GUIDANCE ---\n' +
+      'HU Details: ' + huRec.details.join('; ') + '\n' +
+      'Slice Details: ' + sliceRec.details.join('; ') + '\n' +
+      'Plate Details: ' + plateRec.details.join('; ') + '\n\n' +
+      '--- EVIDENCE NOTE ---\n' +
+      'Source: Technical workflow guide for Materialise Mimics ecosystem.\n' +
+      'All parameters and thresholds derived from or annotated relative to the source document.\n' +
+      'No RCTs identified in source for clinical outcome evidence.\n\n' +
+      'Generated by: Orthopedic VSP Educational Summary';
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        showToast();
+      }).catch(function() {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast();
+    } catch(e) {
+      alert('Copy failed. Please copy manually.');
+    }
+    document.body.removeChild(ta);
+  }
+
+  function showToast() {
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
+})();
+</script>
+
+</body>
+</html>

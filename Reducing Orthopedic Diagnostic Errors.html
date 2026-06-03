@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mitigating Diagnostic Error in Orthopedic Surgery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a365d;
+    --primary-light: #2c5282;
+    --accent: #e53e3e;
+    --accent-warm: #dd6b20;
+    --success: #38a169;
+    --warning: #d69e2e;
+    --danger: #e53e3e;
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --text: #2d3748;
+    --text-light: #718096;
+    --border: #e2e8f0;
+    --badge-i: #2b6cb0;
+    --badge-ii: #2c7a7b;
+    --badge-iii: #975a16;
+    --badge-iv: #9b2c2c;
+    --badge-v: #553c9a;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+    --radius: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* Header */
+  .site-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+  }
+  .site-header h1 {
+    font-family: 'Merriweather', serif;
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    font-weight: 700;
+    max-width: 1200px;
+    margin: 0 auto;
+    line-height: 1.3;
+  }
+  .site-header .subtitle {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-top: 0.3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Layout */
+  .layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    padding: 2rem 1.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .sidebar {
+      position: static !important;
+      order: -1;
+    }
+  }
+
+  /* Main content */
+  .main-content {
+    min-width: 0;
+  }
+
+  .section-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  h2 {
+    font-family: 'Merriweather', serif;
+    color: var(--primary);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--accent);
+    line-height: 1.4;
+  }
+
+  h3 {
+    color: var(--primary-light);
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  h4 {
+    color: var(--text);
+    font-size: 1rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  p { margin-bottom: 1rem; }
+
+  ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  li { margin-bottom: 0.4rem; }
+
+  strong { color: var(--primary); }
+
+  /* Evidence badge */
+  .evidence {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: white;
+    vertical-align: super;
+    margin-left: 3px;
+    letter-spacing: 0.5px;
+    cursor: help;
+  }
+  .ev-i { background: var(--badge-i); }
+  .ev-ii { background: var(--badge-ii); }
+  .ev-iii { background: var(--badge-iii); }
+  .ev-iv { background: var(--badge-iv); }
+  .ev-v { background: var(--badge-v); }
+  .ev-nr { background: #718096; }
+
+  /* Callout boxes */
+  .callout {
+    border-left: 4px solid;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.92rem;
+  }
+  .callout-danger {
+    border-color: var(--danger);
+    background: #fff5f5;
+  }
+  .callout-warning {
+    border-color: var(--warning);
+    background: #fffbeb;
+  }
+  .callout-info {
+    border-color: var(--badge-i);
+    background: #ebf8ff;
+  }
+  .callout-success {
+    border-color: var(--success);
+    background: #f0fff4;
+  }
+  .callout-title {
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+  }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  caption {
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    background: var(--primary);
+    color: white;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  thead th {
+    background: #edf2f7;
+    color: var(--primary);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  tbody td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:hover { background: #f7fafc; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 110px;
+    height: fit-content;
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
+  .sidebar-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-card h3 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent);
+    color: var(--primary);
+  }
+
+  /* Slider controls */
+  .slider-group {
+    margin-bottom: 1.5rem;
+  }
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+  }
+  .slider-label span:first-child {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--primary);
+  }
+  .slider-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent);
+    min-width: 60px;
+    text-align: right;
+  }
+  .slider-unit {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  input[type="range"] {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e2e8f0;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  /* Recommendation panel */
+  .recommendation-panel {
+    background: linear-gradient(135deg, #ebf8ff, #f0fff4);
+    border: 2px solid #bee3f8;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+  }
+  .recommendation-panel.danger-zone {
+    background: linear-gradient(135deg, #fff5f5, #fed7d7);
+    border-color: #fc8181;
+  }
+  .recommendation-panel.warning-zone {
+    background: linear-gradient(135deg, #fffbeb, #fefcbf);
+    border-color: #f6e05e;
+  }
+  .recommendation-panel h4 {
+    font-size: 0.9rem;
+    margin-top: 0;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+  .recommendation-panel p {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+  .recommendation-panel .rec-status {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .status-normal { background: #c6f6d5; color: #22543d; }
+  .status-elevated { background: #fefcbf; color: #744210; }
+  .status-critical { background: #fed7d7; color: #742a2a; }
+
+  /* Buttons */
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .btn {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-reset {
+    background: #edf2f7;
+    color: var(--primary);
+  }
+  .btn-reset:hover { background: #e2e8f0; }
+  .btn-export {
+    background: var(--primary);
+    color: white;
+  }
+  .btn-export:hover { background: var(--primary-light); }
+
+  /* Tooltip */
+  .tooltip-trigger {
+    position: relative;
+    border-bottom: 1px dashed var(--text-light);
+    cursor: help;
+  }
+  .tooltip-trigger::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a202c;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    max-width: 260px;
+    white-space: normal;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  .tooltip-trigger:hover::after { opacity: 1; }
+
+  /* Flow diagram */
+  .flow-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 1.5rem 0;
+  }
+  .flow-step {
+    background: var(--card);
+    border: 2px solid var(--primary-light);
+    border-radius: var(--radius);
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 500;
+    max-width: 400px;
+    width: 100%;
+  }
+  .flow-step.highlight {
+    border-color: var(--accent);
+    background: #fff5f5;
+  }
+  .flow-arrow {
+    width: 2px;
+    height: 24px;
+    background: var(--primary-light);
+    position: relative;
+  }
+  .flow-arrow::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: -4px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--primary-light);
+  }
+  .flow-branch {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+  }
+  .flow-branch .flow-step { flex: 1; }
+
+  /* Dual process visual */
+  .dual-process {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  @media (max-width: 600px) {
+    .dual-process { grid-template-columns: 1fr; }
+  }
+  .process-card {
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    border: 2px solid;
+  }
+  .system1 {
+    border-color: #fbd38d;
+    background: #fffbeb;
+  }
+  .system2 {
+    border-color: #90cdf4;
+    background: #ebf8ff;
+  }
+  .process-card h4 {
+    margin-top: 0;
+    font-size: 1rem;
+  }
+  .process-card ul { padding-left: 1.2rem; font-size: 0.88rem; }
+
+  /* Summary stats */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .stat-box {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    padding: 1rem;
+    border-radius: var(--radius);
+    text-align: center;
+  }
+  .stat-box .stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: block;
+    line-height: 1.2;
+  }
+  .stat-box .stat-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    margin-top: 0.3rem;
+  }
+
+  /* Reference list */
+  .references {
+    font-size: 0.82rem;
+    color: var(--text-light);
+  }
+  .references li {
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #1a202c;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    z-index: 9999;
+    box-shadow: var(--shadow-lg);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Limitation notice */
+  .limitation-notice {
+    background: #f7fafc;
+    border: 1px dashed #cbd5e0;
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-style: italic;
+  }
+
+  /* Scrollbar */
+  .sidebar::-webkit-scrollbar { width: 5px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <h1>Mitigating Diagnostic Error in Orthopedic Surgery</h1>
+  <p class="subtitle">A Framework of Systematic and Cognitive Strategies — Interactive Evidence-Based Summary</p>
+</header>
+
+<div class="layout">
+  <main class="main-content" role="main">
+
+    <!-- Section I: Overview -->
+    <section class="section-card" id="section-overview">
+      <h2>I. The Diagnostic Challenge in Modern Orthopedic Surgery</h2>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="stat-number">53%</span>
+          <span class="stat-label">AAOS fellows observed a medical error in prior 6 months <span class="evidence ev-ii">II</span></span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">12.4%</span>
+          <span class="stat-label">Ortho share of diagnostic error litigation cases (Canada) <span class="evidence ev-ii">II</span></span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">&gt;10%</span>
+          <span class="stat-label">Litigated ortho patients with missed diagnosis <span class="evidence ev-ii">II</span></span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">16.7×</span>
+          <span class="stat-label">Odds ratio of losing lawsuit with diagnostic error <span class="evidence ev-ii">II</span></span>
+        </div>
+      </div>
+
+      <p>Diagnostic error is defined as the failure to establish an accurate and timely explanation of a patient's health problem, or to communicate that explanation effectively.<span class="evidence ev-nr" title="Source: Overview of Diagnostic Error in Health Care [1]">1</span> In orthopedics, such errors are deeply embedded within clinical practice, arising from system-based flaws and inherent cognitive biases. The consequences include nonunion, avascular necrosis, chronic disability, permanent nerve damage, and even death.<span class="evidence ev-nr" title="Source: Commonly Missed Orthopedic Problems [8]">8</span></p>
+
+      <h3>Age-Specific Vulnerabilities</h3>
+      <p>Analysis of litigation data reveals distinct demographic patterns:<span class="evidence ev-ii">II</span></p>
+      <ul>
+        <li><strong>Pediatric patients:</strong> 44% of missed-diagnosis lawsuits involve upper limb injuries, particularly fractures around the elbow — suggesting cognitive underestimation of severity in children.</li>
+        <li><strong>Older adults:</strong> More susceptible to errors from insufficient inspection and postoperative complications — suggesting system-level breakdown in secondary survey amid multiple comorbidities.</li>
+      </ul>
+
+      <h3>The Seven-Stage Diagnostic Pathway</h3>
+      <p>Diagnostic failures are distributed across the entire patient journey. A retrospective analysis found that <strong>32.8% of errors occurred preoperatively, 31.0% intraoperatively, and 44.2% postoperatively</strong>.<span class="evidence ev-ii">II</span></p>
+
+      <div class="flow-diagram">
+        <div class="flow-step">① Patient Access &amp; Presentation</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">② History Taking &amp; Data Collection</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">③ Physical Examination</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">④ Diagnostic Testing (Ordering &amp; Interpretation)</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">⑤ Clinical Assessment &amp; Data Integration</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">⑥ Referral</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step highlight">⑦ Follow-Up</div>
+      </div>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">Cascade Effect</div>
+        <p>Diagnostic errors are often cumulative. An initial error (e.g., incomplete history) creates a cascade: poorly focused exam → anchoring on an incorrect diagnosis → <strong>diagnosis momentum</strong> in the EHR → resistance to revision → catastrophic outcome.<span class="evidence ev-nr" title="Premature Closure reference [13]">13</span></p>
+      </div>
+
+      <h3>Medico-Legal Implications</h3>
+      <p>A Japanese study of 166 litigation claims found that diagnostic error was associated with an adjusted odds ratio of <strong>16.7 for the surgeon losing the lawsuit</strong>. Remarkably, 100% of claims lost by surgeons involved either a diagnostic error or a system error.<span class="evidence ev-ii">II</span> Missed diagnoses of well-described conditions (occult scaphoid fracture, ACL tear, compartment syndrome) are perceived not as technical mishaps but as fundamental failures of clinical judgment — making them among the most legally indefensible errors.<span class="evidence ev-nr">8,9</span></p>
+    </section>
+
+    <!-- Section II: Dual Etiology -->
+    <section class="section-card" id="section-etiologies">
+      <h2>II. Dual Etiology: Systemic Flaws and Cognitive Traps</h2>
+      <p>Diagnostic errors are typically multifactorial: cognitive factors contribute in <strong>74%</strong> of cases and system-related factors in <strong>65%</strong>.<span class="evidence ev-ii">II</span> A single case can involve an average of <strong>5.9 distinct underlying factors</strong>.<span class="evidence ev-ii">II</span></p>
+
+      <h3>A. System-Related Contributors</h3>
+      <p>Communication breakdowns account for <strong>24.7%</strong> of all reported orthopedic errors.<span class="evidence ev-ii">II</span> Inefficient clinical processes — such as unreliable test result tracking and poor handoffs — create fertile ground for delayed or missed diagnoses.<span class="evidence ev-nr">2</span> A chaotic, understaffed environment forces reliance on rapid, heuristic-based thinking (System 1), amplifying cognitive vulnerability.</p>
+
+      <h3>B. Cognitive Contributors: Dual-Process Theory</h3>
+      <div class="dual-process">
+        <div class="process-card system1">
+          <h4>⚡ System 1 Thinking</h4>
+          <p><strong>Fast, intuitive, automatic</strong></p>
+          <ul>
+            <li>Pattern recognition</li>
+            <li>Mental shortcuts (heuristics)</li>
+            <li>Efficient for straightforward cases</li>
+            <li>Vulnerable to cognitive biases</li>
+          </ul>
+        </div>
+        <div class="process-card system2">
+          <h4>🧠 System 2 Thinking</h4>
+          <p><strong>Slow, analytical, deliberate</strong></p>
+          <ul>
+            <li>Systematic evaluation</li>
+            <li>Logical deduction</li>
+            <li>Considers alternatives</li>
+            <li>Essential for complex cases</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 1: Common Cognitive Biases in Orthopedic Diagnosis</caption>
+          <thead>
+            <tr>
+              <th>Cognitive Bias</th>
+              <th>Clinical Vignette</th>
+              <th>Debiasing Strategy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Anchoring Bias / Premature Closure</strong></td>
+              <td>14-year-old with limp and knee pain diagnosed with "growing pains"; limited hip exam misses <strong>SCFE</strong>.<span class="evidence ev-nr">8</span></td>
+              <td>"What is the most dangerous diagnosis I cannot afford to miss?" "Have I considered the joint above and below?"</td>
+            </tr>
+            <tr>
+              <td><strong>Confirmation Bias</strong></td>
+              <td>Surgeon suspects rotator cuff tear; MRI confirms but also notes biceps pathology — surgeon overlooks the latter.<span class="evidence ev-nr">31</span></td>
+              <td>"What evidence does not fit my diagnosis?" "Could I be wrong?"</td>
+            </tr>
+            <tr>
+              <td><strong>Availability Heuristic</strong></td>
+              <td>ER physician recently treated several ankle sprains; diagnoses another without exam for syndesmotic injury.<span class="evidence ev-nr">14</span></td>
+              <td>"Am I diagnosing this because it's familiar, or because the evidence points to it?"</td>
+            </tr>
+            <tr>
+              <td><strong>Search Satisficing</strong></td>
+              <td>Radiologist identifies obvious radial head fracture, stops searching, misses distal radioulnar dislocation (Galeazzi).<span class="evidence ev-nr">20</span></td>
+              <td>"Now that I've found one abnormality, what is the second one I am missing?"</td>
+            </tr>
+            <tr>
+              <td><strong>Representation Error</strong></td>
+              <td>Tibial shaft fracture patient with manageable pain and palpable pulse doesn't match "classic" compartment syndrome → missed ACS.<span class="evidence ev-nr">14</span></td>
+              <td>"Does the absence of classic signs truly rule out the disease in this patient?"</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">The Vicious Cycle</div>
+        <p>System flaws (e.g., high volume, time pressure) force System 1 thinking → cognitive biases lead to errors → the system fails to catch them (e.g., diagnosis momentum in EHR) → error propagates. <strong>Interventions targeting only one domain are likely ineffective.</strong><span class="evidence ev-nr">17,23</span></p>
+      </div>
+    </section>
+
+    <!-- Section III: Occult Fractures -->
+    <section class="section-card" id="section-occult">
+      <h2>III. Diagnostic Pitfalls: Occult Fractures</h2>
+
+      <h3>A. Radiographically Occult Scaphoid Fracture</h3>
+      <p>The scaphoid is the most common carpal bone fracture. Its retrograde blood supply makes it uniquely vulnerable to nonunion and avascular necrosis — risks significantly increased by a diagnostic delay of as little as <strong>one to two weeks</strong>.<span class="evidence ev-nr">8</span></p>
+      <p><strong>Cardinal physical finding:</strong> Tenderness in the anatomic snuff box. Even with negative initial radiographs, this finding must maintain high suspicion.<span class="evidence ev-nr">8</span></p>
+
+      <h4>Imaging Pathway</h4>
+      <ol>
+        <li><strong>Initial:</strong> Dedicated scaphoid series (PA, lateral, semi-pronated oblique, PA in ulnar deviation).<span class="evidence ev-ii">II</span></li>
+        <li><strong>If negative + high clinical suspicion:</strong> Immobilize in thumb spica splint; treat as fracture until proven otherwise.<span class="evidence ev-nr">8</span></li>
+        <li><strong>Definitive follow-up:</strong> <strong>MRI is the gold standard</strong> (sensitivity/specificity ~100%). CT is a reliable alternative. Economic analyses show immediate advanced imaging is <strong>more cost-effective</strong> than empirical casting with delayed radiographs.<span class="evidence ev-ii">II</span></li>
+      </ol>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 2: Diagnostic Pathway for Suspected Occult Scaphoid Fracture</caption>
+          <thead>
+            <tr><th>Stage</th><th>Action</th><th>Key Consideration</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Presentation</td><td>FOOSH mechanism, radial-sided wrist pain</td><td>Maintain high index of suspicion</td></tr>
+            <tr><td>Physical Exam</td><td>Snuff box tenderness, scaphoid tubercle tenderness, axial thumb loading</td><td>Snuff box tenderness is most sensitive clinical sign</td></tr>
+            <tr><td>Initial Imaging</td><td>4-view dedicated scaphoid radiographs</td><td>Standard PA misses many acute fractures</td></tr>
+            <tr><td>Radiographs Positive?</td><td><strong>Yes →</strong> Immobilize + orthopedic referral</td><td>—</td></tr>
+            <tr><td>Radiographs Negative?</td><td><strong>Immobilize + advanced imaging (MRI preferred)</strong></td><td>Do NOT dismiss as sprain; MRI more cost-effective than delayed X-rays</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>B. Undetected Femoral Neck Stress Fracture</h3>
+      <p>Primarily seen in endurance athletes and military recruits. These injuries can rapidly progress from stable stress reaction to complete, displaced fracture with high risk of <strong>avascular necrosis (AVN)</strong>.<span class="evidence ev-nr">8</span></p>
+      <ul>
+        <li><strong>Presentation:</strong> Gradual onset deep hip/groin/thigh pain with activity; no specific trauma.</li>
+        <li><strong>Initial imaging:</strong> AP pelvis and cross-table lateral hip radiographs (often normal early). <em>Frog-leg views are not recommended</em> as they may displace a fracture.<span class="evidence ev-ii">II</span></li>
+        <li><strong>Definitive imaging:</strong> <strong>MRI is the modality of choice</strong>, detecting bone marrow edema before X-ray-visible fracture lines.<span class="evidence ev-ii">II</span></li>
+        <li><strong>Critical immediate step:</strong> <strong>Strict non-weight-bearing</strong> (crutch-assisted) while awaiting imaging.<span class="evidence ev-ii">II</span></li>
+      </ul>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">Catastrophic Consequence</div>
+        <p>Continued weight-bearing on an unrecognized femoral neck stress fracture → completion and displacement → disruption of blood supply → high rate of AVN → may necessitate total hip arthroplasty in a young, active patient.<span class="evidence ev-nr">8</span></p>
+      </div>
+
+      <h3>C. Tibial Plateau Fracture: Articular Depression and Comminution</h3>
+      <p>Plain radiographs frequently underestimate the degree of articular surface depression and comminution.<span class="evidence ev-ii">II</span> A <strong>plateau view</strong> (AP with 10° caudal tilt) provides better visualization of the articular surface.</p>
+      <p><strong>CT scan is now the standard of care for preoperative planning</strong>, providing 3D fracture characterization, precise depression measurement, and posterior column delineation.<span class="evidence ev-ii">II</span> The presence of a <strong>lipohemarthrosis</strong> (fat-fluid level) is pathognomonic of an intra-articular fracture, even when the fracture line is not visible.<span class="evidence ev-ii">II</span></p>
+    </section>
+
+    <!-- Section IV: Soft Tissue Injuries -->
+    <section class="section-card" id="section-softtissue">
+      <h2>IV. Diagnostic Pitfalls: Complex Soft Tissue Injuries</h2>
+
+      <h3>A. Knee Pathology: Meniscal and Ligamentous Tears</h3>
+      <p>An acutely painful, swollen, guarded knee compromises the reliability of stress tests (Lachman, McMurray).<span class="evidence ev-nr">8</span> <strong>MRI is the non-invasive gold standard</strong> for meniscal, ligamentous, and cartilage injuries, though arthroscopy remains the most accurate confirmatory method.<span class="evidence ev-ii">II</span></p>
+
+      <h3>B. Ankle Syndesmotic Injury ("High Ankle Sprain")</h3>
+      <p>Syndesmotic injuries result from external rotation and/or hyper-dorsiflexion forces. Key differentiator: maximal tenderness is <strong>higher up</strong> over the AITFL, not over the lateral ligaments.<span class="evidence ev-ii">II</span></p>
+      <ul>
+        <li><strong>Squeeze Test:</strong> Compressing tibia/fibula at mid-calf reproduces syndesmotic pain.<span class="evidence ev-ii">II</span></li>
+        <li><strong>External Rotation Stress Test:</strong> Externally rotating the foot in dorsiflexion stresses the syndesmosis.<span class="evidence ev-ii">II</span></li>
+        <li><strong>Stress radiographs</strong> can unmask latent instability; <strong>MRI is the gold standard</strong> for ligament visualization.<span class="evidence ev-ii">II</span></li>
+      </ul>
+      <div class="callout callout-warning">
+        <div class="callout-title">Cognitive Trap: Representation Error</div>
+        <p>The "typical" ankle injury is a lateral sprain. Atypical features (external rotation mechanism, high tenderness) may be downplayed because they don't match the expected prototype.<span class="evidence ev-nr">14</span></p>
+      </div>
+
+      <h3>C. Achilles Tendon and Rotator Cuff Ruptures</h3>
+      <p><strong>Achilles rupture</strong> is misdiagnosed in up to <strong>25%</strong> of initial presentations.<span class="evidence ev-nr">8</span> Patients may retain weak plantarflexion via accessory muscles. The <strong>Thompson test</strong> (absence of passive plantarflexion with calf squeeze) is the key diagnostic maneuver. If doubt persists, ultrasound or MRI confirms diagnosis.<span class="evidence ev-nr">8,56</span></p>
+      <p><strong>Rotator cuff tears:</strong> <strong>MRI is the best imaging modality</strong> — not only confirming the tear but characterizing it and evaluating muscle quality. Delayed diagnosis risks irreversible fatty atrophy, potentially closing the window for effective surgical repair.<span class="evidence ev-ii">II</span></p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 3: Key Soft Tissue Injury Diagnostic Summary</caption>
+          <thead>
+            <tr><th>Injury</th><th>Critical Test / Finding</th><th>Gold Standard Imaging</th><th>Consequence of Missed Diagnosis</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ACL Tear</td><td>Lachman test (limited in acute setting)</td><td>MRI</td><td>Recurrent instability → meniscal/cartilage damage → early DJD</td></tr>
+            <tr><td>Meniscal Tear</td><td>McMurray test, mechanical symptoms</td><td>MRI</td><td>Locking, further tear propagation</td></tr>
+            <tr><td>Syndesmotic Injury</td><td>Squeeze test, ER stress test, high tenderness</td><td>MRI</td><td>Chronic instability, prolonged recovery</td></tr>
+            <tr><td>Achilles Rupture</td><td>Thompson test</td><td>Ultrasound / MRI</td><td>Significant functional impairment</td></tr>
+            <tr><td>Rotator Cuff Tear</td><td>Provocative tests, weakness</td><td>MRI</td><td>Irreversible fatty atrophy → lost repair window</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section V: Compartment Syndrome -->
+    <section class="section-card" id="section-acs">
+      <h2>V. Acute Compartment Syndrome: A Time-Critical Emergency</h2>
+
+      <p>Acute compartment syndrome (ACS) is a limb-threatening surgical emergency. Failure to diagnose and treat within hours can cause irreversible muscle necrosis, nerve damage, contracture, and amputation.<span class="evidence ev-nr">59,60</span></p>
+
+      <h3>Beyond the "Five P's"</h3>
+      <div class="callout callout-danger">
+        <div class="callout-title">Dangerous Teaching Alert</div>
+        <p>The classic "Five P's" (Pain, Pallor, Pulselessness, Paresthesia, Paralysis) are <strong>overwhelmingly late and unreliable signs</strong> of advanced ischemia. Pallor and pulselessness often signify irreversible damage has already occurred.<span class="evidence ev-nr">59,64</span></p>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 4: Clinical Signs for Acute Compartment Syndrome</caption>
+          <thead>
+            <tr><th>Early &amp; Reliable (High Suspicion)</th><th>Late &amp; Unreliable (Advanced Ischemia)</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong>Pain out of proportion</strong> to injury; progressive; unrelieved by analgesics<span class="evidence ev-nr">64</span><br>
+                <strong>Pain on passive stretch</strong> of muscles in suspect compartment<span class="evidence ev-nr">64</span><br>
+                <strong>Tense ("wood-like") compartment</strong> on palpation<span class="evidence ev-nr">63</span>
+              </td>
+              <td>
+                Pallor of skin<span class="evidence ev-nr">62</span><br>
+                Pulselessness (may be present until late)<span class="evidence ev-nr">62</span><br>
+                Paralysis / profound motor weakness<span class="evidence ev-nr">62</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Intracompartmental Pressure (ICP) Monitoring</h3>
+      <p>When clinical exam is equivocal or unreliable (unconscious, sedated, intoxicated, distracting injuries, children), ICP monitoring provides objective data for fasciotomy decision-making.<span class="evidence ev-nr">63</span></p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 5: ICP Monitoring — Indications and Interpretation</caption>
+          <thead>
+            <tr><th>Indications</th><th>Interpretation</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Equivocal/unreliable clinical exam<span class="evidence ev-nr">65</span><br>Unconscious/sedated/intoxicated patients<span class="evidence ev-nr">65</span><br>Distracting injuries or nerve blocks<span class="evidence ev-nr">35</span><br>Young children unable to communicate<span class="evidence ev-nr">68</span></td>
+              <td>
+                <strong>Normal ICP:</strong> 0–8 mmHg<span class="evidence ev-nr">63</span><br>
+                <strong>Absolute ICP &gt;30 mmHg:</strong> Suggestive, consider fasciotomy<span class="evidence ev-nr">63</span><br>
+                <strong>Delta Pressure (ΔP) = Diastolic BP − ICP</strong><br>
+                <strong>ΔP ≤ 30 mmHg:</strong> Strong indication for emergent fasciotomy<span class="evidence ev-nr">63</span><br>
+                <em>Note: A single normal reading does NOT rule out ACS. Serial monitoring recommended.</em>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-title">Interactive Tool: Use the sidebar sliders to calculate Delta Pressure in real-time</div>
+        <p>Adjust intracompartmental pressure and diastolic blood pressure to see the calculated delta pressure and corresponding clinical recommendation.</p>
+      </div>
+    </section>
+
+    <!-- Section VI: Systematic Strategies -->
+    <section class="section-card" id="section-systematic">
+      <h2>VI. Systematic Strategies for Enhancing Diagnostic Reliability</h2>
+
+      <h3>A. Evidence-Based Clinical Decision Rules &amp; Practice Guidelines</h3>
+      <p>Validated CDRs safely reduce unnecessary imaging while maintaining diagnostic accuracy.<span class="evidence ev-ii">II</span></p>
+      <ul>
+        <li><strong>Ottawa Ankle and Foot Rules</strong> — determine need for radiographs after acute ankle injury<span class="evidence ev-ii">II</span></li>
+        <li><strong>Ottawa Knee Rule</strong> — guides radiography for acute knee injuries<span class="evidence ev-ii">II</span></li>
+        <li><strong>NEXUS Criteria &amp; Canadian C-Spine Rule</strong> — determine need for cervical spine imaging<span class="evidence ev-ii">II</span></li>
+      </ul>
+      <p>The AAOS produces CPGs on conditions including acute compartment syndrome, hip fractures, distal radius fractures, and rotator cuff injuries.<span class="evidence ev-ii">II</span></p>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">The Implementation Gap</div>
+        <p>Studies show formal knowledge like CPGs plays a limited role in real-world orthopedic decision-making, which is more heavily influenced by individual experience. <strong>The problem is not merely creating knowledge, but translating it into routine practice.</strong><span class="evidence ev-ii">II</span></p>
+      </div>
+
+      <h3>B. Standardized Diagnostic Checklists &amp; Imaging Protocols</h3>
+      <p>Checklists function as cognitive aids, offloading memory and ensuring critical steps are not forgotten.<span class="evidence ev-ii">II</span> The AO Foundation provides checklists for orthopedic trauma surgeons covering key phases of care.<span class="evidence ev-ii">II</span></p>
+      <p>Standardized imaging protocols — such as the four-view scaphoid series, plateau view for tibial plateau fractures, and whole-body CT per ATLS guidelines — ensure diagnostic consistency and quality.<span class="evidence ev-ii">II</span></p>
+
+      <h3>C. Technology: CDSS &amp; Artificial Intelligence</h3>
+      <ul>
+        <li><strong>Clinical Decision Support Systems (CDSS):</strong> EHR-integrated alerts, reminders, differential diagnosis suggestions<span class="evidence ev-nr">2</span></li>
+        <li><strong>AI/Machine Learning:</strong> Deep learning models can detect fractures and soft tissue injuries with accuracy rivaling human experts. Potential to reduce interpretive error, improve efficiency, and screen for prioritization.<span class="evidence ev-ii">II</span></li>
+        <li><strong>Predictive Models:</strong> AI used to identify high-risk patients and optimize referral pathways.<span class="evidence ev-ii">II</span></li>
+      </ul>
+
+      <h3>D. Culture of Safety</h3>
+      <ul>
+        <li><strong>Non-punitive reporting systems</strong> for errors and near misses<span class="evidence ev-nr">2</span></li>
+        <li><strong>Structured debriefing</strong> after adverse events — facilitates root cause analysis and collaborative corrective strategies<span class="evidence ev-ii">II</span></li>
+        <li><strong>Feedback loops:</strong> Clinicians are often unaware of their errors. Reliable outcome tracking and patient-reported diagnostic concerns are essential for calibration.<span class="evidence ev-nr">21</span></li>
+      </ul>
+    </section>
+
+    <!-- Section VII: Cognitive Frameworks -->
+    <section class="section-card" id="section-cognitive">
+      <h2>VII. Cognitive Frameworks for the Individual Clinician</h2>
+
+      <h3>A. Metacognitive Awareness: "Thinking About Thinking"</h3>
+      <p>Metacognition is the ability to reflect on one's own cognitive processes in real time. It allows clinicians to identify data limitations, recognize inconsistencies, monitor reasoning for biases, and acknowledge contextual influences on decision-making.<span class="evidence ev-nr">26,98</span></p>
+
+      <h3>B. Active Debiasing Strategies</h3>
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 6: Cognitive Forcing Functions for Debiasing</caption>
+          <thead>
+            <tr><th>Strategy</th><th>Mechanism</th><th>Target Bias</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>"What else could this be?"</strong></td>
+              <td>Forces consideration of alternatives</td>
+              <td>Premature closure, anchoring</td>
+            </tr>
+            <tr>
+              <td><strong>"What is the worst-case scenario?"</strong></td>
+              <td>Prioritizes ruling out dangerous diagnoses</td>
+              <td>Availability heuristic</td>
+            </tr>
+            <tr>
+              <td><strong>"What evidence would disprove my hypothesis?"</strong></td>
+              <td>Search for disconfirming data</td>
+              <td>Confirmation bias</td>
+            </tr>
+            <tr>
+              <td><strong>TWED Checklist</strong> (Threat, What else, Evidence, Dispositional factors)</td>
+              <td>Mnemonic forcing function for high-stress environments</td>
+              <td>Multiple biases</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>C. Reflective Practice &amp; Diagnostic Calibration</h3>
+      <p>Deliberate reflection on past clinical experiences — deconstructing decision-making processes, identifying biases, and considering alternative approaches — is essential for lifelong learning. Without it, clinicians may develop skewed confidence levels, leading to overconfidence (increasing premature closure) or under-confidence (increasing unnecessary testing).<span class="evidence ev-nr">21,94</span></p>
+
+      <h3>D. Simulation-Based Training</h3>
+      <p>Simulation accelerates diagnostic skill development in a safe environment. Arthroscopy simulators include dedicated diagnostic modules that present varied pathologies and score systematic inspection ability. Exposure to a vast library of virtual cases builds the pattern recognition foundational to expert System 1 thinking.<span class="evidence ev-ii">II</span></p>
+    </section>
+
+    <!-- Section VIII: Integrated Model -->
+    <section class="section-card" id="section-integrated">
+      <h2>VIII. An Integrated Model for Diagnostic Excellence</h2>
+
+      <p>Durable improvements require a <strong>dual-pronged approach</strong>: systemic interventions create conditions for better cognitive performance, while cognitive training equips clinicians to leverage those systems effectively.<span class="evidence ev-nr">17,23</span></p>
+
+      <div class="table-wrapper">
+        <table>
+          <caption>Table 7: Summary of Systematic and Cognitive Interventions</caption>
+          <thead>
+            <tr><th>Domain</th><th>Strategy</th><th>Target / Goal</th></tr>
+          </thead>
+          <tbody>
+            <tr><td rowspan="4"><strong>Systematic</strong></td><td>Clinical Decision Rules &amp; CPGs</td><td>Standardize care; reduce unnecessary testing; evidence-based diagnosis</td></tr>
+            <tr><td>Standardized Checklists &amp; Protocols</td><td>Prevent omissions; ensure consistent, high-quality imaging</td></tr>
+            <tr><td>Technology (CDSS &amp; AI)</td><td>Real-time alerts; improved image interpretation accuracy; optimized referrals</td></tr>
+            <tr><td>Culture of Safety (Debriefing, Feedback)</td><td>Learning from error; root cause identification; judgment calibration</td></tr>
+            <tr><td rowspan="4"><strong>Cognitive</strong></td><td>Metacognition</td><td>Self-awareness of reasoning flaws and biases in real time</td></tr>
+            <tr><td>Active Debiasing Strategies</td><td>Counteract anchoring, premature closure, confirmation bias</td></tr>
+            <tr><td>Reflective Practice</td><td>Analyze past cases; calibrate confidence; identify cognitive patterns</td></tr>
+            <tr><td>Simulation-Based Training</td><td>Accelerate pattern recognition and diagnostic skill acquisition safely</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Recommendations</h3>
+
+      <h4>For Clinical Practice</h4>
+      <ol>
+        <li>Adopt diagnostic "timeouts" with structured debiasing questions for complex cases</li>
+        <li>Champion adherence to evidence-based CDRs and standardized imaging protocols</li>
+        <li>Cultivate reflective practice — individually or in peer groups</li>
+        <li>In suspected ACS: maintain a low threshold for ICP monitoring using delta pressure (ΔP)</li>
+      </ol>
+
+      <h4>For Education</h4>
+      <ol>
+        <li>Integrate cognitive science (dual-process theory, biases, metacognition) into the curriculum</li>
+        <li>De-emphasize outdated mnemonics (e.g., "Five P's"); focus on earliest reliable signs</li>
+        <li>Implement proficiency-based simulation with diagnostic arthroscopy modules</li>
+        <li>Institute formal feedback on resident diagnostic performance</li>
+      </ol>
+
+      <h4>For Health Systems</h4>
+      <ol>
+        <li>Implement CDSS within the EHR; create reliable processes for critical result communication</li>
+        <li>Actively integrate CPGs into workflows via order sets, checklists, and dashboards</li>
+        <li>Enforce structured communication protocols (e.g., SBAR) for handoffs</li>
+        <li>Prioritize clinician well-being: reduce excessive workload, fatigue, and interruptions</li>
+      </ol>
+    </section>
+
+    <!-- References -->
+    <section class="section-card" id="section-references">
+      <h2>References</h2>
+      <p class="limitation-notice">Note: All references are derived from the source document. Citation numbers correspond to the original document's reference list.</p>
+      <ol class="references">
+        <li>[1] Overview of Diagnostic Error in Health Care. <em>Improving Diagnosis in Health Care</em>. NCBI Bookshelf.</li>
+        <li>[2] Diagnostic Errors. <em>Making Healthcare Safer III</em>. NCBI Bookshelf.</li>
+        <li>[3] Medical errors in orthopaedics: Results of an AAOS member survey. <em>J Bone Joint Surg Am</em>. 2009. PMID: 19255214.</li>
+        <li>[5] Characteristics and contributing factors of diagnostic error in surgery. Analysis of closed medico-legal cases in Canada. 2024. PMID: 38320779.</li>
+        <li>[6] Medical errors, affected sites, and adverse consequences among patients in the orthopaedic department: Does age matter? <em>PMC10914940</em>. 2024.</li>
+        <li>[8] Commonly Missed Orthopedic Problems. <em>Am Fam Physician</em>. 1998.</li>
+        <li>[9] Orthopedic Malpractice: When Bone and Joint Care Goes Wrong. 2025.</li>
+        <li>[12] Diagnostic errors in orthopedic surgery: evaluation of resident documentation. 2012. PMID: 22798636.</li>
+        <li>[13] Premature Closure: Anchoring Bias, Diagnosis Momentum, and related cognitive errors. <em>ResearchGate</em>.</li>
+        <li>[14] Cognitive Errors in Clinical Decision Making. <em>Merck Manuals Professional Edition</em>.</li>
+        <li>[16] The impact of system and diagnostic errors for medical litigation outcomes in orthopedic surgery. 2022. PMID: 34887150.</li>
+        <li>[17] Diagnostic errors: cognitive factors contributing in 74% and system factors in 65%. <em>ResearchGate</em>.</li>
+        <li>[20] Orthopedic Pearls &amp; Pitfalls. <em>Coastal Emergency Medicine Conference</em>. 2013.</li>
+        <li>[21] Diagnostic Errors. <em>AHRQ Patient Safety Network (PSNet)</em>.</li>
+        <li>[23] Recognizing Heuristics and Bias in Clinical Decision-Making. <em>ResearchGate</em>.</li>
+        <li>[24] Anchoring Bias With Critical Implications. <em>AHRQ PSNet</em>.</li>
+        <li>[26] Teaching metacognition in clinical decision-making using a novel mnemonic checklist. <em>PMC5165179</em>.</li>
+        <li>[31] Confirmation Bias and Restorative Justice in the Setting of a Missed Diagnosis. <em>Annex Publishers</em>.</li>
+        <li>[35] Rethinking the Paradigm of Using Ps for Diagnosing Compartment Syndrome. <em>PMC11968017</em>.</li>
+        <li>[37] Acute scaphoid fractures: guidelines for diagnosis and treatment. <em>PMC7047900</em>.</li>
+        <li>[41] Diagnosis of Occult Scaphoid Fractures: A Cost-Effectiveness Analysis. 2016. PMID: 26582616.</li>
+        <li>[42] Hip Fractures: Diagnosis and Management. <em>Am Fam Physician</em>. 2022.</li>
+        <li>[44] Tibial Plateau Fractures. <em>Orthobullets</em>.</li>
+        <li>[56] Achilles tendon rupture — Diagnosis and treatment. <em>Mayo Clinic</em>.</li>
+        <li>[59] The Pathophysiology, Diagnosis and Current Management of Acute Compartment Syndrome. <em>Open Orthop J</em>. 2014.</li>
+        <li>[63] Acute Compartment Syndrome. <em>StatPearls</em>. NCBI Bookshelf.</li>
+        <li>[64] Compartment Syndrome. <em>Merck Manual Professional Edition</em>.</li>
+        <li>[70] Clinical Decision Rules (including Ottawa Rules, NEXUS, Canadian C-Spine Rule).</li>
+        <li>[80] Checklists to reduce diagnostic errors. <em>AHRQ PSNet</em>.</li>
+        <li>[94] Core Elements of Hospital Diagnostic Excellence (DxEx). <em>CDC Patient Safety</em>.</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" role="complementary" aria-label="Interactive Clinical Decision Support">
+
+    <div class="sidebar-card">
+      <h3>🔬 ACS Decision Tool: Delta Pressure Calculator</h3>
+      <p style="font-size:0.82rem; color:var(--text-light); margin-bottom:1rem;">Based on ICP monitoring thresholds from source document (Section V).<span class="evidence ev-nr">63</span></p>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Intracompartmental Pressure (ICP)</span>
+          <span class="slider-value" id="icp-display">15 mmHg</span>
+        </div>
+        <span class="slider-unit">Range: 0–80 mmHg | Normal: 0–8 mmHg</span>
+        <input type="range" id="icp-slider" min="0" max="80" value="15" step="1" aria-label="Intracompartmental Pressure">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Diastolic Blood Pressure (DBP)</span>
+          <span class="slider-value" id="dbp-display">70 mmHg</span>
+        </div>
+        <span class="slider-unit">Range: 40–120 mmHg</span>
+        <input type="range" id="dbp-slider" min="40" max="120" value="70" step="1" aria-label="Diastolic Blood Pressure">
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-label">
+          <span>Delta Pressure (ΔP = DBP − ICP)</span>
+          <span class="slider-value" id="delta-display">55 mmHg</span>
+        </div>
+        <span class="slider-unit">Threshold: ΔP ≤ 30 mmHg → Fasciotomy indicated</span>
+        <div style="background:#e2e8f0; border-radius:3px; height:10px; overflow:hidden; margin-top:4px;">
+          <div id="delta-bar" style="height:100%; width:100%; background:var(--success); transition:all 0.3s; border-radius:3px;"></div>
+        </div>
+      </div>
+
+      <div class="recommendation-panel" id="rec-panel">
+        <h4>Clinical Recommendation</h4>
+        <div class="rec-status status-normal" id="rec-status">LOW RISK — Routine Monitoring</div>
+        <p id="rec-text">Intracompartmental pressure is within a range that suggests adequate tissue perfusion. Continue standard clinical monitoring per source guidelines.</p>
+      </div>
+
+      <p style="font-size:0.75rem; color:var(--text-light); margin-top:0.75rem; font-style:italic;">
+        <strong>Source thresholds:</strong> Normal ICP 0–8 mmHg; Absolute ICP &gt;30 mmHg suggestive of ACS; ΔP ≤30 mmHg indicates fasciotomy.<span class="evidence ev-nr">63</span>
+        <br><br>
+        <strong>Note:</strong> In hypotensive patients, ischemic damage may occur at lower absolute pressures. Serial monitoring recommended — a single normal reading does not rule out ACS.
+      </p>
+
+      <div class="btn-group">
+        <button class="btn btn-reset" id="btn-reset" aria-label="Reset sliders to default">↻ Reset</button>
+        <button class="btn btn-export" id="btn-export" aria-label="Copy recommendation to clipboard">📋 Copy Summary</button>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>🧭 Cognitive Bias Quick Reference</h3>
+      <p style="font-size:0.85rem; margin-bottom:0.75rem;"><strong>Before finalizing any diagnosis, ask:</strong></p>
+      <ol style="font-size:0.85rem; padding-left:1.2rem;">
+        <li style="margin-bottom:0.6rem;"><strong>"What else could this be?"</strong><br><span style="font-size:0.78rem; color:var(--text-light);">Counters premature closure &amp; anchoring</span></li>
+        <li style="margin-bottom:0.6rem;"><strong>"What is the worst I cannot miss?"</strong><br><span style="font-size:0.78rem; color:var(--text-light);">Prioritizes dangerous diagnoses</span></li>
+        <li style="margin-bottom:0.6rem;"><strong>"What would prove me wrong?"</strong><br><span style="font-size:0.78rem; color:var(--text-light);">Counters confirmation bias</span></li>
+        <li style="margin-bottom:0.6rem;"><strong>"Could my environment be affecting my thinking?"</strong><br><span style="font-size:0.78rem; color:var(--text-light);">Metacognitive check on fatigue, time pressure</span></li>
+      </ol>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>📖 Key Landmark Evidence</h3>
+      <p class="limitation-notice" style="margin-top:0;">Note: The source document does not cite traditional landmark RCTs. The studies below are the highest-level evidence identified in the source material.</p>
+      <ul style="font-size:0.82rem; padding-left:1.2rem;">
+        <li style="margin-bottom:0.75rem;"><strong>AAOS Member Survey (2009)</strong><br>53% of fellows observed errors; communication errors 24.7%. <span class="evidence ev-ii">II</span></li>
+        <li style="margin-bottom:0.75rem;"><strong>Medico-legal Litigation Analysis (2024)</strong><br>Diagnostic error OR 16.7 for losing lawsuit. 100% lost claims involved diagnostic/system error. <span class="evidence ev-ii">II</span></li>
+        <li style="margin-bottom:0.75rem;"><strong>Closed Claims Analysis — Canada (2024)</strong><br>Orthopedic surgery accounts for 12.4% of diagnostic error litigation. <span class="evidence ev-ii">II</span></li>
+        <li style="margin-bottom:0.75rem;"><strong>Age-Specific Error Analysis (2024)</strong><br>Pediatric: 44% upper limb injury errors. Older adults: insufficient inspection. <span class="evidence ev-ii">II</span></li>
+        <li style="margin-bottom:0.75rem;"><strong>Resident Neurovascular Exam Documentation Study</strong><br>House staff inability to consistently perform/record neurovascular exams in extremity trauma. <span class="evidence ev-nr">12</span></li>
+      </ul>
+    </div>
+
+  </aside>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  const icpSlider = document.getElementById('icp-slider');
+  const dbpSlider = document.getElementById('dbp-slider');
+  const icpDisplay = document.getElementById('icp-display');
+  const dbpDisplay = document.getElementById('dbp-display');
+  const deltaDisplay = document.getElementById('delta-display');
+  const deltaBar = document.getElementById('delta-bar');
+  const recPanel = document.getElementById('rec-panel');
+  const recStatus = document.getElementById('rec-status');
+  const recText = document.getElementById('rec-text');
+  const btnReset = document.getElementById('btn-reset');
+  const btnExport = document.getElementById('btn-export');
+  const toast = document.getElementById('toast');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function update() {
+    const icp = parseInt(icpSlider.value);
+    const dbp = parseInt(dbpSlider.value);
+    const delta = dbp - icp;
+
+    icpDisplay.textContent = icp + ' mmHg';
+    dbpDisplay.textContent = dbp + ' mmHg';
+    deltaDisplay.textContent = delta + ' mmHg';
+
+    // Delta bar
+    const pct = Math.max(0, Math.min(100, (delta / 80) * 100));
+    deltaBar.style.width = pct + '%';
+
+    // Recommendations
+    recPanel.classList.remove('danger-zone', 'warning-zone');
+
+    if (delta <= 30) {
+      deltaBar.style.background = 'var(--danger)';
+      deltaDisplay.style.color = 'var(--danger)';
+      recPanel.classList.add('danger-zone');
+      recStatus.className = 'rec-status status-critical';
+      recStatus.textContent = '⚠ HIGH RISK — Fasciotomy Indicated';
+      recText.innerHTML = '<strong>ΔP ≤ 30 mmHg</strong> indicates critically compromised tissue perfusion. Per source document guidelines, <strong>emergent fasciotomy is indicated</strong>.<span class="evidence ev-nr" title="Source [63]">63</span><br><br>' +
+        (icp > 30 ? '<strong>Note:</strong> Absolute ICP (' + icp + ' mmHg) also exceeds the 30 mmHg threshold. This is a critical finding.' : 'Even if absolute ICP is below 30 mmHg, the delta pressure criterion is met — proceed with fasciotomy.');
+    } else if (icp > 30) {
+      deltaBar.style.background = 'var(--warning)';
+      deltaDisplay.style.color = 'var(--warning)';
+      recPanel.classList.add('warning-zone');
+      recStatus.className = 'rec-status status-elevated';
+      recStatus.textContent = '⚡ ELEVATED — Close Monitoring Required';
+      recText.innerHTML = '<strong>Absolute ICP (' + icp + ' mmHg) exceeds 30 mmHg</strong>, which is suggestive of ACS. While ΔP (' + delta + ' mmHg) is above the fasciotomy threshold of 30, <strong>clinical correlation is essential</strong>. Consider serial monitoring and reassessment.<span class="evidence ev-nr" title="Source [63]">63</span>';
+    } else if (icp > 8) {
+      deltaBar.style.background = 'var(--warning)';
+      deltaDisplay.style.color = 'var(--accent-warm)';
+      recPanel.classList.add('warning-zone');
+      recStatus.className = 'rec-status status-elevated';
+      recStatus.textContent = '⚡ MILDLY ELEVATED — Monitor Closely';
+      recText.innerHTML = 'ICP (' + icp + ' mmHg) is above the normal range (0–8 mmHg) but below the 30 mmHg absolute threshold. ΔP (' + delta + ' mmHg) suggests adequate perfusion. <strong>Continue close clinical monitoring</strong>; reassess if symptoms change. In hypotensive patients, ischemic damage may occur at lower absolute pressures.<span class="evidence ev-nr" title="Source [63]">63</span>';
+    } else {
+      deltaBar.style.background = 'var(--success)';
+      deltaDisplay.style.color = 'var(--success)';
+      recStatus.className = 'rec-status status-normal';
+      recStatus.textContent = '✓ LOW RISK — Routine Monitoring';
+      recText.innerHTML = 'ICP (' + icp + ' mmHg) is within the normal range (0–8 mmHg). ΔP (' + delta + ' mmHg) suggests adequate tissue perfusion. <strong>Continue standard clinical monitoring</strong> per source guidelines. Remember: a single normal reading does NOT definitively rule out ACS — maintain clinical vigilance.<span class="evidence ev-nr" title="Source [63]">63</span>';
+    }
+  }
+
+  icpSlider.addEventListener('input', update);
+  dbpSlider.addEventListener('input', update);
+
+  btnReset.addEventListener('click', function() {
+    icpSlider.value = 15;
+    dbpSlider.value = 70;
+    update();
+    showToast('Sliders reset to defaults');
+  });
+
+  btnExport.addEventListener('click', function() {
+    const icp = parseInt(icpSlider.value);
+    const dbp = parseInt(dbpSlider.value);
+    const delta = dbp - icp;
+    const now = new Date().toISOString();
+
+    let riskLevel = 'LOW RISK';
+    if (delta <= 30) riskLevel = 'CRITICAL — Fasciotomy Indicated';
+    else if (icp > 30) riskLevel = 'ELEVATED — Close Monitoring';
+    else if (icp > 8) riskLevel = 'MILDLY ELEVATED — Monitor Closely';
+
+    const summary =
+      '=== ACS Delta Pressure Assessment ===\n' +
+      'Timestamp: ' + now + '\n' +
+      '------------------------------------\n' +
+      'Intracompartmental Pressure (ICP): ' + icp + ' mmHg\n' +
+      'Diastolic Blood Pressure (DBP): ' + dbp + ' mmHg\n' +
+      'Delta Pressure (ΔP = DBP − ICP): ' + delta + ' mmHg\n' +
+      '------------------------------------\n' +
+      'Risk Level: ' + riskLevel + '\n' +
+      '------------------------------------\n' +
+      'Source Thresholds:\n' +
+      '  • Normal ICP: 0–8 mmHg\n' +
+      '  • Absolute ICP >30 mmHg: Suggestive of ACS\n' +
+      '  • ΔP ≤30 mmHg: Emergent fasciotomy indicated\n' +
+      '------------------------------------\n' +
+      'Rationale: Document states ΔP (DBP−ICP) ≤30 mmHg is a widely accepted\n' +
+      'indication that perfusion is critically compromised and emergent\n' +
+      'fasciotomy is required. A single normal reading does NOT rule out ACS.\n' +
+      'Serial or continuous monitoring recommended if clinical suspicion persists.\n' +
+      '------------------------------------\n' +
+      'Source: Mitigating Diagnostic Error in Orthopedic Surgery, Section V.\n' +
+      'Ref: Acute Compartment Syndrome. StatPearls. NCBI Bookshelf [63].';
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(summary).then(function() {
+        showToast('✓ Assessment copied to clipboard');
+      }).catch(function() {
+        fallbackCopy(summary);
+      });
+    } else {
+      fallbackCopy(summary);
+    }
+  });
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showToast('✓ Assessment copied to clipboard');
+    } catch (e) {
+      showToast('Copy failed — please copy manually');
+    }
+    document.body.removeChild(ta);
+  }
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>

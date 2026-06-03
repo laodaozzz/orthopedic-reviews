@@ -1,0 +1,915 @@
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Locking Plate Failure in Proximal Humeral Fractures — Interactive Educational Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f8f9fb;--surface:#ffffff;--text:#1a1a2e;--text-secondary:#555770;
+    --accent:#1e5f8a;--accent-light:#e8f1f8;--accent-dark:#0d3a5c;
+    --danger:#c0392b;--danger-light:#fdecea;--danger-bg:#fff5f5;
+    --success:#1a7a4c;--success-light:#e8f5ee;
+    --warning:#b8860b;--warning-light:#fff8e1;
+    --badge-i:#1a7a4c;--badge-ii:#2e86c1;--badge-iii:#d4ac0d;--badge-iv:#e67e22;--badge-v:#c0392b;
+    --badge-na:#888;
+    --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04);
+    --shadow-lg:0 4px 20px rgba(0,0,0,.1);
+    --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+    --font-serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+    --sidebar-w:340px;
+    --header-h:64px;
+  }
+  html{font-size:16px;scroll-behavior:smooth}
+  body{font-family:var(--font-sans);background:var(--bg);color:var(--text);line-height:1.72;min-height:100vh}
+
+  /* HEADER */
+  .site-header{
+    position:sticky;top:0;z-index:100;height:var(--header-h);
+    background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+    color:#fff;display:flex;align-items:center;padding:0 2rem;
+    box-shadow:0 2px 12px rgba(0,0,0,.15);
+  }
+  .site-header h1{font-size:1.1rem;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+  .site-header small{display:block;font-size:.72rem;font-weight:400;opacity:.8;margin-top:2px}
+
+  /* LAYOUT */
+  .layout{
+    display:grid;
+    grid-template-columns:1fr var(--sidebar-w);
+    gap:2rem;
+    max-width:1440px;margin:0 auto;padding:2rem;
+  }
+
+  /* SIDEBAR */
+  .sidebar{
+    position:sticky;top:calc(var(--header-h) + 2rem);
+    align-self:start;
+    max-height:calc(100vh - var(--header-h) - 4rem);
+    overflow-y:auto;
+    background:var(--surface);border-radius:var(--radius);
+    box-shadow:var(--shadow-lg);padding:1.5rem;
+  }
+  .sidebar::-webkit-scrollbar{width:5px}
+  .sidebar::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+  .sidebar h2{font-size:.95rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:1rem;font-weight:700}
+  .slider-group{margin-bottom:1.6rem}
+  .slider-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+  .slider-group .value-display{
+    display:inline-block;font-size:.78rem;font-weight:700;
+    background:var(--accent-light);color:var(--accent-dark);
+    padding:2px 8px;border-radius:4px;margin-left:6px;
+  }
+  .slider-group .value-display.high-risk{background:var(--danger-light);color:var(--danger)}
+  .slider-group .value-display.low-risk{background:var(--success-light);color:var(--success)}
+  .slider-group input[type=range]{
+    width:100%;margin-top:.4rem;accent-color:var(--accent);height:6px;
+    -webkit-appearance:none;appearance:none;background:#ddd;border-radius:3px;outline:none;
+  }
+  .slider-group input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:var(--accent);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);
+  }
+  .slider-group .threshold-note{
+    font-size:.7rem;color:var(--text-secondary);margin-top:.3rem;font-style:italic;
+  }
+
+  /* RECOMMENDATION BOX */
+  .recommendation-box{
+    background:var(--accent-light);border-left:4px solid var(--accent);
+    border-radius:0 var(--radius) var(--radius) 0;padding:1rem;margin-top:1.2rem;
+    font-size:.82rem;line-height:1.6;
+  }
+  .recommendation-box.risk-high{background:var(--danger-bg);border-left-color:var(--danger)}
+  .recommendation-box.risk-moderate{background:var(--warning-light);border-left-color:var(--warning)}
+  .recommendation-box.risk-low{background:var(--success-light);border-left-color:var(--success)}
+  .recommendation-box h3{font-size:.88rem;margin-bottom:.5rem}
+  .recommendation-box .rec-text{font-size:.8rem;color:var(--text-secondary)}
+
+  .btn-row{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+  .btn{
+    flex:1;padding:.55rem .8rem;border:none;border-radius:6px;
+    font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;
+    font-family:var(--font-sans);
+  }
+  .btn-reset{background:#eee;color:var(--text)}
+  .btn-reset:hover{background:#ddd}
+  .btn-copy{background:var(--accent);color:#fff}
+  .btn-copy:hover{background:var(--accent-dark)}
+  .btn-copy.copied{background:var(--success)}
+
+  /* MAIN CONTENT */
+  .main-content{min-width:0}
+  .main-content h2{
+    font-family:var(--font-serif);font-size:1.6rem;font-weight:700;
+    color:var(--accent-dark);margin:2.5rem 0 1rem;
+    border-bottom:2px solid var(--accent-light);padding-bottom:.4rem;
+  }
+  .main-content h2:first-child{margin-top:0}
+  .main-content h3{
+    font-family:var(--font-serif);font-size:1.15rem;font-weight:600;
+    color:var(--text);margin:1.8rem 0 .7rem;
+  }
+  .main-content h4{font-size:.95rem;font-weight:600;color:var(--accent);margin:1.2rem 0 .5rem}
+  .main-content p{margin-bottom:1rem;font-size:.95rem}
+  .main-content ul,.main-content ol{margin:0 0 1rem 1.4rem}
+  .main-content li{margin-bottom:.45rem;font-size:.92rem}
+
+  /* EVIDENCE BADGE */
+  .ev{
+    display:inline-block;font-size:.62rem;font-weight:700;
+    padding:1px 6px;border-radius:3px;vertical-align:super;
+    margin-left:3px;letter-spacing:.03em;
+  }
+  .ev-i{background:var(--badge-i);color:#fff}
+  .ev-ii{background:var(--badge-ii);color:#fff}
+  .ev-iii{background:var(--badge-iii);color:#fff}
+  .ev-iv{background:var(--badge-iv);color:#fff}
+  .ev-v{background:var(--badge-v);color:#fff}
+  .ev-na{background:#e0e0e0;color:#555}
+
+  /* CALLOUT BOXES */
+  .callout{
+    border-radius:var(--radius);padding:1.2rem 1.4rem;margin:1.2rem 0;
+    font-size:.88rem;line-height:1.65;
+  }
+  .callout-info{background:#eaf4fb;border-left:4px solid var(--accent)}
+  .callout-warn{background:#fff8e1;border-left:4px solid var(--warning)}
+  .callout-danger{background:#fdecea;border-left:4px solid var(--danger)}
+  .callout strong{color:var(--text)}
+
+  /* TABLES */
+  .table-wrap{overflow-x:auto;margin:1.2rem 0;border-radius:var(--radius);box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:.84rem;background:var(--surface)}
+  caption{
+    text-align:left;font-weight:700;font-size:.9rem;padding:.8rem 1rem;
+    background:var(--accent);color:#fff;border-radius:var(--radius) var(--radius) 0 0;
+  }
+  th{
+    text-align:left;padding:.65rem .8rem;font-weight:600;font-size:.78rem;
+    text-transform:uppercase;letter-spacing:.04em;
+    background:var(--accent-light);color:var(--accent-dark);
+    border-bottom:2px solid var(--accent);
+  }
+  td{padding:.6rem .8rem;border-bottom:1px solid #eee;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#fafbfc}
+
+  /* REFERENCE LIST */
+  .ref-list{
+    counter-reset:ref;list-style:none;margin-left:0;padding:0;
+  }
+  .ref-list li{
+    counter-increment:ref;font-size:.78rem;color:var(--text-secondary);
+    padding:.4rem 0;border-bottom:1px solid #f0f0f0;line-height:1.5;
+  }
+  .ref-list li::before{
+    content:"["counter(ref)"]";font-weight:700;color:var(--accent);
+    margin-right:.5rem;
+  }
+  .ref-list a{color:var(--accent);word-break:break-all}
+
+  /* SECTION DIVIDER */
+  .divider{border:none;border-top:1px solid #e4e4e4;margin:2rem 0}
+
+  /* CITATION LINKS IN TEXT */
+  .cite{
+    color:var(--accent);font-weight:600;font-size:.82em;cursor:help;
+    text-decoration:none;border-bottom:1px dotted var(--accent);
+  }
+
+  /* FOOTNOTE STYLE ANNOTATIONS */
+  .annotation{
+    display:block;font-size:.72rem;color:var(--text-secondary);
+    font-style:italic;margin-top:.3rem;
+  }
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr;gap:1rem;padding:1rem}
+    .sidebar{
+      position:static;max-height:none;
+      order:-1;
+    }
+    .site-header{padding:0 1rem}
+    .site-header h1{font-size:.95rem}
+    .main-content h2{font-size:1.35rem}
+  }
+  @media(max-width:500px){
+    html{font-size:14px}
+    .btn-row{flex-direction:column}
+  }
+
+  /* PRINT */
+  @media print{
+    .sidebar,.site-header{display:none}
+    .layout{grid-template-columns:1fr;padding:0}
+    .main-content h2{break-after:avoid}
+    .table-wrap{break-inside:avoid}
+  }
+
+  /* KEY TAKEAWAY BOX */
+  .takeaway{
+    background:linear-gradient(135deg,#e8f1f8,#f0f7fb);
+    border:1px solid #c8dde8;border-radius:var(--radius);
+    padding:1.4rem;margin:1.5rem 0;
+  }
+  .takeaway h3{color:var(--accent-dark);margin-bottom:.6rem;font-size:1rem}
+  .takeaway ul{margin-left:1.2rem}
+  .takeaway li{font-size:.88rem;margin-bottom:.3rem}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <div>
+    <h1>Locking Plate Failure in Proximal Humeral Fractures</h1>
+    <small>Interactive Evidence-Based Educational Summary — Source: Comprehensive Research Report (2026)</small>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<main class="main-content" role="main" aria-label="Educational content on proximal humeral fracture fixation failure">
+
+<!-- SECTION 1: INTRODUCTION -->
+<h2>1. Introduction & Clinical Significance</h2>
+
+<p>Proximal humeral fractures (PHFs) represent a profound challenge in contemporary orthopedic traumatology, constituting approximately <strong>4–5% of all skeletal injuries</strong> and ranking as the <strong>third most common osteoporotic fracture</strong> in the elderly population, surpassed only by fractures of the distal radius and the proximal femur.<a href="#ref1" class="cite">1</a> While the majority of minimally displaced or nondisplaced fractures are effectively managed through conservative modalities, displaced and unstable two-, three-, and four-part fractures per the <strong>Neer classification</strong> routinely necessitate operative intervention.<a href="#ref5" class="cite">5</a></p>
+
+<p>Over the past two decades, the surgical paradigm has overwhelmingly shifted toward open reduction and internal fixation (ORIF) utilizing angular stable locking plates, with the <strong>Proximal Humerus Internal Locking System (PHILOS)</strong> emerging as the ubiquitous clinical standard.<a href="#ref6" class="cite">6</a> However, despite profound biomechanical advantages over conventional compression plates, locking plate fixation is associated with an <strong>unacceptably high rate of post-operative complications</strong>, ranging from <strong>17.9% to 49%</strong>, with subsequent reoperation rates approaching <strong>14–17.3%</strong>.<a href="#ref5" class="cite">5</a></p>
+
+<div class="callout callout-warn">
+  <strong>⚠ Key Clinical Reality:</strong> Failure manifests across a spectrum including progressive varus collapse, intra-articular screw penetration (screw cut-out), avascular necrosis (AVN) of the humeral head, and catastrophic plate breakage. Plate breakage, while less frequent, represents a catastrophic mechanical failure resulting from suboptimal fracture reduction, compromised bone biology, and cyclical material fatigue.<a href="#ref11" class="cite">11</a>
+</div>
+
+<p>Unlike conventional compression plates, locking plates function as <strong>internally placed external fixators</strong>, relying entirely on the threaded interface between the locking screw head and the plate itself. This design minimizes periosteal compression, preserves the periosteal blood supply, and provides superior pull-out strength in osteoporotic cancellous bone.<a href="#ref16" class="cite">16</a><a href="#ref13" class="cite">13</a></p>
+
+<!-- SECTION 2: EPIDEMIOLOGY & TAXONOMY -->
+<h2>2. Epidemiology & Taxonomy of Construct Failure</h2>
+
+<p>The clinical reality of locking plate osteosynthesis is heavily influenced by the fragility of the host bone and the complex, multidirectional forces exerted by the rotator cuff musculature. Complication rates escalate dramatically in multi-part, complex fractures among osteoporotic patients, reaching <strong>24–29.5%</strong>.<a href="#ref5" class="cite">5</a> Construct failures are stratified into biological, mechanical, and infectious etiologies, each possessing distinct pathophysiological origins and clinical timelines.<a href="#ref13" class="cite">13</a></p>
+
+<h3>2.1 Biological Failure</h3>
+<p>Biological failure is predominantly characterized by <strong>avascular necrosis (AVN)</strong> of the humeral head, occurring in <strong>3–23%</strong> of cases.<a href="#ref5" class="cite">5</a> The vascular supply to the proximal humerus is precarious, relying heavily on the ascending branch of the anterior circumflex humeral artery and the intraosseous anastomosis with the posterior circumflex humeral artery.</p>
+
+<p>Factors that correlate with AVN development include:<a href="#ref13" class="cite">13</a></p>
+<ul>
+  <li>Complete disruption of the medial capsular hinge</li>
+  <li>Severe comminution and displacement of the tuberosity segments</li>
+  <li>A short metaphyseal calcar segment</li>
+  <li>Initial degree of humeral head dislocation</li>
+</ul>
+
+<div class="callout callout-danger">
+  <strong>⚠ Secondary Mechanical Failure from AVN:</strong> As the subchondral bone resorbs and collapses due to osteonecrosis, the locking screws—rigidly fixed to the plate—do not collapse with the bone. Consequently, screws previously placed in an extra-articular position <strong>penetrate the joint space</strong>, leading to rapid destruction of the glenoid articular cartilage.<a href="#ref9" class="cite">9</a>
+</div>
+
+<h3>2.2 Mechanical Failure</h3>
+<p>Mechanical failure directly implicates the structural integrity of the implant and the quality of its bone purchase. The most frequent mechanical failure is <strong>varus collapse coupled with screw cut-out</strong>, reported at <strong>4.1–11.6%</strong>.<a href="#ref5" class="cite">5</a> Catastrophic implant breakage is reported in <strong>5–8%</strong> of all cases experiencing hardware failure.<a href="#ref5" class="cite">5</a></p>
+
+<h3>2.3 Infectious & Neurological Complications</h3>
+<p>Deep tissue infection occurs in approximately <strong>1.3–4%</strong> of cases.<a href="#ref9" class="cite">9</a> Neurological deficits—specifically axillary nerve neurapraxia or axonotmesis—manifest secondary to either the initial high-energy trauma or iatrogenic injury during plate positioning and deltoid retractor placement.<a href="#ref13" class="cite">13</a></p>
+
+<!-- TABLE 1: COMPLICATION PROFILE -->
+<div class="table-wrap">
+<table>
+  <caption>Table 1. Modes of Complication Following Locking Plate Fixation of Proximal Humeral Fractures</caption>
+  <thead>
+    <tr>
+      <th>Mode of Complication</th>
+      <th>Estimated Incidence</th>
+      <th>Primary Underlying Pathomechanism</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Varus Collapse / Malunion</strong></td>
+      <td>16.0–33.0%</td>
+      <td>Absence of medial cortical support; early cyclical loading overcoming bone-implant interface friction.<a href="#ref9" class="cite">9</a></td>
+    </tr>
+    <tr>
+      <td><strong>Avascular Necrosis (AVN)</strong></td>
+      <td>3.0–23.0%</td>
+      <td>Ischemic disruption of anterior/posterior circumflex arteries; head dislocation; extensive soft tissue stripping.<a href="#ref5" class="cite">5</a></td>
+    </tr>
+    <tr>
+      <td><strong>Screw Cut-out / Penetration</strong></td>
+      <td>4.1–11.6%</td>
+      <td>Varus settling of the osteoporotic head around rigid, fixed-angle locking screws.<a href="#ref5" class="cite">5</a></td>
+    </tr>
+    <tr>
+      <td><strong>Implant Breakage</strong></td>
+      <td>5.0–8.0%</td>
+      <td>Low-cycle fatigue failure driven by cantilever bending forces over an unsupported fracture gap.<a href="#ref5" class="cite">5</a></td>
+    </tr>
+    <tr>
+      <td><strong>Deep Infection</strong></td>
+      <td>1.3–4.0%</td>
+      <td>Surgical contamination; post-operative hematoma; compromised host immunity.<a href="#ref9" class="cite">9</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- SECTION 3: BIOMECHANICAL & METALLURGICAL ETIOLOGY -->
+<h2>3. Biomechanical & Metallurgical Etiology of Plate Breakage</h2>
+
+<p>Catastrophic breakage of a titanium proximal humeral locking plate is rarely the result of a single acute traumatic overload. Rather, it is almost universally a <strong>classic fatigue failure</strong> caused by repetitive, sub-yield cyclical loading.<a href="#ref11" class="cite">11</a> The trajectory of a proximal humerus fracture towards union or failure is fundamentally a <strong>race between biological bone healing and the mechanical fatigue life of the implant</strong>.</p>
+
+<h3>3.1 Cantilever Bending Pathomechanics</h3>
+<p>In a healthy, intact proximal humerus, joint reaction forces and muscle vector loads are transmitted smoothly down the medial cortical column. Following a complex fracture with medial void or severe metaphyseal comminution, if the surgeon fails to reconstruct this medial buttress, a devastating phenomenon known as <strong>cantilever bending</strong> occurs.<a href="#ref8" class="cite">8</a></p>
+
+<p>In this scenario, the humeral head is anchored to the superior portion of the plate via locking screws, while the intact shaft is anchored to the inferior portion. Without a competent medial bony hinge, every elevation of the arm creates a severe bending moment focused entirely on the unsupported titanium segment bridging the fracture gap.<a href="#ref8" class="cite">8</a></p>
+
+<h3>3.2 Metallurgical Retrieval Analysis</h3>
+<p>Retrieval analyses using optical microscopy and scanning electron microscopy (SEM) of fractured PHILOS plates have mapped the precise morphology of failures. Breakages overwhelmingly occur at <strong>"Section E"</strong>—the critical transition zone between the wider, multi-hole proximal spatulated section and the narrower distal shaft section.<a href="#ref11" class="cite">11</a></p>
+
+<p>This specific region contains <strong>two horizontally adjacent combi-holes</strong>, which dramatically reduce the cross-sectional area of solid titanium, decreasing the plate's area moment of inertia and creating a profound structural stress riser.<a href="#ref11" class="cite">11</a></p>
+
+<div class="callout callout-info">
+  <strong>🔬 Fatigue Failure Morphology:</strong> Microscopic inspection consistently reveals a "globular waved structure" characteristic of fatigue failure. Initial crack origination occurs at the burnished peripheral edges of empty screw holes—the areas of maximum tensile strain. Classic fatigue striations propagate inward until sudden, catastrophic macroscopic failure occurs, marked by ductile dimples.<a href="#ref11" class="cite">11</a>
+</div>
+
+<h3>3.3 Finite Element Analysis & Screw Optimization</h3>
+<p>Computational modeling via <strong>Finite Element Analysis (FEA)</strong> demonstrates that the number of cycles to failure correlates logarithmically with the average compressive principal strain surrounding the proximal locking screws.<a href="#ref29" class="cite">29</a> Optimized, divergent screw trajectories significantly lower peri-implant bone strain and create a more uniform von Mises stress distribution, theoretically mitigating the risk of cyclic cut-out and delaying fatigue breakage onset.<a href="#ref15" class="cite">15</a></p>
+
+<h3>3.4 Material Science Comparison</h3>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 2. Biomechanical Comparison of Plate Materials for Proximal Humeral Fixation</caption>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Titanium (Ti-6Al-4V)</th>
+      <th>Stainless Steel</th>
+      <th>PEEK (Carbon-Fiber Reinforced)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Modulus of Elasticity</strong></td>
+      <td>~110 GPa (closer to bone)</td>
+      <td>~190 GPa (very stiff)</td>
+      <td>~18 GPa (mirrors cortical bone)</td>
+    </tr>
+    <tr>
+      <td><strong>Stress Shielding</strong></td>
+      <td>Low—allows physiological load transfer</td>
+      <td>High—transfers maximal stress to bone-implant interface</td>
+      <td>Theoretically minimal</td>
+    </tr>
+    <tr>
+      <td><strong>Fatigue Resistance</strong></td>
+      <td>Good but documented fatigue failures</td>
+      <td>Superior axial/torsional strength</td>
+      <td><strong>Poor</strong> — load to failure: 191 N vs. 286 N (Ti)<a href="#ref32" class="cite">32</a></td>
+    </tr>
+    <tr>
+      <td><strong>Osseointegration</strong></td>
+      <td>Excellent; highly favorable</td>
+      <td>Good but higher pull-out rates in osteoporotic bone</td>
+      <td>Unknown long-term; excessive interfacial motion</td>
+    </tr>
+    <tr>
+      <td><strong>Clinical Status</strong></td>
+      <td><strong>Gold standard</strong><a href="#ref31" class="cite">31</a></td>
+      <td>Less desirable in geriatric osteoporotic population<a href="#ref31" class="cite">31</a></td>
+      <td>Under investigation; biomechanically insufficient for PHF<a href="#ref32" class="cite">32</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- SECTION 4: RISK FACTORS -->
+<h2>4. Patient-Specific Risk Factors & Radiographic Predictors</h2>
+
+<h3>4.1 Demographic & Systemic Comorbidities</h3>
+<p>Advanced chronological age and severely diminished bone mineral density (osteoporosis) remain the most profound demographic predictors of failure.<a href="#ref23" class="cite">23</a></p>
+
+<p>Key systemic risk factors identified through multivariable regression analyses include:<a href="#ref36" class="cite">36</a><a href="#ref37" class="cite">37</a></p>
+<ul>
+  <li><strong>Diabetes mellitus:</strong> OR 4.36 (95% CI 1.23–16.78; p = 0.025) — impairs microvascular perfusion and osteoblastic differentiation</li>
+  <li><strong>Alcohol consumption & smoking:</strong> Consistently linked to nonunion and delayed union through vasoconstriction and cellular toxicity</li>
+  <li><strong>BMI ≥ 30 kg/m²:</strong> Correlates with elevated complication rates due to exponentially greater gravitational torque during rehabilitation</li>
+</ul>
+
+<h3>4.2 Fracture Morphology</h3>
+<p>Three- and four-part fractures, particularly those involving a head-split component or true fracture-dislocation, inherently disrupt the medial hinge and strip the periosteal blood supply.<a href="#ref6" class="cite">6</a> The most significant anatomical predictor of catastrophic mechanical failure is the <strong>loss of the medial calcar support</strong>.<a href="#ref8" class="cite">8</a> Clinical studies confirm that medial cortical translation exceeding <strong>5 mm</strong> significantly heightens the risk of secondary displacement and implant failure (OR 4.70, p = 0.039).<a href="#ref36" class="cite">36</a></p>
+
+<h3>4.3 Critical Radiographic Parameters</h3>
+
+<div class="callout callout-danger">
+  <strong>📋 The Triad of Failure Predictors:</strong> Orthopedic trauma literature identifies three critical post-operative radiographic parameters that serve as highly reliable predictors of future construct failure.<a href="#ref23" class="cite">23</a> Use the <strong>interactive sliders in the sidebar</strong> to assess risk based on these parameters.
+</div>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 3. Radiographic Predictors of Construct Failure After Locking Plate Fixation</caption>
+  <thead>
+    <tr>
+      <th>Radiographic Predictor</th>
+      <th>Threshold Indicating High Risk</th>
+      <th>Biomechanical Implication</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Head-Shaft Angle (HSA)</strong></td>
+      <td>&lt; 125° (varus malreduction)</td>
+      <td>Increases cantilever bending moment on the plate; maximizes strain at Section E.<a href="#ref19" class="cite">19</a> Constant scores deteriorate with varus malposition exceeding 20°.<a href="#ref13" class="cite">13</a></td>
+    </tr>
+    <tr>
+      <td><strong>Humeral Head Height (HHH)</strong></td>
+      <td>&lt; 5 mm above greater tuberosity</td>
+      <td>Induces subacromial impingement; alters rotator cuff force vectors. RR = 2.0 (p = 0.048).<a href="#ref23" class="cite">23</a></td>
+    </tr>
+    <tr>
+      <td><strong>Screw-Calcar Distance</strong></td>
+      <td>≥ 12 mm</td>
+      <td>Fails to buttress the medial column; allows varus settling. RR = 2.1 (p = 0.03).<a href="#ref23" class="cite">23</a></td>
+    </tr>
+    <tr>
+      <td><strong>Medial Cortical Translation</strong></td>
+      <td>&gt; 5 mm</td>
+      <td>Complete loss of medial load sharing; transfers 100% of force to implant.<a href="#ref36" class="cite">36</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- SECTION 5: PREVENTION -->
+<h2>5. Surgical Execution & Technical Prevention Strategies</h2>
+
+<p>Prevention of implant failure begins meticulously in the operating room. Surgeons must adhere to strict principles: the locking plate must be utilized <strong>strictly as a neutralization device</strong>, not as a tool to effect reduction.<a href="#ref13" class="cite">13</a></p>
+
+<h3>5.1 Surgical Approaches</h3>
+<p>Comparative studies evaluating <strong>Minimally Invasive Plate Osteosynthesis (MIPO)</strong> via deltoid-split approach versus traditional ORIF demonstrate that traditional ORIF patients face a <strong>2.6× higher risk of soft tissue complications</strong> and a <strong>4.5× higher risk (95% CI 1.1–19.5) of nonunion</strong> compared to the MIPO cohort.<a href="#ref44" class="cite">44</a> MIPO preserves the delicate periosteal envelope, favoring robust callus formation. The MIPO group demonstrated an <strong>8.2× higher probability</strong> of achieving forward flexion above 90°.<a href="#ref44" class="cite">44</a></p>
+
+<h3>5.2 Reduction Principles</h3>
+<p>Anatomical or intentional valgus impaction reduction is critical. A "joy-stick" technique with temporary threaded pins allows gentle manipulation of the humeral head without crushing cancellous bone.<a href="#ref13" class="cite">13</a> <strong>Under no circumstances should the plate be applied to draw a varus head to the shaft via screw tightening</strong>, as this pre-loads the titanium plate with massive tensile stress before rehabilitation begins.</p>
+
+<h3>5.3 Tuberosity Fixation & Calcar Screws</h3>
+<p>Heavy, non-absorbable tension band sutures must be passed through the tendinous insertions of the supraspinatus, infraspinatus, and subscapularis, then tied into the suture eyelets of the PHILOS plate.<a href="#ref13" class="cite">13</a> This creates a tension-band effect that neutralizes the superior and posterior displacing forces of the rotator cuff.</p>
+
+<p>The strategic insertion of <strong>calcar screws</strong> into the inferomedial quadrant is highly protective. Crucially, the screw must physically purchase <strong>both the proximal head fragment and the distal shaft fragment</strong> to bridge the medial hinge effectively. Failure to achieve this dual-purchase results in a statistically significant higher rate of fixation failure.<a href="#ref26" class="cite">26</a></p>
+
+<!-- SECTION 6: AUGMENTATION -->
+<h2>6. Advanced Construct Augmentation Strategies</h2>
+
+<p>In clinical scenarios involving severe osteoporosis, metabolic bone disease, or significant metaphyseal comminution, standard locking plate fixation is often insufficient. Construct augmentation is <strong>absolutely mandatory</strong> to transform the biomechanical environment.<a href="#ref5" class="cite">5</a></p>
+
+<h3>6.1 Intramedullary Fibular Strut Allograft</h3>
+<p>When the medial hinge is completely devoid of host bone, insertion of an intramedullary structural graft—typically a fibular strut allograft—is heavily indicated.<a href="#ref3" class="cite">3</a> The rigid graft is placed within the medullary canal and countersunk superiorly into the cancellous void, effectively recreating an unyielding medial cortical buttress.<a href="#ref40" class="cite">40</a></p>
+
+<p>Finite element models suggest that inserting the fibular graft at an <strong>oblique 30° angle</strong> relative to the humeral shaft provides superior biomechanical advantages under traction and varus forces compared to a standard 0° vertical insertion.<a href="#ref3" class="cite">3</a></p>
+
+<div class="callout callout-info">
+  <strong>💡 Alternative Graft Option:</strong> Comparative biomechanical studies indicate that cancellous femoral or hip allografts offer statistically equivalent stiffness and maximum failure loads (stiffness: 174 for fibular vs. 157 for femoral, p = 0.97). Cancellous grafts present advantages regarding lower cost, higher availability, and significantly easier canal preparation should future revision to arthroplasty be necessary.<a href="#ref50" class="cite">50</a>
+</div>
+
+<h3>6.2 Cement Augmentation of Locking Screws</h3>
+<p>In geriatric patients with exceedingly low BMD, cement augmentation (CA) using PMMA or calcium phosphate cements injected through specially designed perforated locking screws significantly increases the surface area of the bone-implant interface.<a href="#ref21" class="cite">21</a></p>
+
+<p>A comprehensive meta-analysis demonstrated:<a href="#ref21" class="cite">21</a><a href="#ref53" class="cite">53</a></p>
+<ul>
+  <li><strong>Implant failure rate:</strong> 2.6% with cement augmentation vs. 14% without (OR 0.19, 95% CI 0.10–0.39, p &lt; 0.05)</li>
+  <li><strong>Overall complication rate:</strong> More than halved (OR 0.45)</li>
+  <li><strong>AVN rate:</strong> Statistically identical between cohorts (4.3% with cement vs. 4.2% without, OR 1.01), proving augmentation does not introduce new biological hazards</li>
+</ul>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 4. Construct Augmentation Strategies: Biomechanical Benefits & Clinical Impact</caption>
+  <thead>
+    <tr>
+      <th>Augmentation Strategy</th>
+      <th>Primary Biomechanical Benefit</th>
+      <th>Clinical Impact & Outcomes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Medial Calcar Screws</strong></td>
+      <td>Supports inferomedial quadrant; neutralizes varus bending forces.<a href="#ref13" class="cite">13</a></td>
+      <td>Decreases screw cut-out and plate fatigue. Considered <strong>mandatory</strong> in all complex fixations.<a href="#ref8" class="cite">8</a></td>
+    </tr>
+    <tr>
+      <td><strong>Intramedullary Fibular Strut</strong></td>
+      <td>Replaces absent medial cortex; shifts loading from cantilever bending to axial load sharing.<a href="#ref3" class="cite">3</a></td>
+      <td>Superior resistance to varus collapse; prevention of macroscopic hardware failure.<a href="#ref40" class="cite">40</a></td>
+    </tr>
+    <tr>
+      <td><strong>Screw Cement Augmentation</strong></td>
+      <td>Dramatically increases bone-implant interface area; prevents micro-motion in osteoporotic bone.<a href="#ref21" class="cite">21</a></td>
+      <td>Reduces mechanical implant failure from 14% to 2.6% without increasing AVN risk.<a href="#ref53" class="cite">53</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- SECTION 7: DIAGNOSTIC WORKUP -->
+<h2>7. Evaluation & Diagnostic Workup of Failed Osteosynthesis</h2>
+
+<p>When a patient presents with recurrent pain, sudden loss of shoulder motion, or radiographic evidence of implant failure, a highly systematic evaluation is mandated.<a href="#ref13" class="cite">13</a></p>
+
+<h4>History & Physical Examination</h4>
+<p><strong>Early failure</strong> (within weeks post-operatively) typically suggests catastrophic technical error—unrecognized varus malreduction, tuberosity fixation failure, or screws penetrating the joint immediately upon subsidence. <strong>Late failure</strong> (months to years later) points toward biological non-union, progressive AVN, or titanium implant fatigue.<a href="#ref13" class="cite">13</a></p>
+
+<h4>Advanced Imaging</h4>
+<p>Standard orthogonal radiographs confirm macroscopic failure, but a <strong>high-resolution CT scan with metallic artifact suppression algorithms and 3D reconstructions</strong> is mandatory for pre-operative planning. The CT provides critical data on glenoid cartilage erosion, residual bone stock, and tuberosity integrity—all of which dictate whether a joint-preserving revision or arthroplasty is feasible.<a href="#ref13" class="cite">13</a></p>
+
+<h4>Infectious Workup</h4>
+<p>Indolent, low-grade deep infections must be ruled out. <em>Cutibacterium acnes</em> is notorious for forming biofilms on orthopedic hardware. Aspirated fluid cultures <strong>must be held for a minimum of 14 days</strong> to accurately assess for <em>C. acnes</em> proliferation.<a href="#ref13" class="cite">13</a></p>
+
+<!-- SECTION 8: MANAGEMENT -->
+<h2>8. Management & Salvage of Failed Osteosynthesis</h2>
+
+<p>The management algorithm relies heavily on the patient's chronological and physiological age, functional demands, glenoid cartilage status, and tuberosity viability.<a href="#ref13" class="cite">13</a></p>
+
+<h3>8.1 Revision ORIF</h3>
+<p>Revision ORIF is reserved for a <strong>highly specific, narrow subset</strong> of patients: relatively young (&lt;60 years), highly active individuals presenting with aseptic non-union or isolated hardware failure, who maintain preserved glenohumeral articular cartilage, a functional rotator cuff, and healed tuberosities.<a href="#ref13" class="cite">13</a></p>
+
+<p>Technical demands include:<a href="#ref13" class="cite">13</a></p>
+<ul>
+  <li>Aggressive debridement of the non-union site down to punctate, bleeding bone</li>
+  <li>Extensive contracture release (complete capsular excision, subscapularis mobilization)</li>
+  <li>Frequent acceptance of significant intentional shortening for reliable metaphyseal-diaphyseal contact</li>
+  <li>A new, longer locking plate to span previously compromised screw holes</li>
+  <li>Voluminous autogenous bone grafting (typically iliac crest)</li>
+</ul>
+<p>Successful revision ORIF in highly selected patients can achieve union rates of <strong>up to 98%</strong> in specialized centers, restoring native shoulder kinematics.<a href="#ref13" class="cite">13</a></p>
+
+<h3>8.2 Hemiarthroplasty (Fading Paradigm)</h3>
+<p>Hemiarthroplasty relies entirely on concentric healing of the tuberosities around the implant. In the setting of failed ORIF, tuberosities are frequently severely comminuted, osteopenic, or resorbed. If they fail to heal, the patient suffers <strong>anterosuperior escape</strong>, pseudoparalysis, and abysmal outcomes.<a href="#ref34" class="cite">34</a> It is now generally reserved strictly for younger patients with unreconstructable cartilage but intact, reliable tuberosities.<a href="#ref13" class="cite">13</a></p>
+
+<h3>8.3 Reverse Total Shoulder Arthroplasty (RTSA): The Salvage Gold Standard</h3>
+
+<p>For the vast majority of older patients (&gt;65 years) or those with advanced AVN, severe metaphyseal bone loss, glenoid cartilage destruction, or tuberosity resorption, <strong>RTSA</strong> has firmly established itself as the definitive salvage workhorse.<a href="#ref13" class="cite">13</a></p>
+
+<p>The RTSA design reverses the articular concavity, profoundly medializing and inferiorizing the center of rotation. This dramatically increases the deltoid lever arm, allowing arm elevation <strong>independently of the rotator cuff or tuberosity healing</strong>.<a href="#ref2" class="cite">2</a></p>
+
+<div class="table-wrap">
+<table>
+  <caption>Table 5. Comparative Outcomes: ORIF vs. RTSA for Proximal Humeral Fractures</caption>
+  <thead>
+    <tr>
+      <th>Outcome Metric</th>
+      <th>ORIF Cohort</th>
+      <th>RTSA Cohort</th>
+      <th>Clinical Significance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Total Complication Rate</strong></td>
+      <td>~29.9%</td>
+      <td>~22.8%</td>
+      <td>ORIF faces significantly higher rates of biological AVN and mechanical hardware penetration.<a href="#ref17" class="cite">17</a></td>
+    </tr>
+    <tr>
+      <td><strong>Revision Surgery Rate</strong></td>
+      <td>17.3%</td>
+      <td>4.3%</td>
+      <td>RTSA significantly reduces the need for subsequent revision surgeries.<a href="#ref17" class="cite">17</a></td>
+    </tr>
+    <tr>
+      <td><strong>Constant-Murley Score</strong></td>
+      <td>Lower baseline</td>
+      <td>+13.4 points (p &lt; 0.001)</td>
+      <td>Superior functional satisfaction and daily utility with RTSA.<a href="#ref17" class="cite">17</a></td>
+    </tr>
+    <tr>
+      <td><strong>External Rotation (ROM)</strong></td>
+      <td>Superior</td>
+      <td>−9.25° (p = 0.020)</td>
+      <td>ORIF retains better external rotation due to preservation of native posterior cuff.<a href="#ref17" class="cite">17</a></td>
+    </tr>
+    <tr>
+      <td><strong>Primary Revision Etiology</strong></td>
+      <td>Screw cut-out, AVN, plate breakage</td>
+      <td>Periprosthetic fracture, instability</td>
+      <td>The fundamental nature of failures differs drastically.<a href="#ref17" class="cite">17</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h4>Primary vs. Revision RTSA Outcomes</h4>
+<p>Functional outcomes following <em>revision</em> RTSA are measurably inferior to <em>primary</em> RTSA. Institutional data shows a <strong>complication rate of 8%</strong> for salvage RTSA vs. <strong>5% for primary RTSA</strong>, including prosthetic dislocation and aseptic loosening.<a href="#ref61" class="cite">61</a> This deficit is largely attributed to soft tissue scarring, deltoid impairment from multiple approaches, and metaphyseal bone loss during hardware extraction.<a href="#ref13" class="cite">13</a></p>
+
+<h4>Technical Hazards of Revision to RTSA</h4>
+<ul>
+  <li>Severe proximal humeral bone loss and sclerotic diaphyseal canal after hardware removal<a href="#ref13" class="cite">13</a></li>
+  <li>Asymmetrical glenoid erosion from previous intra-articular screw penetration—requires meticulous 3D CT planning<a href="#ref22" class="cite">22</a></li>
+  <li>Contemporary evidence suggests long-stem press-fit or cemented implants <strong>without bulk allograft</strong> yield comparable outcomes while avoiding allograft-related complications<a href="#ref65" class="cite">65</a></li>
+  <li>Long-term prosthetic risks include scapular notching, periprosthetic fractures, joint instability, and metallosis<a href="#ref17" class="cite">17</a></li>
+</ul>
+
+<div class="takeaway">
+  <h3>🔑 Key Clinical Takeaways</h3>
+  <ul>
+    <li><strong>Locking plate breakage is a fatigue failure</strong>—a race between bone healing and implant endurance, not a single traumatic event.<a href="#ref11" class="cite">11</a></li>
+    <li><strong>Medial calcar support is non-negotiable</strong>—its absence transforms the plate into a load-bearing cantilever.<a href="#ref8" class="cite">8</a></li>
+    <li><strong>Post-operative HSA &lt;125°, HHH &lt;5 mm, and screw-calcar distance ≥12 mm</strong> are the critical radiographic predictors of failure.<a href="#ref23" class="cite">23</a></li>
+    <li><strong>Cement augmentation reduces implant failure from 14% to 2.6%</strong> without increasing AVN risk.<a href="#ref53" class="cite">53</a></li>
+    <li><strong>RTSA is the definitive salvage procedure</strong> for most patients with failed ORIF, offering superior complication and revision rates compared to revision ORIF.<a href="#ref17" class="cite">17</a></li>
+    <li><strong>Consider primary RTSA in the elderly</strong> with complex fracture patterns to preempt the devastating cascade of mechanical failure.</li>
+  </ul>
+</div>
+
+<!-- SECTION 9: REFERENCES -->
+<h2>9. References</h2>
+<ol class="ref-list" id="ref-list">
+  <li id="ref1">Biomechanical analysis of plate systems for proximal humerus fractures: a systematic literature review. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5923007/" target="_blank" rel="noopener">PMC5923007</a></li>
+  <li id="ref2">Reverse Shoulder Arthroplasty for Failed Operative Treatment of Proximal Humeral Fractures. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9163725/" target="_blank" rel="noopener">PMC9163725</a></li>
+  <li id="ref3">The Optimal Fibular Strut Bone Graft Fixation Angle for Unstable Proximal Humerus Fractures: A Finite Element Analysis. <em>MDPI</em>. <a href="https://www.mdpi.com/2306-5354/12/10/1078" target="_blank" rel="noopener">doi:10.3390/bioengineering12101078</a></li>
+  <li id="ref5">Fixation with Purpose: A Comprehensive Review of Locking Plate Outcomes in Displaced Proximal Humerus Fractures. <em>ResearchGate</em>.</li>
+  <li id="ref6">Treatment of Proximal Humerus Fractures using PHILOS Plate. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5583799/" target="_blank" rel="noopener">PMC5583799</a></li>
+  <li id="ref8">Locking Plate Fixation for Proximal Humerus Fractures. <em>Orthopedics</em>. <a href="https://journals.healio.com/doi/10.3928/01477447-20120123-41" target="_blank" rel="noopener">doi:10.3928/01477447-20120123-41</a></li>
+  <li id="ref9">A systematic review of locking plate fixation of proximal humerus fractures. <em>NCBI/NIH</em>. <a href="https://www.ncbi.nlm.nih.gov/books/NBK80704/" target="_blank" rel="noopener">NBK80704</a></li>
+  <li id="ref11">Catastrophic failure of a titanium locking plate in a proximal humeral fracture: case report and literature review. <em>ResearchGate</em>.</li>
+  <li id="ref13">Complications after ORIF of proximal humerus fractures—how to avoid and treat them. <em>AME Groups</em>. <a href="https://aoj.amegroups.org/article/view/5929/html" target="_blank" rel="noopener">AOJ Article 5929</a></li>
+  <li id="ref15">Locking Plates With Computationally Enhanced Screw Trajectories Provide Superior Biomechanical Fixation Stability. <em>Frontiers in Bioengineering and Biotechnology</em>. <a href="https://www.frontiersin.org/journals/bioengineering-and-biotechnology/articles/10.3389/fbioe.2022.919721/full" target="_blank" rel="noopener">doi:10.3389/fbioe.2022.919721</a></li>
+  <li id="ref16">Biomechanical comparison of a unique locking plate versus a standard plate for internal fixation of proximal humerus fractures in a cadaveric model. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/16919375/" target="_blank" rel="noopener">PMID 16919375</a></li>
+  <li id="ref17">Outcomes following reverse total shoulder arthroplasty vs operative fixation for proximal humerus fractures. <em>Annals of the Royal College of Surgeons</em>. <a href="https://publishing.rcseng.ac.uk/doi/10.1308/rcsann.2022.0120" target="_blank" rel="noopener">doi:10.1308/rcsann.2022.0120</a></li>
+  <li id="ref19">Outcomes of Non-Operative and Operative Treatment of Proximal Humerus Fractures: Current Concepts. <em>SurgiColl</em>.</li>
+  <li id="ref21">Cement augmentation of humeral head screws reduces early implant-related complications after locked plating. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5976700/" target="_blank" rel="noopener">PMC5976700</a></li>
+  <li id="ref22">Outcomes after salvage reverse shoulder arthroplasty for failed primary fixation or hemiarthroplasty for proximal humerus fractures. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10649504/" target="_blank" rel="noopener">PMC10649504</a></li>
+  <li id="ref23">Risk factors for loss of reduction following locked plate fixation of proximal humerus fractures. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/36424218/" target="_blank" rel="noopener">PMID 36424218</a></li>
+  <li id="ref26">The Effect of Calcar Screw Use in Fractures of the Proximal Humerus. <em>ResearchGate</em>.</li>
+  <li id="ref29">Fatigue failure of plated osteoporotic proximal humerus fractures is predicted by the strain around the proximal screws. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/28697401/" target="_blank" rel="noopener">PMID 28697401</a></li>
+  <li id="ref31">A systematic review of the use of titanium versus stainless steel implants for fracture fixation. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8568430/" target="_blank" rel="noopener">PMC8568430</a></li>
+  <li id="ref32">PEEK versus titanium locking plates for proximal humerus fracture fixation: a comparative biomechanical study. <em>SOGACOT</em>.</li>
+  <li id="ref34">Practice guidelines for proximal humeral fractures. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6494746/" target="_blank" rel="noopener">PMC6494746</a></li>
+  <li id="ref36">Purchase of both proximal and distal fragments by the calcar screw is critical when using a locking plate in proximal humeral fractures. <em>ResearchGate</em>.</li>
+  <li id="ref37">Complications of Locked Plating for Proximal Humeral Fractures in Active Patients in a Level One Trauma Center. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10078815/" target="_blank" rel="noopener">PMC10078815</a></li>
+  <li id="ref40">Locking plate fixation for proximal humerus fractures—when do I use a fibular strut? <em>AME Groups</em>.</li>
+  <li id="ref44">Proximal humerus fractures: comparison of functional outcome after MIPO versus ORIF. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9712325/" target="_blank" rel="noopener">PMC9712325</a></li>
+  <li id="ref50">A biomechanical comparison of fibular strut and femoral head allograft for augmented locking plate fixation. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12925068/" target="_blank" rel="noopener">PMC12925068</a></li>
+  <li id="ref53">Cement-augmented locked plate fixation proximal humerus fractures in elderly patients: a systematic review and meta-analysis. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11084043/" target="_blank" rel="noopener">PMC11084043</a></li>
+  <li id="ref61">Outcomes of reverse total shoulder arthroplasty as primary versus revision procedure for proximal humerus fractures. <em>PubMed</em>. <a href="https://pubmed.ncbi.nlm.nih.gov/26897312/" target="_blank" rel="noopener">PMID 26897312</a></li>
+  <li id="ref65">Management of complications after revision shoulder arthroplasty. <em>PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4596188/" target="_blank" rel="noopener">PMC4596188</a></li>
+</ol>
+
+<p class="annotation" style="margin-top:2rem;text-align:center;color:var(--text-secondary);font-size:.75rem">
+  Educational summary generated from the source document: "Comprehensive Analysis of Locking Plate Failure in Proximal Humeral Fractures" (2026). All data, thresholds, and evidence levels are derived exclusively from the provided source. For clinical decision-making, always integrate with institutional protocols and individual patient factors.
+</p>
+
+</main>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive risk assessment tools">
+  <h2>🎯 Interactive Risk Assessment</h2>
+  <p style="font-size:.75rem;color:var(--text-secondary);margin-bottom:1.2rem;line-height:1.5">
+    Adjust the sliders below to simulate post-operative radiographic parameters and receive real-time failure risk assessment. All thresholds derived from source document.<a href="#ref23" class="cite" style="font-size:.7rem">23</a>
+  </p>
+
+  <!-- SLIDER 1: Head-Shaft Angle -->
+  <div class="slider-group">
+    <label for="slider-hsa">
+      Head-Shaft Angle (HSA)
+      <span class="value-display" id="hsa-value">130°</span>
+    </label>
+    <input type="range" id="slider-hsa" min="100" max="160" value="130" step="1"
+           aria-label="Head-Shaft Angle in degrees" aria-describedby="hsa-desc">
+    <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--text-secondary)">
+      <span>100°</span><span>125° ⚠</span><span>140°</span><span>160°</span>
+    </div>
+    <p class="threshold-note" id="hsa-desc">Threshold: &lt;125° = high risk of varus malreduction. Native: 130–140°.<a href="#ref19" class="cite" style="font-size:.65rem">19</a><a href="#ref39" class="cite" style="font-size:.65rem">39</a></p>
+  </div>
+
+  <!-- SLIDER 2: Humeral Head Height -->
+  <div class="slider-group">
+    <label for="slider-hhh">
+      Humeral Head Height (HHH)
+      <span class="value-display" id="hhh-value">8 mm</span>
+    </label>
+    <input type="range" id="slider-hhh" min="0" max="20" value="8" step="0.5"
+           aria-label="Humeral Head Height in millimeters" aria-describedby="hhh-desc">
+    <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--text-secondary)">
+      <span>0 mm</span><span>5 mm ⚠</span><span>10 mm</span><span>20 mm</span>
+    </div>
+    <p class="threshold-note" id="hhh-desc">Threshold: &lt;5 mm = high risk (RR 2.0, p=0.048). Above greater tuberosity tip.<a href="#ref23" class="cite" style="font-size:.65rem">23</a></p>
+  </div>
+
+  <!-- SLIDER 3: Screw-Calcar Distance -->
+  <div class="slider-group">
+    <label for="slider-scd">
+      Screw-Calcar Distance
+      <span class="value-display" id="scd-value">8 mm</span>
+    </label>
+    <input type="range" id="slider-scd" min="0" max="25" value="8" step="0.5"
+           aria-label="Screw-Calcar Distance in millimeters" aria-describedby="scd-desc">
+    <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--text-secondary)">
+      <span>0 mm</span><span>12 mm ⚠</span><span>18 mm</span><span>25 mm</span>
+    </div>
+    <p class="threshold-note" id="scd-desc">Threshold: ≥12 mm = high risk (RR 2.1, p=0.03). Closer is better.<a href="#ref23" class="cite" style="font-size:.65rem">23</a></p>
+  </div>
+
+  <hr style="border:none;border-top:1px solid #eee;margin:1.2rem 0">
+
+  <!-- RECOMMENDATION BOX -->
+  <div class="recommendation-box risk-low" id="rec-box" aria-live="polite">
+    <h3 id="rec-title">🟢 Low Risk Profile</h3>
+    <div class="rec-text" id="rec-text">
+      All parameters within acceptable ranges. Continue standard rehabilitation protocol. Maintain vigilant radiographic surveillance at 6-week and 3-month intervals.
+    </div>
+  </div>
+
+  <!-- RISK SUMMARY -->
+  <div style="margin-top:1rem;padding:.8rem;background:#f7f8fa;border-radius:6px;font-size:.78rem">
+    <strong>Risk Factor Count:</strong> <span id="risk-count" style="color:var(--success);font-weight:700">0 / 3</span><br>
+    <strong>Overall Risk:</strong> <span id="risk-level" style="font-weight:700;color:var(--success)">LOW</span>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="btn-row">
+    <button class="btn btn-reset" id="btn-reset" aria-label="Reset all parameters to default values">⟲ Reset</button>
+    <button class="btn btn-copy" id="btn-copy" aria-label="Copy assessment to clipboard">📋 Copy Assessment</button>
+  </div>
+
+  <p style="font-size:.65rem;color:#999;margin-top:.8rem;text-align:center;line-height:1.4">
+    Thresholds based on source document radiographic predictors.<a href="#ref23" class="cite" style="font-size:.6rem">23</a> Clinical decisions should integrate with patient-specific factors and institutional protocols.
+  </p>
+</aside>
+
+</div><!-- /layout -->
+
+<script>
+(function(){
+  'use strict';
+
+  // Element references
+  const sliderHSA = document.getElementById('slider-hsa');
+  const sliderHHH = document.getElementById('slider-hhh');
+  const sliderSCD = document.getElementById('slider-scd');
+  const valHSA = document.getElementById('hsa-value');
+  const valHHH = document.getElementById('hhh-value');
+  const valSCD = document.getElementById('scd-value');
+  const recBox = document.getElementById('rec-box');
+  const recTitle = document.getElementById('rec-title');
+  const recText = document.getElementById('rec-text');
+  const riskCount = document.getElementById('risk-count');
+  const riskLevel = document.getElementById('risk-level');
+  const btnReset = document.getElementById('btn-reset');
+  const btnCopy = document.getElementById('btn-copy');
+
+  // Thresholds from source document
+  const THRESHOLDS = {
+    hsa: { highRisk: 125, label: 'Head-Shaft Angle' },
+    hhh: { highRisk: 5,  label: 'Humeral Head Height' },
+    scd: { highRisk: 12, label: 'Screw-Calcar Distance' }
+  };
+
+  function evaluate(){
+    const hsa = parseFloat(sliderHSA.value);
+    const hhh = parseFloat(sliderHHH.value);
+    const scd = parseFloat(sliderSCD.value);
+
+    // Update displays
+    valHSA.textContent = hsa + '°';
+    valHHH.textContent = hhh + ' mm';
+    valSCD.textContent = scd + ' mm';
+
+    // Determine risk factors
+    const risks = [];
+    let hsaRisk = false, hhhRisk = false, scdRisk = false;
+
+    if(hsa < THRESHOLDS.hsa.highRisk){ risks.push('varus malreduction (HSA &lt;125°)'); hsaRisk = true; }
+    if(hhh < THRESHOLDS.hhh.highRisk){ risks.push('insufficient head height (HHH &lt;5 mm)'); hhhRisk = true; }
+    if(scd >= THRESHOLDS.scd.highRisk){ risks.push('inadequate calcar engagement (distance ≥12 mm)'); scdRisk = true; }
+
+    // Update value display classes
+    valHSA.className = 'value-display ' + (hsaRisk ? 'high-risk' : 'low-risk');
+    valHHH.className = 'value-display ' + (hhhRisk ? 'high-risk' : 'low-risk');
+    valSCD.className = 'value-display ' + (scdRisk ? 'high-risk' : 'low-risk');
+
+    // Risk count
+    const count = risks.length;
+    riskCount.textContent = count + ' / 3';
+
+    // Determine overall risk
+    let level, color, title, text, boxClass;
+    if(count === 0){
+      level = 'LOW'; color = 'var(--success)';
+      title = '🟢 Low Risk Profile';
+      boxClass = 'risk-low';
+      text = 'All radiographic parameters are within acceptable ranges. The construct has a favorable biomechanical environment for bone healing. Continue standard rehabilitation protocol with early passive range of motion. Maintain vigilant radiographic surveillance at 6-week and 3-month intervals to confirm progressive union. <strong>Recommendation:</strong> Standard post-operative care per source guidelines.<a href="#ref13" class="cite" style="font-size:.72rem">13</a>';
+    } else if(count === 1){
+      level = 'MODERATE'; color = 'var(--warning)';
+      title = '🟡 Moderate Risk — 1 Factor Detected';
+      boxClass = 'risk-moderate';
+      text = '<strong>Identified risk:</strong> ' + risks[0] + '. ';
+      if(hsaRisk){
+        text += 'A varus HSA exponentially increases the mechanical moment arm acting on the plate\'s most vulnerable section (Section E).<a href="#ref19" class="cite" style="font-size:.72rem">19</a> <strong>Action:</strong> Consider close radiographic follow-up at 2-week intervals. Limit active elevation against resistance until early callus is confirmed. If progressive varus settling is observed, early discussion of augmentation (cement augmentation or fibular strut grafting) is warranted.<a href="#ref21" class="cite" style="font-size:.72rem">21</a>';
+      } else if(hhhRisk){
+        text += 'Insufficient head height induces subacromial impingement and alters rotator cuff mechanics.<a href="#ref23" class="cite" style="font-size:.72rem">23</a> <strong>Action:</strong> Modify rehabilitation to avoid overhead activities until union confirmed. Monitor for secondary displacement. May require revision if symptomatic impingement develops.';
+      } else {
+        text += 'Inadequate calcar screw engagement fails to buttress the medial column, allowing varus settling.<a href="#ref23" class="cite" style="font-size:.72rem">23</a> <strong>Action:</strong> Strongly consider augmentation with medial support screws or cement augmentation if osteoporotic. Restrict active elevation for 6–8 weeks. Serial radiographs at 2, 4, and 6 weeks.';
+      }
+    } else if(count === 2){
+      level = 'HIGH'; color = 'var(--danger)';
+      title = '🟠 High Risk — 2 Factors Detected';
+      boxClass = 'risk-high';
+      text = '<strong>Multiple risk factors identified:</strong> ' + risks.join('; ') + '. The construct is at significantly elevated risk of mechanical failure through cantilever bending and screw cut-out.<a href="#ref8" class="cite" style="font-size:.72rem">8</a> <strong>Recommended Actions:</strong><br>• Strictly limit all active and resisted shoulder motion<br>• Consider immediate augmentation: cement augmentation of proximal screws (reduces failure from 14% to 2.6%)<a href="#ref53" class="cite" style="font-size:.72rem">53</a><br>• If not yet post-op: revise reduction to achieve valgus/anatomical HSA and optimize calcar screw placement<br>• Biweekly radiographic surveillance<br>• Low threshold for revision ORIF with fibular strut allograft or conversion to RTSA if progressive failure observed';
+    } else {
+      level = 'CRITICAL'; color = '#8b0000';
+      title = '🔴 Critical Risk — All 3 Factors Detected';
+      boxClass = 'risk-high';
+      text = '<strong>All three radiographic predictors of failure are present simultaneously.</strong> This combination—varus malreduction, insufficient head height, and inadequate calcar engagement—creates the biomechanical scenario for inevitable catastrophic construct failure through unmitigated cantilever bending at Section E.<a href="#ref11" class="cite" style="font-size:.72rem">11</a><a href="#ref8" class="cite" style="font-size:.72rem">8</a> <strong>Urgent Actions:</strong><br>• <strong>Immediate</strong> cessation of all shoulder rehabilitation<br>• Urgent surgical revision strongly recommended within 2–4 weeks<br>• Revision options: (1) Revision ORIF with fibular strut allograft + cement augmentation in young patients with preserved cartilage; (2) Primary conversion to RTSA in patients &gt;65 years or with compromised tuberosities/cartilage<a href="#ref13" class="cite" style="font-size:.72rem">13</a><br>• If patient declines revision: brace immobilization with close 2-week radiographic follow-up, accepting high likelihood of eventual hardware failure';
+    }
+
+    recBox.className = 'recommendation-box ' + boxClass;
+    recTitle.innerHTML = title;
+    recText.innerHTML = text;
+    riskLevel.textContent = level;
+    riskLevel.style.color = color;
+    riskCount.style.color = count === 0 ? 'var(--success)' : 'var(--danger)';
+  }
+
+  // Event listeners
+  sliderHSA.addEventListener('input', evaluate);
+  sliderHHH.addEventListener('input', evaluate);
+  sliderSCD.addEventListener('input', evaluate);
+
+  // Reset
+  btnReset.addEventListener('click', function(){
+    sliderHSA.value = 130;
+    sliderHHH.value = 8;
+    sliderSCD.value = 8;
+    evaluate();
+  });
+
+  // Copy to clipboard
+  btnCopy.addEventListener('click', function(){
+    const hsa = sliderHSA.value;
+    const hhh = sliderHHH.value;
+    const scd = sliderSCD.value;
+    const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+
+    const risks = [];
+    if(parseFloat(hsa) < 125) risks.push('HSA < 125° (varus malreduction)');
+    if(parseFloat(hhh) < 5) risks.push('HHH < 5 mm (insufficient height)');
+    if(parseFloat(scd) >= 12) risks.push('Screw-Calcar ≥ 12 mm (inadequate calcar engagement)');
+
+    const riskLevelText = risks.length === 0 ? 'LOW' : risks.length === 1 ? 'MODERATE' : risks.length === 2 ? 'HIGH' : 'CRITICAL';
+
+    const text =
+      '══════════════════════════════════════════\n' +
+      'PROXIMAL HUMERAL FRACTURE — FAILURE RISK ASSESSMENT\n' +
+      '══════════════════════════════════════════\n' +
+      'Date: ' + now + '\n\n' +
+      'RADIOGRAPHIC PARAMETERS:\n' +
+      '  • Head-Shaft Angle (HSA): ' + hsa + '° (Threshold: <125°)\n' +
+      '  • Humeral Head Height (HHH): ' + hhh + ' mm (Threshold: <5 mm)\n' +
+      '  • Screw-Calcar Distance: ' + scd + ' mm (Threshold: ≥12 mm)\n\n' +
+      'RISK FACTORS IDENTIFIED: ' + risks.length + ' / 3\n' +
+      (risks.length > 0 ? '  • ' + risks.join('\n  • ') + '\n' : '  None — all within acceptable range\n') +
+      '\nOVERALL RISK LEVEL: ' + riskLevelText + '\n\n' +
+      'RECOMMENDATION:\n' +
+      recText.textContent.replace(/\s+/g, ' ').trim() + '\n\n' +
+      '──────────────────────────────────────────\n' +
+      'Source: "Comprehensive Analysis of Locking Plate Failure in\n' +
+      'Proximal Humeral Fractures" (2026).\n' +
+      'Thresholds from: Risk factors for loss of reduction following\n' +
+      'locked plate fixation [PMID 36424218].\n' +
+      'This assessment is for educational purposes only.\n' +
+      '══════════════════════════════════════════';
+
+    navigator.clipboard.writeText(text).then(function(){
+      btnCopy.textContent = '✅ Copied!';
+      btnCopy.classList.add('copied');
+      setTimeout(function(){
+        btnCopy.textContent = '📋 Copy Assessment';
+        btnCopy.classList.remove('copied');
+      }, 2000);
+    }).catch(function(){
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); btnCopy.textContent = '✅ Copied!'; }
+      catch(e){ btnCopy.textContent = '❌ Failed'; }
+      document.body.removeChild(ta);
+      setTimeout(function(){ btnCopy.textContent = '📋 Copy Assessment'; }, 2000);
+    });
+  });
+
+  // Initial evaluation
+  evaluate();
+})();
+</script>
+
+</body>
+</html>

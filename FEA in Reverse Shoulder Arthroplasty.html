@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computational Biomechanics &amp; FEA in RTSA — Evidence-Based Synthesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --accent: #e74c3c;
+  --accent-warm: #e67e22;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #5d6d7e;
+  --border: #dee2e6;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,0.12);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Sticky Header ── */
+.sticky-header {
+  position: sticky; top: 0; z-index: 1000;
+  background: linear-gradient(135deg, var(--primary) 0%, #1a3c5e 100%);
+  color: #fff; padding: 0.75rem 2rem;
+  display: flex; align-items: center; gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  flex-wrap: wrap;
+}
+.sticky-header h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem; font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.sticky-header .badge-count {
+  background: var(--accent);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* ── Layout ── */
+.page-wrapper {
+  max-width: 1400px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem; padding: 2rem;
+  align-items: start;
+}
+@media (max-width: 1024px) {
+  .page-wrapper { grid-template-columns: 1fr; }
+  .sidebar { order: -1; position: static !important; }
+}
+
+/* ── Main Content ── */
+main { min-width: 0; }
+
+main h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: var(--primary); margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--primary-light);
+  letter-spacing: -0.02em;
+}
+main h2:first-of-type { margin-top: 0; }
+
+main h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem; font-weight: 600;
+  color: var(--primary-light); margin: 1.8rem 0 0.75rem;
+}
+main h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--text); margin: 1.2rem 0 0.5rem;
+}
+
+main p { margin-bottom: 1rem; font-size: 1rem; }
+main ul, main ol { margin: 0.5rem 0 1.2rem 1.5rem; }
+main li { margin-bottom: 0.5rem; }
+main strong { color: var(--primary); }
+
+/* ── Evidence Badge ── */
+.ev-badge {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px;
+  vertical-align: middle; margin-left: 4px;
+  text-transform: uppercase; letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+.ev-i   { background: #1e8449; color: #fff; }
+.ev-ii  { background: #27ae60; color: #fff; }
+.ev-iii { background: #f39c12; color: #fff; }
+.ev-iv  { background: #e67e22; color: #fff; }
+.ev-v   { background: #95a5a6; color: #fff; }
+.ev-na  { background: #bdc3c7; color: #2c3e50; }
+
+/* ── Callout Boxes ── */
+.callout {
+  border-left: 4px solid; border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem; margin: 1.2rem 0;
+  font-size: 0.95rem;
+}
+.callout strong { display: block; margin-bottom: 0.25rem; font-family: 'Inter', sans-serif; }
+.callout-info    { border-color: var(--primary-light); background: #eaf2f8; }
+.callout-warning { border-color: var(--warning); background: #fef9e7; }
+.callout-success { border-color: var(--success);  background: #eafaf1; }
+.callout-danger  { border-color: var(--accent);   background: #fdedec; }
+
+/* ── Tables ── */
+.table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-family: 'Inter', sans-serif; font-size: 0.88rem;
+  box-shadow: var(--shadow); border-radius: var(--radius-lg); overflow: hidden;
+}
+caption {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; font-size: 0.92rem;
+  text-align: left; padding: 0.5rem 0;
+  color: var(--primary);
+}
+thead { background: var(--primary); color: #fff; }
+th { padding: 0.75rem 1rem; text-align: left; font-weight: 600; white-space: nowrap; }
+td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); }
+tbody tr:nth-child(even) { background: #f4f6f9; }
+tbody tr:hover { background: #eaf2f8; }
+.highlight-cell { background: #eafaf1 !important; font-weight: 600; }
+.danger-cell    { background: #fdedec !important; }
+
+/* ── Sidebar ── */
+.sidebar {
+  position: sticky; top: 60px;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.sidebar-card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+}
+.sidebar-card h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--primary); margin: 0 0 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.sidebar-card h3::before {
+  content: ''; display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ── Sliders ── */
+.slider-group { margin-bottom: 1.25rem; }
+.slider-group label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem; font-weight: 600;
+  color: var(--text); display: block;
+  margin-bottom: 0.3rem;
+}
+.slider-group .slider-row {
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.slider-group input[type=range] {
+  flex: 1; -webkit-appearance: none; appearance: none;
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(to right, var(--success) 0%, var(--warning) 50%, var(--accent) 100%);
+  outline: none;
+}
+.slider-group input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--primary);
+  border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+.slider-group input[type=range]::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--primary); border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3); cursor: pointer;
+}
+.slider-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--primary); min-width: 55px;
+  text-align: right;
+}
+.slider-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem; color: var(--text-light);
+  margin-top: 0.2rem; font-style: italic;
+}
+
+/* ── Recommendation Panel ── */
+.recommendation-box {
+  background: linear-gradient(135deg, #eaf2f8 0%, #d5e8f7 100%);
+  border-radius: var(--radius); padding: 1rem;
+  margin-top: 0.75rem; min-height: 100px;
+  border: 1px solid #b0cfe0;
+  transition: all 0.3s ease;
+}
+.recommendation-box h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--primary); margin: 0 0 0.5rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.recommendation-box p {
+  font-size: 0.88rem; line-height: 1.55;
+  color: var(--text); margin: 0;
+}
+.rec-status {
+  display: inline-block; padding: 2px 8px;
+  border-radius: 4px; font-family: 'Inter', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  text-transform: uppercase; margin-bottom: 0.4rem;
+}
+.rec-safe     { background: #d5f5e3; color: #1e8449; }
+.rec-caution  { background: #fdebd0; color: #b9770e; }
+.rec-danger   { background: #fadbd8; color: #c0392b; }
+
+/* ── Buttons ── */
+.btn-row { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  padding: 0.5rem 1rem; border: none; border-radius: 6px;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: #154360; }
+.btn-outline {
+  background: transparent; color: var(--primary);
+  border: 1.5px solid var(--primary);
+}
+.btn-outline:hover { background: var(--primary); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover { background: #1e8449; }
+
+/* ── References ── */
+.references-section {
+  background: var(--card); border-radius: var(--radius-lg);
+  padding: 2rem; margin-top: 2.5rem;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+}
+.references-section h2 { margin-top: 0; border-bottom-color: var(--border); }
+.references-section ol {
+  font-size: 0.85rem; color: var(--text-light);
+  columns: 2; column-gap: 2rem;
+}
+.references-section li { margin-bottom: 0.4rem; break-inside: avoid; }
+@media (max-width: 768px) {
+  .references-section ol { columns: 1; }
+}
+
+/* ── TOC ── */
+.toc {
+  background: var(--card); border-radius: var(--radius-lg);
+  padding: 1.5rem; margin-bottom: 2rem;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+}
+.toc h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-light); margin: 0 0 0.75rem;
+}
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin-bottom: 0.35rem; }
+.toc a {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem; color: var(--primary);
+  text-decoration: none; transition: color 0.2s;
+}
+.toc a:hover { color: var(--accent); }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: var(--primary); color: #fff;
+  padding: 0.75rem 1.5rem; border-radius: var(--radius);
+  font-family: 'Inter', sans-serif; font-size: 0.85rem;
+  font-weight: 500; box-shadow: var(--shadow-lg);
+  transform: translateY(120%); transition: transform 0.3s;
+  z-index: 9999;
+}
+.toast.show { transform: translateY(0); }
+
+/* ── Utilities ── */
+.text-muted { color: var(--text-light); font-size: 0.9rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mb-2 { margin-bottom: 1.5rem; }
+.section-divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+.tag {
+  display: inline-block; font-family: 'Inter', sans-serif;
+  font-size: 0.7rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 4px;
+  background: #eaf2f8; color: var(--primary);
+  margin-right: 4px;
+}
+.limitation-note {
+  background: #fef9e7; border: 1px dashed #f0c040;
+  border-radius: var(--radius); padding: 0.75rem 1rem;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem;
+  color: #7d6608; margin: 1rem 0;
+}
+
+/* ── Print ── */
+@media print {
+  .sidebar, .sticky-header, .btn-row { display: none !important; }
+  .page-wrapper { grid-template-columns: 1fr; }
+  body { font-size: 11pt; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ STICKY HEADER ═══════════════════════ -->
+<header class="sticky-header" role="banner">
+  <h1>Computational Biomechanics &amp; FEA in Reverse Total Shoulder Arthroplasty</h1>
+  <span class="badge-count">Evidence Synthesis 2017–2024</span>
+</header>
+
+<div class="page-wrapper">
+<!-- ═══════════════════════ MAIN CONTENT ═══════════════════════ -->
+<main role="main" aria-label="Primary article content">
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of contents">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#sec-intro">1. Evolution of RTSA Biomechanics &amp; the Role of FEA</a></li>
+      <li><a href="#sec-baseplate">2. Glenoid Baseplate Positioning &amp; Fixation Mechanics</a></li>
+      <li><a href="#sec-lateralization">3. Implant Design Biomechanics: Lateralization Strategies</a></li>
+      <li><a href="#sec-notching">4. Complication Mitigation: Scapular Notching &amp; Stress Kinetics</a></li>
+      <li><a href="#sec-screws">5. Bone Quality &amp; Peripheral Screw Configuration</a></li>
+      <li><a href="#sec-gaps">6. Research Gaps in RTSA Finite Element Modeling</a></li>
+      <li><a href="#sec-conclusions">7. Actionable Clinical Conclusions</a></li>
+      <li><a href="#sec-refs">References</a></li>
+    </ul>
+  </nav>
+
+  <!-- ──────── SECTION 1 ──────── -->
+  <section id="sec-intro">
+    <h2>1. Evolution of RTSA Biomechanics &amp; the Role of Computational Modeling</h2>
+
+    <p>Reverse Total Shoulder Arthroplasty (RTSA) represents arguably the most profound biomechanical paradigm shift in modern orthopedic surgery. Originally conceptualized by Paul Grammont in the late 1980s, the architectural philosophy of RTSA intentionally inverted the anatomical concavity and convexity of the native glenohumeral joint. <span class="ev-badge ev-iv">Level IV</span> <sup>[1]</sup></p>
+
+    <p>By placing a hemispherical glenosphere on the native glenoid and a concave polyethylene articular surface on the proximal humerus, the Grammont design fundamentally <strong>medialized and distalized the joint center of rotation (COR)</strong>. This geometric manipulation was engineered specifically to address the biomechanical catastrophe of cuff tear arthropathy:</p>
+
+    <ul>
+      <li><strong>Medial shift of COR</strong> &rarr; lengthens the deltoid muscle's lever arm.</li>
+      <li><strong>Distalization of humerus</strong> &rarr; pre-tensions deltoid fibers.</li>
+      <li>The deltoid autonomously recruits more muscle fibers, acting as the primary elevator of the arm and compensating for massive, irreparable rotator cuff deficiencies. <sup>[1]</sup></li>
+    </ul>
+
+    <div class="callout callout-warning">
+      <strong>⚠ Biomechanical Paradox of the Grammont Design</strong>
+      While revolutionary for cuff tear arthropathy, the non-anatomic mechanics introduced a unique profile of long-term complications: limited active external rotation (posterior cuff slackening), scapular notching (medial rim impingement against inferior scapular neck), and aseptic loosening (extreme deltoid forces on baseplate-bone interface). <sup>[4]</sup>
+    </div>
+
+    <h3>The Rise of Finite Element Analysis in RTSA</h3>
+
+    <p>To navigate these formidable clinical challenges, contemporary orthopedic research has heavily transitioned toward <strong>Finite Element Analysis (FEA)</strong> and the <strong>Finite Element Method (FEM)</strong>. These advanced computational engineering methodologies have become the gold standard for evaluating implant stability, quantifying stress shielding, and predicting interface micromotion without subjecting living patients to the inherent risks of <em>in vivo</em> trials. <span class="ev-badge ev-iv">Level IV</span> <sup>[6,8]</sup></p>
+
+    <p>High-level evidence published in the <em>Journal of Shoulder and Elbow Surgery (JSES)</em>, the <em>Journal of Biomechanics</em>, and <em>Clinical Biomechanics</em> has increasingly relied upon FEA models validated against stringent cadaveric testing protocols and ASTM F2028-14 standards. <sup>[8]</sup></p>
+
+    <div class="callout callout-info">
+      <strong>🔬 Critical Micromotion Threshold</strong>
+      The primary predictive metric for long-term survivorship of an uncemented RTSA glenoid baseplate is <strong>bone-implant micromotion</strong>. Biomechanical and histological consensus dictates that initial micromotion must remain strictly below <strong>150 µm</strong>. Maintaining micromotion below this threshold allows for osteoblastic bridging and rigid osseointegration into porous titanium or hydroxyapatite-coated surfaces. If micromotion exceeds 150 µm, the biological healing response defaults to fibrous non-union, culminating in aseptic loosening and complex revision. <sup>[11]</sup>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ──────── SECTION 2 ──────── -->
+  <section id="sec-baseplate">
+    <h2>2. Glenoid Baseplate Positioning &amp; Fixation Mechanics</h2>
+
+    <p>The initial time-zero stability of the glenoid baseplate is the most critical mechanical determinant of long-term RTSA survivorship. When a baseplate fails, the resulting micromotion and osteolysis destroy the dense subchondral bone of the glenoid face, making revision surgeries exceptionally difficult due to massive loss of structural bone stock. <sup>[14]</sup></p>
+
+    <h3>2.1 The Inferior Tilt Paradox: Impingement Avoidance vs. Primary Stability</h3>
+
+    <p>Conventional surgical dogma has strongly advocated positioning the glenoid baseplate flush with or slightly overhanging the inferior glenoid rim, coupled with <strong>intentional inferior tilt of 10–15 degrees</strong>. This was recommended to direct the medial rim of the humeral tray away from the scapular pillar during adduction, theoretically mitigating scapular notching. <span class="ev-badge ev-iv">Level IV</span> <sup>[16]</sup></p>
+
+    <p>However, advanced 3D FEA models have revealed a distinct and highly consequential <strong>biomechanical paradox</strong>:</p>
+
+    <div class="callout callout-danger">
+      <strong>🔴 Critical Finding — Chae et al.</strong>
+      FEA models constructed from cadaveric scapulae of females &gt;60 years demonstrated that <strong>10° inferior tilt fixation</strong> results in vastly greater relative micromotion and significantly higher focal bone stress compared to <strong>neutral (0°) tilt fixation</strong>. The mechanism: achieving inferior tilt requires <strong>eccentric glenoid reaming</strong>, which preferentially strips away dense subchondral bone plate, exposing weaker cancellous bone. This decreases total bone-to-screw contact area and catastrophically diminishes construct stability. <sup>[16]</sup>
+    </div>
+
+    <p>Zhang et al., published in <em>Clinical Biomechanics</em>, further validated this phenomenon: <span class="ev-badge iv">Level IV</span></p>
+    <ul>
+      <li>Anterior-posterior shear activities (e.g., pushing up from a chair) caused <strong>massive spikes in peak micromotions</strong> with inferior tilt. <sup>[10]</sup></li>
+      <li>Inferior tilt shifted the load vector superiorly, inducing severe <strong>stress shielding in inferior bone</strong>.</li>
+      <li>A predicted <strong>64.6% reduction in apparent bone density</strong> in the lateral-middle glenoid was observed over simulated postoperative time. <sup>[10]</sup></li>
+    </ul>
+
+    <p><strong>Evidence-Based Consensus:</strong> The mechanical and biological cost of eccentric reaming almost always outweighs the spatial benefits of inferior tilt. Contemporary evidence suggests targeting a <strong>neutral tilt</strong> to preserve dense subchondral cortical bone, relying on modular prosthetic design parameters (eccentric glenospheres or laterally offset humeral trays) to manage inferior impingement kinematics. <sup>[16]</sup></p>
+
+    <h3>2.2 Uncorrected Retroversion and the Mechanics of Aseptic Loosening</h3>
+
+    <p>Patients with severe glenohumeral osteoarthritis or long-standing cuff tear arthropathy frequently exhibit posterior glenoid wear (Walch B2 or B3 deformities). In anatomic TSA, uncorrected retroversion &gt;10° is a predictor of cemented component failure. Historically, it was assumed RTSA baseplates shared this intolerance, prompting aggressive asymmetric anterior reaming or structural bone grafts. <sup>[13,20]</sup></p>
+
+    <p>A landmark study by <strong>Friedman et al. (2021)</strong> in <em>Seminars in Arthroplasty: JSES</em> rigorously simulated varying retroversion angles (5°, 10°, 15°, 20°, 25°): <span class="ev-badge iv">Level IV</span> <sup>[13]</sup></p>
+
+    <ul>
+      <li>As retroversion increased, compressive stresses <strong>shifted posteriorly</strong> while decreasing anteriorly.</li>
+      <li>Maximum micromotion increased <strong>linearly</strong> with retroversion.</li>
+      <li>However, the critical finding: <strong>micromotion never exceeded the 150 µm threshold</strong>, even in a worst-case scenario combining 25° retroversion, smallest baseplate, and highly osteoporotic bone (Young's modulus 500 MPa). <sup>[13]</sup></li>
+    </ul>
+
+    <div class="callout callout-success">
+      <strong>✅ Clinical Implication</strong>
+      The biomechanical resilience of the RTSA baseplate to retroversion is attributed to its <strong>semi-constrained, locking-screw architecture</strong>, which transforms rotational shear into axial tension/compression along screw shafts. Surgeons can <strong>safely accept up to 25° uncorrected retroversion</strong> in primary RTSA without jeopardizing primary stability, preserving precious anterior bone stock. <sup>[13]</sup>
+    </div>
+
+    <h3>2.3 Central Element Morphology: Pegs vs. Screws</h3>
+
+    <p>The specific design of the central fixation element—smooth, HA-coated ingrowth peg vs. fully threaded compressive screw—plays a foundational role in neutralizing shear loads. <sup>[12]</sup></p>
+
+    <p>A rigorous half-fractional factorial design study by <strong>Torkan et al. (2022)</strong>, published in <em>JSES</em>, utilized both computational parameters and physical cadaveric-surrogate validation: <span class="ev-badge iv">Level IV</span> <sup>[12]</sup></p>
+
+    <!-- TABLE 1 -->
+    <div class="table-wrap">
+      <table>
+        <caption>Table 1: Effect of Central Element Morphology on Baseplate Micromotion (Adapted from Torkan et al. <sup>[12]</sup>)</caption>
+        <thead>
+          <tr>
+            <th>Central Design</th>
+            <th>Avg. Micromotion (Inferior)</th>
+            <th>Avg. Micromotion (Superior)</th>
+            <th>Key Finding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="danger-cell">
+            <td><strong>Central Peg (Unthreaded)</strong></td>
+            <td>138 ± 26.7 µm</td>
+            <td>123 ± 23.5 µm</td>
+            <td>Near threshold; high risk</td>
+          </tr>
+          <tr class="highlight-cell">
+            <td><strong>Central Screw (Threaded)</strong></td>
+            <td>30.1 ± 5.6 µm</td>
+            <td>36.2 ± 3.8 µm</td>
+            <td>Well below threshold; optimal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Key findings from Torkan et al.:</strong></p>
+    <ul>
+      <li>Central pegs generated <strong>358% greater micromotion</strong> across all peripheral screw zones compared to central screws. <sup>[12]</sup></li>
+      <li>Short central elements (13.5 mm) terminating in the cancellous vault generated <strong>328% more micromotion</strong> than long elements (23.5 mm) engaging the far medial cortical wall. <sup>[12]</sup></li>
+      <li><strong>Definitive recommendation:</strong> "Second cortex" engagement effectively neutralizes poor trabecular bone properties. Preoperative 3D planning should prioritize central screw length capable of breaching the dense medial scapular cortex. <sup>[12]</sup></li>
+    </ul>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ──────── SECTION 3 ──────── -->
+  <section id="sec-lateralization">
+    <h2>3. Implant Design Biomechanics: Lateralization Strategies</h2>
+
+    <p>The original Grammont prosthesis featured a highly medialized COR—mechanically brilliant for stability but functionally deficient: it slackens the residual rotator cuff, decreases external rotation resting tension, and causes mechanical impingement. To correct these deficits, the industry shifted aggressively toward <strong>"lateralized" designs</strong>. <span class="ev-badge ev-iv">Level IV</span> <sup>[1,2]</sup></p>
+
+    <h3>3.1 Bony Lateralization (BIO-RSA): Biomechanical Limits</h3>
+
+    <p>BIO-RSA involves harvesting autologous bone graft (often from the resected humeral head) and placing it between the reamed glenoid face and metallic baseplate, secured by an extended central peg. <sup>[1,28]</sup></p>
+
+    <p>An exhaustive FEA by <strong>Denard et al. (2017)</strong> in the <em>Journal of Orthopaedic Research</em> revealed severe limitations: <span class="ev-badge iv">Level IV</span> <sup>[29]</sup></p>
+
+    <ul>
+      <li>A 5 mm bone graft increased maximum stress by <strong>137%</strong> vs. non-grafted baseline.</li>
+      <li>A 10 mm graft increased stress by <strong>187%</strong>; a 15 mm graft by <strong>196%</strong>.</li>
+      <li>Micromotion at the host-graft interface <strong>exceeded the 150 µm threshold at just 5 mm offset</strong>. <sup>[4]</sup></li>
+    </ul>
+
+    <div class="callout callout-danger">
+      <strong>🔴 Critical Limitation of BIO-RSA</strong>
+      Lateralizing &gt;5 mm via BIO-RSA places the construct at unacceptably high risk for fibrous non-union, early graft resorption, and catastrophic baseplate failure. The bone graft acts as a destructive mechanical lever arm during the critical primary healing phase. <sup>[4,29]</sup>
+    </div>
+
+    <h3>3.2 Metallic Lateralization: Superior Stress Distribution</h3>
+
+    <p>Metallic/prosthetic lateralization utilizes augmented baseplates or lateralized glenospheres built from high-strength titanium or cobalt-chromium alloys, entirely bypassing the vulnerable biological healing phase. <sup>[2]</sup></p>
+
+    <!-- TABLE 2 -->
+    <div class="table-wrap">
+      <table>
+        <caption>Table 2: Bony vs. Metallic Lateralization — Stress &amp; Displacement Dynamics (FEA Model, adapted from Denard et al. <sup>[4,29]</sup>)</caption>
+        <thead>
+          <tr>
+            <th>Modality</th>
+            <th>Magnitude</th>
+            <th>Max Stress Increase</th>
+            <th>Micromotion Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="danger-cell">
+            <td><strong>Bony (BIO-RSA)</strong></td>
+            <td>5 mm</td>
+            <td>+137%</td>
+            <td>Threshold limit reached (~150 µm)</td>
+          </tr>
+          <tr class="danger-cell">
+            <td><strong>Bony (BIO-RSA)</strong></td>
+            <td>10 mm</td>
+            <td>+187%</td>
+            <td>High risk of instability/graft resorption</td>
+          </tr>
+          <tr class="highlight-cell">
+            <td><strong>Metallic (Baseplate/Glenosphere)</strong></td>
+            <td>10–15 mm</td>
+            <td>Moderate increase</td>
+            <td>Stable fixation maintained below threshold</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>The divergence in performance is explained by material properties: titanium alloys (Young's modulus ~110 GPa) vastly outperform porous cancellous bone graft (~0.1–2.0 GPa). Rigid metallic constructs distribute bending moments evenly into cortical walls via locking screws without internal deformation. <sup>[27]</sup></p>
+
+    <div class="callout callout-warning">
+      <strong>⚠ Acromial Stress Fracture Risk with Extreme Lateralization</strong>
+      When lateralization approaches ≥10 mm, the center of gravity shifts outward, exponentially increasing deltoid force requirements (from 61% to 70% of body weight). Computational models suggest a <strong>17.2% increase in acromial stress</strong> secondary to 10 mm lateralization. Optimal metallic lateralization should be carefully titrated between <strong>6–8 mm</strong>, combined with appropriate humeral inclination angles. <sup>[21,33]</sup>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ──────── SECTION 4 ──────── -->
+  <section id="sec-notching">
+    <h2>4. Complication Mitigation: Scapular Notching &amp; Stress Kinetics</h2>
+
+    <p>Scapular notching remains the most frequently cited complication unique to reverse shoulder architecture. Historical incidence rates range from <strong>44% to 96%</strong> depending on implant design (particularly medialized Grammont systems). Notching is caused by repetitive physical impingement of the medial rim of the humeral polyethylene liner against the native bone during adduction and extension. <span class="ev-badge ev-iv">Level IV</span> <sup>[6]</sup></p>
+
+    <h3>4.1 The Nerot-Sirveaux Classification</h3>
+    <ul>
+      <li><strong>Grade 1:</strong> Bony erosion confined to the scapular pillar.</li>
+      <li><strong>Grade 2:</strong> Erosion reaching the inferior fixation screw level.</li>
+      <li><strong>Grade 3:</strong> Erosion extending past the inferior screw, exposing hardware.</li>
+      <li><strong>Grade 4:</strong> Erosion burrowing beneath the undersurface of the baseplate. <sup>[6]</sup></li>
+    </ul>
+
+    <h3>4.2 Impact of Severe Notching on Glenoid Fixation</h3>
+
+    <p>A widespread hypothesis suggested Grade 3–4 notching fundamentally compromises fixation. However, <strong>Zhang et al. (2020)</strong> in <em>JSES</em> constructed an advanced 3D FEA model simulating dynamic arm motions with a Sirveaux Grade 4 notch: <span class="ev-badge iv">Level IV</span> <sup>[36]</sup></p>
+
+    <div class="callout callout-info">
+      <strong>🔬 Counterintuitive FEA Finding</strong>
+      Scapular notching, even at Grade 4, exerts <strong>virtually no significant impact</strong> on primary stability or overall micromotion of the glenoid baseplate. As the humeral cup eroded inferior bone, the model detected profound load redistribution: peak stress localized on the inferior screw cap reached <strong>172 MPa</strong>—still far below the fatigue yield strength of Ti-6Al-4V titanium alloy (~600–800 MPa). The rigid locking mechanism maintains absolute construct integrity despite complete absence of inferior bony support. <sup>[36,37]</sup>
+    </div>
+
+    <h3>4.3 Polyethylene Tribology: The True Danger of Notching</h3>
+
+    <p>If hardware remains stable, why does high-grade notching correlate with worsening outcomes? FEA wear simulations reveal the true danger lies in <strong>destruction of the polyethylene liner</strong>: <span class="ev-badge iv">Level IV</span> <sup>[38]</sup></p>
+
+    <ul>
+      <li>The soft UHMWPE cup edge is repeatedly gouged by hard cortical bone.</li>
+      <li>The structural defect decreases congruent contact area, causing contact stresses to <strong>spike sharply</strong>.</li>
+      <li>Accelerated volumetric wear generates massive UHMWPE debris into the joint space.</li>
+      <li>Macrophage-mediated inflammatory response triggers <strong>aggressive osteolysis</strong> around both components. <sup>[38]</sup></li>
+    </ul>
+
+    <p><strong>Mitigation strategy via FEA:</strong> Novel "notched" or chamfered insert designs, which intentionally remove the medial rim of the polyethylene, permit an additional <strong>11.2° of adduction</strong> before impingement and reduce peak von Mises stress within the liner from <strong>22.4 kPa to 4.7 kPa</strong>, effectively neutralizing the tribological wear cycle. <sup>[40]</sup></p>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ──────── SECTION 5 ──────── -->
+  <section id="sec-screws">
+    <h2>5. Bone Quality &amp; Peripheral Screw Configuration in Osteoporotic Models</h2>
+
+    <p>RTSA is predominantly performed in an elderly demographic with varying degrees of osteoporosis. While the central element resists shear translation, the peripheral screw configuration dictates the construct's ability to resist immense bending moments from the deltoid during active abduction. <sup>[41]</sup></p>
+
+    <h3>5.1 Divergent vs. Convergent Trajectories</h3>
+
+    <p>Peripheral screws can be oriented parallel, convergently, or divergently. FEA <strong>overwhelmingly and unequivocally declares divergent screw trajectories</strong> as biomechanically superior. <span class="ev-badge iv">Level IV</span> <sup>[24]</sup></p>
+
+    <!-- TABLE 3 -->
+    <div class="table-wrap">
+      <table>
+        <caption>Table 3: Peripheral Screw Configuration Comparison (Consolidated from FEA Literature <sup>[24,29]</sup>)</caption>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Parallel</th>
+            <th>Convergent</th>
+            <th>Divergent (10° Optimal)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Bone Volume Capture</strong></td>
+            <td>Moderate</td>
+            <td>Low (stress riser at focal point)</td>
+            <td class="highlight-cell">Maximum — wide "cone of fixation"</td>
+          </tr>
+          <tr>
+            <td><strong>Stress Distribution</strong></td>
+            <td>Intermediate</td>
+            <td class="danger-cell">Concentrated — risk of trabecular fracture</td>
+            <td class="highlight-cell">Evenly distributed across cortical margins</td>
+          </tr>
+          <tr>
+            <td><strong>Osteoporotic Performance</strong></td>
+            <td>Acceptable</td>
+            <td class="danger-cell">Poor — pull-out risk</td>
+            <td class="highlight-cell">Optimal — cortical anchoring</td>
+          </tr>
+          <tr>
+            <td><strong>Surgeon Default (Variable-Angle)</strong></td>
+            <td>—</td>
+            <td>Unconscious default (15.4° spread)</td>
+            <td>Intentional training required (40° spread)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>A critical gap exists between FEA optimization and intraoperative execution: when granted angular freedom with variable-angle systems, <strong>surgeons unconsciously default to convergent configurations</strong> (15.4° mean spread vs. 40° with fixed-angle plates) because convergence "feels" more secure during drilling. This severely limits biomechanical advantages predicted by FEA. <sup>[44]</sup></p>
+
+    <h3>5.2 Locking Screws in Compromised Bone</h3>
+
+    <p>A robust cadaveric study by <strong>Abdic et al.</strong> determined that in <strong>intact, healthy bone</strong>, compression screws vs. locking screws in A-P positions yielded no significant difference in micromotion (both ~3.0 µm, well below the 150 µm threshold). <span class="ev-badge iv">Level IV</span> <sup>[23]</sup></p>
+
+    <p>However, in <strong>severe osteoporosis</strong> (Young's modulus simulating extreme osteopenia), when the central element fails to gain rigid far-medial cortical purchase, <strong>peripheral locking screws become absolutely essential</strong>—acting as an inflexible, fixed-angle scaffold bridging compromised cancellous bone. <sup>[12]</sup></p>
+
+    <div class="callout callout-success">
+      <strong>✅ Strategic Hybrid Approach</strong>
+      <ul style="margin-top:0.5rem;">
+        <li>If far-cortical central engagement is achieved → peripheral A-P compression screws may safely maximize bony contact.</li>
+        <li>If bone is highly osteoporotic or cortical purchase is missed → fully divergent, entirely locked screw construct is mechanically mandatory. <sup>[12,23]</sup></li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ──────── SECTION 6 ──────── -->
+  <section id="sec-gaps">
+    <h2>6. Research Gaps in RTSA Finite Element Modeling</h2>
+
+    <p>While computational biomechanics have dramatically advanced RTSA kinematics, a critical review reveals distinct methodological gaps limiting translation into clinical practice:</p>
+
+    <h4>Gap 1: Isotropic vs. Inhomogeneous Subject-Specific Bone Modeling</h4>
+    <p>The vast majority of FEA studies simplify scapular bone by modeling cortical and trabecular bone as homogeneous, isotropic materials with uniform Young's modulus. In reality, scapular bone density is highly inhomogeneous and anisotropic, dictated by Wolff's Law. Future modeling must transition to <strong>subject-specific, inhomogeneous models</strong> where material properties of every tetrahedral element are derived from Hounsfield units of the patient's preoperative CT scan. <sup>[42]</sup></p>
+
+    <h4>Gap 2: Static Testing vs. Dynamic Musculoskeletal Kinematics</h4>
+    <p>Most virtual bench tests adhere to ASTM F2028-14 standards with simplified static loads (e.g., 750 N) at fixed abduction angles. This ignores the highly dynamic, multi-directional muscle wrapping effects of the contracting deltoid and residual rotator cuff during real-world motion. Future models must integrate <strong>rigid body musculoskeletal modeling with FEM</strong> to capture true transient, cyclic torque. <sup>[8]</sup></p>
+
+    <h4>Gap 3: Biological Integration and Osteolysis over Time</h4>
+    <p>Current FEA models excel at evaluating "time-zero" primary stability but uniformly fail to model the biological temporal axis. The literature lacks multiphysics algorithms capable of simulating bone ingrowth into porous titanium over 12–24 months or mechanically induced bone resorption (stress shielding) over a decade. Expanding FEA to encompass <strong>dynamic biologic remodeling algorithms</strong> will represent the next major frontier. <sup>[10]</sup></p>
+
+    <div class="limitation-note">
+      <strong>⚠ Source Limitation Note:</strong> The provided document does not include specific landmark RCTs or prospective cohort studies comparing RTSA designs with clinical outcome endpoints. All evidence synthesized is from finite element analysis and cadaveric biomechanical studies (Level IV–V). This represents an inherent limitation of the computational biomechanics literature rather than a gap in this synthesis.
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ──────── SECTION 7 ──────── -->
+  <section id="sec-conclusions">
+    <h2>7. Actionable Clinical Conclusions &amp; Consensus</h2>
+
+    <p>The exhaustive synthesis of high-level finite element analyses published over the past seven years has effectively dismantled several long-standing historical assumptions regarding RTSA:</p>
+
+    <ol>
+      <li>
+        <strong>Reevaluate the Utility of Inferior Tilt</strong> <span class="ev-badge iv">Level IV</span><br>
+        While clinically popular for decades, forced inferior tilt exacts a massive biomechanical penalty. Eccentric inferior reaming destroys the dense subchondral plate and shifts joint forces into severe shear vectors. Baseplates should be positioned as <strong>neutrally as anatomy allows</strong>, utilizing eccentric or lateralized glenospheres to manage inferior impingement. <sup>[16]</sup>
+      </li>
+      <li>
+        <strong>Confident Acceptance of Retroversion</strong> <span class="ev-badge iv">Level IV</span><br>
+        Modern cementless baseplates can easily withstand <strong>up to 25° uncorrected glenoid retroversion</strong> without exceeding critical micromotion thresholds. Sparing native anterior bone stock should take precedence over achieving artificial neutral version. <sup>[13]</sup>
+      </li>
+      <li>
+        <strong>Prosthetic Lateralization Over Bony Lateralization</strong> <span class="ev-badge iv">Level IV</span><br>
+        Metallic augments and lateralized baseplates represent a far safer biomechanical profile than BIO-RSA bone grafts. Bony lateralization &gt;5 mm invites sheer-induced micromotion, graft fracture, and early resorption. Optimal metallic lateralization: <strong>6–8 mm</strong>. <sup>[4,29]</sup>
+      </li>
+      <li>
+        <strong>Maximize Screw Divergence &amp; Prioritize Cortical Engagement</strong> <span class="ev-badge iv">Level IV</span><br>
+        The most vital steps for long-term stability are achieving far-cortical engagement with a long central screw (e.g., 23.5 mm) and aggressively diverging peripheral locking screws. Surgeons must actively counter the tendency to place variable-angle screws convergently. <sup>[12,24]</sup>
+      </li>
+    </ol>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ──────── REFERENCES ──────── -->
+  <section id="sec-refs" class="references-section">
+    <h2>References</h2>
+    <ol>
+      <li id="ref1">Reverse Total Shoulder Arthroplasty—Biomechanics and Rationale. <em>ResearchGate</em>. Accessed May 25, 2026.</li>
+      <li id="ref2">Lateralisation in reverse shoulder arthroplasty – A narrative review. <em>PMC/NIH</em>. Accessed May 25, 2026.</li>
+      <li id="ref3">Reverse Total Shoulder Arthroplasty: Biomechanics and Indications. <em>PMC</em>. Accessed May 25, 2026.</li>
+      <li id="ref4">Lateralization in reverse shoulder arthroplasty: A review. <em>PMC/NIH</em>. Accessed May 25, 2026.</li>
+      <li id="ref5">Concept and simulation of an alternative design for an orthopaedic shoulder implant. <em>ResearchGate</em>. Accessed May 25, 2026.</li>
+      <li id="ref6">Computational analysis of scapular notching in the shoulder arthroplasty with reverse prosthesis. <em>Fenix, IST Lisbon</em>. Accessed May 25, 2026.</li>
+      <li id="ref7">Complications of Reverse Total Shoulder Arthroplasty: A Review. <em>PMC</em>. Accessed May 25, 2026.</li>
+      <li id="ref8">Impact of Modeling Assumptions on Stability Predictions in RTSA. <em>PMC</em>. Accessed May 25, 2026.</li>
+      <li id="ref9">In vitro and finite element analysis of glenoid bone/baseplate interaction. <em>ResearchGate</em>. Accessed May 25, 2026.</li>
+      <li id="ref10">Zhang et al. Effect of baseplate positioning on fixation of reverse total shoulder arthroplasty. <em>Clinical Biomechanics</em>. Accessed May 25, 2026.</li>
+      <li id="ref11">Effect of RSA glenoid baseplate central fixation on micromotion and bone stress. <em>PMC/NIH</em>. Accessed May 25, 2026.</li>
+      <li id="ref12">Torkan et al. Central fixation element type and length affect glenoid baseplate micromotion in RSA. <em>JSES</em>, 2022. Accessed May 25, 2026.</li>
+      <li id="ref13">Friedman et al. Effects of Increased Retroversion Angle on Glenoid Baseplate Fixation in RTSA: A Finite Element Analysis. <em>Seminars in Arthroplasty: JSES</em>, 2021. <em>PMC</em>. Accessed May 25, 2026.</li>
+      <li id="ref14">Evaluation of Primary Stability of RTSA Based on Finite Element Analysis. <em>SCIRP</em>. Accessed May 25, 2026.</li>
+      <li id="ref16">Chae et al. Primary stability of inferior tilt fixation of the glenoid component in RTSA: A finite element study. <em>PubMed</em>. Accessed May 25, 2026.</li>
+      <li id="ref20">Lateralization in Reverse Shoulder Arthroplasty. <em>ResearchGate</em>. Accessed May 25, 2026.</li>
+      <li id="ref21">Biomechanics of anatomic and reverse shoulder arthroplasty. <em>PMC/NIH</em>. Accessed May 25, 2026.</li>
+      <li id="ref23">Abdic et al. Glenoid baseplate screw fixation in RSA: locking screw position and orientation. Accessed May 25, 2026.</li>
+      <li id="ref24">Peripheral screw orientation in RTSA baseplate fixation. <em>Clinics in Shoulder and Elbow</em>. Accessed May 25, 2026.</li>
+      <li id="ref27">Reverse Shoulder Arthroplasty Biomechanics. <em>PMC/NIH</em>. Accessed May 25, 2026.</li>
+      <li id="ref28">Lateralization in Reverse Shoulder Arthroplasty. <em>PMC/NIH</em>. Accessed May 25, 2026.</li>
+      <li id="ref29">Denard et al. Finite element analysis of glenoid-sided lateralization in RSA. <em>J Orthop Res</em>, 2017. Accessed May 25, 2026.</li>
+      <li id="ref31">The biomechanics of current reverse shoulder replacement options. <em>Annals of Joint</em>. Accessed May 25, 2026.</li>
+      <li id="ref33">Univers Revers System Scientific Update. <em>Arthrex</em>. Accessed May 25, 2026.</li>
+      <li id="ref36">Zhang et al. Impact of scapular notching on glenoid fixation in RTSA: in vitro and FEA study. <em>JSES</em>, 2020. Accessed May 25, 2026.</li>
+      <li id="ref37">Accuracy of an Apparatus for Measuring Glenoid Baseplate Micromotion in RSA. <em>ResearchGate</em>. Accessed May 25, 2026.</li>
+      <li id="ref38">Influence of Scapular Notching on Contact Mechanics and Simulator Wear of RTSA Implants. <em>SciSpace</em>. Accessed May 25, 2026.</li>
+      <li id="ref40">Three-Dimensional FEA of a Notched Insert Design for RTSA to Prevent Scapular Notching. <em>PMC</em>. Accessed May 25, 2026.</li>
+      <li id="ref41">Bone biomechanical properties. <em>Science.gov</em>. Accessed May 25, 2026.</li>
+      <li id="ref42">Complications of RTSA: A Computational Modelling Perspective. <em>MDPI</em>. Accessed May 25, 2026.</li>
+      <li id="ref44">Trend of Convergent Screw Placement in Variable Angle Proximal Humerus Plates. <em>Cerrahpaşa Medical Journal</em>. Accessed May 25, 2026.</li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+<aside class="sidebar" role="complementary" aria-label="Interactive parameter controls">
+
+  <!-- Slider Card -->
+  <div class="sidebar-card">
+    <h3>Clinical Parameter Explorer</h3>
+
+    <!-- Slider 1: Inferior Tilt -->
+    <div class="slider-group">
+      <label for="tiltSlider">Inferior Tilt Angle</label>
+      <div class="slider-row">
+        <input type="range" id="tiltSlider" min="0" max="15" step="1" value="0" aria-label="Inferior tilt in degrees">
+        <span class="slider-value" id="tiltValue">0°</span>
+      </div>
+      <div class="slider-hint">Neutral (0°) preserves subchondral bone. ≥10° risks instability. <em>[Source: Chae et al., Ref 16]</em></div>
+    </div>
+
+    <!-- Slider 2: Retroversion -->
+    <div class="slider-group">
+      <label for="retroSlider">Glenoid Retroversion</label>
+      <div class="slider-row">
+        <input type="range" id="retroSlider" min="0" max="25" step="1" value="0" aria-label="Retroversion in degrees">
+        <span class="slider-value" id="retroValue">0°</span>
+      </div>
+      <div class="slider-hint">≤25° acceptable without correction. &gt;25°: data not available in source. <em>[Source: Friedman et al., Ref 13]</em></div>
+    </div>
+
+    <!-- Slider 3: Lateralization Offset -->
+    <div class="slider-group">
+      <label for="latSlider">Lateralization Offset (Metallic)</label>
+      <div class="slider-row">
+        <input type="range" id="latSlider" min="0" max="15" step="1" value="0" aria-label="Lateralization in mm">
+        <span class="slider-value" id="latValue">0 mm</span>
+      </div>
+      <div class="slider-hint">6–8 mm optimal. &gt;10 mm increases acromial stress +17.2%. <em>[Source: Denard et al., Ref 29; Ref 21]</em></div>
+    </div>
+
+    <!-- Recommendation -->
+    <div class="recommendation-box" id="recBox" aria-live="polite">
+      <h4>Real-Time Recommendation</h4>
+      <span class="rec-status rec-safe" id="recStatus">● SAFE ZONE</span>
+      <p id="recText">Adjust sliders to see biomechanically-informed recommendations based on the source FEA data.</p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-primary" id="resetBtn" aria-label="Reset all sliders">↺ Reset</button>
+      <button class="btn btn-success" id="copyBtn" aria-label="Copy assessment to clipboard">📋 Export</button>
+    </div>
+  </div>
+
+  <!-- Key Metrics Card -->
+  <div class="sidebar-card">
+    <h3>Key Biomechanical Thresholds</h3>
+    <table style="font-size:0.78rem; box-shadow:none; border-radius:6px; overflow:hidden;">
+      <thead><tr><th>Metric</th><th>Threshold</th></tr></thead>
+      <tbody>
+        <tr><td>Micromotion limit</td><td><strong>150 µm</strong> <sup>[11]</sup></td></tr>
+        <tr><td>Max retroversion (safe)</td><td><strong>25°</strong> <sup>[13]</sup></td></tr>
+        <tr><td>BIO-RSA safe offset</td><td><strong>≤5 mm</strong> <sup>[4]</sup></td></tr>
+        <tr><td>Optimal metallic offset</td><td><strong>6–8 mm</strong> <sup>[33]</sup></td></tr>
+        <tr><td>Screw divergence optimum</td><td><strong>10° divergent</strong> <sup>[29]</sup></td></tr>
+        <tr><td>Central screw length</td><td><strong>23.5 mm</strong> <sup>[12]</sup></td></tr>
+        <tr><td>Ti-6Al-4V fatigue strength</td><td><strong>600–800 MPa</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Evidence Level Legend -->
+  <div class="sidebar-card">
+    <h3>Evidence Level Legend</h3>
+    <div style="display:flex; flex-direction:column; gap:0.35rem; font-family:'Inter',sans-serif; font-size:0.78rem;">
+      <div><span class="ev-badge ev-i">I</span> Systematic review / Meta-analysis of RCTs</div>
+      <div><span class="ev-badge ev-ii">II</span> Individual RCT</div>
+      <div><span class="ev-badge ev-iii">III</span> Non-randomized controlled study</div>
+      <div><span class="ev-badge ev-iv">IV</span> Case series / FEA / Cadaveric biomechanical study</div>
+      <div><span class="ev-badge ev-v">V</span> Expert opinion / Mechanistic reasoning</div>
+    </div>
+    <p style="font-size:0.72rem; color:var(--text-light); margin-top:0.5rem; font-family:'Inter',sans-serif;">
+      Note: This synthesis is based entirely on computational (FEA) and cadaveric biomechanical studies (Level IV). No RCTs or prospective clinical cohorts were identified in the source document.
+    </p>
+  </div>
+
+</aside>
+</div><!-- /page-wrapper -->
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">Copied to clipboard!</div>
+
+<!-- ═══════════════════════ JAVASCRIPT ═══════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Elements ──
+  const tiltSlider  = document.getElementById('tiltSlider');
+  const retroSlider = document.getElementById('retroSlider');
+  const latSlider   = document.getElementById('latSlider');
+  const tiltValue   = document.getElementById('tiltValue');
+  const retroValue  = document.getElementById('retroValue');
+  const latValue    = document.getElementById('latValue');
+  const recBox      = document.getElementById('recBox');
+  const recStatus   = document.getElementById('recStatus');
+  const recText     = document.getElementById('recText');
+  const resetBtn    = document.getElementById('resetBtn');
+  const copyBtn     = document.getElementById('copyBtn');
+  const toast       = document.getElementById('toast');
+
+  // ── Update Recommendation ──
+  function updateRecommendation() {
+    const tilt  = parseInt(tiltSlider.value);
+    const retro = parseInt(retroSlider.value);
+    const lat   = parseInt(latSlider.value);
+
+    tiltValue.textContent  = tilt + '°';
+    retroValue.textContent = retro + '°';
+    latValue.textContent   = lat + ' mm';
+
+    let riskScore = 0;
+    let messages = [];
+
+    // Tilt analysis
+    if (tilt === 0) {
+      messages.push('✓ <strong>Neutral tilt</strong> — preserves dense subchondral cortical bone (Chae et al. <sup>[16]</sup>).');
+    } else if (tilt <= 5) {
+      riskScore += 1;
+      messages.push('△ <strong>Mild inferior tilt (' + tilt + '°)</strong> — some eccentric reaming required; mild increase in cancellous bone exposure. Monitor for stress shielding (Zhang et al. <sup>[10]</sup>).');
+    } else if (tilt <= 10) {
+      riskScore += 2;
+      messages.push('⚠ <strong>Moderate inferior tilt (' + tilt + '°)</strong> — significant eccentric reaming destroys subchondral plate. Predicted ↑ micromotion and 64.6% lateral bone density loss risk (Zhang et al. <sup>[10]</sup>). Consider neutral positioning with eccentric glenosphere.');
+    } else {
+      riskScore += 3;
+      messages.push('🔴 <strong>Severe inferior tilt (' + tilt + '°)</strong> — FEA shows vastly greater micromotion and focal bone stress vs. neutral. Strongly consider neutral baseplate + lateralized glenosphere (Chae et al. <sup>[16]</sup>).');
+    }
+
+    // Retroversion analysis
+    if (retro <= 10) {
+      messages.push('✓ <strong>Retroversion ' + retro + '°</strong> — well within safe limits for uncemented RTSA baseplate fixation (Friedman et al. <sup>[13]</sup>).');
+    } else if (retro <= 20) {
+      messages.push('✓ <strong>Retroversion ' + retro + '°</strong> — acceptable; locking-screw architecture maintains stability. No corrective reaming necessary (Friedman et al. <sup>[13]</sup>).');
+    } else if (retro <= 25) {
+      messages.push('△ <strong>Retroversion ' + retro + '°</strong> — near upper limit of demonstrated biomechanical safety in FEA (worst-case with osteoporotic bone maintained &lt;150 µm). Preserve anterior bone stock (Friedman et al. <sup>[13]</sup>).');
+    } else {
+      riskScore += 2;
+      messages.push('🔴 <strong>Retroversion &gt;25°</strong> — exceeds the maximum tested in the source FEA literature. [Data not available in source for this range.] Proceed with caution.');
+    }
+
+    // Lateralization analysis
+    if (lat <= 5) {
+      messages.push('✓ <strong>Metallic lateralization ' + lat + ' mm</strong> — minimal increase in construct stress; well-tolerated biomechanically (Denard et al. <sup>[29]</sup>).');
+    } else if (lat <= 8) {
+      riskScore += 1;
+      messages.push('△ <strong>Metallic lateralization ' + lat + ' mm</strong> — within optimal range (6–8 mm). Balanced COR restoration with acceptable acromial stress increase. Monitor deltoid tension (Ref <sup>[33]</sup>).');
+    } else if (lat <= 10) {
+      riskScore += 2;
+      messages.push('⚠ <strong>Metallic lateralization ' + lat + ' mm</strong> — approaching high range. Deltoid force requirement ↑ to ~70% body weight. Predicted 17.2% increase in acromial stress. Risk of acromial/scapular spine stress fracture (Ref <sup>[21]</sup>).');
+    } else {
+      riskScore += 3;
+      messages.push('🔴 <strong>Metallic lateralization ' + lat + ' mm</strong> — extreme offset. Exponential increase in deltoid loading and acromial fracture risk. Only appropriate with robust scapular bone stock and reduced humeral inclination (Ref <sup>[21]</sup>).');
+    }
+
+    // Combined risk assessment
+    if (lat > 5 && tilt > 5) {
+      riskScore += 2;
+      messages.push('⚠ <strong>Combined Risk:</strong> Inferior tilt + lateralization together multiply shear forces at the baseplate interface. Prefer neutral tilt with lateralized glenosphere.');
+    }
+
+    // Render
+    let statusClass, statusLabel;
+    if (riskScore <= 1) {
+      statusClass = 'rec-safe';
+      statusLabel = '● SAFE ZONE';
+      recBox.style.background = 'linear-gradient(135deg, #eafaf1 0%, #d5f5e3 100%)';
+      recBox.style.borderColor = '#a9dfbf';
+    } else if (riskScore <= 4) {
+      statusClass = 'rec-caution';
+      statusLabel = '▲ CAUTION';
+      recBox.style.background = 'linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%)';
+      recBox.style.borderColor = '#f9e79f';
+    } else {
+      statusClass = 'rec-danger';
+      statusLabel = '● HIGH RISK';
+      recBox.style.background = 'linear-gradient(135deg, #fdedec 0%, #fadbd8 100%)';
+      recBox.style.borderColor = '#f5b7b1';
+    }
+
+    recStatus.className = 'rec-status ' + statusClass;
+    recStatus.textContent = statusLabel;
+    recText.innerHTML = messages.join('<br><br>');
+  }
+
+  // ── Event Listeners ──
+  tiltSlider.addEventListener('input', updateRecommendation);
+  retroSlider.addEventListener('input', updateRecommendation);
+  latSlider.addEventListener('input', updateRecommendation);
+
+  // ── Reset ──
+  resetBtn.addEventListener('click', function() {
+    tiltSlider.value = 0;
+    retroSlider.value = 0;
+    latSlider.value = 0;
+    updateRecommendation();
+  });
+
+  // ── Copy/Export ──
+  copyBtn.addEventListener('click', function() {
+    const now = new Date().toLocaleString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+
+    const tilt  = tiltSlider.value;
+    const retro = retroSlider.value;
+    const lat   = latSlider.value;
+
+    // Build plain-text export
+    let text = '';
+    text += '═══════════════════════════════════════════════\n';
+    text += 'RTSA BIOMECHANICAL PARAMETER ASSESSMENT\n';
+    text += 'Computational Biomechanics & FEA Evidence Synthesis\n';
+    text += '═══════════════════════════════════════════════\n\n';
+    text += 'Date/Time: ' + now + '\n\n';
+    text += '── CURRENT PARAMETER VALUES ──\n';
+    text += '  Inferior Tilt Angle:      ' + tilt + '°\n';
+    text += '  Glenoid Retroversion:     ' + retro + '°\n';
+    text += '  Metallic Lateralization:  ' + lat + ' mm\n\n';
+    text += '── RISK STATUS ──\n';
+    text += '  ' + recStatus.textContent + '\n\n';
+    text += '── BIOMECHANICAL RECOMMENDATION ──\n';
+
+    // Extract text content from recommendation
+    const recEl = document.getElementById('recText');
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = recEl.innerHTML;
+    tempDiv.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+    text += tempDiv.textContent.trim() + '\n\n';
+
+    text += '── KEY THRESHOLDS (from source document) ──\n';
+    text += '  Micromotion limit (osseointegration):  < 150 µm [Ref 11]\n';
+    text += '  Max safe retroversion:                 ≤ 25° [Ref 13]\n';
+    text += '  BIO-RSA safe offset:                  ≤ 5 mm [Ref 4]\n';
+    text += '  Optimal metallic lateralization:       6–8 mm [Ref 33]\n';
+    text += '  Divergent screw optimum:               10° [Ref 29]\n';
+    text += '  Central screw (cortical engagement):   23.5 mm [Ref 12]\n\n';
+    text += '═══════════════════════════════════════════════\n';
+    text += 'Source: Computational Biomechanics and Finite Element\n';
+    text += 'Analysis in Reverse Total Shoulder Arthroplasty:\n';
+    text += 'An Evidence-Based Synthesis (2017–2024)\n';
+    text += '═══════════════════════════════════════════════\n';
+
+    navigator.clipboard.writeText(text).then(function() {
+      showToast('Assessment copied to clipboard!');
+    }).catch(function() {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showToast('Assessment copied to clipboard!');
+    });
+  });
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }
+
+  // Initialize
+  updateRecommendation();
+
+})();
+</script>
+</body>
+</html>

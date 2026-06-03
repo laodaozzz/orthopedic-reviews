@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide: The Letournel and Judet Classification of Acetabular Fractures</title>
+    <style>
+        :root {
+            --primary: #005a8d;
+            --primary-light: #e6f2f8;
+            --accent: #0076b2;
+            --text: #333;
+            --light-gray: #f5f5f5;
+            --mid-gray: #e0e0e0;
+            --success: #4CAF50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --font-main: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #fff;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        main {
+            min-width: 0;
+        }
+
+        aside {
+            position: sticky;
+            top: 70px;
+            align-self: start;
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--mid-gray);
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            color: var(--primary);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--mid-gray);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        .caption {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            background: var(--light-gray);
+            border-left: 4px solid var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .evidence-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .ev-1 { background-color: #4CAF50; }
+        .ev-2 { background-color: #8BC34A; }
+        .ev-3 { background-color: #FFC107; color: #333; }
+        .ev-4 { background-color: #FF9800; }
+        .ev-5 { background-color: #f44336; }
+        .ev-na { background-color: #9E9E9E; }
+
+        .callout {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .callout-info {
+            background-color: #e3f2fd;
+            border-color: #2196F3;
+        }
+
+        .callout-warning {
+            background-color: #fff3e0;
+            border-color: #ff9800;
+        }
+
+        .callout-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--mid-gray);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+
+        .slider-value {
+            font-weight: 600;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 0.5rem 0;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent);
+        }
+
+        .btn-secondary {
+            background-color: var(--mid-gray);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #d0d0d0;
+        }
+
+        .recommendation-box {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .recommendation-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .reference-section {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--mid-gray);
+        }
+
+        .reference-item {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            aside {
+                position: static;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .slider-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            input[type="range"] {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Interactive Educational Guide: The Letournel and Judet Classification of Acetabular Fractures</h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <section>
+                <h2>1. Introduction: The Geometric Revolution in Pelvic Surgery</h2>
+                <p>The classification of acetabular fractures, originally proposed by Émile Letournel and Robert Judet in the 1960s, represents a seminal moment in orthopedic trauma surgery. Prior to this classification, management was largely non-operative, predicated on the assumption that the complexity of pelvic anatomy precluded accurate restoration. Letournel and Judet revolutionized this paradigm not by introducing new surgical instruments, but by introducing a new way of seeing <span class="evidence-badge ev-na">1</span>. They recognized that the apparent chaos of pelvic fractures followed predictable patterns dictated by the underlying architectural struts of the innominate bone, a concept known as <strong>"Column Theory."</strong> <span class="evidence-badge ev-na">3</span></p>
+                
+                <div class="callout callout-info">
+                    <div class="callout-title">ℹ️ Core Concept</div>
+                    <p>The Letournel classification divides acetabular fractures into <strong>ten patterns: five elementary and five associated</strong>. These patterns are unintelligible without a prior mastery of the "Column Principle," which posits that the acetabulum is supported by two distinct columns of bone that form an inverted "Y" or Greek Lambda (λ) configuration <span class="evidence-badge ev-na">4</span>.</p>
+                </div>
+                
+                <p>The proper identification of which limb of the "Y" is fractured—and whether the "keystone" of the arch remains intact—is the primary objective of radiographic evaluation <span class="evidence-badge ev-na">6</span>. This report provides an exhaustive analysis of these anatomical definitions, dissecting the precise osteological limits of the columns, the controversy of the quadrilateral plate, and the physics of the radiographic landmarks.</p>
+            </section>
+
+            <section>
+                <h2>2. Osteological Foundations: The Innominate Bone and Column Theory</h2>
+                <p>The acetabulum is located at the confluence of the three primary ossification centers of the hemipelvis: the ilium, the ischium, and the pubis. In the skeletally immature, these bones are separated by the triradiate cartilage. While these bones fuse completely by the late teens to form the single innominate bone, the Letournel classification conceptually deconstructs the adult bone back into constituent "columns" that roughly mirror these developmental origins <span class="evidence-badge ev-na">4</span>.</p>
+                
+                <h3>The Concept of the Inverted Y</h3>
+                <p>The architectural stability of the hip relies on the "Inverted Y" configuration:</p>
+                <ul>
+                    <li><strong>The Anterior Column (Iliopubic Column):</strong> Extends anteriorly and inferiorly from the sacroiliac region to the pubic symphysis <span class="evidence-badge ev-na">4</span>.</li>
+                    <li><strong>The Posterior Column (Ilioischial Column):</strong> Extends posteriorly and inferiorly, composed primarily of the ischium and a portion of the ilium <span class="evidence-badge ev-na">4</span>.</li>
+                    <li><strong>The Keystone (Sciatic Buttress):</strong> The columns merge superiorly at the sciatic buttress, the thick, stress-bearing condensation of bone that connects the acetabular dome to the sacroiliac joint <span class="evidence-badge ev-na">3</span>.</li>
+                </ul>
+                
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ Important Distinction</div>
+                    <p>The "columns" are not simply the ilium and ischium. They are <strong>functional biomechanical units</strong> that include portions of the ilium, ischium, and pubis. The "Column Theory" is a functional model, not just an embryological one <span class="evidence-badge ev-na">4</span>.</p>
+                </div>
+                
+                <h3>The Acetabular Sector</h3>
+                <p>The acetabulum itself is carved out of the lateral aspect of these joined columns. It is oriented anteriorly, laterally, and inferiorly, with a mean lateral inclination of <strong>40 to 48 degrees</strong> and an anteversion of <strong>18 to 21 degrees</strong> <span class="evidence-badge ev-na">3</span>.</p>
+                
+                <div class="table-container">
+                    <table>
+                        <caption>Table 1: Osteological Contributions to the Columns</caption>
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Anterior Column Contribution</th>
+                                <th>Posterior Column Contribution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ilium</strong></td>
+                                <td>Anterior aspect of iliac wing, Iliac Crest, Gluteal Medius Tubercle</td>
+                                <td>Posterior aspect of iliac body, Greater Sciatic Notch (inferior aspect)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ischium</strong></td>
+                                <td>None</td>
+                                <td>Ischial body, Ischial Spine, Ischial Tuberosity, Lesser Sciatic Notch</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pubis</strong></td>
+                                <td>Superior Pubic Ramus, Pubic Body, Symphysis</td>
+                                <td>Inferior Pubic Ramus (Ischiopubic Ramus)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Acetabulum</strong></td>
+                                <td>Anterior Wall, Anterior Dome</td>
+                                <td>Posterior Wall, Posterior Dome</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Medial Surface</strong></td>
+                                <td>Pelvic Brim (Linea Terminalis)</td>
+                                <td>Quadrilateral Plate</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2>3. The Anterior Column (Iliopubic Column)</h2>
+                <p>The anterior column is the larger and longer of the two structural pillars, describing a massive arc of bone extending from the sacroiliac region and iliac crest down to the pubic symphysis. Its integrity is essential for the stability of the anterior pelvic ring and the anterior containment of the femoral head <span class="evidence-badge ev-na">3</span>.</p>
+                
+                <h3>Anatomical Boundaries and Composition</h3>
+                <p>The anterior column is composed of three distinct segments:</p>
+                
+                <h4>The Iliac Segment</h4>
+                <p>The superior portion consists of the anterior part of the iliac wing, including the iliac crest, anterior superior (ASIS) and inferior (AIIS) iliac spines. The AIIS is a critical landmark; fractures exiting below it are often classified as "Low" anterior column or anterior wall variants <span class="evidence-badge ev-na">13</span>.</p>
+                
+                <h4>The Acetabular Segment</h4>
+                <p>The central portion supports the anterior articular surface, including the anterior wall and the iliopubic eminence <span class="evidence-badge ev-na">3</span>.</p>
+                
+                <h4>The Pubic Segment</h4>
+                <p>The inferior portion is formed by the superior pubic ramus and pubic tubercle, terminating at the pubic symphysis <span class="evidence-badge ev-na">17</span>.</p>
+                
+                <h3>Vascular and Neural Relationships</h3>
+                <p>The anterior column is intimately associated with major neurovascular structures, making surgical approach (Ilioinguinal or Stoppa) hazardous. The <strong>Corona Mortis</strong> vascular anomaly, found in 10-30% of patients, can lead to catastrophic hemorrhage if injured <span class="evidence-badge ev-na">3</span>.</p>
+                
+                <h3>Radiographic Definition: The Iliopectineal Line</h3>
+                <p>The <strong>iliopectineal line</strong> is the defining radiographic landmark for the anterior column. On an AP pelvis radiograph, it is a composite shadow formed by:</p>
+                <ol>
+                    <li><strong>The Pelvic Brim (Anterior 3/4):</strong> Correlates exactly with the linea terminalis <span class="evidence-badge ev-na">19</span>.</li>
+                    <li><strong>The Sciatic Buttress (Posterior 1/4):</strong> Diverges from the true pelvic brim, representing the internal surface of the sciatic buttress <span class="evidence-badge ev-na">19</span>.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>4. The Posterior Column (Ilioischial Column)</h2>
+                <p>The posterior column is the "anchor" of the hip joint—shorter, thicker, and more vertical than the anterior column. It provides posterior stability against the primary force vectors of hip loading <span class="evidence-badge ev-na">4</span>.</p>
+                
+                <h3>Anatomical Boundaries and Composition</h3>
+                <p>The posterior column extends from the greater sciatic notch superiorly to the ischiopubic ramus inferiorly, including the ischial tuberosity, ischial spine, lesser sciatic notch, and the retro-acetabular surface.</p>
+                
+                <h3>The Quadrilateral Plate (Surface)</h3>
+                <p>The <strong>Quadrilateral Plate</strong> is the flat, smooth internal wall of the posterior column, separating the hip joint from the true pelvic cavity <span class="evidence-badge ev-na">10</span>. While Letournel classifies it as the medial face of the posterior column, biomechanically it acts as a "medial wall," particularly in geriatric fractures where the femoral head may punch through it <span class="evidence-badge ev-na">21</span>.</p>
+                
+                <h3>Radiographic Definition: The Ilioischial Line</h3>
+                <p>The <strong>ilioischial line</strong> (Köhler's line) is the hallmark radiographic landmark for the posterior column. It is generated when the X-ray beam passes <strong>tangentially</strong> across the flat surface of the quadrilateral plate, creating a summation density that appears as a white line <span class="evidence-badge ev-na">19</span>.</p>
+                
+                <h3>The Radiographic Teardrop</h3>
+                <p>The <strong>teardrop</strong> (or U-figure) is a critical landmark representing the true floor of the acetabulum. Its lateral limb is formed by the anterior wall, its medial limb by the quadrilateral plate, and its inferior border by the acetabular notch <span class="evidence-badge ev-na">20</span>. A dissociation between the teardrop and the ilioischial line is a subtle sign of posterior column displacement.</p>
+            </section>
+
+            <section>
+                <h2>5. The Acetabular Walls (The Rims)</h2>
+                <p>A fundamental distinction in the Letournel classification is between a "Column" and a "Wall." A <strong>"wall"</strong> is the articular rim and its supporting bone extending from the underlying column. A wall fracture disrupts the articular surface and the rim but does not disrupt the continuity of the obturator ring <span class="evidence-badge ev-na">6</span>.</p>
+                
+                <div class="table-container">
+                    <table>
+                        <caption>Table 2: Anatomical & Radiographic Comparison of Walls vs. Columns</caption>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Anterior Column</th>
+                                <th>Posterior Column</th>
+                                <th>Anterior Wall</th>
+                                <th>Posterior Wall</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Primary Bone</strong></td>
+                                <td>Ilium, Pubis</td>
+                                <td>Ischium, Ilium</td>
+                                <td>Anterior Rim</td>
+                                <td>Posterior Rim</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Superior Limit</strong></td>
+                                <td>Iliac Crest / Wing</td>
+                                <td>Sciatic Buttress / Notch</td>
+                                <td>AIIS (Sub-spine)</td>
+                                <td>Variable (Retro-acetabular)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Inferior Limit</strong></td>
+                                <td>Pubic Symphysis</td>
+                                <td>Ischial Tuberosity</td>
+                                <td>Superior Pubic Ramus</td>
+                                <td>Variable (Posterior Rim)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Radiographic Line</strong></td>
+                                <td>Iliopectineal Line</td>
+                                <td>Ilioischial Line</td>
+                                <td>Anterior Rim Shadow</td>
+                                <td>Posterior Rim Shadow</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Obturator Ring</strong></td>
+                                <td>Broken (Sup. + Inf.)</td>
+                                <td>Broken (Inf. Ramus)</td>
+                                <td>Broken (Sup. Ramus)</td>
+                                <td>Usually Intact</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ilioischial Line</strong></td>
+                                <td>Intact</td>
+                                <td>Disrupted</td>
+                                <td>Intact</td>
+                                <td>Intact</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Iliopectineal Line</strong></td>
+                                <td>Disrupted</td>
+                                <td>Intact</td>
+                                <td>Disrupted</td>
+                                <td>Intact</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2>6. Radiographic Analysis: The Judet Views and Geometric Logic</h2>
+                <p>The standard AP pelvis view is insufficient for classifying acetabular fractures because the acetabular walls and columns overlap. Letournel and Judet introduced the 45-degree oblique views to solve this geometric problem <span class="evidence-badge ev-na">1</span>.</p>
+                
+                <div class="table-container">
+                    <table>
+                        <caption>Table 3: The Logic of Judet Views</caption>
+                        <thead>
+                            <tr>
+                                <th>View</th>
+                                <th>Patient Position</th>
+                                <th>Structures in Profile</th>
+                                <th>Key Line to Check</th>
+                                <th>Clinical Utility</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>AP Pelvis</strong></td>
+                                <td>Supine</td>
+                                <td>Overview of all structures</td>
+                                <td>All 6 lines</td>
+                                <td>General assessment, symmetry</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Obturator Oblique</strong></td>
+                                <td>45° Away (Up)</td>
+                                <td>Anterior Column, Posterior Wall</td>
+                                <td>Iliopectineal</td>
+                                <td>Diagnosing ant. column Fx, post. wall size, Spur Sign</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Iliac Oblique</strong></td>
+                                <td>45° Toward (Down)</td>
+                                <td>Posterior Column, Anterior Wall</td>
+                                <td>Ilioischial</td>
+                                <td>Diagnosing post. column Fx, sciatic notch involvement</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p>The <strong>Spur Sign</strong> in "Associated Both Column" fractures is pathognomonic, representing the intact sciatic buttress visible above the displaced acetabular dome on the Obturator Oblique view <span class="evidence-badge ev-na">3</span>.</p>
+            </section>
+
+            <section>
+                <h2>7. Integrated Fracture Patterns: Anatomy in Action</h2>
+                <p>The Letournel classification is a combinatorial system based on the anatomical units defined above.</p>
+                
+                <h3>Elementary Fractures (5 Types)</h3>
+                <ol>
+                    <li><strong>Posterior Wall:</strong> Disruption of the posterior rim. The ilioischial line is intact <span class="evidence-badge ev-na">1</span>.</li>
+                    <li><strong>Posterior Column:</strong> The entire ischioacetabular segment detaches. The ilioischial line is disrupted <span class="evidence-badge ev-na">9</span>.</li>
+                    <li><strong>Anterior Wall:</strong> A segment of the anterior rim detaches below the AIIS. The iliopectineal line is disrupted <span class="evidence-badge ev-na">7</span>.</li>
+                    <li><strong>Anterior Column:</strong> The entire anterior hemipelvis detaches, with fracture exit at the iliac crest. The iliopectineal line is disrupted <span class="evidence-badge ev-na">4</span>.</li>
+                    <li><strong>Transverse:</strong> The acetabulum is split into superior and inferior halves. The weight-bearing dome remains attached to the sciatic buttress <span class="evidence-badge ev-na">6</span>.</li>
+                </ol>
+                
+                <h3>Associated Fractures (5 Types)</h3>
+                <ol>
+                    <li><strong>Posterior Column + Posterior Wall</strong> <span class="evidence-badge ev-na">13</span></li>
+                    <li><strong>Transverse + Posterior Wall:</strong> The most common associated pattern. High risk of Sciatic Nerve injury <span class="evidence-badge ev-na">3</span>.</li>
+                    <li><strong>T-Shaped:</strong> A transverse fracture with a vertical stem splitting the obturator ring <span class="evidence-badge ev-na">1</span>.</li>
+                    <li><strong>Anterior Column/Wall + Posterior Hemitransverse:</strong> A hybrid pattern common in the elderly <span class="evidence-badge ev-na">13</span>.</li>
+                    <li><strong>Associated Both Column:</strong> The most complex injury—complete dissociation of the articular surface from the axial skeleton. Characterized by the Spur Sign <span class="evidence-badge ev-na">3</span>.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>8. Clinical and Surgical Implications</h2>
+                <p>The precise anatomical definition of the fracture dictates the surgical approach. The goal is to access the fractured column while respecting the soft tissue envelopes.</p>
+                
+                <h3>Anterior Approaches (Ilioinguinal, Stoppa)</h3>
+                <p>Used for fractures involving the Anterior Column and Anterior Wall. The surgeon works "intrapelvic," targeting the iliopectineal line and quadrilateral plate, with risk to the corona mortis and external iliac vessels <span class="evidence-badge ev-na">3</span>.</p>
+                
+                <h3>Posterior Approach (Kocher-Langenbeck)</h3>
+                <p>Used for fractures involving the Posterior Column and Posterior Wall. The surgeon works "retro-pelvic," targeting the posterior wall and greater sciatic notch, with risk to the Sciatic Nerve and Superior Gluteal Artery <span class="evidence-badge ev-na">9</span>.</p>
+                
+                <h3>The Challenge of the Quadrilateral Plate</h3>
+                <p>Fractures involving the quadrilateral plate present unique challenges. Modern techniques utilize <strong>infra-pectineal buttress plates</strong> and <strong>spring plates</strong> to prevent medial femoral head migration <span class="evidence-badge ev-na">27,22</span>.</p>
+                
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ Evidence Note</div>
+                    <p><strong>Limitation of Source Document:</strong> The provided document is a comprehensive anatomical and radiographic analysis, not a clinical outcome study. It does not contain data from Randomized Controlled Trials (RCTs). Therefore, Level I-V evidence badges cannot be assigned to specific treatment recommendations. The surgical principles described are based on established anatomical understanding and expert consensus as presented in the source material.</p>
+                </div>
+            </section>
+
+            <section class="reference-section">
+                <h2>References (From Source Document)</h2>
+                <div class="reference-item">1. Judet and Letournel classification for acetabular fractures. Radiopaedia.</div>
+                <div class="reference-item">2. Classifications in Brief: Letournel Classification for Acetabular Fractures. PubMed Central.</div>
+                <div class="reference-item">3. Acetabular Fractures. Orthobullets.</div>
+                <div class="reference-item">4. The Column Principle. UW MSK.</div>
+                <div class="reference-item">5. Posterior Wall Acetabular Fractures: Current Concepts Review. AOAO.</div>
+                <div class="reference-item">6. Acetabular Fractures: Anatomic and Clinical Considerations. AJR Online.</div>
+                <div class="reference-item">7. Acetabular Fractures. StatPearls - NCBI Bookshelf.</div>
+                <div class="reference-item">8. Pelvis (Judet view). Radiopaedia.org.</div>
+                <div class="reference-item">9. Radiographic Evaluation, Anatomy and Classification of Acetabular Fractures. OTA.</div>
+                <div class="reference-item">10. Acetabulum. Radiopaedia.org.</div>
+                <div class="reference-item">11. Radiography of the Hip. RadCommons.</div>
+                <div class="reference-item">12. Anterior Inferior Iliac Spine Avulsion. StatPearls - NCBI Bookshelf.</div>
+                <div class="reference-item">13. Characteristics of associated fracture types. AO Surgery Reference.</div>
+                <div class="reference-item">14. Anterior wall. AO Surgery Reference.</div>
+                <div class="reference-item">15. Gluteal lines. Wikipedia.</div>
+                <div class="reference-item">16. 2.1 Anatomy of the acetabulum. Musculoskeletal Key.</div>
+                <div class="reference-item">17. Iliopectineal line. Radiopaedia.org.</div>
+                <div class="reference-item">18. Pelvis Anatomy. Orthobullets.</div>
+                <div class="reference-item">19. Radiology of the intact acetabulum. AO Surgery Reference.</div>
+                <div class="reference-item">20. Adult Pelvis Radiographs. Orthobullets.</div>
+                <div class="reference-item">21. Quadrilateral plate fractures of the acetabulum. PubMed Central.</div>
+                <div class="reference-item">22. Biomechanical Comparison of Different Fixation Techniques. NIH.</div>
+                <div class="reference-item">23. Ilioischial line. Radiopaedia.org.</div>
+                <div class="reference-item">24. Imaging of Hip Pain. PMC - NIH.</div>
+                <div class="reference-item">25. PreOp Acetabular Radiographic Evaluation. Wheeless' Textbook.</div>
+                <div class="reference-item">26. Evaluation of Judet view radiographs accuracy. NIH.</div>
+                <div class="reference-item">27. Special contoured pelvic brim reconstruction titanium plate. Frontiers.</div>
+            </section>
+        </main>
+
+        <aside aria-label="Interactive Parameter Sidebar">
+            <h3>Clinical Parameter Adjustor</h3>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 1.5rem;">Adjust parameters to see how they influence surgical approach considerations. <em>Note: Thresholds are based on the source document where available; general clinical knowledge is used otherwise.</em></p>
+            
+            <div class="slider-group">
+                <label class="slider-label" for="inclination-slider">Acetabular Lateral Inclination (°)</label>
+                <div class="slider-container">
+                    <input type="range" id="inclination-slider" min="20" max="70" value="44" step="1">
+                    <span class="slider-value" id="inclination-value">44°</span>
+                </div>
+                <div style="font-size: 0.75rem; color: #666; margin-top: 0.25rem;">Source range: 40-48° <span class="evidence-badge ev-na">3</span></div>
+            </div>
+            
+            <div class="slider-group">
+                <label class="slider-label" for="anteversion-slider">Acetabular Anteversion (°)</label>
+                <div class="slider-container">
+                    <input type="range" id="anteversion-slider" min="0" max="40" value="20" step="1">
+                    <span class="slider-value" id="anteversion-value">20°</span>
+                </div>
+                <div style="font-size: 0.75rem; color: #666; margin-top: 0.25rem;">Source range: 18-21° <span class="evidence-badge ev-na">3</span></div>
+            </div>
+            
+            <div class="slider-group">
+                <label class="slider-label" for="coverage-slider">Estimated Femoral Head Coverage (%)</label>
+                <div class="slider-container">
+                    <input type="range" id="coverage-slider" min="40" max="100" value="80" step="1">
+                    <span class="slider-value" id="coverage-value">80%</span>
+                </div>
+                <div style="font-size: 0.75rem; color: #666; margin-top: 0.25rem;"><strong>Note:</strong> This parameter is assumed based on general clinical knowledge – not from source document.</div>
+            </div>
+            
+            <div class="recommendation-box">
+                <div class="recommendation-title">📋 Dynamic Recommendation</div>
+                <div class="recommendation-content" id="recommendation-content">
+                    <p><strong>Stability Assessment:</strong> Based on your parameters, the acetabular configuration appears within normal ranges. Standard anatomical relationships are maintained.</p>
+                    <p><strong>Surgical Implication:</strong> For any fracture in this setting, approach selection should follow the principle of matching the surgical window to the fractured column: anterior approaches for anterior column pathology, posterior approaches for posterior column injuries.</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="btn btn-secondary" id="reset-btn">Reset Parameters</button>
+                <button class="btn btn-primary" id="export-btn">Export Summary</button>
+            </div>
+            
+            <div id="export-status" style="font-size: 0.8rem; color: var(--success); margin-top: 0.5rem; min-height: 1.2em;"></div>
+        </aside>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Slider elements
+            const inclinationSlider = document.getElementById('inclination-slider');
+            const anteversionSlider = document.getElementById('anteversion-slider');
+            const coverageSlider = document.getElementById('coverage-slider');
+            
+            // Value display elements
+            const inclinationValue = document.getElementById('inclination-value');
+            const anteversionValue = document.getElementById('anteversion-value');
+            const coverageValue = document.getElementById('coverage-value');
+            
+            // Recommendation element
+            const recommendationContent = document.getElementById('recommendation-content');
+            
+            // Button elements
+            const resetBtn = document.getElementById('reset-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const exportStatus = document.getElementById('export-status');
+            
+            // Default values
+            const defaultValues = {
+                inclination: 44,
+                anteversion: 20,
+                coverage: 80
+            };
+            
+            // Update recommendation based on slider values
+            function updateRecommendation() {
+                const inclination = parseInt(inclinationSlider.value);
+                const anteversion = parseInt(anteversionSlider.value);
+                const coverage = parseInt(coverageSlider.value);
+                
+                let stability = "normal";
+                let concerns = [];
+                let recommendations = [];
+                
+                // Assess inclination
+                if (inclination < 30) {
+                    stability = "compromised";
+                    concerns.push("Severely reduced lateral inclination (<30°) indicating potential dysplasia or severe medialization");
+                    recommendations.push("High risk of instability; consider constrained components if arthroplasty is performed");
+                } else if (inclination < 40) {
+                    concerns.push("Reduced lateral inclination (30-40°) below typical range");
+                    recommendations.push("Monitor for early signs of superior migration of femoral head");
+                } else if (inclination > 55) {
+                    concerns.push("Excessive lateral inclination (>55°) increasing edge loading risk");
+                    recommendations.push("Consider component orientation carefully if arthroplasty is performed");
+                }
+                
+                // Assess anteversion
+                if (anteversion < 10) {
+                    concerns.push("Reduced anteversion (<10°) increasing risk of anterior impingement");
+                    recommendations.push("Assess for anterior femoral neck-labral conflict");
+                } else if (anteversion > 30) {
+                    concerns.push("Excessive anteversion (>30°) increasing posterior instability risk");
+                    recommendations.push("Assess for posterior instability signs");
+                }
+                
+                // Assess coverage
+                if (coverage < 70) {
+                    stability = "severely compromised";
+                    concerns.push("Severely reduced femoral head coverage (<70%)");
+                    recommendations.push("High risk of instability; surgical intervention likely required for any fracture pattern");
+                } else if (coverage < 80) {
+                    concerns.push("Reduced femoral head coverage (70-80%)");
+                    recommendations.push("Careful assessment of fracture fragment contribution to coverage needed");
+                }
+                
+                // Generate recommendation HTML
+                let html = '';
+                
+                if (concerns.length === 0) {
+                    html += `<p><strong>Stability Assessment:</strong> All parameters are within normal ranges. The acetabular configuration appears anatomically appropriate.</p>`;
+                    html += `<p><strong>Surgical Implication:</strong> For any fracture pattern, standard approach selection principles apply: anterior approaches (Ilioinguinal, Stoppa) for anterior column/wall pathology, posterior approaches (Kocher-Langenbeck) for posterior column/wall injuries.</p>`;
+                    html += `<p><strong>Key Radiographic Lines:</strong> Assess the iliopectineal line for anterior column integrity and the ilioischial line for posterior column integrity on appropriate Judet views.</p>`;
+                } else {
+                    html += `<p><strong>Stability Assessment:</strong> ${stability === "severely compromised" ? "Severely compromised" : "Potentially compromised"} acetabular configuration detected.</p>`;
+                    
+                    html += `<p><strong>Parameters of Concern:</strong><ul>`;
+                    concerns.forEach(concern => {
+                        html += `<li>${concern}</li>`;
+                    });
+                    html += `</ul></p>`;
+                    
+                    html += `<p><strong>Considerations:</strong><ul>`;
+                    recommendations.forEach(rec => {
+                        html += `<li>${rec}</li>`;
+                    });
+                    html += `</ul></p>`;
+                    
+                    html += `<p><strong>General Principle:</strong> Regardless of fracture pattern, the goal is to restore weight-bearing dome coverage (>80%) and column continuity. In cases with compromised baseline anatomy, anatomical reduction becomes even more critical.</p>`;
+                }
+                
+                html += `<p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;"><em>Note: These recommendations are algorithmically generated based on the parameter thresholds. Always correlate with complete clinical and radiographic assessment.</em></p>`;
+                
+                recommendationContent.innerHTML = html;
+            }
+            
+            // Event listeners for sliders
+            inclinationSlider.addEventListener('input', function() {
+                inclinationValue.textContent = this.value + '°';
+                updateRecommendation();
+            });
+            
+            anteversionSlider.addEventListener('input', function() {
+                anteversionValue.textContent = this.value + '°';
+                updateRecommendation();
+            });
+            
+            coverageSlider.addEventListener('input', function() {
+                coverageValue.textContent = this.value + '%';
+                updateRecommendation();
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                inclinationSlider.value = defaultValues.inclination;
+                anteversionSlider.value = defaultValues.anteversion;
+                coverageSlider.value = defaultValues.coverage;
+                
+                inclinationValue.textContent = defaultValues.inclination + '°';
+                anteversionValue.textContent = defaultValues.anteversion + '°';
+                coverageValue.textContent = defaultValues.coverage + '%';
+                
+                updateRecommendation();
+                exportStatus.textContent = 'Parameters reset to default values.';
+                
+                setTimeout(() => {
+                    exportStatus.textContent = '';
+                }, 2000);
+            });
+            
+            // Export button
+            exportBtn.addEventListener('click', function() {
+                const inclination = inclinationSlider.value;
+                const anteversion = anteversionSlider.value;
+                const coverage = coverageSlider.value;
+                
+                const timestamp = new Date().toISOString();
+                
+                // Create export text
+                let exportText = `Letournel & Judet Classification - Parameter Summary\n`;
+                exportText += `Generated: ${timestamp}\n\n`;
+                exportText += `PARAMETERS:\n`;
+                exportText += `- Acetabular Lateral Inclination: ${inclination}°\n`;
+                exportText += `- Acetabular Anteversion: ${anteversion}°\n`;
+                exportText += `- Estimated Femoral Head Coverage: ${coverage}%\n\n`;
+                
+                // Get recommendation text (simplified)
+                const recommendationText = recommendationContent.textContent || recommendationContent.innerText;
+                exportText += `RECOMMENDATION:\n${recommendationText}\n\n`;
+                
+                exportText += `SOURCE DOCUMENT NOTES:\n`;
+                exportText += `- This summary is based on the provided document analyzing acetabular architecture.\n`;
+                exportText += `- The classification follows the principles of Column Theory (anterior/ posterior columns).\n`;
+                exportText += `- Key radiographic landmarks: Iliopectineal line (anterior column), Ilioischial line (posterior column).\n`;
+                exportText += `- The document provides anatomical and radiographic analysis but does not contain clinical outcome data from RCTs.\n`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(exportText).then(() => {
+                    exportStatus.textContent = '✓ Summary copied to clipboard!';
+                    exportStatus.style.color = 'var(--success)';
+                    
+                    setTimeout(() => {
+                        exportStatus.textContent = '';
+                    }, 3000);
+                }).catch(err => {
+                    exportStatus.textContent = '✗ Failed to copy to clipboard. Please try again.';
+                    exportStatus.style.color = 'var(--danger)';
+                    
+                    setTimeout(() => {
+                        exportStatus.textContent = '';
+                    }, 3000);
+                    
+                    console.error('Failed to copy: ', err);
+                });
+            });
+            
+            // Initialize
+            updateRecommendation();
+        });
+    </script>
+</body>
+</html>

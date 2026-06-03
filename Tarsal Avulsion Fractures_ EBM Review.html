@@ -1,0 +1,1231 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidence-Based Management Algorithm for Tarsal Avulsion Fractures</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --accent: #c0392b;
+  --accent-light: #e74c3c;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --border: #dee2e6;
+  --sidebar-bg: #f0f4f8;
+  --badge-1: #1a5276;
+  --badge-2: #2980b9;
+  --badge-3: #f39c12;
+  --badge-4: #e67e22;
+  --badge-5: #95a5a6;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 2.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.header .subtitle {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-top: 0.4rem;
+  font-weight: 400;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+main { min-width: 0; }
+aside {
+  position: relative;
+}
+.sidebar {
+  position: sticky;
+  top: 120px;
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+.sidebar h2 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.slider-group {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--sidebar-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-light);
+}
+.slider-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin-bottom: 0.3rem;
+}
+.slider-group .value-display {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.slider-group .threshold-note {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--success) 0%, var(--warning) 50%, var(--accent) 100%);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border: 3px solid #fff;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  border: 3px solid #fff;
+}
+.recommendation-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+}
+.recommendation-box.conservative {
+  background: #d5f5e3;
+  border: 2px solid var(--success);
+  color: #1e8449;
+}
+.recommendation-box.surgical {
+  background: #fadbd8;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+.recommendation-box.uncertain {
+  background: #fef9e7;
+  border: 2px solid var(--warning);
+  color: #7d6608;
+}
+.recommendation-box h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.btn {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.btn-reset {
+  background: var(--border);
+  color: var(--text);
+}
+.btn-reset:hover { background: #ced4da; }
+.btn-export {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-export:hover { background: var(--primary-light); }
+.btn-export:active { transform: scale(0.97); }
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 999;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+section {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+section h2 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary);
+  font-weight: 700;
+}
+section h3 {
+  font-size: 1.1rem;
+  color: var(--primary-light);
+  margin: 1.5rem 0 0.8rem;
+  font-weight: 700;
+}
+section h4 {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin: 1.2rem 0 0.5rem;
+  font-weight: 600;
+}
+p { margin-bottom: 0.8rem; }
+ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+li { margin-bottom: 0.4rem; }
+.evidence-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  vertical-align: middle;
+  margin-left: 0.3rem;
+  letter-spacing: 0.02em;
+}
+.ev-1 { background: var(--badge-1); }
+.ev-2 { background: var(--badge-2); }
+.ev-3 { background: var(--badge-3); color: #333; }
+.ev-4 { background: var(--badge-4); }
+.ev-5 { background: var(--badge-5); }
+.ev-ns { background: #bdc3c7; color: #333; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+caption {
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: var(--sidebar-bg);
+  border-radius: 6px 6px 0 0;
+}
+th {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+td {
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:nth-child(even) { background: #f8f9fa; }
+tr:hover { background: #eaf2f8; }
+.callout {
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.88rem;
+}
+.callout-warning {
+  background: #fef9e7;
+  border-left: 4px solid var(--warning);
+}
+.callout-info {
+  background: #eaf2f8;
+  border-left: 4px solid var(--primary-light);
+}
+.callout-danger {
+  background: #fadbd8;
+  border-left: 4px solid var(--accent);
+}
+.callout-success {
+  background: #d5f5e3;
+  border-left: 4px solid var(--success);
+}
+.callout strong { display: block; margin-bottom: 0.3rem; }
+.toc {
+  background: var(--sidebar-bg);
+  padding: 1.2rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+.toc h3 { margin-top: 0; font-size: 1rem; color: var(--primary); }
+.toc ol { margin: 0.5rem 0 0 1.2rem; }
+.toc li { margin-bottom: 0.25rem; font-size: 0.85rem; }
+.toc a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.toc a:hover { color: var(--accent); text-decoration: underline; }
+.references {
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+.references ol { margin-left: 1.2rem; }
+.references li { margin-bottom: 0.3rem; }
+.step-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+.algorithm-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #eee;
+}
+.algorithm-step:last-child { border-bottom: none; }
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+.toggle-switch input { display: none; }
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #ccc;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--success); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+  .sidebar {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+  .header { padding: 1.5rem 1rem; }
+  .header h1 { font-size: 1.2rem; }
+  section { padding: 1.2rem; }
+  table { font-size: 0.75rem; }
+  th, td { padding: 0.45rem 0.5rem; }
+}
+@media (max-width: 600px) {
+  .btn-group { flex-direction: column; }
+  .header h1 { font-size: 1rem; }
+}
+.print-only { display: none; }
+@media print {
+  .sidebar, .btn-group, .header { display: none; }
+  .layout { grid-template-columns: 1fr; }
+  section { box-shadow: none; border: 1px solid #ccc; }
+  .print-only { display: block; }
+}
+</style>
+</head>
+<body>
+
+<header class="header" role="banner">
+  <h1>Evidence-Based Management Algorithm for Tarsal Avulsion Fractures Secondary to Acute Ankle Sprains</h1>
+  <p class="subtitle">A Comprehensive Sports Medicine Review — Synthesizing Level III–V Evidence for the Elite Athletic Population</p>
+</header>
+
+<div class="layout">
+<main role="main">
+
+  <!-- Table of Contents -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h3>📑 Table of Contents</h3>
+    <ol>
+      <li><a href="#intro">Introduction: Occult Tarsal Trauma</a></li>
+      <li><a href="#biomech">Biomechanical Pathoanatomy</a></li>
+      <li><a href="#apc">Clinical Entity 1: Anterior Process Calcaneus (APC) Fractures</a></li>
+      <li><a href="#lpt">Clinical Entity 2: Lateral Process of the Talus (LPT) Fractures</a></li>
+      <li><a href="#dtn">Clinical Entity 3: Dorsal Talonavicular Ligament Avulsions</a></li>
+      <li><a href="#algorithm">Comprehensive Clinical Decision-Making Algorithm</a></li>
+      <li><a href="#rtp">Rehabilitation &amp; Return to Play Protocols</a></li>
+      <li><a href="#studies">Key Studies Referenced</a></li>
+      <li><a href="#references">Works Cited</a></li>
+    </ol>
+  </nav>
+
+  <!-- Section 1: Introduction -->
+  <section id="intro">
+    <h2>1. Introduction to Occult Tarsal Trauma in the Athletic Ankle</h2>
+    <p>Acute lateral ankle sprains (LAS) represent one of the most ubiquitous orthopedic injuries encountered in sports medicine, accounting for an estimated <strong>15% to 25%</strong> of all sports-related musculoskeletal injuries.<span class="evidence-badge ev-ns">1</span> While the overwhelming majority involve isolated soft-tissue damage to the lateral ligamentous complex (ATFL and CFL), a critical subset of patients sustains concomitant osseous trauma that is <strong>frequently missed during initial evaluation</strong>.<span class="evidence-badge ev-ns">2</span></p>
+
+    <p>The high-energy kinematics of athletic trauma—particularly those involving extreme ranges of plantarflexion or dorsiflexion coupled with forceful inversion—place immense tensile and shear stress on the midtarsal and subtalar articulations. This dynamic loading frequently results in <strong>occult tarsal avulsion fractures</strong>.<span class="evidence-badge ev-ns">4</span></p>
+
+    <div class="callout callout-danger">
+      <strong>⚠️ Critical Diagnostic Gap</strong>
+      Up to <strong>40%</strong> of lateral process of the talus (LPT) fractures and anterior calcaneal process (APC) fractures are misdiagnosed at initial presentation. Standard Ottawa Ankle Rules, while highly sensitive for malleolar and 5th metatarsal base fractures, often fail to direct the clinician toward the complex three-dimensional anatomy of the Chopart (midtarsal) and subtalar joints.<span class="evidence-badge ev-ns">5</span>
+    </div>
+
+    <p>The clinical consequences of missing these occult fractures in an elite athlete are severe and potentially career-altering. Delayed diagnosis or the uniform application of conservative "sprain" protocols to unstable articular fractures inevitably leads to a cascade of morbidity, including:</p>
+    <ul>
+      <li>Delayed union and symptomatic nonunion</li>
+      <li>Malunion</li>
+      <li>Chronic impingement syndromes</li>
+      <li>Early-onset post-traumatic osteoarthritis of the subtalar or calcaneocuboid joints<span class="evidence-badge ev-ns">5</span></li>
+    </ul>
+
+    <p>Even <strong>1 to 2 millimeters of articular step-off</strong> in the talar or calcaneal articulations can drastically alter joint contact pressures, initiating rapid chondral degradation and severely limiting athletic performance.<span class="evidence-badge ev-ns">10</span></p>
+
+    <div class="callout callout-info">
+      <strong>ℹ️ Evidence Synthesis Note</strong>
+      This review synthesizes predominantly Level III and Level IV evidence (systematic reviews and comparative cohort studies). Level I randomized controlled trials remain sparse for this specific fracture sub-type. Evidence levels are annotated throughout using the Oxford Centre for Evidence-Based Medicine (OCEBM) grading system.
+    </div>
+  </section>
+
+  <!-- Section 2: Biomechanics -->
+  <section id="biomech">
+    <h2>2. Biomechanical Pathoanatomy of the Midfoot and Hindfoot</h2>
+    <p>The subtalar joint (talocalcaneal articulation) and the Chopart joint (talonavicular and calcaneocuboid articulations) function synergistically to accommodate uneven terrain, absorb axial impact, and transition the foot from a flexible shock absorber at heel strike to a rigid lever arm during toe-off.<span class="evidence-badge ev-ns">13</span></p>
+
+    <p>When the athletic foot is subjected to sudden, violent inversion, the surrounding capsuloligamentous structures act as the primary static restraints. If the deforming forces exceed the ultimate tensile strength of these ligaments, failure occurs either at the mid-substance of the ligament (a sprain) or at the osteoligamentous junction (an avulsion fracture). The specific location of the avulsion is dictated largely by the <strong>sagittal plane position of the ankle</strong> at the exact moment of the inversion stress.<span class="evidence-badge ev-ns">6</span></p>
+
+    <h3>Mechanism-to-Injury Correlation</h3>
+    <table>
+      <caption>Table 1: Biomechanical Mechanisms and Associated Avulsion Fracture Patterns</caption>
+      <thead>
+        <tr>
+          <th>Mechanism</th>
+          <th>Direction of Force</th>
+          <th>Resulting Injury</th>
+          <th>Key Structure Involved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Inversion + Forced Plantarflexion</strong></td>
+          <td>Maximal strain on dorsal midfoot structures</td>
+          <td>Anterior process of calcaneus avulsion; dorsal navicular lip avulsion</td>
+          <td>Bifurcate ligament; Dorsal talonavicular ligament</td>
+        </tr>
+        <tr>
+          <td><strong>Inversion + Forced Dorsiflexion</strong></td>
+          <td>Lateral talus jams against fibula/calcaneus</td>
+          <td>"Snowboarder's fracture" — Lateral process of the talus</td>
+          <td>Lateral talocalcaneal &amp; posterior talofibular ligaments</td>
+        </tr>
+        <tr>
+          <td><strong>Inversion + Internal Rotation</strong></td>
+          <td>Violent stretch of broad EDB muscle origin</td>
+          <td>EDB origin avulsion from dorsolateral calcaneus</td>
+          <td>Extensor digitorum brevis (EDB) muscle origin</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Section 3: APC Fractures -->
+  <section id="apc">
+    <h2>3. Clinical Entity 1: Anterior Process of the Calcaneus (APC) Fractures</h2>
+    <p>Fractures involving the anterior process of the calcaneus represent approximately <strong>2% to 8%</strong> of all calcaneal fractures, but their incidence as a concomitant injury to severe lateral ankle sprains is significantly higher in the athletic population.<span class="evidence-badge ev-ns">19</span> The anterior process is a critical bony promontory situated at the anterolateral aspect of the calcaneus, forming the anterior subtalar facet superiorly and serving as a fundamental keystone for lateral column stability.<span class="evidence-badge ev-ns">20</span></p>
+
+    <h3>Anatomical Differentiation: Bifurcate Ligament vs. EDB Avulsions</h3>
+    <p>Extra-articular avulsion fractures of the anterior calcaneus are categorized into two distinct clinical entities based on the specific anatomical structure involved:<span class="evidence-badge ev-ns">6</span></p>
+
+    <h4>Bifurcate Ligament Avulsion</h4>
+    <p>The bifurcate ligament is a robust, Y-shaped structure originating on the dorsal aspect of the anterior process of the calcaneus. It divides into two bands:</p>
+    <ul>
+      <li><strong>Calcaneonavicular Ligament (CNL):</strong> Inserts on the dorsolateral navicular; mean length 22.7 mm, thickness 3.23 mm.<span class="evidence-badge ev-ns">17</span></li>
+      <li><strong>Calcaneocuboid Ligament (CCL):</strong> Inserts on the dorsal cuboid; occasionally absent (up to 9.4%), mean thickness 1.48 mm.<span class="evidence-badge ev-ns">17</span></li>
+    </ul>
+    <p>Avulsion typically occurs during severe twisting with forced plantarflexion and inversion. Because this ligament spans the Chopart joint complex, its avulsion should immediately elevate suspicion for a broader midtarsal sprain or transient subluxation.<span class="evidence-badge ev-ns">15</span></p>
+
+    <h4>Extensor Digitorum Brevis (EDB) Origin Avulsion</h4>
+    <p>The EDB is a broad, flat muscle whose origin lies on the dorsolateral surface of the anterior calcaneal body. Avulsion fractures are generated by forceful inversion combined with internal rotation, which stretches the muscle belly violently, pulling single or multiple variably sized, often rotated, "flake-like" fragments from the dorsolateral calcaneal margin.<span class="evidence-badge ev-ns">6</span></p>
+
+    <h3>Radiographic Imaging and Diagnostic Pitfalls</h3>
+    <table>
+      <caption>Table 2: Optimal Imaging Modalities for APC Fracture Subtypes</caption>
+      <thead>
+        <tr>
+          <th>Avulsion Type</th>
+          <th>Best Plain Film View</th>
+          <th>Gold Standard Advanced Imaging</th>
+          <th>Key Diagnostic Feature</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Bifurcate Ligament</td>
+          <td>Internal oblique radiograph of foot</td>
+          <td>CT with 1–2 mm cuts &amp; 3D reconstructions</td>
+          <td>Discrete fragment from dorsal anterior process</td>
+        </tr>
+        <tr>
+          <td>EDB Origin</td>
+          <td>AP projection of ankle / frontal foot</td>
+          <td>CT with 1–2 mm cuts &amp; 3D reconstructions</td>
+          <td>Flake-like fragments inferior to lateral malleolus</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-warning">
+      <strong>🔍 Diagnostic Pitfall: Accessory Ossicles</strong>
+      <p><strong>Os Calcaneus Secundarius:</strong> Present in 2–5% of the population; mimics bifurcate ligament avulsion. Differentiating factor: absence of a "donor site" cortical defect; fully corticated with smooth, rounded lamellar edges vs. sharp, irregular, non-corticated margins of acute fracture.<span class="evidence-badge ev-ns">6</span></p>
+      <p><strong>Os Peroneum:</strong> Resides inferiorly within the peroneus longus tendon; fully corticated and typically bilateral. Must be differentiated from EDB avulsion.<span class="evidence-badge ev-ns">6</span></p>
+    </div>
+
+    <p><strong>MRI Utility:</strong> Highly sensitive for identifying radiographically occult fractures via marrow edema patterns (T2-weighted fat-saturated sequences). Also confirms concomitant bifurcate ligament mid-substance tears (co-occur in up to 69% of cases) and ATFL injuries (50%).<span class="evidence-badge ev-ns">24</span> MRI can identify calcaneonavicular coalitions, documented to have an association up to 60% with APC fractures in certain cohorts.<span class="evidence-badge ev-ns">25</span></p>
+
+    <h3>EBM Threshold Criteria: Conservative vs. Surgical Management</h3>
+
+    <table>
+      <caption>Table 3: APC Management Strategy — Evidence-Based Decision Thresholds</caption>
+      <thead>
+        <tr>
+          <th>Management</th>
+          <th>Fragment Size</th>
+          <th>Displacement</th>
+          <th>CC Joint Articular Involvement</th>
+          <th>Recommended Protocol</th>
+          <th>Evidence Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Conservative</strong></td>
+          <td>&lt; 1 cm</td>
+          <td>&lt; 2 mm</td>
+          <td>&lt; 25%</td>
+          <td>NWB in cast/CAM boot 4–6 weeks; progressive WB over subsequent 4 weeks</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+        <tr>
+          <td><strong>Excision &amp; Repair</strong></td>
+          <td>Small, comminuted</td>
+          <td>&gt; 2 mm</td>
+          <td>&lt; 25% (extra-articular)</td>
+          <td>Fragment excision; suture anchor repair of bifurcate/EDB</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+        <tr>
+          <td><strong>ORIF</strong></td>
+          <td>&gt; 1 cm (large)</td>
+          <td>&gt; 2 mm</td>
+          <td>&gt; 25% (intra-articular)</td>
+          <td>Headless compression screws or low-profile T-shaped locking plates</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Conservative Protocol Details:</strong> Evidence-based treatment consists of initial rigid immobilization in a non-weight-bearing (NWB) short-leg cast or CAM boot for 4–6 weeks. For larger but strictly non-displaced extra-articular variants, NWB may be extended to 10–12 weeks. Cohort studies demonstrate excellent results (median VAS-FA 95, Karlsson Score 90) but note a prolonged timeline (median 90 days) to full sporting activity.<span class="evidence-badge ev-4">Level IV</span><span class="evidence-badge ev-ns">26</span></p>
+
+    <p><strong>Surgical Evidence — Screw vs. Plate Fixation:</strong> A 2023 retrospective cohort study (Level IV) compared ORIF utilizing standard screws/K-wires against bridging plate fixation (T-shaped distal radius locking plate) for APC fractures with CC joint injury. "Not-across" CC joint plate fixation resulted in superior early outcomes (higher AOFAS scores, lower VAS at 1 month), significantly lower intraoperative blood loss, and faster early functional recovery.<span class="evidence-badge ev-4">Level IV</span><span class="evidence-badge ev-ns">19</span></p>
+  </section>
+
+  <!-- Section 4: LPT Fractures -->
+  <section id="lpt">
+    <h2>4. Clinical Entity 2: Lateral Process of the Talus (LPT) Fractures</h2>
+    <p>LPT fractures are the second most common fracture of the talar body (24% of all talar body fractures), yet characterized by an alarming initial misdiagnosis rate of up to <strong>40%</strong>.<span class="evidence-badge ev-ns">5</span></p>
+
+    <h3>Mechanism: "Snowboarder's Ankle"</h3>
+    <p>The injury is precipitated by acute axial load coupled with extreme dorsiflexion and inversion. In a severely inverted position, the posterior subtalar facet becomes incongruous. When acute, forceful dorsiflexion is simultaneously applied (e.g., hard flat landing in snowboarding), immense compression and shear forces concentrate directly on the lateral process.<span class="evidence-badge ev-ns">5</span></p>
+
+    <p>The lateral process is a wedge-shaped structure articulating with the distal fibula laterally and the posterior calcaneal facet inferiorly. It serves as attachment site for the lateral talocalcaneal, posterior talofibular, cervical, and bifurcate ligaments.<span class="evidence-badge ev-ns">5</span></p>
+
+    <h3>Clinical Presentation</h3>
+    <p>Clinically nearly indistinguishable from severe Grade II–III lateral ankle sprain. A highly specific diagnostic indicator is <strong>acute point tenderness directly over the lateral process</strong>, approximately 1 cm anterior and 1 cm inferior to the tip of the lateral malleolus, aggressively exacerbated during subtalar motion.<span class="evidence-badge ev-ns">5</span></p>
+
+    <h3>Specialized Radiographic Views</h3>
+    <ul>
+      <li><strong>Mukherjee View:</strong> AP projection with leg in 20° internal rotation, foot in neutral plantarflexion.<span class="evidence-badge ev-ns">5</span></li>
+      <li><strong>Dimon View:</strong> AP projection with leg internally rotated 45°, foot plantarflexed 30°.<span class="evidence-badge ev-ns">5</span></li>
+    </ul>
+    <p>High-resolution CT with multiplanar reformations is the <strong>standard of care</strong> for evaluating all suspected LPT fractures in athletes.<span class="evidence-badge ev-ns">5</span></p>
+
+    <h3>Hawkins Classification and EBM Treatment Algorithm</h3>
+    <table>
+      <caption>Table 4: Hawkins Classification of LPT Fractures and Evidence-Based Management</caption>
+      <thead>
+        <tr>
+          <th>Hawkins Type</th>
+          <th>Fracture Characteristics</th>
+          <th>Management Protocol</th>
+          <th>Evidence Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Type I</strong></td>
+          <td>Simple, large fracture extending from talofibular to posterior talocalcaneal articular surface</td>
+          <td><strong>Surgical:</strong> Fragment &gt;1 cm and displaced &gt;2 mm → ORIF with headless compression screws (Herbert/Accutrac)</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+        <tr>
+          <td><strong>Type II</strong></td>
+          <td>Comminuted fracture involving entire lateral process, multiple small articular fragments</td>
+          <td><strong>Surgical/Excisional:</strong> Small unfixable fragments → excise to prevent impingement; large structural fragments → reduce and fix</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+        <tr>
+          <td><strong>Type III</strong></td>
+          <td>Small chip fracture of anteroinferior lateral process, subtalar joint periphery only</td>
+          <td><strong>Conservative:</strong> Non-operative if non-displaced. NWB cast 4 weeks → walking cast 2 weeks. Delayed arthroscopic excision if symptomatic non-union</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-info">
+      <strong>🔬 Emerging Technique</strong>
+      Arthroscopic removal of loose bodies and arthroscopically-assisted internal fixation are emerging as favorable, minimally invasive techniques. These reduce soft tissue envelope compromise while achieving precise, visually confirmed anatomical reduction of the subtalar joint.<span class="evidence-badge ev-ns">36</span>
+    </div>
+
+    <p>Contemporary literature strongly advocates avoiding non-operative care for any displaced Type I and II variants, which uniformly leads to high rates of malunion and early-onset subtalar osteoarthritis.<span class="evidence-badge ev-ns">5</span></p>
+  </section>
+
+  <!-- Section 5: Dorsal TN Avulsion -->
+  <section id="dtn">
+    <h2>5. Clinical Entity 3: Dorsal Talonavicular Ligament Avulsions</h2>
+    <p>The most common acute fracture of the navicular is the <strong>dorsal capsular avulsion fracture</strong>, typically precipitated by acute plantarflexion and inversion force—the same mechanism as a standard ATFL sprain. This places maximal tension on the robust dorsal talonavicular ligament and anterior joint capsule, avulsing a small piece of cortical bone from the dorsal proximal navicular lip.<span class="evidence-badge ev-ns">18</span></p>
+
+    <p>Unlike high-risk navicular body stress fractures (Sangeorzan Types I–III), dorsal avulsion fractures are considered relatively benign due to robust local vascularity at capsular insertions.<span class="evidence-badge ev-ns">16</span></p>
+
+    <h3>Diagnosis</h3>
+    <p>Confirmed on true lateral radiograph of the foot. MRI may be required in high-level athletes to rule out concomitant posterior tibial tendon pathology or deeper osteochondral lesions of the talonavicular joint.<span class="evidence-badge ev-ns">40</span></p>
+
+    <h3>Management: General vs. Elite Athlete</h3>
+    <p><strong>General Population:</strong> Conservative management universally recommended — CAM walking boot or short leg cast for 4–6 weeks, weight-bearing as tolerated. Resolution through bony union or stable fibrous union is expected.<span class="evidence-badge ev-ns">18</span></p>
+
+    <p><strong>Elite Athlete Algorithm</strong> (per 2025 International Foot and Ankle Sports Consensus, <span class="evidence-badge ev-5">Level V</span>):<span class="evidence-badge ev-ns">12</span></p>
+    <ul>
+      <li>Acute, nondisplaced avulsions: non-operative with 4–6 week NWB or protected WB phase</li>
+      <li>Persistent midfoot pain beyond 8–12 weeks post-immobilization: primary indication for surgical intervention</li>
+      <li>Small fragment (symptomatic non-union): surgical excision + suture-anchor repair of dorsal talonavicular ligament</li>
+      <li>Large fragment (significant articular surface): provisional K-wire fixation → definitive compression screw or locking plate</li>
+    </ul>
+  </section>
+
+  <!-- Section 6: Algorithm -->
+  <section id="algorithm">
+    <h2>6. Comprehensive Clinical Decision-Making Algorithm</h2>
+
+    <h3>Phase 1: Acute Clinical Evaluation &amp; Triage</h3>
+
+    <div class="algorithm-step">
+      <span class="step-indicator">1</span>
+      <div>
+        <strong>Detailed Mechanism of Injury</strong>
+        <p>Carefully ascertain the exact kinematics: isolated inversion (typical LAS), forced dorsiflexion with inversion (LPT fracture), extreme plantarflexion with inversion (dorsal navicular avulsion or APC fracture).</p>
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <span class="step-indicator">2</span>
+      <div>
+        <strong>Targeted Physical Examination</strong>
+        <ul>
+          <li>Standard Ottawa Ankle Rule landmarks (malleolar zones, base of 5th MT, navicular)</li>
+          <li><strong>Micro-Targeted Palpation:</strong> 1 cm anterior and inferior to lateral malleolus (LPT); dorsolateral midfoot over CC joint (APC/Bifurcate/EDB); dorsal talonavicular joint space</li>
+          <li><strong>Mondor's Sign:</strong> Distinct hematoma tracking along plantar sole — pathognomonic for calcaneal trauma<span class="evidence-badge ev-ns">4</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Phase 2: Diagnostic Imaging Cascade</h3>
+
+    <div class="algorithm-step">
+      <span class="step-indicator">3</span>
+      <div>
+        <strong>Initial Radiography</strong>
+        <p>Standard AP, lateral, and mortise views of the ankle. If focal tenderness exists over midfoot/hindfoot, a standard foot series (AP, Lateral, Oblique) is mandatory.</p>
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <span class="step-indicator">4</span>
+      <div>
+        <strong>Specialized Views</strong>
+        <p>Dimon and Mukherjee views for suspected LPT. Internal oblique foot views for suspected APC fracture.</p>
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <span class="step-indicator">5</span>
+      <div>
+        <strong>Advanced Imaging Threshold</strong>
+        <p>If initial radiographs are negative but patient exhibits disproportionate pain, inability to bear weight after 5–7 days, or severe localized bony tenderness → proceed directly to <strong>non-contrast CT (2–3 mm fine cuts with 3D reformations)</strong>.<span class="evidence-badge ev-ns">4</span></p>
+      </div>
+    </div>
+
+    <h3>Phase 3: Evidence-Based Treatment Selection</h3>
+
+    <div class="algorithm-step">
+      <span class="step-indicator">6</span>
+      <div>
+        <strong>Apply Quantitative Threshold Criteria</strong> (use the interactive sidebar →)
+        <ul>
+          <li>Avulsed fragment &gt; 1 cm?</li>
+          <li>Fragment displaced &gt; 2 mm?</li>
+          <li>Articular involvement &gt; 25% of CC joint or significant subtalar involvement?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="algorithm-step">
+      <span class="step-indicator">7</span>
+      <div>
+        <strong>Decision Execution</strong>
+        <ul>
+          <li><em>Criteria NOT met →</em> Rigid immobilization (NWB cast or CAM boot) 4–6 weeks, then protected WB</li>
+          <li><em>Criteria MET →</em> Operative intervention. Small/comminuted: excision + ligamentous anchor repair. Large/articular: ORIF with headless screws or low-profile plates. Delay surgery 5–14 days until soft tissue swelling subsides (positive "wrinkle sign").<span class="evidence-badge ev-ns">4</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: RTP -->
+  <section id="rtp">
+    <h2>7. Advanced Post-Operative Rehabilitation &amp; Return to Play</h2>
+    <p>The timeline for return to play following surgical management of tarsal fractures spans an average of <strong>4 to 6 months (roughly 134.5 days)</strong>, though complex injuries may extend to 720 days.<span class="evidence-badge ev-ns">1</span></p>
+
+    <h3>Phase 1: Protection &amp; Biological Healing (Weeks 0–6)</h3>
+    <ul>
+      <li>Strict NWB in rigid splint or cast<span class="evidence-badge ev-ns">42</span></li>
+      <li>Cardiovascular maintenance via NWB modalities (upper body ergometer, seated core)<span class="evidence-badge ev-ns">46</span></li>
+      <li>Bone stimulator therapy; optimize serum Vitamin D (&gt;40 ng/mL)<span class="evidence-badge ev-ns">45</span></li>
+      <li>Early, highly protected subtalar and ankle AROM within pain-free range (if stable fixation)<span class="evidence-badge ev-ns">4</span></li>
+    </ul>
+
+    <h3>Phase 2: Progressive Loading (Weeks 6–10)</h3>
+    <ul>
+      <li>CAM boot → weight-bearing graduated 25% to 100% over 4 weeks, contingent on pain-free status<span class="evidence-badge ev-ns">45</span></li>
+      <li><strong>Critical Milestone:</strong> Weight-bearing CT or high-quality radiographs at 10–12 weeks post-op to confirm 100% fracture union — <em>absolute prerequisite</em> before high-impact activities<span class="evidence-badge ev-ns">45</span></li>
+      <li>Low-impact cardiovascular training; restoration of talocrural and subtalar kinematics</li>
+    </ul>
+
+    <h3>Phase 3: Neuromuscular Control (Weeks 10–16)</h3>
+    <ul>
+      <li>Transition to standard athletic footwear; supportive lace-up ankle brace or functional orthotics<span class="evidence-badge ev-ns">9</span></li>
+      <li>Closed-chain → bilateral → unilateral balance exercises on uneven surfaces (BOSU, foam pads)</li>
+      <li>Low-level bilateral plyometrics → unilateral hopping progression</li>
+    </ul>
+
+    <h3>Phase 4: Sport-Specific Conditioning &amp; Objective RTP Criteria (Weeks 16+)</h3>
+
+    <table>
+      <caption>Table 5: Functional Return-to-Play Assessment Battery</caption>
+      <thead>
+        <tr>
+          <th>Assessment</th>
+          <th>Passing Threshold</th>
+          <th>Clinical Significance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Y-Balance Test / Star Excursion</strong></td>
+          <td>&lt; 4 cm difference (involved vs. uninvolved) in anterior reach</td>
+          <td>Dynamic postural control and residual functional ankle instability<span class="evidence-badge ev-ns">49</span></td>
+        </tr>
+        <tr>
+          <td><strong>Dorsiflexion Lunge Test</strong></td>
+          <td>≥ 9–10 cm from wall (tibial angle ≥ 35–39°); symmetry with contralateral limb</td>
+          <td>Talocrural/subtalar mobility for explosive acceleration/deceleration<span class="evidence-badge ev-ns">49</span></td>
+        </tr>
+        <tr>
+          <td><strong>Single Leg Vertical Hop Test</strong></td>
+          <td>≥ 90% Limb Symmetry Index (LSI)</td>
+          <td>Maximal dynamic force generation and pain-free high-impact axial loading tolerance<span class="evidence-badge ev-ns">49</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-success">
+      <strong>✅ Overall Return-to-Sport Rate</strong>
+      Systematic reviews and meta-analyses indicate a highly favorable overall return-to-sport rate — ranging from <strong>87% to 98%</strong> across various fracture types — provided precise anatomical reduction was achieved surgically and a stringent, criteria-based rehabilitation program was strictly adhered to.<span class="evidence-badge ev-ns">1</span>
+    </div>
+  </section>
+
+  <!-- Section 8: Key Studies -->
+  <section id="studies">
+    <h2>8. Key Studies Referenced in the Source Document</h2>
+
+    <div class="callout callout-warning">
+      <strong>⚠️ Evidence Gap Notice</strong>
+      The source document synthesizes predominantly <strong>Level III–V evidence</strong> (systematic reviews, retrospective cohorts, expert consensus). It does not identify specific landmark Level I RCTs for this fracture sub-type. The following are the key studies and evidence sources cited throughout the document.
+    </div>
+
+    <table>
+      <caption>Table 6: Key Evidence Sources from the Source Document</caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Study / Source</th>
+          <th>Key Finding / Contribution</th>
+          <th>Evidence Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Systematic review: Return to sport after surgical ankle fractures (PMC, 2026)</td>
+          <td>RTP rate 87–98%; average RTP timeline 134.5 days; complex injuries up to 720 days</td>
+          <td><span class="evidence-badge ev-3">Level III</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>2023 Stratford Round Table Consensus (BOFAS)</td>
+          <td>Articular step-off of 1–2 mm significantly alters joint contact pressures, initiating chondral degradation</td>
+          <td><span class="evidence-badge ev-5">Level V</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Calcaneal Avulsion Fractures: An Often Forgotten Diagnosis (AJR, 2014)</td>
+          <td>Differentiated bifurcate vs. EDB avulsions; defined optimal imaging views; 40% misdiagnosis rate</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Lateral Process of the Talus Fracture (Orthopedics, 2000)</td>
+          <td>Defined "Snowboarder's fracture" mechanism; Hawkins classification; 40% misdiagnosis rate</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Comparison of Two Surgical Strategies for APC Fractures (J Int Med Res, 2023)</td>
+          <td>Low-profile T-plate ORIF superior to standard screws for APC with CC joint injury; lower blood loss, faster recovery</td>
+          <td><span class="evidence-badge ev-4">Level IV</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Navicular fractures in elite athletes — 2025 International Consensus (PubMed, 2025)</td>
+          <td>Specialized RTP criteria for navicular injuries in elite athletes; 4–6 week NWB for nondisplaced; surgical indications for persistent pain &gt;8–12 weeks</td>
+          <td><span class="evidence-badge ev-5">Level V</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Anatomico-radiological Study of the Bifurcate Ligament (PMC, 2019)</td>
+          <td>CNL: mean length 22.7 mm, thickness 3.23 mm. CCL: absent in 9.4%, thickness 1.48 mm</td>
+          <td><span class="evidence-badge ev-ns">Anatomical</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>LPT fracture arthroscopic ORIF case report (PMC, 2024)</td>
+          <td>Arthroscopic techniques reduce soft tissue compromise while achieving anatomic reduction</td>
+          <td><span class="evidence-badge ev-5">Level V</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-info">
+      <strong>ℹ️ Note on Evidence Gaps</strong>
+      No Level I or Level II randomized controlled trials were identified in the source document for this specific fracture sub-type. Evidence-based recommendations are derived from Level III systematic reviews, Level IV retrospective cohort studies, and Level V expert consensus documents. Future high-quality RCTs are needed to validate the surgical thresholds outlined.
+    </div>
+  </section>
+
+  <!-- References -->
+  <section id="references" class="references">
+    <h2>Works Cited (From Source Document)</h2>
+    <ol>
+      <li>Return to sport in athletes after surgical ankle fractures: A systematic review — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12558590/" target="_blank" rel="noopener">PMC12558590</a></li>
+      <li>A Review of Football Injuries and the Role of 3D Biomechanical Analysis — ResearchGate. <a href="https://www.researchgate.net/publication/347672034" target="_blank" rel="noopener">RG347672034</a></li>
+      <li>Acute ankle injuries: association between sprain severity — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10519667/" target="_blank" rel="noopener">PMC10519667</a></li>
+      <li>Calcaneus Fractures — StatPearls — NCBI Bookshelf. <a href="https://www.ncbi.nlm.nih.gov/books/NBK430861/" target="_blank" rel="noopener">NBK430861</a></li>
+      <li>Fracture of the Lateral Process of the Talus — Orthopedics. <a href="https://journals.healio.com/doi/10.3928/0147-7447-20000101-17" target="_blank" rel="noopener">Healio</a></li>
+      <li>Calcaneal Avulsion Fractures: An Often Forgotten Diagnosis — AJR. <a href="https://ajronline.org/doi/10.2214/AJR.14.14190" target="_blank" rel="noopener">AJR.14.14190</a></li>
+      <li>Avulsion Fractures in the Ankle and Foot — ResearchGate. <a href="https://www.researchgate.net/publication/380187491" target="_blank" rel="noopener">RG380187491</a></li>
+      <li>ORIF of a Calcaneal Anterior Process Fracture Using a Locking Plate — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8575291/" target="_blank" rel="noopener">PMC8575291</a></li>
+      <li>Anterior Calcaneus Avulsion Fracture Treatment — AFOC. <a href="https://ankleandfootcentre.com.au/blog/anterior-process-calcaneus-avulsion-fracture/" target="_blank" rel="noopener">AFOC</a></li>
+      <li>Consensus of the 10th Round Table Stratford upon Avon, June 2023. <a href="https://www.bofas.org.uk/Portals/0/RoundTable_Booklets/Round%20Table%20-%202023%20-%20Stratford.pdf" target="_blank" rel="noopener">BOFAS</a></li>
+      <li>Acute ankle lateral ligament injury: an up-to-date review — AOSM. <a href="http://www.e-aosm.org/journal/download_pdf.php?doi=10.14517/aosm23002" target="_blank" rel="noopener">AOSM</a></li>
+      <li>Navicular fractures in elite athletes — 2025 International Consensus — PubMed. <a href="https://pubmed.ncbi.nlm.nih.gov/41451754/" target="_blank" rel="noopener">PMID 41451754</a></li>
+      <li>Nonoperative treatment for Navicular avulsion fracture — AO Surgery Reference. <a href="https://surgeryreference.aofoundation.org/orthopedic-trauma/adult-trauma/midfoot/navicular-avulsion-fracture/nonoperative" target="_blank" rel="noopener">AOSurgery</a></li>
+      <li>Calcaneus Fractures — Orthobullets. <a href="https://www.orthobullets.com/trauma/1051/calcaneus-fractures" target="_blank" rel="noopener">Orthobullets</a></li>
+      <li>Midtarsal (Chopart) Joint Sprain — Radsource. <a href="https://radsource.us/midtarsal-chopart-joint-sprain/" target="_blank" rel="noopener">Radsource</a></li>
+      <li>Tarsal Navicular Fractures — Orthobullets. <a href="https://www.orthobullets.com/foot-and-ankle/7033/tarsal-navicular-fractures" target="_blank" rel="noopener">Orthobullets</a></li>
+      <li>Anatomico-radiological Study of the Bifurcate Ligament — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6411328/" target="_blank" rel="noopener">PMC6411328</a></li>
+      <li>Midfoot Injuries — Musculoskeletal Key. <a href="https://musculoskeletalkey.com/midfoot-injuries/" target="_blank" rel="noopener">MSKKey</a></li>
+      <li>Comparison of Two Surgical Strategies for APC Fractures — J Int Med Res. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9983114/" target="_blank" rel="noopener">PMC9983114</a></li>
+      <li>Calcaneal Avulsion Fractures: An Often Forgotten Diagnosis — AJR Online. <a href="https://ajronline.org/doi/pdf/10.2214/AJR.14.14190" target="_blank" rel="noopener">AJR PDF</a></li>
+      <li>Avulsion Fracture of the Dorsal Talonavicular Ligament — ResearchGate. <a href="https://www.researchgate.net/publication/51697807" target="_blank" rel="noopener">RG51697807</a></li>
+      <li>Acute Fracture of the Anterior Process of Calcaneus — AJR Online. <a href="https://ajronline.org/doi/10.2214/AJR.17.18678" target="_blank" rel="noopener">AJR.17.18678</a></li>
+      <li>Radiologic Case Study — Orthopedics. <a href="https://journals.healio.com/doi/10.3928/0147-7447-19990301-16" target="_blank" rel="noopener">Healio</a></li>
+      <li>Bifurcate Ligament — South Florida Sports Medicine. <a href="https://www.southfloridasportsmedicine.com/bifurcate-ligament" target="_blank" rel="noopener">SFSM</a></li>
+      <li>Anterior process calcaneal fractures: systematic evaluation — PubMed. <a href="https://pubmed.ncbi.nlm.nih.gov/17410357/" target="_blank" rel="noopener">PMID 17410357</a></li>
+      <li>Fractures to the Anterior Process of the Calcaneus — ResearchGate. <a href="https://www.researchgate.net/publication/333591817" target="_blank" rel="noopener">RG333591817</a></li>
+      <li>Fractures of the Calcaneus: Current Treatment Strategies — ResearchGate. <a href="https://www.researchgate.net/publication/263291501" target="_blank" rel="noopener">RG263291501</a></li>
+      <li>Treatment algorithm for acute APC fracture — ResearchGate. <a href="https://www.researchgate.net/figure/Treatment-algorithm-for-acute-APC-fracture-APC-anterior-process-of-the-calcaneus-TN_fig5_368256010" target="_blank" rel="noopener">RG Figure</a></li>
+      <li>Isolated "Nutcracker" Fracture of the Anterior Calcaneal Process — Clinics in Surgery. <a href="https://www.clinicsinsurgery.com/open-access/isolated-quotnutcrackerquot-fracture-of-the-anterior-calcaneal-process-do-we-need-a-more-comprehensive-classification-for-this-injury-spectrum-a-case-report-3547.pdf" target="_blank" rel="noopener">PDF</a></li>
+      <li>LPT fracture plagues snowboarders — AuntMinnie. <a href="https://www.auntminnie.com/clinical-news/article/15559649/" target="_blank" rel="noopener">AuntMinnie</a></li>
+      <li>Common Snowboard Injuries — MobilityDuo. <a href="https://www.mobilityduo.com/blogs/blog/common-snowboard-injuries-recognition-treatment-timeline" target="_blank" rel="noopener">MobilityDuo</a></li>
+      <li>Lateral Process Fracture of the Talus: Case Series — PubMed. <a href="https://pubmed.ncbi.nlm.nih.gov/31668959/" target="_blank" rel="noopener">PMID 31668959</a></li>
+      <li>LPT fracture arthroscopic ORIF case report — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11007640/" target="_blank" rel="noopener">PMC11007640</a></li>
+      <li>Navicular Stress Fractures: Narrative Review — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12710796/" target="_blank" rel="noopener">PMC12710796</a></li>
+      <li>Acute navicular fracture with dorsal TN dislocation — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12197996/" target="_blank" rel="noopener">PMC12197996</a></li>
+      <li>Navicular fractures in elite athletes — 2025 Consensus — ResearchGate. <a href="https://www.researchgate.net/publication/399092592" target="_blank" rel="noopener">RG399092592</a></li>
+      <li>Return to Play After Jones Fractures — ACFAS. <a href="https://www.acfas.org/return-to-play-and-fracture-union-after-the-surgical-management-of-jones-fractures-in-athletes-a-sy" target="_blank" rel="noopener">ACFAS</a></li>
+      <li>Evidenced-Informed Approach to RTP in Professional Soccer — JOSPT Open. <a href="https://www.jospt.org/doi/10.2519/josptopen.2025.0115" target="_blank" rel="noopener">JOSPT</a></li>
+      <li>Tarsal navicular stress fractures — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5344863/" target="_blank" rel="noopener">PMC5344863</a></li>
+      <li>Talus Fracture Recovery Guide for Athletes — TrueSportsPT. <a href="https://www.truesportsphysicaltherapy.com/blogs/talus-fracture-rehab-and-recovery-roadmap-for-athletes" target="_blank" rel="noopener">TrueSports</a></li>
+      <li>Shortening RTP Times in Elite Athletes With Lisfranc Injuries — PMC. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9218474/" target="_blank" rel="noopener">PMC9218474</a></li>
+      <li>Ankle Return to Sport Assessment — Sanford Health. <a href="https://www.sanfordhealth.org/-/media/org/files/medical-professionals/resources-and-education/ankle-return-to-sport.pdf" target="_blank" rel="noopener">Sanford PDF</a></li>
+      <li>Return to Sport After Anatomic Lateral Ankle Stabilization — AJSM. <a href="https://www.ovid.com/journals/ajsm/fulltext/10.1177/03635465231170699" target="_blank" rel="noopener">AJSM</a></li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- Sidebar -->
+<aside>
+  <div class="sidebar" role="complementary" aria-label="Interactive Clinical Parameters">
+    <h2>🎛️ Clinical Decision Parameters</h2>
+
+    <div class="slider-group">
+      <label for="fragmentSize">Fragment Size</label>
+      <div class="value-display" id="fragmentSizeDisplay">0.5 cm</div>
+      <input type="range" id="fragmentSize" min="0.1" max="3.0" step="0.1" value="0.5" aria-label="Fragment size in centimeters">
+      <p class="threshold-note">Source threshold: &lt;1 cm = conservative; &gt;1 cm = surgical ORIF indicated</p>
+    </div>
+
+    <div class="slider-group">
+      <label for="displacement">Fragment Displacement</label>
+      <div class="value-display" id="displacementDisplay">1.0 mm</div>
+      <input type="range" id="displacement" min="0" max="8.0" step="0.5" value="1.0" aria-label="Displacement in millimeters">
+      <p class="threshold-note">Source threshold: &lt;2 mm = conservative; &gt;2 mm = surgical intervention</p>
+    </div>
+
+    <div class="slider-group">
+      <label for="articular">CC / Subtalar Articular Involvement</label>
+      <div class="value-display" id="articularDisplay">10%</div>
+      <input type="range" id="articular" min="0" max="100" step="5" value="10" aria-label="Articular involvement percentage">
+      <p class="threshold-note">Source threshold: &lt;25% = conservative; &gt;25% = surgical ORIF</p>
+    </div>
+
+    <div class="slider-group" style="border-left-color: var(--accent);">
+      <label>Hawkins LPT Classification
+        <label class="toggle-switch">
+          <input type="checkbox" id="hawkinsToggle">
+          <span class="toggle-slider"></span>
+        </label>
+      </label>
+      <p style="font-size:0.8rem; margin-top:0.5rem;"><span id="hawkinsDisplay">Standard APC/General</span></p>
+      <p class="threshold-note">Toggle ON to view LPT-specific (Hawkins Type I–III) thresholds</p>
+    </div>
+
+    <div id="recommendationBox" class="recommendation-box conservative" aria-live="polite">
+      <h3>📋 Recommendation</h3>
+      <div id="recommendationText">
+        <strong>Conservative Management Indicated</strong>
+        <p>All parameters fall below surgical thresholds. Recommended: NWB cast/CAM boot immobilization for 4–6 weeks, followed by progressive weight-bearing.</p>
+      </div>
+    </div>
+
+    <div id="parameterSummary" style="font-size:0.75rem; color: var(--text-light); margin-top:0.8rem; padding:0.5rem; background: #f8f9fa; border-radius: 6px;">
+      <strong>Current Parameters:</strong><br>
+      Fragment: <span id="sumFrag">0.5 cm</span><br>
+      Displacement: <span id="sumDisp">1.0 mm</span><br>
+      Articular: <span id="sumArt">10%</span><br>
+      Mode: <span id="sumMode">General</span>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-reset" id="resetBtn" aria-label="Reset all parameters to defaults">↺ Reset</button>
+      <button class="btn btn-export" id="exportBtn" aria-label="Copy current parameters and recommendation to clipboard">📋 Copy/Export</button>
+    </div>
+  </div>
+</aside>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+(function() {
+  const fragSlider = document.getElementById('fragmentSize');
+  const dispSlider = document.getElementById('displacement');
+  const artSlider = document.getElementById('articular');
+  const hawkinsToggle = document.getElementById('hawkinsToggle');
+
+  const fragDisplay = document.getElementById('fragmentSizeDisplay');
+  const dispDisplay = document.getElementById('displacementDisplay');
+  const artDisplay = document.getElementById('articularDisplay');
+  const hawkinsDisplay = document.getElementById('hawkinsDisplay');
+
+  const recBox = document.getElementById('recommendationBox');
+  const recText = document.getElementById('recommendationText');
+  const sumFrag = document.getElementById('sumFrag');
+  const sumDisp = document.getElementById('sumDisp');
+  const sumArt = document.getElementById('sumArt');
+  const sumMode = document.getElementById('sumMode');
+
+  function update() {
+    const frag = parseFloat(fragSlider.value);
+    const disp = parseFloat(dispSlider.value);
+    const art = parseInt(artSlider.value);
+    const isLPT = hawkinsToggle.checked;
+
+    fragDisplay.textContent = frag.toFixed(1) + ' cm';
+    dispDisplay.textContent = disp.toFixed(1) + ' mm';
+    artDisplay.textContent = art + '%';
+    hawkinsDisplay.textContent = isLPT ? 'LPT Hawkins Mode Active' : 'Standard APC/General';
+    sumFrag.textContent = frag.toFixed(1) + ' cm';
+    sumDisp.textContent = disp.toFixed(1) + ' mm';
+    sumArt.textContent = art + '%';
+    sumMode.textContent = isLPT ? 'LPT Hawkins' : 'General';
+
+    let surgicalCriteria = 0;
+    let criteriaDetails = [];
+
+    if (frag > 1.0) {
+      surgicalCriteria++;
+      criteriaDetails.push('Fragment size > 1 cm (' + frag.toFixed(1) + ' cm)');
+    }
+    if (disp > 2.0) {
+      surgicalCriteria++;
+      criteriaDetails.push('Displacement > 2 mm (' + disp.toFixed(1) + ' mm)');
+    }
+    if (art > 25) {
+      surgicalCriteria++;
+      criteriaDetails.push('Articular involvement > 25% (' + art + '%)');
+    }
+
+    recBox.className = 'recommendation-box';
+    let html = '';
+
+    if (isLPT) {
+      // Hawkins-specific recommendations
+      if (art > 60) {
+        // Type II: comminuted
+        recBox.classList.add('surgical');
+        html = '<h3>🔴 Hawkins Type II — Comminuted LPT Fracture</h3>';
+        html += '<p><strong>Surgical/Excisional Management Recommended</strong></p>';
+        html += '<p>Comminuted fracture with ' + art + '% involvement. Small unfixable fragments require excision to prevent subtalar impingement and loose body formation. Large structural fragments should be reduced and fixed internally.</p>';
+        html += '<p style="font-size:0.75rem; color:var(--text-light);">Ref: Level IV evidence — Hawkins Classification, source reference [5]</p>';
+      } else if (frag > 1.0 || disp > 2.0) {
+        // Type I: simple large
+        recBox.classList.add('surgical');
+        html = '<h3>🔴 Hawkins Type I — Simple Large LPT Fracture</h3>';
+        html += '<p><strong>ORIF with Headless Compression Screws Recommended</strong></p>';
+        html += '<p>Fragment ' + frag.toFixed(1) + ' cm, displaced ' + disp.toFixed(1) + ' mm. Anatomic reduction required via Herbert or Accutrac self-compressing screws.</p>';
+        html += '<p style="font-size:0.75rem; color:var(--text-light);">Ref: Level IV evidence — source reference [5]</p>';
+      } else {
+        // Type III: small chip
+        recBox.classList.add('conservative');
+        html = '<h3>🟢 Hawkins Type III — Small Chip Fracture</h3>';
+        html += '<p><strong>Conservative Management Acceptable</strong></p>';
+        html += '<p>Small, non-displaced chip fracture involving the subtalar joint periphery. NWB short-leg cast for 4 weeks → walking cast for 2 weeks. Monitor for symptomatic non-union requiring delayed arthroscopic excision.</p>';
+        html += '<p style="font-size:0.75rem; color:var(--text-light);">Ref: Level IV evidence — source reference [5]</p>';
+      }
+    } else {
+      // General APC/midfoot thresholds
+      if (surgicalCriteria >= 1) {
+        recBox.classList.add('surgical');
+        html = '<h3>🔴 Surgical Intervention Indicated</h3>';
+        html += '<p><strong>Criteria exceeded (' + surgicalCriteria + ' of 3):</strong></p>';
+        html += '<ul style="margin:0.3rem 0 0.5rem 1rem;">';
+        criteriaDetails.forEach(function(d) {
+          html += '<li>' + d + '</li>';
+        });
+        html += '</ul>';
+        if (frag > 1.0 && art > 25) {
+          html += '<p><strong>Recommended:</strong> ORIF with headless compression screws or low-profile T-shaped locking plates. Delay surgery 5–14 days until soft tissue swelling subsides (positive "wrinkle sign").</p>';
+        } else if (frag <= 1.0 && disp > 2.0) {
+          html += '<p><strong>Recommended:</strong> Fragment excision with suture anchor repair of bifurcate ligament or EDB to anatomic footprint (for small/comminuted fragments with significant displacement).</p>';
+        } else {
+          html += '<p><strong>Recommended:</strong> Surgical intervention — ORIF for large/articular fragments; excision + anchor repair for small/comminuted fragments. Refer to APC/LPT management tables for specific technique selection.</p>';
+        }
+        html += '<p style="font-size:0.75rem; color:var(--text-light);">Ref: Level IV evidence — source references [4, 8, 19]</p>';
+      } else {
+        recBox.classList.add('conservative');
+        html = '<h3>🟢 Conservative Management Indicated</h3>';
+        html += '<p>All parameters below surgical thresholds:</p>';
+        html += '<ul style="margin:0.3rem 0 0.5rem 1rem;">';
+        html += '<li>Fragment: ' + frag.toFixed(1) + ' cm (< 1 cm ✓)</li>';
+        html += '<li>Displacement: ' + disp.toFixed(1) + ' mm (< 2 mm ✓)</li>';
+        html += '<li>Articular: ' + art + '% (< 25% ✓)</li>';
+        html += '</ul>';
+        html += '<p><strong>Protocol:</strong> NWB cast or CAM boot for 4–6 weeks. For larger non-displaced extra-articular variants, extend NWB to 10–12 weeks. Progressive weight-bearing as tolerated thereafter.</p>';
+        html += '<p style="font-size:0.75rem; color:var(--text-light);">Expected outcomes: VAS-FA 95, Karlsson 90, median 90 days to full sport (Level IV evidence).</p>';
+      }
+    }
+
+    recText.innerHTML = html;
+  }
+
+  fragSlider.addEventListener('input', update);
+  dispSlider.addEventListener('input', update);
+  artSlider.addEventListener('input', update);
+  hawkinsToggle.addEventListener('change', update);
+
+  // Reset
+  document.getElementById('resetBtn').addEventListener('click', function() {
+    fragSlider.value = 0.5;
+    dispSlider.value = 1.0;
+    artSlider.value = 10;
+    hawkinsToggle.checked = false;
+    update();
+  });
+
+  // Export
+  document.getElementById('exportBtn').addEventListener('click', function() {
+    const frag = parseFloat(fragSlider.value).toFixed(1);
+    const disp = parseFloat(dispSlider.value).toFixed(1);
+    const art = artSlider.value;
+    const mode = hawkinsToggle.checked ? 'LPT Hawkins Mode' : 'General APC/Midfoot Mode';
+    const now = new Date().toLocaleString();
+
+    // Get recommendation text
+    const recEl = document.getElementById('recommendationText');
+    const recPlainText = recEl.innerText || recEl.textContent;
+
+    let exportText = '';
+    exportText += '=== TARSAL AVULSION FRACTURE CLINICAL PARAMETERS ===\n';
+    exportText += 'Generated: ' + now + '\n\n';
+    exportText += 'PARAMETERS:\n';
+    exportText += '  Fragment Size: ' + frag + ' cm\n';
+    exportText += '  Displacement: ' + disp + ' mm\n';
+    exportText += '  Articular Involvement: ' + art + '%\n';
+    exportText += '  Classification Mode: ' + mode + '\n\n';
+    exportText += 'RECOMMENDATION:\n' + recPlainText + '\n\n';
+    exportText += 'THRESHOLDS (from source document):\n';
+    exportText += '  Conservative: Fragment < 1 cm, Displacement < 2 mm, Articular < 25%\n';
+    exportText += '  Surgical ORIF: Fragment > 1 cm, Displacement > 2 mm, Articular > 25%\n';
+    exportText += '  LPT Hawkins: Type I (ORIF), Type II (Excisional/fixation), Type III (Conservative)\n\n';
+    exportText += 'Source: Evidence-Based Management Algorithm for Tarsal Avulsion Fractures\n';
+
+    navigator.clipboard.writeText(exportText).then(function() {
+      showToast('Copied to clipboard!');
+    }).catch(function() {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = exportText;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Copied to clipboard!');
+    });
+  });
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 2500);
+  }
+
+  // Initialize
+  update();
+})();
+</script>
+
+</body>
+</html>

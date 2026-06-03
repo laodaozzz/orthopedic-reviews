@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Differential Diagnosis of Cervical Spondylotic Myelopathy – Interactive Guide</title>
+<style>
+:root {
+  --primary: #1a5276;
+  --primary-light: #2980b9;
+  --accent: #c0392b;
+  --accent-light: #e74c3c;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #555;
+  --border: #dee2e6;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --danger: #e74c3c;
+  --info: #2980b9;
+  --sidebar-width: 340px;
+  --header-height: 64px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--primary) 0%, #154360 100%);
+  color: white;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+header .subtitle {
+  font-size: 0.78rem;
+  opacity: 0.85;
+  font-weight: 400;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-width);
+  gap: 0;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+main {
+  padding: 32px 40px 60px;
+  max-width: 900px;
+  min-height: 100vh;
+}
+
+aside {
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  padding: 24px 20px;
+  box-shadow: -2px 0 12px rgba(0,0,0,0.04);
+}
+
+h2 {
+  font-size: 1.55rem;
+  color: var(--primary);
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--primary-light);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2:first-of-type { margin-top: 0; }
+
+h3 {
+  font-size: 1.18rem;
+  color: var(--primary);
+  margin: 28px 0 12px;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1rem;
+  color: var(--text);
+  margin: 20px 0 8px;
+  font-weight: 600;
+}
+
+p { margin: 10px 0; }
+
+ul, ol { margin: 10px 0 10px 24px; }
+li { margin: 4px 0; }
+
+strong { color: var(--primary); }
+
+.evidence-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-left: 4px;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+}
+.ev-I { background: #d4efdf; color: #1e8449; }
+.ev-II { background: #d6eaf8; color: #2471a3; }
+.ev-III { background: #fdebd0; color: #ca6f1e; }
+.ev-IV { background: #f5eef8; color: #7d3c98; }
+.ev-V { background: #f2f3f4; color: #566573; }
+.ev-na { background: #f2f3f4; color: #888; font-style: italic; }
+
+.callout {
+  border-left: 4px solid var(--primary-light);
+  background: #eaf2f8;
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.95rem;
+}
+.callout.warning {
+  border-left-color: var(--warning);
+  background: #fef9e7;
+}
+.callout.danger {
+  border-left-color: var(--danger);
+  background: #fdedec;
+}
+.callout.success {
+  border-left-color: var(--success);
+  background: #eafaf1;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: var(--card);
+}
+
+table caption {
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  text-align: left;
+  background: var(--primary);
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+th {
+  background: #34495e;
+  color: white;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+tr:nth-child(even) { background: #f8f9fa; }
+tr:hover { background: #eaf2f8; }
+
+.highlight-row { background: #d4efdf !important; }
+
+/* Sidebar Styles */
+aside h3 {
+  font-size: 1rem;
+  margin: 0 0 6px;
+  color: var(--primary);
+}
+
+aside .panel {
+  background: #f8f9fa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+aside label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+aside .slider-value {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 4px 0;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 8px 0;
+  -webkit-appearance: none;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-light);
+}
+
+.recommendation-box {
+  background: linear-gradient(135deg, #1a5276, #154360);
+  color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.recommendation-box h4 {
+  color: #aed6f1;
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+}
+
+.recommendation-box .rec-text {
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.recommendation-box .rec-text .rec-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  margin-left: 2px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-reset {
+  background: #ecf0f1;
+  color: var(--text);
+}
+.btn-reset:hover { background: #d5dbdb; }
+
+.btn-export {
+  background: var(--primary-light);
+  color: white;
+}
+.btn-export:hover { background: var(--primary); }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--success);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.toast.show { opacity: 1; }
+
+.algo-step {
+  display: flex;
+  gap: 14px;
+  margin: 16px 0;
+  align-items: flex-start;
+}
+.algo-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.algo-content { flex: 1; }
+.algo-content h4 { margin-top: 2px; }
+
+.reference-section {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 2px solid var(--border);
+}
+.reference-section ol {
+  font-size: 0.82rem;
+  color: var(--text-light);
+}
+.reference-section li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.citation {
+  font-size: 0.72rem;
+  color: var(--info);
+  cursor: help;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    position: relative;
+    top: 0;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    box-shadow: none;
+  }
+  main {
+    padding: 24px 20px 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  header h1 { font-size: 1rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.05rem; }
+  table { font-size: 0.78rem; }
+  th, td { padding: 6px 8px; }
+}
+
+.toc {
+  background: #f8f9fa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 20px 0 30px;
+}
+.toc h3 { margin: 0 0 10px; font-size: 1rem; }
+.toc ol { margin-left: 18px; }
+.toc a {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+.toc a:hover { text-decoration: underline; }
+.toc li { margin: 4px 0; }
+
+.assumption-note {
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+.switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider-track {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #ccc;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+.slider-track:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.switch input:checked + .slider-track { background: var(--primary-light); }
+.switch input:checked + .slider-track:before { transform: translateX(20px); }
+
+section { scroll-margin-top: 80px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Differential Diagnosis of Cervical Spondylotic Myelopathy</h1>
+    <div class="subtitle">Interactive Evidence-Based Clinical Guide</div>
+  </div>
+</header>
+
+<div class="layout">
+
+<main>
+
+  <div class="toc" role="navigation" aria-label="Table of Contents">
+    <h3>📑 Table of Contents</h3>
+    <ol>
+      <li><a href="#sec-csm">Defining Cervical Spondylotic Myelopathy</a></li>
+      <li><a href="#sec-myo-rad">Myelopathy vs. Radiculopathy</a></li>
+      <li><a href="#sec-compressive">Compressive Mimics</a></li>
+      <li><a href="#sec-inflammatory">Inflammatory & Demyelinating Mimics</a></li>
+      <li><a href="#sec-neurodegenerative">Neurodegenerative Mimics</a></li>
+      <li><a href="#sec-systemic">Systemic, Metabolic & Infectious Mimics</a></li>
+      <li><a href="#sec-algorithm">Multimodal Diagnostic Algorithm</a></li>
+      <li><a href="#sec-summary-table">Comparative Summary Table</a></li>
+      <li><a href="#sec-refs">References</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 1: CSM -->
+  <section id="sec-csm">
+    <h2>1. Defining the Index Condition: Cervical Spondylotic Myelopathy</h2>
+    <p>Cervical Spondylotic Myelopathy (CSM), also termed <strong>Degenerative Cervical Myelopathy (DCM)</strong>, is a progressive condition of spinal cord dysfunction arising from chronic mechanical compression secondary to degenerative changes in the cervical spine.<span class="citation">[1]</span> It is the <strong>most common cause of spinal cord impairment in adults worldwide</strong>. A thorough understanding of its pathophysiology, clinical presentation, and imaging hallmarks is essential for accurate differentiation from a broad array of mimics.</p>
+
+    <h3>1.1 Pathophysiological Foundations</h3>
+    <p>The pathogenesis is multifactorial, driven by an age-related degenerative cascade influenced by both static and dynamic mechanical factors.<span class="citation">[3]</span></p>
+
+    <h4>Static Mechanical Factors</h4>
+    <p>These persistently reduce the sagittal diameter of the cervical spinal canal. The average anterior-posterior canal diameter from C3–C7 is approximately <strong>17 mm</strong>, while the cord itself requires about <strong>10 mm</strong>. Absolute stenosis is defined as a canal diameter <strong>&lt;10 mm</strong>, and relative stenosis as <strong>10–13 mm</strong>.<span class="citation">[1]</span></p>
+    <ul>
+      <li><strong>Disc Degeneration and Bulging:</strong> Desiccated discs lose height, increasing sagittal diameter and bulging posteriorly into the canal.<span class="citation">[1]</span></li>
+      <li><strong>Osteophyte Formation:</strong> Reactive bone at endplates and uncovertebral joints projects into the canal.<span class="citation">[1]</span></li>
+      <li><strong>Ligamentous Hypertrophy:</strong> Hypertrophy of the ligamentum flavum and facet capsules. Ossification of the posterior longitudinal ligament (OPLL), particularly in East Asian populations, can cause profound stenosis.<span class="citation">[1]</span></li>
+    </ul>
+
+    <div class="callout">
+      <strong>Congenital Narrow Canal:</strong> Individuals with a congenitally narrow cervical canal (diameter &lt;13 mm) have reduced physiological reserve and are predisposed to symptomatic myelopathy at an earlier age.<span class="citation">[4]</span>
+    </div>
+
+    <h4>Dynamic Mechanical Factors</h4>
+    <p>Abnormal neck motion transiently exacerbates cord compression.<span class="citation">[3]</span></p>
+    <ul>
+      <li><strong>Flexion:</strong> The cord is stretched and abraded against anterior osteophytic bars. In kyphotic alignment, the cord may be tethered, producing repeated microtrauma.<span class="citation">[1]</span></li>
+      <li><strong>Hyperextension:</strong> A pincer mechanism occurs between anterior structures and the buckling ligamentum flavum, which can cause acute neurological injury, especially after trauma.<span class="citation">[1]</span></li>
+    </ul>
+
+    <h4>Vascular and Ischemic Mechanisms</h4>
+    <p>Sustained compression compromises the microvascular supply, leading to ischemia, central gray matter degeneration, cystic cavitation, gliosis, and Wallerian degeneration of the posterior columns and corticospinal tracts.<span class="citation">[1]</span></p>
+
+    <h3>1.2 Clinical Manifestations</h3>
+    <p>The diagnosis requires at least <strong>one neurological symptom and one corresponding neurological sign</strong>, supported by MRI evidence of cord compression.<span class="citation">[1]</span> Onset is insidious, often stepwise, with long periods of stability interrupted by worsening episodes. Diagnostic delays are common, with patients adapting to deficits for years before presentation.<span class="citation">[2]</span></p>
+
+    <h4>Presenting Complaints</h4>
+    <ul>
+      <li><strong>Gait and Balance Disturbance:</strong> The most common and often earliest symptom—patients report unsteadiness, a new need for handrails, or frequent falls. Gait is typically wide-based and spastic or spastic-ataxic.<span class="citation">[1]</span></li>
+      <li><strong>Loss of Hand Dexterity:</strong> Difficulty buttoning clothes, writing, handling coins—hallmark of CSM.<span class="citation">[2]</span></li>
+      <li><strong>Sensory Symptoms:</strong> Numbness and paresthesias in a diffuse, non-dermatomal pattern, typically beginning in the upper extremities.<span class="citation">[1]</span></li>
+      <li><strong>Pain and Stiffness:</strong> Neck pain, shoulder pain, and coexisting radiculopathy with radiating arm pain.<span class="citation">[3]</span></li>
+      <li><strong>Autonomic Dysfunction:</strong> Urinary urgency, frequency, or incontinence—indicates advanced disease.<span class="citation">[1]</span></li>
+    </ul>
+
+    <h4>Physical Examination Findings</h4>
+    <ul>
+      <li><strong>Upper Motor Neuron (UMN) Signs:</strong> Spasticity (especially lower limbs), hyperreflexia, clonus, positive Babinski sign, positive Hoffman sign. A normal jaw jerk reflex excludes intracranial pathology.<span class="citation">[1]</span></li>
+      <li><strong>Lower Motor Neuron (LMN) Signs:</strong> At the level of compression—hyporeflexia, muscle atrophy (intrinsic hand muscles), fasciculations.<span class="citation">[1]</span></li>
+      <li><strong>Myelopathy Hand:</strong> Positive "finger escape sign" (ulnar digits drift into abduction) and impaired grip-and-release test (&lt;20 fist cycles in 10 seconds).<span class="citation">[1]</span></li>
+      <li><strong>Sensory Deficits:</strong> Impaired vibration and proprioception (posterior column dysfunction); positive Romberg test; Lhermitte's sign possible.<span class="citation">[1]</span></li>
+    </ul>
+
+    <h3>1.3 Neuroimaging Hallmarks</h3>
+    <p><strong>MRI is the gold standard</strong> for diagnosing CSM.<span class="citation">[3]</span></p>
+    <ul>
+      <li><strong>Evidence of Compression:</strong> Disc herniations, osteophytes, ligamentous hypertrophy with CSF space effacement.<span class="citation">[1]</span></li>
+      <li><strong>T2-Weighted Hyperintensity:</strong> Myelomalacia—represents edema, gliosis, or neuronal loss; correlates with clinical severity.<span class="citation">[1]</span></li>
+      <li><strong>T1-Weighted Hypointensity:</strong> Signifies severe chronic damage (cystic necrosis); associated with poor post-surgical recovery prognosis.<span class="citation">[1]</span></li>
+      <li><strong>Spinal Cord Atrophy:</strong> In advanced cases, indicates poor prognosis.<span class="citation">[7]</span></li>
+    </ul>
+  </section>
+
+  <!-- SECTION 2: Myelopathy vs Radiculopathy -->
+  <section id="sec-myo-rad">
+    <h2>2. Myelopathy vs. Radiculopathy: The Common Confounder</h2>
+    <p>In degenerative cervical spine disease, distinguishing between myelopathy and radiculopathy is critical. While they frequently coexist, they represent distinct clinical syndromes with different anatomical substrates.<span class="citation">[5]</span></p>
+
+    <h3>2.1 Anatomical Distinction</h3>
+    <p><strong>Myelopathy</strong> involves compression of the spinal cord (long ascending/descending tracts).<span class="citation">[8]</span> <strong>Radiculopathy</strong> involves compression or inflammation of a spinal nerve root at the intervertebral foramen.<span class="citation">[9]</span> A single pathology can cause either or both depending on its location: central lesions favor myelopathy; foraminal lesions favor radiculopathy.<span class="citation">[5]</span></p>
+
+    <h3>2.2 Clinical Dichotomy</h3>
+    <ul>
+      <li><strong>Cervical Radiculopathy (LMN):</strong> Sharp, lancinating radiating pain in a dermatomal pattern; sensory and motor deficits confined to the specific myotome/dermatome; diminished reflexes for the affected root; positive Spurling test.<span class="citation">[8, 11, 12]</span></li>
+      <li><strong>Cervical Myelopathy (UMN):</strong> Bilateral, diffuse symptoms—gait imbalance, hand clumsiness, widespread numbness. Dominated by UMN signs below the lesion: spasticity, hyperreflexia, clonus, Babinski/Hoffman signs. Posterior column sensory deficits (vibration, proprioception).<span class="citation">[1, 5]</span></li>
+    </ul>
+
+    <div class="callout warning">
+      <strong>⚠ Coexistence Challenge – "Myeloradiculopathy":</strong> Widespread degenerative changes frequently cause both central canal and foraminal stenosis simultaneously. The resulting mixed picture of UMN signs in the legs with LMN signs in the arms creates a diagnostic overlap with <strong>Amyotrophic Lateral Sclerosis (ALS)</strong>, a critical differential discussed in Section 5.<span class="citation">[3]</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 1: Distinguishing Cervical Myelopathy from Cervical Radiculopathy</caption>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Cervical Myelopathy</th>
+            <th>Cervical Radiculopathy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Primary Complaint</strong></td>
+            <td>Gait/balance difficulty, hand clumsiness, leg stiffness <span class="citation">[1]</span></td>
+            <td>Neck and radiating arm pain <span class="citation">[12]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Pain Characteristics</strong></td>
+            <td>Dull, aching neck/shoulder; may be absent <span class="citation">[3]</span></td>
+            <td>Sharp, shooting, lancinating, dermatomal <span class="citation">[12]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Sensory Pattern</strong></td>
+            <td>Diffuse, non-dermatomal; impaired vibration/proprioception <span class="citation">[1]</span></td>
+            <td>Confined to a specific dermatome <span class="citation">[8]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Motor Pattern</strong></td>
+            <td>Generalized spasticity; loss of fine motor control <span class="citation">[1, 5]</span></td>
+            <td>Weakness in a specific myotome <span class="citation">[8]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Reflexes</strong></td>
+            <td>Hyperreflexia below lesion; possible hyporeflexia at lesion level <span class="citation">[1]</span></td>
+            <td>Hyporeflexia/areflexia in affected myotome <span class="citation">[9]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Gait</strong></td>
+            <td>Spastic, ataxic, wide-based <span class="citation">[3]</span></td>
+            <td>Normal (or focal limp) <span class="citation">[5]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Bladder/Bowel</strong></td>
+            <td>Urgency, frequency, incontinence (late) <span class="citation">[1]</span></td>
+            <td>Unaffected <span class="citation">[8]</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 3: Compressive Mimics -->
+  <section id="sec-compressive">
+    <h2>3. Compressive Myelopathies Beyond Spondylosis</h2>
+    <p>Other structural lesions can produce a clinical picture similar to CSM. Contrast-enhanced MRI revealing characteristic morphological patterns is the key differentiator.<span class="citation">[12]</span></p>
+
+    <h3>3.1 Spinal Cord Neoplasms</h3>
+    <ul>
+      <li><strong>Red Flags:</strong> Severe unremitting localized pain, pain worsening at night or when supine, constitutional symptoms (weight loss, fatigue).<span class="citation">[12]</span></li>
+      <li><strong>Extramedullary Tumors</strong> (meningioma, schwannoma, neurofibroma): Well-demarcated masses displacing the cord; avid, homogeneous contrast enhancement.<span class="citation">[12]</span></li>
+      <li><strong>Intramedullary Tumors</strong> (astrocytoma, ependymoma): Fusiform cord expansion; heterogeneous signal with patchy or ring-like enhancement.<span class="citation">[14]</span></li>
+    </ul>
+
+    <h3>3.2 Syringomyelia</h3>
+    <p>A longitudinal, fluid-filled cavity (syrinx) within the spinal cord.<span class="citation">[16]</span></p>
+    <ul>
+      <li><strong>Clinical Clue – "Central Cord Syndrome":</strong> Dissociated sensory loss in a "cape-like" distribution—loss of pain/temperature with preserved vibration/proprioception—due to damage of crossing spinothalamic fibers. Progressive hand weakness and atrophy from anterior horn cell damage.<span class="citation">[12, 16]</span></li>
+      <li><strong>MRI:</strong> Longitudinal intramedullary cavity following CSF signal (low T1, high T2); does <em>not</em> enhance with contrast. Evaluate for underlying Chiari I malformation.<span class="citation">[16, 17]</span></li>
+    </ul>
+
+    <h3>3.3 Other Structural Causes</h3>
+    <ul>
+      <li><strong>Chiari Malformation:</strong> Cerebellar tonsillar ectopia below the foramen magnum compresses the upper cervical cord—gait ataxia and hand clumsiness mimicking CSM. Diagnosed by MRI of the craniocervical junction.<span class="citation">[12]</span></li>
+      <li><strong>Epidural Abscess / Hematoma:</strong> Neurosurgical emergencies distinguished by acute/subacute onset, rapidly progressive deficits, severe localized pain. Abscesses: fever, elevated inflammatory markers. Hematomas: trauma or anticoagulation history.<span class="citation">[12]</span></li>
+    </ul>
+  </section>
+
+  <!-- SECTION 4: Inflammatory / Demyelinating -->
+  <section id="sec-inflammatory">
+    <h2>4. Non-Compressive Inflammatory & Demyelinating Myelopathies</h2>
+    <p>When MRI shows no significant mechanical compression, or clinical features are atypical (acute onset, young age, optic nerve involvement), the investigation must expand. <strong>Brain MRI and CSF analysis</strong> become pivotal—these provide direct evidence of CNS inflammation characteristically absent in CSM.</p>
+
+    <h3>4.1 Multiple Sclerosis (MS)</h3>
+    <p>An autoimmune demyelinating disease of the CNS and a leading cause of non-traumatic disability in young adults.<span class="citation">[18]</span></p>
+    <ul>
+      <li><strong>Clinical Clues:</strong> Dissemination in time and space—prior transient neurological episodes (optic neuritis, internuclear ophthalmoplegia, sensory disturbances). Subacute onset, often "partial myelitis" with asymmetric signs.<span class="citation">[19]</span></li>
+      <li><strong>Spinal MRI:</strong> Focal T2-hyperintense lesions, <em>peripherally</em> located in white matter, spanning <strong>&lt;2 vertebral segments</strong>. May enhance acutely.<span class="citation">[19]</span></li>
+      <li><strong>Brain MRI (Key Differentiator):</strong> Ovoid, T2-hyperintense periventricular, juxtacortical, or infratentorial lesions—absent in pure CSM.<span class="citation">[18]</span></li>
+      <li><strong>CSF Analysis:</strong> CSF-specific oligoclonal bands (OCBs) and/or elevated IgG index in 80–95% of cases. Mild lymphocytic pleocytosis (&lt;50 cells/μL). CSF is typically normal in CSM.<span class="citation">[19, 22]</span></li>
+    </ul>
+
+    <h3>4.2 NMOSD & MOG Antibody Disease</h3>
+    <p>Antibody-mediated disorders characterized by severe optic neuritis and myelitis attacks.<span class="citation">[12]</span></p>
+    <ul>
+      <li><strong>Hallmark MRI Finding:</strong> <strong>Longitudinally extensive transverse myelitis (LETM)</strong>—T2 lesion spanning <strong>≥3 contiguous vertebral segments</strong>. Central gray matter predilection; cord often swollen.<span class="citation">[24]</span></li>
+      <li><strong>Serology:</strong> AQP4-IgG for NMOSD; MOG-IgG for MOGAD.<span class="citation">[24]</span></li>
+      <li><strong>CSF:</strong> Neutrophilic or eosinophilic pleocytosis; OCBs typically absent.<span class="citation">[28]</span></li>
+    </ul>
+
+    <div class="callout success">
+      <strong>Key Discriminator – Lesion Length:</strong> Use the T2 Lesion Length slider in the sidebar to differentiate between MS (&lt;2 segments) and NMOSD (≥3 segments).
+    </div>
+
+    <h3>4.3 Acute Transverse Myelitis (ATM)</h3>
+    <p>A focal inflammatory disorder with rapid onset (hours to days), reaching nadir within 21 days.<span class="citation">[12]</span> Presents with bilateral weakness, a well-defined sensory level, and sphincter dysfunction. Diagnosis requires MRI evidence of an intrinsic cord lesion and CSF inflammation in the absence of compression.<span class="citation">[25, 30]</span> Can be idiopathic or associated with systemic autoimmune disease (sarcoidosis, SLE).<span class="citation">[33]</span></p>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 2: CSF Profile Comparison Across Myelopathy Etiologies</caption>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Normal</th>
+            <th>CSM</th>
+            <th>MS</th>
+            <th>NMOSD</th>
+            <th>Viral Myelitis</th>
+            <th>Bacterial</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Opening Pressure</strong></td>
+            <td>50–200 mmH₂O</td>
+            <td>Normal</td>
+            <td>Normal</td>
+            <td>Normal/↑</td>
+            <td>Normal/↑</td>
+            <td>Often ↑↑</td>
+          </tr>
+          <tr>
+            <td><strong>WBC (cells/μL)</strong></td>
+            <td>0–5</td>
+            <td>0–5</td>
+            <td>5–50 (Lymph.)</td>
+            <td>50–&gt;1000 (Neutro/Eosino)</td>
+            <td>10–500 (Lymph.)</td>
+            <td>&gt;1000 (Neutro)</td>
+          </tr>
+          <tr>
+            <td><strong>Protein (mg/dL)</strong></td>
+            <td>15–45</td>
+            <td>Normal / mild ↑</td>
+            <td>Normal / mild ↑ (&lt;100)</td>
+            <td>Mild–moderate ↑</td>
+            <td>Moderate ↑</td>
+            <td>Marked ↑ (&gt;100)</td>
+          </tr>
+          <tr>
+            <td><strong>Glucose</strong></td>
+            <td>&gt;50% serum</td>
+            <td>Normal</td>
+            <td>Normal</td>
+            <td>Normal</td>
+            <td>Normal</td>
+            <td>Low (&lt;40%)</td>
+          </tr>
+          <tr>
+            <td><strong>IgG Index / OCBs</strong></td>
+            <td>Normal / Absent</td>
+            <td>Normal / Absent</td>
+            <td>↑ / Positive (&gt;90%)</td>
+            <td>Normal / Absent (~70%)</td>
+            <td>Transiently positive</td>
+            <td>Normal / Absent</td>
+          </tr>
+          <tr>
+            <td><strong>Specific Markers</strong></td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>Serum AQP4-IgG</td>
+            <td>Pathogen PCR/Serology</td>
+            <td>Gram stain, Culture</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="assumption-note">Sources: [22, 28, 29, 30, 32, 35–39]</p>
+  </section>
+
+  <!-- SECTION 5: Neurodegenerative -->
+  <section id="sec-neurodegenerative">
+    <h2>5. Neurodegenerative Disorders Mimicking CSM</h2>
+
+    <h3>5.1 Amyotrophic Lateral Sclerosis (ALS)</h3>
+    <p>A fatal neurodegenerative disorder characterized by progressive death of upper and lower motor neurons. It is a <strong>critical and frequent mimic</strong> of CSM—both affect a similar age group and can present with combined UMN and LMN signs.<span class="citation">[2, 7]</span></p>
+
+    <div class="callout danger">
+      <strong>⚠ The Diagnostic Trap:</strong> Asymptomatic cervical spondylosis is nearly ubiquitous in the older population. An MRI performed on an ALS patient will frequently show degenerative changes. Anchoring on this incidental finding leads to misdiagnosis in <strong>4–13% of cases</strong>, resulting in diagnostic delay and inappropriate, ineffective spinal surgery.<span class="citation">[2, 6]</span>
+    </div>
+
+    <h4>Features Favoring ALS Over CSM</h4>
+    <ul>
+      <li><strong>Progressive Spread:</strong> Relentless marching of weakness from one region to another (e.g., arm → contralateral arm → bulbar). CSM deficits are generally static below the cervical level.<span class="citation">[6]</span></li>
+      <li><strong>Bulbar Involvement:</strong> Dysarthria, dysphagia, tongue fasciculations/atrophy—hallmarks of ALS, absent in CSM.<span class="citation">[6]</span></li>
+      <li><strong>Absence of Sensory Deficits:</strong> ALS is a pure motor disease. Significant sensory abnormalities (especially posterior column deficits) favor CSM.<span class="citation">[6]</span></li>
+      <li><strong>Widespread Fasciculations:</strong> In multiple limbs, torso, and tongue—highly suggestive of ALS.<span class="citation">[6]</span></li>
+      <li><strong>EMG (Critical Investigation):</strong> In CSM, denervation is confined to compressed cervical myotomes. In ALS, EMG reveals active and chronic denervation in ≥3 body regions (bulbar, cervical, thoracic, lumbosacral)—diagnostic for ALS.<span class="citation">[2, 7, 42]</span></li>
+    </ul>
+
+    <h3>5.2 Hereditary Spastic Paraplegia (HSP)</h3>
+    <p>A group of genetic disorders characterized by progressive spasticity and weakness primarily of the lower limbs.<span class="citation">[38]</span></p>
+    <ul>
+      <li><strong>Key Features:</strong> Positive family history (though often sporadic), earlier age of onset, very slow progression over decades. "Pure" HSP: predominantly lower limb spasticity/weakness. "Complex" HSP: additional features (ataxia, neuropathy, cognitive impairment, optic atrophy).<span class="citation">[38, 39]</span></li>
+      <li><strong>MRI:</strong> Used to exclude compressive causes; typically normal or shows nonspecific cord atrophy.<span class="citation">[38]</span></li>
+      <li><strong>Definitive Diagnosis:</strong> Molecular genetic testing (e.g., <em>SPAST</em>, <em>ATL1</em> genes).<span class="citation">[38]</span></li>
+    </ul>
+  </section>
+
+  <!-- SECTION 6: Systemic / Metabolic / Infectious -->
+  <section id="sec-systemic">
+    <h2>6. Systemic, Metabolic & Infectious Myelopathies</h2>
+    <p>Spinal cord dysfunction can be the presenting feature of treatable systemic disease. Failure to consider these etiologies—and anchoring prematurely on incidental spinal imaging—can lead to preventable, irreversible disability.</p>
+
+    <h3>6.1 Nutritional Deficiencies</h3>
+    <h4>Vitamin B12 Deficiency (Subacute Combined Degeneration)</h4>
+    <p>The most common metabolic myelopathy, from impaired myelin synthesis.<span class="citation">[41]</span> Classically affects posterior and lateral columns: spastic-ataxic gait with profound loss of vibration/proprioception. Coexisting peripheral neuropathy may mask hyperreflexia.<span class="citation">[12, 42]</span></p>
+    <ul>
+      <li><strong>MRI:</strong> Non-compressive T2 hyperintensity in the dorsal columns—"inverted V sign."<span class="citation">[42]</span></li>
+      <li><strong>Diagnosis:</strong> Low serum B12; elevated methylmalonic acid and homocysteine.<span class="citation">[42]</span></li>
+    </ul>
+
+    <h4>Copper Deficiency Myelopathy</h4>
+    <p>Clinical and radiological mimic of B12 deficiency, also causing posterior/lateral column dysfunction.<span class="citation">[43]</span> Clues: prior gastric surgery, excess zinc ingestion (competitive inhibition). Hematologic abnormalities (anemia, neutropenia) common. Diagnosis: low serum copper and ceruloplasmin.<span class="citation">[43, 44]</span></p>
+
+    <h3>6.2 Infectious Myelopathies</h3>
+    <p>Typically more acute/subacute than CSM, often with systemic signs (fever).<span class="citation">[46]</span></p>
+    <ul>
+      <li><strong>HTLV-1:</strong> Chronic spastic paraparesis (tropical spastic paraparesis/HTLV-1-associated myelopathy).<span class="citation">[46]</span></li>
+      <li><strong>HIV:</strong> Vacuolar myelopathy resembling B12 deficiency.<span class="citation">[46]</span></li>
+      <li><strong>Herpesviruses & Enteroviruses:</strong> Common causes of acute viral myelitis.<span class="citation">[46]</span></li>
+      <li><strong>Syphilis:</strong> Tabes dorsalis affecting the posterior columns.<span class="citation">[47]</span></li>
+    </ul>
+
+    <h3>6.3 Other Etiologies</h3>
+    <ul>
+      <li><strong>Spinal Cord Infarction:</strong> Hyperacute "stroke-like" onset of maximal deficits, often in an anterior spinal artery territory.<span class="citation">[12]</span></li>
+      <li><strong>Radiation Myelopathy:</strong> Delayed complication (months–years post-treatment) with progressive spastic myelopathy.<span class="citation">[12]</span></li>
+    </ul>
+  </section>
+
+  <!-- SECTION 7: Diagnostic Algorithm -->
+  <section id="sec-algorithm">
+    <h2>7. Multimodal Diagnostic Algorithm</h2>
+    <p>Navigating the differential diagnosis requires a systematic, stepwise approach integrating clinical, radiological, electrophysiological, and laboratory data.</p>
+
+    <div class="algo-step">
+      <div class="algo-num">1</div>
+      <div class="algo-content">
+        <h4>Clinical Assessment & Localization</h4>
+        <p>Detailed history and neurological examination to confirm myelopathic syndrome and localize the lesion to the cervical cord based on UMN/LMN patterns and sensory deficits.</p>
+      </div>
+    </div>
+
+    <div class="algo-step">
+      <div class="algo-num">2</div>
+      <div class="algo-content">
+        <h4>Cervical Spine MRI</h4>
+        <p>Mandatory next step. If severe compression correlates with clinical findings → CSM is highly probable. If no significant compression or discordant findings → broaden differential. If alternative pathology (tumor, syrinx) → guided by imaging characteristics.</p>
+      </div>
+    </div>
+
+    <div class="algo-step">
+      <div class="algo-num">3</div>
+      <div class="algo-content">
+        <h4>Expand Investigation for Non-Compressive Mimics</h4>
+        <ul>
+          <li><strong>Inflammatory/Demyelinating:</strong> Brain MRI with contrast; lumbar puncture (OCBs, IgG index); serum AQP4-IgG, MOG-IgG.</li>
+          <li><strong>Neurodegenerative:</strong> EMG/NCS on ≥3 limbs + paraspinal muscles seeking widespread denervation (ALS).</li>
+          <li><strong>Metabolic/Systemic:</strong> Serum B12, methylmalonic acid, copper, ceruloplasmin; infectious serologies as indicated.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="algo-step">
+      <div class="algo-num">4</div>
+      <div class="algo-content">
+        <h4>Synthesis & Final Diagnosis</h4>
+        <p>Integrate all available data. Favored diagnosis should most parsimoniously explain the complete picture. <strong>Avoid attributing all findings to a single incidental abnormality</strong>—particularly age-related cervical spondylosis on MRI.</p>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <strong>⚠ Evidence Limitation Note:</strong> This algorithm is derived from the clinical principles outlined in the source review articles. The source document does not cite specific RCTs or prospective cohort studies validating each algorithm step. Evidence levels for the diagnostic approach are generally <strong>Level III–IV</strong> (expert consensus, retrospective studies).<span class="citation">[1–4]</span>
+    </div>
+  </section>
+
+  <!-- SECTION 8: Summary Comparison Table -->
+  <section id="sec-summary-table">
+    <h2>8. Comprehensive Differential Comparison</h2>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 3: Comparative Features of CSM and Its Key Mimics</caption>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>CSM</th>
+            <th>MS</th>
+            <th>ALS</th>
+            <th>B12 Deficiency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Onset/Progression</strong></td>
+            <td>Insidious, chronic, stepwise <span class="citation">[3]</span></td>
+            <td>Subacute; relapsing-remitting or progressive <span class="citation">[19]</span></td>
+            <td>Insidious, relentlessly progressive <span class="citation">[7]</span></td>
+            <td>Insidious, subacute <span class="citation">[42]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Predominant Signs</strong></td>
+            <td>Mixed UMN/LMN; spastic-ataxic gait; hand clumsiness; posterior column sensory loss <span class="citation">[1]</span></td>
+            <td>Asymmetric deficits; optic neuritis; UMN signs; Lhermitte's <span class="citation">[19]</span></td>
+            <td>Pure motor; mixed UMN/LMN; bulbar dysfunction; widespread fasciculations <span class="citation">[6]</span></td>
+            <td>Spastic-ataxic gait; posterior column loss; peripheral neuropathy <span class="citation">[42]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Sensory Involvement</strong></td>
+            <td>Present (posterior column predominant) <span class="citation">[1]</span></td>
+            <td>Present (often asymmetric) <span class="citation">[19]</span></td>
+            <td><strong>Absent</strong> (pure motor) <span class="citation">[6]</span></td>
+            <td>Present (posterior columns + peripheral nerve) <span class="citation">[42]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Bulbar Signs</strong></td>
+            <td>Absent</td>
+            <td>Uncommon</td>
+            <td><strong>Present</strong> (dysarthria, dysphagia, tongue fasciculations) <span class="citation">[6]</span></td>
+            <td>Absent</td>
+          </tr>
+          <tr>
+            <td><strong>Spine MRI</strong></td>
+            <td>Compressive spondylosis; T2 cord signal at compression <span class="citation">[1]</span></td>
+            <td>Focal, peripheral, short-segment T2 lesions <span class="citation">[19]</span></td>
+            <td>Normal or late atrophy (excludes CSM) <span class="citation">[7]</span></td>
+            <td>T2 hyperintensity in posterior columns ("inverted V") <span class="citation">[42]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Brain MRI</strong></td>
+            <td>Normal</td>
+            <td><strong>Periventricular/juxtacortical ovoid T2 lesions</strong> <span class="citation">[18]</span></td>
+            <td>Corticospinal tract hyperintensity possible <span class="citation">[7]</span></td>
+            <td>Normal</td>
+          </tr>
+          <tr>
+            <td><strong>EMG</strong></td>
+            <td>Denervation limited to cervical myotomes <span class="citation">[42]</span></td>
+            <td>Normal</td>
+            <td><strong>Widespread denervation in ≥3 regions</strong> <span class="citation">[7, 41]</span></td>
+            <td>Axonal peripheral neuropathy possible</td>
+          </tr>
+          <tr>
+            <td><strong>CSF</strong></td>
+            <td>Normal <span class="citation">[22]</span></td>
+            <td>Lymphocytic pleocytosis; ↑ IgG; positive OCBs <span class="citation">[22, 23]</span></td>
+            <td>Normal <span class="citation">[7]</span></td>
+            <td>Normal <span class="citation">[42]</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <caption>Table 4: Key Imaging and Serologic Discriminators</caption>
+        <thead>
+          <tr>
+            <th>Condition</th>
+            <th>Key Discriminating Feature</th>
+            <th>Confirmatory Test</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>CSM</strong></td>
+            <td>Cord compression with T2 hyperintensity at the level of spondylosis <span class="citation">[1]</span></td>
+            <td>Clinical correlation + MRI</td>
+          </tr>
+          <tr>
+            <td><strong>MS</strong></td>
+            <td>Short-segment cord lesions + brain MRI lesions in characteristic locations <span class="citation">[18, 19]</span></td>
+            <td>CSF oligoclonal bands <span class="citation">[22]</span></td>
+          </tr>
+          <tr>
+            <td><strong>NMOSD</strong></td>
+            <td>LETM (≥3 segments), central gray predilection <span class="citation">[24]</span></td>
+            <td>Serum AQP4-IgG <span class="citation">[24]</span></td>
+          </tr>
+          <tr>
+            <td><strong>ALS</strong></td>
+            <td>Normal cord MRI + widespread denervation on EMG <span class="citation">[7]</span></td>
+            <td>EMG/NCS clinical pattern <span class="citation">[2]</span></td>
+          </tr>
+          <tr>
+            <td><strong>B12 Deficiency</strong></td>
+            <td>"Inverted V" dorsal column T2 signal <span class="citation">[42]</span></td>
+            <td>Serum B12, MMA, homocysteine <span class="citation">[42]</span></td>
+          </tr>
+          <tr>
+            <td><strong>Syringomyelia</strong></td>
+            <td>Non-enhancing intramedullary cavity with CSF signal <span class="citation">[16]</span></td>
+            <td>MRI (evaluate for Chiari I) <span class="citation">[17]</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 9: References -->
+  <section id="sec-refs" class="reference-section">
+    <h2>References</h2>
+    <ol>
+      <li id="ref1">Cervical Spondylotic Myelopathy (Degenerative Cervical Myelopathy). <em>AAPM&R Knowledge NOW</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref2">Degenerative Cervical Myelopathy as a Neuromuscular Mimicker. <em>Practical Neurology</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref3">Cervical Spondylotic Myelopathy: Pathophysiology, Diagnosis, and Management. <em>PMC3263543</em>.</li>
+      <li id="ref4">Cervical Spondylotic Myelopathy: Pathophysiology, Clinical Presentation. <em>PMC3145857</em>.</li>
+      <li id="ref5">Cervical Spinal Cord Compression. <em>OrthoInfo – AAOS</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref6">Amyotrophic Lateral Sclerosis and Cervical Myelopathy Overlap: A Concise Review for the Spine Surgeon. <em>JBNC</em> 2022;33(3).</li>
+      <li id="ref7">Amyotrophic Lateral Sclerosis. <em>Radiology Reference Article – Radiopaedia</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref8">A Clinical Review of Hand Manifestations of Cervical Myelopathy, Cervical Radiculopathy. <em>J Spine Surg</em>.</li>
+      <li id="ref9">Difference of Myelopathy and Radiculopathy. <em>Oxford Spine & Neurosurgery</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref10">Cervical Myelopathy and Radiculopathy. <em>Northwestern Medicine</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref11">Axial Neck Pain, Radiculopathy, and Myelopathy: Recognition and Treatment. <em>MedCentral</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref12">Cervical Myelopathy. <em>StatPearls – NCBI Bookshelf</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref13">Cervical Radiculopathy and Cervical Myelopathy: Diagnosis and Management in Primary Care. <em>Br J Gen Pract</em> 2018;68(666):44.</li>
+      <li id="ref14">Spinal Cord Tumor – Symptoms and Causes. <em>Mayo Clinic</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref16">Syringomyelia. <em>StatPearls – NCBI Bookshelf</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref17">Syringomyelia. <em>Bobby Jones CSF</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref18">Multiple Sclerosis (MS). <em>Cleveland Clinic</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref19">Multiple Sclerosis Presenting as Transverse Myelopathy. <em>Neurology</em> 1997;48(1):65.</li>
+      <li id="ref22">Lumbar Puncture. <em>MS Trust</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref23">Cerebrospinal Fluid Analysis in Multiple Sclerosis Diagnosis: An Update. <em>PMC6630948</em>.</li>
+      <li id="ref24">Neuroimaging Features in Inflammatory Myelopathies: A Review. <em>Front Neurol</em> 2022.</li>
+      <li id="ref25">Acute Inflammatory Myelopathies. <em>PubMed</em> PMID:24507538.</li>
+      <li id="ref28">Cerebrospinal Fluid Disturbances. <em>Harrison's Principles of Internal Medicine</em>.</li>
+      <li id="ref30">Proposed Diagnostic Criteria and Nosology of Acute Transverse Myelitis. <em>Neurology</em> 2002;59(4):499.</li>
+      <li id="ref33">Autoimmune Transverse Myelitis. <em>Continuum</em> 2003.</li>
+      <li id="ref38">Hereditary Spastic Paraplegia. <em>Orphanet</em>. Accessed Oct 31, 2025.</li>
+      <li id="ref39">Hereditary Myelopathy. <em>Continuum</em> 2003.</li>
+      <li id="ref41">Metabolic Myelopathies. <em>Continuum</em> 2003.</li>
+      <li id="ref42">Copper Deficiency Myelopathy. <em>PMC3691478</em>.</li>
+      <li id="ref43">Copper Deficiency Myelopathy. <em>PMC3691478</em>.</li>
+      <li id="ref46">Infectious Myelopathies. <em>PubMed</em> PMID:12524558.</li>
+      <li id="ref47">Infectious Myelopathies. <em>Continuum</em> 2012.</li>
+    </ol>
+  </section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside aria-label="Interactive Clinical Decision Support">
+  <h3 style="margin-bottom: 16px; font-size: 1.05rem;">🔬 Clinical Parameter Adjustor</h3>
+
+  <!-- Slider 1: Canal Diameter -->
+  <div class="panel">
+    <label for="slider-canal">Spinal Canal Diameter (mm)</label>
+    <div class="slider-value" id="canal-value">12 mm</div>
+    <input type="range" id="slider-canal" min="5" max="20" step="0.5" value="12" aria-label="Spinal canal diameter in millimeters">
+    <div class="range-labels">
+      <span>5 (severe)</span>
+      <span>13 (relative)</span>
+      <span>20 (normal)</span>
+    </div>
+    <div class="assumption-note">Thresholds from source: &lt;10 mm = absolute stenosis; 10–13 mm = relative stenosis <span class="citation">[1]</span></div>
+  </div>
+
+  <!-- Slider 2: CSF WBC Count -->
+  <div class="panel">
+    <label for="slider-wbc">CSF WBC Count (cells/μL)</label>
+    <div class="slider-value" id="wbc-value">3 cells/μL</div>
+    <input type="range" id="slider-wbc" min="0" max="1500" step="5" value="3" aria-label="CSF white blood cell count">
+    <div class="range-labels">
+      <span>0</span>
+      <span>500</span>
+      <span>1500</span>
+    </div>
+    <div class="assumption-note">Normal 0–5; MS 5–50; NMOSD 50–1000+ <span class="citation">[22, 28]</span></div>
+  </div>
+
+  <!-- Slider 3: T2 Lesion Length -->
+  <div class="panel">
+    <label for="slider-lesion">T2 Cord Lesion Length (vertebral segments)</label>
+    <div class="slider-value" id="lesion-value">1 segment</div>
+    <input type="range" id="slider-lesion" min="0" max="10" step="0.5" value="1" aria-label="T2 lesion length in vertebral segments">
+    <div class="range-labels">
+      <span>0 (none)</span>
+      <span>3 (LETM cut-off)</span>
+      <span>10</span>
+    </div>
+    <div class="assumption-note">LETM = ≥3 segments (NMOSD hallmark); MS typically &lt;2 <span class="citation">[24]</span></div>
+  </div>
+
+  <!-- Toggle: Bulbar Symptoms -->
+  <div class="panel">
+    <label>Additional Clinical Parameters</label>
+    <div class="switch-container">
+      <label class="switch">
+        <input type="checkbox" id="toggle-bulbar" aria-label="Bulbar symptoms present">
+        <span class="slider-track"></span>
+      </label>
+      <span style="font-size: 0.85rem;">Bulbar symptoms (dysarthria, dysphagia)</span>
+    </div>
+    <div class="switch-container">
+      <label class="switch">
+        <input type="checkbox" id="toggle-sensory" checked aria-label="Sensory deficits present">
+        <span class="slider-track"></span>
+      </label>
+      <span style="font-size: 0.85rem;">Sensory deficits (vibration/proprioception)</span>
+    </div>
+    <div class="switch-container">
+      <label class="switch">
+        <input type="checkbox" id="toggle-fasciculations" aria-label="Widespread fasciculations">
+        <span class="slider-track"></span>
+      </label>
+      <span style="font-size: 0.85rem;">Widespread fasciculations</span>
+    </div>
+  </div>
+
+  <!-- Recommendation Box -->
+  <div class="recommendation-box" id="recommendation-box">
+    <h4>📋 Real-Time Clinical Recommendation</h4>
+    <div class="rec-text" id="rec-text">
+      Based on current parameters, the clinical picture is most consistent with <strong>Cervical Spondylotic Myelopathy</strong>. Mild canal narrowing with normal CSF and absent long-segment lesions supports a compressive etiology. Consider MRI correlation and surgical evaluation if progressive symptoms are present.
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-group">
+    <button class="btn-reset" onclick="resetSliders()" aria-label="Reset all parameters to default">⟲ Reset</button>
+    <button class="btn-export" onclick="exportSummary()" aria-label="Copy current summary to clipboard">📋 Copy Summary</button>
+  </div>
+
+  <!-- Evidence Level Legend -->
+  <div class="panel" style="margin-top: 16px;">
+    <label>Evidence Level Legend</label>
+    <div style="font-size: 0.78rem; line-height: 2;">
+      <span class="ev-badge ev-I">I</span> Systematic review / RCT<br>
+      <span class="ev-badge ev-II">II</span> Prospective cohort / RCT with limitations<br>
+      <span class="ev-badge ev-III">III</span> Retrospective / Case-control<br>
+      <span class="ev-badge ev-IV">IV</span> Case series / Expert opinion<br>
+      <span class="ev-badge ev-V">V</span> Mechanistic reasoning / Bench research<br>
+      <span class="ev-badge ev-na">NS</span> Not specified in source
+    </div>
+  </div>
+</aside>
+
+</div>
+
+<div class="toast" id="toast">✓ Summary copied to clipboard!</div>
+
+<script>
+// DOM Elements
+const sliderCanal = document.getElementById('slider-canal');
+const sliderWBC = document.getElementById('slider-wbc');
+const sliderLesion = document.getElementById('slider-lesion');
+const toggleBulbar = document.getElementById('toggle-bulbar');
+const toggleSensory = document.getElementById('toggle-sensory');
+const toggleFasciculations = document.getElementById('toggle-fasciculations');
+
+const canalValue = document.getElementById('canal-value');
+const wbcValue = document.getElementById('wbc-value');
+const lesionValue = document.getElementById('lesion-value');
+const recText = document.getElementById('rec-text');
+
+function updateRecommendation() {
+  const canal = parseFloat(sliderCanal.value);
+  const wbc = parseInt(sliderWBC.value);
+  const lesion = parseFloat(sliderLesion.value);
+  const bulbar = toggleBulbar.checked;
+  const sensory = toggleSensory.checked;
+  const fascic = toggleFasciculations.checked;
+
+  // Update displayed values
+  let canalLabel = canal + ' mm';
+  if (canal < 10) canalLabel += ' ⚠ ABSOLUTE STENOSIS';
+  else if (canal <= 13) canalLabel += ' ⚠ RELATIVE STENOSIS';
+  else canalLabel += ' ✓ NORMAL';
+  canalValue.innerHTML = canalLabel;
+
+  wbcValue.textContent = wbc + ' cells/μL' + (wbc <= 5 ? ' (Normal)' : wbc <= 50 ? ' (Lymphocytic)' : wbc <= 500 ? ' (Moderate)' : ' (Marked)');
+
+  let lesionLabel = lesion + ' segment' + (lesion !== 1 ? 's' : '');
+  if (lesion === 0) lesionLabel += ' ✓ NONE';
+  else if (lesion < 2) lesionLabel += ' (short – consider MS)';
+  else if (lesion < 3) lesionLabel += ' (intermediate)';
+  else lesionLabel += ' ⚠ LETM (NMOSD/MOGAD)';
+  lesionValue.innerHTML = lesionLabel;
+
+  // Build recommendation
+  let scores = { csm: 0, ms: 0, nmosd: 0, als: 0, b12: 0, syrinx: 0, neoplasm: 0 };
+
+  // Canal diameter scoring
+  if (canal < 10) { scores.csm += 4; }
+  else if (canal <= 13) { scores.csm += 2; }
+  else { scores.csm += 0; scores.als += 1; scores.ms += 1; scores.b12 += 1; }
+
+  // WBC scoring
+  if (wbc <= 5) { scores.csm += 2; scores.als += 2; }
+  else if (wbc <= 50) { scores.ms += 3; }
+  else if (wbc <= 500) { scores.nmosd += 2; scores.ms += 1; }
+  else { scores.nmosd += 3; }
+
+  // Lesion length scoring
+  if (lesion === 0) { scores.csm += 1; scores.als += 2; scores.b12 += 1; }
+  else if (lesion < 2) { scores.ms += 3; scores.csm += 1; }
+  else if (lesion < 3) { scores.ms += 2; scores.nmosd += 1; }
+  else { scores.nmosd += 4; }
+
+  // Bulbar symptoms
+  if (bulbar) { scores.als += 4; scores.ms += 0; scores.csm -= 1; }
+  else { scores.csm += 1; scores.als -= 1; }
+
+  // Sensory deficits
+  if (sensory) { scores.csm += 2; scores.b12 += 2; scores.als -= 3; }
+  else { scores.als += 2; scores.csm -= 1; }
+
+  // Widespread fasciculations
+  if (fascic) { scores.als += 4; }
+
+  // Find top diagnoses
+  let sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  let topDiag = sorted[0];
+  let secondDiag = sorted[1];
+
+  const diagNames = {
+    csm: 'Cervical Spondylotic Myelopathy (CSM)',
+    ms: 'Multiple Sclerosis (MS)',
+    nmosd: 'NMOSD / MOG Antibody Disease',
+    als: 'Amyotrophic Lateral Sclerosis (ALS)',
+    b12: 'Vitamin B12 Deficiency (Subacute Combined Degeneration)',
+    syrinx: 'Syringomyelia',
+    neoplasm: 'Spinal Cord Neoplasm'
+  };
+
+  const diagRationale = {
+    csm: `Canal diameter ${canal} mm ${canal < 10 ? '(absolute stenosis)' : canal <= 13 ? '(relative stenosis)' : '(normal range)'} with normal CSF profile. ${sensory ? 'Posterior column sensory deficits are present, consistent with compressive cord injury.' : ''} MRI correlation with compressive spondylosis is key. <span class="rec-tag">EVIDENCE: LEVEL III–IV [1–4]</span>`,
+    ms: `CSF shows mild lymphocytic pleocytosis (${wbc} cells/μL) and a ${lesion}-segment T2 lesion, within the range typical for MS plaques. <strong>Obtain brain MRI</strong> to evaluate for periventricular/juxtacortical lesions and <strong>CSF for oligoclonal bands</strong> (positive in &gt;90%). <span class="rec-tag">EVIDENCE: LEVEL II–III [18, 19, 22]</span>`,
+    nmosd: `Longitudinally extensive T2 lesion (${lesion} segments) with elevated CSF pleocytosis (${wbc} cells/μL) is characteristic of NMOSD/MOGAD. <strong>Order serum AQP4-IgG and MOG-IgG antibodies</strong> immediately. Consider high-dose corticosteroid therapy pending results. <span class="rec-tag">EVIDENCE: LEVEL II–III [24, 28]</span>`,
+    als: `${bulbar ? 'Bulbar symptoms (dysarthria/dysphagia) and' : ''} ${fascic ? 'widespread fasciculations and' : ''} absence of sensory deficits strongly suggest ALS. <strong>EMG/NCS on ≥3 limbs + paraspinal muscles</strong> is the critical investigation—look for widespread denervation. Spinal MRI is used to <em>exclude</em> a compressive cause. <span class="rec-tag">EVIDENCE: LEVEL II–III [2, 6, 7]</span>`,
+    b12: `Spastic-ataxic gait with posterior column sensory loss and normal CSF can indicate B12 deficiency. <strong>Order serum B12, methylmalonic acid, and homocysteine</strong>. Evaluate for peripheral neuropathy. <span class="rec-tag">EVIDENCE: LEVEL III–IV [41, 42]</span>`,
+    syrinx: 'Evaluate for a longitudinal intramedullary cavity on MRI. Look for dissociated sensory loss (cape-like distribution). Evaluate for Chiari I malformation at the craniocervical junction.',
+    neoplasm: 'Consider spinal cord neoplasm if there is severe, unremitting or nocturnal pain and constitutional symptoms. Obtain contrast-enhanced MRI.'
+  };
+
+  let recommendation = '';
+  if (topDiag[1] <= 0) {
+    recommendation = `Parameters do not clearly favor a single diagnosis. Further clinical correlation and investigation are needed. Consider a comprehensive workup including MRI, EMG/NCS, CSF analysis, and metabolic panels.`;
+  } else {
+    recommendation = `Based on current parameters, the clinical picture is most consistent with <strong>${diagNames[topDiag[0]]}</strong>.<br><br>${diagRationale[topDiag[0]]}`;
+    if (secondDiag[1] > 0 && secondDiag[0] !== topDiag[0]) {
+      recommendation += `<br><br><strong>Secondary consideration:</strong> ${diagNames[secondDiag[0]]} — discuss further workup as clinically indicated.`;
+    }
+  }
+
+  recText.innerHTML = recommendation;
+}
+
+// Event listeners
+[sliderCanal, sliderWBC, sliderLesion].forEach(s => s.addEventListener('input', updateRecommendation));
+[toggleBulbar, toggleSensory, toggleFasciculations].forEach(t => t.addEventListener('change', updateRecommendation));
+
+function resetSliders() {
+  sliderCanal.value = 12;
+  sliderWBC.value = 3;
+  sliderLesion.value = 1;
+  toggleBulbar.checked = false;
+  toggleSensory.checked = true;
+  toggleFasciculations.checked = false;
+  updateRecommendation();
+}
+
+function exportSummary() {
+  const canal = sliderCanal.value + ' mm';
+  const wbc = sliderWBC.value + ' cells/μL';
+  const lesion = sliderLesion.value + ' segment(s)';
+  const bulbar = toggleBulbar.checked ? 'Yes' : 'No';
+  const sensory = toggleSensory.checked ? 'Yes' : 'No';
+  const fascic = toggleFasciculations.checked ? 'Yes' : 'No';
+  const timestamp = new Date().toISOString();
+
+  const recClean = recText.innerText || recText.textContent;
+
+  const summary = `
+=== CSM DIFFERENTIAL DIAGNOSIS – CLINICAL PARAMETER SUMMARY ===
+Generated: ${timestamp}
+
+PARAMETERS:
+  Spinal Canal Diameter: ${canal}
+  CSF WBC Count: ${wbc}
+  T2 Cord Lesion Length: ${lesion}
+  Bulbar Symptoms: ${bulbar}
+  Sensory Deficits (Posterior Column): ${sensory}
+  Widespread Fasciculations: ${fascic}
+
+RECOMMENDATION:
+${recClean}
+
+RATIONALE:
+Parameters were processed through a diagnostic scoring algorithm based on the evidence review:
+"A Clinical and Radiographic Guide to the Differential Diagnosis of Cervical Spondylotic Myelopathy."
+Source evidence levels: predominantly Level III–IV (expert consensus, retrospective reviews).
+
+NOTE: This tool is for educational purposes only. Clinical decisions require integration with the full patient history, examination, and formal diagnostic workup.
+  `.trim();
+
+  navigator.clipboard.writeText(summary).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = summary;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+}
+
+// Initialize
+updateRecommendation();
+</script>
+
+</body>
+</html>
